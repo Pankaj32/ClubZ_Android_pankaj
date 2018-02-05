@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">ClubZ</string>]
+
+    <string name="explore">Explore the universe around you</string>
+
+
+    <string name="by_taping">By tapping Sign Up you accept the </string>
+    <string name="and"> and  the </string>
+    <string name="termsandcon"> Terms and conditions</string>
+    <string name="privacypolic"> privacy policy</string>
+    <string name="or_connect"> Or connect with</string>
+    <string name="google"> Google</string>
+    <string name="facebook"> Facebook</string>
+
+    <string name="find_actvit">Find activities near you</string>
+    <string name="stay_update"> Stay update about your community  </string>
+    <string name="in_touch_neigh"> Get in touch with your neighbours   </string>
+    <string name="product_service"> Promote your products or services   </string>
+
+    <string name="sent_code"> We have sent you confirmation code to validate your phone number </string>
+
+    <!--hints-->
+    <string name="phone_no"> Phone number </string>
+    <string name="confirm_code"> Confirmation code </string>
+    <string name="user_name"> User name </string>
+    <string name="email"> Email </string>
+    <string name="signup"> Sign up </string>
+
+    <!--Buttons-->
+    <string name="sign_in"> Sign In </string>
+    <string name="confirm"> Confirm </string>
+    <string name="next"> Next </string>
+
+
+
+    <!--alerts-->
+    <string name="a_username"> Please enter username. </string>
+    <string name="a_username_space"> User name can\'t have space. </string>
+    <string name="a_email"> Please enter email address. </string>
+    <string name="a_email_valid"> Please enter valid email address. </string>
+    <string name="a_phone_no">  Enter your phone number for verification via SMS. </string>
+    <string name="a_phone_no_valid">  Please enter valid phone number. </string>
+    <string name="a_select_code">  Please select country code. </string>
+
+
+    <!--
+    User name
+    - Please enter username.
+    - User name can't have space.
+    Email
+    - Please enter email address.
+    - Please enter valid email address.
+    - Email address already exist.-->
+    <!--1. Enter your phone number for verification via SMS.
+    2. Please select country code
+    3. Please enter valid phone number-->
+
+</resources>

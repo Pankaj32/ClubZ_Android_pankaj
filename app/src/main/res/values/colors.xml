@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#009688</color>
+    <color name="primaryLightColor">#52c7b8</color>
+    <color name="primaryDarkColor">#00675b</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="colorAccent">#000000</color>
+    <color name="white">#FFFF</color>
+    <color name="bg_violet">#A62f0940</color>
+    <color name="unserline_color">#fefefe</color>
+    <color name="pager_line">#a2a2a2</color>
+
+    <color name="active_indicator">#ffffff</color>
+    <color name="inactive_indicator">#a2a2a2</color>
+
+
+</resources>
