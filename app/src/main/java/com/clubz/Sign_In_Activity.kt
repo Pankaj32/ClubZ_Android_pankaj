@@ -1,6 +1,7 @@
 package com.clubz
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
@@ -12,13 +13,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
-
+import kotlinx.android.synthetic.main.activity_signin.*
 
 
 /**
  * Created by mindiii on 2/2/18.
  */
-class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener {
+class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, View.OnClickListener {
 
 
 
@@ -37,17 +38,14 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         lnr_indicator.getChildAt(0).setBackgroundResource(R.drawable.indicator_active)
 
 
-            /*val window = window
-            val winParams = window.attributes
-            winParams.flags = winParams.flags and WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS.inv()
-            window.attributes = winParams
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-*/
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setStatusBarTranslucent(true)
-        }*/
+        for(view in arrayOf(sign_up))view.setOnClickListener(this)
     }
 
+    override fun onClick(p0: View?) {
+        when (p0!!.id){
+            R.id.sign_up->startActivity(Intent(this@Sign_In_Activity,Sign_up_Activity::class.java))
+        }
+    }
 
     /**
      * View pager adapter
@@ -80,6 +78,9 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     }
 
 
+    /**
+     *
+     */
     override fun onPageScrollStateChanged(state: Int) {
 
     }
@@ -96,14 +97,5 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    fun setStatusBarTranslucent(makeTranslucent: Boolean) {
-        if (makeTranslucent) {
-            val w = window // in Activity's onCreate() for instance
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        } else {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        }
-    }
+
 }

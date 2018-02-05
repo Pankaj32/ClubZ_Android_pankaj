@@ -20,6 +20,9 @@
         <activity android:name=".Sign_In_Activity"
             android:theme="@style/AppTheme2"
             />
+        <activity android:name=".Sign_up_Activity"
+            android:theme="@style/AppTheme2"
+            />
 
         <meta-data
             android:name="josef_font"
