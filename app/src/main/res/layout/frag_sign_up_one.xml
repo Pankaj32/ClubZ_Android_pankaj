@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:overScrollMode="never"
+        android:layout_height="@dimen/_200sdp">
+
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/lnr_indicator"
+        android:layout_width="@dimen/_280sdp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="@dimen/_20sdp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:divider="@drawable/divider"
+        android:showDividers="middle"
+        android:layout_margin="@dimen/_10sdp">
+        <View
+            android:layout_width="@dimen/indicator_size"
+            android:layout_height="@dimen/indicator_size"
+            android:background="@drawable/indicator_inactive"/>
+        <View
+            android:layout_width="@dimen/indicator_size"
+            android:layout_height="@dimen/indicator_size"
+            android:background="@drawable/indicator_inactive"/>
+        <View
+            android:layout_width="@dimen/indicator_size"
+            android:layout_height="@dimen/indicator_size"
+            android:background="@drawable/indicator_inactive"/>
+        <View
+            android:layout_width="@dimen/indicator_size"
+            android:layout_height="@dimen/indicator_size"
+            android:background="@drawable/indicator_inactive"/>
+
+    </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_violet"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="vertical">
+
+
+
+
+            <EditText
+                android:id="@+id/phone_no"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@null"
+                android:hint="@string/phone_no"
+                android:inputType="phone"
+                android:textSize="@dimen/_14sdp"
+                android:fontFamily="@font/josefin_sans_regular"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:layout_marginEnd="@dimen/_25sdp"
+                android:layout_marginRight="@dimen/_25sdp"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@color/unserline_color"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:layout_marginEnd="@dimen/_25sdp"
+                />
+
+
+            <Button
+                android:id="@+id/sign_up"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:text="@string/signup"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_14sdp"
+                android:fontFamily="@font/josefin_sans_regular"
+                android:background="@drawable/bg_btn_green"
+                android:layout_margin="@dimen/_20sdp"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:fontFamily="@font/josefin_sans_regular"
+                android:text="@string/by_taping"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/josefin_sans_regular"
+                    android:gravity="center_horizontal"
+                    android:text="@string/termsandcon"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="@dimen/_14sdp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="@string/and"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:fontFamily="@font/josefin_sans_regular"
+                    android:textColor="@color/white"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="@string/privacypolic"
+                    android:textColor="@color/primaryColor"
+                    android:fontFamily="@font/josefin_sans_regular"
+                    android:gravity="center_horizontal"/>
+            </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

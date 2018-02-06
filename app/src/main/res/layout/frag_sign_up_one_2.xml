@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+      app:srcCompat="@drawable/ic_smartphone"
+        android:padding="@dimen/_20sdp"
+        android:layout_height="@dimen/_200sdp">
+
+    </android.support.v7.widget.AppCompatImageView>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_violet"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="vertical">
+
+
+
+
+            <TextView
+                android:id="@+id/phone_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/sent_code"
+                android:textSize="@dimen/_14sdp"
+                android:fontFamily="@font/josefin_sans_regular"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:layout_marginEnd="@dimen/_25sdp"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/_25sdp"/>
+            
+            <EditText
+                android:layout_width="@dimen/_160sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:hint="@string/confirm_code"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:textSize="@dimen/_14sdp"
+                android:gravity="center"
+                android:fontFamily="@font/josefin_sans_regular"
+                android:background="@null"/>
+
+            <View
+                android:layout_width="@dimen/_160sdp"
+                android:layout_height="1dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/unserline_color"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:layout_marginEnd="@dimen/_25sdp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/white"
+                android:text="@string/resend"
+                android:layout_gravity="end"
+                android:layout_marginRight="@dimen/_60sdp"
+                android:layout_marginEnd="@dimen/_60sdp"
+                android:fontFamily="@font/josefin_sans_regular"
+                />
+
+
+
+
+            <Button
+                android:id="@+id/confirm"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:text="@string/confirm"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_14sdp"
+                android:fontFamily="@font/josefin_sans_regular"
+                android:background="@drawable/bg_btn_green"
+                android:layout_margin="@dimen/_20sdp"
+                android:layout_gravity="center_horizontal"
+                />
+            
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

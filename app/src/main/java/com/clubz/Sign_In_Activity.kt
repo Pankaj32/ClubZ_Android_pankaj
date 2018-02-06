@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
+import com.clubz.Adapter.MyViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_signin.*
 
 
@@ -32,7 +33,7 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
         viewPager = findViewById(R.id.view_pager);
         lnr_indicator = findViewById(R.id.lnr_indicator);
         layouts = intArrayOf(R.layout.welcome_slide1, R.layout.welcome_slide2, R.layout.welcome_slide3, R.layout.welcome_slide4)
-        viewPager.setAdapter(MyViewPagerAdapter())
+        viewPager.setAdapter(MyViewPagerAdapter(this@Sign_In_Activity , layouts))
 
         viewPager.addOnPageChangeListener(this)
         lnr_indicator.getChildAt(0).setBackgroundResource(R.drawable.indicator_active)
@@ -47,35 +48,7 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
         }
     }
 
-    /**
-     * View pager adapter
-     */
-    inner class MyViewPagerAdapter : PagerAdapter() {
-        private var layoutInflater: LayoutInflater? = null
 
-        override fun instantiateItem(container: ViewGroup, position: Int): Any {
-            layoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-            val view = layoutInflater!!.inflate(layouts[position], container, false)
-            container.addView(view)
-
-            return view
-        }
-
-        override fun getCount(): Int {
-            return layouts.size
-        }
-
-        override fun isViewFromObject(view: View, obj: Any): Boolean {
-            return view === obj
-        }
-
-
-        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-            val view = `object` as View
-            container.removeView(view)
-        }
-    }
 
 
     /**

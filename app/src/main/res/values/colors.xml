@@ -7,6 +7,7 @@
     <color name="colorAccent">#000000</color>
     <color name="white">#FFFF</color>
     <color name="bg_violet">#A62f0940</color>
+    <color name="bg_violet100">#2f0940</color>
     <color name="unserline_color">#fefefe</color>
     <color name="pager_line">#a2a2a2</color>
 

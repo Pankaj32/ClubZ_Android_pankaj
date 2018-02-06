@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ClubZ</string>]
+    <string name="app_name">ClubZ</string>
 
     <string name="explore">Explore the universe around you</string>
 
@@ -18,20 +18,25 @@
     <string name="product_service"> Promote your products or services   </string>
 
     <string name="sent_code"> We have sent you confirmation code to validate your phone number </string>
+    <string name="to_start"> To start tell us your name </string>
+    <string name="menu1"> Camera </string>
+    <string name="menu2"> Gallery </string>
 
     <!--hints-->
     <string name="phone_no"> Phone number </string>
     <string name="confirm_code"> Confirmation code </string>
     <string name="user_name"> User name </string>
     <string name="email"> Email </string>
-    <string name="signup"> Sign Up </string>
+
+
 
     <!--Buttons-->
     <string name="sign_in"> Sign In </string>
     <string name="confirm"> Confirm </string>
     <string name="next"> Next </string>
+    <string name="signup"> Sign Up </string>
 
-
+    <string name="resend"> Resend code </string>
 
     <!--alerts-->
     <string name="a_username"> Please enter username. </string>
@@ -41,7 +46,16 @@
     <string name="a_phone_no">  Enter your phone number for verification via SMS. </string>
     <string name="a_phone_no_valid">  Please enter valid phone number. </string>
     <string name="a_select_code">  Please select country code. </string>
+    <string name="swr">Something went to wrong. please try again.</string>
 
+    <!--Image Cropper-->
+    <string name="pick_image_intent_text">Choose an image</string>
+    <string name="crop_image_activity_title">Crop Image</string>
+    <string name="crop_image_menu_rotate_left">Rotate counter clockwise</string>
+    <string name="crop_image_menu_rotate_right">Rotate</string>
+    <string name="crop_image_menu_crop">Crop</string>
+    <string name="pick_image_intent_chooser_title">Select source</string>
+    <string name="result_image_desc">crop result</string>
 
     <!--
     User name
