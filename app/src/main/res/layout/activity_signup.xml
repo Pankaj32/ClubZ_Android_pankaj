@@ -1,52 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/page_indicator"
-        android:layout_width="@dimen/_250sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:layerType="software"
-        android:showDividers="middle"
-        android:divider="@drawable/divider_dashed"
-        android:gravity="center">
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            app:srcCompat="@drawable/ic_back"
+            android:tint="@color/white"
+            android:visibility="gone"
+            android:padding="@dimen/_5sdp"/>
+        <LinearLayout
+            android:id="@+id/page_indicator"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layerType="software"
+            android:showDividers="middle"
+            android:divider="@drawable/divider_dashed"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            style="@style/text_indicator"
-            />
-
-
-        <TextView
-            android:id="@+id/two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2"
-            style="@style/text_indicator"/>
-
-
-        <TextView
-            android:id="@+id/three"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3"
-            style="@style/text_indicator"/>
+            <TextView
+                android:id="@+id/one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                style="@style/text_indicator"
+                />
 
 
-        <TextView
-            android:id="@+id/four"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="4"
-            style="@style/text_indicator"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                style="@style/text_indicator"/>
+
+
+            <TextView
+                android:id="@+id/three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                style="@style/text_indicator"/>
+
+
+            <TextView
+                android:id="@+id/four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4"
+                style="@style/text_indicator"/>
+        </LinearLayout>
+    </FrameLayout>
+
+
 
     <FrameLayout
         android:id="@+id/container"

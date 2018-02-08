@@ -39,7 +39,7 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
     fun canadd(): Boolean{
         (activity as Sign_up_Activity ).hideKeyBoard()
         if(affiliates.text.isBlank()){
-            Util.showSnake(context,view!!,R.string.a_addsometext)
+            Util.showSnake(context,view!!,R.string.a_addaffil)
             return false;
         }
         for (s  in list){

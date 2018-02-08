@@ -54,7 +54,9 @@
     <string name="a_select_code" >  Please select country code. </string>
     <string name="swr" >Something went to wrong. please try again.</string>
     <string name="a_confirmation_code" > Please enter confirmation code.</string>
-    <string name="a_addsometext" > Please enter some text.</string>
+    <string name="a_addskill" > Please enter Skill.</string>
+    <string name="a_addaffil" > Please enter Affiliates.</string>
+    <string name="a_addintres" > Please enter Interest.</string>
     <string name="a_already_affil" > Affiliates already added.</string>
     <string name="a_already_intrest" > Interest already added.</string>
     <string name="a_already_skill" > Skill already added.</string>
@@ -70,7 +72,7 @@
 
     <string name="menu1" > Camera </string>
     <string name="menu2" > Gallery </string>
-    <string name="drop_arrow" > \u0020 &#9698; </string>
+    <string name="drop_arrow" > \u0020 &#9698; \u0020\u0020</string>
 
     <!--
     User name

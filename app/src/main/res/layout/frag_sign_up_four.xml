@@ -54,6 +54,7 @@
                     android:layout_height="@dimen/_30sdp"
                     android:hint="@string/type_here"
                     android:paddingLeft="0dp"
+                    android:imeOptions="actionDone"
                     android:fontFamily="@font/poppins_light"
                     style="@style/et_sign_up"/>
 
@@ -123,6 +124,7 @@
                     android:layout_height="@dimen/_30sdp"
                     android:hint="@string/type_here"
                     android:paddingLeft="0dp"
+                    android:imeOptions="actionDone"
                     android:fontFamily="@font/poppins_light"
                     style="@style/et_sign_up"/>
 

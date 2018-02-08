@@ -7,6 +7,7 @@ import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.clubz.fragment.signup.*
@@ -79,9 +80,13 @@ class Sign_up_Activity : AppCompatActivity() {
     }
 
     fun setIndicator(frag_name : String){
+        back.visibility = View.GONE
         when (frag_name){
             Frag_Sign_Up_one::class.java.simpleName->indicator(0);
-            Frag_Sign_Up_Two::class.java.simpleName->indicator(1);
+            Frag_Sign_Up_Two::class.java.simpleName->{
+                indicator(1)
+                back.visibility = View.VISIBLE
+            };
             Frag_Sign_UP_Three::class.java.simpleName->indicator(2);
             Frag_Sign_UP_Four::class.java.simpleName->indicator(3);
         }

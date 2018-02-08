@@ -41,7 +41,7 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
     fun canaddIntrest(): Boolean{
         (activity as Sign_up_Activity).hideKeyBoard()
         if(intrest.text.isBlank()){
-            Util.showSnake(context,view!!,R.string.a_addsometext)
+            Util.showSnake(context,view!!,R.string.a_addintres)
             return false;
         }
         for (s  in list1){
@@ -56,7 +56,7 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
     fun canaddSkill(): Boolean{
         (activity as Sign_up_Activity).hideKeyBoard()
         if(skill_set.text.isBlank()){
-            Util.showSnake(context,view!!,R.string.a_addsometext)
+            Util.showSnake(context,view!!,R.string.a_addskill)
             return false;
         }
         for (s  in list2){
