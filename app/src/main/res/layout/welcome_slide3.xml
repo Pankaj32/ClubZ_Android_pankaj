@@ -32,11 +32,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="@dimen/_12sdp"
         android:gravity="center_horizontal"
-        android:textColor="@color/unserline_color"
+        android:textColor="@color/white"
         android:text="@string/in_touch_neigh"
-        android:fontFamily="@font/josefin_sans_italic"
+        android:fontFamily="@font/poppins_italic"
         android:layout_marginTop="@dimen/_10sdp"/>
 
 

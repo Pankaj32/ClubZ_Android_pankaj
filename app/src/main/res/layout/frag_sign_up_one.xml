@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     android:descendantFocusability="beforeDescendants">
@@ -9,7 +11,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:overScrollMode="never"
-        android:layout_height="@dimen/_200sdp">
+        android:layout_height="@dimen/_180sdp">
 
     </android.support.v4.view.ViewPager>
 
@@ -53,31 +55,76 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:orientation="vertical">
 
-
-
-
-            <EditText
-                android:id="@+id/phone_no"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
-                android:background="@null"
-                android:hint="@string/phone_no"
-                android:inputType="phone"
-                android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/josefin_sans_regular"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_25sdp"
-                android:layout_marginLeft="@dimen/_25sdp"
-                android:layout_marginEnd="@dimen/_25sdp"
-                android:layout_marginRight="@dimen/_25sdp"/>
+                android:layout_height="wrap_content">
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="@color/unserline_color"
-                android:layout_marginStart="@dimen/_25sdp"
-                android:layout_marginEnd="@dimen/_25sdp"
-                />
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    app:srcCompat="@drawable/ic_call_answer"
+                    android:tint="@color/white"
+                    android:padding="@dimen/_7sdp"
+                    android:layout_marginLeft="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_10sdp"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/country_code"
+                    android:layout_width="wrap_content"
+                    android:minWidth="@dimen/_20sdp"
+                    android:dropDownWidth="@dimen/_280sdp"
+                    android:dropDownSelector="@color/white"
+                    android:layout_height="@dimen/_30sdp"
+                    android:backgroundTint="@color/white"
+                    android:layout_marginLeft="@dimen/_40sdp"
+                    android:overlapAnchor="false"
+                    android:background="@null"
+                    android:layout_marginTop="@dimen/_10sdp"/>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/unserline_color"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_alignRight="@+id/country_code"
+                    android:layout_below="@+id/country_code"
+                    />
+
+                <EditText
+                    android:id="@+id/phone_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:background="@null"
+                    android:hint="@string/phone_no"
+                    android:inputType="phone"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/poppins_light"
+                    style="@style/lighttheme"
+                    android:singleLine="true"
+                    android:layout_toRightOf="@id/country_code"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_25sdp"
+                    android:layout_marginRight="@dimen/_25sdp"/>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/unserline_color"
+                    android:layout_alignLeft="@+id/phone_no"
+                    android:layout_alignRight="@+id/phone_no"
+                    android:layout_below="@+id/phone_no"
+                    />
+
+            </RelativeLayout>
+
+
+
+
+
 
 
             <Button
@@ -87,18 +134,20 @@
                 android:text="@string/signup"
                 android:textAllCaps="false"
                 android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/josefin_sans_regular"
+                android:textColor="@color/text_btn"
+                android:fontFamily="@font/poppins_regular"
                 android:background="@drawable/bg_btn_green"
-                android:layout_margin="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
                 android:layout_gravity="center_horizontal"
                 />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/josefin_sans_regular"
-                android:text="@string/by_taping"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/poppins_light"
+                android:text="@string/by_taping2"
                 android:textColor="@color/white"
                 android:gravity="center_horizontal"/>
             <LinearLayout
@@ -111,30 +160,30 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:fontFamily="@font/josefin_sans_regular"
+                    android:fontFamily="@font/poppins_light"
                     android:gravity="center_horizontal"
                     android:text="@string/termsandcon"
                     android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/_14sdp" />
+                    android:textSize="@dimen/_10sdp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_10sdp"
                     android:text="@string/and"
-                    android:layout_marginLeft="@dimen/_8sdp"
-                    android:layout_marginRight="@dimen/_8sdp"
-                    android:fontFamily="@font/josefin_sans_regular"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:fontFamily="@font/poppins_light"
                     android:textColor="@color/white"
                     android:gravity="center_horizontal"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_10sdp"
                     android:text="@string/privacypolic"
                     android:textColor="@color/primaryColor"
-                    android:fontFamily="@font/josefin_sans_regular"
+                    android:fontFamily="@font/poppins_light"
                     android:gravity="center_horizontal"/>
             </LinearLayout>
 

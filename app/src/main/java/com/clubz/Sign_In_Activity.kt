@@ -14,6 +14,11 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
 import com.clubz.Adapter.MyViewPagerAdapter
+import com.clubz.util.Constants
+import com.clubz.util.Language
+import com.clubz.util.Util
+import io.michaelrocks.libphonenumber.android.NumberParseException
+import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
 import kotlinx.android.synthetic.main.activity_signin.*
 
 
@@ -27,9 +32,11 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
     lateinit var  viewPager : ViewPager ;
     lateinit var layouts: IntArray;
     lateinit var lnr_indicator: LinearLayout;
+    var isvalidate: Boolean = false;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin);
+        Util.checklaunage(this)
         viewPager = findViewById(R.id.view_pager);
         lnr_indicator = findViewById(R.id.lnr_indicator);
         layouts = intArrayOf(R.layout.welcome_slide1, R.layout.welcome_slide2, R.layout.welcome_slide3, R.layout.welcome_slide4)
@@ -69,6 +76,26 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
         lnr_indicator.getChildAt(position).setBackgroundResource(R.drawable.indicator_active)
 
     }
+
+    fun verfiy() :Boolean{
+
+        return true;
+    }
+    private fun checkPhoneNumber( countryCode : String) {
+        val contactNo = phone_no.getText().toString()
+        try {
+            val phoneUtil = PhoneNumberUtil.createInstance(this)
+            if (countryCode != null) {
+                val code = countryCode.toUpperCase()
+                val swissNumberProto = phoneUtil.parse(contactNo, code)
+                isvalidate = phoneUtil.isValidNumber(swissNumberProto)
+            }
+        } catch (e: NumberParseException) {
+            System.err.println("NumberParseException was thrown: " + e.toString())
+        }
+
+    }
+
 
 
 }

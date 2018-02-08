@@ -80,8 +80,10 @@
                 android:background="@null"
                 android:hint="@string/phone_no"
                 android:inputType="phone"
-                android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/josefin_sans_regular"
+                android:textSize="@dimen/_12sdp"
+                style="@style/lighttheme"
+                android:singleLine="true"
+                android:fontFamily="@font/poppins_regular"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginLeft="@dimen/_25sdp"
@@ -91,7 +93,7 @@
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
-                android:background="@color/unserline_color"
+                android:background="@color/pager_line"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginEnd="@dimen/_25sdp"
                 />
@@ -102,8 +104,8 @@
                 android:layout_height="@dimen/_35sdp"
                 android:text="@string/sign_in"
                 android:textAllCaps="false"
-                android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/josefin_sans_regular"
+                android:textSize="@dimen/_12sdp"
+                android:fontFamily="@font/poppins_regular"
                 android:background="@drawable/bg_btn_green"
                 android:layout_margin="@dimen/_20sdp"
                 android:layout_gravity="center_horizontal"
@@ -126,8 +128,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/_18sdp"
-                    android:fontFamily="@font/josefin_sans_semibold"
+                    android:textSize="@dimen/_16sdp"
+                    android:fontFamily="@font/poppins_regular"
                     android:text="@string/signup"/>
                 <View
                     android:layout_width="0dp"
@@ -145,7 +147,7 @@
                 android:text="@string/or_connect"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/_15sdp"
-                android:fontFamily="@font/josefin_sans_regular"
+                android:fontFamily="@font/poppins_regular"
                 android:gravity="center_horizontal"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,9 +168,9 @@
                         android:text="@string/google"
                         android:gravity="center_vertical"
                         android:paddingStart="@dimen/_5sdp"
-                        android:textSize="@dimen/_16sdp"
+                        android:textSize="@dimen/_12sdp"
                         android:paddingLeft="@dimen/_5sdp"
-                        android:fontFamily="@font/josefin_sans_regular"
+                        android:fontFamily="@font/poppins_light"
                         />
                 </LinearLayout>
                 <View
@@ -191,8 +193,8 @@
                         android:paddingStart="@dimen/_5sdp"
                         android:paddingLeft="@dimen/_5sdp"
                         android:text="@string/facebook"
-                        android:fontFamily="@font/josefin_sans_regular"
-                        android:textSize="@dimen/_16sdp" />
+                        android:fontFamily="@font/poppins_light"
+                        android:textSize="@dimen/_12sdp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -201,8 +203,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_14sdp"
-            android:fontFamily="@font/josefin_sans_regular"
+            android:textSize="@dimen/_10sdp"
+            android:fontFamily="@font/poppins_light"
             android:text="@string/by_taping"
             android:textColor="@color/white"
             android:gravity="center_horizontal"/>
@@ -215,30 +217,30 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/josefin_sans_regular"
+                android:fontFamily="@font/poppins_light"
                 android:gravity="center_horizontal"
                 android:text="@string/termsandcon"
                 android:textColor="@color/primaryColor"
-                android:textSize="@dimen/_14sdp" />
+                android:textSize="@dimen/_10sdp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_14sdp"
+                android:textSize="@dimen/_10sdp"
                 android:text="@string/and"
-                android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_marginRight="@dimen/_8sdp"
-                android:fontFamily="@font/josefin_sans_regular"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:fontFamily="@font/poppins_light"
                 android:textColor="@color/white"
                 android:gravity="center_horizontal"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_14sdp"
+                android:textSize="@dimen/_10sdp"
                 android:text="@string/privacypolic"
                 android:textColor="@color/primaryColor"
-                android:fontFamily="@font/josefin_sans_regular"
+                android:fontFamily="@font/poppins_light"
                 android:gravity="center_horizontal"/>
         </LinearLayout>
     </LinearLayout>

@@ -3,14 +3,13 @@ package com.clubz
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import com.clubz.fragment.signup.Frag_Sign_Up_One_2
-import com.clubz.fragment.signup.Frag_Sign_Up_Two
-import com.clubz.fragment.signup.Frag_Sign_Up_one
+import com.clubz.fragment.signup.*
 import com.clubz.util.Util
 import kotlinx.android.synthetic.main.activity_signup.*
 
@@ -20,17 +19,16 @@ import kotlinx.android.synthetic.main.activity_signup.*
 
 class Sign_up_Activity : AppCompatActivity() {
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
+        Util.checklaunage(this)
+        replaceFragment(Frag_Sign_Up_one())
     }
+
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        replaceFragment(Frag_Sign_Up_one())
     }
 
     internal fun replaceFragment(fragmentHolder: Fragment) {
@@ -84,21 +82,76 @@ class Sign_up_Activity : AppCompatActivity() {
         when (frag_name){
             Frag_Sign_Up_one::class.java.simpleName->indicator(0);
             Frag_Sign_Up_Two::class.java.simpleName->indicator(1);
+            Frag_Sign_UP_Three::class.java.simpleName->indicator(2);
+            Frag_Sign_UP_Four::class.java.simpleName->indicator(3);
         }
     }
 
     fun indicator( postition : Int){
         for(i in 0..page_indicator.childCount-1){
             val view : TextView  = page_indicator.getChildAt(i) as TextView;
+            if(i!=postition){
             view.setBackgroundResource(R.drawable.number_inactive)
-            view.setTextColor(resources.getColor(R.color.white))
+            view.setTextColor(resources.getColor(R.color.unserline_color))
+            }
+            else{
+                view.setBackgroundResource(R.drawable.number_active)
+                view.setTextColor(resources.getColor(R.color.bg_violet))
+            }
         }
-        val view : TextView  = page_indicator.getChildAt(postition) as TextView;
-        view.setBackgroundResource(R.drawable.number_active)
-        view.setTextColor(resources.getColor(R.color.bg_violet))
+
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (supportFragmentManager.fragments != null) {
+            for ( fragment in getSupportFragmentManager().getFragments()) {
+                try {
+                    fragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
+                    break
+                } catch (e: Exception) {
+
+                }
+
+            }
+        }
 
 
     }
+
+    override fun onBackPressed() {
+        hideKeyBoard()
+        val handler = Handler()
+        var runnable: Runnable? = null
+
+        if (supportFragmentManager.backStackEntryCount > 1) {
+            /*if (getCurrentFragment() is BackPresslistner) {
+                if ((getCurrentFragment() as BackPresslistner).backPresses()) return; }*/
+            super.onBackPressed()
+        } else {
+            finish();
+           /* runnable = Runnable { doublebackpress = false }
+            handler.postDelayed(runnable, 1000.toLong())
+            if (doublebackpress) {
+                handler.removeCallbacks(runnable)
+                finish()
+            } else {
+                doublebackpress = true
+            }*/
+        }
+        fun getCurrentFragment(): Fragment? {
+            try {
+                val fragmentManager = supportFragmentManager
+                val fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.backStackEntryCount - 1).name
+                return fragmentManager.findFragmentByTag(fragmentTag)
+            } catch (e: IndexOutOfBoundsException) {
+                e.printStackTrace()
+                return null
+            }
+        }
+
+    }
+
 
 
 

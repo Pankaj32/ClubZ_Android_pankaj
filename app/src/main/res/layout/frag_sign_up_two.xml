@@ -44,8 +44,9 @@
             android:layout_height="@dimen/_30sdp"
             android:text="@string/to_start"
             android:gravity="center"
-            android:textSize="@dimen/_14sdp"
-            android:fontFamily="@font/josefin_sans_italic"/>
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/unserline_color"
+            android:fontFamily="@font/poppins_italic"/>
         <View
             android:layout_width="@dimen/_150sdp"
             android:layout_height="1dp"
@@ -84,10 +85,11 @@
                 android:layout_height="@dimen/_30sdp"
                 android:hint="@string/user_name"
                 style="@style/et_sign_up"/>
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
-                android:background="@color/white"
+                android:background="@color/pager_line"
                 android:layout_below="@+id/username"
                 android:layout_alignLeft="@id/username"
                 android:layout_alignRight="@+id/username"/>
@@ -109,11 +111,12 @@
                 android:layout_height="@dimen/_30sdp"
                 android:hint="@string/email"
                 style="@style/et_sign_up"
+                android:inputType="textEmailAddress"
                 android:layout_below="@+id/username"/>
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
-                android:background="@color/white"
+                android:background="@color/pager_line"
                 android:layout_below="@+id/email"
                 android:layout_alignLeft="@id/email"
                 android:layout_alignRight="@+id/email"/>
@@ -128,10 +131,11 @@
                 android:text="@string/next"
                 android:textAllCaps="false"
                 android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/josefin_sans_regular"
+                android:fontFamily="@font/poppins_regular"
                 android:background="@drawable/bg_btn_green"
                 android:layout_margin="@dimen/_30sdp"
                 android:layout_below="@id/email"
+                android:textColor="@color/text_btn"
                 android:layout_centerHorizontal="true"
                 />
             

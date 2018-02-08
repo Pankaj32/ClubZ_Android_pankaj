@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants">
+
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:text="@string/finaly_sel"
+                android:gravity="center"
+                android:textSize="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:textColor="@color/unserline_color"
+                android:fontFamily="@font/poppins_italic"/>
+            <View
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="1dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/unserline_color"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_violet"
+                android:layout_margin="@dimen/_20sdp"
+                android:minHeight="@dimen/_150sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:orientation="vertical">
+
+
+                <EditText
+                    android:id="@+id/intrest"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:hint="@string/type_here"
+                    android:paddingLeft="0dp"
+                    android:fontFamily="@font/poppins_light"
+                    style="@style/et_sign_up"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/plus1"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    app:srcCompat="@drawable/ic_plus_symbol"
+                    android:tint="@color/white"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:padding="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/pager_line"
+                    android:layout_below="@+id/intrest"
+                    android:layout_alignLeft="@id/intrest"
+                    android:layout_alignRight="@+id/intrest"/>
+
+                <com.clubz.Cus_Views.FlowLayout
+                    android:id="@+id/chip_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/intrest"
+                    android:layout_margin="@dimen/_10sdp"/>
+
+
+
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:text="@string/sel_skill"
+                android:gravity="center"
+                android:textSize="@dimen/_14sdp"
+                android:textColor="@color/unserline_color"
+                android:fontFamily="@font/poppins_italic"/>
+            <View
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="1dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/unserline_color"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_violet"
+                android:layout_margin="@dimen/_20sdp"
+                android:minHeight="@dimen/_150sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:orientation="vertical">
+
+
+
+
+
+                <EditText
+                    android:id="@+id/skill_set"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:hint="@string/type_here"
+                    android:paddingLeft="0dp"
+                    android:fontFamily="@font/poppins_light"
+                    style="@style/et_sign_up"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/plus2"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    app:srcCompat="@drawable/ic_plus_symbol"
+                    android:tint="@color/white"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:padding="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/pager_line"
+                    android:layout_below="@+id/skill_set"
+                    android:layout_alignLeft="@id/skill_set"
+                    android:layout_alignRight="@+id/skill_set"/>
+
+                <com.clubz.Cus_Views.FlowLayout
+                    android:id="@+id/chip_grid2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/skill_set"
+                    android:layout_margin="@dimen/_10sdp"/>
+
+
+
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/next2"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_14sdp"
+                android:fontFamily="@font/poppins_regular"
+                android:background="@drawable/bg_btn_green"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:textColor="@color/text_btn"
+                android:layout_gravity="center_horizontal"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

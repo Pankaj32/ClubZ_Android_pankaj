@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/_30sdp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/country"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12sdp"
+        android:visibility="gone"
+        android:fontFamily="@font/poppins_light"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/_10sdp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/code"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/white"
+        android:gravity="center_vertical"
+        android:fontFamily="@font/poppins_light"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/arow"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/_8sdp"
+        android:textColor="@color/white"
+        android:text="@string/drop_arrow"
+        android:rotation="45"
+        android:visibility="gone"
+        android:gravity="top"
+        android:paddingTop="@dimen/_3sdp"
+        android:fontFamily="@font/poppins_light"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

@@ -11,7 +11,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.view.*
@@ -20,6 +19,7 @@ import com.clubz.BuildConfig
 import com.clubz.Cropper.CropImage
 import com.clubz.Cropper.CropImageView
 import com.clubz.R
+import com.clubz.Sign_up_Activity
 import com.clubz.util.Constants
 import com.mvc.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.frag_sign_up_two.*
@@ -42,7 +42,8 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for(view in arrayOf(iv_capture))view.setOnClickListener(this)
+        for(view in arrayOf(iv_capture ,next ))view.setOnClickListener(this)
+
 
     }
 
@@ -50,7 +51,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     override fun onClick(p0: View?) {
      when(p0!!.id){
          R.id.iv_capture-> permissionPopUp();
-         R.id.next -> {}
+         R.id.next -> (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three());
      }
     }
 
@@ -134,7 +135,6 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(160,160).setMaxCropResultSize(4000,4000).setAspectRatio(400, 400).start(context,this);
                 } else {
                     Toast.makeText(context ,R.string.swr, Toast.LENGTH_SHORT).show();
-
                 }
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
