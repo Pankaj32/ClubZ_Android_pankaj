@@ -35,4 +35,7 @@ class Country_spinner_adapter(internal var context: Context , internal var list 
     }
 
 
+    //TO commit
+
+
 }
