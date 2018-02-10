@@ -26,13 +26,14 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for(view in arrayOf(plus ,next))view.setOnClickListener(this)
+        for(view in arrayOf(plus ,next ,skip))view.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when(p0!!.id){
             R.id.plus-> if(canadd())addView();
             R.id.next-> (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Four())
+            R.id.skip-> (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Four())
         }
     }
 
@@ -60,6 +61,7 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
         chip.setText(affiliates.text.toString())
         list.add(affiliates.text.toString().trim())
         chip_grid.addView(chip);
+        affiliates.setText("");
     }
 
 

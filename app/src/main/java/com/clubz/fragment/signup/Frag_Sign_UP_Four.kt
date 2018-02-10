@@ -27,13 +27,14 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for(view in arrayOf(plus1 , plus2))view.setOnClickListener(this)
+        for(view in arrayOf(plus1   , plus2))view.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when(p0!!.id){
             R.id.plus1->if(canaddIntrest())addIntrest();
             R.id.plus2->if(canaddSkill())addSkill();
+            R.id.skip->{}//
         }
     }
 
@@ -76,6 +77,7 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
         chip.setText(intrest.text.toString()+"")
         list1.add(intrest.text.toString().trim())
         chip_grid.addView(chip);
+        intrest.setText("");
 
     }
     fun addSkill(){
@@ -87,5 +89,6 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
         chip.setText(skill_set.text.toString()+"")
         list2.add(skill_set.text.toString().trim())
         chip_grid2.addView(chip);
+        skill_set.setText("");
     }
 }

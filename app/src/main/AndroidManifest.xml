@@ -16,7 +16,9 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppThemeh">
-        <activity android:name=".Splash_Activity">
+        <activity android:name=".Splash_Activity"
+            android:theme="@style/AppThemehSplash"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,9 +28,11 @@
 
         <activity android:name=".Sign_In_Activity"
             android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"
             />
         <activity android:name=".Sign_up_Activity"
             android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"
             />
         <activity android:name=".Cropper.CropImageActivity"
             android:theme="@style/CropImage"

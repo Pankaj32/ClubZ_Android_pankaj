@@ -7,11 +7,14 @@
     <string name="by_taping">By tapping Sign Up you accept the </string>
     <string name="by_taping2">By continuing you accept our </string>
     <string name="and"> and  the </string>
-    <string name="termsandcon"> Terms and conditions</string>
-    <string name="privacypolic" > privacy policy</string>
-    <string name="or_connect" > Or connect with</string>
+    <string name="and_only"> and  </string>
+    <string name="termsandcon"> <u>Terms and conditions</u></string>
+    <string name="privacypolic" > <u>Privacy policy</u></string>
+    <string name="orlogin" > Or login with</string>
+    <string name="orconnect" > Or connect with</string>
     <string name="google" > Google</string>
     <string name="facebook" > Facebook</string>
+    <string name="dont_acc" > Don\'t have an account?</string>
 
     <string name="find_actvit" >Find activities near you</string>
     <string name="stay_update" > Stay updated about your community  </string>
@@ -19,7 +22,7 @@
     <string name="product_service" > Promote your products or services   </string>
 
     <string name="sent_code" > We have sent you confirmation code to validate your phone number </string>
-    <string name="to_start" > To start tell us your name </string>
+    <string name="to_start" > To begin , let us know who you are </string>
     <string name="affilites" > Add your affiliates  </string>
     <string name="affilites_is" > An affiliates is a person you could invite to an activity . Your family members or friends.  </string>
     <string name="finaly_sel" > Finally select or write your interest </string>
@@ -30,8 +33,10 @@
     <string name="phone_no" > Phone number </string>
     <string name="confirm_code" > Confirmation code </string>
     <string name="user_name" > User Name </string>
-    <string name="full_name" > Full name </string>
-    <string name="email" > Email </string>
+    <string name="first_name" > First Name </string>
+    <string name="last_name" > Last Name </string>
+    <string name="email" > Email address </string>
+
     <string name="type_here" > Type here </string>
 
 
@@ -41,8 +46,10 @@
     <string name="confirm" > Confirm </string>
     <string name="next" > Next </string>
     <string name="signup" > Sign Up </string>
+    <string name="create_one" > Create One </string>
 
     <string name="resend" > Resend code </string>
+    <string name="skip" > <u>Skip</u></string>
 
     <!--alerts-->
     <string name="a_username" > Please enter username. </string>

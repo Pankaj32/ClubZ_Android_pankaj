@@ -50,7 +50,7 @@ class Frag_Sign_Up_one : Fragment(), ViewPager.OnPageChangeListener, View.OnClic
         viewPager = view.findViewById(R.id.view_pager);
         lnr_indicator = view.findViewById(R.id.lnr_indicator);
         layouts = intArrayOf(R.layout.welcome_slide1, R.layout.welcome_slide2, R.layout.welcome_slide3, R.layout.welcome_slide4)
-        viewPager.setAdapter(MyViewPagerAdapter(activity , layouts));
+        viewPager.setAdapter(MyViewPagerAdapter(activity , layouts ,viewPager));
 
         viewPager.addOnPageChangeListener(this)
         lnr_indicator.getChildAt(0).setBackgroundResource(R.drawable.indicator_active)

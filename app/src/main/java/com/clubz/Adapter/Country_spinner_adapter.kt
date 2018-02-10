@@ -27,7 +27,7 @@ class Country_spinner_adapter(internal var context: Context , internal var list 
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val itemView = inflater.inflate(groupid, parent, false)
-        itemView.setBackgroundResource(R.color.bg_violet)
+        itemView.setBackgroundResource(R.color.white)
         itemView.findViewById<TextView>(R.id.country).visibility= View.VISIBLE
         itemView.findViewById<TextView>(R.id.country).setText(list.get(position).country_name)
         itemView.findViewById<TextView>(R.id.code).setText("+"+list.get(position).phone_code+"  ")

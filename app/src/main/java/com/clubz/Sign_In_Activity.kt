@@ -40,7 +40,7 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
         viewPager = findViewById(R.id.view_pager);
         lnr_indicator = findViewById(R.id.lnr_indicator);
         layouts = intArrayOf(R.layout.welcome_slide1, R.layout.welcome_slide2, R.layout.welcome_slide3, R.layout.welcome_slide4)
-        viewPager.setAdapter(MyViewPagerAdapter(this@Sign_In_Activity , layouts))
+        viewPager.setAdapter(MyViewPagerAdapter(this@Sign_In_Activity , layouts , viewPager))
 
         viewPager.addOnPageChangeListener(this)
         lnr_indicator.getChildAt(0).setBackgroundResource(R.drawable.indicator_active)

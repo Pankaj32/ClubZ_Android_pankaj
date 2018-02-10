@@ -12,9 +12,18 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="AppThemehSplash" parent="@style/Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="lightcolor" >
         <!-- Customize your theme here. -->
-        <item name="colorAccent">@color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <!--<item name="android:windowBackground">@drawable/splash</item>-->
@@ -49,7 +58,8 @@
         <item name="android:layout_marginRight">@dimen/_20sdp</item>
         <item name="android:layout_marginTop">@dimen/_30sdp</item>
         <item name="android:textSize">@dimen/_12sdp</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:textColorHint">@color/hintcolor</item>
         <item name="android:singleLine">true</item>
         <item name="android:fontFamily">@font/poppins_light</item>
         <item name="android:theme">@style/lightcolor</item>

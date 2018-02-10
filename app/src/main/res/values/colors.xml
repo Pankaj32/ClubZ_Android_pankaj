@@ -8,8 +8,14 @@
     <color name="white">#FFFF</color>
     <color name="bg_violet">#A62f0940</color>
     <color name="bg_violet100">#2f0940</color>
+    <color name="bg_white85">#D9ffffff</color>
     <color name="unserline_color">#fefefe</color>
     <color name="pager_line">#a2a2a2</color>
+    <color name="text_gray">#333333</color>
+    <color name="hintcolor">#9c9c9c</color>
+    <color name="google">#dc4e41</color>
+    <color name="facebook">#3B5998</color>
+
 
     <color name="active_indicator">#ffffff</color>
     <color name="inactive_indicator">#a2a2a2</color>

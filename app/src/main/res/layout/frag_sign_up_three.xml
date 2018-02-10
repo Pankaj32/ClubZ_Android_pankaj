@@ -49,12 +49,15 @@
 
 
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_violet"
+        android:background="@drawable/bg_white"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginRight="@dimen/_20sdp"
         android:minHeight="@dimen/_200sdp"
@@ -82,7 +85,7 @@
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
             app:srcCompat="@drawable/ic_plus_symbol"
-            android:tint="@color/white"
+            android:tint="@color/text_gray"
             android:layout_marginTop="@dimen/_30sdp"
             android:padding="@dimen/_7sdp"
             android:layout_marginRight="@dimen/_15sdp"
@@ -91,7 +94,7 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:background="@color/unserline_color"
+            android:background="@color/text_gray"
             android:layout_below="@+id/affiliates"
             android:layout_alignLeft="@id/affiliates"
             android:layout_alignRight="@+id/affiliates"/>
@@ -108,7 +111,7 @@
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_35sdp"
             android:text="@string/next"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:textSize="@dimen/_14sdp"
             android:fontFamily="@font/poppins_regular"
             android:background="@drawable/bg_btn_green"
@@ -123,7 +126,21 @@
 
 
 
+
     </RelativeLayout>
+
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/skip"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="wrap_content"
+        android:text="@string/skip"
+        android:textColor="@color/white"
+        android:layout_gravity="end"
+        android:textSize="@dimen/_16sdp"
+        android:fontFamily="@font/poppins_medium"/>
+
+</LinearLayout>
     </ScrollView>
 
 </LinearLayout>

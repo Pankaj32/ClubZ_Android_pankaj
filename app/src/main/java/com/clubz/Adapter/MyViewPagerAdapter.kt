@@ -3,16 +3,22 @@ package com.clubz.Adapter
 import android.app.Activity
 import android.content.Context
 import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import java.util.*
 
 /**
  * Created by mindiii on 2/5/18.
  */
-class MyViewPagerAdapter(val  activity :Activity , val layouts : IntArray) : PagerAdapter() {
+class MyViewPagerAdapter(val  activity :Activity , val layouts : IntArray , val viewPager :ViewPager) : PagerAdapter() {
+    val timer = Timer();
     private var layoutInflater: LayoutInflater? = null
 
+    init {
+        timerauto()
+    }
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -35,4 +41,30 @@ class MyViewPagerAdapter(val  activity :Activity , val layouts : IntArray) : Pag
         val view = `object` as View
         container.removeView(view)
     }
+
+    fun timerauto(){
+        timer.scheduleAtFixedRate(object : TimerTask() {
+
+            override fun run() {
+                activity.runOnUiThread(Runnable {
+
+                    try {
+
+                       viewPager.setCurrentItem(if(viewPager.currentItem>=3) 0 else viewPager.currentItem+1,true)
+                    } catch (e: Exception) {
+
+                    }
+                })
+            }
+
+        },
+                //Set how long before to start calling the TimerTask (in milliseconds)
+                3000,
+                //Set the amount of time between each execution (in milliseconds)
+                4000)
+    }
+
+
+
+
 }
