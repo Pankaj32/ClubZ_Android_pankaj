@@ -44,7 +44,7 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
             return false;
         }
         for (s  in list){
-            if(s.trim().equals(affiliates.text.toString().trim())){
+            if(s.trim().toLowerCase().equals(affiliates.text.toString().trim().toLowerCase())){
                 Util.showSnake(context,view!!,R.string.a_already_affil)
                 return false
             }

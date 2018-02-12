@@ -7,6 +7,9 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Interpolator
+import android.widget.Scroller
+import java.lang.reflect.Field
 import java.util.*
 
 /**
@@ -62,8 +65,43 @@ class MyViewPagerAdapter(val  activity :Activity , val layouts : IntArray , val 
                 3000,
                 //Set the amount of time between each execution (in milliseconds)
                 4000)
+
+
+        try {
+            val mScroller: Field
+            mScroller = ViewPager::class.java.getDeclaredField("mScroller")
+            mScroller.setAccessible(true)
+            val scroller = FixedSpeedScroller(viewPager.getContext())
+            // scroller.setFixedDuration(5000);
+            mScroller.set(viewPager, scroller)
+        } catch (e: NoSuchFieldException) {
+        } catch (e: IllegalArgumentException) {
+        } catch (e: IllegalAccessException) {
+        }
     }
 
+
+    inner class FixedSpeedScroller : Scroller {
+
+        private val mDuration = 3000
+
+        constructor(context: Context) : super(context) {}
+
+        constructor(context: Context, interpolator: Interpolator) : super(context, interpolator) {}
+
+        constructor(context: Context, interpolator: Interpolator, flywheel: Boolean) : super(context, interpolator, flywheel) {}
+
+
+        override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int, duration: Int) {
+            // Ignore received duration, use fixed one instead
+            super.startScroll(startX, startY, dx, dy, mDuration)
+        }
+
+        override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int) {
+            // Ignore received duration, use fixed one instead
+            super.startScroll(startX, startY, dx, dy, mDuration)
+        }
+    }
 
 
 

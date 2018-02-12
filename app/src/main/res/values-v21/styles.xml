@@ -22,4 +22,15 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
 
     </style>
+
+
+    <style name="DialogThemes" parent="@style/Base.Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="colorAccent">@color/white</item>
+    </style>
 </resources>

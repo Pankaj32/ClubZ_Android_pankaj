@@ -1,21 +1,12 @@
 package com.clubz
 
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
-import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.LinearLayout
 import com.clubz.Adapter.MyViewPagerAdapter
-import com.clubz.util.Constants
-import com.clubz.util.Language
 import com.clubz.util.Util
 import io.michaelrocks.libphonenumber.android.NumberParseException
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
@@ -43,10 +34,12 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
         viewPager.setAdapter(MyViewPagerAdapter(this@Sign_In_Activity , layouts , viewPager))
 
         viewPager.addOnPageChangeListener(this)
+
         lnr_indicator.getChildAt(0).setBackgroundResource(R.drawable.indicator_active)
 
 
         for(view in arrayOf(sign_up))view.setOnClickListener(this)
+
     }
 
     override fun onClick(p0: View?) {

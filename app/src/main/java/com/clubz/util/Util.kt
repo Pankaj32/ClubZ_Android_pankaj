@@ -2,6 +2,8 @@ package com.clubz.util
 
 import android.app.Activity
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.util.Log
 import android.view.View
 import java.io.IOException
@@ -53,6 +55,19 @@ class Util {
         fun showSnake(context: Context,view : View ,  int :Int=0 , message :String = ""){
             val snackbar =if(int!= 0){ Snackbar.make(view, int, Snackbar.LENGTH_LONG)} else Snackbar.make(view, message, Snackbar.LENGTH_LONG)
             snackbar.show()
+        }
+
+        fun isConnectingToInternet(context: Context): Boolean {
+            val connectivity = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (connectivity != null) {
+                val info = connectivity.allNetworkInfo
+                if (info != null)
+                    for (i in info.indices)
+                        if (info[i].state == NetworkInfo.State.CONNECTED) {
+                            return true
+                        }
+            }
+            return false
         }
 
 

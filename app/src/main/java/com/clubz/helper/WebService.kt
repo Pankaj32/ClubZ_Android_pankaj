@@ -6,8 +6,8 @@ package com.clubz.helper
 class WebService {
     companion object {
         private val base_Url = "http://clubz.co/dev/"
-        val Generate_Otp = "service/generateOtp"
-        val Verify_Otp = "service/otpVerify"
-        val Registraion = "service/registration"
+        val Generate_Otp    = base_Url+"service/generateOtp"
+        val Verify_Otp      = base_Url+"service/otpVerify"
+        val Registraion     = base_Url+"service/registration"
     }
 }

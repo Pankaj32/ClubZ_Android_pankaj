@@ -63,6 +63,7 @@
                 style="@style/lighttheme"
                 android:singleLine="true"
                 android:maxLength="4"
+                android:imeOptions="actionDone"
                 android:layout_marginStart="@dimen/_40sdp"
                 android:layout_marginEnd="@dimen/_40sdp"
                 android:fontFamily="@font/poppins_light"

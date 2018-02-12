@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">ClubZ</string>
 
-    <string name="explore" >Explore the universe around you</string>
+
+    <string name="explore1" >To explore the</string>
+    <string name="explore2" >universe</string>
+    <string name="explore3" >around you</string>
 
 
     <string name="by_taping">By tapping Sign Up you accept the </string>
@@ -27,6 +30,9 @@
     <string name="affilites_is" > An affiliates is a person you could invite to an activity . Your family members or friends.  </string>
     <string name="finaly_sel" > Finally select or write your interest </string>
     <string name="sel_skill" > And select or write your skill </string>
+    <string name="alert"> Alert </string>
+    <string name="no_internet"> No internet connection </string>
+    <string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>
 
 
     <!--hints-->
@@ -47,6 +53,7 @@
     <string name="next" > Next </string>
     <string name="signup" > Sign Up </string>
     <string name="create_one" > Create One </string>
+    <string name="try_again" > Try again </string>
 
     <string name="resend" > Resend code </string>
     <string name="skip" > <u>Skip</u></string>
@@ -54,6 +61,10 @@
     <!--alerts-->
     <string name="a_username" > Please enter username. </string>
     <string name="a_username_space" > User name can\'t have space. </string>
+
+    <string name="a_firstname" > Please enter First name. </string>
+    <string name="a_last_name" > Please enter Last name. </string>
+
     <string name="a_email" > Please enter email address. </string>
     <string name="a_email_valid" > Please enter valid email address. </string>
     <string name="a_phone_no" >  Enter your phone number for verification via SMS. </string>
@@ -61,6 +72,7 @@
     <string name="a_select_code" >  Please select country code. </string>
     <string name="swr" >Something went to wrong. please try again.</string>
     <string name="a_confirmation_code" > Please enter confirmation code.</string>
+    <string name="a_confirmation_code2" > Invalid confirmation code.</string>
     <string name="a_addskill" > Please enter Skill.</string>
     <string name="a_addaffil" > Please enter Affiliates.</string>
     <string name="a_addintres" > Please enter Interest.</string>

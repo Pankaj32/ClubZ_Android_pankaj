@@ -142,7 +142,8 @@ class Sign_up_Activity : AppCompatActivity() {
                 finish()
             } else {
                 doublebackpress = true
-            }*/
+            }
+            */
         }
         fun getCurrentFragment(): Fragment? {
             try {

@@ -29,7 +29,7 @@ class Splash_Activity : AppCompatActivity() {
             val intent = Intent(this@Splash_Activity , Sign_In_Activity::class.java)
             startActivity(intent);
             finish();
-        },10000);
+        },5000);
 
     }
 }

@@ -5,6 +5,7 @@
         <item>@font/poppins_light</item>
         <item>@font/poppins_regular</item>
         <item>@font/poppins_medium</item>
+        <item>@font/poppins_semibold</item>
     </array>
 
     <!--<item>@font/josefin_sans_regular</item>

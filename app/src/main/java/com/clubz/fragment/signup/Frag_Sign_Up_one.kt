@@ -26,8 +26,11 @@ import android.os.Build
 import android.widget.Spinner
 import android.content.Context.TELEPHONY_SERVICE
 import android.telephony.TelephonyManager
-
-
+import com.android.volley.VolleyError
+import com.clubz.Cus_Views.CusDialogProg
+import com.clubz.helper.WebService
+import com.clubz.util.VolleyGetPost
+import org.json.JSONObject
 
 
 /**
@@ -80,7 +83,7 @@ class Frag_Sign_Up_one : Fragment(), ViewPager.OnPageChangeListener, View.OnClic
 
     override fun onClick(p0: View?) {
      when(p0!!.id){
-         R.id.sign_up-> if(verfiy())(activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2())
+         R.id.sign_up-> if(verfiy()) (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code)) //generateOtp()
      }
     }
 
@@ -119,11 +122,62 @@ class Frag_Sign_Up_one : Fragment(), ViewPager.OnPageChangeListener, View.OnClic
 
     fun setCountryCode(list : ArrayList<Country_Code> , spinner : Spinner){
         val tm = activity.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        val locale = tm.networkCountryIso
+        var locale = tm.networkCountryIso
+        if(locale.equals("")) locale ="in";
         Util.e("phone no" , locale);
         for(i  in 0..list.size-1){
             if(list.get(i).code.equals(locale)){spinner.setSelection(i) ; return }
         }
+    }
+
+    fun generateOtp(){
+        val dialog = CusDialogProg(context);
+        dialog.show();
+        object  : VolleyGetPost(activity,context,WebService.Generate_Otp,false) {
+            override fun onVolleyResponse(response: String?) {
+                //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
+                //{"status":"fail","message":"This mobile number is already registered."}
+                //{"status":"success","message":"Registered successfully, Generate verify code successfully sent","otp":"3319","step":1}
+
+                try{
+                    val obj = JSONObject(response)
+                    if(obj.getString("status").equals("success")){
+                        (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData(obj.getString("otp") ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code))
+                    }else{
+
+                    }
+                }catch (ex :Exception){
+
+                }
+                dialog.dismiss();
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+
+            }
+
+            override fun onNetError() {
+                dialog.dismiss()
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("country_code" , (country_code.selectedItem as Country_Code).phone_code);
+                params.put("contact_no" , phone_no.text.toString());
+                params.put("OTP" , phone_no.text.toString());
+                Util.e("params" , params.toString())
+                return params;
+
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put( "language","en");
+                Util.e("headers" , params.toString())
+                return params
+
+            }
+        }.execute()
     }
 
 }

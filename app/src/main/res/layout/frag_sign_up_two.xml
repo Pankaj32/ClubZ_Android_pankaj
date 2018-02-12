@@ -197,14 +197,14 @@
                 android:textSize="@dimen/_14sdp"
                 android:fontFamily="@font/poppins_regular"
                 android:background="@drawable/bg_btn_green"
-                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_margin="@dimen/_30sdp"
                 android:layout_below="@id/email"
                 android:textColor="@color/text_btn"
                 android:layout_centerHorizontal="true"
                 />
 
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/or_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -273,7 +273,7 @@
                         android:textSize="@dimen/_12sdp" />
 
                 </LinearLayout>
-            </LinearLayout>
+            </LinearLayout>-->
 
 
 

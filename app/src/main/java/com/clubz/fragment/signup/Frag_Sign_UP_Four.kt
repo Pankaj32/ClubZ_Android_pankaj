@@ -46,7 +46,7 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
             return false;
         }
         for (s  in list1){
-            if(s.trim().equals(intrest.text.toString().trim())){
+            if(s.trim().toLowerCase().equals(intrest.text.toString().trim().toLowerCase())){
                 Util.showSnake(context,view!!,R.string.a_already_intrest)
                 return false
             }
@@ -61,7 +61,7 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
             return false;
         }
         for (s  in list2){
-            if(s.trim().equals(skill_set.text.toString().trim())){
+            if(s.trim().toLowerCase().equals(skill_set.text.toString().trim().toLowerCase())){
                 Util.showSnake(context,view!!,R.string.a_already_skill)
                 return false
             }
@@ -83,7 +83,6 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
     fun addSkill(){
         val chip = object : ChipView(context,chip_grid2.childCount.toString()){
             override fun setDeleteListner(chipView: ChipView?) {
-
             }
         }
         chip.setText(skill_set.text.toString()+"")
