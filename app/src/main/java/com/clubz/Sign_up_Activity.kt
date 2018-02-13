@@ -1,7 +1,6 @@
 package com.clubz
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
@@ -11,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.clubz.fragment.signup.*
+import com.clubz.util.Constants
 import com.clubz.util.Util
 import kotlinx.android.synthetic.main.activity_signup.*
 
@@ -20,11 +20,19 @@ import kotlinx.android.synthetic.main.activity_signup.*
 
 class Sign_up_Activity : AppCompatActivity() {
 
+    public var _authToken : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
         Util.checklaunage(this)
         replaceFragment(Frag_Sign_Up_one())
+
+       try{
+           val s = intent.getStringArrayExtra(Constants.DATA)
+        _authToken = s[1]
+       }catch (ex :java.lang.Exception){
+           ex.printStackTrace()
+       }
     }
 
 

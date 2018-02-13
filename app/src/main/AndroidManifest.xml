@@ -18,7 +18,6 @@
         android:name=".ClubZ"
         android:theme="@style/AppThemeh">
         <activity android:name=".Splash_Activity"
-            android:theme="@style/AppThemehSplash"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,6 +30,12 @@
             android:theme="@style/AppTheme2"
             android:screenOrientation="portrait"
             />
+
+        <activity android:name=".Otp_activity"
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"
+            />
+
         <activity android:name=".Sign_up_Activity"
             android:theme="@style/AppTheme2"
             android:screenOrientation="portrait"

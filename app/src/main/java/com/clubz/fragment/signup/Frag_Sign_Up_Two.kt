@@ -19,10 +19,14 @@ import com.android.volley.*
 import com.clubz.BuildConfig
 import com.clubz.Cropper.CropImage
 import com.clubz.Cropper.CropImageView
+import com.clubz.Cus_Views.CusDialogProg
 import com.clubz.R
 import com.clubz.Sign_up_Activity
 import com.clubz.helper.WebService
+import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
+import com.clubz.helper.vollyemultipart.VolleySingleton
+import com.clubz.model.Country_Code
 import com.clubz.util.Constants
 import com.clubz.util.PatternCheck
 import com.clubz.util.Util
@@ -43,6 +47,8 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     var isCameraSelected :Boolean=false ;
     var imageUri : Uri? = null;
     var profilieImage :Bitmap? = null;
+    lateinit var _contact : String
+    lateinit var _code : String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.frag_sign_up_two, null);
@@ -59,9 +65,17 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     override fun onClick(p0: View?) {
      when(p0!!.id){
          R.id.iv_capture-> permissionPopUp();
-         R.id.next -> if(verify())(activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three());
+         R.id.next -> if(verify())signup()//(activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three());
+
      }
     }
+
+    fun setData( contact : String , code : String) :Frag_Sign_Up_Two{
+        _contact = contact;
+        _code = code;
+        return this;
+    }
+
 
     fun verify():Boolean{
         (activity as Sign_up_Activity).hideKeyBoard();
@@ -223,85 +237,49 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     }
 
     fun signup( ){
-
-        /*if (Util.isConnectingToInternet(context)) {
+        val dialog = CusDialogProg(context);
+        dialog.show();
+        if (Util.isConnectingToInternet(context)) {
 
             val multipartRequest = object : VolleyMultipartRequest(Request.Method.POST, WebService.Registraion, object : Response.Listener<NetworkResponse> {
                 override fun onResponse(response: NetworkResponse) {
                     val data = String(response.data)
 
-                    progressDialog.dismiss()
+                    dialog.dismiss()
+                    //{"status":"success","message":"User registration successfully done","userDetail":{"id":"2","first_name":"vinod","last_name":"bhai","email":"vinod.mindiii@gmail.com","social_id":"","social_type":"","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/","address":"","latitude":"","longitude":"","notification_status":"1","device_type":"1","auth_token":"76d7c336ffe6a20f00d2656f6be13be1b3c961a7","device_token":"1234","contact_no":"9770495603","country_code":"+91","OTP":"5811","is_verified":"0","status":"1","crd":"2018-02-13 06:03:45","upd":"2018-02-11 23:58:31"}}
                     //{"status":"success","message":"User registration successfully done","userDetail":{"id":"26","userName":"","fullName":"Ratnesh","email":"ratnesh.mindiii@gmail.com","userType":"user","countryCode":"","contactNumber":"1234567890","authToken":"a56f75eef07d22577eada7b75ef4d7c139bc5f10","status":"1","createdOn":"2017-11-14 05:53:22","image":""}}
                     //{"status":"fail","message":"<p>The image you are attempting to upload doesn't fit into the allowed dimensions.<\/p>"}
+                    //{"status":"success","message":"User registration successfully done","userDetail":{"id":"2","first_name":"dharamraj","last_name":"acharya","email":"d2.mindiii@gmail.com","social_id":"","social_type":"","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/bb19394089f31c6c868d1d053933fb4a.jpg","address":"","latitude":"","longitude":"","notification_status":"1","device_type":"1","auth_token":"9983de14c4ac29202943ae41aa0d7e861bdfb49b","device_token":"1234","contact_no":"9770495603","country_code":"+91","OTP":"1670","is_verified":"0","status":"1","crd":"2018-02-13 10:33:31","upd":"2018-02-11 23:58:31"}}
                     try {
                         val obj = JSONObject(data)
                         if(obj.getString("status").equals("success")){
-
-                            if(type.equals(Constants.TYPE_USER)){
-                                val user2 :com.tulia.Models.User = Gson().fromJson(obj.getJSONObject("userDetail").toString(), com.tulia.Models.User::class.java)
-                                user2.isSocial = false
-                                SessionManager(this@SignUP_Activity).createSession(user2,false,"","");
-                                //  Toast.makeText(this@SignUP_Activity,obj.getString("message").trim(),Toast.LENGTH_LONG).show();
-                                val intent =Intent(this@SignUP_Activity,Home_Activity::class.java)
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                startActivity(intent)
-                                finish()
-                                return
-                            }
-                            if(type.equals(Constants.TYPE_VENDOR)){
-                                //{"status":"success","message":"User registration successfully done","userDetail":{"id":"3","userName":"","fullName":"Thomas Lewis","email":"ratnesh.mindiii@gmail.com","userType":"vendor","countryCode":"+91","contactNumber":"","address":"","authToken":"e35bce1486a2dba047f71aa2bd9fc598e8cac98f","status":"1","createdOn":"2017-11-22 09:27:59","image":"https:\/\/graph.facebook.com\/302008740295822\/picture?type=large","thumbImage":"https:\/\/graph.facebook.com\/302008740295822\/picture?type=large"}}
-                                if((if(obj.has("messageCode"))obj.getString("messageCode").equals(Constants.VENDOR_social_reg)else{false}) || obj.getJSONObject("userDetail").getString("category").isBlank()){
-                                    progressDialog.dismiss()
-                                    Toast.makeText(this@SignUP_Activity,R.string.categorye,Toast.LENGTH_SHORT).show()
-                                    categoryPop(user)
-                                }
-                                else{
-
-                                    var vendor:Vendor  = Gson().fromJson(obj.getJSONObject("userDetail").toString(), Vendor::class.java)
-                                    vendor.isSocial = false
-                                    SessionManager(this@SignUP_Activity).createSession(vendor,false,"","");
-                                    //Toast.makeText(this@SignUP_Activity,obj.getString("message").trim(),Toast.LENGTH_LONG).show();
-                                    var intent =Intent(this@SignUP_Activity,Home_Activity::class.java)
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                    startActivity(intent)
-                                    finish()
-
-                                }
-                            }
+                            (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three())
                         }else{
-                            Toast.makeText(this@SignUP_Activity,obj.getString("message").trim(),Toast.LENGTH_LONG).show();
-                        }
 
+                        }
                     }catch ( e : Exception){
                         e.printStackTrace()
-                        Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_LONG).show()
                     }
-                    progressDialog.dismiss()
+                    dialog.dismiss()
 
                 }
             }, object : Response.ErrorListener {
                 override fun onErrorResponse(error: VolleyError) {
-                    progressDialog.dismiss()
-                    Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_LONG).show()
+                    dialog.dismiss()
+                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show()
                 }
             }) {
                 override fun getParams(): MutableMap<String, String> {
                     val params = java.util.HashMap<String, String>()
-                    params.put("userName",user.userName)
-                    params.put("fullName",user.fullName)
-                    params.put("email",user.email)
-                    params.put("password",user.password)
-                    params.put("userType",type)
-                    params.put("contactNumber",user.contactNumber)
-                    params.put("deviceType","1")
-                    params.put("deviceToken", FirebaseInstanceId.getInstance().getToken()!!)
-                    params.put("countryCode","+254")
-                    params.put("contact","")
-                    params.put("socialId",user.socialId)
-                    params.put("socialType",user.socialType)
-                    if(user.category!=null) params.put("category",user.category+"")
-                    if(!user.userimage.isBlank())params.put("image",user.userimage)
-                    Util.printBigLogcat(this@SignUP_Activity.javaClass.name,params.toString())
+                    params.put("first_name",username.text.toString())
+                    params.put("last_name",lastname.text.toString())
+                    params.put("email",email.text.toString())
+                    params.put("contact_no",_contact)
+                    params.put("device_token","1234")
+                    params.put("device_type","1")
+                    params.put("country_code",_code)
+                    params.put("social_id","")
+                    params.put("social_type","")
                     return params
                 }
 
@@ -316,19 +294,19 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
 
 
                     if (profilieImage != null) {
-                        params.put("image", DataPart("profileImage.jpg", AppHelper.getFileDataFromDrawable(profilieImage), "image/jpeg"))
-                        Util.printBigLogcat("image ",params.toString())
+                        params.put("profile_image", DataPart("profileImage.jpg", AppHelper.getFileDataFromDrawable(profilieImage), "image/jpeg"))
+                       // Util.printBigLogcat("image ",params.toString())
                     }
                     return params
                 }
             }
             val socketTimeout = 30000;
             multipartRequest.setRetryPolicy(DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            VolleySingleton.getInstance(this).addToRequestQueue(multipartRequest)
+            VolleySingleton.getInstance(context).addToRequestQueue(multipartRequest)
 
         } else {
-            if (progressDialog != null) progressDialog.dismiss()
-            Toast.makeText(applicationContext, "Please Check internet connection.!", Toast.LENGTH_LONG).show()
-        }*/
+            if (dialog != null) dialog.dismiss()
+            Toast.makeText(context, "Please Check internet connection.!", Toast.LENGTH_LONG).show()
+        }
     }
 }

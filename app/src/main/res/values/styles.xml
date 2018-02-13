@@ -12,14 +12,7 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="AppThemehSplash" parent="@style/Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
+
 
     <style name="lightcolor" >
         <!-- Customize your theme here. -->

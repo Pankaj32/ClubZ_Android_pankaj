@@ -9,5 +9,7 @@ class WebService {
         val Generate_Otp    = base_Url+"service/generateOtp"
         val Verify_Otp      = base_Url+"service/otpVerify"
         val Registraion     = base_Url+"service/registration"
+        val Login           = base_Url+"service/login"
+        val Verify_OtpLogin = base_Url+"service/otpVerify_login"
     }
 }

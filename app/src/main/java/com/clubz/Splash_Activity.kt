@@ -15,11 +15,11 @@ class Splash_Activity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         Util.checklaunage(this)
 
-        Glide.with(this)
+        /*Glide.with(this)
                 .load(R.drawable.new_splash_bg)
                 .asGif()
                 .crossFade()
-                .into(stars_iv);
+                .into(stars_iv);*/
     }
 
     override fun onStart() {

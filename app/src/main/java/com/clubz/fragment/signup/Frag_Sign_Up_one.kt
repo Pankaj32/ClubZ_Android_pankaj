@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.Toast
 import com.clubz.Adapter.Country_spinner_adapter
 import com.clubz.Adapter.MyViewPagerAdapter
 import com.clubz.R
@@ -21,10 +20,7 @@ import io.michaelrocks.libphonenumber.android.NumberParseException
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
 import kotlinx.android.synthetic.main.frag_sign_up_one.*
 import java.util.ArrayList
-import android.icu.util.ULocale.getCountry
-import android.os.Build
 import android.widget.Spinner
-import android.content.Context.TELEPHONY_SERVICE
 import android.telephony.TelephonyManager
 import com.android.volley.VolleyError
 import com.clubz.Cus_Views.CusDialogProg
@@ -83,7 +79,9 @@ class Frag_Sign_Up_one : Fragment(), ViewPager.OnPageChangeListener, View.OnClic
 
     override fun onClick(p0: View?) {
      when(p0!!.id){
-         R.id.sign_up-> if(verfiy()) (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code)) //generateOtp()
+         R.id.sign_up-> if(verfiy())
+             //(activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code))
+          generateOtp()
      }
     }
 
@@ -131,6 +129,7 @@ class Frag_Sign_Up_one : Fragment(), ViewPager.OnPageChangeListener, View.OnClic
     }
 
     fun generateOtp(){
+        val activity = activity as Sign_up_Activity;
         val dialog = CusDialogProg(context);
         dialog.show();
         object  : VolleyGetPost(activity,context,WebService.Generate_Otp,false) {
@@ -165,7 +164,7 @@ class Frag_Sign_Up_one : Fragment(), ViewPager.OnPageChangeListener, View.OnClic
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params.put("country_code" , (country_code.selectedItem as Country_Code).phone_code);
                 params.put("contact_no" , phone_no.text.toString());
-                params.put("OTP" , phone_no.text.toString());
+                params.put("auth_token" , activity._authToken);
                 Util.e("params" , params.toString())
                 return params;
 

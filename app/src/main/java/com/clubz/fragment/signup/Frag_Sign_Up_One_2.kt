@@ -71,7 +71,10 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
 
     override fun onClick(p0: View?) {
      when(p0!!.id){
-         R.id.confirm -> { (activity as Sign_up_Activity).hideKeyBoard(); if(verfiy()) (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two())}//confirm()}
+         R.id.confirm -> { (activity as Sign_up_Activity).hideKeyBoard(); if(verfiy())
+             //(activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two())
+             verify_otp()
+         }
      }
     }
 
@@ -95,17 +98,18 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
         return true;
     }
 
-    fun confirm(){
+    fun verify_otp(){
         val dialog = CusDialogProg(context);
         dialog.show();
-        object  : VolleyGetPost(activity,context, WebService.Verify_Otp,false) {
+        object  : VolleyGetPost(activity,context, WebService.Verify_Otp,true) {
             override fun onVolleyResponse(response: String?) {
                 //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
                 //{"status":"fail","message":"This mobile number is already registered."}
+                //{"status":"success","message":"Contact verified successfully","step":2}
                 try {
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
-                        (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two())
+                        (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two().setData(_contact,_code))
                     }
                     else{
 
@@ -118,21 +122,18 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
 
             override fun onVolleyError(error: VolleyError?) {
                 dialog.dismiss()
-
             }
 
             override fun onNetError() {
                 dialog.dismiss()
-
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("OTP" , confirmation_code.text.toString());
-                params.put("contact_no" , _contact);
-                params.put("country_code" , _code);
+                //params.put("OTP" , confirmation_code.text.toString());
+                params.put("contact_no" , _contact)
+                params.put("country_code" , _code)
                 Util.e("params" , params.toString())
-                return params;
-
+                return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
