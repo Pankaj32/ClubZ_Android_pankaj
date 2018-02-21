@@ -34,9 +34,9 @@
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
             android:layout_gravity="center_vertical"
-            android:padding="@dimen/_4sdp"
+            android:padding="@dimen/_6sdp"
             android:visibility="visible"
-            android:tint="@color/white"
+            android:tint="@color/black"
             android:rotation="45"
             app:srcCompat="@drawable/ic_plus_symbol" />
 

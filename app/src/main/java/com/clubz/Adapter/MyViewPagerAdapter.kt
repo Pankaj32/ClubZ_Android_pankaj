@@ -15,12 +15,12 @@ import java.util.*
 /**
  * Created by mindiii on 2/5/18.
  */
-class MyViewPagerAdapter(val  activity :Activity , val layouts : IntArray , val viewPager :ViewPager) : PagerAdapter() {
+class MyViewPagerAdapter(val  activity :Activity , val layouts : IntArray , val viewPager :ViewPager , val isAuto :Boolean =true) : PagerAdapter() {
     val timer = Timer();
     private var layoutInflater: LayoutInflater? = null
 
     init {
-        timerauto()
+        if(isAuto)timerauto()
     }
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

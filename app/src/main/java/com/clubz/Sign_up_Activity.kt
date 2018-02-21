@@ -29,7 +29,10 @@ class Sign_up_Activity : AppCompatActivity() {
 
        try{
            val s = intent.getStringArrayExtra(Constants.DATA)
-        _authToken = s[1]
+           _authToken = s[1]
+           if(s[0].equals("step2")){
+               replaceFragment(Frag_Sign_Up_One_2())
+           }
        }catch (ex :java.lang.Exception){
            ex.printStackTrace()
        }

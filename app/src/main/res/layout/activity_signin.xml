@@ -7,44 +7,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+   <android.support.v7.widget.AppCompatImageView
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/_120sdp"
+       android:src="@drawable/circle_logo"/>
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_weight="0.4"
-        android:overScrollMode="never"
-        android:layout_height="@dimen/_150sdp">
-
-    </android.support.v4.view.ViewPager>
-
-    <LinearLayout
-        android:id="@+id/lnr_indicator"
-        android:layout_width="@dimen/_280sdp"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="@dimen/_20sdp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:divider="@drawable/divider"
-        android:showDividers="middle"
-        android:layout_margin="@dimen/_10sdp">
-        <View
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:background="@drawable/indicator_inactive"/>
-        <View
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:background="@drawable/indicator_inactive"/>
-        <View
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:background="@drawable/indicator_inactive"/>
-        <View
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:background="@drawable/indicator_inactive"/>
-
-    </LinearLayout>
-
+        android:layout_height="wrap_content"
+        android:text="@string/step_r1"
+        style="@style/step_title"/>
 
 
     <ScrollView
@@ -74,33 +46,93 @@
 
 
 
-            <EditText
-                android:id="@+id/phone_no"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
-                android:background="@null"
-                android:hint="@string/phone_no"
-                android:inputType="phone"
-                android:textSize="@dimen/_12sdp"
-                style="@style/lighttheme"
-                android:textColor="@color/text_gray"
-                android:textColorHint="@color/hintcolor"
-                android:singleLine="true"
-                android:fontFamily="@font/poppins_regular"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"/>
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_15sdp">
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="@color/pager_line"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
-                />
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    app:srcCompat="@drawable/phone_ico"
+                    android:tint="@color/text_gray"
+                    android:scaleType="fitCenter"
+                    android:layout_marginLeft="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_10sdp"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_gray"
+                    android:textSize="@dimen/_8sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_alignLeft="@+id/country_code"
+                    android:layout_alignStart="@+id/country_code"
+                    android:text="@string/country"
+                    />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/country_code"
+                    android:layout_width="wrap_content"
+                    android:minWidth="@dimen/_40sdp"
+                    android:dropDownWidth="@dimen/_280sdp"
+                    android:dropDownSelector="@color/text_gray"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginLeft="@dimen/_40sdp"
+                    android:overlapAnchor="false"
+                    android:background="@null"
+                    android:layout_marginTop="@dimen/_10sdp"/>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/pager_line"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_alignRight="@+id/country_code"
+                    android:layout_below="@+id/country_code"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_gray"
+                    android:textSize="@dimen/_8sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_alignStart="@+id/phone_no"
+                    android:layout_alignLeft="@+id/phone_no"
+                    android:text="@string/phone_no"/>
+
+                <EditText
+                    android:id="@+id/phone_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:background="@null"
+                    android:hint="@string/hint_step1_1"
+                    android:inputType="phone"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/text_gray"
+                    android:textColorHint="@color/pager_line"
+                    android:fontFamily="@font/poppins_light"
+                    style="@style/lighttheme"
+                    android:singleLine="true"
+                    android:layout_toRightOf="@id/country_code"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_25sdp"
+                    android:layout_marginRight="@dimen/_25sdp"/>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/pager_line"
+                    android:layout_alignLeft="@+id/phone_no"
+                    android:layout_alignRight="@+id/phone_no"
+                    android:layout_below="@+id/phone_no"
+                    />
+
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/next"
@@ -109,7 +141,7 @@
                 android:text="@string/next"
                 android:textAllCaps="true"
                 android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/roboto_regular"
                 android:background="@drawable/bg_btn_green"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_15sdp"
@@ -117,77 +149,83 @@
                 android:layout_gravity="end"
                 />
 
-
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_10sdp"
-                android:text="@string/orlogin"
-                android:textColor="@color/text_gray"
-                android:layout_margin="@dimen/_15sdp"
-                android:fontFamily="@font/poppins_regular" />
+                android:orientation="horizontal"
+                android:layout_below="@+id/sign_up"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_horizontal"
+                    android:text="@string/by_taping1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_10sdp"
+                    android:text="@string/sign_in"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_10sdp"
+                    android:text="@string/by_taping1_2"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_horizontal"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/sign_up"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:gravity="center">
 
-                android:layout_marginBottom="@dimen/_20sdp">
-                <LinearLayout
-                    android:id="@+id/google_lnr"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:gravity="start">
-                    <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:background="@drawable/bg_google"
-                        app:srcCompat="@drawable/ic_google"/>
-                    <android.support.v7.widget.AppCompatTextView
-                        android:layout_width="@dimen/_70sdp"
-                        android:layout_height="match_parent"
-                        android:text="@string/google"
-                        android:gravity="center"
-                        android:paddingStart="@dimen/_5sdp"
-                        android:textSize="@dimen/_12sdp"
-                        android:paddingLeft="@dimen/_5sdp"
-                        android:textColor="@color/white"
-                        android:background="@drawable/bg_google"
-                        android:layout_marginLeft="@dimen/_1sdp"
-                        android:fontFamily="@font/poppins_light"
-                        />
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_horizontal"
+                    android:text="@string/termsandcon"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="@dimen/_10sdp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_10sdp"
+                    android:text="@string/and"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/text_gray"
+                    android:gravity="center_horizontal"/>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:gravity="end">
-                    <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:backgroundTint="@color/facebook"
-                        android:background="@drawable/bg_facebook"
-                        app:srcCompat="@drawable/ic_facebook"/>
-                    <android.support.v7.widget.AppCompatTextView
-                        android:layout_width="@dimen/_75sdp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:paddingStart="@dimen/_5sdp"
-                        android:paddingLeft="@dimen/_5sdp"
-                        android:text="@string/facebook"
-                        android:textColor="@color/white"
-                        android:layout_marginLeft="@dimen/_1sdp"
-                        android:background="@drawable/bg_facebook"
-                        android:fontFamily="@font/poppins_light"
-                        android:textSize="@dimen/_12sdp" />
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_10sdp"
+                    android:text="@string/privacypolic"
+                    android:textColor="@color/primaryColor"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_horizontal"/>
             </LinearLayout>
+
 
         </LinearLayout>
 
@@ -195,9 +233,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white"
-            android:padding="@dimen/_15sdp"
-            >
-
+            android:padding="@dimen/_10sdp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -214,7 +250,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/roboto_regular"
                 android:background="@drawable/bg_btn_green"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
@@ -222,43 +258,76 @@
                 android:text="@string/create_one"
                 />
 
-            <LinearLayout
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@+id/sign_up"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:gravity="center">
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_40sdp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:gravity="center_horizontal"
-                    android:text="@string/termsandcon"
-                    android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/_10sdp" />
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/google_lnr"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_10sdp"
-                    android:text="@string/and"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:fontFamily="@font/poppins_light"
-                    android:textColor="@color/text_gray"
-                    android:gravity="center_horizontal"/>
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_google"
+                    android:gravity="center_vertical">
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="@dimen/_26sdp"
+                        android:layout_height="@dimen/_26sdp"
+                        android:background="@drawable/bg_google"
+                        app:srcCompat="@drawable/ic_google"
+                        android:padding="@dimen/_6sdp"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:backgroundTint="@color/white"/>
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="match_parent"
+                        android:text="@string/google"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:textSize="@dimen/_14sdp"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:textColor="@color/white"
+                        android:background="@drawable/bg_google"
+                        android:fontFamily="@font/roboto_regular"
+                        />
+                </LinearLayout>
 
-                <TextView
+
+
+
+                <LinearLayout
+                    android:id="@+id/facebook_lnr"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_10sdp"
-                    android:text="@string/privacypolic"
-                    android:textColor="@color/primaryColor"
-                    android:fontFamily="@font/poppins_regular"
-                    android:gravity="center_horizontal"/>
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_facebook"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true">
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="@dimen/_26sdp"
+                        android:layout_height="@dimen/_26sdp"
+                        android:backgroundTint="@color/white"
+                        android:background="@drawable/bg_facebook"
+                        android:tint="@color/facebook"
+                        android:padding="@dimen/_1sdp"
+                        android:layout_margin="@dimen/_2sdp"
+                        app:srcCompat="@drawable/ic_facebook"/>
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="@dimen/_75sdp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="@string/facebook"
+                        android:textColor="@color/white"
+                        android:background="@drawable/bg_facebook"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textSize="@dimen/_14sdp" />
+
+                </LinearLayout>
+            </RelativeLayout>
 
 
         </RelativeLayout>

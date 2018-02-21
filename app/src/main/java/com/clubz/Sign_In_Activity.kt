@@ -1,16 +1,26 @@
 package com.clubz
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.Toast
 import com.android.volley.VolleyError
+import com.clubz.Adapter.Country_spinner_adapter
 import com.clubz.Adapter.MyViewPagerAdapter
 import com.clubz.Cus_Views.CusDialogProg
+import com.clubz.helper.SessionManager
+import com.clubz.helper.Type_Token
 import com.clubz.helper.WebService
+import com.clubz.model.Country_Code
+import com.clubz.model.User
 import com.clubz.util.Constants
 import com.clubz.util.Util
 import com.clubz.util.VolleyGetPost
@@ -24,76 +34,96 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.clubz.util.Constants.RC_SIGN_IN
+import com.facebook.*
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.common.api.ApiException
+import com.google.gson.Gson
+import org.json.JSONException
+import java.util.*
 
 
 /**
  * Created by mindiii on 2/2/18.
  */
-class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, View.OnClickListener {
+class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
 
 
 
-    lateinit var  viewPager : ViewPager ;
-    lateinit var layouts: IntArray;
-    lateinit var lnr_indicator: LinearLayout;
+
     lateinit var mGoogleSignInClient : GoogleSignInClient
+    lateinit var callbackManager: CallbackManager
     var isvalidate: Boolean = false;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FacebookSdk.sdkInitialize(applicationContext)
+        FacebookSdk.setIsDebugEnabled(true)
+        FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS)
+        FacebookSdk.setApplicationId(getResources().getString(R.string.facebook_app_id));
         setContentView(R.layout.activity_signin);
+        SessionManager.obj.createSession(User());
         Util.checklaunage(this)
-        viewPager = findViewById(R.id.view_pager);
-        lnr_indicator = findViewById(R.id.lnr_indicator);
-        layouts = intArrayOf(R.layout.welcome_slide1, R.layout.welcome_slide2, R.layout.welcome_slide3, R.layout.welcome_slide4)
-        viewPager.setAdapter(MyViewPagerAdapter(this@Sign_In_Activity , layouts , viewPager))
-        viewPager.addOnPageChangeListener(this)
-        lnr_indicator.getChildAt(0).setBackgroundResource(R.drawable.indicator_active)
-
-
-        for(view in arrayOf(sign_up ,next ,google_lnr))view.setOnClickListener(this)
-
+        for(view in arrayOf(next ,google_lnr , facebook_lnr,sign_up ))view.setOnClickListener(this)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        val list = Gson().fromJson<String>(Util.loadJSONFromAsset(this,"country_code.json"), Type_Token.country_list) as ArrayList<Country_Code>
+        country_code.adapter = Country_spinner_adapter(this,list,0,R.layout.spinner_view);
+        setCountryCode(list , country_code)
 
+    }
+
+    fun setCountryCode(list : ArrayList<Country_Code> , spinner : Spinner){
+        val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        var locale = tm.networkCountryIso
+        if(locale.equals("")) locale ="in";
+        Util.e("phone no" , locale);
+        for(i  in 0..list.size-1){
+            if(list.get(i).code.equals(locale)){spinner.setSelection(i) ; return }
+        }
     }
 
     override fun onClick(p0: View?) {
         when (p0!!.id){
             R.id.sign_up->startActivity(Intent(this@Sign_In_Activity,Sign_up_Activity::class.java))
-            R.id.next-> login()
-            R.id.google_lnr-> googleSignin()
+            R.id.next-> if(verify())login()
+            R.id.google_lnr->   googleSignin()
+            R.id.facebook_lnr-> try {
+                facebooklogin()
+            }catch (ex: Exception){
+                ex.printStackTrace()
+            }
         }
     }
 
+    fun verify() :Boolean{
+        hideKeyBoard()
+        checkPhoneNumber((country_code.selectedItem as Country_Code).code)
+        if(phone_no.text.isBlank()){
+            Util.showSnake(this,getWindow().getDecorView().getRootView(),R.string.a_phone_no);
 
-
-
-    /**
-     *
-     */
-    override fun onPageScrollStateChanged(state: Int) {
-
-    }
-
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-    }
-
-    override fun onPageSelected(position: Int) {
-        for(i in 0..lnr_indicator.childCount-1){
-            lnr_indicator.getChildAt(i).setBackgroundResource(R.drawable.indicator_inactive)
+            return false;
         }
-        lnr_indicator.getChildAt(position).setBackgroundResource(R.drawable.indicator_active)
-
-    }
-
-    fun verfiy() :Boolean{
-
+        if(!isvalidate){
+            Util.showSnake(this,getWindow().getDecorView().getRootView(),R.string.a_phone_no_valid);
+            return false
+        }
         return true;
     }
+    fun hideKeyBoard() {
+        try {
+            val inputManager = getSystemService(
+                    Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS)
+        } catch (e: Exception) {
+        }
+    }
+
+
+
+
     private fun checkPhoneNumber( countryCode : String) {
         val contactNo = phone_no.getText().toString()
         try {
@@ -124,10 +154,10 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
                         var intent = Intent (this@Sign_In_Activity,Otp_activity::class.java)
-                        intent.putExtra(Constants.DATA ,arrayOf(obj.getString("otp") ,phone_no.text.toString() , "91"))
+                        intent.putExtra(Constants.DATA ,arrayOf(obj.getString("otp") ,phone_no.text.toString() , "91" , if(obj.has("step"))obj.getString("step") else {""}))
                         startActivity(intent)
                     }else{
-
+                        Toast.makeText(this@Sign_In_Activity,obj.getString("message"),Toast.LENGTH_LONG).show()
                     }
                 }catch (ex :Exception){
 
@@ -142,11 +172,10 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
 
             override fun onNetError() {
                 dialog.dismiss()
-
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("country_code" , "91");
+                params.put("country_code" , "+"+(country_code.selectedItem as Country_Code).phone_code);
                 params.put("contact_no" , phone_no.text.toString());
                 params.put("device_token" , "1234");
                 params.put("device_type" , "1");
@@ -156,7 +185,7 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put( "language","en");
+                params.put( "language",SessionManager.obj.getLanguage());
                 Util.e("headers" , params.toString())
                 return params
 
@@ -167,12 +196,15 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        //Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
+        }
+        else{
+            callbackManager.onActivityResult(requestCode, resultCode, data)
         }
     }
 
@@ -206,7 +238,7 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
 
     }
 
-    fun registrion(account: GoogleSignInAccount) {
+    fun registrion(account: GoogleSignInAccount?, arrayOf: Array<String> = arrayOf("")) {
         val dialog = CusDialogProg(this);
         dialog.show();
         object : VolleyGetPost(this,this,WebService.Registraion, false){
@@ -216,11 +248,12 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
                 val obj = JSONObject(response)
                 if (obj.getString("status").equals("success")) {
                     val auth_token = obj.getJSONObject("userDetail").getString("auth_token");
+                    SessionManager.obj.createSession(Gson().fromJson<User>(obj.getString("userDetail"),User::class.java))
                     var intent = Intent(this@Sign_In_Activity, Sign_up_Activity::class.java)
-                    intent.putExtra(Constants.DATA, arrayOf(obj.getString("step"), auth_token))
+                    if(obj.has("step"))intent.putExtra(Constants.DATA, arrayOf(obj.getString("step"), auth_token))
                     startActivity(intent)
                 } else {
-
+                    Toast.makeText(this@Sign_In_Activity,obj.getString("message"),Toast.LENGTH_LONG).show()
                 }
             }catch (ex : Exception){
 
@@ -238,17 +271,31 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                val s = account.displayName.toString().split(" ")
-                params.put("first_name",s[0])
-                params.put("last_name",if(s.size>=2)s[1] else "")
-                params.put("email",account.email.toString())
+               if(account!=null){
+                   val s = account.displayName.toString().split(" ")
+                   params.put("first_name",s[0])
+                   params.put("last_name",if(s.size>=2)s[1] else "")
+                   params.put("email",account.email.toString())
+                   params.put("social_id",account.id+"")
+                   params.put("social_type","google")
+                   params.put("profile_image",account.photoUrl.toString())
+               }
+                else{
+                   val s = arrayOf.get(1).toString().split(" ")
+                   params.put("first_name",s[0])
+                   params.put("last_name",if(s.size>=2)s[1] else "")
+                   params.put("email",arrayOf.get(3))
+                   params.put("social_id",arrayOf.get(0)+"")
+                   params.put("social_type","facebook")
+                   params.put("profile_image",arrayOf.get(2))
+               }
+
+                params.put("device_type",Constants.DEVICE_TYPE)
                 params.put("contact_no","")
                 params.put("device_token","1234")
-                params.put("device_type","1")
                 params.put("country_code","")
-                params.put("social_id",account.id+"")
-                params.put("social_type","google")
-                params.put("profile_image",account.photoUrl.toString())
+
+                Util.e("Param" ,params.toString());
                 return params
 
             }
@@ -261,4 +308,85 @@ class Sign_In_Activity : AppCompatActivity(), ViewPager.OnPageChangeListener, Vi
 
     }
 
+    fun facebooklogin() {
+
+        if (Util.isConnectingToInternet(applicationContext)) {
+            LoginManager.getInstance().logOut()
+            LoginManager.getInstance().logInWithReadPermissions(this@Sign_In_Activity, Arrays.asList("public_profile", "email", "user_birthday", "user_friends"))
+            callbackManager = CallbackManager.Factory.create()
+//            CALLBACK = Constants.CALL_BACK_FB
+            LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+                override fun onSuccess(loginResult: LoginResult) {
+                    var progressDialog  = CusDialogProg(this@Sign_In_Activity, R.layout.custom_progress_dialog_layout)
+                    progressDialog.setCancelable(false)
+                    progressDialog.setCanceledOnTouchOutside(false)
+                    progressDialog.show()
+                    Util.e(this.javaClass.name, "FACEBOOK" + loginResult.toString())
+                    val request = GraphRequest.newMeRequest(
+                            loginResult.accessToken
+                    ) { `object`, response ->
+                        Util.e(this.javaClass.name, "login result" + `object`.toString() + response.toString())
+                        //login result{"id":"302008740295822","name":"Thomas Lewis","email":"ratnesh.mindiii@gmail.com","gender":"male","age_range":{"min":21}}{Response:  responseCode: 200, graphObject: {"id":"302008740295822","name":"Thomas Lewis","email":"ratnesh.mindiii@gmail.com","gender":"male","age_range":{"min":21}}, error: null}
+                        //{"status":"success","message":"User registration successfully done","userDetail":{"userId":"5","first_name":"Donie","last_name":"Darko","social_id":"345224962638213","social_type":"faceboook","email":"ctom1206@gmail.com","country_code":"+","contact_no":"","profile_image":"","is_verified":"","auth_token":"cf68674b96fcb0bbb722e97514b23941c8b2bd85","device_type":"1","device_token":"1234"},"step":1}
+                        var FBemail: String =""
+                        try {
+
+                            try {
+                                FBemail = `object`.getString("email")
+                            } catch (e: java.lang.Exception) {
+                               // FBemail = `object`.getString("id") + ".scenekey" + "@fb.com"
+                            }
+
+                            val FBid = `object`.getString("id")
+                            val FBname = `object`.getString("name")
+                            val FBgender = `object`.getString("gender")
+                            val age = `object`.getJSONObject("age_range")
+                            val FBimageurl = "https://graph.facebook.com/$FBid/picture?type=large"
+
+                            val token = AccessToken.getCurrentAccessToken()
+                            Util.e("access only Token is", (token.token).toString())
+                            Util.e("image", FBimageurl)
+                            Util.e("response", response.toString())
+                            Util.e("Email", FBemail)
+                            Util.e("ID", FBid)
+                            Util.e("Name", FBname)
+                            Util.e("Fb Image", FBimageurl)
+                            try {
+                                Util.e("Fb BirthDay", `object`.getString("birthday"))
+                            } catch (e: java.lang.Exception) {
+
+                            }
+                            progressDialog.dismiss();
+                            registrion(null, arrayOf(FBid, FBname , FBimageurl , FBemail))
+
+                        } catch (e: JSONException) {
+                            Toast.makeText(this@Sign_In_Activity, "Facebooklogin :something went wrong", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    val parameters = Bundle()
+                    //parameters.putString("fields", "id,name,email,gender,user_birthday,age_range,location");
+                    parameters.putString("fields", "id,name,email,gender,age_range,location")
+                    request.parameters = parameters
+                    request.executeAsync()
+                }
+
+                override fun onCancel() {
+                    //if (dialogProg != null) dialogProg.dismiss()
+                    Toast.makeText(this@Sign_In_Activity, "Cancelled by User", Toast.LENGTH_LONG).show()
+
+                }
+
+                override fun onError(error: FacebookException) {
+                    //if (dialogProg != null) dialogProg.dismiss()
+                    Log.e("Facebook", "Error" + error)
+                    Toast.makeText(this@Sign_In_Activity, "Facebooklogin :something went wrong", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else {
+            Toast.makeText(this, "Plese connect to inernet", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    /*{contact_no=9752287913, auth_token=, country_code=91} : http://clubz.co/dev/service/generateOtp{"status":"fail","message":"Contact number already exist"}*/
 }

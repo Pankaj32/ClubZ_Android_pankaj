@@ -25,24 +25,31 @@ public class Constants {
     public static final int INTENTREQUESTWRITE  = 1400;
     public static final int MEETING             = 1500;
     public static final int INTENTREQUESTNET    = 1600;
-    public static final String DATA    = "_data";
+    public static final String DATA             = "_data";
+    public static final String DEVICE_TYPE      = "2";
 
 
     /***Session ***/
-    public static final String id              = "id           " ;
-    public static final String first_name      = "first_name   " ;
-    public static final String last_name       = "last_name    " ;
-    public static final String social_id       = "social_id    " ;
-    public static final String social_type     = "social_type  " ;
-    public static final String email           = "email        " ;
-    public static final String country_code    = "country_code " ;
-    public static final String contact_no      = "contact_no   " ;
-    public static final String profile_image   = "profile_image" ;
-    public static final String is_verified     = "is_verified  " ;
-    public static final String auth_token      = "auth_token   " ;
-    public static final String device_type     = "device_type  " ;
-    public static final String device_token    = "device_token " ;
+    public static final String _id              = "id           " ;
+    public static final String _first_name      = "first_name   " ;
+    public static final String _last_name       = "last_name    " ;
+    public static final String _social_id       = "social_id    " ;
+    public static final String _social_type     = "social_type  " ;
+    public static final String _email           = "email        " ;
+    public static final String _country_code    = "country_code " ;
+    public static final String _contact_no      = "contact_no   " ;
+    public static final String _profile_image   = "profile_image" ;
+    public static final String _is_verified     = "is_verified  " ;
+    public static final String _auth_token      = "auth_token   " ;
+    public static final String _device_type     = "device_type  " ;
+    public static final String _device_token    = "device_token " ;
+    public static final String _userLanguage    = "device_token " ;
+
+    public static final String _stage           = "last_stage" ;
+    public static final String _data            = "last_stage_data" ;
 
 
     public static final String Language ="LANGUAGE";
+    public static  int NETWORK_CHECK =0;
+    public static final String NETWORK_SWITCH_FILTER = "com.devglan.broadcastreceiver.NETWORK_SWITCH_FILTER";;
 }

@@ -26,7 +26,7 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for(view in arrayOf(plus ,next ,skip))view.setOnClickListener(this)
+        for(view in arrayOf(plus ,next ))view.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {

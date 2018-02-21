@@ -7,189 +7,250 @@
     android:focusableInTouchMode="true"
     android:descendantFocusability="beforeDescendants">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+
+    <android.support.v7.widget.AppCompatImageView
         android:layout_width="match_parent"
+        android:layout_height="@dimen/_120sdp"
+        android:src="@drawable/circle_logo"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/step_r1"
+        style="@style/step_title"/>
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:overScrollMode="never"
-        android:layout_height="@dimen/_180sdp">
-
-    </android.support.v4.view.ViewPager>
-
-    <LinearLayout
-        android:id="@+id/lnr_indicator"
-        android:layout_width="@dimen/_280sdp"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="@dimen/_20sdp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:divider="@drawable/divider"
-        android:showDividers="middle"
-        android:layout_margin="@dimen/_10sdp">
-        <View
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:background="@drawable/indicator_inactive"/>
-        <View
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:background="@drawable/indicator_inactive"/>
-        <View
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:background="@drawable/indicator_inactive"/>
-        <View
-            android:layout_width="@dimen/indicator_size"
-            android:layout_height="@dimen/indicator_size"
-            android:background="@drawable/indicator_inactive"/>
-
-    </LinearLayout>
+        android:layout_gravity="center">
 
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_white"
+            android:orientation="vertical"
+            android:minWidth="@dimen/_280sdp"
             android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:orientation="vertical">
-
-            <RelativeLayout
+            android:gravity="center">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white"
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    app:srcCompat="@drawable/ic_call_answer"
-                    android:tint="@color/text_gray"
-                    android:padding="@dimen/_7sdp"
-                    android:layout_marginLeft="@dimen/_12sdp"
-                    android:layout_marginTop="@dimen/_10sdp"/>
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/country_code"
-                    android:layout_width="wrap_content"
-                    android:minWidth="@dimen/_20sdp"
-                    android:dropDownWidth="@dimen/_280sdp"
-                    android:dropDownSelector="@color/text_gray"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_marginLeft="@dimen/_40sdp"
-                    android:overlapAnchor="false"
-                    android:background="@null"
-                    android:layout_marginTop="@dimen/_10sdp"/>
 
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:background="@color/pager_line"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_alignRight="@+id/country_code"
-                    android:layout_below="@+id/country_code"
-                    />
 
-                <EditText
-                    android:id="@+id/phone_no"
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:background="@null"
-                    android:hint="@string/phone_no"
-                    android:inputType="phone"
-                    android:gravity="center_vertical"
-                    android:textSize="@dimen/_12sdp"
-                    android:textColor="@color/text_gray"
-                    android:textColorHint="@color/pager_line"
-                    android:fontFamily="@font/poppins_light"
-                    style="@style/lighttheme"
-                    android:singleLine="true"
-                    android:layout_toRightOf="@id/country_code"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_marginEnd="@dimen/_25sdp"
-                    android:layout_marginRight="@dimen/_25sdp"/>
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_15sdp">
 
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:background="@color/pager_line"
-                    android:layout_alignLeft="@+id/phone_no"
-                    android:layout_alignRight="@+id/phone_no"
-                    android:layout_below="@+id/phone_no"
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        app:srcCompat="@drawable/phone_ico"
+                        android:tint="@color/text_gray"
+                        android:scaleType="fitCenter"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_10sdp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_gray"
+                        android:textSize="@dimen/_8sdp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_alignLeft="@+id/country_code"
+                        android:layout_alignStart="@+id/country_code"
+                        android:text="@string/country"
+                        />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/country_code"
+                        android:layout_width="wrap_content"
+                        android:minWidth="@dimen/_40sdp"
+                        android:dropDownWidth="@dimen/_280sdp"
+                        android:dropDownSelector="@color/text_gray"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:overlapAnchor="false"
+                        android:background="@null"
+                        android:layout_marginTop="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="@color/pager_line"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_alignRight="@+id/country_code"
+                        android:layout_below="@+id/country_code"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_gray"
+                        android:textSize="@dimen/_8sdp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_alignStart="@+id/phone_no"
+                        android:layout_alignLeft="@+id/phone_no"
+                        android:text="@string/phone_no"/>
+
+                    <EditText
+                        android:id="@+id/phone_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@null"
+                        android:hint="@string/hint_step1_1"
+                        android:inputType="phone"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/text_gray"
+                        android:textColorHint="@color/pager_line"
+                        android:fontFamily="@font/poppins_light"
+                        style="@style/lighttheme"
+                        android:singleLine="true"
+                        android:layout_toRightOf="@id/country_code"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_25sdp"
+                        android:layout_marginRight="@dimen/_25sdp"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="@color/pager_line"
+                        android:layout_alignLeft="@+id/phone_no"
+                        android:layout_alignRight="@+id/phone_no"
+                        android:layout_below="@+id/phone_no"
+                        />
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/next"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:text="@string/next"
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@drawable/bg_btn_green"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:layout_gravity="end"
                     />
 
-            </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/sign_up"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center_horizontal"
+                        android:text="@string/by_taping1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10sdp"
+                        android:text="@string/sign_in"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/black"
+                        android:gravity="center_horizontal"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10sdp"
+                        android:text="@string/by_taping1_2"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center_horizontal"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/sign_up"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center_horizontal"
+                        android:text="@string/termsandcon"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10sdp"
+                        android:text="@string/and"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/text_gray"
+                        android:gravity="center_horizontal"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10sdp"
+                        android:text="@string/privacypolic"
+                        android:textColor="@color/primaryColor"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center_horizontal"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
 
 
 
-
-
-
-
-            <Button
-                android:id="@+id/sign_up"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:text="@string/signup"
-                android:textAllCaps="false"
-                android:textSize="@dimen/_14sdp"
-                android:textColor="@color/text_btn"
-                android:fontFamily="@font/poppins_regular"
-                android:background="@drawable/bg_btn_green"
-                android:layout_marginTop="@dimen/_40sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:layout_gravity="center_horizontal"
-                />
-
-            <TextView
+            <!--<TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_10sdp"
                 android:fontFamily="@font/poppins_light"
                 android:text="@string/by_taping"
-                android:textColor="@color/text_gray"
-                android:gravity="center_horizontal"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_20sdp"
-                android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:gravity="center">
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"/>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/poppins_regular"
-                    android:gravity="center_horizontal"
-                    android:text="@string/termsandcon"
-                    android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/_10sdp" />
+        </LinearLayout>
+    </ScrollView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="@dimen/_10sdp"
-                    android:text="@string/and_only"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:fontFamily="@font/poppins_light"
-                    android:textColor="@color/text_gray"
-                    android:gravity="center_horizontal"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="@dimen/_10sdp"
-                    android:text="@string/privacypolic"
-                    android:textColor="@color/primaryColor"
-                    android:fontFamily="@font/poppins_regular"
-                    android:gravity="center_horizontal"/>
-            </LinearLayout>
+    <!--<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/step_r1"
+        style="@style/step_title"/>-->
 
 
-
-
-    </LinearLayout>
 
 </LinearLayout>

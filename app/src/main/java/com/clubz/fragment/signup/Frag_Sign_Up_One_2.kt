@@ -8,19 +8,18 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.Cus_Views.CusDialogProg
 import com.clubz.R
 import com.clubz.Sign_up_Activity
 import com.clubz.helper.WebService
-import com.clubz.model.Country_Code
 import com.clubz.util.Util
 import com.clubz.util.VolleyGetPost
 import kotlinx.android.synthetic.main.frag_sign_up_one_2.*
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import com.clubz.helper.SessionManager
 import org.json.JSONObject
 
 
@@ -41,6 +40,7 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         for( view in arrayOf(confirm)) view.setOnClickListener(this)
+        confirmation_code.setText(_otp)
         confirmation_code.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
 
@@ -57,23 +57,24 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
                 }
             }
         })
+
         confirmation_code.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
                 return if (p1 == EditorInfo.IME_ACTION_DONE) {
                     confirm.callOnClick();
                     true
-                } else false
+                } else true
             }
-
         })
     }
 
 
     override fun onClick(p0: View?) {
      when(p0!!.id){
-         R.id.confirm -> { (activity as Sign_up_Activity).hideKeyBoard(); if(verfiy())
-             //(activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two())
-             verify_otp()
+         R.id.confirm -> {
+             (activity as Sign_up_Activity).hideKeyBoard(); if(verfiy())
+             (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two())
+             //verify_otp()
          }
      }
     }
@@ -109,10 +110,11 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
                 try {
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
-                        (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two().setData(_contact,_code))
+                       if((activity as Sign_up_Activity)._authToken.isBlank()) (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two().setData(_contact,_code))
+                        else (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three())
                     }
                     else{
-
+                        Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
                 }catch (ex: Exception){
 
@@ -137,7 +139,7 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put( "language","en");
+                params.put( "language", SessionManager.obj.getLanguage());
                 Util.e("headers" , params.toString())
                 return params
 

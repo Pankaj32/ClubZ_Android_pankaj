@@ -1,4 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View
+        android:layout_width="@dimen/_140sdp"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@color/black65"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+        <FrameLayout
+            android:layout_width="@dimen/_190sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:scaleY="0.7"
+            android:scaleX="0.7"
+            android:padding="@dimen/_10sdp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_icon_7"
+                />
+
+
+
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/slider_t3"
+            style="@style/pager_title"
+           />
+        <View
+            android:layout_width="@dimen/filed_linewidth"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:background="@color/pager_line"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/slider_b3"
+            style="@style/pager_body"
+            />
+
+        <View
+            android:layout_width="@dimen/filed_linewidth"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:background="@color/pager_line"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</RelativeLayout>
+<!--
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,4 +118,4 @@
 
 
 
-</LinearLayout>
+</LinearLayout>-->

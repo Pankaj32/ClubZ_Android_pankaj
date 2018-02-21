@@ -22,11 +22,13 @@ import com.clubz.Cropper.CropImageView
 import com.clubz.Cus_Views.CusDialogProg
 import com.clubz.R
 import com.clubz.Sign_up_Activity
+import com.clubz.helper.SessionManager
 import com.clubz.helper.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.helper.vollyemultipart.VolleySingleton
 import com.clubz.model.Country_Code
+import com.clubz.model.User
 import com.clubz.util.Constants
 import com.clubz.util.PatternCheck
 import com.clubz.util.Util
@@ -57,16 +59,21 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         for(view in arrayOf(iv_capture ,next ))view.setOnClickListener(this)
+        try {
+            val user : User = SessionManager.obj.getUser()
+            username.setText(user.first_name)
+            email.setText(user.email)
+        }catch (ex :Exception){
 
-
+        }
     }
 
 
     override fun onClick(p0: View?) {
      when(p0!!.id){
          R.id.iv_capture-> permissionPopUp();
-         R.id.next -> if(verify())signup()//(activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three());
-
+         R.id.next -> if(verify())(activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three());
+             //signup()
      }
     }
 
@@ -83,10 +90,10 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
             Util.showSnake(context, view!! ,R.string.a_firstname)
             return false
         }
-        if(lastname.text.toString().isBlank()){
+        /*if(lastname.text.toString().isBlank()){
             Util.showSnake(context, view!! ,R.string.a_last_name)
             return false
-        }
+        }*/
         if(!email.text.toString().isBlank() && !PatternCheck.instance.check(PatternCheck._email, email.text.toString())){
             Util.showSnake(context, view!! ,R.string.a_email_valid)
             return false
@@ -244,7 +251,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
             val multipartRequest = object : VolleyMultipartRequest(Request.Method.POST, WebService.Registraion, object : Response.Listener<NetworkResponse> {
                 override fun onResponse(response: NetworkResponse) {
                     val data = String(response.data)
-
+                    Util.e("data",data);
                     dialog.dismiss()
                     //{"status":"success","message":"User registration successfully done","userDetail":{"id":"2","first_name":"vinod","last_name":"bhai","email":"vinod.mindiii@gmail.com","social_id":"","social_type":"","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/","address":"","latitude":"","longitude":"","notification_status":"1","device_type":"1","auth_token":"76d7c336ffe6a20f00d2656f6be13be1b3c961a7","device_token":"1234","contact_no":"9770495603","country_code":"+91","OTP":"5811","is_verified":"0","status":"1","crd":"2018-02-13 06:03:45","upd":"2018-02-11 23:58:31"}}
                     //{"status":"success","message":"User registration successfully done","userDetail":{"id":"26","userName":"","fullName":"Ratnesh","email":"ratnesh.mindiii@gmail.com","userType":"user","countryCode":"","contactNumber":"1234567890","authToken":"a56f75eef07d22577eada7b75ef4d7c139bc5f10","status":"1","createdOn":"2017-11-14 05:53:22","image":""}}
@@ -253,9 +260,10 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
                     try {
                         val obj = JSONObject(data)
                         if(obj.getString("status").equals("success")){
+                            SessionManager.obj.createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
                             (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three())
                         }else{
-
+                            Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                         }
                     }catch ( e : Exception){
                         e.printStackTrace()
@@ -272,7 +280,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
                 override fun getParams(): MutableMap<String, String> {
                     val params = java.util.HashMap<String, String>()
                     params.put("first_name",username.text.toString())
-                    params.put("last_name",lastname.text.toString())
+                    //params.put("last_name",lastname.text.toString())
                     params.put("email",email.text.toString())
                     params.put("contact_no",_contact)
                     params.put("device_token","1234")
@@ -280,11 +288,13 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
                     params.put("country_code",_code)
                     params.put("social_id","")
                     params.put("social_type","")
+
                     return params
                 }
 
 
                 override fun getHeaders(): MutableMap<String, String> {
+                    params.put("language",SessionManager.obj.getLanguage())
                     return super.getHeaders()
                 }
 

@@ -2,13 +2,19 @@ package com.clubz.fragment.signup
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.android.volley.VolleyError
 import com.clubz.Cus_Views.ChipView
 import com.clubz.R
 import com.clubz.Sign_up_Activity
+import com.clubz.helper.SessionManager
+import com.clubz.helper.WebService
 import com.clubz.util.Util
+import com.clubz.util.VolleyGetPost
 import kotlinx.android.synthetic.main.frag_sign_up_four.*
 import java.util.ArrayList
 
@@ -21,20 +27,48 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
 
     var list1 : ArrayList<String> = ArrayList();
     var list2 : ArrayList<String> = ArrayList();
+    var canCallApi : Boolean = true;
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.frag_sign_up_four ,null);
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for(view in arrayOf(plus1   , plus2))view.setOnClickListener(this)
+        for(view in arrayOf(plus1   , plus2 ,next2 ,skip))view.setOnClickListener(this)
+        intrest.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                getSearchs("1",p0.toString())
+            }
+        })
+        skill_set.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    getSearchs("2",p0.toString())
+            }
+        })
     }
 
     override fun onClick(p0: View?) {
         when(p0!!.id){
             R.id.plus1->if(canaddIntrest())addIntrest();
             R.id.plus2->if(canaddSkill())addSkill();
-            R.id.skip->{}//
+            R.id.skip->Util.showSnake(context,view!!,R.string.temp_sucess)// TODO temp
+            R.id.next2-> Util.showSnake(context,view!!,R.string.temp_sucess)// TODO temp
         }
     }
 
@@ -89,5 +123,72 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
         list2.add(skill_set.text.toString().trim())
         chip_grid2.addView(chip);
         skill_set.setText("");
+    }
+
+    fun getSearchs(searchType :String , searchText : String){
+        if(!canCallApi) return ;
+        object : VolleyGetPost(activity,activity,WebService.auto_serch, false){
+            override fun onVolleyResponse(response: String?) {
+                Util.e("Response" , response!!);
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("searchType",searchType);
+                params.put("searchText",searchText);
+                return  params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+
+                params.put("authToken",SessionManager.obj.getUser().auth_token);
+                params.put("language",SessionManager.obj.getLanguage());
+                return params
+            }
+        }
+    }
+
+    fun submitDetails(){
+        object : VolleyGetPost(activity,activity,WebService.update_user, false){
+            override fun onVolleyResponse(response: String?) {
+
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                /*params.put("interests",);
+                params.put("skills",);
+                params.put("affiliates",);*/
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("authToken",SessionManager.obj.getUser().auth_token);
+                params.put("language",SessionManager.obj.getLanguage());
+                return params
+            }
+        }
+    }
+
+    fun getIntrests() : String{
+        return list1.toString()
+    }
+
+    fun getSkills() :  String{
+        return list1.toString()
     }
 }

@@ -1,13 +1,16 @@
 <resources>
     <string name="app_name">ClubZ</string>
-
+    <string name="facebook_app_id">1901949733451269</string>
+    <string name="fb_login_protocol_scheme">fb1901949733451269</string>
 
     <string name="explore1" >To explore the</string>
     <string name="explore2" >universe</string>
     <string name="explore3" >around you</string>
+    <string name="country" >Country</string>
 
 
-    <string name="by_taping">By tapping Sign Up you accept the </string>
+    <string name="by_taping1">By tapping </string>
+    <string name="by_taping1_2">you accept the </string>
     <string name="by_taping2">By continuing you accept our </string>
     <string name="and"> and  the </string>
     <string name="and_only"> and  </string>
@@ -31,10 +34,27 @@
     <string name="finaly_sel" > Finally select or write your interest </string>
     <string name="sel_skill" > And select or write your skill </string>
     <string name="alert"> Alert </string>
+
     <string name="no_internet"> No internet connection </string>
+    <string name="temp_sucess"> Successfully registered </string>
     <string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>
 
 
+    <!--Slider-->
+    <string name="slider_t1"> Activities </string>
+    <string name="slider_t2"> News  </string>
+    <string name="slider_t3"> Chat  </string>
+    <string name="slider_t4"> Ads   </string>
+    <string name="slider_b1"> Find matches, \n events, classes,\n interesting groups\n and many other \n great things \n closer to you   </string>
+    <string name="slider_b2"> Stay updated\n about your\n community by \n reading the latest \n news and \n releases </string>
+    <string name="slider_b3"> Get in touch with \n your neighbors\n and talk about\n black holes or\n wormholes if you\n rather  </string>
+    <string name="slider_b4"> Promote your\n products or\n services while\n giving to your\n customers a way\n to reach you </string>
+
+    <!--Register Step-->
+    <string name="step_r1"> Login and look what is happening </string>
+    <string name="step_r2"> Help us to validate your phone number </string>
+    <string name="step_r3"> This is just to break the ice </string>
+    <string name="step_r4"> Almost done add your affiliates </string>
     <!--hints-->
     <string name="phone_no" > Phone number </string>
     <string name="confirm_code" > Confirmation code </string>
@@ -42,8 +62,15 @@
     <string name="first_name" > First Name </string>
     <string name="last_name" > Last Name </string>
     <string name="email" > Email address </string>
+    <string name="fullname"> Full Name </string>
+    <string name="affilites_name"> Affiliates Name </string>
 
     <string name="type_here" > Type here </string>
+    <string name="hint_step1_1" > This one you are using</string>
+    <string name="hint_step2_1" > 4-digit code sent by SMS </string>
+    <string name="hint_step3_1" > To know who are you</string>
+    <string name="hint_step3_2" > To recover your account </string>
+    <string name="hint_step4_1" > Family members or friends </string>
 
 
 
@@ -51,12 +78,17 @@
     <string name="sign_in" > Sign In </string>
     <string name="confirm" > Confirm </string>
     <string name="next" > Next </string>
+    <string name="done" > Done </string>
+    <string name="connect" > Connect </string>
     <string name="signup" > Sign Up </string>
     <string name="create_one" > Create One </string>
     <string name="try_again" > Try again </string>
 
     <string name="resend" > Resend code </string>
-    <string name="skip" > <u>Skip</u></string>
+ <!--   <string name="skip" > <u>Skip</u></string>-->
+    <string name="skip" >Skip</string>
+    <string name="got" >Got it</string>
+
 
     <!--alerts-->
     <string name="a_username" > Please enter username. </string>

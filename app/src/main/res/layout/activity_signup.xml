@@ -36,6 +36,16 @@
                 style="@style/text_indicator"
                 />
 
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:text="1"
+                android:background="@drawable/bg_checked"
+                app:srcCompat="@drawable/checked_ico"
+                android:padding="@dimen/_1sdp"
+                android:tint="@color/white"
+                style="@style/text_indicator" />
+
 
             <TextView
                 android:id="@+id/two"
@@ -63,10 +73,18 @@
     </FrameLayout>
 
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/_20sdp"/>
+
+
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_20sdp"
         android:layout_height="match_parent"/>
 
    <!-- <include
