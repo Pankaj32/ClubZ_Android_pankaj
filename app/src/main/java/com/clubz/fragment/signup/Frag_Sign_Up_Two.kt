@@ -151,7 +151,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
                             FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file)
                         }else {
                             Uri.fromFile(file)}
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);//USE file code in this case
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);//USE file code in_ this case
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
@@ -218,7 +218,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
 
         when (requestCode) {
-//TODO in string resources
+//TODO in_ string resources
             Constants.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE -> {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (!isCameraSelected) callIntent(Constants.INTENTGALLERY)

@@ -61,9 +61,9 @@ class MyViewPagerAdapter(val  activity :Activity , val layouts : IntArray , val 
             }
 
         },
-                //Set how long before to start calling the TimerTask (in milliseconds)
+                //Set how long before to start calling the TimerTask (in_ milliseconds)
                 3000,
-                //Set the amount of time between each execution (in milliseconds)
+                //Set the amount of time between each execution (in_ milliseconds)
                 4000)
 
 

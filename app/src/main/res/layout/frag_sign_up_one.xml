@@ -115,7 +115,7 @@
                         android:textSize="@dimen/_12sdp"
                         android:textColor="@color/text_gray"
                         android:textColorHint="@color/pager_line"
-                        android:fontFamily="@font/poppins_light"
+                        android:fontFamily="@font/roboto_italic"
                         style="@style/lighttheme"
                         android:singleLine="true"
                         android:layout_toRightOf="@id/country_code"
@@ -140,7 +140,7 @@
                     android:id="@+id/next"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_35sdp"
-                    android:text="@string/next"
+                    android:text="@string/signup"
                     android:textAllCaps="true"
                     android:textSize="@dimen/_14sdp"
                     android:fontFamily="@font/roboto_regular"
@@ -173,9 +173,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_10sdp"
-                        android:text="@string/sign_in"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_marginRight="@dimen/_5sdp"
+                        android:text="@string/signup"
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:layout_marginRight="@dimen/_2sdp"
                         android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/black"
                         android:gravity="center_horizontal"/>
@@ -201,10 +201,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="center_horizontal"
                         android:text="@string/termsandcon"
-                        android:textColor="@color/primaryColor"
+                        android:textColor="@color/blue"
                         android:textSize="@dimen/_10sdp" />
 
                     <TextView
@@ -223,33 +223,16 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_10sdp"
                         android:text="@string/privacypolic"
-                        android:textColor="@color/primaryColor"
-                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="center_horizontal"/>
                 </LinearLayout>
 
 
             </LinearLayout>
 
-
-
-            <!--<TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_10sdp"
-                android:fontFamily="@font/poppins_light"
-                android:text="@string/by_taping"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal"/>-->
-
         </LinearLayout>
     </ScrollView>
-
-    <!--<TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/step_r1"
-        style="@style/step_title"/>-->
 
 
 

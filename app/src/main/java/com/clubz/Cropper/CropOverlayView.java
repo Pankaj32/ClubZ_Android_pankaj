@@ -109,12 +109,12 @@ public class CropOverlayView extends View {
      */
     private float mInitialCropWindowPaddingRatio;
     /**
-     * The radius of the touch zone (in pixels) around a given Handle.
+     * The radius of the touch zone (in_ pixels) around a given Handle.
      */
     private float mTouchRadius;
     /**
      * An edge of the crop window will snap to the corresponding edge of a specified bounding box
-     * when the crop window edge is less than or equal to this distance (in pixels) away from the bounding box edge.
+     * when the crop window edge is less than or equal to this distance (in_ pixels) away from the bounding box edge.
      */
     private float mSnapRadius;
     /**
@@ -222,7 +222,7 @@ public class CropOverlayView extends View {
 
     /**
      * Informs the CropOverlayView of the image's position relative to the
-     * ImageView. This is necessary to call in order to draw the crop window.
+     * ImageView. This is necessary to call in_ order to draw the crop window.
      *
      * @param boundsPoints the image's bounding points
      * @param viewWidth    The bounding image view width.
@@ -380,7 +380,7 @@ public class CropOverlayView extends View {
     /**
      * An edge of the crop window will snap to the corresponding edge of a
      * specified bounding box when the crop window edge is less than or equal to
-     * this distance (in pixels) away from the bounding box edge. (default: 3)
+     * this distance (in_ pixels) away from the bounding box edge. (default: 3)
      */
     public void setSnapRadius(float snapRadius) {
         mSnapRadius = snapRadius;
@@ -402,7 +402,7 @@ public class CropOverlayView extends View {
 
     /**
      * the min size the resulting cropping image is allowed to be, affects the cropping window limits
-     * (in pixels).<br>
+     * (in_ pixels).<br>
      */
     public void setMinCropResultSize(int minCropResultWidth, int minCropResultHeight) {
         mCropWindowHandler.setMinCropResultSize(minCropResultWidth, minCropResultHeight);
@@ -410,7 +410,7 @@ public class CropOverlayView extends View {
 
     /**
      * the max size the resulting cropping image is allowed to be, affects the cropping window limits
-     * (in pixels).<br>
+     * (in_ pixels).<br>
      */
     public void setMaxCropResultSize(int maxCropResultWidth, int maxCropResultHeight) {
         mCropWindowHandler.setMaxCropResultSize(maxCropResultWidth, maxCropResultHeight);
@@ -636,7 +636,7 @@ public class CropOverlayView extends View {
     }
 
     /**
-     * Draw crop overview by drawing background over image not in the cripping area, then borders and guidelines.
+     * Draw crop overview by drawing background over image not in_ the cripping area, then borders and guidelines.
      */
     @Override
     protected void onDraw(Canvas canvas) {
@@ -848,7 +848,7 @@ public class CropOverlayView extends View {
     }
 
     /**
-     * Clear move handler starting in {@link #onActionDown(float, float)} if exists.
+     * Clear move handler starting in_ {@link #onActionDown(float, float)} if exists.
      */
     private void onActionUp() {
         if (mMoveHandler != null) {
@@ -859,7 +859,7 @@ public class CropOverlayView extends View {
     }
 
     /**
-     * Handle move of crop window using the move handler created in {@link #onActionDown(float, float)}.<br>
+     * Handle move of crop window using the move handler created in_ {@link #onActionDown(float, float)}.<br>
      * The move handler will do the proper move/resize of the crop window.
      */
     private void onActionMove(float x, float y) {
@@ -884,7 +884,7 @@ public class CropOverlayView extends View {
      * otherwsie we find the max rectangle that is within the image bounds starting from the crop window rectangle.
      *
      * @param rect the crop window rectangle to start finsing bounded rectangle from
-     * @return true - non straight rotation in place, false - otherwise.
+     * @return true - non straight rotation in_ place, false - otherwise.
      */
     private boolean calculateBounds(RectF rect) {
 
@@ -975,7 +975,7 @@ public class CropOverlayView extends View {
                 mCropWindowChangeListener.onCropWindowChanged(inProgress);
             }
         } catch (Exception e) {
-            //Log.e("AIC", "Exception in crop window changed", e);
+            //Log.e("AIC", "Exception in_ crop window changed", e);
         }
     }
     //endregion
@@ -988,9 +988,9 @@ public class CropOverlayView extends View {
     public interface CropWindowChangeListener {
 
         /**
-         * Called after a change in crop window rectangle.
+         * Called after a change in_ crop window rectangle.
          *
-         * @param inProgress is the crop window change operation is still in progress by user touch
+         * @param inProgress is the crop window change operation is still in_ progress by user touch
          */
         void onCropWindowChanged(boolean inProgress);
     }

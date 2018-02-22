@@ -169,7 +169,7 @@ final class BitmapCroppingWorkerTask extends AsyncTask<Void, Void, BitmapCroppin
     }
 
     /**
-     * Crop image in background.
+     * Crop image in_ background.
      *
      * @param params ignored
      * @return the decoded bitmap data

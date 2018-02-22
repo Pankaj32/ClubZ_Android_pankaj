@@ -141,7 +141,7 @@ final class BitmapUtils {
     }
 
     /**
-     * Crop image bitmap from given bitmap using the given points in the original bitmap and the given rotation.<br>
+     * Crop image bitmap from given bitmap using the given points in_ the original bitmap and the given rotation.<br>
      * if the rotation is not 0,90,180 or 270 degrees then we must first crop a larger area of the image that
      * contains the requires rectangle, rotate and then crop again a sub rectangle.<br>
      * If crop fails due to OOM we scale the cropping image by 0.5 every time it fails until it is small enough.
@@ -163,7 +163,7 @@ final class BitmapUtils {
     }
 
     /**
-     * Crop image bitmap from given bitmap using the given points in the original bitmap and the given rotation.<br>
+     * Crop image bitmap from given bitmap using the given points in_ the original bitmap and the given rotation.<br>
      * if the rotation is not 0,90,180 or 270 degrees then we must first crop a larger area of the image that
      * contains the requires rectangle, rotate and then crop again a sub rectangle.
      *
@@ -172,10 +172,10 @@ final class BitmapUtils {
     private static Bitmap cropBitmapObjectWithScale(Bitmap bitmap, float[] points, int degreesRotated,
                                                     boolean fixAspectRatio, int aspectRatioX, int aspectRatioY, float scale) {
 
-        // get the rectangle in original image that contains the required cropped area (larger for non rectangular crop)
+        // get the rectangle in_ original image that contains the required cropped area (larger for non rectangular crop)
         Rect rect = getRectFromPoints(points, bitmap.getWidth(), bitmap.getHeight(), fixAspectRatio, aspectRatioX, aspectRatioY);
 
-        // crop and rotate the cropped image in one operation
+        // crop and rotate the cropped image in_ one operation
         Matrix matrix = new Matrix();
         matrix.setScale(scale, scale);
         matrix.postRotate(degreesRotated, bitmap.getWidth() / 2, bitmap.getHeight() / 2);
@@ -368,7 +368,7 @@ final class BitmapUtils {
                                             int degreesRotated, int orgWidth, int orgHeight, boolean fixAspectRatio,
                                             int aspectRatioX, int aspectRatioY, int reqWidth, int reqHeight, int sampleMulti) {
 
-        // get the rectangle in original image that contains the required cropped area (larger for non rectangular crop)
+        // get the rectangle in_ original image that contains the required cropped area (larger for non rectangular crop)
         Rect rect = getRectFromPoints(points, orgWidth, orgHeight, fixAspectRatio, aspectRatioX, aspectRatioY);
 
         int width = reqWidth > 0 ? reqWidth : rect.width();
@@ -409,7 +409,7 @@ final class BitmapUtils {
     }
 
     /**
-     * Crop bitmap by fully loading the original and then cropping it, fallback in case cropping region failed.
+     * Crop bitmap by fully loading the original and then cropping it, fallback in_ case cropping region failed.
      */
     private static BitmapSampled cropBitmap(Context context, Uri loadedImageUri, float[] points,
                                             int degreesRotated, boolean fixAspectRatio, int aspectRatioX, int aspectRatioY,
@@ -517,7 +517,7 @@ final class BitmapUtils {
     }
 
     /**
-     * Special crop of bitmap rotated by not stright angle, in this case the original crop bitmap contains parts
+     * Special crop of bitmap rotated by not stright angle, in_ this case the original crop bitmap contains parts
      * beyond the required crop area, this method crops the already cropped and rotated bitmap to the final
      * rectangle.<br>
      * Note: rotating by 0, 90, 180 or 270 degrees doesn't require extra cropping.
@@ -685,7 +685,7 @@ final class BitmapUtils {
     }
 
     /**
-     * Close the given closeable object (Stream) in a safe way: check if it is null and catch-log
+     * Close the given closeable object (Stream) in_ a safe way: check if it is null and catch-log
      * exception thrown.
      *
      * @param closeable the closable object to close

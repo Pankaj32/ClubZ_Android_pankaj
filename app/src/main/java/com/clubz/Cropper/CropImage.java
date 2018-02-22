@@ -270,7 +270,7 @@ public final class CropImage {
 
     /**
      * Check if explicetly requesting camera permission is required.<br>
-     * It is required in Android Marshmellow and above if "CAMERA" permission is requested in the manifest.<br>
+     * It is required in_ Android Marshmellow and above if "CAMERA" permission is requested in_ the manifest.<br>
      * See <a href="http://stackoverflow.com/questions/32789027/android-m-camera-intent-permission-bug">StackOverflow
      * question</a>.
      */
@@ -283,10 +283,10 @@ public final class CropImage {
     }
 
     /**
-     * Check if the app requests a specific permission in the manifest.
+     * Check if the app requests a specific permission in_ the manifest.
      *
      * @param permissionName the permission to check
-     * @return true - the permission in requested in manifest, false - not.
+     * @return true - the permission in_ requested in_ manifest, false - not.
      */
     public static boolean hasPermissionInManifest(@NonNull Context context, @NonNull String permissionName) {
         String packageName = context.getPackageName();
@@ -371,7 +371,7 @@ public final class CropImage {
 
     /**
      * Create {@link ActivityBuilder} instance to start {@link CropImageActivity} to crop the given image.<br>
-     * Result will be recieved in {@link Activity#onActivityResult(int, int, Intent)} and can be retrieved
+     * Result will be recieved in_ {@link Activity#onActivityResult(int, int, Intent)} and can be retrieved
      * using {@link #getActivityResult(Intent)}.
      *
      * @param uri the image Android uri source to crop or null to start a picker
@@ -384,7 +384,7 @@ public final class CropImage {
     /**
      * Get {@link CropImageActivity} result data object for crop image activity started using {@link #activity(Uri)}.
      *
-     * @param data result data intent as received in {@link Activity#onActivityResult(int, int, Intent)}.
+     * @param data result data intent as received in_ {@link Activity#onActivityResult(int, int, Intent)}.
      * @return Crop Image Activity Result object or null if none exists
      */
     public static ActivityResult getActivityResult(@Nullable Intent data) {
@@ -484,8 +484,8 @@ public final class CropImage {
 
         /**
          * An edge of the crop window will snap to the corresponding edge of a specified bounding box
-         * when the crop window edge is less than or equal to this distance (in pixels) away from the bounding box
-         * edge (in pixels).<br>
+         * when the crop window edge is less than or equal to this distance (in_ pixels) away from the bounding box
+         * edge (in_ pixels).<br>
          * <i>Default: 3dp</i>
          */
         public ActivityBuilder setSnapRadius(float snapRadius) {
@@ -494,7 +494,7 @@ public final class CropImage {
         }
 
         /**
-         * The radius of the touchable area around the handle (in pixels).<br>
+         * The radius of the touchable area around the handle (in_ pixels).<br>
          * We are basing this value off of the recommended 48dp Rhythm.<br>
          * See: http://developer.android.com/design/style/metrics-grids.html#48dp-rhythm<br>
          * <i>Default: 48dp</i>
@@ -514,7 +514,7 @@ public final class CropImage {
         }
 
         /**
-         * The initial scale type of the image in the crop image view<br>
+         * The initial scale type of the image in_ the crop image view<br>
          * <i>Default: FIT_CENTER</i>
          */
         public ActivityBuilder setScaleType(@NonNull CropImageView.ScaleType scaleType) {
@@ -560,7 +560,7 @@ public final class CropImage {
         }
 
         /**
-         * The initial crop window padding from image borders in percentage of the cropping image dimensions.<br>
+         * The initial crop window padding from image borders in_ percentage of the cropping image dimensions.<br>
          * <i>Default: 0.1</i>
          */
         public ActivityBuilder setInitialCropWindowPaddingRatio(float initialCropWindowPaddingRatio) {
@@ -593,7 +593,7 @@ public final class CropImage {
         }
 
         /**
-         * the thickness of the guidelines lines (in pixels).<br>
+         * the thickness of the guidelines lines (in_ pixels).<br>
          * <i>Default: 3dp</i>
          */
         public ActivityBuilder setBorderLineThickness(float borderLineThickness) {
@@ -611,7 +611,7 @@ public final class CropImage {
         }
 
         /**
-         * thickness of the corner line (in pixels).<br>
+         * thickness of the corner line (in_ pixels).<br>
          * <i>Default: 2dp</i>
          */
         public ActivityBuilder setBorderCornerThickness(float borderCornerThickness) {
@@ -620,7 +620,7 @@ public final class CropImage {
         }
 
         /**
-         * the offset of corner line from crop window border (in pixels).<br>
+         * the offset of corner line from crop window border (in_ pixels).<br>
          * <i>Default: 5dp</i>
          */
         public ActivityBuilder setBorderCornerOffset(float borderCornerOffset) {
@@ -629,7 +629,7 @@ public final class CropImage {
         }
 
         /**
-         * the length of the corner line away from the corner (in pixels).<br>
+         * the length of the corner line away from the corner (in_ pixels).<br>
          * <i>Default: 14dp</i>
          */
         public ActivityBuilder setBorderCornerLength(float borderCornerLength) {
@@ -647,7 +647,7 @@ public final class CropImage {
         }
 
         /**
-         * the thickness of the guidelines lines (in pixels).<br>
+         * the thickness of the guidelines lines (in_ pixels).<br>
          * <i>Default: 1dp</i>
          */
         public ActivityBuilder setGuidelinesThickness(float guidelinesThickness) {
@@ -665,7 +665,7 @@ public final class CropImage {
         }
 
         /**
-         * the color of the overlay background around the crop window cover the image parts not in the crop window.<br>
+         * the color of the overlay background around the crop window cover the image parts not in_ the crop window.<br>
          * <i>Default: Color.argb(119, 0, 0, 0)</i>
          */
         public ActivityBuilder setBackgroundColor(int backgroundColor) {
@@ -674,7 +674,7 @@ public final class CropImage {
         }
 
         /**
-         * the min size the crop window is allowed to be (in pixels).<br>
+         * the min size the crop window is allowed to be (in_ pixels).<br>
          * <i>Default: 42dp, 42dp</i>
          */
         public ActivityBuilder setMinCropWindowSize(int minCropWindowWidth, int minCropWindowHeight) {
@@ -685,7 +685,7 @@ public final class CropImage {
 
         /**
          * the min size the resulting cropping image is allowed to be, affects the cropping window limits
-         * (in pixels).<br>
+         * (in_ pixels).<br>
          * <i>Default: 40px, 40px</i>
          */
         public ActivityBuilder setMinCropResultSize(int minCropResultWidth, int minCropResultHeight) {
@@ -696,7 +696,7 @@ public final class CropImage {
 
         /**
          * the max size the resulting cropping image is allowed to be, affects the cropping window limits
-         * (in pixels).<br>
+         * (in_ pixels).<br>
          * <i>Default: 99999, 99999</i>
          */
         public ActivityBuilder setMaxCropResultSize(int maxCropResultWidth, int maxCropResultHeight) {

@@ -1,5 +1,7 @@
 package com.clubz.util;
 
+import com.clubz.R;
+
 /**
  * Created by mindiii on 8/4/17.
  */

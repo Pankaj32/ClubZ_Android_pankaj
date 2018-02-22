@@ -73,7 +73,7 @@ final class BitmapLoadingWorkerTask extends AsyncTask<Void, Void, BitmapLoadingW
     }
 
     /**
-     * Decode image in background.
+     * Decode image in_ background.
      *
      * @param params ignored
      * @return the decoded bitmap data

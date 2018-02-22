@@ -8,7 +8,12 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.CheckedTextView
+import android.widget.LinearLayout
 import android.widget.TextView
+import com.clubz.Cus_Views.Checked_Step_ImageView
+import com.clubz.Cus_Views.Checked_Step_TextView
+import com.clubz.Cus_Views.Checked_Step_TextView_active
 import com.clubz.fragment.signup.*
 import com.clubz.util.Constants
 import com.clubz.util.Util
@@ -29,11 +34,11 @@ class Sign_up_Activity : AppCompatActivity() {
 
        try{
            val s = intent.getStringArrayExtra(Constants.DATA)
-           _authToken = s[1]
+           if(s!=null){_authToken = s[1]
            if(s[0].equals("step2")){
                replaceFragment(Frag_Sign_Up_One_2())
-           }
-       }catch (ex :java.lang.Exception){
+           }}
+       }catch (ex :Exception){
            ex.printStackTrace()
        }
     }
@@ -94,26 +99,27 @@ class Sign_up_Activity : AppCompatActivity() {
         back.visibility = View.GONE
         when (frag_name){
             Frag_Sign_Up_one::class.java.simpleName->indicator(0);
+            Frag_Sign_Up_One_2::class.java.simpleName->indicator(1);
             Frag_Sign_Up_Two::class.java.simpleName->{
-                indicator(1)
+                indicator(2)
                 back.visibility = View.VISIBLE
             };
-            Frag_Sign_UP_Three::class.java.simpleName->indicator(2);
-            Frag_Sign_UP_Four::class.java.simpleName->indicator(3);
+            Frag_Sign_UP_Three::class.java.simpleName->indicator(3);
+
         }
     }
 
     fun indicator( postition : Int){
-        for(i in 0..page_indicator.childCount-1){
-            val view : TextView  = page_indicator.getChildAt(i) as TextView;
-            if(i!=postition){
-            view.setBackgroundResource(R.drawable.number_inactive)
-            view.setTextColor(resources.getColor(R.color.unserline_color))
+        try {
+            val pager_indictor = findViewById<LinearLayout>(R.id.page_indicator)
+            pager_indictor.removeAllViews()
+                for(i in 0..3){
+                if(postition>i)pager_indictor.addView(Checked_Step_ImageView(this));
+                if(postition==i)pager_indictor.addView(Checked_Step_TextView_active(this).setText(i+1));
+                if(postition<i)pager_indictor.addView(Checked_Step_TextView(this).setText(i+1));
             }
-            else{
-                view.setBackgroundResource(R.drawable.number_active)
-                view.setTextColor(resources.getColor(R.color.bg_violet))
-            }
+        }catch (ex :Exception){
+            ex.printStackTrace()
         }
 
     }

@@ -9,5 +9,6 @@ import com.google.gson.reflect.TypeToken
 class Type_Token {
     companion object {
         val country_list = object : TypeToken<List<Country_Code>>() {}.type
+        val image_list = object : TypeToken<List<Int>>() {}.type
     }
 }

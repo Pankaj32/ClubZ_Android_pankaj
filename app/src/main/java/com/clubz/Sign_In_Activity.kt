@@ -3,12 +3,14 @@ package com.clubz
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
@@ -50,7 +52,6 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
 
 
 
-
     lateinit var mGoogleSignInClient : GoogleSignInClient
     lateinit var callbackManager: CallbackManager
     var isvalidate: Boolean = false;
@@ -72,12 +73,13 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
         country_code.adapter = Country_spinner_adapter(this,list,0,R.layout.spinner_view);
         setCountryCode(list , country_code)
 
+
     }
 
     fun setCountryCode(list : ArrayList<Country_Code> , spinner : Spinner){
         val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         var locale = tm.networkCountryIso
-        if(locale.equals("")) locale ="in";
+        if(locale.equals("")) locale ="in_";
         Util.e("phone no" , locale);
         for(i  in 0..list.size-1){
             if(list.get(i).code.equals(locale)){spinner.setSelection(i) ; return }
@@ -87,13 +89,13 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0!!.id){
             R.id.sign_up->startActivity(Intent(this@Sign_In_Activity,Sign_up_Activity::class.java))
-            R.id.next-> if(verify())login()
-            R.id.google_lnr->   googleSignin()
+            R.id.next-> if(verify()){} //login()
+           /* R.id.google_lnr->   googleSignin()
             R.id.facebook_lnr-> try {
                 facebooklogin()
             }catch (ex: Exception){
                 ex.printStackTrace()
-            }
+            }*/
         }
     }
 
@@ -210,7 +212,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
 
 
     /**
-     * Google sign in
+     * Google sign in_
      */
     private fun googleSignin() {
         //val account = GoogleSignIn.getLastSignedInAccount(this)
@@ -227,7 +229,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
             Util.e("photo" ,account.photoUrl.toString())
 
             registrion(account)
-            // Signed in successfully, show authenticated UI.
+            // Signed in_ successfully, show authenticated UI.
 
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.

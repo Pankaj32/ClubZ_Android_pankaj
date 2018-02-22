@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="line">
-    <size android:width="@dimen/_40sdp" android:height="1px"/>
+    android:shape="rectangle">
+    <size android:width="@dimen/_40sdp" android:height="@dimen/_20sdp"/>
    <!-- <stroke
         android:color="#FFFF"
         android:dashWidth="3px"

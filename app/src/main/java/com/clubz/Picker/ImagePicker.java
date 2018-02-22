@@ -59,7 +59,7 @@ public final class ImagePicker {
     /**
      * Launch a dialog to pick an image from camera/gallery apps.
      *
-     * @param fragment which will launch the dialog and will get the result in
+     * @param fragment which will launch the dialog and will get the result in_
      *                 onActivityResult()
      */
     public static void pickImage(Fragment fragment) {
@@ -89,7 +89,7 @@ public final class ImagePicker {
     /**
      * Launch a dialog to pick an image from camera/gallery apps.
      *
-     * @param fragment     which will launch the dialog and will get the result in
+     * @param fragment     which will launch the dialog and will get the result in_
      *                     onActivityResult()
      * @param chooserTitle will appear on the picker dialog.
      */
@@ -115,7 +115,7 @@ public final class ImagePicker {
 
         // Camera action will fail if the app does not have permission, check before adding intent.
         // We only need to add the camera intent if the app does not use the CAMERA permission
-        // in the androidmanifest.xml
+        // in_ the androidmanifest.xml
         // Or if the user has granted access to the camera.
         // See https://developer.android.com/reference/android/provider/MediaStore.html#ACTION_IMAGE_CAPTURE
         if (!appManifestContainsPermission(context, Manifest.permission.CAMERA) || hasCameraAccess(context)) {
@@ -188,7 +188,7 @@ public final class ImagePicker {
 
     /**
      * Called after launching the picker with the same values of Activity.getImageFromResult
-     * in order to resolve the result and get the image.
+     * in_ order to resolve the result and get the image.
      *
      * @param context             context.
      * @param requestCode         used to identify the pick image action.

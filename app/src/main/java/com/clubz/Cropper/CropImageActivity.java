@@ -37,13 +37,13 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Built-in activity for image cropping.<br>
+ * Built-in_ activity for image cropping.<br>
  * Use {@link CropImage#activity(Uri)} to create a builder to start this activity.
  */
 public class CropImageActivity extends AppCompatActivity implements CropImageView.OnSetImageUriCompleteListener, CropImageView.OnCropImageCompleteListener {
 
     /**
-     * The crop image view library widget used in the activity
+     * The crop image view library widget used in_ the activity
      */
     private CropImageView mCropImageView;
 
@@ -72,13 +72,13 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
         if (savedInstanceState == null) {
             if (mCropImageUri == null || mCropImageUri.equals(Uri.EMPTY)) {
                 if (CropImage.isExplicitCameraPermissionRequired(this)) {
-                    // request permissions and handle the result in onRequestPermissionsResult()
+                    // request permissions and handle the result in_ onRequestPermissionsResult()
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, CropImage.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE);
                 } else {
                     CropImage.startPickImageActivity(this);
                 }
             } else if (CropImage.isReadExternalStoragePermissionsRequired(this, mCropImageUri)) {
-                // request permissions and handle the result in onRequestPermissionsResult()
+                // request permissions and handle the result in_ onRequestPermissionsResult()
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
             } else {
                 // no permissions required or already grunted, can start crop image activity
@@ -184,7 +184,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
 
                 // For API >= 23 we need to check specifically that we have permissions to read external storage.
                 if (CropImage.isReadExternalStoragePermissionsRequired(this, mCropImageUri)) {
-                    // request permissions and handle the result in onRequestPermissionsResult()
+                    // request permissions and handle the result in_ onRequestPermissionsResult()
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
                 } else {
                     // no permissions required or already grunted, can start crop image activity
@@ -252,7 +252,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
     }
 
     /**
-     * Rotate the image in the crop image view.
+     * Rotate the image in_ the crop image view.
      */
     protected void rotateImage(int degrees) {
         mCropImageView.rotateImage(degrees);
@@ -260,7 +260,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
 
     /**
      * Get Android uri to save the cropped image into.<br>
-     * Use the given in options or create a temp file.
+     * Use the given in_ options or create a temp file.
      */
     protected Uri getOutputUri() {
         Uri outputUri = mOptions.outputUri;

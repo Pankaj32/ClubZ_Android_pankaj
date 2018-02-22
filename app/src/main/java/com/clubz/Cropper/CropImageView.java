@@ -58,7 +58,7 @@ public class CropImageView extends FrameLayout {
     private final CropOverlayView mCropOverlayView;
 
     /**
-     * The matrix used to transform the cropping image in the image view
+     * The matrix used to transform the cropping image in_ the image view
      */
     private final Matrix mImageMatrix = new Matrix();
 
@@ -73,12 +73,12 @@ public class CropImageView extends FrameLayout {
     private final ProgressBar mProgressBar;
 
     /**
-     * Rectengale used in image matrix transformation calculation (reusing rect instance)
+     * Rectengale used in_ image matrix transformation calculation (reusing rect instance)
      */
     private final float[] mImagePoints = new float[8];
 
     /**
-     * Animation class to smooth animate zoom-in/out
+     * Animation class to smooth animate zoom-in_/out
      */
     private CropImageAnimation mAnimation;
 
@@ -93,7 +93,7 @@ public class CropImageView extends FrameLayout {
     private int mImageResource;
 
     /**
-     * The initial scale type of the image in the crop image view
+     * The initial scale type of the image in_ the crop image view
      */
     private ScaleType mScaleType;
 
@@ -105,7 +105,7 @@ public class CropImageView extends FrameLayout {
     private boolean mShowCropOverlay = true;
 
     /**
-     * if to show progress bar when image async loading/cropping is in progress.<br>
+     * if to show progress bar when image async loading/cropping is in_ progress.<br>
      * default: true, disable to provide custom progress bar UI.
      */
     private boolean mShowProgressBar = true;
@@ -174,7 +174,7 @@ public class CropImageView extends FrameLayout {
     private RectF mRestoreCropWindowRect;
 
     /**
-     * Used to detect size change to handle auto-zoom using {@link #handleCropWindowChanged(boolean, boolean)} in
+     * Used to detect size change to handle auto-zoom using {@link #handleCropWindowChanged(boolean, boolean)} in_
      * {@link #layout(int, int, int, int)}.
      */
     private boolean mSizeChanged;
@@ -308,14 +308,14 @@ public class CropImageView extends FrameLayout {
     }
 
     /**
-     * Get the scale type of the image in the crop view.
+     * Get the scale type of the image in_ the crop view.
      */
     public ScaleType getScaleType() {
         return mScaleType;
     }
 
     /**
-     * Set the scale type of the image in the crop view
+     * Set the scale type of the image in_ the crop view
      */
     public void setScaleType(ScaleType scaleType) {
         if (scaleType != mScaleType) {
@@ -390,7 +390,7 @@ public class CropImageView extends FrameLayout {
 
     /**
      * the min size the resulting cropping image is allowed to be, affects the cropping window limits
-     * (in pixels).<br>
+     * (in_ pixels).<br>
      */
     public void setMinCropResultSize(int minCropResultWidth, int minCropResultHeight) {
         mCropOverlayView.setMinCropResultSize(minCropResultWidth, minCropResultHeight);
@@ -399,7 +399,7 @@ public class CropImageView extends FrameLayout {
 
     /**
      * the max size the resulting cropping image is allowed to be, affects the cropping window limits
-     * (in pixels).<br>
+     * (in_ pixels).<br>
      */
     public void setMaxCropResultSize(int maxCropResultWidth, int maxCropResultHeight) {
         mCropOverlayView.setMaxCropResultSize(maxCropResultWidth, maxCropResultHeight);
@@ -485,7 +485,7 @@ public class CropImageView extends FrameLayout {
     /**
      * An edge of the crop window will snap to the corresponding edge of a
      * specified bounding box when the crop window edge is less than or equal to
-     * this distance (in pixels) away from the bounding box edge. (default: 3dp)
+     * this distance (in_ pixels) away from the bounding box edge. (default: 3dp)
      */
     public void setSnapRadius(float snapRadius) {
         if (snapRadius >= 0) {
@@ -494,7 +494,7 @@ public class CropImageView extends FrameLayout {
     }
 
     /**
-     * if to show progress bar when image async loading/cropping is in progress.<br>
+     * if to show progress bar when image async loading/cropping is in_ progress.<br>
      * default: true, disable to provide custom progress bar UI.
      */
     public boolean isShowProgressBar() {
@@ -502,7 +502,7 @@ public class CropImageView extends FrameLayout {
     }
 
     /**
-     * if to show progress bar when image async loading/cropping is in progress.<br>
+     * if to show progress bar when image async loading/cropping is in_ progress.<br>
      * default: true, disable to provide custom progress bar UI.
      */
     public void setShowProgressBar(boolean showProgressBar) {
@@ -562,7 +562,7 @@ public class CropImageView extends FrameLayout {
 
     /**
      * Gets the crop window's position relative to the source Bitmap (not the image
-     * displayed in the CropImageView) using the original image rotation.
+     * displayed in_ the CropImageView) using the original image rotation.
      *
      * @return a Rect instance containing cropped area boundaries of the source Bitmap
      */
@@ -595,7 +595,7 @@ public class CropImageView extends FrameLayout {
 
     /**
      * Gets the 4 points of crop window's position relative to the source Bitmap (not the image
-     * displayed in the CropImageView) using the original image rotation.<br>
+     * displayed in_ the CropImageView) using the original image rotation.<br>
      * Note: the 4 points may not be a rectangle if the image was rotates to NOT stright angle (!= 90/180/270).
      *
      * @return 4 points (x0,y0,x1,y1,x2,y2,x3,y3) of cropped area boundaries
@@ -934,12 +934,12 @@ public class CropImageView extends FrameLayout {
 
             mImageMatrix.mapPoints(BitmapUtils.POINTS2, BitmapUtils.POINTS);
 
-            // adjust the width/height by the changes in scaling to the image
+            // adjust the width/height by the changes in_ scaling to the image
             double change = Math.sqrt(Math.pow(BitmapUtils.POINTS2[4] - BitmapUtils.POINTS2[2], 2) + Math.pow(BitmapUtils.POINTS2[5] - BitmapUtils.POINTS2[3], 2));
             halfWidth *= change;
             halfHeight *= change;
 
-            // calculate the new crop window rectangle to center in the same location and have proper width/height
+            // calculate the new crop window rectangle to center in_ the same location and have proper width/height
             BitmapUtils.RECT.set(BitmapUtils.POINTS2[0] - halfWidth, BitmapUtils.POINTS2[1] - halfHeight,
                     BitmapUtils.POINTS2[0] + halfWidth, BitmapUtils.POINTS2[1] + halfHeight);
 
@@ -1025,7 +1025,7 @@ public class CropImageView extends FrameLayout {
     }
 
     /**
-     * Set the given bitmap to be used in for cropping<br>
+     * Set the given bitmap to be used in_ for cropping<br>
      * Optionally clear full if the bitmap is new, or partial clear if the bitmap has been manipulated.
      */
     private void setBitmap(Bitmap bitmap, int imageResource, Uri imageUri, int loadSampleSize, int degreesRotated) {
@@ -1082,7 +1082,7 @@ public class CropImageView extends FrameLayout {
 
     /**
      * Gets the cropped image based on the current crop window.<br>
-     * If (reqWidth,reqHeight) is given AND image is loaded from URI cropping will try to use sample size to fit in
+     * If (reqWidth,reqHeight) is given AND image is loaded from URI cropping will try to use sample size to fit in_
      * the requested width and height down-sampling if possible - optimization to get best size to quality.<br>
      * The result will be invoked to listener set by {@link #setOnGetCroppedImageCompleteListener(OnGetCroppedImageCompleteListener)}.
      *
@@ -1313,7 +1313,7 @@ public class CropImageView extends FrameLayout {
     }
 
     /**
-     * Detect size change to handle auto-zoom using {@link #handleCropWindowChanged(boolean, boolean)} in
+     * Detect size change to handle auto-zoom using {@link #handleCropWindowChanged(boolean, boolean)} in_
      * {@link #layout(int, int, int, int)}.
      */
     @Override
@@ -1324,11 +1324,11 @@ public class CropImageView extends FrameLayout {
 
     /**
      * Handle crop window change to:<br>
-     * 1. Execute auto-zoom-in/out depending on the area covered of cropping window relative to the
+     * 1. Execute auto-zoom-in_/out depending on the area covered of cropping window relative to the
      * available view area.<br>
      * 2. Slide the zoomed sub-area if the cropping window is outside of the visible view sub-area.<br>
      *
-     * @param inProgress is the crop window change is still in progress by the user
+     * @param inProgress is the crop window change is still in_ progress by the user
      * @param animate    if to animate the change to the image matrix, or set it directly
      */
     private void handleCropWindowChanged(boolean inProgress, boolean animate) {
@@ -1417,7 +1417,7 @@ public class CropImageView extends FrameLayout {
                 mZoomOffsetY = height > BitmapUtils.getRectHeight(mImagePoints) ? 0
                         : Math.max(Math.min(height / 2 - cropRect.centerY(), -BitmapUtils.getRectTop(mImagePoints)), getHeight() - BitmapUtils.getRectBottom(mImagePoints)) / mZoom;
             } else {
-                // adjust the zoomed area so the crop window rectangle will be inside the area in case it was moved outside
+                // adjust the zoomed area so the crop window rectangle will be inside the area in_ case it was moved outside
                 mZoomOffsetX = Math.min(Math.max(mZoomOffsetX * mZoom, -cropRect.left), -cropRect.right + width) / mZoom;
                 mZoomOffsetY = Math.min(Math.max(mZoomOffsetY * mZoom, -cropRect.top), -cropRect.bottom + height) / mZoom;
             }
@@ -1430,14 +1430,14 @@ public class CropImageView extends FrameLayout {
 
             // set matrix to apply
             if (animate) {
-                // set the state for animation to end in, start animation now
+                // set the state for animation to end in_, start animation now
                 mAnimation.setEndState(mImagePoints, mImageMatrix);
                 mImageView.startAnimation(mAnimation);
             } else {
                 mImageView.setImageMatrix(mImageMatrix);
             }
 
-            // update the image rectangle in the crop overlay
+            // update the image rectangle in_ the crop overlay
             updateImageBounds(false);
         }
     }
@@ -1468,7 +1468,7 @@ public class CropImageView extends FrameLayout {
     }
 
     /**
-     * Set visibility of progress bar when async loading/cropping is in process and show is enabled.
+     * Set visibility of progress bar when async loading/cropping is in_ process and show is enabled.
      */
     private void setProgressBarVisibility() {
         boolean visible = mShowProgressBar &&
@@ -1514,13 +1514,13 @@ public class CropImageView extends FrameLayout {
     public enum ScaleType {
 
         /**
-         * Scale the image uniformly (maintain the image's aspect ratio) to fit in crop image view.<br>
+         * Scale the image uniformly (maintain the image's aspect ratio) to fit in_ crop image view.<br>
          * The largest dimension will be equals to crop image view and the second dimension will be smaller.
          */
         FIT_CENTER,
 
         /**
-         * Center the image in the view, but perform no scaling.<br>
+         * Center the image in_ the view, but perform no scaling.<br>
          * Note: If auto-zoom is enabled and the source image is smaller than crop image view then it will be
          * scaled uniformly to fit the crop image view.
          */
@@ -1530,7 +1530,7 @@ public class CropImageView extends FrameLayout {
          * Scale the image uniformly (maintain the image's aspect ratio) so that both
          * dimensions (width and height) of the image will be equal to or <b>larger</b> than the
          * corresponding dimension of the view (minus padding).<br>
-         * The image is then centered in the view.
+         * The image is then centered in_ the view.
          */
         CENTER_CROP,
 
@@ -1538,7 +1538,7 @@ public class CropImageView extends FrameLayout {
          * Scale the image uniformly (maintain the image's aspect ratio) so that both
          * dimensions (width and height) of the image will be equal to or <b>less</b> than the
          * corresponding dimension of the view (minus padding).<br>
-         * The image is then centered in the view.<br>
+         * The image is then centered in_ the view.<br>
          * Note: If auto-zoom is enabled and the source image is smaller than crop image view then it will be
          * scaled uniformly to fit the crop image view.
          */
@@ -1599,14 +1599,14 @@ public class CropImageView extends FrameLayout {
         RESIZE_INSIDE,
 
         /**
-         * Resize the image uniformly (maintain the image's aspect ratio) to fit in the given width/height.<br>
+         * Resize the image uniformly (maintain the image's aspect ratio) to fit in_ the given width/height.<br>
          * The largest dimension will be equals to the requested and the second dimension will be smaller.<br>
          * If the image is smaller than the requested size it will enlarge it.
          */
         RESIZE_FIT,
 
         /**
-         * Resize the image to fit exactly in the given width/height.<br>
+         * Resize the image to fit exactly in_ the given width/height.<br>
          * This resize method does NOT preserve aspect ratio.<br>
          * If the image is smaller than the requested size it will enlarge it.
          */
@@ -1723,12 +1723,12 @@ public class CropImageView extends FrameLayout {
         private final Exception mError;
 
         /**
-         * The 4 points of the cropping window in the source image
+         * The 4 points of the cropping window in_ the source image
          */
         private final float[] mCropPoints;
 
         /**
-         * The rectangle of the cropping window in the source image
+         * The rectangle of the cropping window in_ the source image
          */
         private final Rect mCropRect;
 
@@ -1783,14 +1783,14 @@ public class CropImageView extends FrameLayout {
         }
 
         /**
-         * The 4 points of the cropping window in the source image
+         * The 4 points of the cropping window in_ the source image
          */
         public float[] getCropPoints() {
             return mCropPoints;
         }
 
         /**
-         * The rectangle of the cropping window in the source image
+         * The rectangle of the cropping window in_ the source image
          */
         public Rect getCropRect() {
             return mCropRect;

@@ -47,12 +47,12 @@ public class CropImageOptions implements Parcelable {
 
     /**
      * An edge of the crop window will snap to the corresponding edge of a specified bounding box when the crop
-     * window edge is less than or equal to this distance (in pixels) away from the bounding box edge. (in pixels)
+     * window edge is less than or equal to this distance (in_ pixels) away from the bounding box edge. (in_ pixels)
      */
     public float snapRadius;
 
     /**
-     * The radius of the touchable area around the handle. (in pixels)<br>
+     * The radius of the touchable area around the handle. (in_ pixels)<br>
      * We are basing this value off of the recommended 48dp Rhythm.<br>
      * See: http://developer.android.com/design/style/metrics-grids.html#48dp-rhythm
      */
@@ -64,7 +64,7 @@ public class CropImageOptions implements Parcelable {
     public CropImageView.Guidelines guidelines;
 
     /**
-     * The initial scale type of the image in the crop image view
+     * The initial scale type of the image in_ the crop image view
      */
     public CropImageView.ScaleType scaleType;
 
@@ -76,7 +76,7 @@ public class CropImageOptions implements Parcelable {
     public boolean showCropOverlay;
 
     /**
-     * if to show progress bar when image async loading/cropping is in progress.<br>
+     * if to show progress bar when image async loading/cropping is in_ progress.<br>
      * default: true, disable to provide custom progress bar UI.
      */
     public boolean showProgressBar;
@@ -99,7 +99,7 @@ public class CropImageOptions implements Parcelable {
     public int maxZoom;
 
     /**
-     * The initial crop window padding from image borders in percentage of the cropping image dimensions.
+     * The initial crop window padding from image borders in_ percentage of the cropping image dimensions.
      */
     public float initialCropWindowPaddingRatio;
 
@@ -119,7 +119,7 @@ public class CropImageOptions implements Parcelable {
     public int aspectRatioY;
 
     /**
-     * the thickness of the guidelines lines in pixels. (in pixels)
+     * the thickness of the guidelines lines in_ pixels. (in_ pixels)
      */
     public float borderLineThickness;
 
@@ -129,17 +129,17 @@ public class CropImageOptions implements Parcelable {
     public int borderLineColor;
 
     /**
-     * thickness of the corner line. (in pixels)
+     * thickness of the corner line. (in_ pixels)
      */
     public float borderCornerThickness;
 
     /**
-     * the offset of corner line from crop window border. (in pixels)
+     * the offset of corner line from crop window border. (in_ pixels)
      */
     public float borderCornerOffset;
 
     /**
-     * the length of the corner line away from the corner. (in pixels)
+     * the length of the corner line away from the corner. (in_ pixels)
      */
     public float borderCornerLength;
 
@@ -149,7 +149,7 @@ public class CropImageOptions implements Parcelable {
     public int borderCornerColor;
 
     /**
-     * the thickness of the guidelines lines. (in pixels)
+     * the thickness of the guidelines lines. (in_ pixels)
      */
     public float guidelinesThickness;
 
@@ -159,37 +159,37 @@ public class CropImageOptions implements Parcelable {
     public int guidelinesColor;
 
     /**
-     * the color of the overlay background around the crop window cover the image parts not in the crop window.
+     * the color of the overlay background around the crop window cover the image parts not in_ the crop window.
      */
     public int backgroundColor;
 
     /**
-     * the min width the crop window is allowed to be. (in pixels)
+     * the min width the crop window is allowed to be. (in_ pixels)
      */
     public int minCropWindowWidth;
 
     /**
-     * the min height the crop window is allowed to be. (in pixels)
+     * the min height the crop window is allowed to be. (in_ pixels)
      */
     public int minCropWindowHeight;
 
     /**
-     * the min width the resulting cropping image is allowed to be, affects the cropping window limits. (in pixels)
+     * the min width the resulting cropping image is allowed to be, affects the cropping window limits. (in_ pixels)
      */
     public int minCropResultWidth;
 
     /**
-     * the min height the resulting cropping image is allowed to be, affects the cropping window limits. (in pixels)
+     * the min height the resulting cropping image is allowed to be, affects the cropping window limits. (in_ pixels)
      */
     public int minCropResultHeight;
 
     /**
-     * the max width the resulting cropping image is allowed to be, affects the cropping window limits. (in pixels)
+     * the max width the resulting cropping image is allowed to be, affects the cropping window limits. (in_ pixels)
      */
     public int maxCropResultWidth;
 
     /**
-     * the max height the resulting cropping image is allowed to be, affects the cropping window limits. (in pixels)
+     * the max height the resulting cropping image is allowed to be, affects the cropping window limits. (in_ pixels)
      */
     public int maxCropResultHeight;
 

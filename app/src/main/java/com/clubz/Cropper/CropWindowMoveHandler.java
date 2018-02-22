@@ -29,22 +29,22 @@ final class CropWindowMoveHandler {
     private static final Matrix MATRIX = new Matrix();
 
     /**
-     * Minimum width in pixels that the crop window can get.
+     * Minimum width in_ pixels that the crop window can get.
      */
     private final float mMinCropWidth;
 
     /**
-     * Minimum width in pixels that the crop window can get.
+     * Minimum width in_ pixels that the crop window can get.
      */
     private final float mMinCropHeight;
 
     /**
-     * Maximum height in pixels that the crop window can get.
+     * Maximum height in_ pixels that the crop window can get.
      */
     private final float mMaxCropWidth;
 
     /**
-     * Maximum height in pixels that the crop window can get.
+     * Maximum height in_ pixels that the crop window can get.
      */
     private final float mMaxCropHeight;
 
@@ -55,7 +55,7 @@ final class CropWindowMoveHandler {
 
     /**
      * Holds the x and y offset between the exact touch location and the exact handle location that is activated.
-     * There may be an offset because we allow for some leeway (specified by mHandleRadius) in activating a handle.
+     * There may be an offset because we allow for some leeway (specified by mHandleRadius) in_ activating a handle.
      * However, we want to maintain these offset values while the handle is being dragged so that the handle
      * doesn't jump.
      */
@@ -103,7 +103,7 @@ final class CropWindowMoveHandler {
 
     /**
      * Calculates the offset of the touch point from the precise location of the specified handle.<br>
-     * Save these values in a member variable since we want to maintain this offset as we drag the handle.
+     * Save these values in_ a member variable since we want to maintain this offset as we drag the handle.
      */
     private void calculateTouchOffset(RectF rect, float touchX, float touchY) {
 
@@ -217,7 +217,7 @@ final class CropWindowMoveHandler {
     /**
      * Change the size of the crop window on the required "primary" edge WITH affect to relevant "secondary"
      * edge via aspect ratio.<br>
-     * Example: change in the left edge (primary) will affect top and bottom edges (secondary) to preserve the
+     * Example: change in_ the left edge (primary) will affect top and bottom edges (secondary) to preserve the
      * given aspect ratio.
      */
     private void moveSizeWithFixedAspectRatio(RectF rect, float x, float y, RectF bounds, int viewWidth, int viewHeight, float snapMargin, float aspectRatio) {
@@ -303,7 +303,7 @@ final class CropWindowMoveHandler {
      *
      * @param left       the position that the left edge is dragged to
      * @param bounds     the bounding box of the image that is being cropped
-     * @param snapMargin the snap distance to the image edge (in pixels)
+     * @param snapMargin the snap distance to the image edge (in_ pixels)
      */
     private void adjustLeft(RectF rect, float left, RectF bounds, float snapMargin, float aspectRatio, boolean topMoves, boolean bottomMoves) {
 
@@ -336,7 +336,7 @@ final class CropWindowMoveHandler {
             newLeft = bounds.left;
         }
 
-        // check vertical bounds if aspect ratio is in play
+        // check vertical bounds if aspect ratio is in_ play
         if (aspectRatio > 0) {
             float newHeight = (rect.right - newLeft) / aspectRatio;
 
@@ -379,7 +379,7 @@ final class CropWindowMoveHandler {
      * @param right      the position that the right edge is dragged to
      * @param bounds     the bounding box of the image that is being cropped
      * @param viewWidth
-     * @param snapMargin the snap distance to the image edge (in pixels)
+     * @param snapMargin the snap distance to the image edge (in_ pixels)
      */
     private void adjustRight(RectF rect, float right, RectF bounds, int viewWidth, float snapMargin, float aspectRatio, boolean topMoves, boolean bottomMoves) {
 
@@ -414,7 +414,7 @@ final class CropWindowMoveHandler {
             newRight = bounds.right;
         }
 
-        // check vertical bounds if aspect ratio is in play
+        // check vertical bounds if aspect ratio is in_ play
         if (aspectRatio > 0) {
             float newHeight = (newRight - rect.left) / aspectRatio;
 
@@ -456,7 +456,7 @@ final class CropWindowMoveHandler {
      *
      * @param top        the x-position that the top edge is dragged to
      * @param bounds     the bounding box of the image that is being cropped
-     * @param snapMargin the snap distance to the image edge (in pixels)
+     * @param snapMargin the snap distance to the image edge (in_ pixels)
      */
     private void adjustTop(RectF rect, float top, RectF bounds, float snapMargin, float aspectRatio, boolean leftMoves, boolean rightMoves) {
 
@@ -489,7 +489,7 @@ final class CropWindowMoveHandler {
             newTop = bounds.top;
         }
 
-        // check horizontal bounds if aspect ratio is in play
+        // check horizontal bounds if aspect ratio is in_ play
         if (aspectRatio > 0) {
             float newWidth = (rect.bottom - newTop) * aspectRatio;
 
@@ -532,7 +532,7 @@ final class CropWindowMoveHandler {
      * @param bottom     the position that the bottom edge is dragged to
      * @param bounds     the bounding box of the image that is being cropped
      * @param viewHeight
-     * @param snapMargin the snap distance to the image edge (in pixels)
+     * @param snapMargin the snap distance to the image edge (in_ pixels)
      */
     private void adjustBottom(RectF rect, float bottom, RectF bounds, int viewHeight, float snapMargin, float aspectRatio, boolean leftMoves, boolean rightMoves) {
 
@@ -565,7 +565,7 @@ final class CropWindowMoveHandler {
             newBottom = bounds.bottom;
         }
 
-        // check horizontal bounds if aspect ratio is in play
+        // check horizontal bounds if aspect ratio is in_ play
         if (aspectRatio > 0) {
             float newWidth = (newBottom - rect.top) * aspectRatio;
 
@@ -603,7 +603,7 @@ final class CropWindowMoveHandler {
 
     /**
      * Adjust left edge by current crop window height and the given aspect ratio,
-     * the right edge remains in possition while the left adjusts to keep aspect ratio to the height.
+     * the right edge remains in_ possition while the left adjusts to keep aspect ratio to the height.
      */
     private void adjustLeftByAspectRatio(RectF rect, float aspectRatio) {
         rect.left = rect.right - rect.height() * aspectRatio;
@@ -611,7 +611,7 @@ final class CropWindowMoveHandler {
 
     /**
      * Adjust top edge by current crop window width and the given aspect ratio,
-     * the bottom edge remains in possition while the top adjusts to keep aspect ratio to the width.
+     * the bottom edge remains in_ possition while the top adjusts to keep aspect ratio to the width.
      */
     private void adjustTopByAspectRatio(RectF rect, float aspectRatio) {
         rect.top = rect.bottom - rect.width() / aspectRatio;
@@ -619,7 +619,7 @@ final class CropWindowMoveHandler {
 
     /**
      * Adjust right edge by current crop window height and the given aspect ratio,
-     * the left edge remains in possition while the left adjusts to keep aspect ratio to the height.
+     * the left edge remains in_ possition while the left adjusts to keep aspect ratio to the height.
      */
     private void adjustRightByAspectRatio(RectF rect, float aspectRatio) {
         rect.right = rect.left + rect.height() * aspectRatio;
@@ -627,7 +627,7 @@ final class CropWindowMoveHandler {
 
     /**
      * Adjust bottom edge by current crop window width and the given aspect ratio,
-     * the top edge remains in possition while the top adjusts to keep aspect ratio to the width.
+     * the top edge remains in_ possition while the top adjusts to keep aspect ratio to the width.
      */
     private void adjustBottomByAspectRatio(RectF rect, float aspectRatio) {
         rect.bottom = rect.top + rect.width() / aspectRatio;

@@ -23,53 +23,10 @@
             android:layout_marginTop="@dimen/_30sdp"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
-            android:layerType="software"
             android:showDividers="middle"
             android:divider="@drawable/divider_dashed"
-            android:gravity="center">
+            android:gravity="center"/>
 
-            <TextView
-                android:id="@+id/one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                style="@style/text_indicator"
-                />
-
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:text="1"
-                android:background="@drawable/bg_checked"
-                app:srcCompat="@drawable/checked_ico"
-                android:padding="@dimen/_1sdp"
-                android:tint="@color/white"
-                style="@style/text_indicator" />
-
-
-            <TextView
-                android:id="@+id/two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2"
-                style="@style/text_indicator"/>
-
-
-            <TextView
-                android:id="@+id/three"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3"
-                style="@style/text_indicator"/>
-
-
-            <TextView
-                android:id="@+id/four"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4"
-                style="@style/text_indicator"/>
-        </LinearLayout>
     </FrameLayout>
 
 

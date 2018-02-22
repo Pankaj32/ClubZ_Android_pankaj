@@ -47,7 +47,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        for( view in arrayOf(sign_up)) view.setOnClickListener(this)
+        for( view in arrayOf(next)) view.setOnClickListener(this)
         val list = Gson().fromJson<String>(Util.loadJSONFromAsset(context,"country_code.json"), Type_Token.country_list) as ArrayList<Country_Code>
         country_code.adapter = Country_spinner_adapter(context,list,0,R.layout.spinner_view);
         setCountryCode(list , country_code)
@@ -56,7 +56,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
      when(p0!!.id){
-         R.id.sign_up-> if(verfiy())
+         R.id.next-> if(verfiy())
              (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code))
          // generateOtp()
      }
@@ -98,7 +98,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
     fun setCountryCode(list : ArrayList<Country_Code> , spinner : Spinner){
         val tm = activity.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         var locale = tm.networkCountryIso
-        if(locale.equals("")) locale ="in";
+        if(locale.equals("")) locale ="in_";
         Util.e("phone no" , locale);
         for(i  in 0..list.size-1){
             if(list.get(i).code.equals(locale)){spinner.setSelection(i) ; return }

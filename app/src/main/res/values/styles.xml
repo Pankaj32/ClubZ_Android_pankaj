@@ -50,7 +50,7 @@
         <item name="android:textColor">@color/text_gray</item>
         <item name="android:textColorHint">@color/hintcolor</item>
         <item name="android:singleLine">true</item>
-        <item name="android:fontFamily">@font/poppins_light</item>
+        <item name="android:fontFamily">@font/roboto_italic</item>
         <item name="android:theme">@style/lightcolor</item>
     </style>
 

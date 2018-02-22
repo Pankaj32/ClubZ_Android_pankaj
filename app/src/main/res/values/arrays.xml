@@ -13,6 +13,15 @@
         <item>@font/teko_bold</item>
         <item>@font/roboto_regular</item>
         <item>@font/roboto_medium</item>
+        <item>@font/roboto_italic</item>
+    </array>
+
+    <array name="imagesarry">
+        <item>ae:@mipmap/ae</item>
+        <item>af:@mipmap/af</item>
+        <item>ag:@mipmap/ag</item>
+        <item>ai:@mipmap/ai</item>
+        <item>al:@mipmap/al</item>
     </array>
 
     <!--<item>@font/josefin_sans_regular</item>

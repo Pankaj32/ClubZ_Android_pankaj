@@ -32,45 +32,45 @@ final class CropWindowHandler {
     private final RectF mGetEdges = new RectF();
 
     /**
-     * Minimum width in pixels that the crop window can get.
+     * Minimum width in_ pixels that the crop window can get.
      */
     private float mMinCropWindowWidth;
 
     /**
-     * Minimum height in pixels that the crop window can get.
+     * Minimum height in_ pixels that the crop window can get.
      */
     private float mMinCropWindowHeight;
 
     /**
-     * Maximum width in pixels that the crop window can CURRENTLY get.
+     * Maximum width in_ pixels that the crop window can CURRENTLY get.
      */
     private float mMaxCropWindowWidth;
 
     /**
-     * Maximum height in pixels that the crop window can CURRENTLY get.
+     * Maximum height in_ pixels that the crop window can CURRENTLY get.
      */
     private float mMaxCropWindowHeight;
 
     /**
-     * Minimum width in pixels that the result of cropping an image can get,
+     * Minimum width in_ pixels that the result of cropping an image can get,
      * affects crop window width adjusted by width scale factor.
      */
     private float mMinCropResultWidth;
 
     /**
-     * Minimum height in pixels that the result of cropping an image can get,
+     * Minimum height in_ pixels that the result of cropping an image can get,
      * affects crop window height adjusted by height scale factor.
      */
     private float mMinCropResultHeight;
 
     /**
-     * Maximum width in pixels that the result of cropping an image can get,
+     * Maximum width in_ pixels that the result of cropping an image can get,
      * affects crop window width adjusted by width scale factor.
      */
     private float mMaxCropResultWidth;
 
     /**
-     * Maximum height in pixels that the result of cropping an image can get,
+     * Maximum height in_ pixels that the result of cropping an image can get,
      * affects crop window height adjusted by height scale factor.
      */
     private float mMaxCropResultHeight;
@@ -87,15 +87,15 @@ final class CropWindowHandler {
     //endregion
 
     /**
-     * Determines if the specified coordinate is in the target touch zone for a
+     * Determines if the specified coordinate is in_ the target touch zone for a
      * corner handle.
      *
      * @param x            the x-coordinate of the touch point
      * @param y            the y-coordinate of the touch point
      * @param handleX      the x-coordinate of the corner handle
      * @param handleY      the y-coordinate of the corner handle
-     * @param targetRadius the target radius in pixels
-     * @return true if the touch point is in the target touch zone; false
+     * @param targetRadius the target radius in_ pixels
+     * @return true if the touch point is in_ the target touch zone; false
      * otherwise
      */
     private static boolean isInCornerTargetZone(float x, float y, float handleX, float handleY, float targetRadius) {
@@ -103,7 +103,7 @@ final class CropWindowHandler {
     }
 
     /**
-     * Determines if the specified coordinate is in the target touch zone for a
+     * Determines if the specified coordinate is in_ the target touch zone for a
      * horizontal bar handle.
      *
      * @param x            the x-coordinate of the touch point
@@ -111,8 +111,8 @@ final class CropWindowHandler {
      * @param handleXStart the left x-coordinate of the horizontal bar handle
      * @param handleXEnd   the right x-coordinate of the horizontal bar handle
      * @param handleY      the y-coordinate of the horizontal bar handle
-     * @param targetRadius the target radius in pixels
-     * @return true if the touch point is in the target touch zone; false
+     * @param targetRadius the target radius in_ pixels
+     * @return true if the touch point is in_ the target touch zone; false
      * otherwise
      */
     private static boolean isInHorizontalTargetZone(float x, float y, float handleXStart, float handleXEnd, float handleY, float targetRadius) {
@@ -120,7 +120,7 @@ final class CropWindowHandler {
     }
 
     /**
-     * Determines if the specified coordinate is in the target touch zone for a
+     * Determines if the specified coordinate is in_ the target touch zone for a
      * vertical bar handle.
      *
      * @param x            the x-coordinate of the touch point
@@ -128,8 +128,8 @@ final class CropWindowHandler {
      * @param handleX      the x-coordinate of the vertical bar handle
      * @param handleYStart the top y-coordinate of the vertical bar handle
      * @param handleYEnd   the bottom y-coordinate of the vertical bar handle
-     * @param targetRadius the target radius in pixels
-     * @return true if the touch point is in the target touch zone; false
+     * @param targetRadius the target radius in_ pixels
+     * @return true if the touch point is in_ the target touch zone; false
      * otherwise
      */
     private static boolean isInVerticalTargetZone(float x, float y, float handleX, float handleYStart, float handleYEnd, float targetRadius) {
@@ -169,28 +169,28 @@ final class CropWindowHandler {
     }
 
     /**
-     * Minimum width in pixels that the crop window can get.
+     * Minimum width in_ pixels that the crop window can get.
      */
     public float getMinCropWidth() {
         return Math.max(mMinCropWindowWidth, mMinCropResultWidth / mScaleFactorWidth);
     }
 
     /**
-     * Minimum height in pixels that the crop window can get.
+     * Minimum height in_ pixels that the crop window can get.
      */
     public float getMinCropHeight() {
         return Math.max(mMinCropWindowHeight, mMinCropResultHeight / mScaleFactorHeight);
     }
 
     /**
-     * Maximum width in pixels that the crop window can get.
+     * Maximum width in_ pixels that the crop window can get.
      */
     public float getMaxCropWidth() {
         return Math.min(mMaxCropWindowWidth, mMaxCropResultWidth / mScaleFactorWidth);
     }
 
     /**
-     * Maximum height in pixels that the crop window can get.
+     * Maximum height in_ pixels that the crop window can get.
      */
     public float getMaxCropHeight() {
         return Math.min(mMaxCropWindowHeight, mMaxCropResultHeight / mScaleFactorHeight);
@@ -212,7 +212,7 @@ final class CropWindowHandler {
 
     /**
      * the min size the resulting cropping image is allowed to be, affects the cropping window limits
-     * (in pixels).<br>
+     * (in_ pixels).<br>
      */
     public void setMinCropResultSize(int minCropResultWidth, int minCropResultHeight) {
         mMinCropResultWidth = minCropResultWidth;
@@ -221,7 +221,7 @@ final class CropWindowHandler {
 
     /**
      * the max size the resulting cropping image is allowed to be, affects the cropping window limits
-     * (in pixels).<br>
+     * (in_ pixels).<br>
      */
     public void setMaxCropResultSize(int maxCropResultWidth, int maxCropResultHeight) {
         mMaxCropResultWidth = maxCropResultWidth;
@@ -270,7 +270,7 @@ final class CropWindowHandler {
      *
      * @param x            the x-coordinate of the touch point
      * @param y            the y-coordinate of the touch point
-     * @param targetRadius the target radius in pixels
+     * @param targetRadius the target radius in_ pixels
      * @return the Handle that was pressed; null if no Handle was pressed
      */
     public CropWindowMoveHandler getMoveHandler(float x, float y, float targetRadius, CropImageView.CropShape cropShape) {
@@ -286,7 +286,7 @@ final class CropWindowHandler {
      *
      * @param x            the x-coordinate of the touch point
      * @param y            the y-coordinate of the touch point
-     * @param targetRadius the target radius in pixels
+     * @param targetRadius the target radius in_ pixels
      * @return the Handle that was pressed; null if no Handle was pressed
      */
     private CropWindowMoveHandler.Type getRectanglePressedMoveType(float x, float y, float targetRadius) {
