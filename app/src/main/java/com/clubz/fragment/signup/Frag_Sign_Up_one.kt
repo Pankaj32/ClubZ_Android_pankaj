@@ -57,8 +57,8 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
     override fun onClick(p0: View?) {
      when(p0!!.id){
          R.id.next-> if(verfiy())
-             (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code))
-         // generateOtp()
+             //(activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code))
+          generateOtp()
      }
     }
 
@@ -123,7 +123,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
                 }catch (ex :Exception){
-
+                    Toast.makeText(context,R.string.swr, Toast.LENGTH_LONG).show()
                 }
                 dialog.dismiss();
             }
@@ -141,7 +141,6 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params.put("country_code" , "+"+(country_code.selectedItem as Country_Code).phone_code);
                 params.put("contact_no" , phone_no.text.toString());
-                params.put("auth_token" , activity._authToken);
                 Util.e("params" , params.toString())
                 return params;
 

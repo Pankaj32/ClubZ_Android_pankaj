@@ -73,7 +73,7 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
      when(p0!!.id){
          R.id.confirm -> {
              (activity as Sign_up_Activity).hideKeyBoard(); if(verfiy())
-             (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two())
+             (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two().setData(_contact,_code))
              //verify_otp()
          }
      }
@@ -100,7 +100,7 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
     }
 
     fun verify_otp(){
-        val dialog = CusDialogProg(context);
+       /* val dialog = CusDialogProg(context);
         dialog.show();
         object  : VolleyGetPost(activity,context, WebService.Verify_Otp,true) {
             override fun onVolleyResponse(response: String?) {
@@ -144,6 +144,6 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
                 return params
 
             }
-        }.execute()
+        }.execute()*/
     }
 }

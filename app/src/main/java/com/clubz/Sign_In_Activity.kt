@@ -89,13 +89,13 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0!!.id){
             R.id.sign_up->startActivity(Intent(this@Sign_In_Activity,Sign_up_Activity::class.java))
-            R.id.next-> if(verify()){} //login()
-           /* R.id.google_lnr->   googleSignin()
+            R.id.next-> if(verify()) login()
+            R.id.google_lnr->   googleSignin()
             R.id.facebook_lnr-> try {
                 facebooklogin()
             }catch (ex: Exception){
                 ex.printStackTrace()
-            }*/
+            }
         }
     }
 
@@ -145,7 +145,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
     fun login(){
         val dialog = CusDialogProg(this);
         dialog.show();
-        object  : VolleyGetPost(this,this, WebService.Login,false) {
+        object  : VolleyGetPost(this,this, WebService.login_Otp,false) {
             override fun onVolleyResponse(response: String?) {
                 //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
                 //{"status":"fail","message":"This mobile number is already registered."}
@@ -156,13 +156,13 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
                         var intent = Intent (this@Sign_In_Activity,Otp_activity::class.java)
-                        intent.putExtra(Constants.DATA ,arrayOf(obj.getString("otp") ,phone_no.text.toString() , "91" , if(obj.has("step"))obj.getString("step") else {""}))
+                        intent.putExtra(Constants.DATA ,arrayOf(obj.getString("otp") ,phone_no.text.toString() , "+"+(country_code.selectedItem as Country_Code).phone_code , if(obj.has("step"))obj.getString("step") else {""}))
                         startActivity(intent)
                     }else{
                         Toast.makeText(this@Sign_In_Activity,obj.getString("message"),Toast.LENGTH_LONG).show()
                     }
                 }catch (ex :Exception){
-
+                    Toast.makeText(this@Sign_In_Activity,R.string.swr, Toast.LENGTH_LONG).show()
                 }
                 dialog.dismiss();
             }
@@ -180,7 +180,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
                 params.put("country_code" , "+"+(country_code.selectedItem as Country_Code).phone_code);
                 params.put("contact_no" , phone_no.text.toString());
                 params.put("device_token" , "1234");
-                params.put("device_type" , "1");
+                params.put("device_type" , Constants.DEVICE_TYPE);
                 Util.e("params" , params.toString())
                 return params;
 
@@ -241,24 +241,36 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun registrion(account: GoogleSignInAccount?, arrayOf: Array<String> = arrayOf("")) {
+
+
         val dialog = CusDialogProg(this);
         dialog.show();
-        object : VolleyGetPost(this,this,WebService.Registraion, false){
+        object : VolleyGetPost(this,this,WebService.Chek_Social, true){
             override fun onVolleyResponse(response: String?) {
                //{"status":"success","message":"User registration successfully done","userDetail":{"id":"3","first_name":"Dharmraj","last_name":"Acharya","social_id":"111490020457098783487","social_type":"google","email":"dharmraj.mindiii@gmail.com","country_code":"+","contact_no":"","profile_image":"","is_verified":"","auth_token":"bbd015a020622ba7023ee0071bbef2dc0a49b2da","device_type":"1","device_token":"1234"},"step":1}
             try {
                 val obj = JSONObject(response)
                 if (obj.getString("status").equals("success")) {
-                    val auth_token = obj.getJSONObject("userDetail").getString("auth_token");
-                    SessionManager.obj.createSession(Gson().fromJson<User>(obj.getString("userDetail"),User::class.java))
-                    var intent = Intent(this@Sign_In_Activity, Sign_up_Activity::class.java)
-                    if(obj.has("step"))intent.putExtra(Constants.DATA, arrayOf(obj.getString("step"), auth_token))
-                    startActivity(intent)
+                    /*var intent = Intent(this@Sign_In_Activity, Sign_up_Activity::class.java)
+                    if(account!=null){
+                        intent.putExtra(Constants._first_name,account.displayName)
+                        intent.putExtra(Constants._email,account.email.toString())
+                        intent.putExtra(Constants._social_id,account.id+"")
+                        intent.putExtra(Constants._social_type,Constants._google)
+                        intent.putExtra(Constants._profile_image,account.photoUrl.toString())
+                    }
+                    else{
+                        intent.putExtra(Constants._first_name,arrayOf.get(1))
+                        intent.putExtra(Constants._email,arrayOf.get(3))
+                        intent.putExtra(Constants._social_id,arrayOf.get(0)+"")
+                        intent.putExtra(Constants._social_type,Constants._facebook)
+                        intent.putExtra(Constants._profile_image,arrayOf.get(2))
+                    }*/
                 } else {
                     Toast.makeText(this@Sign_In_Activity,obj.getString("message"),Toast.LENGTH_LONG).show()
                 }
             }catch (ex : Exception){
-
+                Toast.makeText(this@Sign_In_Activity,R.string.swr, Toast.LENGTH_LONG).show()
             }
                 dialog.dismiss();
             }
@@ -273,36 +285,24 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-               if(account!=null){
-                   val s = account.displayName.toString().split(" ")
-                   params.put("first_name",s[0])
-                   params.put("last_name",if(s.size>=2)s[1] else "")
-                   params.put("email",account.email.toString())
-                   params.put("social_id",account.id+"")
-                   params.put("social_type","google")
-                   params.put("profile_image",account.photoUrl.toString())
-               }
-                else{
-                   val s = arrayOf.get(1).toString().split(" ")
-                   params.put("first_name",s[0])
-                   params.put("last_name",if(s.size>=2)s[1] else "")
-                   params.put("email",arrayOf.get(3))
-                   params.put("social_id",arrayOf.get(0)+"")
-                   params.put("social_type","facebook")
-                   params.put("profile_image",arrayOf.get(2))
-               }
 
-                params.put("device_type",Constants.DEVICE_TYPE)
-                params.put("contact_no","")
-                params.put("device_token","1234")
-                params.put("country_code","")
-
-                Util.e("Param" ,params.toString());
                 return params
 
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                if(account!=null){
+                    params.put("social_id",account.id+"")
+                    params.put("social_type","google")
+                }
+                else{
+                    params.put("social_id",arrayOf.get(0)+"")
+                    params.put("social_type","facebook")
+
+                }
+                params.put("device_type",Constants.DEVICE_TYPE)
+                params.put("device_token","1234")
+                Util.e("Param" ,params.toString());
                 return params
             }
         }.execute()

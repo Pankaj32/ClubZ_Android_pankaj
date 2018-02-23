@@ -87,8 +87,8 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
-                    android:background="@color/pager_line"
-                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:background="@color/text_gray"
+                    android:layout_marginLeft="@dimen/_40sdp"
                     android:layout_alignRight="@+id/country_code"
                     android:layout_below="@+id/country_code"
                     />
@@ -127,7 +127,7 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
-                    android:background="@color/pager_line"
+                    android:background="@color/text_gray"
                     android:layout_alignLeft="@+id/phone_no"
                     android:layout_alignRight="@+id/phone_no"
                     android:layout_below="@+id/phone_no"
@@ -279,7 +279,7 @@
                         android:background="@drawable/bg_white_fb_google"
                         app:srcCompat="@drawable/ic_google"
                         android:padding="@dimen/_6sdp"
-                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_margin="@dimen/_2sdp"
                         android:backgroundTint="@color/white"/>
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="@dimen/_70sdp"

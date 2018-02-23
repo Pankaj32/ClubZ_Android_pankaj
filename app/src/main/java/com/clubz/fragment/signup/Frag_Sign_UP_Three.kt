@@ -5,11 +5,19 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.android.volley.VolleyError
 import com.clubz.Cus_Views.ChipView
+import com.clubz.Cus_Views.CusDialogProg
 import com.clubz.R
 import com.clubz.Sign_up_Activity
+import com.clubz.helper.SessionManager
+import com.clubz.helper.WebService
+import com.clubz.model.Country_Code
 import com.clubz.util.Util
+import com.clubz.util.VolleyGetPost
 import kotlinx.android.synthetic.main.frag_sign_up_three.*
+import org.json.JSONObject
 import java.util.ArrayList
 
 /**
@@ -18,6 +26,9 @@ import java.util.ArrayList
 
 
 class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
+    lateinit var _contact : String
+    lateinit var _code : String
+    lateinit var _authtoken : String
 
     var list : ArrayList<String> = ArrayList();
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -26,14 +37,15 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for(view in arrayOf(plus ,next ))view.setOnClickListener(this)
+        for(view in arrayOf(plus ,done ))view.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when(p0!!.id){
             R.id.plus-> if(canadd())addView();
-            R.id.next-> (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Four())
-            R.id.skip-> (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Four())
+            R.id.done-> if(list.size==0){
+                Util.showSnake(context,view!!,R.string.a_addaffil)
+            }else updateUserdata()
         }
     }
 
@@ -55,7 +67,12 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
     fun addView(){
         val chip = object : ChipView(context,chip_grid.childCount.toString()){
             override fun setDeleteListner(chipView: ChipView?) {
-
+                for (s  in list){
+                    if(s.trim().toLowerCase().equals(chipView!!.text.trim().toLowerCase())){
+                        list.remove(s);
+                        break;
+                    }
+                }
             }
         }
         chip.setText(affiliates.text.toString())
@@ -64,5 +81,68 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
         affiliates.setText("");
     }
 
+    fun getValues() :String{
+        Util.e("values ",list.toString());
+        return list.toString().replace("[","").replace("]","")
+    }
+    fun setData( contact : String , code : String , auth :String) :Frag_Sign_UP_Three{
+        _contact = contact;
+        _code = code;
+        _authtoken = auth;
+        return this;
+    }
+
+    fun updateUserdata(){
+        val activity = activity as Sign_up_Activity;
+        val dialog = CusDialogProg(context);
+        dialog.show();
+        object  : VolleyGetPost(activity,context, WebService.update_user,false) {
+            override fun onVolleyResponse(response: String?) {
+                //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
+                //{"status":"fail","message":"This mobile number is already registered."}
+                //{"status":"success","message":"Registered successfully, Generate verify code successfully sent","otp":"3319","step":1}
+
+                try{
+                    val obj = JSONObject(response)
+                    if(obj.getString("status").equals("success")){
+                       // (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData(obj.getString("otp") ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code))
+                        Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
+                    }else{
+                        Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
+                    }
+                }catch (ex :Exception){
+                    Toast.makeText(context,R.string.swr, Toast.LENGTH_LONG).show()
+                }
+                dialog.dismiss();
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+
+            }
+
+            override fun onNetError() {
+                dialog.dismiss()
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("interests" , "");
+                params.put("skills" , "");
+                params.put("affiliates" , getValues());
+                Util.e("params" , params.toString())
+                return params;
+
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put( "language", SessionManager.obj.getLanguage());
+                params.put( "authToken", _authtoken); //Its Temp
+                Util.e("headers" , params.toString())
+                return params
+
+            }
+        }.execute()
+    }
 
 }

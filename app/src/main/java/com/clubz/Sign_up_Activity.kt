@@ -25,7 +25,12 @@ import kotlinx.android.synthetic.main.activity_signup.*
 
 class Sign_up_Activity : AppCompatActivity() {
 
-    public var _authToken : String = ""
+    public var _first_name  : String = ""
+    public var _email       : String = ""
+    public var _social_id   : String = ""
+    public var _social_type : String = ""
+    public var _profile_image: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
@@ -33,11 +38,14 @@ class Sign_up_Activity : AppCompatActivity() {
         replaceFragment(Frag_Sign_Up_one())
 
        try{
-           val s = intent.getStringArrayExtra(Constants.DATA)
-           if(s!=null){_authToken = s[1]
-           if(s[0].equals("step2")){
-               replaceFragment(Frag_Sign_Up_One_2())
-           }}
+           val s = intent.getStringExtra(Constants._first_name)
+           if(s!=null){
+               _first_name      = s;
+               _email           = intent.getStringExtra(Constants._email);
+               _social_id       = intent.getStringExtra(Constants._social_id );
+               _social_type     = intent.getStringExtra(Constants._social_type);
+               _profile_image   = intent.getStringExtra(Constants._profile_image);
+           }
        }catch (ex :Exception){
            ex.printStackTrace()
        }
@@ -59,7 +67,6 @@ class Sign_up_Activity : AppCompatActivity() {
             fragmentTransaction.commit()
             hideKeyBoard()
             setIndicator(fragmentName)
-
 
         } catch (e: Exception) {
             Util.e("value", e.toString())

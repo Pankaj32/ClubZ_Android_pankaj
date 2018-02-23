@@ -88,8 +88,8 @@
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:background="@color/pager_line"
-                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:background="@color/text_gray"
+                        android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_alignRight="@+id/country_code"
                         android:layout_below="@+id/country_code"
                         />
@@ -128,7 +128,7 @@
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:background="@color/pager_line"
+                        android:background="@color/text_gray"
                         android:layout_alignLeft="@+id/phone_no"
                         android:layout_alignRight="@+id/phone_no"
                         android:layout_below="@+id/phone_no"

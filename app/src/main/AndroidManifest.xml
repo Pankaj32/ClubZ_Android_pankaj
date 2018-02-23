@@ -30,6 +30,10 @@
             android:theme="@style/AppTheme2"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".Home_Activity"
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".Inro_Activity"
             android:screenOrientation="portrait"
             />
@@ -41,6 +45,7 @@
 
         <activity android:name=".Sign_up_Activity"
             android:theme="@style/AppTheme2"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             />
         <activity android:name=".Cropper.CropImageActivity"

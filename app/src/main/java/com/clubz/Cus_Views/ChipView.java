@@ -52,7 +52,11 @@ public abstract class ChipView extends RelativeLayout implements View.OnClickLis
 
     public void setText(String text) {
         label.setText(text);
-        System.out.println();
+        /*System.out.println();*/
+    }
+
+    public String getText(){
+        return label.getText().toString();
     }
 
     public TextView getTextView() {

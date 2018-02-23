@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ClubZ</string>
+    <string name="app_name">Club Z</string>
     <string name="facebook_app_id">1901949733451269</string>
     <string name="fb_login_protocol_scheme">fb1901949733451269</string>
 
@@ -39,6 +39,11 @@
     <string name="temp_sucess"> Successfully registered </string>
     <string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>
 
+    <!--Bottom menu-->
+    <string name="item_1">News</string>
+    <string name="item_2">Activities</string>
+    <string name="item_3">Chat</string>
+    <string name="item_4">Ads</string>
 
     <!--Slider-->
     <string name="slider_t1"> Activities </string>
@@ -111,6 +116,9 @@
     <string name="a_already_affil" > Affiliates already added.</string>
     <string name="a_already_intrest" > Interest already added.</string>
     <string name="a_already_skill" > Skill already added.</string>
+
+    <string name="a_internet_title" > No internet connection detected.</string>
+    <string name="a_internet_body" > An internet connection is required \nto sign in or sign up for first time.\nOnce you have register this device you can access to your content offline.  </string>
 
     <!--Image Cropper-->
     <string name="pick_image_intent_text" >Choose an image</string>

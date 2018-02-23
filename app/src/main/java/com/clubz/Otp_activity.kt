@@ -9,6 +9,7 @@ import com.android.volley.VolleyError
 import com.clubz.Cus_Views.CusDialogProg
 import com.clubz.R.id.confirm
 import com.clubz.helper.WebService
+import com.clubz.model.Country_Code
 import com.clubz.util.Constants
 import com.clubz.util.Util
 import com.clubz.util.VolleyGetPost
@@ -60,7 +61,7 @@ class Otp_activity : AppCompatActivity(), View.OnClickListener {
     fun verify_otp(){
         val dialog = CusDialogProg(this);
         dialog.show();
-        object  : VolleyGetPost(this,this, WebService.Verify_OtpLogin+"?contact_no="+_contact+"&country_code="+_code,true) {
+        object  : VolleyGetPost(this,this, WebService.login_Otp,false) {
             override fun onVolleyResponse(response: String?) {
                 //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
                 //{"status":"fail","message":"This mobile number is already registered."}
@@ -68,17 +69,13 @@ class Otp_activity : AppCompatActivity(), View.OnClickListener {
                 try {
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
-                        Toast.makeText(this@Otp_activity,obj.getString("message"),Toast.LENGTH_LONG).show()
-                        if(_step.equals("2")){
-                            var intent = Intent(this@Otp_activity, Sign_up_Activity::class.java)
-                           // if(obj.has("step"))intent.putExtra(Constants.DATA, arrayOf(obj.getString("step"), auth_token))
-                        }
+                        Toast.makeText(this@Otp_activity,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
                     else{
                         Toast.makeText(this@Otp_activity,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
                 }catch (ex: Exception){
-
+                    Toast.makeText(this@Otp_activity,R.string.swr, Toast.LENGTH_LONG).show()
                 }
                 dialog.dismiss();
             }
@@ -94,6 +91,8 @@ class Otp_activity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("country_code" , _code);
+                params.put("contact_no" ,_contact);
                 Util.e("params" , params.toString())
                 return params;
 

@@ -28,11 +28,6 @@ class Splash_Activity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-
-
-
-
-
         Handler().postDelayed({
             val intent = Intent(this@Splash_Activity , Inro_Activity::class.java)
             startActivity(intent);
@@ -41,17 +36,5 @@ class Splash_Activity : AppCompatActivity() {
 
     }
 
-
-    class ImageCode(code :String , value :Int ){
-       var code : String =""
-       var image :Int = 0
-    }
-
-    /*fun getlist():ArrayList<ImageCode>{
-        var list :ArrayList<ImageCode> = ArrayList<ImageCode>()
-        var jsonary = JSONArray(Image_Codes_class.image_codes)
-        for(i in_ 0..jsonary.length()-1){ list.add(ImageCode())        }
-        return
-    }*/
 
 }

@@ -6,12 +6,17 @@ package com.clubz.helper
 class WebService {
     companion object {
         private val base_Url= "http://clubz.co/dev/"
-        val Generate_Otp    = base_Url+"service/generateOtp"
-        val Verify_Otp      = base_Url+"service/otpVerify"
-        val Registraion     = base_Url+"service/registration"
+
         val Login           = base_Url+"service/login"
-        val Verify_OtpLogin = base_Url+"service/otpVerify_login"
-        val auto_serch      = base_Url+"service/user/autoSearch"
+        val Chek_Social     = base_Url+"service/checkSocialRegister"
+        val Generate_Otp    = base_Url+"service/generateOtp"
+        val login_Otp       = base_Url+"service/loginOtp"
+        val Registraion     = base_Url+"service/registration"
         val update_user     = base_Url+"service/user/updateUserMeta"
+
+
     }
+
+
+    //http://clubz.co/dev/service/login
 }

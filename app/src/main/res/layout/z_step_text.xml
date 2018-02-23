@@ -10,6 +10,7 @@
         android:layout_width="@dimen/_25sdp"
         android:layout_height="@dimen/_25sdp"
         android:gravity="center"
+        android:textSize="@dimen/_12sdp"
         android:layout_centerInParent="true"
         android:background="@drawable/number_inactive"
         android:fontFamily="@font/teko_bold"

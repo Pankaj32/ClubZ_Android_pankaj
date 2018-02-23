@@ -45,7 +45,7 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                getSearchs("1",p0.toString())
+                //getSearchs("1",p0.toString())
             }
         })
         skill_set.addTextChangedListener(object :TextWatcher{
@@ -58,7 +58,7 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    getSearchs("2",p0.toString())
+                    //getSearchs("2",p0.toString())
             }
         })
     }
@@ -125,7 +125,7 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
         skill_set.setText("");
     }
 
-    fun getSearchs(searchType :String , searchText : String){
+   /* fun getSearchs(searchType :String , searchText : String){
         if(!canCallApi) return ;
         object : VolleyGetPost(activity,activity,WebService.auto_serch, false){
             override fun onVolleyResponse(response: String?) {
@@ -170,9 +170,9 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                /*params.put("interests",);
+                *//*params.put("interests",);
                 params.put("skills",);
-                params.put("affiliates",);*/
+                params.put("affiliates",);*//*
                 return params
             }
 
@@ -182,7 +182,7 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
                 return params
             }
         }
-    }
+    }*/
 
     fun getIntrests() : String{
         return list1.toString()
