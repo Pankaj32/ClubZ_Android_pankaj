@@ -8,11 +8,14 @@ import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.Cus_Views.CusDialogProg
 import com.clubz.R.id.confirm
+import com.clubz.helper.SessionManager
 import com.clubz.helper.WebService
 import com.clubz.model.Country_Code
+import com.clubz.model.User
 import com.clubz.util.Constants
 import com.clubz.util.Util
 import com.clubz.util.VolleyGetPost
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_sign_up_one_2.*
 import org.json.JSONObject
 
@@ -61,15 +64,19 @@ class Otp_activity : AppCompatActivity(), View.OnClickListener {
     fun verify_otp(){
         val dialog = CusDialogProg(this);
         dialog.show();
-        object  : VolleyGetPost(this,this, WebService.login_Otp,false) {
+        object  : VolleyGetPost(this,this, WebService.Login,false) {
             override fun onVolleyResponse(response: String?) {
                 //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
                 //{"status":"fail","message":"This mobile number is already registered."}
                 //{"status":"success","message":"Contact verified successfully","step":2}
+                // http://clubz.co/dev/service/login{"status":"success","message":"User authentication successfully done!","messageCode":"normal_login","userDetail":{"userId":"25","full_name":"ratnesh","social_id":"","social_type":"","email":"ratnesh.mindiii@gmail.com","country_code":"+91","contact_no":"9770495603","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/24a9315b55d30ed6bb7d351a469aea09.jpg","auth_token":"3a05500a49e8d5eb03af32f21aa8a7f7c156dc0f","device_type":"3","device_token":""}}
                 try {
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
                         Toast.makeText(this@Otp_activity,obj.getString("message"), Toast.LENGTH_LONG).show()
+                        SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
+                        startActivity(Intent(this@Otp_activity,Home_Activity::class.java))
+                        finish()
                     }
                     else{
                         Toast.makeText(this@Otp_activity,obj.getString("message"), Toast.LENGTH_LONG).show()

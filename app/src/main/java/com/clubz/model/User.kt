@@ -7,6 +7,7 @@ import java.io.Serializable
  */
 class User : Serializable{
    public var id              = ""
+   public var full_name       = ""
    public var first_name      = ""
    public var last_name       = ""
    public var social_id       = ""

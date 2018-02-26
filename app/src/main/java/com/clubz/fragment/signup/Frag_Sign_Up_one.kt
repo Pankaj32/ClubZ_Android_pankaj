@@ -147,7 +147,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put( "language",SessionManager.obj.getLanguage());
+                params.put( "language",SessionManager.getObj().getLanguage());
                 Util.e("headers" , params.toString())
                 return params
 

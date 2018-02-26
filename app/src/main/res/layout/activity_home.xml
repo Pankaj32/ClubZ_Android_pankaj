@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background">
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:text="@string/logout"
+        android:textAllCaps="true"
+        android:textSize="@dimen/_14sdp"
+        android:fontFamily="@font/roboto_regular"
+        android:background="@drawable/bg_btn_green"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+       android:layout_centerInParent="true"
+        android:layout_gravity="end"
+        />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentBottom="true"
+        app:tabIndicatorColor="@color/primaryColor"
+        app:tabIndicatorHeight="@dimen/_2sdp"
+        android:background="@color/white">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/ti_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:icon="@drawable/ic_news"
+            android:layout="@layout/custom_tab_layout"
+            android:text="@string/item_1"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/ti_actvity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:icon="@drawable/ic_activity"
+            android:layout="@layout/custom_tab_layout"
+            android:text="@string/item_2"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/ti_chat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:icon="@drawable/ic_chat_bubble"
+            android:layout="@layout/custom_tab_layout"
+            android:text="@string/item_3"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/ti_ads"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:icon="@drawable/ic_ads"
+            android:layout="@layout/custom_tab_layout"
+            android:text="@string/item_4"/>
+
+    </android.support.design.widget.TabLayout>
+
+
+</RelativeLayout>

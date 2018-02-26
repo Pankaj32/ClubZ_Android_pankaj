@@ -20,7 +20,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import com.clubz.helper.SessionManager
+import com.clubz.model.User
+import com.clubz.util.Constants
+import com.google.gson.Gson
 import org.json.JSONObject
+import java.lang.Exception
 
 
 /**
@@ -70,11 +74,16 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
 
 
     override fun onClick(p0: View?) {
+        val activity = activity as Sign_up_Activity
      when(p0!!.id){
          R.id.confirm -> {
-             (activity as Sign_up_Activity).hideKeyBoard(); if(verfiy())
-             (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two().setData(_contact,_code))
-             //verify_otp()
+             activity .hideKeyBoard();
+             if(verfiy())
+             if(activity._first_name.isBlank())activity.replaceFragment(Frag_Sign_Up_Two().setData(_contact,_code))
+             else {
+                 register(activity);
+             }
+
          }
      }
     }
@@ -99,51 +108,60 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
         return true;
     }
 
-    fun verify_otp(){
-       /* val dialog = CusDialogProg(context);
+    fun register(activity: Sign_up_Activity){
+
+        val dialog = CusDialogProg(context);
         dialog.show();
-        object  : VolleyGetPost(activity,context, WebService.Verify_Otp,true) {
+        object  : VolleyGetPost(activity,activity, WebService.Registraion,false) {
             override fun onVolleyResponse(response: String?) {
-                //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
-                //{"status":"fail","message":"This mobile number is already registered."}
-                //{"status":"success","message":"Contact verified successfully","step":2}
+                Util.e("Response",response.toString())
                 try {
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
-                       if((activity as Sign_up_Activity)._authToken.isBlank()) (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_Two().setData(_contact,_code))
-                        else (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three())
-                    }
-                    else{
+                        SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
+                        //{"status":"success","message":"User registration successfully done","userDetail":{"userId":"16","full_name":"ratnesh","social_id":"","social_type":"","email":"ratnesh.mindiii@gmail.com","country_code":"91","contact_no":"9770495603","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/62db25443654d90353e25317bf5aa73b.jpg","auth_token":"f2c6e239029dfa5f34d474ad5ca2efeef2b1640d","device_type":"1","device_token":"1234"},"messageCode":"normal_reg","step":4}
+                        (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three().setData(_contact ,_code ,obj.getJSONObject("userDetail").getString("auth_token"))) ////Its Temp
+                    }else{
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
-                }catch (ex: Exception){
-
+                }catch ( e : Exception){
+                    e.printStackTrace()
+                    Toast.makeText(context,R.string.swr, Toast.LENGTH_LONG).show()
                 }
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun onVolleyError(error: VolleyError?) {
+                Util.e("Error",error.toString())
                 dialog.dismiss()
             }
 
             override fun onNetError() {
                 dialog.dismiss()
+
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                //params.put("OTP" , confirmation_code.text.toString());
-                params.put("contact_no" , _contact)
-                params.put("country_code" , _code)
-                Util.e("params" , params.toString())
+                params.put("full_name",activity._first_name)
+                //params.put("last_name",lastname.text.toString())
+                params.put("email",activity._email)
+                params.put("contact_no",_contact)
+                params.put("device_token","1234")
+                params.put("device_type",Constants.DEVICE_TYPE)
+                params.put("country_code","+"+_code)
+                params.put("social_id",activity._social_id)
+                params.put("social_type",activity._social_type)
+                params.put("profile_image",activity._profile_image)
                 return params
+
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put( "language", SessionManager.obj.getLanguage());
+                params.put( "language", SessionManager.getObj().getLanguage());
                 Util.e("headers" , params.toString())
                 return params
-
             }
-        }.execute()*/
+        }.execute()
+
     }
 }

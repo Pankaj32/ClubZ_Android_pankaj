@@ -83,12 +83,13 @@
     <string name="sign_in" > Sign In </string>
     <string name="confirm" > Confirm </string>
     <string name="next" > Next </string>
+
     <string name="done" > Done </string>
     <string name="connect" > Connect </string>
     <string name="signup" > Sign Up </string>
     <string name="create_one" > Create One </string>
     <string name="try_again" > Try again </string>
-
+    <string name="logout" > Logout </string>
     <string name="resend" > Resend code </string>
  <!--   <string name="skip" > <u>Skip</u></string>-->
     <string name="skip" >Skip</string>
@@ -101,6 +102,8 @@
 
     <string name="a_firstname" > Please enter First name. </string>
     <string name="a_last_name" > Please enter Last name. </string>
+
+    <string name="a_full_name" > Please enter Full name. </string>
 
     <string name="a_email" > Please enter email address. </string>
     <string name="a_email_valid" > Please enter valid email address. </string>

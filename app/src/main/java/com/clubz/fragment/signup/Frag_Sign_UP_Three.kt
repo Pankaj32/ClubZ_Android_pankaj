@@ -1,5 +1,6 @@
 package com.clubz.fragment.signup
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.Cus_Views.ChipView
 import com.clubz.Cus_Views.CusDialogProg
+import com.clubz.Home_Activity
 import com.clubz.R
 import com.clubz.Sign_up_Activity
 import com.clubz.helper.SessionManager
@@ -105,8 +107,9 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
                 try{
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
-                       // (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData(obj.getString("otp") ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code))
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
+                        startActivity(Intent(activity, Home_Activity::class.java))
+                        activity.finish()
                     }else{
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
@@ -136,7 +139,7 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put( "language", SessionManager.obj.getLanguage());
+                params.put( "language", SessionManager.getObj().getLanguage());
                 params.put( "authToken", _authtoken); //Its Temp
                 Util.e("headers" , params.toString())
                 return params

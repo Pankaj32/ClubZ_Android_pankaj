@@ -62,7 +62,6 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
         FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS)
         FacebookSdk.setApplicationId(getResources().getString(R.string.facebook_app_id));
         setContentView(R.layout.activity_signin);
-        SessionManager.obj.createSession(User());
         Util.checklaunage(this)
         for(view in arrayOf(next ,google_lnr , facebook_lnr,sign_up ))view.setOnClickListener(this)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -187,7 +186,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put( "language",SessionManager.obj.getLanguage());
+                params.put( "language",SessionManager.getObj().getLanguage());
                 Util.e("headers" , params.toString())
                 return params
 
@@ -245,27 +244,37 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
 
         val dialog = CusDialogProg(this);
         dialog.show();
-        object : VolleyGetPost(this,this,WebService.Chek_Social, true){
+        object : VolleyGetPost(this,this,WebService.Chek_Social, false){
             override fun onVolleyResponse(response: String?) {
                //{"status":"success","message":"User registration successfully done","userDetail":{"id":"3","first_name":"Dharmraj","last_name":"Acharya","social_id":"111490020457098783487","social_type":"google","email":"dharmraj.mindiii@gmail.com","country_code":"+","contact_no":"","profile_image":"","is_verified":"","auth_token":"bbd015a020622ba7023ee0071bbef2dc0a49b2da","device_type":"1","device_token":"1234"},"step":1}
             try {
                 val obj = JSONObject(response)
-                if (obj.getString("status").equals("success")) {
-                    /*var intent = Intent(this@Sign_In_Activity, Sign_up_Activity::class.java)
-                    if(account!=null){
-                        intent.putExtra(Constants._first_name,account.displayName)
-                        intent.putExtra(Constants._email,account.email.toString())
-                        intent.putExtra(Constants._social_id,account.id+"")
-                        intent.putExtra(Constants._social_type,Constants._google)
-                        intent.putExtra(Constants._profile_image,account.photoUrl.toString())
-                    }
-                    else{
-                        intent.putExtra(Constants._first_name,arrayOf.get(1))
-                        intent.putExtra(Constants._email,arrayOf.get(3))
-                        intent.putExtra(Constants._social_id,arrayOf.get(0)+"")
-                        intent.putExtra(Constants._social_type,Constants._facebook)
-                        intent.putExtra(Constants._profile_image,arrayOf.get(2))
-                    }*/
+                if (obj.getString("status").equals("success") ) {
+                    //{"status":"success","step":1}
+                 if(obj.has("step") && obj.getInt("step")==1){
+                     var intent = Intent(this@Sign_In_Activity, Sign_up_Activity::class.java)
+                        if(account!=null){
+                            intent.putExtra(Constants._first_name,account.displayName)
+                            intent.putExtra(Constants._email,account.email.toString())
+                            intent.putExtra(Constants._social_id,account.id+"")
+                            intent.putExtra(Constants._social_type,Constants._google)
+                            intent.putExtra(Constants._profile_image,account.photoUrl.toString())
+
+                        }
+                        else{
+                            intent.putExtra(Constants._first_name,arrayOf.get(1))
+                            intent.putExtra(Constants._email,arrayOf.get(3))
+                            intent.putExtra(Constants._social_id,arrayOf.get(0)+"")
+                            intent.putExtra(Constants._social_type,Constants._facebook)
+                            intent.putExtra(Constants._profile_image,arrayOf.get(2))
+                        }
+                     startActivity(intent)
+                     finish()
+                 }else {
+                     SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
+                     startActivity(Intent(this@Sign_In_Activity,Home_Activity::class.java))
+                     finish()
+                 }
                 } else {
                     Toast.makeText(this@Sign_In_Activity,obj.getString("message"),Toast.LENGTH_LONG).show()
                 }
@@ -285,12 +294,6 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-
-                return params
-
-            }
-
-            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
                 if(account!=null){
                     params.put("social_id",account.id+"")
                     params.put("social_type","google")
@@ -303,6 +306,12 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
                 params.put("device_type",Constants.DEVICE_TYPE)
                 params.put("device_token","1234")
                 Util.e("Param" ,params.toString());
+                return params
+
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+
                 return params
             }
         }.execute()
@@ -373,13 +382,13 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 override fun onCancel() {
-                    //if (dialogProg != null) dialogProg.dismiss()
+                    //if(dialogProg != null) dialogProg.dismiss()
                     Toast.makeText(this@Sign_In_Activity, "Cancelled by User", Toast.LENGTH_LONG).show()
 
                 }
 
                 override fun onError(error: FacebookException) {
-                    //if (dialogProg != null) dialogProg.dismiss()
+                    //if(dialogProg != null) dialogProg.dismiss()
                     Log.e("Facebook", "Error" + error)
                     Toast.makeText(this@Sign_In_Activity, "Facebooklogin :something went wrong", Toast.LENGTH_SHORT).show()
                 }

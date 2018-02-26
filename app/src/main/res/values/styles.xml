@@ -12,6 +12,13 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="AppThemehome" parent="@style/Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 
 
     <style name="lightcolor" >

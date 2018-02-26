@@ -61,7 +61,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         for(view in arrayOf(iv_capture ,next ))view.setOnClickListener(this)
         try {
-            val user : User = SessionManager.obj.getUser()
+            val user : User = SessionManager.getObj().getUser()
             /*username.setText(user.first_name)
             email.setText(user.email)*/
         }catch (ex :Exception){
@@ -89,7 +89,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     fun verify():Boolean{
         (activity as Sign_up_Activity).hideKeyBoard();
         if(username.text.toString().isBlank()){
-            Util.showSnake(context, view!! ,R.string.a_firstname)
+            Util.showSnake(context, view!! ,R.string.a_full_name)
             return false
         }
         /*if(lastname.text.toString().isBlank()){
@@ -268,7 +268,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
                     try {
                         val obj = JSONObject(data)
                         if(obj.getString("status").equals("success")){
-                            SessionManager.obj.createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
+                            SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
                             //{"status":"success","message":"User registration successfully done","userDetail":{"userId":"16","full_name":"ratnesh","social_id":"","social_type":"","email":"ratnesh.mindiii@gmail.com","country_code":"91","contact_no":"9770495603","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/62db25443654d90353e25317bf5aa73b.jpg","auth_token":"f2c6e239029dfa5f34d474ad5ca2efeef2b1640d","device_type":"1","device_token":"1234"},"messageCode":"normal_reg","step":4}
                             (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three().setData(_contact ,_code ,obj.getJSONObject("userDetail").getString("auth_token"))) ////Its Temp
                         }else{
@@ -294,7 +294,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
                     params.put("email",email.text.toString())
                     params.put("contact_no",_contact)
                     params.put("device_token","1234")
-                    params.put("device_type","1")
+                    params.put("device_type","2")
                     params.put("country_code","+"+_code)
                     params.put("social_id","")
                     params.put("social_type","")
@@ -304,7 +304,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
 
 
                 override fun getHeaders(): MutableMap<String, String> {
-                    params.put("language",SessionManager.obj.getLanguage())
+                    params.put("language",SessionManager.getObj().getLanguage())
                     return super.getHeaders()
                 }
 
@@ -315,7 +315,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
 
                     if (profilieImage != null) {
                         params.put("profile_image", DataPart("profileImage.jpg", AppHelper.getFileDataFromDrawable(profilieImage), "image/jpeg"))
-                       // Util.printBigLogcat("image ",params.toString())
+
                     }
                     return params
                 }
