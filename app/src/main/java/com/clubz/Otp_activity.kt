@@ -73,7 +73,7 @@ class Otp_activity : AppCompatActivity(), View.OnClickListener {
                 try {
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
-                        Toast.makeText(this@Otp_activity,obj.getString("message"), Toast.LENGTH_LONG).show()
+
                         SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
                         startActivity(Intent(this@Otp_activity,Home_Activity::class.java))
                         finish()

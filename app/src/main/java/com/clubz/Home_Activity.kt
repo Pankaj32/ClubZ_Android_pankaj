@@ -24,6 +24,8 @@ class Home_Activity : Activity(), TabLayout.OnTabSelectedListener, View.OnClickL
 
         tablayout.addOnTabSelectedListener(this)
         for(view in arrayOf(logout))view.setOnClickListener(this)
+        setTab(tablayout.getTabAt(0)!!,R.drawable.ic_news_active,true)
+
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {

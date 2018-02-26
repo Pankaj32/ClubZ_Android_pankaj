@@ -12,7 +12,7 @@ class CusDialogProg(internal var context: Context, Layout: Int = R.layout.custom
     init {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
         this.setContentView(Layout)
-
+        this.setCanceledOnTouchOutside(false)
         setColor()
         instance = this
     }

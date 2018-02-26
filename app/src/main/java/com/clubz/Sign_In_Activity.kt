@@ -55,6 +55,8 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
     lateinit var mGoogleSignInClient : GoogleSignInClient
     lateinit var callbackManager: CallbackManager
     var isvalidate: Boolean = false;
+    lateinit var dialog :CusDialogProg ;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FacebookSdk.sdkInitialize(applicationContext)
@@ -62,6 +64,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
         FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS)
         FacebookSdk.setApplicationId(getResources().getString(R.string.facebook_app_id));
         setContentView(R.layout.activity_signin);
+        dialog = CusDialogProg(this);
         Util.checklaunage(this)
         for(view in arrayOf(next ,google_lnr , facebook_lnr,sign_up ))view.setOnClickListener(this)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -215,6 +218,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
      */
     private fun googleSignin() {
         //val account = GoogleSignIn.getLastSignedInAccount(this)
+        dialog.show()
         val signInIntent = mGoogleSignInClient.getSignInIntent()
         startActivityForResult(signInIntent, Constants.RC_SIGN_IN)
     }
@@ -231,6 +235,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
             // Signed in_ successfully, show authenticated UI.
 
         } catch (e: ApiException) {
+            dialog.dismiss()
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.e("failed google", "signInResult:failed code=" + e.statusCode)
@@ -240,9 +245,6 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun registrion(account: GoogleSignInAccount?, arrayOf: Array<String> = arrayOf("")) {
-
-
-        val dialog = CusDialogProg(this);
         dialog.show();
         object : VolleyGetPost(this,this,WebService.Chek_Social, false){
             override fun onVolleyResponse(response: String?) {

@@ -45,9 +45,9 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when(p0!!.id){
             R.id.plus-> if(canadd())addView();
-            R.id.done-> if(list.size==0){
+            R.id.done-> /*if(list.size==0){
                 Util.showSnake(context,view!!,R.string.a_addaffil)
-            }else updateUserdata()
+            }else*/ updateUserdata()
         }
     }
 
@@ -55,6 +55,10 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
         (activity as Sign_up_Activity ).hideKeyBoard()
         if(affiliates.text.isBlank()){
             Util.showSnake(context,view!!,R.string.a_addaffil)
+            return false;
+        }
+        if(list.size>=10){
+            Util.showSnake(context,view!!,R.string.a_max10)
             return false;
         }
         for (s  in list){
@@ -85,7 +89,7 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
 
     fun getValues() :String{
         Util.e("values ",list.toString());
-        return list.toString().replace("[","").replace("]","")
+        return if(list.size==0) "" else list.toString().replace("[","").replace("]","")
     }
     fun setData( contact : String , code : String , auth :String) :Frag_Sign_UP_Three{
         _contact = contact;
@@ -107,7 +111,6 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
                 try{
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
-                        Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                         startActivity(Intent(activity, Home_Activity::class.java))
                         activity.finish()
                     }else{

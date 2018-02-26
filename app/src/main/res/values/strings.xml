@@ -115,6 +115,7 @@
     <string name="a_confirmation_code2" > Invalid confirmation code.</string>
     <string name="a_addskill" > Please enter Skill.</string>
     <string name="a_addaffil" > Please enter Affiliates.</string>
+    <string name="a_max10" > Only 10 Affiliates can add.</string>
     <string name="a_addintres" > Please enter Interest.</string>
     <string name="a_already_affil" > Affiliates already added.</string>
     <string name="a_already_intrest" > Interest already added.</string>
