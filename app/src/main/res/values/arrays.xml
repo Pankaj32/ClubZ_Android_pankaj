@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="josef_font">
-        <item>@font/poppins_italic</item>
-        <item>@font/poppins_light</item>
-        <item>@font/poppins_regular</item>
-        <item>@font/poppins_medium</item>
-        <item>@font/poppins_semibold</item>
+    <array name="clubz_font">
         <item>@font/teko_light</item>
         <item>@font/teko_regular</item>
         <item>@font/teko_medium</item>
@@ -16,13 +11,6 @@
         <item>@font/roboto_italic</item>
     </array>
 
-    <array name="imagesarry">
-        <item>ae:@mipmap/ae</item>
-        <item>af:@mipmap/af</item>
-        <item>ag:@mipmap/ag</item>
-        <item>ai:@mipmap/ai</item>
-        <item>al:@mipmap/al</item>
-    </array>
 
     <!--<item>@font/josefin_sans_regular</item>
     <item>@font/josefin_sans_italic</item>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Club Z</string>
+
+    <string name="facebook_app_id">1901949733451269</string>
+
+    <string name="slider_b1">Encuentra partidos, eventos, clases, grupos interesantes y muchas otras cosas geniales a tu alrededor </string>
+    <string name="slider_b2">Mantente actualizado sobre tu comunidad leyendo las últimas noticias y comunicados </string>
+    <string name="slider_b3">Contacta a tus vecinos y charla sobre agujeros negros o agujeros de gusano si prefieres :P</string>
+    <string name="slider_b4">Promociona tus productos o servicios mientras le das a tus clientes una manera de contactarte </string>
+
+
+</resources>

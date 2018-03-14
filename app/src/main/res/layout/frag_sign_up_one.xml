@@ -8,16 +8,7 @@
     android:descendantFocusability="beforeDescendants">
 
 
-    <android.support.v7.widget.AppCompatImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_120sdp"
-        android:src="@drawable/circle_logo"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/step_r1"
-        style="@style/step_title"/>
 
 
     <ScrollView
@@ -37,6 +28,18 @@
             android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_20sdp"
             android:gravity="center">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_120sdp"
+                android:src="@drawable/circle_logo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/step_r1"
+                style="@style/step_title"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,8 +62,8 @@
                         app:srcCompat="@drawable/phone_ico"
                         android:tint="@color/text_gray"
                         android:scaleType="fitCenter"
-                        android:layout_marginLeft="@dimen/_12sdp"
-                        android:layout_marginTop="@dimen/_10sdp"/>
+                        android:layout_marginLeft="@dimen/_16sdp"
+                        android:layout_marginTop="@dimen/_16sdp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -77,19 +80,20 @@
                         android:id="@+id/country_code"
                         android:layout_width="wrap_content"
                         android:minWidth="@dimen/_40sdp"
-                        android:dropDownWidth="@dimen/_280sdp"
+                        android:dropDownWidth="@dimen/_200sdp"
                         android:dropDownSelector="@color/text_gray"
                         android:layout_height="@dimen/_30sdp"
-                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginLeft="@dimen/_55sdp"
+                        android:layout_marginStart="@dimen/_55sdp"
                         android:overlapAnchor="false"
                         android:background="@null"
-                        android:layout_marginTop="@dimen/_10sdp"/>
+                        android:layout_marginTop="@dimen/_16sdp"/>
 
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
                         android:background="@color/text_gray"
-                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginLeft="@dimen/_55sdp"
                         android:layout_alignRight="@+id/country_code"
                         android:layout_below="@+id/country_code"
                         />
@@ -112,18 +116,18 @@
                         android:hint="@string/hint_step1_1"
                         android:inputType="phone"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/_12sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:textColor="@color/text_gray"
                         android:textColorHint="@color/pager_line"
-                        android:fontFamily="@font/roboto_italic"
+                        android:fontFamily="@font/roboto_regular"
                         style="@style/lighttheme"
                         android:singleLine="true"
                         android:layout_toRightOf="@id/country_code"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_16sdp"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginEnd="@dimen/_25sdp"
-                        android:layout_marginRight="@dimen/_25sdp"/>
+                        android:layout_marginEnd="@dimen/_16sdp"
+                        android:layout_marginRight="@dimen/_16sdp"/>
 
                     <View
                         android:layout_width="wrap_content"
@@ -138,15 +142,17 @@
 
                 <Button
                     android:id="@+id/next"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_35sdp"
-                    android:text="@string/signup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_36sdp"
+                    android:paddingLeft="@dimen/_14sdp"
+                    android:paddingRight="@dimen/_14sdp"
+                    android:text="@string/next"
                     android:textAllCaps="true"
                     android:textSize="@dimen/_14sdp"
-                    android:fontFamily="@font/roboto_regular"
+                    android:fontFamily="@font/roboto_medium"
                     android:background="@drawable/bg_btn_green"
                     android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_16sdp"
                     android:gravity="center"
                     android:layout_gravity="end"
                     />
@@ -173,7 +179,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_10sdp"
-                        android:text="@string/signup"
+                        android:text="@string/next"
                         android:layout_marginLeft="@dimen/_2sdp"
                         android:layout_marginRight="@dimen/_2sdp"
                         android:fontFamily="@font/roboto_medium"
@@ -195,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_below="@+id/sign_up"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
                     android:gravity="center">
 
                     <TextView

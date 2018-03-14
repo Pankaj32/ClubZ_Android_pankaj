@@ -3,13 +3,10 @@ package com.clubz.fragment.signup
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import com.clubz.Adapter.Country_spinner_adapter
-import com.clubz.Adapter.MyViewPagerAdapter
+import com.clubz.Spinner_adpter.Country_spinner_adapter
 import com.clubz.R
 import com.clubz.Sign_up_Activity
 import com.clubz.helper.Type_Token
@@ -29,6 +26,9 @@ import com.clubz.helper.SessionManager
 import com.clubz.helper.WebService
 import com.clubz.util.VolleyGetPost
 import org.json.JSONObject
+import com.clubz.SMSreciver.OnSmsCatchListener
+import com.clubz.SMSreciver.SmsVerifyCatcher
+import com.clubz.util.PhoneNumberTextWatcher
 
 
 /**
@@ -46,19 +46,26 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        var smsverify : SmsVerifyCatcher = SmsVerifyCatcher(activity as Sign_up_Activity, this,object : OnSmsCatchListener<String> {
+            override fun onSmsCatch(message: String?) {
+                //Util.showToast(message!!,context);
+            }
+        })
+        smsverify.onStart();
         for( view in arrayOf(next)) view.setOnClickListener(this)
         val list = Gson().fromJson<String>(Util.loadJSONFromAsset(context,"country_code.json"), Type_Token.country_list) as ArrayList<Country_Code>
-        country_code.adapter = Country_spinner_adapter(context,list,0,R.layout.spinner_view);
+        country_code.adapter = Country_spinner_adapter(context, list, 0, R.layout.spinner_view);
         setCountryCode(list , country_code)
+        phone_no.addTextChangedListener(PhoneNumberTextWatcher(phone_no));
     }
 
 
     override fun onClick(p0: View?) {
      when(p0!!.id){
-         R.id.next-> if(verfiy())
-             //(activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code))
-          generateOtp()
+         R.id.next-> if(verfiy())generateOtp()
+
+            // (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code,"1"));
+          //generateOtp()
      }
     }
 
@@ -67,6 +74,8 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
 
 
     fun verfiy() :Boolean{
+        (activity as Sign_up_Activity).hideKeyBoard()
+        Util.e("phone",phone_no.text.toString())
         checkPhoneNumber((country_code.selectedItem as Country_Code).code)
         if(phone_no.text.isBlank()){
             Util.showSnake(context,view!!,R.string.a_phone_no);
@@ -81,7 +90,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
         return true;
     }
     private fun checkPhoneNumber( countryCode : String) {
-        val contactNo = phone_no.getText().toString()
+        val contactNo = phone_no.getText().toString().replace("-","")
         try {
             val phoneUtil = PhoneNumberUtil.createInstance(context)
             if (countryCode != null) {
@@ -114,11 +123,11 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
                 //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
                 //{"status":"fail","message":"This mobile number is already registered."}
                 //{"status":"success","message":"Registered successfully, Generate verify code successfully sent","otp":"3319","step":1}
-
+//{status": "success", "message": "We have sent a PIN on given contact number. Please verify to continue", "otp": "5360", "step": 2, "isNewUser": "1"}
                 try{
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
-                        (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData(obj.getString("otp") ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code))
+                        (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData(obj.getString("otp") ,  phone_no.text.toString().replace("-","") , (country_code.selectedItem as Country_Code).phone_code ,obj.getString("isNewUser") ))
                     }else{
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
@@ -139,8 +148,8 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("country_code" , "+"+(country_code.selectedItem as Country_Code).phone_code);
-                params.put("contact_no" , phone_no.text.toString());
+                params.put("country_code" , "+"+(country_code.selectedItem as Country_Code).phone_code);//country_code
+                params.put("contact_no" , phone_no.text.toString().replace("-",""));
                 Util.e("params" , params.toString())
                 return params;
 

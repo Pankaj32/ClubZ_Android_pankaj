@@ -3,20 +3,15 @@ package com.clubz
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
 import com.android.volley.VolleyError
-import com.clubz.Adapter.Country_spinner_adapter
-import com.clubz.Adapter.MyViewPagerAdapter
+import com.clubz.Spinner_adpter.Country_spinner_adapter
 import com.clubz.Cus_Views.CusDialogProg
 import com.clubz.helper.SessionManager
 import com.clubz.helper.Type_Token
@@ -40,6 +35,7 @@ import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import org.json.JSONException
 import java.util.*
@@ -72,7 +68,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
                 .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         val list = Gson().fromJson<String>(Util.loadJSONFromAsset(this,"country_code.json"), Type_Token.country_list) as ArrayList<Country_Code>
-        country_code.adapter = Country_spinner_adapter(this,list,0,R.layout.spinner_view);
+        country_code.adapter = Country_spinner_adapter(this, list, 0, R.layout.spinner_view);
         setCountryCode(list , country_code)
 
 
@@ -181,7 +177,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params.put("country_code" , "+"+(country_code.selectedItem as Country_Code).phone_code);
                 params.put("contact_no" , phone_no.text.toString());
-                params.put("device_token" , "1234");
+                params.put("device_token" , FirebaseInstanceId.getInstance().getToken()!!);
                 params.put("device_type" , Constants.DEVICE_TYPE);
                 Util.e("params" , params.toString())
                 return params;
@@ -306,7 +302,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
 
                 }
                 params.put("device_type",Constants.DEVICE_TYPE)
-                params.put("device_token","1234")
+                params.put("device_token", FirebaseInstanceId.getInstance().getToken()!!)
                 Util.e("Param" ,params.toString());
                 return params
 

@@ -9,19 +9,22 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@android:id/icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="4dp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_minus3sdp"
             android:scaleType="centerInside"/>
 
         <TextView
             android:id="@android:id/text1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_16sdp"
             android:textColor="@color/inactive_tab"
             android:layout_gravity="center_horizontal"
-            android:gravity="center"
+            android:gravity="center|top"
             android:fontFamily="@font/roboto_medium"
+            android:layout_marginTop="@dimen/_minus5sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
             android:textSize="@dimen/_12sdp"/>
 
 

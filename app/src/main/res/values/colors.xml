@@ -16,9 +16,11 @@
     <color name="text_gray">#333333</color>
     <color name="hintcolor">#9c9c9c</color>
 
+
     <color name="background">#F2F2F2</color>
     <color name="active_tab">#009688</color>
     <color name="inactive_tab">#626262</color>
+    <color name="ab_icon">#B2B2B2</color>
     <!--<color name="google">#dc4e41</color>-->
     <color name="google">#1B87ED</color>
     <color name="facebook">#3B5998</color>

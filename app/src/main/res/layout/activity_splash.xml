@@ -14,6 +14,7 @@
         android:background="@drawable/splash"/>
 
     <View
+        android:id="@+id/ribbion"
         android:layout_width="@dimen/_140sdp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -30,10 +31,11 @@
         android:layout_height="@dimen/_100sdp"
         android:layout_gravity="center_horizontal"
         android:scaleType="centerInside"
-        app:srcCompat="@drawable/ic_zoe"
+        app:srcCompat="@drawable/cat_ico"
         android:layout_marginTop="@dimen/_50sdp"/>
 
     <TextView
+        android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/_30sdp"
@@ -42,6 +44,7 @@
         android:fontFamily="@font/teko_bold"
         android:text="@string/app_name"/>
     <View
+        android:id="@+id/line1"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_1sdp"
         android:layout_gravity="center_horizontal"
@@ -49,15 +52,17 @@
         android:background="@color/unserline_color"/>
 
         <TextView
+            android:id="@+id/text2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_20sdp"
+            android:textSize="@dimen/_23sdp"
             android:gravity="center_horizontal"
             android:textColor="@color/unserline_color"
             android:text="@string/explore1"
             android:fontFamily="@font/teko_bold"
             android:layout_marginTop="@dimen/_10sdp"/>
         <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/text3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/_33sdp"
@@ -73,12 +78,13 @@
             android:id="@+id/text_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:textSize="@dimen/_25sdp"
+            android:textSize="@dimen/_23sdp"
             android:gravity="center_horizontal"
             android:textColor="@color/unserline_color"
             android:text="@string/explore3"
             android:fontFamily="@font/teko_bold" />
         <View
+            android:id="@+id/line2"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_1sdp"
             android:layout_gravity="center_horizontal"

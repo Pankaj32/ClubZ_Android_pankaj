@@ -121,21 +121,21 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
             menu.findItem(R.id.crop_image_menu_rotate_left).setVisible(true);
         }
 
-        Drawable cropIcon = null;
+        /*Drawable cropIcon = null;
         try {
             cropIcon = ContextCompat.getDrawable(this, R.drawable.crop_image_menu_crop);
             if (cropIcon != null) {
                 menu.findItem(R.id.crop_image_menu_crop).setIcon(cropIcon);
             }
         } catch (Exception e) {
-        }
+        }*/
 
         if (mOptions.activityMenuIconColor != 0) {
             updateMenuItemIconColor(menu, R.id.crop_image_menu_rotate_left, mOptions.activityMenuIconColor);
             updateMenuItemIconColor(menu, R.id.crop_image_menu_rotate_right, mOptions.activityMenuIconColor);
-            if (cropIcon != null) {
+            /*if (cropIcon != null) {
                 updateMenuItemIconColor(menu, R.id.crop_image_menu_crop, mOptions.activityMenuIconColor);
-            }
+            }*/
         }
 
         return true;

@@ -30,7 +30,7 @@
             android:layout_height="@dimen/_90sdp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            app:siBorderWidth="@dimen/_1sdp"
+            app:siBorderWidth="@dimen/_2sdp"
             android:src="@drawable/user"
             app:siBorderColor="@color/white"
             android:padding="@dimen/_1sdp"/>
@@ -54,11 +54,25 @@
 
 
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/step_r3"
-                style="@style/step_title"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/step_r3"
+                    android:layout_centerInParent="true"
+                    style="@style/step_title"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_toRightOf="@+id/tv"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    app:srcCompat="@drawable/ic_wink" />
+            </RelativeLayout>
 
 
 
@@ -69,9 +83,8 @@
             android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:padding="@dimen/_10sdp"
+            android:padding="@dimen/_16sdp"
             android:orientation="vertical">
-
 
 
                     <TextView
@@ -99,6 +112,7 @@
                         android:hint="@string/hint_step3_1"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginLeft="@dimen/_30sdp"
+                        android:layout_marginRight="0dp"
                         style="@style/et_sign_up"/>
 
                     <View
@@ -140,6 +154,7 @@
                 android:inputType="textEmailAddress"
                 android:layout_marginTop="@dimen/_30sdp"
                 android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_marginRight="0dp"
                 android:layout_below="@+id/username"/>
             <View
                 android:layout_width="wrap_content"
@@ -149,27 +164,152 @@
                 android:layout_alignLeft="@id/email"
                 android:layout_alignRight="@+id/email"/>
 
-            <Button
-                android:id="@+id/next"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:text="@string/connect"
-                android:textAllCaps="true"
-                android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/roboto_regular"
-                android:background="@drawable/bg_btn_green"
-                android:layout_margin="@dimen/_30sdp"
-                android:layout_below="@id/email"
-                android:textColor="@color/text_btn"
+
+            <com.loopeer.shadow.ShadowView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cornerRadius="@dimen/_3sdp"
+                app:shadowRadius="@dimen/_3sdp"
+                app:shadowMargin="@dimen/_4sdp"
+                app:backgroundColor="@color/primaryColor"
+                app:shadowColor="#626262"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                />
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_below="@id/email">
+
+                <Button
+                    android:id="@+id/next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_36sdp"
+                    android:paddingLeft="@dimen/_14sdp"
+                    android:paddingRight="@dimen/_14sdp"
+                    android:text="@string/connect"
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:background="@drawable/bg_btn_green"
+                    android:textColor="@color/text_btn" />
+
+            </com.loopeer.shadow.ShadowView>
 
 
 
 
 
     </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:text="@string/orconnect"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sdp"
+                android:fontFamily="@font/teko_bold"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:gravity="center_vertical"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp">
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="@dimen/_2sdp"
+                        app:cardCornerRadius="@dimen/_2sdp"
+                        android:layout_margin="@dimen/_10sdp"
+                        app:cardBackgroundColor="@color/google">
+                        <LinearLayout
+                            android:id="@+id/google_lnr"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_google_selector"
+                            android:gravity="center_vertical"
+                            android:layout_margin="@dimen/_1sdp">
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_height="@dimen/_35sdp"
+                                android:background="@drawable/bg_white_fb_google"
+                                app:srcCompat="@drawable/ic_google"
+                                android:padding="@dimen/_6sdp"
+                                android:layout_margin="@dimen/_1sdp"
+                                android:backgroundTint="@color/white"/>
+                            <android.support.v7.widget.AppCompatTextView
+                                android:layout_width="@dimen/_70sdp"
+                                android:layout_height="match_parent"
+                                android:text="@string/google"
+                                android:gravity="center"
+                                android:padding="@dimen/_5sdp"
+                                android:textSize="@dimen/_14sdp"
+                                android:textColor="@color/white"
+                                android:fontFamily="@font/roboto_medium"
+                                />
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:gravity="center_vertical"
+                        android:elevation="@dimen/_2sdp"
+                        app:cardCornerRadius="@dimen/_2sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="@dimen/_10sdp"
+                        app:cardBackgroundColor="@color/facebook">
+                        <LinearLayout
+                            android:id="@+id/facebook_lnr"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_facebook_selector"
+                            android:layout_margin="@dimen/_1sdp"
+                            >
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="@dimen/_35sdp"
+                                android:layout_height="@dimen/_35sdp"
+                                android:backgroundTint="@color/white"
+                                android:background="@drawable/bg_white_fb_google"
+                                android:tint="@color/facebook"
+                                android:padding="@dimen/_1sdp"
+                                android:layout_margin="@dimen/_1sdp"
+                                app:srcCompat="@drawable/ic_facebook"/>
+                            <android.support.v7.widget.AppCompatTextView
+                                android:layout_width="@dimen/_80sdp"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="@string/facebook"
+                                android:textColor="@color/white"
+                                android:fontFamily="@font/roboto_medium"
+                                android:textSize="@dimen/_14sdp" />
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
 
         </LinearLayout>
 

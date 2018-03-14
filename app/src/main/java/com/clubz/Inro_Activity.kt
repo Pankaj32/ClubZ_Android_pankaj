@@ -34,13 +34,13 @@ class Inro_Activity : AppCompatActivity(), View.OnClickListener  , ViewPager.OnP
             R.id.btn_next->{
                 if(view_pager.currentItem<layouts.size-1) view_pager.setCurrentItem( view_pager.currentItem+1,true)
                 else{
-                    val intent = Intent(this@Inro_Activity , Sign_In_Activity::class.java)
+                    val intent = Intent(this@Inro_Activity , Sign_up_Activity::class.java)
                     startActivity(intent);
                     finish();
                 }
             }
             R.id.btn_skip->{
-                val intent = Intent(this@Inro_Activity , Sign_In_Activity::class.java)
+                val intent = Intent(this@Inro_Activity , Sign_up_Activity::class.java)
                 startActivity(intent);
                 finish();
             }
@@ -56,16 +56,11 @@ class Inro_Activity : AppCompatActivity(), View.OnClickListener  , ViewPager.OnP
     }
 
     override fun onPageSelected(position: Int) {
-        if(position==layouts.size-1){
-            btn_next.setText(R.string.got)
-        }
+        btn_next.setText(R.string.next)
+        if(position==layouts.size-1){ btn_next.setText(R.string.got) }
         for(i in 0..lnr_indicator.childCount-1){
             lnr_indicator.getChildAt(i).setBackgroundResource(R.drawable.indicator_inactive)
         }
         lnr_indicator.getChildAt(position).setBackgroundResource(R.drawable.indicator_active)
     }
-
-
-
-
 }

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:elevation="@dimen/_3sdp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/image_member"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                app:siBorderColor="@color/text_gray"
+                app:siBorderWidth="@dimen/_1sdp"
+                android:layout_margin="@dimen/_16sdp"
+                android:src="@drawable/bg_circle_primary"
+                />
+            <TextView
+                android:id="@+id/title_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/teko_bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp"
+                android:text="Title"
+                android:layout_alignTop="@id/image_member"
+                android:layout_toRightOf="@id/image_member"/>
+
+            <TextView
+                android:id="@+id/time_ago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_news"
+                android:text="# hour ago"
+                android:textSize="@dimen/_12sdp"
+                android:layout_alignLeft="@id/title_news"
+                android:textColor="#626262"/>
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="wrap_content"
+                android:background="#626262"
+                android:layout_alignTop="@+id/time_ago"
+                android:layout_alignBottom="@+id/time_ago"
+                android:layout_toRightOf="@+id/time_ago"
+                android:layout_marginLeft="@dimen/_10sdp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_news"
+                android:text="Club's Name"
+                android:textSize="@dimen/_12sdp"
+                android:layout_toRightOf="@+id/time_ago"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:textColor="#626262"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/bubble_menu"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/image_member"
+                app:srcCompat="@drawable/ic_more_vert_gray_24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/img_news"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:layout_below="@id/image_member"
+                android:background="@drawable/splash"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/_40sdp"
+                android:background="@color/black50p"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp"
+                android:layout_alignBottom="@id/img_news"
+                android:padding="@dimen/_10sdp"
+                android:text="Demo text to show the image is just for News handle "/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_like"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_margin="@dimen/_8sdp"
+                android:layout_below="@id/img_news"/>
+            <TextView
+                android:id="@+id/tv_likes"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@+id/img_news"
+                android:text="0 likes"
+                android:textColor="#626262"
+                android:gravity="center_vertical"
+                android:layout_toRightOf="@+id/iv_like"
+                android:layout_alignTop="@+id/iv_like"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_comment"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@id/img_news"
+                android:layout_margin="@dimen/_8sdp"
+                android:layout_toRightOf="@+id/tv_likes" />
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@+id/img_news"
+                android:text="0 Comment"
+                android:textColor="#626262"
+                android:gravity="center_vertical"
+                android:layout_toRightOf="@+id/iv_comment"
+                android:layout_alignTop="@+id/iv_comment"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_margin="@dimen/_8sdp"
+                android:layout_below="@id/img_news"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                app:srcCompat="@drawable/ic_back_arrow"
+                android:padding="@dimen/_5sdp"
+                android:rotationY="180"/>
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_bookmark"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_margin="@dimen/_8sdp"
+                android:layout_below="@id/img_news"
+                android:layout_toLeftOf="@id/iv_back"
+                android:layout_toStartOf="@id/iv_back"
+                app:srcCompat="@drawable/ic_bookmark_border_black_24dp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

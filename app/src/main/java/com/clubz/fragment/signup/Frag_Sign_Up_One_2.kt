@@ -1,5 +1,6 @@
 package com.clubz.fragment.signup
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
@@ -19,9 +20,12 @@ import kotlinx.android.synthetic.main.frag_sign_up_one_2.*
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
+import com.clubz.Home_Activity
+import com.clubz.SMSreciver.OnSmsCatchListener
+import com.clubz.SMSreciver.SmsReceiver
+import com.clubz.SMSreciver.SmsVerifyCatcher
 import com.clubz.helper.SessionManager
 import com.clubz.model.User
-import com.clubz.util.Constants
 import com.google.gson.Gson
 import org.json.JSONObject
 import java.lang.Exception
@@ -36,6 +40,8 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
     lateinit var _otp : String
     lateinit var _contact : String
     lateinit var _code : String
+     var _isnewuser : Boolean = false;
+    //ClubZ- Your PIN for registration is: 4567
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.frag_sign_up_one_2, null);
@@ -44,7 +50,16 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         for( view in arrayOf(confirm)) view.setOnClickListener(this)
-        confirmation_code.setText(_otp)
+        var smsverify :SmsVerifyCatcher= SmsVerifyCatcher(activity as Sign_up_Activity, this,object :OnSmsCatchListener<String> {
+            override fun onSmsCatch(message: String?) {
+                if(message!!.contains("ClubZ")){
+                    confirmation_code.setText(message.replace("ClubZ- Your PIN for registration is: ",""))
+                }//Util.showToast(message!!,context);
+            }
+        })
+        smsverify.onStart();
+        Util.showToast(_otp+" : This message is Temporary ", context)
+       // confirmation_code.setText(_otp)
         confirmation_code.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
 
@@ -79,19 +94,22 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
          R.id.confirm -> {
              activity .hideKeyBoard();
              if(verfiy())
-             if(activity._first_name.isBlank())activity.replaceFragment(Frag_Sign_Up_Two().setData(_contact,_code))
+                 if(_isnewuser)activity.replaceFragment(Frag_Sign_Up_Two().setData(_contact,_code))
+             else{ verify_otp();   }
+             /*if(activity._first_name.isBlank())activity.replaceFragment(Frag_Sign_Up_Two().setData(_contact,_code))
              else {
                  register(activity);
-             }
+             }*/
 
          }
      }
     }
 
-    fun setData(otp : String , contact : String , code : String) :Frag_Sign_Up_One_2{
+    fun setData(otp : String , contact : String , code : String ,isnewuser :String) :Frag_Sign_Up_One_2{
         _otp = otp;
         _contact = contact;
         _code = code;
+        _isnewuser = if(isnewuser.equals("1")) true else false;
         return this;
     }
 
@@ -108,32 +126,35 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
         return true;
     }
 
-    fun register(activity: Sign_up_Activity){
-
+    fun verify_otp(){
         val dialog = CusDialogProg(context);
         dialog.show();
-        object  : VolleyGetPost(activity,activity, WebService.Registraion,false) {
+        object  : VolleyGetPost(activity,activity, WebService.Login,false) {
             override fun onVolleyResponse(response: String?) {
-                Util.e("Response",response.toString())
+                //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
+                //{"status":"fail","message":"This mobile number is already registered."}
+                //{"status":"success","message":"Contact verified successfully","step":2}
+                // http://clubz.co/dev/service/login{"status":"success","message":"User authentication successfully done!","messageCode":"normal_login","userDetail":{"userId":"25","full_name":"ratnesh","social_id":"","social_type":"","email":"ratnesh.mindiii@gmail.com","country_code":"+91","contact_no":"9770495603","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/24a9315b55d30ed6bb7d351a469aea09.jpg","auth_token":"3a05500a49e8d5eb03af32f21aa8a7f7c156dc0f","device_type":"3","device_token":""}}
                 try {
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
+
                         SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
-                        //{"status":"success","message":"User registration successfully done","userDetail":{"userId":"16","full_name":"ratnesh","social_id":"","social_type":"","email":"ratnesh.mindiii@gmail.com","country_code":"91","contact_no":"9770495603","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/62db25443654d90353e25317bf5aa73b.jpg","auth_token":"f2c6e239029dfa5f34d474ad5ca2efeef2b1640d","device_type":"1","device_token":"1234"},"messageCode":"normal_reg","step":4}
-                        (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three().setData(_contact ,_code ,obj.getJSONObject("userDetail").getString("auth_token"))) ////Its Temp
-                    }else{
+                        startActivity(Intent(activity, Home_Activity::class.java))
+                        activity.finish()
+                    }
+                    else{
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
-                }catch ( e : Exception){
-                    e.printStackTrace()
-                    Toast.makeText(context,R.string.swr, Toast.LENGTH_LONG).show()
+                }catch (ex: Exception){
+                    Toast.makeText(activity,R.string.swr, Toast.LENGTH_LONG).show()
                 }
-                dialog.dismiss()
+                dialog.dismiss();
             }
 
             override fun onVolleyError(error: VolleyError?) {
-                Util.e("Error",error.toString())
                 dialog.dismiss()
+
             }
 
             override fun onNetError() {
@@ -142,26 +163,19 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("full_name",activity._first_name)
-                //params.put("last_name",lastname.text.toString())
-                params.put("email",activity._email)
-                params.put("contact_no",_contact)
-                params.put("device_token","1234")
-                params.put("device_type",Constants.DEVICE_TYPE)
-                params.put("country_code","+"+_code)
-                params.put("social_id",activity._social_id)
-                params.put("social_type",activity._social_type)
-                params.put("profile_image",activity._profile_image)
-                return params
+                params.put("country_code" , "+"+_code);
+                params.put("contact_no" ,_contact);
+                Util.e("params" , params.toString())
+                return params;
 
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put( "language", SessionManager.getObj().getLanguage());
-                Util.e("headers" , params.toString())
                 return params
+
             }
         }.execute()
-
     }
+
+
 }

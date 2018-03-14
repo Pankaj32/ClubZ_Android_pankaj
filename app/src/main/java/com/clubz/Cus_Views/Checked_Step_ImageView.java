@@ -27,6 +27,12 @@ public class Checked_Step_ImageView  extends RelativeLayout {
     void initiateview() {
         View view = inflate(context, R.layout.z_step_image_view, this);
         step_ = view.findViewById(R.id.step_);
+        step_.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
 

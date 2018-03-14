@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.clubz.R;
+import com.loopeer.shadow.ShadowView;
 
 
 /**
@@ -35,6 +36,7 @@ public abstract class ChipView extends RelativeLayout implements View.OnClickLis
         delete_button.setVisibility(VISIBLE);
         label = (TextView) view.findViewById(R.id.label);
         delete_button.setOnClickListener(this);
+        ((ShadowView) view.findViewById(R.id.shadow_view)).setShadowDy( context.getResources().getDimension(R.dimen._3sdp));
 
     }
 

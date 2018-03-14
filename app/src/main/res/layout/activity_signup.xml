@@ -20,7 +20,7 @@
             android:id="@+id/page_indicator"
             android:layout_width="@dimen/_250sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
             android:showDividers="middle"
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:background="@color/white"
-        android:layout_marginTop="@dimen/_20sdp"/>
+        android:layout_marginTop="@dimen/_10sdp"/>
 
 
 

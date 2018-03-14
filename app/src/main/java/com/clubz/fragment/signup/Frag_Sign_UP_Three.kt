@@ -45,11 +45,13 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when(p0!!.id){
             R.id.plus-> if(canadd())addView();
-            R.id.done-> /*if(list.size==0){
-                Util.showSnake(context,view!!,R.string.a_addaffil)
-            }else*/ updateUserdata()
+            R.id.done->/*{val activity = activity as Sign_up_Activity;
+                startActivity(Intent(activity, Home_Activity::class.java))
+            activity.finish();}*/
+            updateUserdata()
         }
-    }
+        }
+
 
     fun canadd(): Boolean{
         (activity as Sign_up_Activity ).hideKeyBoard()

@@ -16,7 +16,8 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/white</item>
+
     </style>
 
 
@@ -24,6 +25,15 @@
     <style name="lightcolor" >
         <!-- Customize your theme here. -->
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="white_et" >
+        <!-- Customize your theme here. -->
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="grayet" >
+        <!-- Customize your theme here. -->
+        <item name="colorAccent">#626262</item>
     </style>
 
     <!--<item name="android:windowBackground">@drawable/splash</item>-->
@@ -53,17 +63,28 @@
     <style name="et_sign_up">
         <item name="android:background">@null</item>
         <item name="android:layout_marginRight">@dimen/_20sdp</item>
-        <item name="android:textSize">@dimen/_12sdp</item>
+        <item name="android:textSize">@dimen/_14sdp</item>
         <item name="android:textColor">@color/text_gray</item>
         <item name="android:textColorHint">@color/hintcolor</item>
         <item name="android:singleLine">true</item>
-        <item name="android:fontFamily">@font/roboto_italic</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:theme">@style/lightcolor</item>
+    </style>
+
+    <style name="et_club_create">
+        <item name="android:textColorHint">#626262</item>
+        <item name="colorAccent">#626262</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/_12sdp</item>
+        <item name="android:theme">@style/grayet</item>
+        <item name="android:background">@drawable/bg_line_editext</item>
+
     </style>
 
     <style name="popstyle" parent="Widget.AppCompat.PopupMenu">
         <item name="android:textColor">@color/bg_violet100</item>
         <item name="android:itemBackground">@android:color/white</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="lighttheme" >
@@ -71,12 +92,35 @@
         <item name="android:theme">@style/lightcolor</item>
     </style>
 
+    <style name="whitetheme" >
+        <!-- Customize your theme here. -->
+        <item name="android:theme">@style/white_et</item>
+    </style>
+
+    <style name="graytheme" >
+        <!-- Customize your theme here. -->
+        <item name="android:theme">@style/white_et</item>
+    </style>
+
+    <style name="SCBSwitch" parent="@style/Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#46bdbf</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#42221f1f
+        </item>
+    </style>
+
 
     <style name="pager_title">
         <item name="android:fontFamily">@font/teko_bold</item>
-        <item name="android:textSize">@dimen/_22sdp</item>
+        <item name="android:textSize">@dimen/_26sdp</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:layout_marginTop">@dimen/_10sdp</item>
+        <item name="android:layout_marginTop">@dimen/_minus10sdp</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
 
@@ -93,8 +137,8 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/_14sdp</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:layout_marginTop">@dimen/_10sdp</item>
-        <item name="android:layout_marginBottom">@dimen/_10sdp</item>
+        <item name="android:layout_marginTop">@dimen/_16sdp</item>
+        <item name="android:layout_marginBottom">@dimen/_16sdp</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
 

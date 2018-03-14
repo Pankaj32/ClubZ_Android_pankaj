@@ -23,24 +23,27 @@
             android:layout_centerHorizontal="true"
             android:scaleY="0.7"
             android:scaleX="0.7"
-            android:padding="@dimen/_10sdp">
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp">
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="@dimen/_75sdp"
-                android:layout_height="@dimen/_75sdp"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_90sdp"
                 android:layout_gravity="end"
                 app:srcCompat="@drawable/ic_basketball"/>
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="@dimen/_75sdp"
-                android:layout_height="@dimen/_75sdp"
+                android:layout_width="@dimen/_65sdp"
+                android:layout_height="@dimen/_65sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 app:srcCompat="@drawable/ic_volleyball"/>
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="@dimen/_75sdp"
-                android:layout_height="@dimen/_75sdp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_marginLeft="@dimen/_46sdp"
+                android:layout_marginTop="@dimen/_33sdp"
                 app:srcCompat="@drawable/ic_soccer"
                 />
 
@@ -74,11 +77,6 @@
             android:background="@color/pager_line"/>
 
     </LinearLayout>
-
-
-
-
-
 
 
 </RelativeLayout>

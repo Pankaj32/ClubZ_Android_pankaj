@@ -49,12 +49,28 @@
             android:layout_marginTop="@dimen/_2sdp"
             android:background="@color/pager_line"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/slider_b3"
-            style="@style/pager_body"
-            />
+
+        <RelativeLayout
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/slider_b3"
+                style="@style/pager_body"
+                />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignEnd="@id/tv"
+                android:layout_alignBottom="@+id/tv"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_minus5sdp"
+                app:srcCompat="@drawable/ic_tongue" />
+        </RelativeLayout>
+
 
         <View
             android:layout_width="@dimen/filed_linewidth"

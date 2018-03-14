@@ -2,6 +2,9 @@ package com.clubz.util;
 
 import com.clubz.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by mindiii on 8/4/17.
  */
@@ -58,5 +61,7 @@ public class Constants {
 
     public static final String Language ="LANGUAGE";
     public static  int NETWORK_CHECK =0;
-    public static final String NETWORK_SWITCH_FILTER = "com.devglan.broadcastreceiver.NETWORK_SWITCH_FILTER";;
+    public static final String NETWORK_SWITCH_FILTER = "com.devglan.broadcastreceiver.NETWORK_SWITCH_FILTER";
+
+
 }

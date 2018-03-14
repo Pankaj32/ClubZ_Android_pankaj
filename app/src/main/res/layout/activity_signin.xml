@@ -103,7 +103,7 @@
                     android:layout_alignLeft="@+id/phone_no"
                     android:text="@string/phone_no"/>
 
-                <EditText
+                <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/phone_no"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"

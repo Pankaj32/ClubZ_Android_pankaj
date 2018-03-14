@@ -4,9 +4,22 @@
     android:id="@+id/container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/_3sdp"
-    android:layout_marginRight="@dimen/_5sdp"
-    android:background="@drawable/bg_btn_green">
+    android:layout_marginBottom="@dimen/_2sdp"
+    android:layout_marginRight="@dimen/_4sdp">
+
+    <com.loopeer.shadow.ShadowView
+        android:id="@+id/shadow_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cornerRadius="@dimen/_4sdp"
+        app:shadowRadius="@dimen/_1sdp"
+        app:shadowMarginTop="1px"
+        app:shadowMarginRight="1px"
+        app:shadowMarginBottom="@dimen/_4sdp"
+        app:shadowMarginLeft="1px"
+
+        app:backgroundColor="@color/primaryColor"
+        app:shadowColor="#626262">
 
     <!-- content -->
     <LinearLayout
@@ -14,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_25sdp"
         android:clickable="true"
+        android:background="@drawable/bg_chip_view"
         android:orientation="horizontal">
 
         <!-- label -->
@@ -22,10 +36,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/white"
-            android:paddingLeft="@dimen/_10sdp"
-            android:paddingRight="@dimen/_10sdp"
-            android:fontFamily="@font/poppins_light"
+            android:textColor="@color/primaryColor"
+            android:paddingLeft="@dimen/_6sdp"
+            android:paddingRight="@dimen/_2sdp"
+            android:fontFamily="@font/roboto_regular"
             android:textSize="@dimen/_12sdp" />
 
         <!-- remove button -->
@@ -41,5 +55,7 @@
             app:srcCompat="@drawable/ic_plus_symbol" />
 
     </LinearLayout>
+
+    </com.loopeer.shadow.ShadowView>
 
 </RelativeLayout>

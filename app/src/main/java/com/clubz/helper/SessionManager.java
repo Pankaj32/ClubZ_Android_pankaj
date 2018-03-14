@@ -37,22 +37,23 @@ public class SessionManager {
 
     public boolean createSession(User user ){
         editor.putString(Constants._id, user.getId().trim());
-        editor.putString(Constants._first_name  , user.getFirst_name()  .trim());
-        editor.putString(Constants._last_name   , user.getLast_name()   .trim());
-        editor.putString(Constants._social_id   , user.getSocial_id()   .trim());
-        editor.putString(Constants._social_type , user.getSocial_type() .trim());
-        editor.putString(Constants._email       , user.getEmail()       .trim());
+        editor.putString(Constants._first_name  , user.getFirst_name().trim());
+        editor.putString(Constants._last_name   , user.getLast_name().trim());
+        editor.putString(Constants._social_id   , user.getSocial_id().trim());
+        editor.putString(Constants._social_type , user.getSocial_type().trim());
+        editor.putString(Constants._email       , user.getEmail().trim());
         editor.putString(Constants._country_code, user.getCountry_code().trim());
-        editor.putString(Constants._contact_no  , user.getContact_no()  .trim());
+        editor.putString(Constants._contact_no  , user.getContact_no().trim());
         editor.putString(Constants._profile_image, user.getProfile_image().trim());
-        editor.putString(Constants._is_verified , user.is_verified() .trim());
-        editor.putString(Constants._auth_token  , user.getAuth_token()  .trim());
-        editor.putString(Constants._device_type , user.getDevice_type() .trim());
+        editor.putString(Constants._is_verified , user.is_verified().trim());
+        editor.putString(Constants._auth_token  , user.getAuth_token().trim());
+        editor.putString(Constants._device_type , user.getDevice_type().trim());
         editor.putString(Constants._device_token, user.getDevice_token().trim());
         editor.putBoolean(IS_LOGED_IN, true);
         editor.commit();
         return true;
     }
+
 
     public User getUser(){
         User user          = new User();
@@ -83,7 +84,7 @@ public class SessionManager {
     public void logout(Activity activity){
         editor.clear();
         editor.commit();
-        Intent intent = new Intent(activity , Sign_In_Activity.class);
+        Intent intent = new Intent(activity , Sign_up_Activity.class);
         activity.startActivity(intent);
         activity.finish();
     }

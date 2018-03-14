@@ -9,6 +9,7 @@ import android.view.View
 import java.io.IOException
 import java.nio.charset.Charset
 import android.support.design.widget.Snackbar;
+import android.widget.Toast
 import com.clubz.R
 
 /**
@@ -56,6 +57,10 @@ class Util {
         fun showSnake(context: Context,view : View ,  int :Int=0 , message :String = ""){
             val snackbar =if(int!= 0){ Snackbar.make(view, int, Snackbar.LENGTH_LONG)} else Snackbar.make(view, message, Snackbar.LENGTH_LONG)
             snackbar.show()
+        }
+
+        fun showToast(s :String , context :Context){
+            Toast.makeText(context,s,Toast.LENGTH_LONG).show()
         }
 
         fun isConnectingToInternet(context: Context): Boolean {

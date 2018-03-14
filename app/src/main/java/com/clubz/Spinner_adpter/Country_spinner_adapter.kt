@@ -1,9 +1,6 @@
-package com.clubz.Adapter
+package com.clubz.Spinner_adpter
 
 import android.content.Context
-import android.opengl.Visibility
-import android.os.Handler
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import com.clubz.model.Country_Code
 import android.widget.TextView
-import com.clubz.Cus_Views.CusDialogProg
 import com.clubz.R
 import com.clubz.util.Util
 

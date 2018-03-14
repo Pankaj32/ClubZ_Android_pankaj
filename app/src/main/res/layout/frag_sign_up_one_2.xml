@@ -8,7 +8,13 @@
     android:descendantFocusability="beforeDescendants">
 
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +44,7 @@
             android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:padding="@dimen/_10sdp"
+            android:padding="@dimen/_16sdp"
             android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatImageView
@@ -76,7 +82,7 @@
                 android:maxLength="4"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:imeOptions="actionDone"
-                android:fontFamily="@font/roboto_italic"
+                android:fontFamily="@font/roboto_regular"
                 android:background="@null"
                 android:layout_alignTop="@+id/chk_icon"
                 android:layout_toRightOf="@+id/chk_icon"
@@ -117,21 +123,22 @@
 
             <Button
                 android:id="@+id/confirm"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_36sdp"
+                android:paddingLeft="@dimen/_14sdp"
+                android:paddingRight="@dimen/_14sdp"
                 android:text="@string/confirm"
                 android:textAllCaps="true"
                 android:textSize="@dimen/_14sdp"
                 android:textColor="@color/text_btn"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_medium"
                 android:background="@drawable/bg_btn_green"
                 android:layout_below="@+id/resend"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_20sdp"/>
-            <!--
-                        <TextView
+            <!--<TextView
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/_1sdp"
                             android:background="@color/text_gray"
@@ -163,4 +170,6 @@
 
     </RelativeLayout>
     </LinearLayout>
+</RelativeLayout>
+</ScrollView>
 </RelativeLayout>
