@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "1083327860063",
+    "firebase_url": "https://clubz-1518510732677.firebaseio.com",
+    "project_id": "clubz-1518510732677",
+    "storage_bucket": "clubz-1518510732677.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1083327860063:android:05ba33093195a2b9",
+        "android_client_info": {
+          "package_name": "com.clubz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1083327860063-afi2k60kirnd5pt6kkoj6d4ut4so5arc.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1083327860063-4d96lgjmjd7re0t7b9teoc4i5jqhtjl1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.clubz",
+            "certificate_hash": "b56c68b28391dc7a0e8c76749a072f01ad156a49"
+          }
+        },
+        {
+          "client_id": "1083327860063-gajd1630tk76jrbs8t2iono99ajofoc0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPHmoAQr2xB4mFhv_-TmSuJMsFgBPsTFU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1083327860063-afi2k60kirnd5pt6kkoj6d4ut4so5arc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
