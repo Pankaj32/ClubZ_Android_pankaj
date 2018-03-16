@@ -16,6 +16,8 @@ class WebService {
         //http://clubz.co/dev/service/registration
         val update_user     = base_Url+"service/user/updateUserMeta"
         val clubs_list      = base_Url+"service/club/nearByClubsList"//dev/service/club/nearByClubsList
+        val crate_club      = base_Url+"service/club/addClub"//dev/service/club/nearByClubsList
+        val club_category   = base_Url+"service/club/getAllClubCategory?limit=10&offset=0";
 
 
     }

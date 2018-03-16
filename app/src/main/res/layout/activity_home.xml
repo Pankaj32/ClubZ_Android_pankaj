@@ -42,6 +42,7 @@
             android:text="@string/t_stay_up"
             android:fontFamily="@font/teko_bold"
             android:textSize="@dimen/_18sdp"
+            android:paddingTop="@dimen/_3sdp"
             android:gravity="center_vertical"
             android:textColor="@color/white" />
 
@@ -59,7 +60,7 @@
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="match_parent"
                 android:padding="@dimen/_3sdp"
-                app:srcCompat="@drawable/ic_search_black_24dp"/>
+                app:srcCompat="@drawable/ic_search_white"/>
 
             <EditText
                 android:id="@+id/search_text"
@@ -123,7 +124,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-android:layout_below="@+id/frag_container"
+        android:layout_below="@+id/frag_container"
         android:layout_above="@+id/tablayout">
 
         <LinearLayout
@@ -132,20 +133,7 @@ android:layout_below="@+id/frag_container"
             android:orientation="vertical">
 
 
-            <Button
-                android:id="@+id/logout"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:text="@string/logout"
-                android:textAllCaps="true"
-                android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/roboto_regular"
-                android:background="@drawable/bg_btn_green"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="end"
-                />
+
 
 
 
@@ -302,7 +290,8 @@ android:layout_below="@+id/frag_container"
         android:id="@+id/frag_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cus_status" />
+        android:layout_below="@+id/cus_status"
+        android:layout_above="@id/tablayout"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tablayout"
@@ -357,7 +346,20 @@ android:layout_below="@+id/frag_container"
         android:layout_gravity="start"
         android:background="@color/primaryColor">
 
-
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:text="@string/logout"
+            android:textAllCaps="true"
+            android:textSize="@dimen/_14sdp"
+            android:fontFamily="@font/roboto_regular"
+            android:background="@drawable/bg_btn_green"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="end"
+            />
     </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>

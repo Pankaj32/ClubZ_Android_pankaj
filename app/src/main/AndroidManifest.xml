@@ -118,6 +118,10 @@
             android:name="io.fabric.ApiKey"
             android:value="39a3f4bfccefb2b1c6bbe01ed20cbb11782caffa" />
 
+
+        <!--PlaceAutocompleteFragment-->
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBbpgox7d2eiD1fxpNu9-VaYCM_WSkhQqE"/>
+
     </application>
 
 </manifest>

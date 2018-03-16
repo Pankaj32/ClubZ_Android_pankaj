@@ -36,6 +36,7 @@ public class Constants {
 
     /***Session ***/
     public static final String _id              = "id           " ;
+    public static final String _full_name      = "full_name   " ;
     public static final String _first_name      = "first_name   " ;
     public static final String _last_name       = "last_name    " ;
     public static final String _social_id       = "social_id    " ;
@@ -57,6 +58,10 @@ public class Constants {
 
     public static final String _stage           = "last_stage" ;
     public static final String _data            = "last_stage_data" ;
+
+
+    public static final int CreateClub_Spinner_Type_ClubCategory  = 0 ;
+    public static final int CreateClub_Spinner_Type_privacy_type  = 1 ;
 
 
     public static final String Language ="LANGUAGE";

@@ -20,7 +20,12 @@
 
     </style>
 
-
+    <!-- For date and time picker-->
+    <style name="DialogTheme2" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/primaryColor</item>
+        <item name="colorControlNormal">@color/black</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
     <style name="lightcolor" >
         <!-- Customize your theme here. -->
@@ -77,8 +82,10 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/_12sdp</item>
         <item name="android:theme">@style/grayet</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:background">@drawable/bg_line_editext</item>
-
     </style>
 
     <style name="popstyle" parent="Widget.AppCompat.PopupMenu">
@@ -99,8 +106,10 @@
 
     <style name="graytheme" >
         <!-- Customize your theme here. -->
-        <item name="android:theme">@style/white_et</item>
+        <item name="android:theme">@style/grayet</item>
     </style>
+
+
 
     <style name="SCBSwitch" parent="@style/Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->

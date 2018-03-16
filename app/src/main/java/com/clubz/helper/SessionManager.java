@@ -37,6 +37,7 @@ public class SessionManager {
 
     public boolean createSession(User user ){
         editor.putString(Constants._id, user.getId().trim());
+        editor.putString(Constants._full_name  , user.getFull_name().trim());
         editor.putString(Constants._first_name  , user.getFirst_name().trim());
         editor.putString(Constants._last_name   , user.getLast_name().trim());
         editor.putString(Constants._social_id   , user.getSocial_id().trim());
@@ -58,6 +59,7 @@ public class SessionManager {
     public User getUser(){
         User user          = new User();
         user.setId(mypref.getString(Constants._id, ""));
+        user.setFull_name   (mypref.getString(Constants._full_name  , ""));
         user.setFirst_name   (mypref.getString(Constants._first_name  , ""));
         user.setLast_name  (mypref.getString(Constants._last_name   , ""));
         user.setSocial_id    (mypref.getString(Constants._social_id   , ""));

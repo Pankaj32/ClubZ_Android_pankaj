@@ -1,79 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:orientation="horizontal"
+        android:background="@color/primaryColor">
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/back_f"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:padding="@dimen/_12sdp"
+            app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="@string/t_new_club"
+            android:fontFamily="@font/teko_bold"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/_18sdp"
+            android:textColor="@color/white"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/done"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:padding="@dimen/_12sdp"
+            app:srcCompat="@drawable/ic_check_white_24dp"
+            />
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:elevation="@dimen/_3sdp">
+            android:layout_margin="@dimen/_8sdp"
+            android:elevation="@dimen/_5sdp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white">
 
-                <com.github.siyamed.shapeimageview.CircularImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/image_member"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     app:siBorderColor="@color/text_gray"
                     app:siBorderWidth="@dimen/_1sdp"
+                    android:padding="@dimen/_8sdp"
                     android:layout_margin="@dimen/_16sdp"
-                    android:src="@drawable/bg_circle_primary"
-                    android:tint="#00A8D1"
+                    android:background="@drawable/bg_circle_blue"
+                    app:srcCompat="@drawable/ic_shield_outline"
                     />
 
-                <TextView
-                    android:id="@+id/title_news"
+                <EditText
+                    android:id="@+id/titile_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/teko_bold"
-                    android:textColor="#B2B2B2"
+                    android:background="@null"
+                    android:textColorHint="#B2B2B2"
+                    android:textColor="#009688"
                     android:textSize="@dimen/_14sdp"
-                    android:text="Club Name"
+                    android:hint="@string/hint_club_name"
+                    style="@style/graytheme"
+                    android:inputType="textCapSentences"
                     android:layout_alignTop="@id/image_member"
                     android:layout_toRightOf="@id/image_member"/>
 
+                <View
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_width="match_parent"
+                    android:layout_alignStart="@id/titile_name"
+                    android:layout_alignTop="@id/titile_name"
+                    android:layout_marginTop="@dimen/_17sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:background="@color/black"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titile_name"
+                android:layout_alignStart="@id/titile_name"
+                android:orientation="horizontal"
+                android:layout_marginEnd="@dimen/_16sdp">
                 <Spinner
-                    android:id="@+id/time_ago"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/spn_club_category"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/title_news"
+                    android:layout_below="@+id/titile_name"
                     android:textSize="@dimen/_12sdp"
-                    android:layout_alignStart="@id/title_news"
+                    android:dropDownWidth="@dimen/_150sdp"
+                    android:layout_alignStart="@id/titile_name"
+                    android:overlapAnchor="false"
                     android:textColor="#626262"/>
 
 
                 <Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/title_news"
+                    android:id="@+id/spn_privacy"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/titile_name"
                     android:textSize="@dimen/_12sdp"
-                    android:layout_toRightOf="@+id/time_ago"
-                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:gravity="end"
+                    android:background="@null"
+                    android:dropDownWidth="@dimen/_150sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:overlapAnchor="false"
                     android:textColor="#626262"/>
 
-                <android.support.v7.widget.AppCompatImageView
+
+            </LinearLayout>
+                <!--<Spinner
+                    android:id="@+id/spn_club_category"
+                    android:layout_width="@dimen/_150sdp"
+                    android:minWidth="@dimen/_120sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/titile_name"
+                    android:textSize="@dimen/_12sdp"
+                    android:dropDownWidth="match_parent"
+                    android:layout_alignStart="@id/titile_name"
+                    android:overlapAnchor="false"
+                    android:textColor="#626262"/>
+
+
+                <Spinner
+                    android:id="@+id/spn_privacy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/titile_name"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="end"
+                    android:dropDownWidth="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:overlapAnchor="false"
+                    android:textColor="#626262"/>-->
+
+                <!--<android.support.v7.widget.AppCompatImageView
                     android:id="@+id/bubble_menu"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/image_member"
                     app:srcCompat="@drawable/ic_more_vert_gray_24dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true" />
+                    android:layout_alignParentRight="true" />-->
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/img_club"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_200sdp"
                     android:layout_below="@id/image_member"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/ic_new_img"
                     android:background="#00A8D1"/>
 
                 <android.support.v7.widget.AppCompatImageView
@@ -85,28 +182,47 @@
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
                     app:srcCompat="@drawable/ic_cake"
-                    android:padding="@dimen/_3sdp"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingStart="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_4sdp"
                     android:layout_below="@id/img_club"/>
-                <Spinner
-                    android:id="@+id/tv_likes"
+                <EditText
+                    android:id="@+id/tv_fondationdate"
                     android:layout_width="wrap_content"
+                    android:minWidth="@dimen/_50sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_below="@+id/img_club"
-                    android:text="0 likes"
-                    android:textColor="#626262"
-                    android:gravity="center_vertical"
+                    android:hint="@string/hint_club_date"
+                    android:background="@null"
+                    android:textColor="@color/black"
+                    android:textColorHint="#666666"
+                    android:editable="false"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="bottom"
                     android:layout_toRightOf="@+id/iv_like"
                     android:layout_alignTop="@+id/iv_like"/>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_alignBottom="@id/tv_fondationdate"
+                    android:layout_alignStart="@id/tv_fondationdate"
+                    android:layout_alignEnd="@+id/arow"
+                    android:background="#666666"/>
 
                 <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_comment"
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_below="@id/img_club"
-                    android:layout_margin="@dimen/_8sdp"
-                    android:layout_toRightOf="@+id/tv_likes" />
+                    android:id="@+id/arow"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_down_arrow"
+                    android:layout_below="@+id/img_club"
+                    android:paddingTop="@dimen/_16sdp"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_alignBottom="@+id/tv_fondationdate"
+                    android:layout_alignTop="@+id/tv_fondationdate"
+                    android:layout_toRightOf="@+id/tv_fondationdate" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tv_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
@@ -115,7 +231,7 @@
                     android:textColor="#626262"
                     android:gravity="center_vertical"
                     android:layout_toRightOf="@+id/iv_comment"
-                    android:layout_alignTop="@+id/iv_comment"/>
+                    android:layout_alignTop="@+id/iv_comment"/>-->
 
                <!-- <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_back"
@@ -162,7 +278,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/img_club"
-                    android:layout_marginTop="@dimen/_50sdp"
+                    android:layout_marginTop="@dimen/_66sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16sdp"
                     android:text="@string/contact_info"
@@ -172,7 +288,7 @@
                 <android.support.v7.widget.AppCompatImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_80sdp"
+                    android:layout_marginTop="@dimen/_96sdp"
                     android:layout_below="@+id/img_club"
                     android:layout_marginLeft="@dimen/_16sdp"
                     app:srcCompat="@drawable/ic_email"
@@ -182,7 +298,7 @@
                     android:id="@+id/club_email"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_80sdp"
+                    android:layout_marginTop="@dimen/_96sdp"
                     android:layout_below="@+id/img_club"
                     android:hint="@string/club_mail"
                     android:layout_marginLeft="@dimen/_46sdp"
@@ -203,25 +319,27 @@
                     android:layout_height="@dimen/_30sdp"
                     android:layout_below="@+id/club_email"
                     android:hint="@string/club_phone"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:imeOptions="actionDone"
                     android:layout_marginLeft="@dimen/_46sdp"
                     android:layout_marginRight="@dimen/_16sdp"
-                    style="@style/et_club_create"
-
-                    />
+                    style="@style/et_club_create" />
 
                 <LinearLayout
                     android:id="@+id/frm_address"
-                    android:layout_width="@dimen/_160sdp"
+                    android:layout_width="@dimen/_150sdp"
                     android:layout_height="0dp"
                     android:layout_alignBottom="@+id/lnr_location"
-                    android:layout_alignLeft="@+id/lnr_location"
+                    android:layout_alignStart="@+id/lnr_location"
+                    android:layout_alignEnd="@id/lnr_location"
                     android:layout_alignTop="@+id/lnr_location">
 
-                    <!--<fragment
+                    <fragment
                         android:id="@+id/autocomplete_fragment"
                         android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />-->
+                        android:layout_height="match_parent" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/lnr_location"
@@ -229,7 +347,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_below="@+id/club_phone"
-                    android:layout_marginLeft="@dimen/_16sdp">
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginEnd="@dimen/_16sdp">
 
                     <android.support.v7.widget.AppCompatImageView
                         android:layout_width="@dimen/_30sdp"
@@ -251,15 +370,24 @@
                         android:layout_height="@dimen/_30sdp"
                         app:srcCompat="@drawable/ic_gps_fixed_indicator"
                         android:padding="@dimen/_5sdp"
+                        android:background="@color/white"
                         />
-                    <EditText
-                        android:id="@+id/club_location"
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_height="@dimen/_30sdp"
-                        android:hint="@string/club_locati"
-                        style="@style/et_club_create"
-                        />
+                        android:background="@color/white"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/club_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:hint="@string/club_locati"
+                            android:ellipsize="marquee"
+                            style="@style/et_club_create"
+                            />
+                    </RelativeLayout>
+
                 </LinearLayout>
 
 
@@ -292,7 +420,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16sdp"
                     android:text="@string/club_description"
-                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_margin="@dimen/_16sdp"
                     android:fontFamily="@font/teko_bold"/>
 
                 <EditText
@@ -300,15 +428,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="@dimen/_100sdp"
+                    android:textSize="@dimen/_12sdp"
                     android:layout_below="@+id/tv_descrip"
                     android:background="@drawable/bg_edit_text"
-                    android:layout_margin="@dimen/_16sdp"/>
-
+                    android:hint="@string/hint_club_des"
+                    android:textColorHint="#666666"
+                    android:textColor="#009688"
+                    android:gravity="top"
+                    android:padding="@dimen/_8sdp"
+                    style="@style/graytheme"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_16sdp"
+                    />
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/resizer"
+                    android:layout_alignBottom="@+id/etv_description"
+                    android:layout_alignEnd="@+id/etv_description"/>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_marginLeft="@dimen/_16sdp"
-                    android:layout_marginRight="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_alignEnd="@+id/rtv_leadby"
                     android:layout_below="@+id/etv_description">
                     <View
                         android:layout_marginTop="@dimen/_2sdp"
@@ -318,6 +461,7 @@
                     <View
                         android:layout_width="@dimen/_2sdp"
                         android:layout_height="@dimen/_2sdp"
+                        android:layout_alignParentEnd="true"
                         android:background="@color/text_gray"/>
                 </RelativeLayout>
 
@@ -325,19 +469,68 @@
                     android:id="@+id/rtv_leadby"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/_16sdp"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_8sdp"
 
                     android:layout_below="@+id/etv_description"
-                    android:layout_marginTop="@dimen/_4sdp">
-                    <com.github.siyamed.shapeimageview.CircularImageView
+                    android:layout_marginTop="@dimen/_20sdp">
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/image_member2"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"
                         app:siBorderColor="@color/text_gray"
                         app:siBorderWidth="@dimen/_1sdp"
-                        android:src="@drawable/bg_circle_primary"
-                        android:tint="#00A8D1"
+                        android:padding="@dimen/_8sdp"
+                        android:background="@drawable/bg_circle_blue"
+                        app:srcCompat="@drawable/ic_user_shape"
                         />
+
+                    <TextView
+                        android:id="@+id/leadby"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/teko_light"
+                        android:background="@null"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp"
+                        android:text="@string/lead_by"
+                        android:layout_marginLeft="@dimen/_16sdp"
+                        android:layout_alignTop="@id/image_member2"
+                        android:layout_toRightOf="@id/image_member2"/>
+                    
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp"
+                        android:fontFamily="@font/teko_bold"
+                        android:layout_marginLeft="@dimen/_4sdp"
+                        android:layout_alignTop="@id/leadby"
+                        android:layout_toRightOf="@id/leadby"/>
+
+                    <TextView
+                        android:id="@+id/usrerole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:background="@null"
+                        android:textColorHint="#666666"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
+                        android:hint="@string/user_role"
+                        android:layout_marginLeft="@dimen/_16sdp"
+                        android:layout_below="@+id/leadby"
+                        android:text="Admin"
+                        android:layout_toRightOf="@id/image_member2"/>
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="#666666"
+                        android:layout_below="@+id/usrerole"
+                        android:layout_alignStart="@id/usrerole"
+                        android:layout_alignEnd="@+id/usrerole"/>
                 </RelativeLayout>
 
                 <TextView
@@ -348,9 +541,12 @@
                     android:textColor="@color/primaryColor"
                     android:textSize="@dimen/_12sdp"
                     android:text="@string/Terms_and_1"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:layout_marginLeft="@dimen/_16sdp" />
 
                 <EditText
+                    android:id="@+id/terms_n_condition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="@dimen/_100sdp"
@@ -358,10 +554,25 @@
                     android:background="@drawable/bg_edit_text"
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:layout_marginBottom="@dimen/_16sdp"
+                    android:hint="@string/hint_club_termcondi"
+                    android:textColorHint="#666666"
+                    android:textColor="#009688"
+                    android:gravity="top"
+                    style="@style/graytheme"
+                    android:textSize="@dimen/_12sdp"
+                    android:padding="@dimen/_8sdp"
                     android:layout_marginRight="@dimen/_16sdp"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/resizer"
+                    android:layout_alignBottom="@+id/terms_n_condition"
+                    android:layout_alignEnd="@+id/terms_n_condition"/>
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
+        </FrameLayout>
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>

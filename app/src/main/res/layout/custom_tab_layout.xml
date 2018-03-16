@@ -13,6 +13,7 @@
             android:layout_height="@dimen/_24sdp"
             android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginBottom="@dimen/_minus3sdp"
+            android:padding="@dimen/_4sdp"
             android:scaleType="centerInside"/>
 
         <TextView

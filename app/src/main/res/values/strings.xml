@@ -53,6 +53,7 @@
 
     <!--Titiles-->
     <string name="t_stay_up"> Stay updated </string>
+    <string name="t_new_club"> New Club </string>
 
     <string name="no_internet"> No internet connection </string>
     <string name="temp_sucess"> Successfully registered </string>
@@ -102,7 +103,11 @@
     <string name="hint_step3_2" > <i>To recover your account</i> </string>
     <string name="hint_step4_1" > <i>Family members or friends</i> </string>
 
+    <string name="hint_club_name" > Club\'s Name </string>
+    <string name="hint_club_date" > Foundation date </string>
     <string name="hint_club_s" > Search for club </string>
+    <string name="hint_club_des" > Club\'s description </string>
+    <string name="hint_club_termcondi" > Terms and condition text </string>
 
 <!--Constants-->
     <string name="admin_by" > Administrator by </string>
@@ -119,6 +124,8 @@
     <string name="signup" > Sign Up </string>
     <string name="create_one" > Create One </string>
     <string name="try_again" > Try again </string>
+    <string name="viewplan" > View Plans </string>
+    <string name="cancel" > Cancel </string>
     <string name="logout" > Logout </string>
     <string name="resend" > Resend code </string>
     <string name="search" > Search </string>
@@ -156,9 +163,26 @@
     <string name="a_already_affil" > Affiliates already added.</string>
     <string name="a_already_intrest" > Interest already added.</string>
     <string name="a_already_skill" > Skill already added.</string>
+    <string name="a_permission_denied" > Permission denied can\'t select image.</string>
+    <string name="a_camera_denied" > Camera  permission denied.</string>
+    <string name="a_permission_read" > Permission not granted for Read.</string>
 
     <string name="a_internet_title" > No internet connection detected.</string>
     <string name="a_internet_body" > An internet connection is required \nto sign in or sign up for first time.\nOnce you have register this device you can access to your content offline.  </string>
+    <string name="a_enterprise" > Upgrade to an Enterprise plan.</string>
+    <string name="a_enterprise_body" > Some feature like this one requires a higher membership plan. \nread our plan to see what features do you need.</string>
+        <!--Create club validation-->
+    <string name="a_clubnme">Please enter club name</string>
+    <string name="a_image">Please select club image</string>
+    <string name="a_foundation">Please select foundation date</string>
+    <string name="a_phone_club">Please enter  phone number</string>
+    <string name="a_address">Please enter address</string>
+    <string name="a_location">Please select Location</string>
+    <string name="a_web">Please enter club\'s website</string>
+    <string name="a_web_valid">Please enter valid club\'s website url</string>
+    <string name="a_description">Please enter description</string>
+    <string name="a_terms_n_con">Please enter Terms and condition</string>
+
 
     <!--Image Cropper-->
     <string name="pick_image_intent_text" >Choose an image</string>
@@ -172,6 +196,11 @@
     <string name="menu1" > Camera </string>
     <string name="menu2" > Gallery </string>
     <string name="drop_arrow" > \u0020 &#9698; \u0020\u0020</string>
+
+    <array name="privacy_type">
+        <item>"Public"</item>
+        <item>"Private"</item>
+    </array>
 
     <!--
     User name

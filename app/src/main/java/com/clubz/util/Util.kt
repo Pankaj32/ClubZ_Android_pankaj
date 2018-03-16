@@ -11,6 +11,8 @@ import java.nio.charset.Charset
 import android.support.design.widget.Snackbar;
 import android.widget.Toast
 import com.clubz.R
+import java.text.ParseException
+import java.text.SimpleDateFormat
 
 /**
  * Created by mindiii on 2/6/18.
@@ -74,6 +76,18 @@ class Util {
                         }
             }
             return false
+        }
+
+        fun convertDate(date: String): String {
+            val format = SimpleDateFormat("yyyy-MM-dd")
+            try {
+                val date1 = format.parse(date)
+                return SimpleDateFormat("dd MMM yyyy ").format(date1)
+            } catch (e: ParseException) {
+                Util.e("Error time ", e.toString())
+                return date
+            }
+
         }
 
      public   val imageResources = intArrayOf(

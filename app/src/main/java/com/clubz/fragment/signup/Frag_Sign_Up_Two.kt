@@ -293,25 +293,24 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
 
         when (requestCode) {
-//TODO in_ string resources
             Constants.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE -> {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (!isCameraSelected) callIntent(Constants.INTENTGALLERY)
                 } else {
-                    Toast.makeText(context, "Permission denied can't select image", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, R.string.a_permission_denied, Toast.LENGTH_LONG).show()
                 }
             }
 
             Constants.MY_PERMISSIONS_REQUEST_CAMERA -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (isCameraSelected) callIntent(Constants.INTENTCAMERA)
             } else {
-                Toast.makeText(context, "Camera  permission denied ", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, R.string.a_camera_denied, Toast.LENGTH_LONG).show()
             }
 
             Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (!isCameraSelected) callIntent(Constants.INTENTGALLERY) else callIntent(Constants.INTENTCAMERA)
             } else {
-                Toast.makeText(context, "Permission not granted for Read", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, R.string.a_permission_read, Toast.LENGTH_LONG).show()
             }
         }
 

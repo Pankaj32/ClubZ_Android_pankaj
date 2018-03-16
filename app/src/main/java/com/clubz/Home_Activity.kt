@@ -17,11 +17,14 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.PopupMenu
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
+import com.clubz.Cus_Views.Purchase_membership_dialog
 import com.clubz.fragment.home.Frag_Create_club
 import com.clubz.fragment.home.Frag_News_List
 import com.clubz.helper.SessionManager
@@ -68,6 +71,24 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
         }
         mDrawerLayout.setDrawerListener(mDrawerToggle)
         mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
+
+        search_text.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(p0!!.length>0){
+                    search_back_icon.visibility = View.GONE
+                }else{
+                    search_back_icon.visibility = View.VISIBLE
+                }
+            }
+        })
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -107,7 +128,7 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
         when(p0!!.id){
             R.id.logout->SessionManager.getObj().logout(this)
             R.id.search->updateSearch()
-            R.id.cancel->updateSearch()
+            R.id.cancel->{updateSearch() ; replaceFragment(Frag_News_List())}
             R.id.bubble_menu-> clubOptions();
             R.id.menu -> {
                 if (!open) {
@@ -118,7 +139,14 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
                     open = false
                 }
             }
-            //R.id.addsymbol-> replaceFragment(Frag_Create_club());
+            R.id.addsymbol-> {
+                object :Purchase_membership_dialog(this){
+                    override fun viewplansListner() {
+                        this.dismiss();
+                    }
+                }.show()
+                replaceFragment(Frag_Create_club())
+            };
         }
 
     }
@@ -160,8 +188,8 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
             fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
             fragmentTransaction.replace(R.id.frag_container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
             fragmentTransaction.commit()
+            stausBarHandler(fragmentHolder)
             hideKeyBoard()
-           // fragment = fragmentHolder
 
         } catch (e: Exception) {
           //  Util.e("value", e.toString())
@@ -219,7 +247,22 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
 
     }
 
-    fun stausBarHandler(){
+    fun stausBarHandler(fragemet : Fragment){
+        when(fragemet::class.java.simpleName){
+            Frag_Create_club::class.java.simpleName->cus_status.visibility = View.GONE
+        }
+    }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+
+        for(fragment in supportFragmentManager.fragments){
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+
+    fun showStatusBar(){
+        cus_status.visibility = View.VISIBLE
     }
 }

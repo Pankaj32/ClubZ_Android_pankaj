@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_250sdp"
+    android:layout_height="@dimen/_200sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_white_internet">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@drawable/bg_white_internet_top"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/bg_circle_white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_30sdp"
+        app:srcCompat="@drawable/new_ico"
+        android:padding="@dimen/_10sdp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_20sdp"
+        android:textColor="@color/black"
+        android:text="@string/a_enterprise"
+        android:layout_marginTop="@dimen/_65sdp"
+        android:gravity="center"
+        android:textSize="@dimen/_14sdp"
+        android:fontFamily="@font/teko_bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_60sdp"
+        android:textColor="@color/text_gray"
+        android:gravity="center_vertical"
+        android:padding="@dimen/_30sdp"
+        android:textSize="@dimen/_12sdp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/a_enterprise_body"/>
+
+    <TextView
+        android:id="@+id/viewplans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/viewplan"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/_15sdp"
+        android:textSize="@dimen/_13sdp"
+        android:textAllCaps="true"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/primaryColor"
+        android:layout_alignParentBottom="true"/>
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:layout_toLeftOf="@+id/viewplans"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:textSize="@dimen/_13sdp"
+        android:textAllCaps="true"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/primaryColor"
+        android:layout_alignParentBottom="true"/>
+
+
+</RelativeLayout>
