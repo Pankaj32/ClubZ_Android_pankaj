@@ -16,6 +16,7 @@ import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.widget.AdapterView
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
@@ -58,7 +59,11 @@ import java.util.*
  * Created by mindiii on 3/10/18.
  */
 
-class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
+class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDateSetListener, View.OnTouchListener {
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        (activity as Home_Activity).hideKeyBoard()
+        return false
+    }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
         val check = Date(p1 - 1900, p2, p3)
@@ -91,7 +96,8 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for(view in arrayOf(img_club ,tv_fondationdate , iv_like ,done ,back_f))view.setOnClickListener(this)
+        view!!.setOnClickListener(this)
+        for(view in arrayOf(img_club ,tv_fondationdate , iv_like ,done ,back_f, all))view.setOnClickListener(this)
          try{
              autocompleteFragment1 = activity.fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
             // var autocompleteFragment  =( activity as Home_Activity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment;
@@ -135,6 +141,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
                 return false
             }
         })
+        for(spinner in arrayOf(spn_privacy,spn_club_category))spinner.setOnTouchListener(this)
     }
 
     override fun onDestroyView() {
@@ -151,15 +158,14 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
 
 
     override fun onClick(p0: View?) {
+        (activity as Home_Activity).hideKeyBoard()
         when(p0!!.id){
             R.id.img_club-> permissionPopUp();
             R.id.tv_fondationdate , R.id.iv_like , R.id.arow->{
-                (activity as Home_Activity).hideKeyBoard()
                 datePicker(day,month,year)
             }
             R.id.done-> if(validator())crateClub()
             R.id.back_f->{
-                (activity as Home_Activity).hideKeyBoard()
                 activity.onBackPressed();
             }
         }
@@ -407,10 +413,12 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
                          val list  = Gson().fromJson<ArrayList<Club_Category>>(json.getJSONArray("data").toString() , Type_Token.club_category);
                          spn_club_category.adapter = CreateClub_Spinner(context, list,Constants.CreateClub_Spinner_Type_ClubCategory);
                      }else{
-
+//TODO check all failure conditions //
+                        Util.showToast(json.getString("message"),context)
                      }
                  }catch (ex :Exception){
                      Util.e("Error", ex.toString())
+                     Util.showToast(R.string.swr,context)
                  }
              }
 
@@ -443,7 +451,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             return false
         }
         if(clubImage==null ){
-            Util.showSnake(context,view!!,R.string.a_clubnme);
+            Util.showSnake(context,view!!,R.string.a_image);
         }
         if(tv_fondationdate.text.toString().isBlank()){
             Util.showSnake(context,view!!,R.string.a_foundation);

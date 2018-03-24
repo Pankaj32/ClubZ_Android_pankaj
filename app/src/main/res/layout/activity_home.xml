@@ -121,6 +121,8 @@
 
     </LinearLayout>
 
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -145,143 +147,14 @@
                 android:fontFamily="@font/roboto_medium"
                 android:layout_marginLeft="@dimen/_25sdp"
                 android:textColor="@color/black"/>
-          <!--  <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                android:elevation="@dimen/_3sdp">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="@dimen/_10sdp">
-                    <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="@dimen/_35sdp"
-                        android:layout_height="@dimen/_35sdp"
-                        app:srcCompat="@android:drawable/gallery_thumb"
-                        android:scaleType="fitCenter"
-                        android:padding="@dimen/_8sdp"
-                        android:background="@drawable/bg_circle_blue"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14sdp"
-                        android:fontFamily="@font/teko_bold"
-                        android:text="Phillipeldia Phillips"
-                        android:layout_marginLeft="@dimen/_50sdp"
-                        android:layout_marginStart="@dimen/_50sdp"
-                        android:id="@+id/textView" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_25sdp"
-                        android:layout_marginLeft="@dimen/_50sdp">
-                        <android.support.v7.widget.AppCompatImageView
-                            android:layout_width="@dimen/_10sdp"
-                            android:layout_height="@dimen/_10sdp"
-                            app:srcCompat="@drawable/new_user_ico"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:textColor="@color/inactive_tab"
-                            android:textSize="@dimen/_8sdp"
-                            android:text="1000 members"/>
-                        <android.support.v7.widget.AppCompatImageView
-                            android:layout_width="@dimen/_10sdp"
-                            android:layout_height="@dimen/_10sdp"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            app:srcCompat="@android:drawable/ic_lock_lock"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:textColor="@color/inactive_tab"
-                            android:textSize="@dimen/_8sdp"
-                            android:text="Private"/>
-                        <android.support.v7.widget.AppCompatImageView
-                            android:layout_width="@dimen/_10sdp"
-                            android:layout_height="@dimen/_10sdp"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            app:srcCompat="@drawable/new_user_ico"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:textColor="@color/inactive_tab"
-                            android:textSize="@dimen/_8sdp"
-                            android:text="Lead by"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:textColor="@color/primaryColor"
-                            android:textSize="@dimen/_8sdp"
-                            android:text=" Jhon Doe"/>
-
-
-                    </LinearLayout>
-
-
-
-                    <TextView
-                        android:id="@+id/body_b"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_10sdp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="This is dummy Text to show lotem ipsum adsl dasks its usesjfasjfkasjdfaslf djsfakjasdl asfajsfasjfklal jljjjjjjj"
-                        android:layout_marginTop="@dimen/_40sdp"
-                        />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_1sdp"
-                        android:background="@color/black"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_below="@id/body_b"
-                        />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_36sdp"
-                        android:paddingLeft="@dimen/_14sdp"
-                        android:paddingRight="@dimen/_14sdp"
-                        android:text="Request to join"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/_14sdp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:background="@drawable/bg_btn_green"
-                        android:layout_below="@id/body_b"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="@dimen/_20sdp"
-                        />
-
-
-                    <Switch
-                        android:id="@+id/switch1"
-                        android:layout_width="@dimen/_100sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:theme="@style/SCBSwitch" />
-
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>-->
-
             <!--<include
-                layout="@layout/frag_news">
+           layout="@layout/frag_news">
 
-            </include>
-            <include
-                layout="@layout/frag_create_club">
+       </include>
+       <include
+           layout="@layout/frag_create_club">
 
-            </include>-->
+       </include>-->
 
         </LinearLayout>
     </ScrollView>
@@ -296,10 +169,10 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_46sdp"
+        android:layout_height="@dimen/_56sdp"
         android:layout_alignParentBottom="true"
         app:tabIndicatorColor="@color/primaryColor"
-        app:tabIndicatorHeight="@dimen/_2sdp"
+        app:tabIndicatorHeight="@dimen/_4sdp"
         android:background="@color/white">
 
         <android.support.design.widget.TabItem
@@ -336,7 +209,21 @@
 
     </android.support.design.widget.TabLayout>
 
+        <FrameLayout
+            android:id="@+id/filter_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone">
 
+            <include
+                layout="@layout/menu_club_selection"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="end"/>
+
+        </FrameLayout>
 </RelativeLayout>
 
     <RelativeLayout

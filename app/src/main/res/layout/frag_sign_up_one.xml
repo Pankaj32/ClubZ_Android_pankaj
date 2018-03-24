@@ -121,6 +121,7 @@
                         android:textColorHint="@color/pager_line"
                         android:fontFamily="@font/roboto_regular"
                         style="@style/lighttheme"
+                        android:digits="1234567890"
                         android:singleLine="true"
                         android:layout_toRightOf="@id/country_code"
                         android:layout_marginTop="@dimen/_16sdp"

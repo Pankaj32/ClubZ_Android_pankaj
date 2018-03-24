@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@android:id/icon"
-            android:layout_width="@dimen/_24sdp"
-            android:layout_height="@dimen/_24sdp"
-            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_minus3sdp"
-            android:padding="@dimen/_4sdp"
+            app:srcCompat="@drawable/ic_news"
             android:scaleType="centerInside"/>
 
         <TextView
             android:id="@android:id/text1"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_16sdp"
+            android:layout_height="match_parent"
             android:textColor="@color/inactive_tab"
             android:layout_gravity="center_horizontal"
             android:gravity="center|top"
+            android:layout_marginTop="@dimen/_minus3sdp"
             android:fontFamily="@font/roboto_medium"
-            android:layout_marginTop="@dimen/_minus5sdp"
-            android:layout_marginBottom="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:textSize="@dimen/_12sdp"/>
 
 

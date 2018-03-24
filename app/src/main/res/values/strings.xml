@@ -55,6 +55,12 @@
     <string name="t_stay_up"> Stay updated </string>
     <string name="t_new_club"> New Club </string>
 
+    <string name="t_detils"> Details </string>
+    <string name="t_members"> Members </string>
+
+    <string name="t_al_gps"> Please turn on your GPS </string>
+    <string name="t_error_location"> Error getting your location </string>
+
     <string name="no_internet"> No internet connection </string>
     <string name="temp_sucess"> Successfully registered </string>
     <string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>
@@ -83,7 +89,7 @@
     <!--Register Step-->
     <string name="step_r1"> Login and look what\'s happening </string>
     <string name="step_r2"> Help us to validate your phone number </string>
-    <string name="step_r3"> This is just to break the ice </string>
+    <string name="step_r3"> This is just to break the ice  ;)</string>
     <string name="step_r4"> Almost done, add your affiliates </string>
 
     <!--hints-->
@@ -134,6 +140,7 @@
     <string name="remove" > Remove </string>
     <string name="dismis" > Dismiss </string>
     <string name="join" > Join </string>
+
  <!--   <string name="skip" > <u>Skip</u></string>-->
     <string name="skip" >Skip</string>
     <string name="got" >Got it</string>
@@ -202,6 +209,16 @@
         <item>"Private"</item>
     </array>
 
+    <string name="Public" > Public </string>
+    <string name="Private" > Private </string>
+    <string name="since">Since</string>
+    <string name="members">members</string>
+    <string name="ok">Ok</string>
+    <string name="t_gps_msg"> Your location is required to show feeds near you</string>
+    <string name="t_er_loc_msg"> Your location is required to show feeds near you </string>
+
+    <!--<string name="emoji1" > &#x1f60b; </string>--><!--<string name="emoji1" > U+1F60B </string>-->
+    <!--<string name="emoji1" > U+1F60B </string>-->
     <!--
     User name
     - Please enter username.

@@ -22,6 +22,7 @@ public class Constants {
     public static final int SELECT_FILE         = 234;
     public static final int REQUEST_PICTURE     = 124;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    public static final int GPS_RESULT_CODE = 126;
 
     public static final int INTENTCAMERA        = 1000;
     public static final int INTENTGALLERY       = 1100;

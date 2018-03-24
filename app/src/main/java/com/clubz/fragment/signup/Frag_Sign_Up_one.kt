@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.frag_sign_up_one.*
 import java.util.ArrayList
 import android.widget.Spinner
 import android.telephony.TelephonyManager
+import android.view.MotionEvent
 import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.Cus_Views.CusDialogProg
@@ -28,6 +29,7 @@ import com.clubz.util.VolleyGetPost
 import org.json.JSONObject
 import com.clubz.SMSreciver.OnSmsCatchListener
 import com.clubz.SMSreciver.SmsVerifyCatcher
+import com.clubz.util.KeyboardUtil
 import com.clubz.util.PhoneNumberTextWatcher
 
 
@@ -41,6 +43,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
     var isvalidate : Boolean = false;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         return inflater.inflate(R.layout.frag_sign_up_one, null);
     }
 
@@ -57,6 +60,13 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
         country_code.adapter = Country_spinner_adapter(context, list, 0, R.layout.spinner_view);
         setCountryCode(list , country_code)
         phone_no.addTextChangedListener(PhoneNumberTextWatcher(phone_no));
+        country_code.setOnTouchListener(object : View.OnTouchListener{
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                (activity as Sign_up_Activity).hideKeyBoard()
+                return false
+            }
+        })
+
     }
 
 
@@ -64,7 +74,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
      when(p0!!.id){
          R.id.next-> if(verfiy())generateOtp()
 
-            // (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code,"1"));
+             //(activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code,"1"));
           //generateOtp()
      }
     }
@@ -123,7 +133,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
                 //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
                 //{"status":"fail","message":"This mobile number is already registered."}
                 //{"status":"success","message":"Registered successfully, Generate verify code successfully sent","otp":"3319","step":1}
-//{status": "success", "message": "We have sent a PIN on given contact number. Please verify to continue", "otp": "5360", "step": 2, "isNewUser": "1"}
+                //{status": "success", "message": "We have sent a PIN on given contact number. Please verify to continue", "otp": "5360", "step": 2, "isNewUser": "1"}
                 try{
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){

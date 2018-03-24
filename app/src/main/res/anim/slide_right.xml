@@ -2,7 +2,7 @@
 <translate xmlns:android="http://schemas.android.com/apk/res/android"
     android:duration="@integer/three"
     android:interpolator="@android:anim/accelerate_interpolator"
-    android:startOffset="@integer/threedealy"
+    android:startOffset="@integer/twodelay"
     android:toXDelta="200%" android:fromXDelta="0%"
     android:fromYDelta="0%" android:toYDelta="0%"
     />

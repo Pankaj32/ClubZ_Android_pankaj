@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_250sdp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_white_internet">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@drawable/bg_white_internet_top"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/bg_circle_white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_30sdp"
+        app:srcCompat="@drawable/ic_map_placeholder_primary"
+        android:padding="@dimen/_10sdp"
+        />
+
+    <TextView
+        android:id="@+id/title_t"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:textColor="@color/black"
+        android:text="@string/a_enterprise"
+        android:layout_marginTop="@dimen/_75sdp"
+        android:gravity="center"
+        android:textSize="@dimen/_16sdp"
+        android:fontFamily="@font/teko_bold"/>
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_t"
+        android:textColor="@color/text_gray"
+        android:gravity="center"
+        android:paddingStart="@dimen/_30sdp"
+        android:paddingEnd="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textSize="@dimen/_12sdp"
+        android:fontFamily="@font/roboto_regular"
+        android:lineSpacingExtra="@dimen/_5sdp"
+        android:text="@string/a_enterprise_body"/>
+
+    <View
+        android:id="@+id/blank"
+        android:layout_width="@dimen/_16sdp"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/message"/>
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:layout_toStartOf="@+id/blank"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:textSize="@dimen/_13sdp"
+        android:textAllCaps="true"
+        android:layout_below="@+id/message"
+        android:paddingEnd="@dimen/_16sdp"
+        android:paddingStart="@dimen/_16sdp"
+        android:background="@drawable/bg_btn_green"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/white" />
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:layout_toLeftOf="@+id/ok"
+        android:textSize="@dimen/_13sdp"
+        android:layout_alignBottom="@+id/ok"
+        android:textAllCaps="true"
+        android:paddingEnd="@dimen/_16sdp"
+        android:paddingStart="@dimen/_16sdp"
+        android:background="@drawable/bg_btn_green"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/white" />
+
+
+</RelativeLayout>

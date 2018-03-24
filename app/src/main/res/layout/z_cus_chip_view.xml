@@ -19,7 +19,7 @@
         app:shadowMarginLeft="1px"
 
         app:backgroundColor="@color/primaryColor"
-        app:shadowColor="#626262">
+        app:shadowColor="#999999">
 
     <!-- content -->
     <LinearLayout

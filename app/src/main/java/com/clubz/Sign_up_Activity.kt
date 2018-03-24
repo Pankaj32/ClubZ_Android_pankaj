@@ -1,5 +1,6 @@
 package com.clubz
 
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,9 +9,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.CheckedTextView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.clubz.Cus_Views.Checked_Step_ImageView
 import com.clubz.Cus_Views.Checked_Step_TextView
@@ -18,6 +21,8 @@ import com.clubz.Cus_Views.Checked_Step_TextView_active
 import com.clubz.Cus_Views.CusDialogProg
 import com.clubz.fragment.signup.*
 import com.clubz.util.Constants
+import com.clubz.util.KeyboardUtil
+import com.clubz.util.SoftKeyboard
 import com.clubz.util.Util
 import com.facebook.CallbackManager
 import com.facebook.FacebookSdk
@@ -41,6 +46,7 @@ class Sign_up_Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN or WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         FacebookSdk.sdkInitialize(applicationContext)
         FacebookSdk.setIsDebugEnabled(true)
         FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS)
@@ -53,6 +59,8 @@ class Sign_up_Activity : AppCompatActivity() {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         Util.checklaunage(this)
         replaceFragment(Frag_Sign_Up_one())
+
+
     }
 
 

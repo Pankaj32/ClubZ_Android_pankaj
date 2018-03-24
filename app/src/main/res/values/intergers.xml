@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="one">600</integer>
-    <integer name="onedelay">500</integer>
-    <integer name="two">600</integer>
-    <integer name="twodelay">1100</integer>
-    <integer name="three">600</integer>
-    <integer name="threedealy">1700</integer>
-    <integer name="four">600</integer>
-    <integer name="fourdelay">2300</integer>
+    <integer name="one">200</integer>
+    <integer name="onedelay">200</integer>
+    <integer name="two">200</integer>
+    <integer name="twodelay">600</integer>
+    <integer name="three">200</integer>
+    <integer name="threedealy">800</integer>
+    <integer name="four">200</integer>
+    <integer name="fourdelay">1000</integer>
 
 
     <!--try button-->

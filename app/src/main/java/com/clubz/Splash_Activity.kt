@@ -43,7 +43,7 @@ class Splash_Activity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        dimmedEffet()
+        startEffect()
        /* Handler().postDelayed({
 
         },2000);*/
@@ -51,12 +51,12 @@ class Splash_Activity : AppCompatActivity() {
 
     }
 
-    fun dimmedEffet() {
-        val animat1 = AnimationUtils.loadAnimation(this, R.anim.one_fade)
-        val animat2 = AnimationUtils.loadAnimation(this, R.anim.two_fade)
-        val animat3 = AnimationUtils.loadAnimation(this, R.anim.slide_left)
-        val animat3_2 = AnimationUtils.loadAnimation(this, R.anim.slide_right)
-        val animat4 = AnimationUtils.loadAnimation(this, R.anim.four_fade)
+    fun startEffect(){
+        val animat1 = AnimationUtils.loadAnimation(this, R.anim.one_fade_s)
+        val animat2 = AnimationUtils.loadAnimation(this, R.anim.two_fade_s)
+        val animat3 = AnimationUtils.loadAnimation(this, R.anim.slide_left_s)
+        val animat3_2 = AnimationUtils.loadAnimation(this, R.anim.slide_right_s)
+        val animat4 = AnimationUtils.loadAnimation(this, R.anim.four_fade_s)
 
         ribbion.setAnimation(animat1);
         image.setAnimation(animat2);
@@ -66,6 +66,89 @@ class Splash_Activity : AppCompatActivity() {
         text2.setAnimation(animat4);
         text3.setAnimation(animat4);
         text_view.setAnimation(animat4);
+
+
+        animat1.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+                ribbion.visibility= View.VISIBLE
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {
+
+            }
+        })
+
+        animat2.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+                image.visibility= View.VISIBLE
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {
+
+            }
+        })
+
+        animat3.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+                line1.visibility= View.VISIBLE
+                line2.visibility= View.VISIBLE
+
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {
+
+            }
+        })
+
+        animat4.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+                text1.visibility= View.VISIBLE
+                text2.visibility= View.VISIBLE
+                text3.visibility= View.VISIBLE
+                text_view.visibility= View.VISIBLE
+                Handler().postDelayed({
+                    dimmedEffet()
+                },600);
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {
+
+            }
+        })
+    }
+
+    fun dimmedEffet() {
+        val animat1 = AnimationUtils.loadAnimation(this, R.anim.one_fade)
+        val animat2 = AnimationUtils.loadAnimation(this, R.anim.two_fade)
+        val animat3 = AnimationUtils.loadAnimation(this, R.anim.slide_left)
+        val animat3_2 = AnimationUtils.loadAnimation(this, R.anim.slide_right)
+        val animat4 = AnimationUtils.loadAnimation(this, R.anim.four_fade)
+
+        ribbion.startAnimation(animat1);
+        image.startAnimation(animat2);
+        line1.startAnimation(animat3_2);
+        line2.startAnimation(animat3);
+        text1.startAnimation(animat4);
+        text2.startAnimation(animat4);
+        text3.startAnimation(animat4);
+        text_view.startAnimation(animat4);
+
 
 
         animat1.setAnimationListener(object : Animation.AnimationListener {

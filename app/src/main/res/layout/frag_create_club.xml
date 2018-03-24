@@ -53,6 +53,7 @@
             android:elevation="@dimen/_5sdp">
 
             <RelativeLayout
+                android:id="@+id/all"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white">
@@ -109,6 +110,7 @@
                     android:dropDownWidth="@dimen/_150sdp"
                     android:layout_alignStart="@id/titile_name"
                     android:overlapAnchor="false"
+                    android:background="@null"
                     android:textColor="#626262"/>
 
 
@@ -292,7 +294,7 @@
                     android:layout_below="@+id/img_club"
                     android:layout_marginLeft="@dimen/_16sdp"
                     app:srcCompat="@drawable/ic_email"
-                    android:padding="@dimen/_5sdp"
+                    android:padding="@dimen/_6sdp"
                     />
                 <EditText
                     android:id="@+id/club_email"
@@ -311,7 +313,7 @@
                     android:layout_below="@+id/club_email"
                     android:layout_marginLeft="@dimen/_16sdp"
                     app:srcCompat="@drawable/ic_phone_call_button"
-                    android:padding="@dimen/_5sdp"
+                    android:padding="@dimen/_6sdp"
                     />
                 <EditText
                     android:id="@+id/club_phone"
@@ -321,6 +323,7 @@
                     android:hint="@string/club_phone"
                     android:inputType="phone"
                     android:maxLength="10"
+                    android:digits="1234567890"
                     android:imeOptions="actionDone"
                     android:layout_marginLeft="@dimen/_46sdp"
                     android:layout_marginRight="@dimen/_16sdp"
@@ -355,7 +358,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:background="@color/white"
                         app:srcCompat="@drawable/ic_map_placeholder"
-                        android:padding="@dimen/_5sdp"
+                        android:padding="@dimen/_4sdp"
                         />
                     <EditText
                         android:id="@+id/club_adres"
@@ -398,7 +401,7 @@
                     android:layout_below="@+id/lnr_location"
                     android:layout_marginLeft="@dimen/_16sdp"
                     app:srcCompat="@drawable/ic_earth_globe"
-                    android:padding="@dimen/_5sdp"
+                    android:padding="@dimen/_6sdp"
                     />
 
                 <EditText
@@ -407,8 +410,8 @@
                     android:layout_height="@dimen/_30sdp"
                     android:layout_below="@+id/lnr_location"
                     android:hint="@string/club_website"
-                    android:layout_marginLeft="@dimen/_46sdp"
-                    android:layout_marginRight="@dimen/_16sdp"
+                    android:layout_marginStart="@dimen/_46sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
                     style="@style/et_club_create"
                     />
 
@@ -435,7 +438,10 @@
                     android:textColorHint="#666666"
                     android:textColor="#009688"
                     android:gravity="top"
-                    android:padding="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_16sdp"
                     style="@style/graytheme"
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:layout_marginRight="@dimen/_16sdp"
@@ -449,7 +455,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_20sdp"
-                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginStart="@dimen/_16sdp"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:layout_alignEnd="@+id/rtv_leadby"
                     android:layout_below="@+id/etv_description">
@@ -469,7 +475,7 @@
                     android:id="@+id/rtv_leadby"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingStart="@dimen/_16sdp"
                     android:paddingBottom="@dimen/_8sdp"
                     android:paddingTop="@dimen/_8sdp"
 
@@ -560,7 +566,10 @@
                     android:gravity="top"
                     style="@style/graytheme"
                     android:textSize="@dimen/_12sdp"
-                    android:padding="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_16sdp"
                     android:layout_marginRight="@dimen/_16sdp"/>
 
                 <android.support.v7.widget.AppCompatImageView

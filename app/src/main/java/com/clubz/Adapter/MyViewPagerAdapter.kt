@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Interpolator
 import android.widget.Scroller
+import android.widget.TextView
+import com.clubz.R
+import com.clubz.util.Util
 import java.lang.reflect.Field
 import java.util.*
 
@@ -27,7 +30,9 @@ class MyViewPagerAdapter(val  activity :Activity , val layouts : IntArray , val 
 
         val view = layoutInflater!!.inflate(layouts[position], container, false)
         container.addView(view)
-
+        if(position==2){
+            view.findViewById<TextView>(R.id.tv).setText(activity.resources.getString(R.string.slider_b3)+" \uD83D\uDE0B")
+        }
         return view
     }
 

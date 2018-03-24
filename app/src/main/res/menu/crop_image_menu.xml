@@ -9,18 +9,18 @@
         android:title=""
         android:iconTint="@color/white"
         app:showAsAction="always"
-        android:icon="@drawable/counterclockwise"/>
+        android:icon="@drawable/rotate_left"/>
     <item
         android:id="@+id/crop_image_menu_rotate_right"
         android:title=""
         android:iconTint="@color/white"
         app:showAsAction="always"
-        android:icon="@drawable/clockwise"/>
+        android:icon="@drawable/rotate_right"/>
     <item
         android:id="@+id/crop_image_menu_crop"
         android:title="@string/crop_image_menu_crop"
         android:iconTint="@color/white"
         app:showAsAction="always"
-        android:icon="@drawable/checked"/>
+        android:icon="@drawable/check"/>
 
 </menu>

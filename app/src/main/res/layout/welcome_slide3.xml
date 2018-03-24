@@ -60,15 +60,24 @@
                 android:text="@string/slider_b3"
                 style="@style/pager_body"
                 />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignEnd="@id/tv"
+                android:layout_alignBottom="@+id/tv"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:textColor="@color/white"
+                />
 
-            <android.support.v7.widget.AppCompatImageView
+            <!--<android.support.v7.widget.AppCompatImageView
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_alignEnd="@id/tv"
                 android:layout_alignBottom="@+id/tv"
                 android:layout_marginEnd="@dimen/_30sdp"
                 android:layout_marginBottom="@dimen/_minus5sdp"
-                app:srcCompat="@drawable/ic_tongue" />
+                app:srcCompat="@drawable/ic_tongue" />-->
+
         </RelativeLayout>
 
 

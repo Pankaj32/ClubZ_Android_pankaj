@@ -4,5 +4,5 @@
     android:duration="@integer/one"
     android:fromAlpha="1.0"
     android:interpolator="@android:anim/accelerate_interpolator"
-    android:startOffset="@integer/onedelay"
+    android:startOffset="@integer/threedealy"
     android:toAlpha="0.0" />
