@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<alpha xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@integer/fox_logo"
+    android:fromAlpha="0.0"
+    android:interpolator="@android:anim/accelerate_interpolator"
+    android:startOffset="@integer/fox_logo_delay"
+    android:toAlpha="1.0" />
+
+
+
+
+
+
+
+
+
+
+
+
+

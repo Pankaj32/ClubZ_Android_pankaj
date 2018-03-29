@@ -20,15 +20,14 @@ import android.widget.AdapterView
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
-import com.android.volley.NetworkResponse
+import com.android.volley.*
 
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.clubz.*
+import com.clubz.BuildConfig
 import com.clubz.Cropper.CropImage
 import com.clubz.Cropper.CropImageView
 import com.clubz.Cus_Views.CusDialogProg
+import com.clubz.R
 import com.clubz.Spinner_adpter.CreateClub_Spinner
 import com.clubz.helper.SessionManager
 import com.clubz.helper.Type_Token
@@ -136,7 +135,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
         }
         club_phone.setOnEditorActionListener(object :TextView.OnEditorActionListener{
             override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                if (p1 == EditorInfo.IME_ACTION_DONE) {
+                if (p1 == EditorInfo.IME_ACTION_NEXT) {
                     (activity as Home_Activity).hideKeyBoard()                }
                 return false
             }
@@ -196,7 +195,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.Picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(160,160).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this);
+                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this);
                 } else {
                     Toast.makeText(context ,R.string.swr, Toast.LENGTH_SHORT).show();
                 }
@@ -204,7 +203,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(160,160).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this);
+                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this);
                 } else {
                     Toast.makeText(context ,R.string.swr , Toast.LENGTH_SHORT).show();
                 }
@@ -376,6 +375,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
 
                 params.put("clubFoundationDate",tv_fondationdate.text.toString());
                 params.put("clubLocation",club_location.text.toString())
+                params.put("userRole",usrerole.text.toString()+"")
 
                 params.put("clubDescription",etv_description.text.toString())
                 Util.e("parms create", params.toString());
@@ -397,6 +397,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
                 return params
             }
         }
+        request.setRetryPolicy(DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
         ClubZ.instance.addToRequestQueue(request)
     }
 
@@ -499,6 +500,10 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
         }
         if(terms_n_condition.text.toString().isBlank()){
             Util.showSnake(context,view!!,R.string.a_terms_n_con);
+            return false
+        }
+        if(usrerole.text.toString().isBlank()){
+            Util.showSnake(context,view!!,R.string.a_userRole);
             return false
         }
         return true

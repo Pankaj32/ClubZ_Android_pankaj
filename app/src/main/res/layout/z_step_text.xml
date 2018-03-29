@@ -13,7 +13,7 @@
         android:textSize="@dimen/_12sdp"
         android:layout_centerInParent="true"
         android:background="@drawable/number_inactive"
-        android:fontFamily="@font/teko_bold"
+        android:fontFamily="@font/teko_semibold"
         android:paddingTop="@dimen/_3sdp"
         app:srcCompat="@drawable/ic_checked"/>
 

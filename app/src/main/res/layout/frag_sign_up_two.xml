@@ -208,7 +208,7 @@
                 android:text="@string/orconnect"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp"
-                android:fontFamily="@font/teko_bold"
+                android:fontFamily="@font/teko_semibold"
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginRight="@dimen/_20sdp"
                 android:gravity="center_vertical"/>

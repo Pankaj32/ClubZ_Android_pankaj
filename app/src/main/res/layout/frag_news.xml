@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
-            android:fontFamily="@font/teko_bold"
+            android:fontFamily="@font/teko_semibold"
             android:text="@string/no_content"
             android:layout_marginLeft="@dimen/_50sdp"
             android:layout_marginStart="@dimen/_50sdp" />

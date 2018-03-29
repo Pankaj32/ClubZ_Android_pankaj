@@ -29,7 +29,7 @@
         android:layout_marginTop="@dimen/_75sdp"
         android:gravity="center"
         android:textSize="@dimen/_16sdp"
-        android:fontFamily="@font/teko_bold"/>
+        android:fontFamily="@font/teko_semibold"/>
 
     <TextView
         android:id="@+id/message"

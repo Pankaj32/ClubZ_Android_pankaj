@@ -58,7 +58,8 @@
         android:layout_alignParentBottom="true"
         android:background="@null"
         android:text="@string/next"
-        android:gravity="center"
+        android:gravity="end|center"
+        android:paddingEnd="@dimen/_20sdp"
         android:textSize="@dimen/_12sdp"
         android:textColor="@color/white" />
 
@@ -70,8 +71,9 @@
         android:layout_alignParentBottom="true"
         android:textAllCaps="true"
         android:background="@null"
-        android:gravity="center"
+        android:gravity="start|center"
         android:textSize="@dimen/_12sdp"
+        android:paddingStart="@dimen/_20sdp"
         android:textColor="@color/white" />
 
 </RelativeLayout>

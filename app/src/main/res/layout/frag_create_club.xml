@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="@string/t_new_club"
-            android:fontFamily="@font/teko_bold"
+            android:fontFamily="@font/teko_semibold"
             android:gravity="center_vertical"
             android:textSize="@dimen/_18sdp"
             android:textColor="@color/white"/>
@@ -74,13 +74,16 @@
                     android:id="@+id/titile_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/teko_bold"
+                    android:fontFamily="@font/teko_semibold"
                     android:background="@null"
                     android:textColorHint="#B2B2B2"
                     android:textColor="#009688"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_16sdp"
                     android:hint="@string/hint_club_name"
+                    android:paddingEnd="@dimen/_16sdp"
                     style="@style/graytheme"
+                    android:singleLine="true"
+                    android:maxLength="30"
                     android:inputType="textCapSentences"
                     android:layout_alignTop="@id/image_member"
                     android:layout_toRightOf="@id/image_member"/>
@@ -90,13 +93,13 @@
                     android:layout_width="match_parent"
                     android:layout_alignStart="@id/titile_name"
                     android:layout_alignTop="@id/titile_name"
-                    android:layout_marginTop="@dimen/_17sdp"
+                    android:layout_marginTop="@dimen/_19sdp"
                     android:layout_marginEnd="@dimen/_16sdp"
                     android:background="@color/black"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/titile_name"
+                android:layout_marginTop="@dimen/_36sdp"
                 android:layout_alignStart="@id/titile_name"
                 android:orientation="horizontal"
                 android:layout_marginEnd="@dimen/_16sdp">
@@ -285,7 +288,7 @@
                     android:textSize="@dimen/_16sdp"
                     android:text="@string/contact_info"
                     android:layout_marginLeft="@dimen/_16sdp"
-                    android:fontFamily="@font/teko_bold"/>
+                    android:fontFamily="@font/teko_semibold"/>
 
                 <android.support.v7.widget.AppCompatImageView
                     android:layout_width="@dimen/_30sdp"
@@ -303,6 +306,7 @@
                     android:layout_marginTop="@dimen/_96sdp"
                     android:layout_below="@+id/img_club"
                     android:hint="@string/club_mail"
+                    android:inputType="textEmailAddress"
                     android:layout_marginLeft="@dimen/_46sdp"
                     android:layout_marginRight="@dimen/_16sdp"
                     style="@style/et_club_create"
@@ -324,7 +328,7 @@
                     android:inputType="phone"
                     android:maxLength="10"
                     android:digits="1234567890"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:layout_marginLeft="@dimen/_46sdp"
                     android:layout_marginRight="@dimen/_16sdp"
                     style="@style/et_club_create" />
@@ -424,7 +428,7 @@
                     android:textSize="@dimen/_16sdp"
                     android:text="@string/club_description"
                     android:layout_margin="@dimen/_16sdp"
-                    android:fontFamily="@font/teko_bold"/>
+                    android:fontFamily="@font/teko_semibold"/>
 
                 <EditText
                     android:id="@+id/etv_description"
@@ -439,10 +443,12 @@
                     android:textColor="#009688"
                     android:gravity="top"
                     android:paddingTop="@dimen/_8sdp"
+                    android:inputType="textCapSentences"
                     android:paddingStart="@dimen/_8sdp"
                     android:paddingEnd="@dimen/_8sdp"
                     android:paddingBottom="@dimen/_16sdp"
                     style="@style/graytheme"
+                    android:maxLength="200"
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:layout_marginRight="@dimen/_16sdp"
                     />
@@ -511,12 +517,12 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sdp"
-                        android:fontFamily="@font/teko_bold"
+                        android:fontFamily="@font/teko_semibold"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_alignTop="@id/leadby"
                         android:layout_toRightOf="@id/leadby"/>
 
-                    <TextView
+                    <EditText
                         android:id="@+id/usrerole"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -529,6 +535,9 @@
                         android:layout_marginLeft="@dimen/_16sdp"
                         android:layout_below="@+id/leadby"
                         android:text="Admin"
+                        android:inputType="textCapSentences"
+                        android:maxLength="20"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:layout_toRightOf="@id/image_member2"/>
                     <View
                         android:layout_width="wrap_content"
@@ -565,6 +574,8 @@
                     android:textColor="#009688"
                     android:gravity="top"
                     style="@style/graytheme"
+                    android:maxLength="200"
+                    android:inputType="textCapSentences"
                     android:textSize="@dimen/_12sdp"
                     android:paddingTop="@dimen/_8sdp"
                     android:paddingStart="@dimen/_8sdp"

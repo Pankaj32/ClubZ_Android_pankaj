@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.WindowManager
 import android.widget.TextView
 import com.clubz.Adapter.MyViewPagerAdapter
 import kotlinx.android.synthetic.main.actvity_intro_screen.*
@@ -35,7 +36,6 @@ class Inro_Activity : AppCompatActivity(), View.OnClickListener  , ViewPager.OnP
             R.id.btn_next->{
                 if(view_pager.currentItem<layouts.size-1) {
                     view_pager.setCurrentItem( view_pager.currentItem+1,true)
-
                 }
                 else{
                     val intent = Intent(this@Inro_Activity , Sign_up_Activity::class.java)
@@ -61,8 +61,11 @@ class Inro_Activity : AppCompatActivity(), View.OnClickListener  , ViewPager.OnP
 
     override fun onPageSelected(position: Int) {
         btn_next.setText(R.string.next)
-
-        if(position==layouts.size-1){ btn_next.setText(R.string.got) }
+        btn_skip.visibility =View.VISIBLE
+        if(position==layouts.size-1){
+            btn_next.setText(R.string.got)
+            btn_skip.visibility =View.GONE
+        }
         for(i in 0..lnr_indicator.childCount-1){
             lnr_indicator.getChildAt(i).setBackgroundResource(R.drawable.indicator_inactive)
         }

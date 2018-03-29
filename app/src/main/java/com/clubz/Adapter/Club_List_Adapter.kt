@@ -38,7 +38,11 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
         if(activity.latitude==0.0 && activity.longitude==0.0){
             holder.distance.setText("-- Km")
         }
-        else {holder.distance.setText(" ${Util.getDistanceinKm(activity.latitude.toFloat(), activity.longitude.toFloat(),obj.club_latitude.toFloat() , obj.club_longitude.toFloat()).toInt()} Km");}
+        else {
+            try {
+                holder.distance.setText(" ${(Util.getDistanceMile(arrayOf(activity.latitude, activity.longitude,obj.club_latitude.toDouble() , obj.club_longitude.toDouble()))*1.60934).toInt()} Km");
+            }catch (ex :Exception){}
+        }
         holder.btn_join.setText(if(obj.club_type.equals("1"))R.string.join else R.string.req_join)
         holder.img_status.setImageResource(if(obj.club_type.equals("1")) R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
         holder.status.setText(if(obj.club_type.equals("1")) R.string.Public else R.string.Private)

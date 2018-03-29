@@ -52,20 +52,24 @@ class Splash_Activity : AppCompatActivity() {
     }
 
     fun startEffect(){
-        val animat1 = AnimationUtils.loadAnimation(this, R.anim.one_fade_s)
-        val animat2 = AnimationUtils.loadAnimation(this, R.anim.two_fade_s)
-        val animat3 = AnimationUtils.loadAnimation(this, R.anim.slide_left_s)
-        val animat3_2 = AnimationUtils.loadAnimation(this, R.anim.slide_right_s)
-        val animat4 = AnimationUtils.loadAnimation(this, R.anim.four_fade_s)
+        val animat1 = AnimationUtils.loadAnimation(this, R.anim.dark_strip_in)
+        val animat2 = AnimationUtils.loadAnimation(this, R.anim.fox_in)
+        val animat3 = AnimationUtils.loadAnimation(this, R.anim.club_title_in)
+        val animat4 = AnimationUtils.loadAnimation(this, R.anim.top_line_in)
+        val animat5 = AnimationUtils.loadAnimation(this, R.anim.bottom_line_in)
+        val animat6 = AnimationUtils.loadAnimation(this, R.anim.slogan_in)
 
         ribbion.setAnimation(animat1);
         image.setAnimation(animat2);
-        line1.setAnimation(animat3);
-        line2.setAnimation(animat3_2);
-        text1.setAnimation(animat4);
-        text2.setAnimation(animat4);
-        text3.setAnimation(animat4);
-        text_view.setAnimation(animat4);
+        text1.setAnimation(animat3);
+
+        line1.setAnimation(animat4);
+        line2.setAnimation(animat5);
+
+
+        text2.setAnimation(animat6);
+        text3.setAnimation(animat6);
+        text_view.setAnimation(animat6);
 
 
         animat1.setAnimationListener(object : Animation.AnimationListener {
@@ -134,36 +138,26 @@ class Splash_Activity : AppCompatActivity() {
     }
 
     fun dimmedEffet() {
-        val animat1 = AnimationUtils.loadAnimation(this, R.anim.one_fade)
-        val animat2 = AnimationUtils.loadAnimation(this, R.anim.two_fade)
-        val animat3 = AnimationUtils.loadAnimation(this, R.anim.slide_left)
-        val animat3_2 = AnimationUtils.loadAnimation(this, R.anim.slide_right)
-        val animat4 = AnimationUtils.loadAnimation(this, R.anim.four_fade)
+        val animat1 = AnimationUtils.loadAnimation(this, R.anim.dark_strip_out)
+        val animat2 = AnimationUtils.loadAnimation(this, R.anim.fox_out)
+        val animat3 = AnimationUtils.loadAnimation(this, R.anim.club_title_out)
+        val animat4 = AnimationUtils.loadAnimation(this, R.anim.top_line_out)
+        val animat5 = AnimationUtils.loadAnimation(this, R.anim.bottom_line_out)
+        val animat6 = AnimationUtils.loadAnimation(this, R.anim.slogan_out)
 
         ribbion.startAnimation(animat1);
         image.startAnimation(animat2);
-        line1.startAnimation(animat3_2);
-        line2.startAnimation(animat3);
-        text1.startAnimation(animat4);
-        text2.startAnimation(animat4);
-        text3.startAnimation(animat4);
-        text_view.startAnimation(animat4);
+        text1.startAnimation(animat3);
+
+        line1.startAnimation(animat4);
+        line2.startAnimation(animat5);
 
 
+        text2.startAnimation(animat6);
+        text3.startAnimation(animat6);
+        text_view.startAnimation(animat6);
 
-        animat1.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {
 
-            }
-
-            override fun onAnimationEnd(animation: Animation) {
-                ribbion.visibility= View.INVISIBLE
-            }
-
-            override fun onAnimationRepeat(animation: Animation) {
-
-            }
-        })
 
         animat2.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) {
@@ -172,22 +166,11 @@ class Splash_Activity : AppCompatActivity() {
 
             override fun onAnimationEnd(animation: Animation) {
                 image.visibility= View.INVISIBLE
-            }
+                text1.visibility= View.INVISIBLE
 
-            override fun onAnimationRepeat(animation: Animation) {
-
-            }
-        })
-
-        animat3.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {
-
-            }
-
-            override fun onAnimationEnd(animation: Animation) {
-                line1.visibility= View.INVISIBLE
-                line2.visibility= View.INVISIBLE
-
+                text_view.visibility= View.INVISIBLE
+                text2.visibility= View.INVISIBLE
+                text3.visibility= View.INVISIBLE
             }
 
             override fun onAnimationRepeat(animation: Animation) {
@@ -201,13 +184,44 @@ class Splash_Activity : AppCompatActivity() {
             }
 
             override fun onAnimationEnd(animation: Animation) {
+                line1.visibility= View.INVISIBLE
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {
+
+            }
+        })
+
+        animat5.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+                line2.visibility= View.INVISIBLE
+
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {
+
+            }
+        })
+
+        animat1.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
                 text1.visibility= View.INVISIBLE
                 text2.visibility= View.INVISIBLE
                 text3.visibility= View.INVISIBLE
-                text_view.visibility= View.INVISIBLE
+
+                ribbion.visibility= View.INVISIBLE
                 Handler().postDelayed({
                     val intent =if(SessionManager.getObj().isloggedin()) Intent(this@Splash_Activity , Home_Activity::class.java)
                     else Intent(this@Splash_Activity , Inro_Activity::class.java)
+
                     startActivity(intent);
                     finish();
                 },200);

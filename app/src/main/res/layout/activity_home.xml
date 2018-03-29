@@ -40,7 +40,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="@string/t_stay_up"
-            android:fontFamily="@font/teko_bold"
+            android:fontFamily="@font/teko_semibold"
             android:textSize="@dimen/_18sdp"
             android:paddingTop="@dimen/_3sdp"
             android:gravity="center_vertical"
@@ -139,14 +139,14 @@
 
 
 
-            <TextView
+            <!--<TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_12sdp"
                 android:text="@string/near_club"
                 android:fontFamily="@font/roboto_medium"
                 android:layout_marginLeft="@dimen/_25sdp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"/>-->
             <!--<include
            layout="@layout/frag_news">
 
@@ -172,8 +172,10 @@
         android:layout_height="@dimen/_56sdp"
         android:layout_alignParentBottom="true"
         app:tabIndicatorColor="@color/primaryColor"
-        app:tabIndicatorHeight="@dimen/_4sdp"
-        android:background="@color/white">
+        app:tabIndicatorHeight="@dimen/_3sdp"
+        android:background="@color/white"
+        app:tabGravity="fill"
+        app:tabMode="fixed">
 
         <android.support.design.widget.TabItem
             android:id="@+id/ti_news"

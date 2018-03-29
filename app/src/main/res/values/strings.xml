@@ -81,10 +81,12 @@
     <string name="slider_t2"> News  </string>
     <string name="slider_t3"> Chat  </string>
     <string name="slider_t4"> Ads   </string>
-    <string name="slider_b1"> Find matches, \n events, classes,\n interesting groups\n and many other \n great things \n closer to you   </string>
-    <string name="slider_b2"> Stay updated\n about your\n community by \n reading the latest \n news and \n releases </string>
-    <string name="slider_b3"> Get in touch with \n your neighbors\n and talk about\n black holes or\n wormholes if you\n rather  </string>
-    <string name="slider_b4"> Promote your\n products or\n services while\n giving to your\n customers a way\n to reach you  </string>
+
+
+    <string name="slider_b1"> Find matches, \n events, classes,\n interesting groups\n and many other \n great things \n around you   </string>
+    <string name="slider_b2"> Stay updated\n with your\n community by \n reading the latest \n news and \npress releases </string>
+    <string name="slider_b3"> Get in touch with \n your neighbors\n and talk about\n black holes or\n wormholes, as you\n prefer  </string>
+    <string name="slider_b4"> Promote your\n products or\n services and\n give your\n customer a way\n to reach you  </string>
 
     <!--Register Step-->
     <string name="step_r1"> Login and look what\'s happening </string>
@@ -189,6 +191,7 @@
     <string name="a_web_valid">Please enter valid club\'s website url</string>
     <string name="a_description">Please enter description</string>
     <string name="a_terms_n_con">Please enter Terms and condition</string>
+    <string name="a_userRole">Please enter User role</string>
 
 
     <!--Image Cropper-->

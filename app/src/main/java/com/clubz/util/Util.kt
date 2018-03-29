@@ -2,6 +2,7 @@ package com.clubz.util
 
 import android.app.Activity
 import android.content.Context
+import android.location.Location
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.util.Log
@@ -11,6 +12,7 @@ import java.nio.charset.Charset
 import android.support.design.widget.Snackbar;
 import android.widget.Toast
 import com.clubz.R
+import java.math.BigDecimal
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
@@ -111,14 +113,30 @@ class Util {
 
         fun getDistanceinKm( lat1 : Float,  lng1 :Float,  lat2 :Float, lng2 :Float) : Float{
             val earthRadius = 6371000.0 //meters
+            Util.e("latlong","$lat1 : $lng2 : $lat2 : $lng2")
             val dLat = Math.toRadians((lat2 - lat1).toDouble())
             val dLng = Math.toRadians((lng2 - lng1).toDouble())
             val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1.toDouble())) * Math.cos(Math.toRadians(lat2.toDouble())) *
                     Math.sin(dLng / 2) * Math.sin(dLng / 2)
             val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-
+//NOT WORKING AS REQUIRED
             return (earthRadius * c).toFloat()
 
+        }
+
+        fun getDistanceMile(LL: Array<Double>): Double {
+            Util.e("LAT LONG ", LL[0].toString() + " " + LL[1] + " " + LL[2] + " " + LL[3])
+
+            val startPoint = Location("locationA")
+            startPoint.setLatitude(LL[0])
+            startPoint.setLongitude(LL[1])
+
+            val endPoint = Location("locationA")
+            endPoint.setLatitude(LL[2])
+            endPoint.setLongitude(LL[3])
+
+            val distance = startPoint.distanceTo(endPoint) * 0.00062137
+            return BigDecimal(distance).setScale(2, BigDecimal.ROUND_HALF_UP).toDouble()
         }
 
         fun getEmojiByUnicode(unicode: Int): String {
@@ -237,6 +255,7 @@ class Util {
         R.drawable.kn,
         R.drawable.kp,
         R.drawable.kr,
+        R.drawable.ic_kosovo,
         R.drawable.kw,
         R.drawable.ky,
         R.drawable.kz,

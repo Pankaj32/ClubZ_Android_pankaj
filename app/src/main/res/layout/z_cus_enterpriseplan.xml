@@ -27,7 +27,7 @@
         android:layout_marginTop="@dimen/_65sdp"
         android:gravity="center"
         android:textSize="@dimen/_16sdp"
-        android:fontFamily="@font/teko_bold"/>
+        android:fontFamily="@font/teko_semibold"/>
 
     <TextView
         android:layout_width="match_parent"

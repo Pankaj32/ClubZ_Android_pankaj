@@ -14,4 +14,60 @@
 
     <integer name="fragmtnslide">300</integer>
 
+
+    <integer name="dark_ribbin">300</integer>
+    <integer name="dark_ribbin_delay">100</integer>
+    <integer name="fox_logo">400</integer>
+    <integer name="fox_logo_delay">400</integer>
+    <integer name="titile">300</integer>
+    <integer name="titile_delay">500</integer>
+    <integer name="top_line">200</integer>
+    <integer name="top_line_delay">500</integer>
+    <integer name="slogan">400</integer>
+    <integer name="slogan_delay">600</integer>
+    <integer name="bottom_line">200</integer>
+    <integer name="bottom_line_delay">600</integer>
+
+
+    <integer name="end_fox_logo">200</integer>
+    <integer name="end_fox_logo_delay">10</integer>
+    <integer name="end_titile">200</integer>
+    <integer name="end_titile_delay">10</integer>
+    <integer name="end_slogan">200</integer>
+    <integer name="end_slogan_delay">10</integer>
+    <integer name="end_top_line">200</integer>
+    <integer name="end_top_line_delay">100</integer>
+    <integer name="end_bottom_line">200</integer>
+    <integer name="end_bottom_line_delay">200</integer>
+    <integer name="end_dark_ribbin">200</integer>
+    <integer name="end_dark_ribbin_delay">220</integer>
+
+
+   <!-- <integer name="dark_ribbin">800</integer>
+    <integer name="dark_ribbin_delay">100</integer>
+    <integer name="fox_logo">800</integer>
+    <integer name="fox_logo_delay">400</integer>
+    <integer name="titile">800</integer>
+    <integer name="titile_delay">500</integer>
+    <integer name="top_line">800</integer>
+    <integer name="top_line_delay">500</integer>
+    <integer name="slogan">800</integer>
+    <integer name="slogan_delay">600</integer>
+    <integer name="bottom_line">800</integer>
+    <integer name="bottom_line_delay">600</integer>
+
+
+    <integer name="end_fox_logo">800</integer>
+    <integer name="end_fox_logo_delay">10</integer>
+    <integer name="end_titile">800</integer>
+    <integer name="end_titile_delay">10</integer>
+    <integer name="end_slogan">800</integer>
+    <integer name="end_slogan_delay">10</integer>
+    <integer name="end_top_line">800</integer>
+    <integer name="end_top_line_delay">100</integer>
+    <integer name="end_bottom_line">800</integer>
+    <integer name="end_bottom_line_delay">200</integer>
+    <integer name="end_dark_ribbin">800</integer>
+    <integer name="end_dark_ribbin_delay">220</integer>-->
+
 </resources>

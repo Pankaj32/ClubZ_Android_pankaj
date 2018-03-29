@@ -51,13 +51,12 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
     var open: Boolean = false
     var doublebackpress: Boolean = false
 
-    internal var LocationCounter: Int = 0
     var latitude: Double = 0.toDouble()
     var longitude: Double = 0.toDouble()
     private var googleApiClient: GoogleApiClient? = null
     private var locationRequest: LocationRequest? = null
 
-    var isPrivate: Int = 0
+    var isPrivate: Int = 0  // 0: Both option available , 1:public ,2:private
     var filterListner: FilterListner? = null;
     var textChnageListner: Textwatcher_Statusbar? = null;
 
@@ -129,6 +128,11 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
                 }
             }
         })
+
+        try{
+            latitude = ClubZ.latitude
+            longitude = ClubZ.longitude
+        }catch (ex:Exception){}
     }
 
     override fun onDestroy() {
@@ -167,6 +171,12 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
                 locationRequest!!.setInterval((60 * 1000).toLong())
                 locationRequest!!.setFastestInterval((60 * 1000).toLong())
                 locationRequest!!.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+            }
+            try {
+                ClubZ.latitude = latitude
+                ClubZ. longitude = longitude
+            }catch (ex :Exception){
+
             }
         }
     }
@@ -266,7 +276,7 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
     override fun onClick(p0: View?) {
         when (p0!!.id) {
             R.id.logout -> SessionManager.getObj().logout(this)
-            R.id.search -> {addFragment(Frag_Search_Club(), 0);}
+            R.id.search -> {}//{addFragment(Frag_Search_Club(), 0);}
             R.id.cancel -> replaceFragment(Frag_News_List())
             R.id.bubble_menu -> clubOptions(0);
             R.id.menu -> {
@@ -279,21 +289,28 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
                 }
             }
             R.id.addsymbol -> {
+                addFragment(Frag_Create_club(),0)
                 object : Purchase_membership_dialog(this) {
                     override fun viewplansListner() {
                         this.dismiss();
                     }
                 }.show()
-                addFragment(Frag_Create_club(),0)
+
             };
             R.id.filter_list -> closeOption()
             R.id.tv_private -> {
-                if(isPrivate!=2){isPrivate = 2; chk_priavte.setChecked(true); chk_public.setChecked(false); if (filterListner != null) filterListner!!.onFilterChnge()}
-                else{isPrivate = 0; chk_priavte.setChecked(false); chk_public.setChecked(false); if (filterListner != null) filterListner!!.onFilterChnge()}
+                when(isPrivate){
+                    1->{isPrivate = 0; chk_priavte.setChecked(true);    chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
+                    0,2->{isPrivate = 1; chk_priavte.setChecked(false);   chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
+                   // 2->{isPrivate = 1; chk_priavte.setChecked(false);   chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
+                }
             }
             R.id.tv_public -> {
-                if(isPrivate!=1){ isPrivate = 1; chk_priavte.setChecked(false); chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
-                else {isPrivate = 0; chk_priavte.setChecked(false); chk_public.setChecked(false); if (filterListner != null) filterListner!!.onFilterChnge()}
+                when(isPrivate){
+                    2->{isPrivate = 0; chk_priavte.setChecked(true);    chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
+                    0,1->{isPrivate = 2; chk_priavte.setChecked(true);   chk_public.setChecked(false); if (filterListner != null) filterListner!!.onFilterChnge()}
+                   // 1->{isPrivate = 2; chk_priavte.setChecked(true);   chk_public.setChecked(false); if (filterListner != null) filterListner!!.onFilterChnge()}
+                }
             }
             R.id.back->onBackPressed()
         }
@@ -302,10 +319,18 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
 
 
     fun clubOptions(position: Int) {
-        filter_list.visibility = View.VISIBLE
+        var canshow = false
+        when(getCurrentFragment()!!::class.java.simpleName.toString()){
+            Frag_Search_Club::class.java.simpleName -> canshow = true
+        }
+        if(!canshow) return
+            filter_list.visibility = View.VISIBLE
         filter_list.getChildAt(position).visibility = View.VISIBLE
         if (position == 0) {
-            chk_priavte.isChecked = (isPrivate==2); chk_public.isChecked = (isPrivate==1); }
+            if(isPrivate==0){
+                chk_priavte.isChecked = true; chk_public.isChecked = true;
+            }
+            else {chk_priavte.isChecked = (isPrivate==2); chk_public.isChecked = (isPrivate==1);} }
     }
 
     fun closeOption() {
@@ -323,6 +348,7 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
             fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
             fragmentTransaction.replace(R.id.frag_container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
             fragmentTransaction.commit()
+            bottomtabHandler(fragmentHolder)
             stausBarHandler(fragmentHolder)
             hideKeyBoard()
 
@@ -344,6 +370,7 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
             fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.fade_out)
             fragmentTransaction.replace(R.id.frag_container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
             fragmentTransaction.commitAllowingStateLoss() // important
+            bottomtabHandler(fragmentHolder)
             stausBarHandler(fragmentHolder)
             hideKeyBoard()
         } catch (e: Exception) {
@@ -362,6 +389,7 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
             fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             fragmentTransaction.add(R.id.frag_container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
             fragmentTransaction.commit()
+            bottomtabHandler(fragmentHolder)
             stausBarHandler(fragmentHolder)
             hideKeyBoard()
             return fragmentHolder
@@ -415,6 +443,19 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
         }
     }
 
+    fun bottomtabHandler(fragemet: Fragment){
+       try{ when (fragemet::class.java.simpleName) {
+
+            Frag_News_List::class.java.simpleName -> {
+                tablayout.visibility = View.VISIBLE
+            }
+            else->{tablayout.visibility = View.GONE}
+        }
+       }catch (ex:Exception){
+           ex.printStackTrace()
+       }
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
 
         for (fragment in supportFragmentManager.fragments) {
@@ -430,12 +471,14 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
 
 
     override fun onBackPressed() {
+        closeOption()
         val handler = Handler()
         var runnable: Runnable? = null
         if (supportFragmentManager.backStackEntryCount > 1) {
             super.onBackPressed()
         try {
             Util.e("Current Fragment", getCurrentFragment()!!::class.java.simpleName.toString())
+            bottomtabHandler(getCurrentFragment()!!)
             stausBarHandler(getCurrentFragment()!!)
         } catch (ex: Exception) {
         }

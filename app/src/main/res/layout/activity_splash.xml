@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.clubz.Splash_Activity"
-  >
+    tools:context="com.clubz.Splash_Activity">
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/stars_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/splash"
-        />
+        />-->
 
     <View
         android:id="@+id/ribbion"
@@ -43,7 +42,7 @@
         android:textSize="@dimen/_30sdp"
         android:gravity="center_horizontal"
         android:textColor="@color/unserline_color"
-        android:fontFamily="@font/teko_bold"
+        android:fontFamily="@font/teko_semibold"
         android:text="@string/app_name"/>
     <View
         android:id="@+id/line1"
@@ -61,7 +60,7 @@
             android:gravity="center_horizontal"
             android:textColor="@color/unserline_color"
             android:text="@string/explore1"
-            android:fontFamily="@font/teko_bold"
+            android:fontFamily="@font/teko_semibold"
             android:layout_marginTop="@dimen/_10sdp"/>
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/text3"
@@ -71,7 +70,7 @@
             android:gravity="center_horizontal"
             android:textColor="@color/unserline_color"
             android:text="@string/explore2"
-            android:fontFamily="@font/teko_bold"
+            android:fontFamily="@font/teko_semibold"
             android:shadowColor="@color/text_gray"
             android:shadowDx="1"
             android:shadowDy="1"
@@ -84,7 +83,7 @@
             android:gravity="center_horizontal"
             android:textColor="@color/unserline_color"
             android:text="@string/explore3"
-            android:fontFamily="@font/teko_bold" />
+            android:fontFamily="@font/teko_semibold" />
         <View
             android:id="@+id/line2"
             android:layout_width="@dimen/_100sdp"

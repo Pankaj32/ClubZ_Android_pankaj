@@ -17,9 +17,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/new_app_ico"
+        android:icon="@drawable/new_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/new_app_ico"
+        android:roundIcon="@drawable/new_app_icon"
         android:supportsRtl="true"
         android:name=".ClubZ"
         android:theme="@style/AppThemeh">
@@ -39,7 +39,7 @@
         <activity android:name=".Home_Activity"
             android:theme="@style/AppThemehome"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             />
         <activity android:name=".Inro_Activity"
             android:screenOrientation="portrait"
