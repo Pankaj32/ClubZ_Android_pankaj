@@ -10,9 +10,10 @@ import com.squareup.picasso.Transformation;
 /**
  * Created by mindiii on 19/12/16.
  */
-public class CircleTransform implements Transformation {
+public class CircleTransform_NoRecycle implements Transformation {
     @Override
-    public Bitmap transform(Bitmap source ) {
+    public Bitmap transform(Bitmap sourceone ) {
+        Bitmap source =  sourceone.copy(sourceone.getConfig(), true);
         int size = Math.min(source.getWidth(), source.getHeight());
 
         int x = (source.getWidth() - size) / 2;

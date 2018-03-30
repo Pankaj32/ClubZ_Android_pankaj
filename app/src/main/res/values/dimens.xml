@@ -14,4 +14,8 @@
     <dimen name="filed_linewidth" >@dimen/_120sdp</dimen>
     <dimen name="indicator_size" >@dimen/_10sdp</dimen>
 
+    <dimen name="button_size" >@dimen/_36sdp</dimen>
+    <dimen name="btn_pading_left" >@dimen/_16sdp</dimen>
+    <dimen name="btn_pading_right" >@dimen/_16sdp</dimen>
+
 </resources>

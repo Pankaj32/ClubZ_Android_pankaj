@@ -12,7 +12,7 @@ import android.widget.EditText
 import com.android.volley.VolleyError
 import com.clubz.Adapter.Club_List_Adapter
 import com.clubz.Cus_Views.CusDialogProg
-import com.clubz.Cus_Views.CustomAlertDialog
+import com.clubz.Cus_Views.Cus_dialog_material_design
 import com.clubz.Home_Activity
 import com.clubz.R
 import com.clubz.fragment.FilterListner
@@ -124,13 +124,12 @@ class Frag_Search_Club :Fragment() , FilterListner , Textwatcher_Statusbar{
         if(!permission.checkLocationPermission()) return
         if(!permission.askForGps()) return
         val activity = (activity as Home_Activity)
-        if (activity.latitude==0.0 && activity.longitude==0.0){ val al_dialog : CustomAlertDialog  = object : CustomAlertDialog(context){
-            override fun onCancelListner() {
+        if (activity.latitude==0.0 && activity.longitude==0.0){ val al_dialog : Cus_dialog_material_design  = object : Cus_dialog_material_design(context){
+            override fun onDisagree() {
                 this.dismiss()
             }
 
-            override fun onOkListner() {
-
+            override fun onAgree() {
                 this.dismiss()
                 val dialog = CusDialogProg(activity );
                 dialog.show();
@@ -140,11 +139,13 @@ class Frag_Search_Club :Fragment() , FilterListner , Textwatcher_Statusbar{
                     checkLocation()
                 },5000)
             }
+
         }
-          al_dialog.setMessage(R.string.t_er_loc_msg);
-            al_dialog.setOktext(R.string.try_again)
-          al_dialog.setTitile(R.string.t_error_location);
-          al_dialog.show()
+            al_dialog.setTextAlert_msg(R.string.t_er_loc_msg);
+            al_dialog.setTextAlert_title(R.string.t_error_location);
+            al_dialog.setTextAgree(R.string.ok);
+            al_dialog.setTextDisagree(R.string.cancel);
+            al_dialog.show()
     }else{
           searchClubs(p0)
       }

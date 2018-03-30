@@ -34,4 +34,6 @@ class Clubs :Serializable {
     var club_user_status = ""
     var members = "0"
     var profile_image = ""
+    var user_role = ""
+    var club_icon = ""
 }

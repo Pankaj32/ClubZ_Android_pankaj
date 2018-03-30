@@ -102,7 +102,7 @@
             android:layout_height="match_parent"
             android:padding="@dimen/_5sdp"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_add_square_button"/>
+            app:srcCompat="@drawable/ic_add_white_48dp"/>
 
 
         <android.support.v7.widget.AppCompatImageView

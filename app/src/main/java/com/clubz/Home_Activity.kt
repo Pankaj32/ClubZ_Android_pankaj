@@ -31,6 +31,7 @@ import com.clubz.helper.SessionManager
 import com.clubz.util.Util
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -59,6 +60,7 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
     var isPrivate: Int = 0  // 0: Both option available , 1:public ,2:private
     var filterListner: FilterListner? = null;
     var textChnageListner: Textwatcher_Statusbar? = null;
+   // private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,8 +84,14 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
         locationRequest!!.setFastestInterval((15 * 1000).toLong())
         locationRequest!!.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
         googleApiClient!!.connect()
-        permission.checkLocationPermission()
-
+        permission.checkLocationPermission() ;
+       /* fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationClient.lastLocation
+                .addOnSuccessListener { location : Location? ->
+                   if(location!=null){ latitude = location.latitude;
+                    longitude = location.longitude;
+                    Util.e("location", latitude.toString()+": "+longitude);}
+                }*/
 
         Util.e("authtoken", SessionManager.getObj().user.auth_token);
         //TODO disable drawer.

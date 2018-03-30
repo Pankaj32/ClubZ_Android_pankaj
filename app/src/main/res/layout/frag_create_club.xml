@@ -59,7 +59,7 @@
                 android:background="@color/white">
 
                 <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/image_member"
+                    android:id="@+id/image_icon"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     app:siBorderColor="@color/text_gray"
@@ -77,7 +77,7 @@
                     android:fontFamily="@font/teko_semibold"
                     android:background="@null"
                     android:textColorHint="#B2B2B2"
-                    android:textColor="#009688"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_16sdp"
                     android:hint="@string/hint_club_name"
                     android:paddingEnd="@dimen/_16sdp"
@@ -85,8 +85,8 @@
                     android:singleLine="true"
                     android:maxLength="30"
                     android:inputType="textCapSentences"
-                    android:layout_alignTop="@id/image_member"
-                    android:layout_toRightOf="@id/image_member"/>
+                    android:layout_alignTop="@id/image_icon"
+                    android:layout_toRightOf="@id/image_icon"/>
 
                 <View
                     android:layout_height="@dimen/_1sdp"
@@ -173,7 +173,7 @@
                     android:id="@+id/img_club"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_200sdp"
-                    android:layout_below="@id/image_member"
+                    android:layout_below="@id/image_icon"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/ic_new_img"
                     android:background="#00A8D1"/>
@@ -203,16 +203,18 @@
                     android:textColorHint="#666666"
                     android:editable="false"
                     android:textSize="@dimen/_12sdp"
+                    android:clickable="true"
+                    android:focusableInTouchMode="false"
                     android:gravity="bottom"
                     android:layout_toRightOf="@+id/iv_like"
                     android:layout_alignTop="@+id/iv_like"/>
-                <View
+               <!-- <View
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_1sdp"
                     android:layout_alignBottom="@id/tv_fondationdate"
                     android:layout_alignStart="@id/tv_fondationdate"
                     android:layout_alignEnd="@+id/arow"
-                    android:background="#666666"/>
+                    android:background="#666666"/>-->
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/arow"
@@ -328,7 +330,7 @@
                     android:inputType="phone"
                     android:maxLength="10"
                     android:digits="1234567890"
-                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/club_adres"
                     android:layout_marginLeft="@dimen/_46sdp"
                     android:layout_marginRight="@dimen/_16sdp"
                     style="@style/et_club_create" />
@@ -370,6 +372,7 @@
                         android:layout_weight="1"
                         android:layout_height="@dimen/_30sdp"
                         android:hint="@string/club_addres"
+                        android:nextFocusForward="@+id/club_web"
                         style="@style/et_club_create"
                         />
                     <android.support.v7.widget.AppCompatImageView
@@ -534,7 +537,6 @@
                         android:hint="@string/user_role"
                         android:layout_marginLeft="@dimen/_16sdp"
                         android:layout_below="@+id/leadby"
-                        android:text="Admin"
                         android:inputType="textCapSentences"
                         android:maxLength="20"
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "

@@ -77,7 +77,9 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
 
 
     var clubImage : Bitmap? = null;
+    var clubIcon : Bitmap? = null;
     var isCameraSelected : Boolean = false;
+    var isClubIcon : Boolean = false;
     var imageUri : Uri? = null;
     lateinit var  autocompleteFragment1 :PlaceAutocompleteFragment
     var lat = 0.0
@@ -96,7 +98,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view!!.setOnClickListener(this)
-        for(view in arrayOf(img_club ,tv_fondationdate , iv_like ,done ,back_f, all))view.setOnClickListener(this)
+        for(view in arrayOf(img_club ,tv_fondationdate , iv_like ,done ,back_f, all , arow ,image_icon))view.setOnClickListener(this)
          try{
              autocompleteFragment1 = activity.fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
             // var autocompleteFragment  =( activity as Home_Activity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment;
@@ -136,7 +138,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
         club_phone.setOnEditorActionListener(object :TextView.OnEditorActionListener{
             override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
                 if (p1 == EditorInfo.IME_ACTION_NEXT) {
-                    (activity as Home_Activity).hideKeyBoard()                }
+                    club_adres.requestFocus()               }
                 return false
             }
         })
@@ -159,7 +161,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     override fun onClick(p0: View?) {
         (activity as Home_Activity).hideKeyBoard()
         when(p0!!.id){
-            R.id.img_club-> permissionPopUp();
+            R.id.img_club-> { isClubIcon = false;   permissionPopUp();  }
             R.id.tv_fondationdate , R.id.iv_like , R.id.arow->{
                 datePicker(day,month,year)
             }
@@ -167,6 +169,10 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             R.id.back_f->{
                 activity.onBackPressed();
             }
+            R.id.arow->{
+                datePicker(day,month,year)
+            }
+            R.id.image_icon->{ isClubIcon = true;   permissionPopUp();            }
         }
 
     }
@@ -195,7 +201,8 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.Picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this);
+                   if(!isClubIcon) CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this);
+                    else CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(150,150).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context,this);
                 } else {
                     Toast.makeText(context ,R.string.swr, Toast.LENGTH_SHORT).show();
                 }
@@ -203,7 +210,8 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this);
+                    if(!isClubIcon) CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this);
+                    else CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(150,150).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context,this);
                 } else {
                     Toast.makeText(context ,R.string.swr , Toast.LENGTH_SHORT).show();
                 }
@@ -212,12 +220,21 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
                 var result : CropImage.ActivityResult = CropImage.getActivityResult(data);
                 try {
                     if (result != null)
-                        clubImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri());
+                    if(isClubIcon){
+                        clubIcon = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri());
+
+                        if (clubIcon != null) {
+                            image_icon.setPadding(0,0,0,0)
+                            image_icon.setImageBitmap(CircleTransform_NoRecycle().transform(clubIcon))
+                        }
+                    }
+                    else
+                    {    clubImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri());
 
 
                     if (clubImage != null) {
                         img_club.setImageBitmap(clubImage)
-                    }
+                    }}
                 } catch ( e : IOException) {
                     e.printStackTrace();
                 }
@@ -233,7 +250,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
 
     fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(activity, R.style.popstyle);
-        val popupMenu = PopupMenu(wrapper, img_club, Gravity.CENTER)
+        val popupMenu = PopupMenu(wrapper, if(isClubIcon) image_icon else img_club, Gravity.CENTER)
         popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())
         popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem): Boolean {
@@ -385,7 +402,10 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             override fun getByteData(): MutableMap<String, DataPart>? {
                 val params = java.util.HashMap<String, DataPart>()
                 if (clubImage != null) {
-                    params.put("clubImage",DataPart("club_image.jpg", AppHelper.getFileDataFromDrawable(clubImage), "image/jpeg"))
+                    params.put("clubImage",DataPart("club_image.jpg", AppHelper.getFileDataFromDrawable(clubImage), "image/*"))
+                }
+                if (clubIcon != null) {
+                    params.put("clubIcon",DataPart("club_icon.jpg", AppHelper.getFileDataFromDrawable(clubIcon), "image/*"))
                 }
                 return params
             }

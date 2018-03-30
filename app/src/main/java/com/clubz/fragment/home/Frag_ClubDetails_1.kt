@@ -86,6 +86,17 @@ class Frag_ClubDetails_1 : Fragment() {
 
                             }
                         })
+
+                        if(!clubz.club_icon.endsWith("defaultProduct.png"))Picasso.with(context).load(clubz.club_icon).transform(CircleTransform()).into(image_icon, object : Callback {
+                            override fun onSuccess() {
+                                image_icon.setPadding(0,0,0,0)
+                            }
+
+                            override fun onError() {
+
+                            }
+                        })
+                        usrerole.setText(clubz.user_role)
                     } else {
                         Util.showToast(obj.getString("message"),context)
                     }
