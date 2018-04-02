@@ -47,9 +47,9 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
         holder.img_status.setImageResource(if(obj.club_type.equals("1")) R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
         holder.status.setText(if(obj.club_type.equals("1")) R.string.Public else R.string.Private)
         try {
-            Picasso.with(context).load(obj.club_image).transform(CircleTransform()).placeholder(R.drawable.img_gallery).into(holder.image_club, object : Callback {
+            if(!obj.club_icon.endsWith("defaultProduct.png")) Picasso.with(context).load(obj.club_icon).transform(CircleTransform()).placeholder(R.drawable.img_gallery).into(holder.image_club, object : Callback {
                 override fun onSuccess() {
-                    holder.img_status.setPadding(0,0,0,0)
+                    holder.image_club.setPadding(0,0,0,0)
                 }
 
                 override fun onError() {

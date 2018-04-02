@@ -8,10 +8,10 @@ import android.widget.EditText;
 
 public class PhoneNumberTextWatcher implements TextWatcher {
 
-private static final String TAG = PhoneNumberTextWatcher.class
-        .getSimpleName();
 private EditText edTxt;
 private boolean isDelete;
+private int initialvalue=3;
+private int nextvalue=6;
 
 public PhoneNumberTextWatcher(EditText edTxtPhone) {
     this.edTxt = edTxtPhone;
@@ -46,31 +46,31 @@ public void afterTextChanged(Editable s) {
     String c = "";
     if (val != null && val.length() > 0) {
         val = val.replace("-", "");
-        if (val.length() >= 4) {
-            a = val.substring(0, 4);
-        } else if (val.length() < 4) {
+        if (val.length() >= initialvalue) {
+            a = val.substring(0, initialvalue);
+        } else if (val.length() < initialvalue) {
             a = val.substring(0, val.length());
         }
-        if (val.length() >= 8) {
-            b = val.substring(4, 8);
-            c = val.substring(8, val.length());
-        } else if (val.length() > 4 && val.length() < 8) {
-            b = val.substring(4, val.length());
+        if (val.length() >= nextvalue) {
+            b = val.substring(initialvalue, nextvalue);
+            c = val.substring(nextvalue, val.length());
+        } else if (val.length() > initialvalue && val.length() < nextvalue) {
+            b = val.substring(initialvalue, val.length());
         }
-        StringBuffer stringBuffer = new StringBuffer();
-        if (a != null && a.length() > 0) {
+        StringBuilder stringBuffer = new StringBuilder();
+        if (a.length() > 0) {
             stringBuffer.append(a);
-            if (a.length() == 4) {
+            if (a.length() == initialvalue) {
                 stringBuffer.append("-");
             }
         }
-        if (b != null && b.length() > 0) {
+        if (b.length() > 0) {
             stringBuffer.append(b);
-            if (b.length() == 4) {
+            if (b.length() == initialvalue) {
                 stringBuffer.append("-");
             }
         }
-        if (c != null && c.length() > 0) {
+        if (c.length() > 0) {
             stringBuffer.append(c);
         }
         edTxt.removeTextChangedListener(this);

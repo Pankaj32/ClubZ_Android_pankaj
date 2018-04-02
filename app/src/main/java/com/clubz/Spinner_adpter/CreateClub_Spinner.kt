@@ -26,11 +26,11 @@ class CreateClub_Spinner (context: Context,internal val list : List<Any> ,intern
         when(type){
             Constants.CreateClub_Spinner_Type_ClubCategory->{
                 val obj = (list.get(position) as Club_Category)
-                name.setText(obj.club_category_name);
+                name.setText(obj.club_category_name.trim());
             }
             Constants.CreateClub_Spinner_Type_privacy_type->{
               //  img_lock.visibility =View.VISIBLE
-                name.setText(list.get(position) as String)
+                name.setText((list.get(position) as String).trim())
                 val img_lock = itemView.findViewById<ImageView>(R.id.img_lock)
                 img_lock.setImageResource(if(position==0) R.drawable.ic_unlocked_padlock else R.drawable.ic_locked_padlock)
             }

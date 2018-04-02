@@ -113,9 +113,10 @@ public abstract class VolleyGetPost {
                     return setHeaders(params);
                 }
 
-
-
-
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return super.getBody();
+                }
             };
 
             int socketTimeout = retryTime;//30 seconds - change to what you want

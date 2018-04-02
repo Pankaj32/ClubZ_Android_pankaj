@@ -19,6 +19,7 @@ class WebService {
         val club_category   = base_Url+"service/club/getAllClubCategory?limit=10&offset=0";
         val club_search     = base_Url+"service/club/nearByClubsList";
         val club_detail     = base_Url+"service/club/clubDetail";
+        val nearclub_names  = base_Url+"service/club/nearByClubsName"; // Potential search
 
     }
 

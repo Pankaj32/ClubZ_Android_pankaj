@@ -53,7 +53,7 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
         var smsverify :SmsVerifyCatcher= SmsVerifyCatcher(activity as Sign_up_Activity, this,object :OnSmsCatchListener<String> {
             override fun onSmsCatch(message: String?) {
                 if(message!!.contains("ClubZ")){
-                    confirmation_code.setText(message.replace("ClubZ- Your PIN for registration is: ",""))
+                    confirmation_code.setText(message.replace("The verification code for your Club Z account is:","").trim())
                 }//Util.showToast(message!!,context);
             }
         })

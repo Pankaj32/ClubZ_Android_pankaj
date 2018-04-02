@@ -101,7 +101,8 @@
                     android:layout_below="@+id/affiliates"
                     android:layout_alignLeft="@id/affiliates"
                     android:layout_marginLeft="@dimen/_minus4sdp"
-                    android:layout_marginTop="@dimen/_8sdp"/>
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_40sdp"/>
 
                 <com.loopeer.shadow.ShadowView
                     android:layout_width="wrap_content"

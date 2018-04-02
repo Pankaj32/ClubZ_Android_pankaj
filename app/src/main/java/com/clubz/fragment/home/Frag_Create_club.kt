@@ -16,10 +16,7 @@ import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.widget.AdapterView
-import android.widget.DatePicker
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.android.volley.*
 
 import com.clubz.*
@@ -49,6 +46,8 @@ import com.squareup.picasso.Picasso
 import io.michaelrocks.libphonenumber.android.NumberParseException
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
 import kotlinx.android.synthetic.main.frag_create_club.*
+import org.apache.commons.lang3.StringEscapeUtils
+import org.apache.commons.lang3.StringUtils
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
@@ -65,22 +64,23 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        val check = Date(p1 - 1900, p2, p3)
+        val check = Date()
+        check.year = p1-1900 ; check.month ; check.date = p3
         var d = Date(System.currentTimeMillis() - 1000)
-        d.hours =0;
-        d.minutes=0;
-        d.seconds=0;
+        d.hours =0
+        d.minutes=0
+        d.seconds=0
         Util.e("Tag", "$d : ${p0!!.minDate} : ${check}")
             year = p1 ; month = p2+1 ;day = p3;
             tv_fondationdate.setText(Util.convertDate("$year-$month-$day"))
     }
 
 
-    var clubImage : Bitmap? = null;
-    var clubIcon : Bitmap? = null;
-    var isCameraSelected : Boolean = false;
-    var isClubIcon : Boolean = false;
-    var imageUri : Uri? = null;
+    var clubImage : Bitmap? = null
+    var clubIcon : Bitmap? = null
+    var isCameraSelected : Boolean = false
+    var isClubIcon : Boolean = false
+    var imageUri : Uri? = null
     lateinit var  autocompleteFragment1 :PlaceAutocompleteFragment
     var lat = 0.0
     var lng = 0.0
@@ -91,6 +91,9 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     var month = -1
     var year = -1
 
+    lateinit var titile_name :EditText //Because emoji not supported
+    lateinit var etv_description:EditText  //Because emoji not supported
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.frag_create_club, null)
     }
@@ -98,6 +101,8 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view!!.setOnClickListener(this)
+        etv_description = view.findViewById<EditText>(R.id.etv_description);
+        titile_name = view.findViewById<EditText>(R.id.titile_name);
         for(view in arrayOf(img_club ,tv_fondationdate , iv_like ,done ,back_f, all , arow ,image_icon))view.setOnClickListener(this)
          try{
              autocompleteFragment1 = activity.fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
@@ -119,8 +124,8 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
          }
 
        val list = Arrays.asList(*context.resources.getStringArray(R.array.privacy_type))
-       spn_privacy.adapter = CreateClub_Spinner(context, list,Constants.CreateClub_Spinner_Type_privacy_type);
-       getCategory();
+       spn_privacy.adapter = CreateClub_Spinner(context, list,Constants.CreateClub_Spinner_Type_privacy_type)
+       getCategory()
        username.setText(SessionManager.getObj().user.full_name)
         try{
             Picasso.with(context).load(SessionManager.getObj().user.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).into(image_member2, object :Callback{
@@ -149,7 +154,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
         super.onDestroyView()
         try {
             (activity as Home_Activity).showStatusBar()
-            if(activity!=null)activity.fragmentManager.beginTransaction().remove(autocompleteFragment1).commit();
+            if(activity!=null)activity.fragmentManager.beginTransaction().remove(autocompleteFragment1).commit()
         }catch (ex :Exception){
         }
 
@@ -165,9 +170,9 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             R.id.tv_fondationdate , R.id.iv_like , R.id.arow->{
                 datePicker(day,month,year)
             }
-            R.id.done-> if(validator())crateClub()
+            R.id.done-> if(!validator())crateClub()
             R.id.back_f->{
-                activity.onBackPressed();
+                activity.onBackPressed()
             }
             R.id.arow->{
                 datePicker(day,month,year)
@@ -229,14 +234,14 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
                         }
                     }
                     else
-                    {    clubImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri());
+                    {    clubImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri())
 
 
                     if (clubImage != null) {
                         img_club.setImageBitmap(clubImage)
                     }}
                 } catch ( e : IOException) {
-                    e.printStackTrace();
+                    e.printStackTrace()
                 }
 
             }
@@ -341,13 +346,96 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     }
 
     public fun crateClub() {
-        val activity = activity as Home_Activity;
-        val dialog = CusDialogProg(context);
-        dialog.show();
+        val activity = activity as Home_Activity
+        val dialog = CusDialogProg(context)
+        dialog.show()
+       /* {
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType mediaType = MediaType.parse("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
+            RequestBody body = RequestBody.create(mediaType, "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubName\"\r\n\r\nchai bar\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubDescription\"\r\n\r\ntest\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubEmail\"\r\n\r\nchaibar@gmail.com\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubContactNo\"\r\n\r\n9876543213\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubCountryCode\"\r\n\r\n+91\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubWebsite\"\r\n\r\nmindiii.com\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubAddress\"\r\n\r\nDewas, Madhya Pradesh\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubLatitude\"\r\n\r\n22.9593322\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubLongitude\"\r\n\r\n76.0073742\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubType\"\r\n\r\n2\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubCategoryId\"\r\n\r\n2\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"termsConditions\"\r\n\r\ntest\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubFoundationDate\"\r\n\r\n2017-12-18\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubLocation\"\r\n\r\nindore\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubImage\"; filename=\"cadcorp_developer_200x200.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"userRole\"\r\n\r\nadmin\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"clubIcon\"\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--");
+            Request request = new Request.Builder()
+                    .url("http://clubz.co/dev/service/club/addClub")
+                    .post(body)
+                    .addHeader("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
+                    .addHeader("authToken", "a45926693fc67bc72f12de62695c930cb45d2970")
+                    .addHeader("Cache-Control", "no-cache")
+                    .addHeader("Postman-Token", "fed40a06-836a-f92d-bd0f-0f36e17fa0ce")
+                    .build();
+
+            Response response = client.newCall(request).execute();
+        }*/
+        /*object : VolleyGetPost(activity,activity,WebService.crate_club,false){
+            override fun onVolleyResponse(response: String?) {
+                val data = response.toString()
+                Util.e("data",data)
+                dialog.dismiss()
+                //{"status":"success","message":"Club added successfully"}
+                try {
+                    val obj = JSONObject(data)
+                    if(obj.getString("status").equals("success")){
+                        Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
+                      //  activity.replaceFragment(Frag_News_List())
+                    }else{
+                        Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
+                    }
+                }catch ( e : java.lang.Exception){
+                    e.printStackTrace()
+                    Toast.makeText(context,R.string.swr, Toast.LENGTH_LONG).show()
+                }
+                dialog.dismiss()
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>?): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params.put("clubName",titile_name.text.toString())
+
+                params.put("clubType",if(spn_privacy.selectedItem.toString().toLowerCase().equals("public"))"1" else "2") // 1 public 2 private
+                params.put("clubCategoryId",(spn_club_category.selectedItem as Club_Category).clubCategoryId)
+
+                params.put("clubEmail",club_email.text.toString())
+                params.put("clubContactNo",club_phone.text.toString())
+
+                params.put("clubCountryCode", SessionManager.getObj().user.country_code)// TODO In Ui
+
+                params.put("clubAddress",club_adres.text.toString())
+                params.put("clubLatitude",lat.toString())
+                params.put("clubWebsite",club_web.text.toString())
+                params.put("clubLongitude",lng.toString())
+
+
+                params.put("termsConditions",terms_n_condition.text.toString())
+
+                params.put("clubFoundationDate",tv_fondationdate.text.toString())
+                params.put("clubLocation",club_location.text.toString())
+                params.put("userRole",usrerole.text.toString()+"")
+
+                params.put("clubDescription",etv_description.getText().toString()+"")
+                *//*\\StringEscapeUtils.escapeJava(etv_description.getText().toString()).replace("\\uD83D"," \\uD83D")+"")*//*
+                Util.e("parms create", params.toString())
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>?): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params.put("language", SessionManager.getObj().getLanguage())
+                params.put("authToken", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }.execute()
+        return;*/
         val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.crate_club,object : Response.Listener<NetworkResponse> {
             override fun onResponse(response: NetworkResponse) {
                 val data = String(response.data)
-                Util.e("data",data);
+                Util.e("data",data)
                 dialog.dismiss()
                 //{"status":"success","message":"Club added successfully"}
                 try {
@@ -390,12 +478,13 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
 
                 params.put("termsConditions",terms_n_condition.text.toString())
 
-                params.put("clubFoundationDate",tv_fondationdate.text.toString());
+                params.put("clubFoundationDate",tv_fondationdate.text.toString())
                 params.put("clubLocation",club_location.text.toString())
                 params.put("userRole",usrerole.text.toString()+"")
 
-                params.put("clubDescription",etv_description.text.toString())
-                Util.e("parms create", params.toString());
+                params.put("clubDescription",etv_description.getText().toString()+"")
+                /*\\StringEscapeUtils.escapeJava(etv_description.getText().toString()).replace("\\uD83D"," \\uD83D")+"")*/
+                Util.e("parms create", params.toString())
                 return params
             }
 

@@ -21,6 +21,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.clubz.Cus_Views.Purchase_membership_dialog
 import com.clubz.fragment.FilterListner
+import com.clubz.fragment.Temp_EmojiTest
 import com.clubz.fragment.Textwatcher_Statusbar
 import com.clubz.fragment.home.Frag_ClubDetails
 import com.clubz.fragment.home.Frag_Create_club
@@ -190,11 +191,13 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
     }
 
     fun requestLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+       try{ if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Permission(this@Home_Activity,this).checkLocationPermission()
             return
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this)
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this)}catch (ex: Exception){
+
+       }
     }
 
     fun stopFusedLocation() {
@@ -285,7 +288,10 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
         when (p0!!.id) {
             R.id.logout -> SessionManager.getObj().logout(this)
             R.id.search -> {}//{addFragment(Frag_Search_Club(), 0);}
-            R.id.cancel -> replaceFragment(Frag_News_List())
+            R.id.cancel -> {
+                search_text.setText("")
+                hideKeyBoard()
+            }
             R.id.bubble_menu -> clubOptions(0);
             R.id.menu -> {
                 if (!open) {
@@ -440,7 +446,8 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
                 for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.VISIBLE
                 filterListner = (fragemet as Frag_Search_Club);
                 textChnageListner = fragemet
-                search_text.setCursorVisible(false)
+                search_text.setText("")
+                //search_text.setCursorVisible(false)
             }
 
             Frag_ClubDetails::class.java.simpleName -> {
@@ -480,6 +487,7 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
 
     override fun onBackPressed() {
         closeOption()
+        hideKeyBoard()
         val handler = Handler()
         var runnable: Runnable? = null
         if (supportFragmentManager.backStackEntryCount > 1) {

@@ -1,27 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
-
-    <TextView
-        android:id="@+id/text_top"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_30sdp"
-        android:gravity="center_vertical"
-        android:paddingTop="@dimen/_10sdp"
-        android:text="@string/near_club"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_14sdp"
-        android:paddingStart="@dimen/_16sdp"
-        android:fontFamily="@font/roboto_medium"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_recycler"
+    android:background="@color/white">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/text_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/_10sdp"
+            android:text="@string/near_club"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp"
+            android:paddingStart="@dimen/_16sdp"
+            android:fontFamily="@font/roboto_medium"/>
 
-</LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/search_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black50p"
+        android:paddingEnd="@dimen/_16sdp"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingBottom="@dimen/_16sdp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_potential_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_potential_srch"
+            android:paddingStart="@dimen/_16sdp"
+            android:paddingEnd="@dimen/_16sdp" />
+
+    </RelativeLayout>
+
+
+</FrameLayout>

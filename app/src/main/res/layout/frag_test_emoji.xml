@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <EditText
+        android:id="@+id/name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:textSize="@dimen/_14sdp"
+        android:fontFamily="@font/teko_bold"
+        android:textColor="@color/black"/>
+
+
+    <EditText
+        android:id="@+id/message_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/_100sdp"
+        android:textSize="@dimen/_12sdp"
+        android:layout_below="@+id/tv_descrip"
+        android:background="@drawable/bg_edit_text"
+        android:hint="@string/hint_club_des"
+        android:textColorHint="#666666"
+        android:textColor="#009688"
+        android:gravity="top"
+        android:paddingTop="@dimen/_8sdp"
+        android:inputType="textCapSentences|textMultiLine"
+        android:paddingStart="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_16sdp"
+        style="@style/graytheme"
+        android:singleLine="false"
+        android:maxLength="200"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginRight="@dimen/_16sdp"
+        />
+
+    <Button
+        android:id="@+id/send__emoji"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_size"
+        android:textColor="@color/white"
+        android:paddingStart="@dimen/btn_pading_left"
+        android:paddingEnd="@dimen/btn_pading_right"
+        android:text="@string/resend" />
+
+</LinearLayout>
