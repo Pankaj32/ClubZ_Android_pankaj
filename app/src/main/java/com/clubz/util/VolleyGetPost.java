@@ -146,8 +146,9 @@ public abstract class VolleyGetPost {
     /***
      * @param retryTime set the secound for 30 sec pass 30000
      */
-    public void setRetryTime(int retryTime) {
+    public VolleyGetPost setRetryTime(int retryTime) {
         this.retryTime = retryTime;
+        return this;
     }
 
     /***

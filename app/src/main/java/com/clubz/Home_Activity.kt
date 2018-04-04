@@ -4,14 +4,16 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.TabLayout
-import android.support.v4.app.ActionBarDrawerToggle
+
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.widget.DrawerLayout
+import android.support.v4.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatImageView
 import android.text.Editable
@@ -21,7 +23,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.clubz.Cus_Views.Purchase_membership_dialog
 import com.clubz.fragment.FilterListner
-import com.clubz.fragment.Temp_EmojiTest
 import com.clubz.fragment.Textwatcher_Statusbar
 import com.clubz.fragment.home.Frag_ClubDetails
 import com.clubz.fragment.home.Frag_Create_club
@@ -32,7 +33,6 @@ import com.clubz.helper.SessionManager
 import com.clubz.util.Util
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -68,7 +68,6 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
         setContentView(R.layout.activity_home)
 
         tablayout.addOnTabSelectedListener(this)
-
         for (view in arrayOf(menu, logout, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) view.setOnClickListener(this)
 
         setTab(tablayout.getTabAt(0)!!, R.drawable.ic_news_active, true)
@@ -86,6 +85,38 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
         locationRequest!!.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
         googleApiClient!!.connect()
         permission.checkLocationPermission() ;
+
+        /*************************************************************/
+        // Acquire a reference to the system Location Manager
+ var locationManager :LocationManager =  this.getSystemService(Context.LOCATION_SERVICE) as LocationManager;
+
+// Define a listener that responds to location updates
+ var locationListener  = object  : android.location.LocationListener {
+     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+
+     }
+
+     override fun onProviderEnabled(provider: String?) {
+
+     }
+
+     override fun onProviderDisabled(provider: String?) {
+
+     }
+
+     override fun onLocationChanged(p0: Location?) {
+         try {
+             Util.e("location",p0!!.latitude.toString()+" : "+p0.longitude)
+         }catch (ec:Exception){
+             ec.printStackTrace()
+         }
+
+     }
+ }
+
+// Register the listener with the Location Manager to receive location updates
+    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener);
+        /***************************************************************/
        /* fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         fusedLocationClient.lastLocation
                 .addOnSuccessListener { location : Location? ->
@@ -94,10 +125,11 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
                     Util.e("location", latitude.toString()+": "+longitude);}
                 }*/
 
+
         Util.e("authtoken", SessionManager.getObj().user.auth_token);
         //TODO disable drawer.
         mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
-        var mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
+        var mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout ,R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
             override fun onDrawerClosed(view: View) {
                 supportInvalidateOptionsMenu()
                 open = false

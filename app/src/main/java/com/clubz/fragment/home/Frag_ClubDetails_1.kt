@@ -69,7 +69,7 @@ class Frag_ClubDetails_1 : Fragment() {
     fun getClubDetails(){
         val dialog = CusDialogProg(context );
         dialog.show();
-        object : VolleyGetPost(activity,activity,WebService.club_detail,false){
+        object : VolleyGetPost(activity,activity,"${WebService.club_detail}?clubId=${clubz.clubId}",true){
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss();
@@ -114,7 +114,7 @@ class Frag_ClubDetails_1 : Fragment() {
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("clubId",clubz.clubId);
+//                params.put("clubId",clubz.clubId);
                 return params
             }
 

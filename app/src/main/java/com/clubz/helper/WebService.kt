@@ -5,7 +5,7 @@ package com.clubz.helper
  */
 class WebService {
     companion object {
-        private val base_Url= "http://clubz.co/dev/"
+        val base_Url= "http://clubz.co/dev/"
 
         val Login           = base_Url+"service/login"
         val Chek_Social     = base_Url+"service/checkSocialRegister"
@@ -17,9 +17,9 @@ class WebService {
         val update_user     = base_Url+"service/user/updateUserMeta"
         val crate_club      = base_Url+"service/club/addClub"//dev/service/club/nearByClubsList
         val club_category   = base_Url+"service/club/getAllClubCategory?limit=10&offset=0";
-        val club_search     = base_Url+"service/club/nearByClubsList";
-        val club_detail     = base_Url+"service/club/clubDetail";
-        val nearclub_names  = base_Url+"service/club/nearByClubsName"; // Potential search
+        val club_search     = base_Url+"service/club/nearByClubsList"; // will Get
+        val club_detail     = base_Url+"service/club/clubDetail";  //will get
+        val nearclub_names  = base_Url+"service/club/nearByClubsName"; // Potential search will GEt
 
     }
 

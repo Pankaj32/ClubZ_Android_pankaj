@@ -3,6 +3,7 @@ package com.clubz.fragment.signup
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,7 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         for(view in arrayOf(plus ,done ))view.setOnClickListener(this)
+        affiliates.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS);
     }
 
     override fun onClick(p0: View?) {
@@ -83,6 +85,7 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
                 }
             }
         }
+
         chip.setText(affiliates.text.toString())
         list.add(affiliates.text.toString().trim())
         chip_grid.addView(chip);

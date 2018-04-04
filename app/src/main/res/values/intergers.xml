@@ -16,17 +16,17 @@
 
 
     <integer name="dark_ribbin">300</integer>
-    <integer name="dark_ribbin_delay">100</integer>
+    <integer name="dark_ribbin_delay">1</integer>
     <integer name="fox_logo">400</integer>
-    <integer name="fox_logo_delay">400</integer>
+    <integer name="fox_logo_delay">300</integer>
     <integer name="titile">300</integer>
-    <integer name="titile_delay">500</integer>
+    <integer name="titile_delay">400</integer>
     <integer name="top_line">200</integer>
-    <integer name="top_line_delay">500</integer>
+    <integer name="top_line_delay">400</integer>
     <integer name="slogan">400</integer>
-    <integer name="slogan_delay">600</integer>
+    <integer name="slogan_delay">500</integer>
     <integer name="bottom_line">200</integer>
-    <integer name="bottom_line_delay">600</integer>
+    <integer name="bottom_line_delay">500</integer>
 
 
     <integer name="end_fox_logo">200</integer>

@@ -58,6 +58,7 @@
             />
         <activity android:name=".Cropper.CropImageActivity"
             android:theme="@style/CropImage"
+            android:screenOrientation="portrait"
             />
 
         <meta-data

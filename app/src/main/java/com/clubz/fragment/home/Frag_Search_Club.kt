@@ -174,7 +174,9 @@ class Frag_Search_Club :Fragment() , FilterListner , Textwatcher_Statusbar, View
 
     fun ClubSearch_Potential(){
         val activity  = activity as Home_Activity
-        object  : VolleyGetPost(activity , activity, WebService.nearclub_names,false){
+        val lati= if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.latitude.toString()
+        val longi=if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.longitude.toString()
+        object  : VolleyGetPost(activity , activity, "${WebService.nearclub_names}?latitude=$lati&longitude=$longi",true){
             override fun onVolleyResponse(response: String?) {
                 try {
 
@@ -211,6 +213,8 @@ class Frag_Search_Club :Fragment() , FilterListner , Textwatcher_Statusbar, View
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                /*params.put("latitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.latitude.toString() )+"");
+                params.put("longitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.longitude.toString() )+"");*/
                 return  params
             }
 

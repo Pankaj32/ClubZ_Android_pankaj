@@ -69,7 +69,6 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
     }
 
 
-
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvname = itemView.findViewById<TextView>(R.id.tvname);
         var leadby = itemView.findViewById<TextView>(R.id.leadby);

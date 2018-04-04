@@ -17,7 +17,6 @@
         app:shadowMarginRight="1px"
         app:shadowMarginBottom="@dimen/_4sdp"
         app:shadowMarginLeft="1px"
-
         app:backgroundColor="@color/primaryColor"
         app:shadowColor="#999999">
 
