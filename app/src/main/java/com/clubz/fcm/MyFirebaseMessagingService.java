@@ -34,7 +34,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         int m = ((int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE)) + random;
         String ref_id = remoteMessage.getData().get("reference_id");
         String type = remoteMessage.getData().get("type");
-        Intent intent = new Intent(this, Home_Activity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra(Constants.INTENT_MSG_DETAIL, remoteMessage.getData().toString());
         intent.putExtra(Constants.INTENT_TYPE,type );
         intent.putExtra(Constants.INTENT_MESSAGE, remoteMessage.getData().get("body"));

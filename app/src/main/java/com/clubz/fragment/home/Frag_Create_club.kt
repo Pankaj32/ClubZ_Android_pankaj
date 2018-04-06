@@ -47,6 +47,7 @@ import kotlinx.android.synthetic.main.frag_create_club.*
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
+import java.lang.NullPointerException
 import java.util.*
 
 /**
@@ -55,7 +56,7 @@ import java.util.*
 
 class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDateSetListener, View.OnTouchListener {
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        (activity as Home_Activity).hideKeyBoard()
+        (activity as HomeActivity).hideKeyBoard()
         return false
     }
 
@@ -102,7 +103,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
         for(view in arrayOf(img_club ,tv_fondationdate , iv_like ,done ,back_f, all , arow ,image_icon))view.setOnClickListener(this)
          try{
              autocompleteFragment1 = activity.fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
-            // var autocompleteFragment  =( activity as Home_Activity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment;
+            // var autocompleteFragment  =( activity as HomeActivity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment;
              autocompleteFragment1.setOnPlaceSelectedListener(object : PlaceSelectionListener{
             override fun onPlaceSelected(p0: Place?) {
                 club_location.setText(p0!!.name)
@@ -134,7 +135,9 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
                 }
             })
         }catch (ex :Exception){
-
+            ex.printStackTrace()
+        }catch (ex :NullPointerException){
+            ex.printStackTrace()
         }
         club_phone.setOnEditorActionListener(object :TextView.OnEditorActionListener{
             override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
@@ -149,7 +152,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     override fun onDestroyView() {
         super.onDestroyView()
         try {
-            (activity as Home_Activity).showStatusBar()
+            (activity as HomeActivity).showStatusBar()
             if(activity!=null)activity.fragmentManager.beginTransaction().remove(autocompleteFragment1).commit()
         }catch (ex :Exception){
         }
@@ -160,7 +163,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
 
 
     override fun onClick(p0: View?) {
-        (activity as Home_Activity).hideKeyBoard()
+        (activity as HomeActivity).hideKeyBoard()
         when(p0!!.id){
             R.id.img_club-> { isClubIcon = false;   permissionPopUp();  }
             R.id.tv_fondationdate , R.id.iv_like , R.id.arow->{
@@ -342,46 +345,9 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     }
 
     fun crateClub() {
-        val activity = activity as Home_Activity
+        val activity = activity as HomeActivity
         val dialog = CusDialogProg(context)
         dialog.show()
-       /* val f1 = ApiUtils.getFile(context,"clubImage",clubImage);
-        val f2 =  if(clubIcon!=null) ApiUtils.getFile(context,"clubImage",clubIcon) else null;
-        val fbody = RequestBody.create(MediaType.parse("image*//*"), f1)
-        val fbody2 = RequestBody.create(MediaType.parse("image*//*"), f2)
-
-
-        var call = ApiUtils.getApiServices().addClub(titile_name.text.toString()
-                ,if(spn_privacy.selectedItem.toString().toLowerCase()==("public"))"1" else "2"
-                ,(spn_club_category.selectedItem as Club_Category).clubCategoryId
-                ,club_email.text.toString()
-                ,club_phone.text.toString()
-                ,SessionManager.getObj().user.country_code
-                ,club_adres.text.toString()
-                ,lat.toString()
-                ,club_web.text.toString()
-                ,lng.toString()
-                ,terms_n_condition.text.toString()
-                ,tv_fondationdate.text.toString()
-                ,club_location.text.toString()
-                ,usrerole.text.toString()+""
-                ,etv_description.getText().toString()+""
-                ,SessionManager.getObj().user.auth_token
-                ,fbody
-                ,fbody2)
-        call.enqueue(object : retrofit2.Callback<String> {
-            override fun onResponse(call: Call<String>, response: retrofit2.Response<String>) {
-
-                Log.e("Response", "" + response)
-                // AZUtils.printObject(response.body());
-            }
-
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                Log.e("failure", t.toString())
-            }
-        })
-
-        return ;*/
         val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.crate_club,object : Response.Listener<NetworkResponse> {
             override fun onResponse(response: NetworkResponse) {
                 val data = String(response.data)
@@ -462,7 +428,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
 
 
     fun getCategory(){
-        val activity = activity as Home_Activity;
+        val activity = activity as HomeActivity;
         val dialog = CusDialogProg(context);
         dialog.show();
          object : VolleyGetPost(activity , activity, WebService.club_category,true){
@@ -505,7 +471,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     }
 
     fun  validator() :Boolean{
-        (activity as Home_Activity).hideKeyBoard()
+        (activity as HomeActivity).hideKeyBoard()
         checkPhoneNumber(SessionManager.getObj().user.country_code.replace("+",""))
         if(titile_name.text.toString().isBlank()){
             Util.showSnake(context,view!!,R.string.a_clubnme);

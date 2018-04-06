@@ -3,8 +3,11 @@ package com.clubz
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.TabLayout
@@ -18,9 +21,11 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatImageView
 import android.text.Editable
 import android.text.TextWatcher
+
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import com.clubz.Cus_Views.Purchase_membership_dialog
 import com.clubz.fragment.FilterListner
 import com.clubz.fragment.Textwatcher_Statusbar
@@ -36,16 +41,14 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.places.Places
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
 import java.util.*
 
 
-/**
- * Created by mindiii on 2/23/18.
- */
 
-class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener , LocationListener {
+class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.OnClickListener , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
 
 
@@ -53,15 +56,24 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
     var open: Boolean = false
     var doublebackpress: Boolean = false
 
-    var latitude: Double = 0.toDouble()
-    var longitude: Double = 0.toDouble()
-    private var googleApiClient: GoogleApiClient? = null
-    private var locationRequest: LocationRequest? = null
+
+
 
     var isPrivate: Int = 0  // 0: Both option available , 1:public ,2:private
     var filterListner: FilterListner? = null;
-    var textChnageListner: Textwatcher_Statusbar? = null;
-   // private lateinit var fusedLocationClient: FusedLocationProviderClient
+    var textChnageListner: Textwatcher_Statusbar? = null
+
+
+    var latitude: Double = 0.toDouble()
+    var longitude: Double = 0.toDouble()
+    protected var mGoogleApiClient: GoogleApiClient? = null
+    lateinit var locationManager: LocationManager
+    // flag for GPS status
+    private  var isGPSEnabled = false
+     // flag for network status
+    private  var isNetworkEnabled = false
+    private lateinit var mLocationRequest: LocationRequest
+    private lateinit var mCurrentLocation: Location
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,63 +85,13 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
         setTab(tablayout.getTabAt(0)!!, R.drawable.ic_news_active, true)
         replaceFragment(Frag_News_List());
         val permission = Permission(this, this)
-        permission.askForGps()
-        googleApiClient = GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build()
-        locationRequest = LocationRequest()
-        locationRequest!!.setInterval((10 * 1000).toLong())
-        locationRequest!!.setFastestInterval((15 * 1000).toLong())
-        locationRequest!!.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-        googleApiClient!!.connect()
-        permission.checkLocationPermission() ;
-
-        /*************************************************************/
-        // Acquire a reference to the system Location Manager
- var locationManager :LocationManager =  this.getSystemService(Context.LOCATION_SERVICE) as LocationManager;
-
-// Define a listener that responds to location updates
- var locationListener  = object  : android.location.LocationListener {
-     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-
-     }
-
-     override fun onProviderEnabled(provider: String?) {
-
-     }
-
-     override fun onProviderDisabled(provider: String?) {
-
-     }
-
-     override fun onLocationChanged(p0: Location?) {
-         try {
-             Util.e("location",p0!!.latitude.toString()+" : "+p0.longitude)
-         }catch (ec:Exception){
-             ec.printStackTrace()
-         }
-
-     }
- }
-
-// Register the listener with the Location Manager to receive location updates
-    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener);
-        /***************************************************************/
-       /* fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedLocationClient.lastLocation
-                .addOnSuccessListener { location : Location? ->
-                   if(location!=null){ latitude = location.latitude;
-                    longitude = location.longitude;
-                    Util.e("location", latitude.toString()+": "+longitude);}
-                }*/
-
+       // permission.askForGps()
+        checkLocationUpdate()
 
         Util.e("authtoken", SessionManager.getObj().user.auth_token);
         //TODO disable drawer.
         mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
-        var mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout ,R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
+        val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout ,R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
             override fun onDrawerClosed(view: View) {
                 supportInvalidateOptionsMenu()
                 open = false
@@ -177,90 +139,21 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
     }
 
     override fun onDestroy() {
-        stopFusedLocation()
+
         super.onDestroy()
 
     }
 
     override fun onResume() {
-        if(latitude==0.0 && longitude==0.0){
-            startLocationTrack()
-        }
         super.onResume()
 
     }
 
-    /************* Location Listner *******************/
-    override fun onConnected(p0: Bundle?) {
-        requestLocationUpdates()
-        startLocationTrack()
-    }
-
-    override fun onConnectionSuspended(p0: Int) {
-
-    }
-
-    override fun onConnectionFailed(p0: ConnectionResult) {
-
-    }
-    override fun onLocationChanged(location: Location?) {
-        if (location != null) {
-            latitude = location.getLatitude()
-            longitude = location.getLongitude()
-            Util.e("Locations ",latitude.toString()+" : "+longitude)
-            if(latitude!=0.0 && longitude!=0.0){
-                locationRequest!!.setInterval((60 * 1000).toLong())
-                locationRequest!!.setFastestInterval((60 * 1000).toLong())
-                locationRequest!!.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-            }
-            try {
-                ClubZ.latitude = latitude
-                ClubZ. longitude = longitude
-            }catch (ex :Exception){
-
-            }
-        }
-    }
-
-    fun requestLocationUpdates() {
-       try{ if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Permission(this@Home_Activity,this).checkLocationPermission()
-            return
-        }
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this)}catch (ex: Exception){
-
-       }
-    }
-
-    fun stopFusedLocation() {
-       try {
-           if (googleApiClient != null) {
-               googleApiClient!!.disconnect()
-           }
-       } catch (ex:Exception){}
-    }
 
 
-    fun startLocationTrack(){
-       var timer = Timer()
-               timer.scheduleAtFixedRate(object : TimerTask(){
-            override fun run() {
-                runOnUiThread(Runnable {
-                    if(latitude==0.0 && longitude==0.0){
-                        locationRequest!!.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                        requestLocationUpdates()
 
-                }
-                else{
-                    locationRequest!!.setInterval((60 * 1000).toLong())
-                    locationRequest!!.setFastestInterval((60 * 1000).toLong())
-                    locationRequest!!.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-                    timer.cancel();
-                    timer.purge();
-                }})
-            }
-        },1000,1000)
-    }
+
+
     /********************************************************/
     override fun onTabReselected(tab: TabLayout.Tab?) {
         when (tab!!.getPosition()) {
@@ -548,5 +441,148 @@ class Home_Activity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View
         return fragments[fragments.size - 1]
     }
 
+
+    /************************************************/
+
+    private fun checkLocationUpdate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (Permission(this,this).checkLocationPermission()) {
+                buildGoogleApiClient()
+                mGoogleApiClient!!.connect()
+            }
+        } else {
+            if (checkLocationPermissionLowerApi()) {
+                buildGoogleApiClient()
+                mGoogleApiClient!!.connect()
+            } else {
+                showSettingsAlert()
+            }
+        }
+    }
+
+    @Synchronized protected fun buildGoogleApiClient() {
+        mGoogleApiClient = GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .build()
+
+    }
+
+    private fun checkLocationPermissionLowerApi(): Boolean {
+        var isEnable = true
+        try {
+            locationManager = application.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            // getting GPS status
+            isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            // getting network status
+            isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            if (!isGPSEnabled && !isNetworkEnabled) {
+                // no network provider is enabled
+                isEnable = false
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return isEnable
+    }
+
+    fun showSettingsAlert() {}
+
+
+    override fun onConnected(bundle: Bundle?) {
+        try {
+            val UPDATE_INTERVAL: Long = 15*1000  /* 10 secs */
+            val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
+            mLocationRequest = LocationRequest.create()
+                    .setPriority(LocationRequest.PRIORITY_LOW_POWER)
+                    .setInterval(UPDATE_INTERVAL)
+                    .setFastestInterval(FASTEST_INTERVAL)
+            // Request location updates
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return
+            }
+
+            if (mGoogleApiClient == null)
+                return
+            if (!mGoogleApiClient!!.isConnected())
+                return
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    override fun onConnectionSuspended(i: Int) {
+
+    }
+
+    override fun onConnectionFailed(connectionResult: ConnectionResult) {
+
+    }
+
+    override fun onLocationChanged(location: Location) {
+        if (mGoogleApiClient!!.isConnected()) {
+            startLocationUpdates(location.latitude, location.longitude)
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this)
+
+        }
+    }
+
+    private fun getAddress(latitude: Double, longitude: Double): Array<String> {
+        val result = Array<String>(3, {i->""})
+        result[0] = ""
+        result[1] = ""
+        result[2] = ""
+        val geocoder: Geocoder
+        val addresses: List<Address>
+        geocoder = Geocoder(this, Locale.US)
+
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1)
+
+            val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            val city = addresses[0].locality
+            //  String addressLine = addresses.get(0).getAddressLine(1);
+            result[0] = addresses[0].adminArea  //state
+            result[1] = addresses[0].countryName  //country
+            // String postalCode = addresses.get(0).getPostalCode();
+            // String knownName = addresses.get(0).getFeatureName();
+            //result = knownName + " ," + addressLine + " , " + city + "," + state + "," + country + " counter" + counter;// Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            result[2] = address// Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return result
+    }
+
+    private fun startLocationUpdates(latitude: Double, longitude: Double) {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
+
+        mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
+
+        this.latitude = latitude
+        this.longitude = longitude
+        Util.showToast(latitude.toString()+" : "+longitude,this)
+
+    }
+
+
+    private fun showLocationErrorPopup() {
+
+
+    }
 
 }

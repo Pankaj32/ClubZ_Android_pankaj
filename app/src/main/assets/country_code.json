@@ -35,6 +35,11 @@
     "code": "ai"
   },
   {
+    "country_name": "Antarctica",
+    "phone_code": 672,
+    "code": "aq"
+  },
+  {
     "country_name": "Antigua and Barbuda",
     "phone_code": 1,
     "code": "ag"
@@ -547,7 +552,7 @@
   {
     "country_name": "Kosovo",
     "phone_code": 383,
-    "code": ""
+    "code": "xk"
   },
   {
     "country_name": "Kuwait",

@@ -11,12 +11,11 @@ import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.Cus_Views.ChipView
 import com.clubz.Cus_Views.CusDialogProg
-import com.clubz.Home_Activity
+import com.clubz.HomeActivity
 import com.clubz.R
 import com.clubz.Sign_up_Activity
 import com.clubz.helper.SessionManager
 import com.clubz.helper.WebService
-import com.clubz.model.Country_Code
 import com.clubz.util.Util
 import com.clubz.util.VolleyGetPost
 import kotlinx.android.synthetic.main.frag_sign_up_three.*
@@ -48,7 +47,7 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
         when(p0!!.id){
             R.id.plus-> if(canadd())addView();
             R.id.done->/*{val activity = activity as Sign_up_Activity;
-                startActivity(Intent(activity, Home_Activity::class.java))
+                startActivity(Intent(activity, HomeActivity::class.java))
             activity.finish();}*/
             updateUserdata()
         }
@@ -116,7 +115,7 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
                 try{
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
-                        startActivity(Intent(activity, Home_Activity::class.java))
+                        startActivity(Intent(activity, HomeActivity::class.java))
                         activity.finish()
                     }else{
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()

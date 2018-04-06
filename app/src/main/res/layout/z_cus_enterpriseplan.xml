@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/_250sdp"
-    android:layout_height="@dimen/_240sdp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_white_internet">
     <View
+        android:id="@+id/top_primary"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
         android:background="@drawable/bg_white_internet_top"/>
@@ -18,30 +19,74 @@
         app:srcCompat="@drawable/new_ico"
         android:padding="@dimen/_10sdp"
         />
-
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_20sdp"
+        android:id="@+id/title_t"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:text="@string/a_enterprise"
-        android:layout_marginTop="@dimen/_65sdp"
-        android:gravity="center"
-        android:textSize="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_75sdp"
+        android:textSize="@dimen/_18sdp"
+        android:layout_below="@+id/top_primary"
+        android:layout_margin="@dimen/_24sdp"
         android:fontFamily="@font/teko_semibold"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_60sdp"
-        android:textColor="@color/text_gray"
-        android:gravity="center_vertical"
-        android:padding="@dimen/_30sdp"
-        android:textSize="@dimen/_12sdp"
-        android:fontFamily="@font/roboto_regular"
-        android:lineSpacingExtra="@dimen/_8sdp"
-        android:text="@string/a_enterprise_body"/>
+
 
     <TextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_t"
+        android:textColor="@color/text_gray"
+        android:layout_marginStart="@dimen/_24sdp"
+        android:layout_marginEnd="@dimen/_24sdp"
+        android:layout_marginTop="@dimen/_minus4sdp"
+        android:textSize="@dimen/_12sdp"
+        android:fontFamily="@font/roboto_regular"
+        android:lineSpacingExtra="@dimen/_5sdp"
+        android:text="@string/a_enterprise_body"/>
+
+    <View
+        android:id="@+id/blank"
+        android:layout_width="@dimen/_8sdp"
+        android:layout_height="@dimen/_8sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:layout_below="@+id/message"/>
+
+    <TextView
+        android:id="@+id/viewplans"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_size"
+        android:text="@string/viewplan"
+        android:layout_toStartOf="@+id/blank"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:textSize="@dimen/_13sdp"
+        android:textAllCaps="true"
+        android:layout_below="@+id/blank"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/primaryColor"
+        android:gravity="center"
+        android:padding="@dimen/_8sdp"
+        />
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_size"
+        android:text="@string/cancel"
+        android:layout_toStartOf="@+id/viewplans"
+        android:textSize="@dimen/_13sdp"
+        android:layout_alignBottom="@+id/viewplans"
+        android:textAllCaps="true"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/primaryColor"
+        android:padding="@dimen/_8sdp"
+        android:gravity="center"/>
+
+    <!--<TextView
         android:id="@+id/viewplans"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,8 +97,8 @@
         android:textAllCaps="true"
         android:fontFamily="@font/roboto_medium"
         android:textColor="@color/primaryColor"
-        android:layout_alignParentBottom="true"/>
-    <TextView
+        android:layout_alignParentBottom="true"/>-->
+    <!--<TextView
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,7 +109,7 @@
         android:textAllCaps="true"
         android:fontFamily="@font/roboto_medium"
         android:textColor="@color/primaryColor"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"/>-->
 
 
 </RelativeLayout>

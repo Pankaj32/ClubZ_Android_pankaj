@@ -5,10 +5,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.clubz.Home_Activity
+import com.clubz.HomeActivity
 
 import com.clubz.R
-import kotlinx.android.synthetic.main.baseclub_list.*
 import kotlinx.android.synthetic.main.frag_news.*
 
 /**
@@ -27,7 +26,7 @@ class Frag_News_List : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when(v.id){
-            R.id.search_t-> (activity as Home_Activity).addFragment(Frag_Search_Club(),0)
+            R.id.search_t-> (activity as HomeActivity).addFragment(Frag_Search_Club(),0)
         }
     }
 }

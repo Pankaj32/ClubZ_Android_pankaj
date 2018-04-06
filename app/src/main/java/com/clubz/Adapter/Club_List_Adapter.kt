@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import com.clubz.Home_Activity
+import com.clubz.HomeActivity
 import com.clubz.R
 import com.clubz.fragment.home.Frag_ClubDetails
 import com.clubz.model.Clubs
@@ -16,13 +16,12 @@ import com.clubz.util.CircleTransform
 import com.clubz.util.Util
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import org.json.JSONArray
 import java.util.ArrayList
 
 /**
  * Created by mindiii on २०/३/१८.
  */
-class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var context :Context , internal val activity :Home_Activity) : RecyclerView.Adapter<Club_List_Adapter.Holder>() {
+class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var context :Context , internal val activity : HomeActivity) : RecyclerView.Adapter<Club_List_Adapter.Holder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): Holder {

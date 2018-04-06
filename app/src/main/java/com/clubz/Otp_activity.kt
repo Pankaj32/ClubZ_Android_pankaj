@@ -7,10 +7,8 @@ import android.view.View
 import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.Cus_Views.CusDialogProg
-import com.clubz.R.id.confirm
 import com.clubz.helper.SessionManager
 import com.clubz.helper.WebService
-import com.clubz.model.Country_Code
 import com.clubz.model.User
 import com.clubz.util.Constants
 import com.clubz.util.Util
@@ -75,7 +73,7 @@ class Otp_activity : AppCompatActivity(), View.OnClickListener {
                     if(obj.getString("status").equals("success")){
 
                         SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
-                        startActivity(Intent(this@Otp_activity,Home_Activity::class.java))
+                        startActivity(Intent(this@Otp_activity, HomeActivity::class.java))
                         finish()
                     }
                     else{

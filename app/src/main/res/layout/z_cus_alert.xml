@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_white_internet">
     <View
+        android:id="@+id/top_primary"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
         android:background="@drawable/bg_white_internet_top"/>
@@ -23,12 +24,13 @@
     <TextView
         android:id="@+id/title_t"
         android:layout_width="@dimen/_250sdp"
-        android:layout_height="@dimen/_20sdp"
+        android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:text="@string/a_enterprise"
         android:layout_marginTop="@dimen/_75sdp"
-        android:gravity="center"
-        android:textSize="@dimen/_16sdp"
+        android:textSize="@dimen/_18sdp"
+        android:layout_below="@+id/top_primary"
+        android:layout_margin="@dimen/_24sdp"
         android:fontFamily="@font/teko_semibold"/>
 
     <TextView
@@ -37,10 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_t"
         android:textColor="@color/text_gray"
-        android:gravity="center"
-        android:paddingStart="@dimen/_30sdp"
-        android:paddingEnd="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_24sdp"
+        android:layout_marginEnd="@dimen/_24sdp"
+        android:layout_marginTop="@dimen/_minus4sdp"
         android:textSize="@dimen/_12sdp"
         android:fontFamily="@font/roboto_regular"
         android:lineSpacingExtra="@dimen/_5sdp"
@@ -48,38 +49,38 @@
 
     <View
         android:id="@+id/blank"
-        android:layout_width="@dimen/_16sdp"
-        android:layout_height="@dimen/_1sdp"
+        android:layout_width="@dimen/_8sdp"
+        android:layout_height="@dimen/_8sdp"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_24sdp"
         android:layout_below="@+id/message"/>
     <Button
         android:id="@+id/ok"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_size"
         android:text="@string/ok"
         android:layout_toStartOf="@+id/blank"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:textSize="@dimen/_13sdp"
         android:textAllCaps="true"
-        android:layout_below="@+id/message"
-        android:paddingEnd="@dimen/_16sdp"
-        android:paddingStart="@dimen/_16sdp"
+        android:layout_below="@+id/blank"
+        android:paddingEnd="@dimen/btn_pading_right"
+        android:paddingStart="@dimen/btn_pading_left"
         android:background="@drawable/bg_btn_green"
         android:fontFamily="@font/roboto_medium"
         android:textColor="@color/white" />
     <Button
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_size"
         android:text="@string/cancel"
-        android:layout_toLeftOf="@+id/ok"
+        android:layout_toStartOf="@+id/ok"
         android:textSize="@dimen/_13sdp"
         android:layout_alignBottom="@+id/ok"
         android:textAllCaps="true"
-        android:paddingEnd="@dimen/_16sdp"
-        android:paddingStart="@dimen/_16sdp"
+        android:paddingEnd="@dimen/btn_pading_right"
+        android:paddingStart="@dimen/btn_pading_left"
         android:background="@drawable/bg_btn_green"
         android:fontFamily="@font/roboto_medium"
         android:textColor="@color/white" />

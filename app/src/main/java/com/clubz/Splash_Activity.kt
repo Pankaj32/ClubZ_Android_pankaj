@@ -6,15 +6,10 @@ import android.os.Bundle
 import android.os.Handler
 import com.clubz.util.Util
 import kotlinx.android.synthetic.main.activity_splash.*
-import android.support.v4.content.res.TypedArrayUtils.getResourceId
-import android.content.res.TypedArray
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.clubz.helper.SessionManager
-import com.clubz.helper.Type_Token
-import com.clubz.model.Country_Code
-import com.google.gson.Gson
 import io.fabric.sdk.android.Fabric
 import com.crashlytics.android.core.CrashlyticsCore
 import com.crashlytics.android.Crashlytics
@@ -219,7 +214,7 @@ class Splash_Activity : AppCompatActivity() {
 
                 ribbion.visibility= View.INVISIBLE
                 Handler().postDelayed({
-                    val intent =if(SessionManager.getObj().isloggedin()) Intent(this@Splash_Activity , Home_Activity::class.java)
+                    val intent =if(SessionManager.getObj().isloggedin()) Intent(this@Splash_Activity , HomeActivity::class.java)
                     else Intent(this@Splash_Activity , Inro_Activity::class.java)
 
                     startActivity(intent);

@@ -503,7 +503,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
                             actvity.finish()
                         }else {
                             SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
-                            startActivity(Intent(context, Home_Activity::class.java))
+                            startActivity(Intent(context, HomeActivity::class.java))
                             actvity.finish()
                         }*/
                     } else {

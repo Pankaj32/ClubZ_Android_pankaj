@@ -270,7 +270,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
                      finish()
                  }else {
                      SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
-                     startActivity(Intent(this@Sign_In_Activity,Home_Activity::class.java))
+                     startActivity(Intent(this@Sign_In_Activity, HomeActivity::class.java))
                      finish()
                  }
                 } else {

@@ -70,7 +70,7 @@ public abstract class VolleyGetPost {
                         @Override
                         public void onResponse(String response) {
                             Util.Companion.e("response" , Url+response);
-                         //   if(activity instanceof Home_Activity && !sessionManager.isLoggedIn()) return;
+                         //if(activity instanceof HomeActivity && !sessionManager.isLoggedIn()) return;
                             onVolleyResponse(response);
 
                         }

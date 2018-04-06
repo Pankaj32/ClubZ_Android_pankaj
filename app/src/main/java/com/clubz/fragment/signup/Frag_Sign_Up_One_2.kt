@@ -20,9 +20,8 @@ import kotlinx.android.synthetic.main.frag_sign_up_one_2.*
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
-import com.clubz.Home_Activity
+import com.clubz.HomeActivity
 import com.clubz.SMSreciver.OnSmsCatchListener
-import com.clubz.SMSreciver.SmsReceiver
 import com.clubz.SMSreciver.SmsVerifyCatcher
 import com.clubz.helper.SessionManager
 import com.clubz.model.User
@@ -140,7 +139,7 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
                     if(obj.getString("status").equals("success")){
 
                         SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
-                        startActivity(Intent(activity, Home_Activity::class.java))
+                        startActivity(Intent(activity, HomeActivity::class.java))
                         activity.finish()
                     }
                     else{

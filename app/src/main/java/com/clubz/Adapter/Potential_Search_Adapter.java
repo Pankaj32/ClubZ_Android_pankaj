@@ -2,12 +2,10 @@ package com.clubz.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.clubz.Home_Activity;
+import com.clubz.HomeActivity;
 import com.clubz.R;
 import com.clubz.model.Club_Potential_search;
 
@@ -32,9 +30,9 @@ abstract public class Potential_Search_Adapter extends RecyclerView.Adapter<Pote
 
     private CustomFilter mFilter;
     String currentText = "";
-    Home_Activity activity;
+    HomeActivity activity;
 
-    public Potential_Search_Adapter(Context context, ArrayList<Club_Potential_search> list , Home_Activity activity) {
+    public Potential_Search_Adapter(Context context, ArrayList<Club_Potential_search> list , HomeActivity activity) {
         this.context = context;
         this.list = list;
         this.activity = activity;
