@@ -148,7 +148,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     fun verify():Boolean{
         (activity as Sign_up_Activity).hideKeyBoard();
         if(username.text.toString().isBlank()){
-            Util.showSnake(context, view!! ,R.string.a_full_name)
+            Util.showSnake(context, view!! ,R.string.a_full_name_new)
             return false
         }
         /*if(lastname.text.toString().isBlank()){
@@ -160,7 +160,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
             return false
         }
         if(!email.text.toString().isBlank() && !PatternCheck.instance.check(PatternCheck._email, email.text.toString())){
-            Util.showSnake(context, view!! ,R.string.a_email_valid)
+            Util.showSnake(context, view!! ,R.string.a_email_new)
             return false
         }
 

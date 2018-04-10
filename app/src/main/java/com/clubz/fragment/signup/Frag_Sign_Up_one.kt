@@ -137,7 +137,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
                 try{
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
-                        (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData(obj.getString("otp") ,  phone_no.text.toString().replace("-","") , (country_code.selectedItem as Country_Code).phone_code ,obj.getString("isNewUser") ))
+                        (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData(obj.getString("otp") ,  phone_no.text.toString().replace(PhoneNumberTextWatcher.replacer,"") , (country_code.selectedItem as Country_Code).phone_code ,obj.getString("isNewUser") ))
                     }else{
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
@@ -159,7 +159,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params.put("country_code" , "+"+(country_code.selectedItem as Country_Code).phone_code);//country_code
-                params.put("contact_no" , phone_no.text.toString().replace("-",""));
+                params.put("contact_no" , phone_no.text.toString().replace(PhoneNumberTextWatcher.replacer,""));
                 Util.e("params" , params.toString())
                 return params;
 

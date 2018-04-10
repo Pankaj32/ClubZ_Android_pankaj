@@ -48,15 +48,15 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for( view in arrayOf(confirm)) view.setOnClickListener(this)
-        var smsverify :SmsVerifyCatcher= SmsVerifyCatcher(activity as Sign_up_Activity, this,object :OnSmsCatchListener<String> {
+        for( views in arrayOf(confirm)) views.setOnClickListener(this)
+        val smsverify :SmsVerifyCatcher= SmsVerifyCatcher(activity as Sign_up_Activity, this,object :OnSmsCatchListener<String> {
             override fun onSmsCatch(message: String?) {
-                if(message!!.contains("ClubZ")){
-                    confirmation_code.setText(message.replace("The verification code for your Club Z account is:","").trim())
+                if(message!!.contains(resources.getString(R.string.app_name))){
+                    confirmation_code.setText(message.replace(resources.getString(R.string.club_code_sms),"").trim())
                 }//Util.showToast(message!!,context);
             }
         })
-        smsverify.onStart();
+        smsverify.onStart()
         Util.showToast(_otp+" : This message is Temporary ", context)
        // confirmation_code.setText(_otp)
         confirmation_code.addTextChangedListener(object : TextWatcher{
@@ -91,7 +91,7 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
         val activity = activity as Sign_up_Activity
      when(p0!!.id){
          R.id.confirm -> {
-             activity .hideKeyBoard();
+             activity .hideKeyBoard()
              if(verfiy())
                  if(_isnewuser)activity.replaceFragment(Frag_Sign_Up_Two().setData(_contact,_code))
              else{ verify_otp();   }
@@ -148,7 +148,7 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
                 }catch (ex: Exception){
                     Toast.makeText(activity,R.string.swr, Toast.LENGTH_LONG).show()
                 }
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun onVolleyError(error: VolleyError?) {

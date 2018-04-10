@@ -76,5 +76,11 @@
     </RelativeLayout>
     </android.support.v7.widget.CardView>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_300sdp"
+        style="@style/et_club_create"/>
+
 
 </RelativeLayout>

@@ -100,7 +100,8 @@
             android:id="@+id/addsymbol"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="match_parent"
-            android:padding="@dimen/_5sdp"
+            android:paddingStart="@dimen/_2sdp"
+            android:paddingEnd="@dimen/_2sdp"
             android:visibility="gone"
             app:srcCompat="@drawable/ic_add_white_48dp"/>
 
@@ -122,42 +123,6 @@
     </LinearLayout>
 
 
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/frag_container"
-        android:layout_above="@+id/tablayout">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-
-
-
-
-            <!--<TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_12sdp"
-                android:text="@string/near_club"
-                android:fontFamily="@font/roboto_medium"
-                android:layout_marginLeft="@dimen/_25sdp"
-                android:textColor="@color/black"/>-->
-            <!--<include
-           layout="@layout/frag_news">
-
-       </include>
-       <include
-           layout="@layout/frag_create_club">
-
-       </include>-->
-
-        </LinearLayout>
-    </ScrollView>
 
     <FrameLayout
         android:id="@+id/frag_container"
@@ -227,7 +192,6 @@
 
         </FrameLayout>
 </RelativeLayout>
-
     <RelativeLayout
         android:id="@+id/drawerView"
         android:layout_width="@dimen/_200sdp"
@@ -249,6 +213,22 @@
             android:layout_centerInParent="true"
             android:layout_gravity="end"
             />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/drawerView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@color/blue"
+        android:layout_marginTop="@dimen/_50sdp">
+
+       <FrameLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:id="@+id/serchclub"
+           android:background="@color/blue">
+       </FrameLayout>
     </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>

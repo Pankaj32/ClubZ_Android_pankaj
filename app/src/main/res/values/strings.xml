@@ -28,6 +28,9 @@
     <string name="product_service" > Promote your products or services   </string>
 
     <string name="sent_code" > We have sent you confirmation code to validate your phone number </string>
+
+    <string name="club_code_sms" > The verification code for your Club Z account is: </string>
+
     <string name="to_start" > To begin , let us know who you are </string>
     <string name="affilites" > Add your affiliates  </string>
     <string name="affilites_is" > An affiliates is a person you could invite to an activity . Your family members or friends.  </string>
@@ -156,8 +159,10 @@
     <string name="a_last_name" > Please enter Last name. </string>
 
     <string name="a_full_name" > Please enter Full name. </string>
+    <string name="a_full_name_new" > Oh! it seems you forgot to write your name. </string>
 
     <string name="a_email" > Please enter email address. </string>
+    <string name="a_email_new" > Apparently you did not write your email right. </string>
     <string name="a_email_valid" > Please enter valid email address. </string>
     <string name="a_phone_no" >  Enter your phone number for verification via SMS. </string>
     <string name="a_phone_no_valid" >  Please enter valid phone number. </string>

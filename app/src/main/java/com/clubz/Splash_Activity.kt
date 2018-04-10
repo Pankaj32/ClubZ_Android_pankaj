@@ -123,7 +123,7 @@ class Splash_Activity : AppCompatActivity() {
                 text_view.visibility= View.VISIBLE
                 Handler().postDelayed({
                     dimmedEffet()
-                },600);
+                },2000);
             }
 
             override fun onAnimationRepeat(animation: Animation) {

@@ -12,6 +12,7 @@ private EditText edTxt;
 private boolean isDelete;
 private int initialvalue=3;
 private int nextvalue=6;
+public static String replacer =" ";
 
 public PhoneNumberTextWatcher(EditText edTxtPhone) {
     this.edTxt = edTxtPhone;
@@ -45,7 +46,7 @@ public void afterTextChanged(Editable s) {
     String b = "";
     String c = "";
     if (val != null && val.length() > 0) {
-        val = val.replace("-", "");
+        val = val.replace(replacer, "");
         if (val.length() >= initialvalue) {
             a = val.substring(0, initialvalue);
         } else if (val.length() < initialvalue) {
@@ -61,13 +62,13 @@ public void afterTextChanged(Editable s) {
         if (a.length() > 0) {
             stringBuffer.append(a);
             if (a.length() == initialvalue) {
-                stringBuffer.append("-");
+                stringBuffer.append(replacer);
             }
         }
         if (b.length() > 0) {
             stringBuffer.append(b);
             if (b.length() == initialvalue) {
-                stringBuffer.append("-");
+                stringBuffer.append(replacer);
             }
         }
         if (c.length() > 0) {

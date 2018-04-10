@@ -149,7 +149,7 @@ class Frag_Search_Club :Fragment() , FilterListner , Textwatcher_Statusbar, View
                             //activity.requestLocationUpdates()
                             Handler().postDelayed(Runnable {
                                 dialog.dismiss()
-                                checkLocation()
+                               try{ checkLocation()}catch (e :Exception ){}
                             },5000)
                         }
 
