@@ -55,6 +55,7 @@ import java.util.*
  */
 
 class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDateSetListener, View.OnTouchListener {
+
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         (activity as HomeActivity).hideKeyBoard()
         return false
@@ -67,7 +68,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
         d.hours =0
         d.minutes=0
         d.seconds=0
-        Util.e("Tag", "$d : ${p0!!.minDate} : ${check}")
+        Util.e("Tag", "$d : ${p0!!.minDate} : $check")
             year = p1 ; month = p2+1 ;day = p3;
             tv_fondationdate.setText(Util.convertDate("$year-$month-$day"))
     }
@@ -100,7 +101,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
         view!!.setOnClickListener(this)
         etv_description = view.findViewById<EditText>(R.id.etv_description);
         titile_name = view.findViewById<EditText>(R.id.titile_name);
-        for(view in arrayOf(img_club ,tv_fondationdate , iv_like ,done ,back_f, all , arow ,image_icon))view.setOnClickListener(this)
+        for(views in arrayOf(img_club ,tv_fondationdate , iv_like ,done ,back_f, all , arow ,image_icon))views.setOnClickListener(this)
          try{
              autocompleteFragment1 = activity.fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
             // var autocompleteFragment  =( activity as HomeActivity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment;
@@ -114,7 +115,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
 
 
             override fun onError(p0: Status?) {
-                Util.e("User", "An error occurred: " + p0);
+                Util.e("User", "An error occurred: " + p0)
             }
         })}catch (ex :Exception){
              ex.printStackTrace()
@@ -173,9 +174,6 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             R.id.back_f->{
                 activity.onBackPressed()
             }
-            R.id.arow->{
-                datePicker(day,month,year)
-            }
             R.id.image_icon->{ isClubIcon = true;   permissionPopUp();            }
         }
 
@@ -205,27 +203,27 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.Picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data);
                 if (imageUri != null) {
-                   if(!isClubIcon) CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this);
-                    else CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(150,150).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context,this);
+                   if(!isClubIcon) CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this)
+                    else CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(200,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context,this)
                 } else {
-                    Toast.makeText(context ,R.string.swr, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context ,R.string.swr, Toast.LENGTH_SHORT).show()
                 }
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    if(!isClubIcon) CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this);
-                    else CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(150,150).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context,this);
+                    if(!isClubIcon) CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this)
+                    else CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(200,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context,this)
                 } else {
-                    Toast.makeText(context ,R.string.swr , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context ,R.string.swr , Toast.LENGTH_SHORT).show()
                 }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                var result : CropImage.ActivityResult = CropImage.getActivityResult(data);
+                var result : CropImage.ActivityResult = CropImage.getActivityResult(data)
                 try {
                     if (result != null)
                     if(isClubIcon){
-                        clubIcon = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri());
+                        clubIcon = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri())
 
                         if (clubIcon != null) {
                             image_icon.setPadding(0,0,0,0)
@@ -242,18 +240,13 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
                 } catch ( e : IOException) {
                     e.printStackTrace()
                 }
-
             }
-
-
-
         }
-
         isCameraSelected = false
     }
 
     fun permissionPopUp() {
-        val wrapper = ContextThemeWrapper(activity, R.style.popstyle);
+        val wrapper = ContextThemeWrapper(activity, R.style.popstyle)
         val popupMenu = PopupMenu(wrapper, if(isClubIcon) image_icon else img_club, Gravity.CENTER)
         popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())
         popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
@@ -294,7 +287,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
         when (caseid) {
             Constants.INTENTCAMERA -> {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                var file : File = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg");
+                var file  = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg");
                 imageUri =
                         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
                             FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file)
@@ -428,17 +421,17 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
 
 
     fun getCategory(){
-        val activity = activity as HomeActivity;
-        val dialog = CusDialogProg(context);
-        dialog.show();
+        val activity = activity as HomeActivity
+        val dialog = CusDialogProg(context)
+        dialog.show()
          object : VolleyGetPost(activity , activity, WebService.club_category,true){
              override fun onVolleyResponse(response: String?) {
                  dialog.dismiss()
                  try {
-                       val json = JSONObject(response);
+                       val json = JSONObject(response)
                      if(json.getString("status").equals("success")){
-                         val list  = Gson().fromJson<ArrayList<Club_Category>>(json.getJSONArray("data").toString() , Type_Token.club_category);
-                         spn_club_category.adapter = CreateClub_Spinner(context, list,Constants.CreateClub_Spinner_Type_ClubCategory);
+                         val list  = Gson().fromJson<ArrayList<Club_Category>>(json.getJSONArray("data").toString() , Type_Token.club_category)
+                         spn_club_category.adapter = CreateClub_Spinner(context, list,Constants.CreateClub_Spinner_Type_ClubCategory)
                      }else{
 //TODO check all failure conditions //
                         Util.showToast(json.getString("message"),context)
@@ -460,12 +453,12 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
              }
 
              override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                 return params;
+                 return params
              }
 
              override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
                  params.put("authToken", SessionManager.getObj().user.auth_token)
-                 return params;
+                 return params
              }
          }.execute()
     }
@@ -474,18 +467,18 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
         (activity as HomeActivity).hideKeyBoard()
         checkPhoneNumber(SessionManager.getObj().user.country_code.replace("+",""))
         if(titile_name.text.toString().isBlank()){
-            Util.showSnake(context,view!!,R.string.a_clubnme);
+            Util.showSnake(context,view!!,R.string.a_clubnme)
             return false
         }
         if(clubImage==null ){
-            Util.showSnake(context,view!!,R.string.a_image);
+            Util.showSnake(context,view!!,R.string.a_image)
         }
         if(tv_fondationdate.text.toString().isBlank()){
-            Util.showSnake(context,view!!,R.string.a_foundation);
+            Util.showSnake(context,view!!,R.string.a_foundation)
             return false
         }
         if(club_email.text.toString().isBlank()){
-            Util.showSnake(context,view!!,R.string.a_email);
+            Util.showSnake(context,view!!,R.string.a_email)
             return false
         }
         if(!club_email.text.toString().isBlank() && !PatternCheck.instance.check(PatternCheck._email, club_email.text.toString())){
@@ -493,7 +486,7 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             return false
         }
         if(club_phone.text.toString().isBlank()){
-            Util.showSnake(context,view!!,R.string.a_phone_club);
+            Util.showSnake(context,view!!,R.string.a_phone_club)
             return false
         }
         /*if(!isvalidate){
@@ -501,35 +494,35 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             return false
         }*/
         if(club_adres.text.toString().isBlank()){
-            Util.showSnake(context,view!!,R.string.a_address);
+            Util.showSnake(context,view!!,R.string.a_address)
             return false
         }
         if(club_location.text.toString().isBlank()){
-            Util.showSnake(context,view!!,R.string.a_location);
+            Util.showSnake(context,view!!,R.string.a_location)
             return false
         }
         if(club_location.text.toString().isBlank() || (lat==0.0 && lng == 0.0)){
-            Util.showSnake(context,view!!,R.string.a_location);
+            Util.showSnake(context,view!!,R.string.a_location)
             return false
         }
         if(club_web.text.toString().isBlank()){
-            Util.showSnake(context,view!!,R.string.a_web);
+            Util.showSnake(context,view!!,R.string.a_web)
             return false
         }
         if(!android.util.Patterns.WEB_URL.matcher(club_web.text.toString()).matches()){
-            Util.showSnake(context,view!!,R.string.a_web_valid);
+            Util.showSnake(context,view!!,R.string.a_web_valid)
             return false
         }
         if(etv_description.text.toString().isBlank()){
-            Util.showSnake(context,view!!,R.string.a_description);
+            Util.showSnake(context,view!!,R.string.a_description)
             return false
         }
         if(terms_n_condition.text.toString().isBlank()){
-            Util.showSnake(context,view!!,R.string.a_terms_n_con);
+            Util.showSnake(context,view!!,R.string.a_terms_n_con)
             return false
         }
         if(usrerole.text.toString().isBlank()){
-            Util.showSnake(context,view!!,R.string.a_userRole);
+            Util.showSnake(context,view!!,R.string.a_userRole)
             return false
         }
         return true
@@ -539,12 +532,10 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     private fun checkPhoneNumber( countryCode : String) {
         val contactNo = club_phone.getText().toString()
         try {
-            val phoneUtil = PhoneNumberUtil.createInstance(context)
-            if (countryCode != null) {
+                val phoneUtil = PhoneNumberUtil.createInstance(context)
                 val code = countryCode.toUpperCase()
                 val swissNumberProto = phoneUtil.parse(contactNo, code)
                 isvalidate = phoneUtil.isValidNumber(swissNumberProto)
-            }
         } catch (e: NumberParseException) {
             System.err.println("NumberParseException was thrown: " + e.toString())
         }

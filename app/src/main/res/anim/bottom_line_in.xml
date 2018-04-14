@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <translate xmlns:android="http://schemas.android.com/apk/res/android"
-android:duration="@integer/bottom_line"
-android:interpolator="@android:anim/accelerate_interpolator"
-android:startOffset="@integer/bottom_line_delay"
-android:fromXDelta="200%" android:toXDelta="0%"
-android:fromYDelta="0%" android:toYDelta="0%"
+    android:duration="@integer/bottom_line"
+    android:interpolator="@android:anim/linear_interpolator"
+    android:startOffset="@integer/bottom_line_delay"
+    android:fromXDelta="200%" android:toXDelta="0%"
+    android:fromYDelta="0%" android:toYDelta="0%"
     />
 
 

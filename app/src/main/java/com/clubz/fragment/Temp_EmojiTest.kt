@@ -11,9 +11,6 @@ import com.clubz.util.Util
 import com.clubz.util.VolleyGetPost
 import kotlinx.android.synthetic.main.frag_test_emoji.*
 
-/**
- * Created by mindiii on २/४/१८.
- */
 class Temp_EmojiTest : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.frag_test_emoji,null)

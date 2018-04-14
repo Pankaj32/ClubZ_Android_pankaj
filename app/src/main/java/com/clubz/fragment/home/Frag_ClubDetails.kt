@@ -70,8 +70,8 @@ class Frag_ClubDetails : Fragment() {
     }
 
     fun setData(obj: Clubs): Fragment {
-        clubz= obj;
-        return this;
+        clubz= obj
+        return this
     }
 
 

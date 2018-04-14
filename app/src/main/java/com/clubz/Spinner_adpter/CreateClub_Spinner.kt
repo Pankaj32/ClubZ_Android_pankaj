@@ -44,7 +44,7 @@ class CreateClub_Spinner (context: Context,internal val list : List<Any> ,intern
         when(type){
             Constants.CreateClub_Spinner_Type_ClubCategory->{
                 val obj = (list.get(position) as Club_Category)
-                name.setText(obj.club_category_name);
+                name.setText(obj.club_category_name.trim());
             }
             Constants.CreateClub_Spinner_Type_privacy_type->{
                 name.setText(list.get(position) as String)

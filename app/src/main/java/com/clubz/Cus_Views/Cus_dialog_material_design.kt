@@ -29,15 +29,13 @@ abstract class Cus_dialog_material_design(internal val context: Context ) : Dial
         alert_msg   = view.findViewById<TextView>(R.id.alert_msg)
         disagree    = view.findViewById<TextView>(R.id.disagree)
         agree       = view.findViewById<TextView>(R.id.agree)
-
-        agree.setOnClickListener(View.OnClickListener {
+        agree.setOnClickListener({
             onAgree()
         })
 
-        disagree.setOnClickListener(View.OnClickListener {
+        disagree.setOnClickListener({
             onDisagree()
         })
-
     }
 
     fun setTextAlert_title(resourse :Int){ alert_title.setText(resourse)    }

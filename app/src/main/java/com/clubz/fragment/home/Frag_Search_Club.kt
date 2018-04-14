@@ -50,7 +50,7 @@ class Frag_Search_Club :Fragment() , FilterListner , Textwatcher_Statusbar, View
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ClubSearch_Potential()
-        checkLocation()
+       // checkLocation()
         for(views in arrayOf(search_layout,view!!))views.setOnClickListener(this)
 
     }
@@ -63,7 +63,7 @@ class Frag_Search_Club :Fragment() , FilterListner , Textwatcher_Statusbar, View
 
     //TODO pagination
     /**
-     *@clubtype 1 means public , 2 means private , 0means all
+     *@clubtype 1 means public , 2 means private , 0 means all
      */
     fun searchClubs(text : String = "",showProgres : Boolean = false, offset :String = "0"  ){
         val activity = activity as HomeActivity

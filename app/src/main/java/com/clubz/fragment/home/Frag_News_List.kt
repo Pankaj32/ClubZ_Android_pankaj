@@ -2,6 +2,7 @@ package com.clubz.fragment.home
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +27,7 @@ class Frag_News_List : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when(v.id){
-            R.id.search_t-> (activity as HomeActivity).addFragment(Frag_Search_Club(),0)
+            R.id.search_t-> (activity as HomeActivity).draweHandler(Gravity.END)
         }
     }
 }

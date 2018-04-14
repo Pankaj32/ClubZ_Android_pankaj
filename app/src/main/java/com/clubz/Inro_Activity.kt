@@ -17,8 +17,8 @@ class Inro_Activity : AppCompatActivity(), View.OnClickListener  , ViewPager.OnP
 
 
 
-    lateinit var  view_pager :ViewPager;
-    lateinit var layouts: IntArray;
+    lateinit var  view_pager :ViewPager
+    lateinit var layouts: IntArray
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.actvity_intro_screen)

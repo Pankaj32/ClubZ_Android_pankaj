@@ -19,24 +19,21 @@ import com.clubz.model.Club_Potential_search;
 
 import java.util.ArrayList;
 
-/**
- * Created by mindiii on ३१/३/१८.
- */
 
 abstract public class Potential_Search_Adapter extends RecyclerView.Adapter<Potential_Search_Adapter.Holder> implements Filterable {
-    Context context;
-    ArrayList<Club_Potential_search> list ;
-    ArrayList<Club_Potential_search> filteredList ;
+    private Context context;
+    private ArrayList<Club_Potential_search> list ;
+    private ArrayList<Club_Potential_search> filteredList ;
 
     private CustomFilter mFilter;
-    String currentText = "";
-    HomeActivity activity;
+    private String currentText = "";
+    private HomeActivity activity;
 
     public Potential_Search_Adapter(Context context, ArrayList<Club_Potential_search> list , HomeActivity activity) {
         this.context = context;
         this.list = list;
         this.activity = activity;
-        this.filteredList = new ArrayList<Club_Potential_search>();
+        this.filteredList = new ArrayList<>();
         mFilter = new CustomFilter(Potential_Search_Adapter.this);
         //setAllAgain();
     }
@@ -50,15 +47,15 @@ abstract public class Potential_Search_Adapter extends RecyclerView.Adapter<Pote
     public void onBindViewHolder(Holder holder, final int position) {
 
        try {
-           final SpannableString str = new SpannableString(currentText + (filteredList.get(position).getClub_name().substring(currentText.length())));
-        str.setSpan(new ForegroundColorSpan(Color.GRAY), 0, currentText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.text_search.setText(str);
+
+        holder.text_search.setText(getFilterdText(filteredList.get(position).getClub_name(), currentText));
         holder.text_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onItemClick(filteredList.get(position));
             }
-        });}catch (StringIndexOutOfBoundsException e){
+        });}
+        catch (Exception e){
            e.printStackTrace();
        }
     }
@@ -70,7 +67,7 @@ abstract public class Potential_Search_Adapter extends RecyclerView.Adapter<Pote
 
     class Holder extends RecyclerView.ViewHolder{
         TextView text_search;
-        public Holder(View itemView) {
+        Holder(View itemView) {
             super(itemView);
             text_search = itemView.findViewById(R.id.text_search);
         }
@@ -101,13 +98,20 @@ abstract public class Potential_Search_Adapter extends RecyclerView.Adapter<Pote
             } else {
                 final String filterPattern = charSequence.toString().toLowerCase().trim();
                 for (final Club_Potential_search mWords : list) {
-                    if (mWords.getClub_name().toLowerCase().startsWith(filterPattern)) {
+                    if(filterPattern.length()<2){if (mWords.getClub_name().toLowerCase().startsWith(filterPattern)) {
                         if(canAddd(mWords))filteredList.add(mWords);
                     }
+                    }
+                    else {
+                        if (mWords.getClub_name().toLowerCase().contains(filterPattern)) {
+                            if(canAddd(mWords))filteredList.add(mWords);
+                        }
+                    }
                 }
-                /*** This is just to show bold text on list***/
+                /*
+                 * * This is just to show bold text on list***/
                 if(filteredList.size()>0){
-                    currentText = charSequence.toString();
+                    currentText = filterPattern;
                 }
             }
         /**///System.out.println("Count Number " + filteredList.size());
@@ -126,7 +130,6 @@ abstract public class Potential_Search_Adapter extends RecyclerView.Adapter<Pote
 
     @Override
     public Filter getFilter() {
-       /**/// Log.v("RecyclerAdapter", mFilter.toString());
         return mFilter;
     }
 
@@ -135,16 +138,34 @@ abstract public class Potential_Search_Adapter extends RecyclerView.Adapter<Pote
     }
 
 
-    public Boolean canAddd(Club_Potential_search obj){
-        if(activity.isPrivate()==0) return true;
-        if(activity.isPrivate()==Integer.parseInt(obj.getClub_type()))return true;
-        return false;
+    private Boolean canAddd(Club_Potential_search obj) {
+        return activity.isPrivate() == 0 || activity.isPrivate() == Integer.parseInt(obj.getClub_type());
 
     }
-    /*String boldText = "id";
-String normalText = "name";
-SpannableString str = new SpannableString(boldText + normalText);
-str.setSpan(new StyleSpan(Typeface.BOLD), 0, boldText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-textView.setText(str);
-*/
+    /*public CharSequence linkifyHashtags(String text) {
+        SpannableStringBuilder linkifiedText = new SpannableStringBuilder(text);
+        Pattern pattern = Pattern.compile("@\\w");
+        Matcher matcher = pattern.matcher(text);
+        while (matcher.find()) {
+            int start = matcher.start();
+            int end = matcher.end();
+            String hashtag = text.substring(start, end);
+            ForegroundColorSpan span = new ForegroundColorSpan(Color.BLUE);
+            linkifiedText.setSpan(span, 0, hashtag.length(), 0);
+        }
+        return linkifiedText;
+    }*/
+
+
+    private CharSequence getFilterdText(String fullname , String filterText){
+        final SpannableString str = new SpannableString(fullname);
+        if(filterText.length()<2)str.setSpan(new ForegroundColorSpan(Color.GRAY), 0, filterText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        else {  int i = 0;
+                for(; i<fullname.length(); i++){
+                    if(fullname.toLowerCase().charAt(i)== filterText.toLowerCase().charAt(0) && filterText.toLowerCase().equals(fullname.toLowerCase().substring(i,filterText.length()+i)))
+                        break; }
+                str.setSpan(new ForegroundColorSpan(Color.GRAY), i, filterText.length()+i, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return str;
+    }
 }

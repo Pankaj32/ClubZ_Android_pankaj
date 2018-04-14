@@ -12,8 +12,8 @@ import com.android.volley.toolbox.Volley
 class ClubZ  : Application() {
     companion object {
         lateinit var instance: ClubZ
-        var latitude: Double = 0.toDouble()
-        var longitude: Double = 0.toDouble()
+        var latitude: Double    = 0.toDouble()
+        var longitude: Double   = 0.toDouble()
     }
     var mRequestQueue: RequestQueue? = null
 

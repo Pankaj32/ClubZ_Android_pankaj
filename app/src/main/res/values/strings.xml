@@ -184,7 +184,7 @@
     <string name="a_internet_title" > No internet connection detected.</string>
     <string name="a_internet_body" > An internet connection is required \nto sign in or sign up for first time.\nOnce you have register this device you can access to your content offline.  </string>
     <string name="a_enterprise" > Upgrade to an Enterprise plan.</string>
-    <string name="a_enterprise_body" > Some feature like this one requires a higher membership plan. \nread our plan to see what features do you need.</string>
+    <string name="a_enterprise_body" > Some features like this one requires a higher membership plan. \nRead our plans to see what features do you need.</string>
         <!--Create club validation-->
     <string name="a_clubnme">Please enter club name</string>
     <string name="a_image">Please select club image</string>
@@ -225,18 +225,22 @@
     <string name="t_gps_msg"> Your location is required to show feeds near you</string>
     <string name="t_er_loc_msg"> Your location is required to show feeds near you </string>
 
-    <!--<string name="emoji1" > &#x1f60b; </string>--><!--<string name="emoji1" > U+1F60B </string>-->
+    <!--<string name="emoji1" > &#x1f60b; </string>-->
+    <!--<string name="emoji1" > U+1F60B </string>-->
     <!--<string name="emoji1" > U+1F60B </string>-->
     <!--
-    User name
-    - Please enter username.
-    - User name can't have space.
-    Email
-    - Please enter email address.
-    - Please enter valid email address.
-    - Email address already exist.-->
-    <!--1. Enter your phone number for verification via SMS.
-    2. Please select country code
-    3. Please enter valid phone number-->
+        User name
+        - Please enter username.
+        - User name can't have space.
+        Email
+        - Please enter email address.
+        - Please enter valid email address.
+        - Email address already exist.
+        -->
+    <!--
+        1. Enter your phone number for verification via SMS.
+        2. Please select country code
+        3. Please enter valid phone number
+        -->
 
 </resources>

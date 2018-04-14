@@ -25,7 +25,6 @@ import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import com.clubz.Cus_Views.Purchase_membership_dialog
 import com.clubz.fragment.FilterListner
 import com.clubz.fragment.Textwatcher_Statusbar
@@ -35,6 +34,7 @@ import com.clubz.fragment.home.Frag_News_List
 import com.clubz.fragment.home.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.helper.SessionManager
+import com.clubz.util.DrawerMarginFixer
 import com.clubz.util.Util
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
@@ -42,11 +42,9 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
-import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_home_new.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
 import java.util.*
-
-
 
 class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.OnClickListener , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
@@ -55,9 +53,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
     lateinit var mDrawerLayout: DrawerLayout
     var open: Boolean = false
     var doublebackpress: Boolean = false
-
-
-
+    var lastDrawerGravity :Int= Gravity.START;
 
     var isPrivate: Int = 0  // 0: Both option available , 1:public ,2:private
     var filterListner: FilterListner? = null;
@@ -65,27 +61,26 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
 
 
     var latitude: Double = 0.toDouble()
-    var longitude: Double = 0.toDouble()
+    var longitude:Double = 0.toDouble()
     protected var mGoogleApiClient: GoogleApiClient? = null
     lateinit var locationManager: LocationManager
-    // flag for GPS status
-    private  var isGPSEnabled = false
-     // flag for network status
-    private  var isNetworkEnabled = false
+
+    private  var isGPSEnabled = false       // flag for GPS status
+    private  var isNetworkEnabled = false   // flag for network status
+
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mCurrentLocation: Location
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(R.layout.activity_home_new)
 
         tablayout.addOnTabSelectedListener(this)
-        for (view in arrayOf(menu, logout, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) view.setOnClickListener(this)
+        for (views in arrayOf(menu, logout, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
 
         setTab(tablayout.getTabAt(0)!!, R.drawable.ic_news_active, true)
         replaceFragment(Frag_News_List());
-        val permission = Permission(this, this)
-       // permission.askForGps()
+        ///addFragment_new(Frag_Search_Club(),true ,R.id.frag_container2);
         checkLocationUpdate()
 
         Util.e("authtoken", SessionManager.getObj().user.auth_token);
@@ -93,13 +88,25 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
         mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout ,R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
             override fun onDrawerClosed(view: View) {
-                supportInvalidateOptionsMenu()
+
                 open = false
+                stausBarHandler(getCurrentFragment()!!)
+                bottomtabHandler(getCurrentFragment()!!)
+                supportInvalidateOptionsMenu()
             }
 
             override fun onDrawerOpened(drawerView: View) {
                 supportInvalidateOptionsMenu()
                 open = true
+                if(drawerView.id==R.id.drawerView2){
+                    val far = getSupportFragmentManager().findFragmentById(R.id.fragment2) as Frag_Search_Club
+                    stausBarHandler(far)
+                    bottomtabHandler(far)
+                    far.checkLocation()
+                    lastDrawerGravity = Gravity.END
+                }
+                else lastDrawerGravity = Gravity.START
+
             }
 
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
@@ -136,6 +143,8 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
             latitude = ClubZ.latitude
             longitude = ClubZ.longitude
         }catch (ex:Exception){}
+        DrawerMarginFixer.fixMinDrawerMargin(mDrawerLayout)
+
     }
 
     override fun onDestroy() {
@@ -219,13 +228,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
             }
             R.id.bubble_menu -> clubOptions(0);
             R.id.menu -> {
-                if (!open) {
-                    mDrawerLayout.openDrawer(Gravity.START)
-                    open = true
-                } else {
-                    mDrawerLayout.closeDrawer(Gravity.START)
-                    open = false
-                }
+                draweHandler(Gravity.START)
             }
             R.id.addsymbol -> {
                 addFragment(Frag_Create_club(),0)
@@ -234,26 +237,40 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
                         this.dismiss();
                     }
                 }.show()
-
             };
             R.id.filter_list -> closeOption()
             R.id.tv_private -> {
                 when(isPrivate){
-                    1->{isPrivate = 0; chk_priavte.setChecked(true);    chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
-                    0,2->{isPrivate = 1; chk_priavte.setChecked(false);   chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
-                   // 2->{isPrivate = 1; chk_priavte.setChecked(false);   chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
+                    1->{isPrivate = 0; chk_priavte.setChecked(true);        chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
+                    0,2->{isPrivate = 1; chk_priavte.setChecked(false);     chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
                 }
             }
             R.id.tv_public -> {
                 when(isPrivate){
-                    2->{isPrivate = 0; chk_priavte.setChecked(true);    chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
-                    0,1->{isPrivate = 2; chk_priavte.setChecked(true);   chk_public.setChecked(false); if (filterListner != null) filterListner!!.onFilterChnge()}
-                   // 1->{isPrivate = 2; chk_priavte.setChecked(true);   chk_public.setChecked(false); if (filterListner != null) filterListner!!.onFilterChnge()}
+                    2->{isPrivate = 0; chk_priavte.setChecked(true);        chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
+                    0,1->{isPrivate = 2; chk_priavte.setChecked(true);      chk_public.setChecked(false);if (filterListner != null) filterListner!!.onFilterChnge()}
                 }
             }
-            R.id.back->onBackPressed()
+            R.id.back-> onBackPressed()
+
         }
 
+    }
+
+    /**
+     * Open the specified drawer by animating it out of view.
+     *
+     * @param gravity Gravity.LEFT to move the left drawer or Gravity.RIGHT for the right.
+     *                GravityCompat.START or GravityCompat.END may also be used.
+     */
+    fun draweHandler(gravity :Int = lastDrawerGravity){
+        if (!open) {
+            mDrawerLayout.openDrawer(gravity)
+            open = true
+        } else {
+            mDrawerLayout.closeDrawer(gravity)
+            open = false
+        }
     }
 
 
@@ -337,11 +354,24 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
         }
     }
 
+
+    fun addFragment_new(fragment: Fragment, addToBackStack: Boolean, containerId: Int) {
+        val backStackName = fragment::class.java.simpleName
+        val fragmentPopped = fragmentManager.popBackStackImmediate(backStackName, 0)
+        if (!fragmentPopped) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+            transaction.add(containerId, fragment, backStackName) //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            if (addToBackStack)
+                transaction.addToBackStack(backStackName)
+            transaction.commit()
+        }
+    }
+
     fun hideKeyBoard() {
         try {
             val inputManager = getSystemService(
                     Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
             inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken,
                     InputMethodManager.HIDE_NOT_ALWAYS)
         } catch (e: Exception) {
@@ -360,11 +390,9 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
                 for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.GONE
                 title_tv.setText(R.string.t_stay_up)
             }
-
             Frag_Create_club::class.java.simpleName -> {
                 cus_status.visibility = View.GONE
             }
-
             Frag_Search_Club::class.java.simpleName -> {
                 title_tv.visibility = View.GONE
                 for (view in arrayOf(title_tv, bookmark, menu, search)) view.visibility = View.GONE
@@ -374,7 +402,6 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
                 search_text.setText("")
                 //search_text.setCursorVisible(false)
             }
-
             Frag_ClubDetails::class.java.simpleName -> {
                 for (i in 0..cus_status.childCount - 1) cus_status.getChildAt(i).visibility = View.GONE
                 for (view in arrayOf(back, title_tv, bubble_menu)) view.visibility = View.VISIBLE
@@ -401,7 +428,6 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
         for (fragment in supportFragmentManager.fragments) {
             fragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
-        //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
 
@@ -411,8 +437,13 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
 
 
     override fun onBackPressed() {
+        if(open) {
+            draweHandler()
+            return }
+
         closeOption()
         hideKeyBoard()
+
         val handler = Handler()
         var runnable: Runnable? = null
         if (supportFragmentManager.backStackEntryCount > 1) {
@@ -499,7 +530,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
             val UPDATE_INTERVAL: Long = 15*1000  /* 10 secs */
             val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
             mLocationRequest = LocationRequest.create()
-                    .setPriority(LocationRequest.PRIORITY_LOW_POWER)
+                    .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
                     .setInterval(UPDATE_INTERVAL)
                     .setFastestInterval(FASTEST_INTERVAL)
             // Request location updates
@@ -574,15 +605,14 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
 
         this.latitude = latitude
+        ClubZ.latitude = latitude;
         this.longitude = longitude
+        ClubZ.longitude = longitude;
         Util.showToast(latitude.toString()+" : "+longitude,this)
 
     }
 
+    /*******************************************************************************************/
 
-    private fun showLocationErrorPopup() {
-
-
-    }
 
 }
