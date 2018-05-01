@@ -29,7 +29,6 @@ import com.clubz.util.VolleyGetPost
 import org.json.JSONObject
 import com.clubz.SMSreciver.OnSmsCatchListener
 import com.clubz.SMSreciver.SmsVerifyCatcher
-import com.clubz.util.KeyboardUtil
 import com.clubz.util.PhoneNumberTextWatcher
 
 

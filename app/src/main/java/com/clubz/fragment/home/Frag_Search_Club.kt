@@ -219,8 +219,4 @@ class Frag_Search_Club :Fragment() , FilterListner , Textwatcher_Statusbar, View
         }.execute()
     }
 
-
-
-
-
 }

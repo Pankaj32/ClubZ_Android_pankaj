@@ -29,13 +29,11 @@ import java.util.Map;
 
 public abstract class VolleyGetPost {
 
-
-
-    Context context;
-    String Url;
-    boolean isMethodGet;
-    int retryTime = 20000;
-    Activity activity;
+    private Context context;
+    private String Url;
+    private boolean isMethodGet;
+    private int retryTime = 20000;
+    private Activity activity;
    // SessionManager sessionManager;
 
     /**
@@ -127,11 +125,7 @@ public abstract class VolleyGetPost {
 
 
         } else {
-            try {
-               // Toast.makeText(context,R.string.einternet,Toast.LENGTH_SHORT).show();
-            }catch (Exception e){
 
-            }
             new Internet_Connection_dialog(context) {
                 @Override
                 public void tryaginlistner() {

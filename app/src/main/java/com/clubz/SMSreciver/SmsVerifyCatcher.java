@@ -78,7 +78,7 @@ public class SmsVerifyCatcher {
 
 
     //For fragments
-    public static boolean isSmsPermisssion(Activity activity, Fragment fragment) {
+    private boolean isSmsPermisssion(Activity activity, Fragment fragment) {
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(activity, Manifest.permission.RECEIVE_SMS)
                     == PackageManager.PERMISSION_GRANTED &&

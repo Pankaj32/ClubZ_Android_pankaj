@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.widget.TextView
-import com.clubz.ClubZ
 import com.clubz.R
 
 /**
