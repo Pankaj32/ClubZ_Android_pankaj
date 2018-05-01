@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:padding="@dimen/_8sdp"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/img_feed"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/ic_new_img"
+        android:background="#00A8D1"/>
+
+    <EditText
+        android:id="@+id/title_feed"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:hint="@string/feedtitile"
+        style="@style/et_club_create"/>
+
+    <EditText
+        android:id="@+id/news_description"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:hint="@string/feeddescription"
+        style="@style/et_club_create"/>
+
+
+
+</LinearLayout>

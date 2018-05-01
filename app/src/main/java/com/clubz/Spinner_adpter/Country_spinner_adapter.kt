@@ -23,7 +23,7 @@ class Country_spinner_adapter(internal var context: Context , internal var list 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val itemView = if(convertView==null)inflater.inflate(R.layout.spinner_img, parent, false) else convertView
             itemView!!.findViewById<ImageView>(R.id.flag).setImageResource(list_image.get(position))
-            return itemView!!
+            return itemView
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {

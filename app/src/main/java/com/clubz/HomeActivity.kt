@@ -231,6 +231,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
                 draweHandler(Gravity.START)
             }
             R.id.addsymbol -> {
+                draweHandler(lastDrawerGravity)
                 addFragment(Frag_Create_club(),0)
                 object : Purchase_membership_dialog(this) {
                     override fun viewplansListner() {

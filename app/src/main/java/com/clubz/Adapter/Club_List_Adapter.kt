@@ -58,6 +58,7 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
         }catch (ex :Exception){}
         holder.itemView.setOnClickListener(object :View.OnClickListener{
             override fun onClick(v: View?) {
+                activity.draweHandler(activity.lastDrawerGravity)
                 activity.addFragment(Frag_ClubDetails().setData(obj),0);
             }
         })
@@ -69,15 +70,15 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
 
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvname = itemView.findViewById<TextView>(R.id.tvname);
-        var leadby = itemView.findViewById<TextView>(R.id.leadby);
-        var status = itemView.findViewById<TextView>(R.id.status);
-        var members = itemView.findViewById<TextView>(R.id.members);
-        var body_des = itemView.findViewById<TextView>(R.id.body_des);
-        var distance = itemView.findViewById<TextView>(R.id.distance);
-        var img_status = itemView.findViewById<ImageView>(R.id.img_status);
-        var image_club = itemView.findViewById<ImageView>(R.id.image_club);
-        var btn_join = itemView.findViewById<Button>(R.id.btn_join);
+        var tvname      = itemView.findViewById<TextView>(R.id.tvname)
+        var leadby      = itemView.findViewById<TextView>(R.id.leadby)
+        var status      = itemView.findViewById<TextView>(R.id.status)
+        var members     = itemView.findViewById<TextView>(R.id.members)
+        var body_des    = itemView.findViewById<TextView>(R.id.body_des)
+        var distance    = itemView.findViewById<TextView>(R.id.distance)
+        var img_status  = itemView.findViewById<ImageView>(R.id.img_status)
+        var image_club  = itemView.findViewById<ImageView>(R.id.image_club)
+        var btn_join    = itemView.findViewById<Button>(R.id.btn_join)
     }
 
 }

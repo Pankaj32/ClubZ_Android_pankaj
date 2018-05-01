@@ -152,6 +152,19 @@
         </item>
     </style>
 
+    <style name="SCBSwitch2" parent="@style/Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#1D8B90</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#7CBCBF
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#7CBCBF
+        </item>
+    </style>
+
 
     <style name="pager_title">
         <item name="android:fontFamily">@font/teko_semibold</item>

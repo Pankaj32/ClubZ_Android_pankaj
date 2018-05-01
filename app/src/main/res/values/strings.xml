@@ -119,6 +119,9 @@
     <string name="hint_club_s" > Search for club </string>
     <string name="hint_club_des" > Club\'s description </string>
     <string name="hint_club_termcondi" > Terms and condition text </string>
+    <string name="hint_article_name" > Article Name </string>
+    <string name="feedtitile" > Title </string>
+    <string name="feeddescription" > Description </string>
 
 <!--Constants-->
     <string name="admin_by" > Administrator by </string>
@@ -140,6 +143,7 @@
     <string name="logout" > Logout </string>
     <string name="resend" > Resend code </string>
     <string name="search" > Search </string>
+
 
     <string name="req_join" > Request to join </string>
     <string name="remove" > Remove </string>

@@ -20,6 +20,7 @@ class WebService {
         val club_search     = base_Url+"service/club/nearByClubsList"; // will Get
         val club_detail     = base_Url+"service/club/clubDetail";  //will get
         val nearclub_names  = base_Url+"service/club/nearByClubsName"; // Potential search will GEt
+        val create_feed     = base_Url+"service/club/createNewsFeed"; // Potential search will GEt
 
     }
 

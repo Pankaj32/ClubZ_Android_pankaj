@@ -41,7 +41,7 @@ class Frag_ClubDetails : Fragment() {
 
     inner class ViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
         //Here We need to implement getCount and GetItem methods
-        //ANd for implementing This We are Creating ArrayList for adding Fragment and For Adding Title
+        //And for implementing This We are Creating ArrayList for adding Fragment and For Adding Title
         private val mFragmentList = ArrayList<Fragment>()
         private val mFragmentTitleList = ArrayList<String>()
 
