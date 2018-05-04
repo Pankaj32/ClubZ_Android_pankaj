@@ -145,6 +145,7 @@
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/primaryColor"
             app:tabIndicatorHeight="@dimen/_3sdp"
+            app:tabPaddingTop="@dimen/_5sdp"
             app:tabMode="fixed">
 
             <android.support.design.widget.TabItem
@@ -205,6 +206,7 @@
         android:layout_gravity="start"
         android:layout_marginEnd="-65dp"
         android:layout_marginRight="-65dp"
+        android:visibility="gone"
         android:background="@color/primaryColor">
 
         <Button
@@ -234,7 +236,7 @@
 
         <fragment
             android:id="@+id/fragment2"
-            android:name="com.clubz.fragment.home.Frag_Search_Club"
+            android:name="com.clubz.ui.fragment.home.Frag_Search_Club"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="@dimen/_50sdp"

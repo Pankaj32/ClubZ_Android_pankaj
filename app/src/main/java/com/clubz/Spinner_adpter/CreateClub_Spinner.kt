@@ -1,17 +1,15 @@
 package com.clubz.Spinner_adpter
 
 import android.content.Context
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.clubz.R
-import com.clubz.model.Club_Category
-import com.clubz.util.Constants
+import com.clubz.data.model.Club_Category
+import com.clubz.utils.Constants
 
 /**
  * Created by mindiii on 3/14/18.

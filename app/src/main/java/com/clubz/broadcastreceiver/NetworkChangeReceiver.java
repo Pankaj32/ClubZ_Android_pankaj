@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.clubz.util.Constants;
+import com.clubz.utils.Constants;
 
 /**
  * Created by abc on 24/01/2018.

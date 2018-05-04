@@ -66,7 +66,8 @@
 
     <string name="no_internet"> No internet connection </string>
     <string name="temp_sucess"> Successfully registered </string>
-    <string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>
+    <string name="no_internet2">An internet connection is required to sign in, sign up and search clubs. Once you have registered this device, you can access your content offline.</string>
+    <!--<string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>-->
 
     <!--Bottom menu-->
     <string name="item_1">News</string>
@@ -143,6 +144,7 @@
     <string name="logout" > Logout </string>
     <string name="resend" > Resend code </string>
     <string name="search" > Search </string>
+    <string name="close">CLOSE</string>
 
 
     <string name="req_join" > Request to join </string>
@@ -185,8 +187,8 @@
     <string name="a_camera_denied" > Camera  permission denied.</string>
     <string name="a_permission_read" > Permission not granted for Read.</string>
 
-    <string name="a_internet_title" > No internet connection detected.</string>
-    <string name="a_internet_body" > An internet connection is required \nto sign in or sign up for first time.\nOnce you have register this device you can access to your content offline.  </string>
+    <string name="a_internet_title" > No internet connection</string>
+    <string name="a_internet_body" > An internet connection is required to sign in, sign up and search clubs. Once you have registered this device, you can access your content offline. </string>
     <string name="a_enterprise" > Upgrade to an Enterprise plan.</string>
     <string name="a_enterprise_body" > Some features like this one requires a higher membership plan. \nRead our plans to see what features do you need.</string>
         <!--Create club validation-->
@@ -228,6 +230,8 @@
     <string name="ok">Ok</string>
     <string name="t_gps_msg"> Your location is required to show feeds near you</string>
     <string name="t_er_loc_msg"> Your location is required to show feeds near you </string>
+    <string name="terms_conditions">Terms and conditions</string>
+
 
     <!--<string name="emoji1" > &#x1f60b; </string>-->
     <!--<string name="emoji1" > U+1F60B </string>-->

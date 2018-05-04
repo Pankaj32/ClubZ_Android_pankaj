@@ -11,7 +11,6 @@ import android.view.animation.Interpolator
 import android.widget.Scroller
 import android.widget.TextView
 import com.clubz.R
-import com.clubz.util.Util
 import java.lang.reflect.Field
 import java.util.*
 

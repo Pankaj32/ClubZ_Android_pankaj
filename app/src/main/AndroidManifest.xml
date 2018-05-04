@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.clubz">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -24,7 +25,8 @@
         android:supportsRtl="true"
         android:name=".ClubZ"
         android:theme="@style/AppThemeh">
-        <activity android:name=".Splash_Activity"
+
+        <activity android:name=".ui.splash.Splash_Activity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,32 +35,32 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Sign_In_Activity"
+        <activity android:name=".ui.authentication.Sign_In_Activity"
             android:theme="@style/AppTheme2"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".HomeActivity"
+        <activity android:name=".ui.main.HomeActivity"
             android:theme="@style/AppThemehome"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             />
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".ui.main.MainActivity"
             android:theme="@style/AppThemehome"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             />
 
-        <activity android:name=".Inro_Activity"
+        <activity android:name=".ui.guide.Inro_Activity"
             android:screenOrientation="portrait"
             />
 
-        <activity android:name=".Otp_activity"
+        <activity android:name=".ui.authentication.Otp_activity"
             android:theme="@style/AppTheme2"
             android:screenOrientation="portrait"
             />
 
-        <activity android:name=".Sign_up_Activity"
+        <activity android:name=".ui.authentication.Sign_up_Activity"
             android:theme="@style/AppTheme2"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"
@@ -109,6 +111,7 @@
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
+
         <receiver android:name=".SMSreciver.SmsReceiver">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>

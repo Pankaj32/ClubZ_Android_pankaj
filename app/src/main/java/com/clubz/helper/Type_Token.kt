@@ -1,9 +1,9 @@
 package com.clubz.helper
 
-import com.clubz.model.Club_Category
-import com.clubz.model.Club_Potential_search
-import com.clubz.model.Clubs
-import com.clubz.model.Country_Code
+import com.clubz.data.model.Club_Category
+import com.clubz.data.model.Club_Potential_search
+import com.clubz.data.model.Clubs
+import com.clubz.data.model.Country_Code
 import com.google.gson.reflect.TypeToken
 
 /**

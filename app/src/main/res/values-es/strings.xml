@@ -19,4 +19,8 @@
 
 
     Screen 4, Spanish: Promociona tus productos o servicios mientras le das a tus clientes una manera de contactarte-->
+
+
+    <string name="a_internet_title" > No se detectó una conexión a internet</string>
+    <string name="a_internet_body" > Se requiere una conexión a internet para ingresar por primera vez en la aplicación y para buscar clubes. Una vez hayas registrado este dispositivo podrás acceder a tu contenido fuera de línea. </string>
 </resources>

@@ -13,9 +13,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.clubz.HomeActivity;
+import com.clubz.ui.main.HomeActivity;
 import com.clubz.R;
-import com.clubz.model.Club_Potential_search;
+import com.clubz.data.model.Club_Potential_search;
 
 import java.util.ArrayList;
 

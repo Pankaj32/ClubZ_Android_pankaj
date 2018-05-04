@@ -11,7 +11,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.clubz.Cus_Views.Cus_dialog_material_design;
 import com.clubz.R;
-import com.clubz.util.Constants;
+import com.clubz.utils.Constants;
 
 
 /**

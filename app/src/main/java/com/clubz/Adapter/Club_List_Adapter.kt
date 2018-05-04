@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import com.clubz.HomeActivity
+import com.clubz.ui.main.HomeActivity
 import com.clubz.R
-import com.clubz.fragment.home.Frag_ClubDetails
-import com.clubz.model.Clubs
-import com.clubz.util.CircleTransform
-import com.clubz.util.Util
+import com.clubz.ui.fragment.home.Frag_ClubDetails
+import com.clubz.data.model.Clubs
+import com.clubz.utils.CircleTransform
+import com.clubz.utils.Util
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.util.ArrayList
