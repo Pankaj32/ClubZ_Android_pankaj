@@ -5,16 +5,23 @@ import android.text.TextUtils
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import com.clubz.data.model.User
 
 /**
  * Created by mindiii on 2/12/18.
  */
 class ClubZ  : Application() {
+
     companion object {
         lateinit var instance: ClubZ
         var latitude: Double    = 0.toDouble()
         var longitude: Double   = 0.toDouble()
+        var currentUser: User? = null
     }
+
+
+
+
     var mRequestQueue: RequestQueue? = null
 
     /* lateinit var context: Context*/

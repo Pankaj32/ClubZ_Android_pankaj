@@ -81,4 +81,10 @@
         <attr name="startHeight" format="dimension"/>
         <attr name="finalHeight" format="dimension"/>
     </declare-styleable>
+
+
+    <!--My Story-->
+    <declare-styleable name="TagView">
+        <attr name="TagCount" format="integer|reference" />
+    </declare-styleable>
 </resources>

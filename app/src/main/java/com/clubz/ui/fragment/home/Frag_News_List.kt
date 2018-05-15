@@ -1,5 +1,6 @@
 package com.clubz.ui.fragment.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.Gravity
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.frag_news.*
  */
 
 class Frag_News_List : Fragment(), View.OnClickListener {
+    @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.frag_news, null)
     }

@@ -10,10 +10,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
-import com.clubz.Cus_Views.Checked_Step_ImageView
-import com.clubz.Cus_Views.Checked_Step_TextView
-import com.clubz.Cus_Views.Checked_Step_TextView_active
-import com.clubz.Cus_Views.CusDialogProg
+import com.clubz.ui.cv.Checked_Step_ImageView
+import com.clubz.ui.cv.Checked_Step_TextView
+import com.clubz.ui.cv.Checked_Step_TextView_active
+import com.clubz.ui.cv.CusDialogProg
 import com.clubz.R
 import com.clubz.ui.authentication.fragment.Frag_Sign_UP_Three
 import com.clubz.ui.authentication.fragment.Frag_Sign_Up_One_2

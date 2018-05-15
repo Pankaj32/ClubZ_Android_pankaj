@@ -18,9 +18,9 @@ import android.widget.Toast
 import com.android.volley.*
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
-import com.clubz.Cropper.CropImage
-import com.clubz.Cropper.CropImageView
-import com.clubz.Cus_Views.CusDialogProg
+import com.clubz.utils.cropper.CropImage
+import com.clubz.utils.cropper.CropImageView
+import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.main.HomeActivity
 
 import com.clubz.R
@@ -163,7 +163,7 @@ class Frag_Create_News_Feed : Fragment(), View.OnClickListener {
 
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
-                imageUri = com.clubz.Picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data);
+                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data);
                 if (imageUri != null) {
 
                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(200,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context,this)

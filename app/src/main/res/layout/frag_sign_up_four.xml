@@ -78,7 +78,7 @@
                     android:layout_alignLeft="@id/intrest"
                     android:layout_alignRight="@+id/intrest"/>
 
-                <com.clubz.Cus_Views.FlowLayout
+                <com.clubz.ui.cv.FlowLayout
                     android:id="@+id/chip_grid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                     android:layout_alignLeft="@id/skill_set"
                     android:layout_alignRight="@+id/skill_set"/>
 
-                <com.clubz.Cus_Views.FlowLayout
+                <com.clubz.ui.cv.FlowLayout
                     android:id="@+id/chip_grid2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

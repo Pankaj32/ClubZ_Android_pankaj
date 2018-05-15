@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="4dp"
+    app:cardBackgroundColor="@color/primaryColor">
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:background="@color/primaryColor"
+        android:orientation="horizontal">
+
+        <!-- label -->
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="@dimen/_12sdp" />
+
+        <!-- remove button -->
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/delete_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp"
+            android:visibility="visible"
+            android:tint="@color/black"
+            android:rotation="45"
+            app:tint="@color/white"
+            app:srcCompat="@drawable/ic_plus_symbol" />
+
+    </LinearLayout>
+
+   <!-- <com.loopeer.shadow.ShadowView
+        android:id="@+id/shadow_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cornerRadius="4dp"
+        app:shadowRadius="1dp"
+        app:shadowMarginTop="1px"
+        app:shadowMarginRight="1px"
+        app:shadowMarginBottom="4dp"
+        app:shadowMarginLeft="1px"
+        app:backgroundColor="@color/primaryColor"
+        app:shadowColor="#999999">
+
+    &lt;!&ndash; content &ndash;&gt;
+
+
+    </com.loopeer.shadow.ShadowView>-->
+
+</android.support.v7.widget.CardView>

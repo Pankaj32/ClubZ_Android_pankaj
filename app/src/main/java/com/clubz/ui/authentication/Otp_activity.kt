@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.android.volley.VolleyError
-import com.clubz.Cus_Views.CusDialogProg
+import com.clubz.ui.cv.CusDialogProg
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService

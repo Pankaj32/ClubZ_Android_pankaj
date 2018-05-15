@@ -14,7 +14,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.clubz.ClubZ;
-import com.clubz.Cus_Views.Internet_Connection_dialog;
+import com.clubz.ui.cv.Internet_Connection_dialog;
 import com.clubz.R;
 
 
@@ -37,6 +37,18 @@ public abstract class VolleyGetPost {
    // SessionManager sessionManager;
 
     /**
+     * @param context     prefferd getApplication Context
+     * @param url         WebService URl
+     * @param isMethodGet if false , Then Volley will call POST method you need to set the Body then, True Volley Get will executed.
+     */
+    public VolleyGetPost(Context context, String url, boolean isMethodGet) {
+        this.context = context;
+        this.Url = url;
+        this.isMethodGet = isMethodGet;
+    }
+
+
+    /**
      * @param activity    set Your current activity Like LoginActivity.this , (LoginActivity) getActivity
      * @param context     prefferd getApplication Context
      * @param url         WebService URl
@@ -50,10 +62,14 @@ public abstract class VolleyGetPost {
        // this.sessionManager = new SessionManager(context);
     }
 
+    public void execute(){
+        execute("");
+    }
+
     /***
      * required this to execute the request
      */
-    public void execute() {
+    public void execute(String TAG) {
         final String Url = this.Url;
         final Context contextc = this.context;
         final boolean isMethodGet = this.isMethodGet;
@@ -74,11 +90,10 @@ public abstract class VolleyGetPost {
                         }
                     },
                     new Response.ErrorListener() {
-
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             try {Util.Companion.e("response" , error.toString());
-                                toast(activity, R.string.swr);
+                                toast(R.string.swr);
                                     if(error.networkResponse.statusCode==400 && new JSONObject(new String(error.networkResponse.data)).getString("message").equals("Invalid Auth Token")){
                                         {
                                            /*
@@ -121,7 +136,7 @@ public abstract class VolleyGetPost {
             RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
             postRequest.setRetryPolicy(policy);
             postRequest.setShouldCache(false);
-            ClubZ.instance.addToRequestQueue(postRequest);//,activity.getClass().getSimpleName());
+            ClubZ.instance.addToRequestQueue(postRequest, TAG);//,activity.getClass().getSimpleName());
 
 
         } else {
@@ -171,10 +186,10 @@ public abstract class VolleyGetPost {
     public abstract Map<String, String> setHeaders(Map<String, String> params);
 
 
-    public static void toast(Activity activity,int str){
-        Toast.makeText(activity,str,Toast.LENGTH_LONG).show();
+    public void toast(int str){
+        Toast.makeText(context,str,Toast.LENGTH_LONG).show();
     }
-    public static void toast(Activity activity,String str){
-        Toast.makeText(activity,str,Toast.LENGTH_LONG).show();
+    public void toast(String str){
+        Toast.makeText(context,str,Toast.LENGTH_LONG).show();
     }
 }

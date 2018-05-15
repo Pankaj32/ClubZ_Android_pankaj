@@ -7,7 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.clubz.Cus_Views.ChipView
+import com.clubz.ui.cv.ChipView
 import com.clubz.R
 import com.clubz.ui.authentication.Sign_up_Activity
 import com.clubz.utils.Util

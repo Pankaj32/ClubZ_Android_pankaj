@@ -95,7 +95,7 @@
                     android:layout_alignLeft="@id/affiliates"
                     android:layout_alignRight="@+id/affiliates"/>
 
-                <com.clubz.Cus_Views.FlowLayout
+                <com.clubz.ui.cv.FlowLayout
                     android:id="@+id/chip_grid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

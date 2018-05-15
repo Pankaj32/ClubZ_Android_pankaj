@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.android.volley.VolleyError
-import com.clubz.Cus_Views.ChipView
-import com.clubz.Cus_Views.CusDialogProg
+import com.clubz.ui.cv.ChipView
+import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.main.HomeActivity
 import com.clubz.R
 import com.clubz.ui.authentication.Sign_up_Activity

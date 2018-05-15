@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navItemAbout"
+            android:checked="true"
+            android:icon="@drawable/nav_aboutme"
+            android:title="@string/about_me" />
+        <item
+            android:id="@+id/navItemClubs"
+            android:checked="true"
+            android:icon="@drawable/ic_club"
+            android:title="@string/clubs" />
+
+    </group>
+
+    <item
+        android:title="General"
+        android:layout_gravity="bottom">
+
+        <menu>
+            <item
+                android:id="@+id/navItemHistory"
+                android:checked="true"
+                android:icon="@drawable/nav_history"
+                android:title="@string/history" />
+            <item
+                android:id="@+id/navItemSetting"
+                android:checked="true"
+                android:icon="@drawable/ic_settings_black"
+                android:title="@string/settings" />
+        </menu>
+    </item>
+
+</menu>

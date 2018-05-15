@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.clubz.Spinner_adpter.Country_spinner_adapter
+import com.clubz.ui.authentication.adapter.Country_spinner_adapter
 import com.clubz.R
 import com.clubz.ui.authentication.Sign_up_Activity
 import com.clubz.helper.Type_Token
@@ -22,13 +22,13 @@ import android.telephony.TelephonyManager
 import android.view.MotionEvent
 import android.widget.Toast
 import com.android.volley.VolleyError
-import com.clubz.Cus_Views.CusDialogProg
+import com.clubz.ui.cv.CusDialogProg
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
 import com.clubz.utils.VolleyGetPost
 import org.json.JSONObject
-import com.clubz.SMSreciver.OnSmsCatchListener
-import com.clubz.SMSreciver.SmsVerifyCatcher
+import com.clubz.helper.sms_reciver.OnSmsCatchListener
+import com.clubz.helper.sms_reciver.SmsVerifyCatcher
 import com.clubz.utils.PhoneNumberTextWatcher
 
 

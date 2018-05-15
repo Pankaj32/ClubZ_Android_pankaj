@@ -3,10 +3,10 @@
     <string name="facebook_app_id">1901949733451269</string>
     <string name="fb_login_protocol_scheme">fb1901949733451269</string>
 
-    <string name="explore1" >Explore the</string>
-    <string name="explore2" >universe</string>
-    <string name="explore3" >around you</string>
-    <string name="country" >Country</string>
+    <string name="explore1">Explore the</string>
+    <string name="explore2">universe</string>
+    <string name="explore3">around you</string>
+    <string name="country">Country</string>
 
 
     <string name="by_taping1">By tapping </string>
@@ -15,27 +15,27 @@
     <string name="and"> and  the </string>
     <string name="and_only"> and  </string>
     <string name="termsandcon"> <u>Terms and conditions</u></string>
-    <string name="privacypolic" > <u>Privacy policy</u></string>
-    <string name="orlogin" > Or login with</string>
-    <string name="orconnect" > Or connect with</string>
-    <string name="google" > Google</string>
-    <string name="facebook" > Facebook</string>
-    <string name="dont_acc" > Don\'t have an account?</string>
+    <string name="privacypolic"> <u>Privacy policy</u></string>
+    <string name="orlogin"> Or login with</string>
+    <string name="orconnect"> Or connect with</string>
+    <string name="google"> Google</string>
+    <string name="facebook"> Facebook</string>
+    <string name="dont_acc"> Don\'t have an account?</string>
 
-    <string name="find_actvit" >Find activities near you</string>
-    <string name="stay_update" > Stay updated about your community  </string>
-    <string name="in_touch_neigh" > Get in touch with your neighbours   </string>
-    <string name="product_service" > Promote your products or services   </string>
+    <string name="find_actvit">Find activities near you</string>
+    <string name="stay_update"> Stay updated about your community  </string>
+    <string name="in_touch_neigh"> Get in touch with your neighbours   </string>
+    <string name="product_service"> Promote your products or services   </string>
 
-    <string name="sent_code" > We have sent you confirmation code to validate your phone number </string>
+    <string name="sent_code"> We have sent you confirmation code to validate your phone number </string>
 
-    <string name="club_code_sms" > The verification code for your Club Z account is: </string>
+    <string name="club_code_sms"> The verification code for your Club Z account is: </string>
 
-    <string name="to_start" > To begin , let us know who you are </string>
-    <string name="affilites" > Add your affiliates  </string>
-    <string name="affilites_is" > An affiliates is a person you could invite to an activity . Your family members or friends.  </string>
-    <string name="finaly_sel" > Finally select or write your interest </string>
-    <string name="sel_skill" > And select or write your skill </string>
+    <string name="to_start"> To begin , let us know who you are </string>
+    <string name="affilites"> Add your affiliates  </string>
+    <string name="affilites_is"> An affiliates is a person you could invite to an activity . Your family members or friends.  </string>
+    <string name="finaly_sel"> Finally select or write your interest </string>
+    <string name="sel_skill"> And select or write your skill </string>
     <string name="alert"> Alert </string>
     <string name="no_content"> There is no content still here  </string>
     <string name="no_content_body"> Join to a club to get exclusive content like news, activities, chats, ads and more. </string>
@@ -99,99 +99,99 @@
     <string name="step_r4"> Almost done, add your affiliates </string>
 
     <!--hints-->
-    <string name="phone_no" > Phone number </string>
-    <string name="confirm_code" > Confirmation code </string>
-    <string name="user_name" > User Name </string>
-    <string name="first_name" > First Name </string>
-    <string name="last_name" > Last Name </string>
-    <string name="email" > Email Address </string>
+    <string name="phone_no"> Phone number </string>
+    <string name="confirm_code"> Confirmation code </string>
+    <string name="user_name"> User Name </string>
+    <string name="first_name"> First Name </string>
+    <string name="last_name"> Last Name </string>
+    <string name="email"> Email Address </string>
     <string name="fullname"> Full Name </string>
     <string name="affilites_name"> Affiliate\'s Name </string>
 
-    <string name="type_here" > Type here </string>
-    <string name="hint_step1_1" > <i>This one you are using</i></string>
-    <string name="hint_step2_1" > <i>4-digit code sent by SMS</i></string>
-    <string name="hint_step3_1" > <i>To know who are you</i></string>
-    <string name="hint_step3_2" > <i>To recover your account</i> </string>
-    <string name="hint_step4_1" > <i>Family members or friends</i> </string>
+    <string name="type_here"> Type here </string>
+    <string name="hint_step1_1"> <i>This one you are using</i></string>
+    <string name="hint_step2_1"> <i>4-digit code sent by SMS</i></string>
+    <string name="hint_step3_1"> <i>To know who are you</i></string>
+    <string name="hint_step3_2"> <i>To recover your account</i> </string>
+    <string name="hint_step4_1"> <i>Family members or friends</i> </string>
 
-    <string name="hint_club_name" > Club\'s Name </string>
-    <string name="hint_club_date" > Foundation date </string>
-    <string name="hint_club_s" > Search for club </string>
-    <string name="hint_club_des" > Club\'s description </string>
-    <string name="hint_club_termcondi" > Terms and condition text </string>
-    <string name="hint_article_name" > Article Name </string>
-    <string name="feedtitile" > Title </string>
-    <string name="feeddescription" > Description </string>
+    <string name="hint_club_name"> Club\'s Name </string>
+    <string name="hint_club_date"> Foundation date </string>
+    <string name="hint_club_s"> Search for club </string>
+    <string name="hint_club_des"> Club\'s description </string>
+    <string name="hint_club_termcondi"> Terms and condition text </string>
+    <string name="hint_article_name"> Article Name </string>
+    <string name="feedtitile"> Title </string>
+    <string name="feeddescription"> Description </string>
 
-<!--Constants-->
-    <string name="admin_by" > Administrator by </string>
-    <string name="club_private" > Private </string>
-    <string name="club_public" > Public </string>
+    <!--Constants-->
+    <string name="admin_by"> Administrator by </string>
+    <string name="club_private"> Private </string>
+    <string name="club_public"> Public </string>
 
     <!--Buttons-->
-    <string name="sign_in" > Sign In </string>
-    <string name="confirm" > Confirm </string>
-    <string name="next" > Next </string>
+    <string name="sign_in"> Sign In </string>
+    <string name="confirm"> Confirm </string>
+    <string name="next"> Next </string>
 
-    <string name="done" > Done </string>
-    <string name="connect" > Connect </string>
-    <string name="signup" > Sign Up </string>
-    <string name="create_one" > Create One </string>
-    <string name="try_again" > Try again </string>
-    <string name="viewplan" > View Plans </string>
-    <string name="cancel" > Cancel </string>
-    <string name="logout" > Logout </string>
-    <string name="resend" > Resend code </string>
-    <string name="search" > Search </string>
+    <string name="done"> Done </string>
+    <string name="connect"> Connect </string>
+    <string name="signup"> Sign Up </string>
+    <string name="create_one"> Create One </string>
+    <string name="try_again"> Try again </string>
+    <string name="viewplan"> View Plans </string>
+    <string name="cancel"> Cancel </string>
+    <string name="logout"> Logout </string>
+    <string name="resend"> Resend code </string>
+    <string name="search"> Search </string>
     <string name="close">CLOSE</string>
 
 
-    <string name="req_join" > Request to join </string>
-    <string name="remove" > Remove </string>
-    <string name="dismis" > Dismiss </string>
-    <string name="join" > Join </string>
+    <string name="req_join"> Request to join </string>
+    <string name="remove"> Remove </string>
+    <string name="dismis"> Dismiss </string>
+    <string name="join"> Join </string>
 
- <!--   <string name="skip" > <u>Skip</u></string>-->
-    <string name="skip" >Skip</string>
-    <string name="got" >Got it</string>
+    <!--   <string name="skip" > <u>Skip</u></string>-->
+    <string name="skip">Skip</string>
+    <string name="got">Got it</string>
 
 
     <!--alerts-->
-    <string name="a_username" > Please enter username. </string>
-    <string name="a_username_space" > User name can\'t have space. </string>
+    <string name="a_username"> Please enter username. </string>
+    <string name="a_username_space"> User name can\'t have space. </string>
 
-    <string name="a_firstname" > Please enter First name. </string>
-    <string name="a_last_name" > Please enter Last name. </string>
+    <string name="a_firstname"> Please enter First name. </string>
+    <string name="a_last_name"> Please enter Last name. </string>
 
-    <string name="a_full_name" > Please enter Full name. </string>
-    <string name="a_full_name_new" > Oh! it seems you forgot to write your name. </string>
+    <string name="a_full_name"> Please enter Full name. </string>
+    <string name="a_full_name_new"> Oh! it seems you forgot to write your name. </string>
 
-    <string name="a_email" > Please enter email address. </string>
-    <string name="a_email_new" > Apparently you did not write your email right. </string>
-    <string name="a_email_valid" > Please enter valid email address. </string>
-    <string name="a_phone_no" >  Enter your phone number for verification via SMS. </string>
-    <string name="a_phone_no_valid" >  Please enter valid phone number. </string>
-    <string name="a_select_code" >  Please select country code. </string>
-    <string name="swr" >Something went to wrong. please try again.</string>
-    <string name="a_confirmation_code" > Please enter confirmation code.</string>
-    <string name="a_confirmation_code2" > Invalid confirmation code.</string>
-    <string name="a_addskill" > Please enter Skill.</string>
-    <string name="a_addaffil" > Please enter Affiliates.</string>
-    <string name="a_max10" > Oops, you can affiliate only 10 persons :.</string>
-    <string name="a_addintres" > Please enter Interest.</string>
-    <string name="a_already_affil" > Affiliates already added.</string>
-    <string name="a_already_intrest" > Interest already added.</string>
-    <string name="a_already_skill" > Skill already added.</string>
-    <string name="a_permission_denied" > Permission denied can\'t select image.</string>
-    <string name="a_camera_denied" > Camera  permission denied.</string>
-    <string name="a_permission_read" > Permission not granted for Read.</string>
+    <string name="a_email"> Please enter email address. </string>
+    <string name="a_email_new"> Apparently you did not write your email right. </string>
+    <string name="a_email_valid"> Please enter valid email address. </string>
+    <string name="a_phone_no">  Enter your phone number for verification via SMS. </string>
+    <string name="a_phone_no_valid">  Please enter valid phone number. </string>
+    <string name="a_select_code">  Please select country code. </string>
+    <string name="swr">Something went to wrong. please try again.</string>
+    <string name="a_confirmation_code"> Please enter confirmation code.</string>
+    <string name="a_confirmation_code2"> Invalid confirmation code.</string>
+    <string name="a_addskill"> Please enter Skill.</string>
+    <string name="a_addaffil"> Please enter Affiliates.</string>
+    <string name="a_max10"> Oops, you can affiliate only 10 persons :.</string>
+    <string name="a_addintres"> Please enter Interest.</string>
+    <string name="a_already_affil"> Affiliates already added.</string>
+    <string name="a_already_intrest"> Interest already added.</string>
+    <string name="a_already_skill"> Skill already added.</string>
+    <string name="a_permission_denied"> Permission denied can\'t select image.</string>
+    <string name="a_camera_denied"> Camera  permission denied.</string>
+    <string name="a_permission_read"> Permission not granted for Read.</string>
 
-    <string name="a_internet_title" > No internet connection</string>
-    <string name="a_internet_body" > An internet connection is required to sign in, sign up and search clubs. Once you have registered this device, you can access your content offline. </string>
-    <string name="a_enterprise" > Upgrade to an Enterprise plan.</string>
-    <string name="a_enterprise_body" > Some features like this one requires a higher membership plan. \nRead our plans to see what features do you need.</string>
-        <!--Create club validation-->
+    <string name="a_internet_title"> No internet connection</string>
+    <string name="a_internet_body"> An internet connection is required to sign in, sign up and search clubs. Once you have registered this device, you can access your content offline. </string>
+    <string name="a_enterprise"> Upgrade to an Enterprise plan.</string>
+    <string name="a_enterprise_body"> Some features like this one requires a higher membership plan. \nRead our plans to see what features do you need.</string>
+    <!--Create club validation-->
     <string name="a_clubnme">Please enter club name</string>
     <string name="a_image">Please select club image</string>
     <string name="a_foundation">Please select foundation date</string>
@@ -206,31 +206,52 @@
 
 
     <!--Image Cropper-->
-    <string name="pick_image_intent_text" >Choose an image</string>
-    <string name="crop_image_activity_title" >Crop Image</string>
-    <string name="crop_image_menu_rotate_left" >Rotate counter clockwise</string>
-    <string name="crop_image_menu_rotate_right" >Rotate</string>
-    <string name="crop_image_menu_crop" >Crop</string>
-    <string name="pick_image_intent_chooser_title" >Select source</string>
-    <string name="result_image_desc" >crop result</string>
+    <string name="pick_image_intent_text">Choose an image</string>
+    <string name="crop_image_activity_title">Crop Image</string>
+    <string name="crop_image_menu_rotate_left">Rotate counter clockwise</string>
+    <string name="crop_image_menu_rotate_right">Rotate</string>
+    <string name="crop_image_menu_crop">Crop</string>
+    <string name="pick_image_intent_chooser_title">Select source</string>
+    <string name="result_image_desc">crop result</string>
 
-    <string name="menu1" > Camera </string>
-    <string name="menu2" > Gallery </string>
-    <string name="drop_arrow" > \u0020 &#9698; \u0020\u0020</string>
+    <string name="menu1"> Camera </string>
+    <string name="menu2"> Gallery </string>
+    <string name="drop_arrow"> \u0020 &#9698; \u0020\u0020</string>
 
     <array name="privacy_type">
         <item>"Public"</item>
         <item>"Private"</item>
     </array>
 
-    <string name="Public" > Public </string>
-    <string name="Private" > Private </string>
+    <string name="Public"> Public </string>
+    <string name="Private"> Private </string>
     <string name="since">Since</string>
     <string name="members">members</string>
     <string name="ok">Ok</string>
     <string name="t_gps_msg"> Your location is required to show feeds near you</string>
     <string name="t_er_loc_msg"> Your location is required to show feeds near you </string>
     <string name="terms_conditions">Terms and conditions</string>
+    <string name="collapse">Collapse</string>
+    <string name="dharmraj_acharya_bhurtel">Dharmraj Acharya Bhurtel</string>
+    <string name="applicant">Applicant</string>
+    <string name="current_members">Current Members</string>
+    <string name="expand">Expand</string>
+
+    <!--leave club dialog-->
+    <string name="leave">Leave</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="leave_the_club">LEAVE THE CLUB</string>
+    <string name="leave_club_desc">Instead you could silence the club.\nBy silencing a club you wan\'t receive more information till you enable it again.</string>
+    <string name="title_leave_club_conformation">Are you sure you want to leave?</string>
+    <string name="about_me">About me</string>
+    <string name="clubs">Clubs</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+    <string name="open_drawer">open drawer</string>
+    <string name="close_drawer">close drawer</string>
+    <string name="membership">Membership</string>
+    <string name="my_clubs">My clubs</string>
+    <string name="my_status">My status</string>
 
 
     <!--<string name="emoji1" > &#x1f60b; </string>-->

@@ -14,7 +14,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.clubz.ClubZ;
-import com.clubz.Cus_Views.Internet_Connection_dialog;
+import com.clubz.ui.cv.Internet_Connection_dialog;
 import com.clubz.R;
 
 import org.json.JSONObject;

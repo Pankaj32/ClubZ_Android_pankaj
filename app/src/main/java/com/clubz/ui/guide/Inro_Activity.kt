@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.clubz.Adapter.MyViewPagerAdapter
 import com.clubz.R
 import com.clubz.ui.authentication.Sign_up_Activity
 import kotlinx.android.synthetic.main.actvity_intro_screen.*
@@ -24,7 +23,7 @@ class Inro_Activity : AppCompatActivity(), View.OnClickListener  , ViewPager.OnP
         setContentView(R.layout.actvity_intro_screen)
         view_pager = findViewById(R.id.view_pager)
         layouts = intArrayOf(R.layout.welcome_slide1, R.layout.welcome_slide2, R.layout.welcome_slide3, R.layout.welcome_slide4)
-        view_pager.setAdapter(MyViewPagerAdapter(this , layouts ,view_pager ,false));
+        view_pager.setAdapter(MyViewPagerAdapter(this, layouts, view_pager, false));
         for(views in arrayOf(btn_next ,btn_skip)) views.setOnClickListener(this)
         view_pager.addOnPageChangeListener(this)
         lnr_indicator.getChildAt(0).setBackgroundResource(R.drawable.indicator_active)

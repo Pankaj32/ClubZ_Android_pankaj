@@ -236,7 +236,7 @@
 
         <fragment
             android:id="@+id/fragment2"
-            android:name="com.clubz.ui.fragment.home.Frag_Search_Club"
+            android:name="com.clubz.ui.club.fragment.Frag_Search_Club"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="@dimen/_50sdp"

@@ -1,12 +1,16 @@
 package com.clubz.data.model
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 /**
  * Created by mindiii on 2/8/18.
  */
 class User : Serializable{
+
+   @SerializedName("userId")
    public var id              = ""
+
    public var full_name       = ""
    public var first_name      = ""
    public var last_name       = ""

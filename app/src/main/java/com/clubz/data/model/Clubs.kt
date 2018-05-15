@@ -36,4 +36,9 @@ class Clubs :Serializable {
     var profile_image = ""
     var user_role = ""
     var club_icon = ""
+
+    /*
+    * is_allow_feeds 1 = ON and 0 = OFF notifications
+    */
+    var is_allow_feeds = "1"
 }

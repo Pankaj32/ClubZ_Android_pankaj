@@ -50,7 +50,7 @@ public class SessionManager {
         editor.putString(Constants._device_type , user.getDevice_type().trim());
         editor.putString(Constants._device_token, user.getDevice_token().trim());
         editor.putBoolean(IS_LOGED_IN, true);
-        editor.commit();
+        editor.apply();
         return true;
     }
 
@@ -84,7 +84,7 @@ public class SessionManager {
 
     public void logout(Activity activity){
         editor.clear();
-        editor.commit();
+        editor.apply();
         Intent intent = new Intent(activity , Sign_up_Activity.class);
         activity.startActivity(intent);
         activity.finish();

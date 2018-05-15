@@ -9,7 +9,7 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-import com.clubz.Cus_Views.Cus_dialog_material_design;
+import com.clubz.ui.cv.Cus_dialog_material_design;
 import com.clubz.R;
 import com.clubz.utils.Constants;
 

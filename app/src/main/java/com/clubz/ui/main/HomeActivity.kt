@@ -10,6 +10,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
 
 import android.support.v4.app.ActivityCompat
@@ -18,42 +19,49 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.widget.DrawerLayout
 import android.support.v4.app.ActionBarDrawerToggle
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatImageView
+import android.support.v7.widget.ListPopupWindow
 import android.text.Editable
 import android.text.TextWatcher
 
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
+import android.widget.*
 import com.clubz.ClubZ
-import com.clubz.Cus_Views.Purchase_membership_dialog
+import com.clubz.ui.cv.Purchase_membership_dialog
 import com.clubz.R
 import com.clubz.ui.fragment.FilterListner
 import com.clubz.ui.fragment.Textwatcher_Statusbar
-import com.clubz.ui.fragment.home.Frag_ClubDetails
-import com.clubz.ui.fragment.home.Frag_Create_club
+import com.clubz.ui.club.fragment.Frag_Create_club
 import com.clubz.ui.fragment.home.Frag_News_List
-import com.clubz.ui.fragment.home.Frag_Search_Club
+import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.utils.DrawerMarginFixer
 import com.clubz.utils.Util
+import com.github.siyamed.shapeimageview.CircularImageView
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
-import kotlinx.android.synthetic.main.activity_home_new.*
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
+import kotlinx.android.synthetic.main.nav_header.view.*
 import java.util.*
 
-class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.OnClickListener , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
-
-
+class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
+        View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, LocationListener,
+        NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var mDrawerLayout: DrawerLayout
+    lateinit var mDrawer: DrawerLayout
+    var isOpenMyClub: Boolean = false
     var open: Boolean = false
     var doublebackpress: Boolean = false
     var lastDrawerGravity :Int= Gravity.START;
@@ -76,25 +84,32 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home_new)
+        setContentView(R.layout.activity_home_test)
+        ClubZ.currentUser = SessionManager.getObj().user
+        setUp()
 
-        tablayout.addOnTabSelectedListener(this)
-        for (views in arrayOf(menu, logout, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
+        //tablayout.addOnTabSelectedListener(this)
+       // for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
 
-        setTab(tablayout.getTabAt(0)!!, R.drawable.ic_news_active, true)
+
         replaceFragment(Frag_News_List());
         ///addFragment_new(Frag_Search_Club(),true ,R.id.frag_container2);
         checkLocationUpdate()
-
         Util.e("authtoken", SessionManager.getObj().user.auth_token);
+
         //TODO disable drawer.
         mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout , R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
             override fun onDrawerClosed(view: View) {
-                open = false
-                stausBarHandler(getCurrentFragment()!!)
-                bottomtabHandler(getCurrentFragment()!!)
-                supportInvalidateOptionsMenu()
+
+                if(view.id == R.id.navigationView){
+
+                }else{
+                    open = false
+                    stausBarHandler(getCurrentFragment()!!)
+                    bottomtabHandler(getCurrentFragment()!!)
+                    supportInvalidateOptionsMenu()
+                }
             }
 
             override fun onDrawerOpened(drawerView: View) {
@@ -104,8 +119,14 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
                     val far = getSupportFragmentManager().findFragmentById(R.id.fragment2) as Frag_Search_Club
                     stausBarHandler(far)
                     bottomtabHandler(far)
-                    far.checkLocation()
                     lastDrawerGravity = Gravity.END
+
+                    if(isOpenMyClub){
+                        far.setFragmentType(true)
+                        isOpenMyClub = false
+                    }else{
+                        far.checkLocation()
+                    }
                 }
                 else lastDrawerGravity = Gravity.START
 
@@ -150,16 +171,111 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
 
     }
 
-    override fun onDestroy() {
-
-        super.onDestroy()
-
-    }
 
     override fun onResume() {
         super.onResume()
-
+        if (mDrawer != null) {
+            mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        }
     }
+
+    private fun lockDrawer() {
+        if (mDrawer != null) {
+            mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        }
+    }
+
+
+    fun setUp(){
+        isOpenMyClub = false
+        tablayout.addOnTabSelectedListener(this)
+        for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
+        setTab(tablayout.getTabAt(0)!!, R.drawable.ic_news_active, true)
+
+        mDrawer = findViewById<DrawerLayout>(R.id.drawer_layout)
+        val mDrawerToggle = object : android.support.v7.app.ActionBarDrawerToggle(
+                this,
+                mDrawer,
+                R.string.open_drawer,
+                R.string.close_drawer) {
+
+            override fun onDrawerClosed(drawerView: View?) {
+                super.onDrawerClosed(drawerView)
+            }
+
+            override fun onDrawerOpened(drawerView: View?) {
+                super.onDrawerOpened(drawerView)
+                hideKeyBoard()
+            }
+        }
+
+        mDrawer.addDrawerListener(mDrawerToggle)
+        mDrawerToggle.syncState()
+
+        val navigationView = findViewById<NavigationView>(R.id.navigationView)
+        navigationView.setNavigationItemSelectedListener(this)
+
+        val nav = navigationView.getHeaderView(0)
+        nav.nav_tvTitle.setText(ClubZ.currentUser!!.full_name)
+        nav.nav_tvStatus.text = getString(R.string.my_status)
+        nav.nav_optionMenu.setOnClickListener {
+            showLogoutPopup(nav.nav_optionMenu)
+        }
+
+        val navProfileimage = nav.findViewById<CircularImageView>(R.id.iv_profileImage)
+        if(ClubZ.currentUser!!.profile_image.isNotEmpty()){
+            Picasso.with(this).load(ClubZ.currentUser!!.profile_image).into(navProfileimage)
+        }
+    }
+
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // Handle navigation view item clicks here.
+        when (item.itemId) {
+            R.id.navItemAbout -> {
+                // Handle the camera action
+            }
+            R.id.navItemClubs -> {
+                drawer_layout.closeDrawer(GravityCompat.START)
+                mDrawerLayout.openDrawer(GravityCompat.END)
+                isOpenMyClub = true
+                return true
+            }
+            R.id.navItemHistory -> {
+
+            }
+            R.id.navItemSetting -> {
+
+            }
+        }
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item?.itemId == R.id.menu_logout){
+            SessionManager.getObj().logout(this)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    // Display anchored popup menu based on view selected
+    fun showLogoutPopup(v : View) {
+        val products =  arrayOf("Logout")
+        val lpw =  ListPopupWindow(this)
+        lpw.setAnchorView(v);
+        lpw.setDropDownGravity(Gravity.RIGHT);
+        lpw.setHeight(ListPopupWindow.WRAP_CONTENT);
+        lpw.setWidth(300);
+        lpw.setAdapter( ArrayAdapter(this, android.R.layout.simple_list_item_1, products)); // list_item is your textView with gravity.
+        lpw.setOnItemClickListener { parent, view, position, id ->
+            lpw.dismiss()
+            SessionManager.getObj().logout(this)
+        }
+        lpw.show();
+    }
+
 
 
     /********************************************************/
@@ -215,7 +331,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
 
     override fun onClick(p0: View?) {
         when (p0!!.id) {
-            R.id.logout -> SessionManager.getObj().logout(this)
+           // R.id.logout -> SessionManager.getObj().logout(this)
             R.id.search -> {}//{addFragment(Frag_Search_Club(), 0);}
             R.id.cancel -> {
                 search_text.setText("")
@@ -276,7 +392,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
 
     fun clubOptions(position: Int) {
         var canshow = false
-        when(getCurrentFragment()!!::class.java.simpleName.toString()){
+         when(getClubSearchFragment()!!::class.java.simpleName.toString()){
             Frag_Search_Club::class.java.simpleName -> canshow = true
         }
         if(!canshow) return
@@ -286,7 +402,12 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
             if(isPrivate==0){
                 chk_priavte.isChecked = true; chk_public.isChecked = true;
             }
-            else {chk_priavte.isChecked = (isPrivate==2); chk_public.isChecked = (isPrivate==1);} }
+            else {chk_priavte.isChecked = (isPrivate==2); chk_public.isChecked = (isPrivate==1);}
+        }
+
+        (filter_list.getParent()).requestLayout()
+        filter_list.bringToFront()
+
     }
 
     fun closeOption() {
@@ -317,7 +438,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
     /**
      * commiting with state loss
      */
-    internal fun replaceFragmentLoss(fragmentHolder: Fragment) {
+    /*internal fun replaceFragmentLoss(fragmentHolder: Fragment) {
         try {
             val fragmentManager = supportFragmentManager
             fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
@@ -333,7 +454,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
             //Util.e("value", e.toString())
         }
 
-    }
+    }*/
 
 
     fun addFragment(fragmentHolder: Fragment, animationValue: Int): Fragment? {
@@ -355,7 +476,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
     }
 
 
-    fun addFragment_new(fragment: Fragment, addToBackStack: Boolean, containerId: Int) {
+   /* fun addFragment_new(fragment: Fragment, addToBackStack: Boolean, containerId: Int) {
         val backStackName = fragment::class.java.simpleName
         val fragmentPopped = fragmentManager.popBackStackImmediate(backStackName, 0)
         if (!fragmentPopped) {
@@ -366,7 +487,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
                 transaction.addToBackStack(backStackName)
             transaction.commit()
         }
-    }
+    }*/
 
     fun hideKeyBoard() {
         try {
@@ -399,11 +520,11 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
                 search_text.setText("")
                 //search_text.setCursorVisible(false)
             }
-            Frag_ClubDetails::class.java.simpleName -> {
+            /*Frag_ClubDetails::class.java.simpleName -> {
                 for (i in 0..cus_status.childCount - 1) cus_status.getChildAt(i).visibility = View.GONE
                 for (view in arrayOf(back, title_tv, bubble_menu)) view.visibility = View.VISIBLE
                 title_tv.setText(" "+(fragemet as Frag_ClubDetails).clubz.club_name)
-            }
+            }*/
         }
     }
 
@@ -434,6 +555,14 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
 
 
     override fun onBackPressed() {
+        /*val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START)
+        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END)
+        } else {
+            super.onBackPressed()
+        }*/
         hideKeyBoard()
         if(open) {
             draweHandler()
@@ -467,6 +596,12 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, View.
     fun getCurrentFragment(): Fragment? {
         val fragments = supportFragmentManager.fragments
         return fragments[fragments.size - 1]
+        //return supportFragmentManager.findFragmentById(R.id.frag_container)
+    }
+
+
+    private fun getClubSearchFragment(): Fragment? {
+        return supportFragmentManager.findFragmentById(R.id.fragment2)
     }
 
 
