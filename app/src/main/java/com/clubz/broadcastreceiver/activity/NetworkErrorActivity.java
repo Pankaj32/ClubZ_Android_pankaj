@@ -4,12 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Network;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.clubz.R;
-import com.clubz.util.Constants;
+import com.clubz.utils.Constants;
 
 public class NetworkErrorActivity extends AppCompatActivity {
     private static boolean optedToOffline = false;

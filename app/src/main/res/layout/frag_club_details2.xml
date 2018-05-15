@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="@dimen/_5sdp"
+    android:animateLayoutChanges="true"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewMember"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:cardBackgroundColor="@color/white"
+        app:cardUseCompatPadding="true"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp">
+
+                <TextView
+                    android:id="@+id/headerTxt1"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/current_members"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18sdp"
+                    android:fontFamily="@font/teko_semibold"/>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_expand1"
+                    android:layout_width="0dp"
+                    android:layout_weight=".38"
+                    android:gravity="right"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_expand1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_italic"
+                        android:textColor="@color/text_color_gray"
+                        android:text="@string/collapse" />
+
+                    <ImageView
+                        android:id="@+id/iv_expand1"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:padding="@dimen/_4sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        app:srcCompat="@drawable/ic_down_arrow"
+                        android:rotation="180"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/pager_line"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_members"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/adapter_current_members_item_list"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewApplicant"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:cardBackgroundColor="@color/white"
+        android:layout_marginTop="@dimen/_2sdp"
+        app:cardUseCompatPadding="true"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp">
+
+                <TextView
+                    android:id="@+id/headerTxt2"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/applicant"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18sdp"
+                    android:fontFamily="@font/teko_semibold"/>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_expand2"
+                    android:layout_width="0dp"
+                    android:layout_weight=".38"
+                    android:gravity="right"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_expand2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_italic"
+                        android:textColor="@color/text_color_gray"
+                        android:text="@string/collapse" />
+
+                    <ImageView
+                        android:id="@+id/iv_expand2"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:padding="@dimen/_4sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        app:srcCompat="@drawable/ic_down_arrow"
+                        android:rotation="180"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/pager_line"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_appcalints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/adapter_applicant_item_list"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

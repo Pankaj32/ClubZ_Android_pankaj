@@ -201,4 +201,12 @@
         <item name="android:windowBackground">@color/colorAccent</item>
     </style>
 
+    <style name="NavigationView" parent="Base.Theme.AppCompat">>
+        <item name="android:listDivider">@color/gray_transprent</item>
+        <item name="android:textColorSecondary">@color/text_color_gray</item>
+    </style>
+
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@android:color/white</item>
+    </style>
 </resources>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/clRootView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false">
+
+        <RelativeLayout
+            android:id="@+id/activityMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="5dp">
+
+                <LinearLayout
+                    android:id="@+id/cus_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:background="@color/primaryColor"
+                    android:animateLayoutChanges="true"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/menu"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_10sdp"
+                        app:srcCompat="@drawable/ic_menu_black_24dp" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/back"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_3sdp"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/title_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/teko_semibold"
+                        android:gravity="center_vertical"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:text="@string/t_stay_up"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_18sdp" />
+
+
+                    <RelativeLayout
+                        android:id="@+id/serch_box"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:visibility="gone">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/search_back_icon"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/_3sdp"
+                            app:srcCompat="@drawable/ic_search_white" />
+
+                        <EditText
+                            android:id="@+id/search_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_centerVertical="true"
+                            android:background="@null"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:inputType="text"
+                            android:imeOptions="actionSearch"
+                            android:textSize="14sp"
+                            android:theme="@style/whitetheme"
+                            android:visibility="gone" />
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/cancel"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:padding="@dimen/_7sdp"
+                            android:rotation="45"
+                            android:tint="@color/white"
+                            app:srcCompat="@drawable/ic_plus_symbol" />
+
+                    </RelativeLayout>
+
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/search"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_3sdp"
+                        app:srcCompat="@drawable/ic_search_black_24dp" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/addsymbol"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="@dimen/_2sdp"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_add_white_48dp" />
+
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/bookmark"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_3sdp"
+                        app:srcCompat="@drawable/ic_bookmark_border_black_24dp" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/bubble_menu"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_3sdp"
+                        app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+
+
+                </LinearLayout>
+
+              <!--  <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_color_gray" />-->
+
+            </android.support.design.widget.AppBarLayout>
+
+            <FrameLayout
+                android:id="@+id/frag_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/tablayout"
+                android:layout_below="@+id/appBar"/>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tablayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_56sdp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/primaryColor"
+                app:tabIndicatorHeight="@dimen/_3sdp"
+                app:tabPaddingTop="@dimen/_5sdp"
+                app:tabMode="fixed">
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/ti_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_news"
+                    android:layout="@layout/custom_tab_layout"
+                    android:text="@string/item_1" />
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/ti_actvity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_activity"
+                    android:layout="@layout/custom_tab_layout"
+                    android:text="@string/item_2" />
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/ti_chat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_chat_bubble"
+                    android:layout="@layout/custom_tab_layout"
+                    android:text="@string/item_3" />
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/ti_ads"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_ads"
+                    android:layout="@layout/custom_tab_layout"
+                    android:text="@string/item_4" />
+
+            </android.support.design.widget.TabLayout>
+
+        </RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigationView"
+        style="@style/Widget.Design.NavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        android:theme="@style/NavigationView"
+        app:headerLayout="@layout/nav_header"
+        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/nav_gray"
+        android:padding="0dp"
+        app:menu="@menu/drawer">
+
+       <!-- <Button
+            android:id="@+id/logout"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/_16sdp"
+            android:background="@drawable/bg_btn_green"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@string/logout"
+            android:textAllCaps="true"
+            android:textSize="16sp" />-->
+
+    </android.support.design.widget.NavigationView>
+
+    <RelativeLayout
+        android:id="@+id/drawerView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="@dimen/_300sdp"
+        android:layout_gravity="end"
+        android:background="@color/transparent"
+        android:layout_marginTop="@dimen/_50sdp">
+
+        <fragment
+            android:id="@+id/fragment2"
+            android:name="com.clubz.ui.club.fragment.Frag_Search_Club"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="@dimen/_50sdp"
+            />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/filter_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:addStatesFromChildren="true"
+        android:visibility="gone">
+
+        <include
+            layout="@layout/menu_club_selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:visibility="visible" />
+
+    </FrameLayout>
+
+
+</android.support.v4.widget.DrawerLayout>
