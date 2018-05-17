@@ -4,12 +4,12 @@
         <item
             android:id="@+id/navItemAbout"
             android:checked="true"
-            android:icon="@drawable/nav_aboutme"
+            android:icon="@drawable/ic_nav_aboutme"
             android:title="@string/about_me" />
         <item
             android:id="@+id/navItemClubs"
             android:checked="true"
-            android:icon="@drawable/ic_club"
+            android:icon="@drawable/ic_nav_clubs"
             android:title="@string/clubs" />
 
     </group>
@@ -22,8 +22,20 @@
             <item
                 android:id="@+id/navItemHistory"
                 android:checked="true"
-                android:icon="@drawable/nav_history"
+                android:icon="@drawable/ic_nav_history"
                 android:title="@string/history" />
+
+            <item
+                android:id="@+id/navItemActivity"
+                android:checked="true"
+                android:icon="@drawable/ic_nav_event"
+                android:title="@string/nav_activities" />
+
+            <item
+                android:id="@+id/navItemAds"
+                android:checked="true"
+                android:icon="@drawable/ic_nav_ads"
+                android:title="@string/nav_ads" />
             <item
                 android:id="@+id/navItemSetting"
                 android:checked="true"

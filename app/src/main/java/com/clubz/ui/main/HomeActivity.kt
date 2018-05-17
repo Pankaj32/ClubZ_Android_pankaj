@@ -1,8 +1,11 @@
 package com.clubz.ui.main
 
 import android.Manifest
+import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -57,7 +60,10 @@ import java.util.*
 class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
         View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener,
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener, PopupMenu.OnMenuItemClickListener {
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     lateinit var mDrawerLayout: DrawerLayout
     lateinit var mDrawer: DrawerLayout
@@ -81,6 +87,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
 
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mCurrentLocation: Location
+    var dialog : Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,7 +115,8 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
                     open = false
                     stausBarHandler(getCurrentFragment()!!)
                     bottomtabHandler(getCurrentFragment()!!)
-                    supportInvalidateOptionsMenu()
+                    //supportInvalidateOptionsMenu()
+                    invalidateOptionsMenu()
                 }
             }
 
@@ -189,7 +197,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
     fun setUp(){
         isOpenMyClub = false
         tablayout.addOnTabSelectedListener(this)
-        for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
+        for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, back)) views.setOnClickListener(this)
         setTab(tablayout.getTabAt(0)!!, R.drawable.ic_news_active, true)
 
         mDrawer = findViewById<DrawerLayout>(R.id.drawer_layout)
@@ -254,8 +262,31 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
 
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if(item?.itemId == R.id.menu_logout){
-            SessionManager.getObj().logout(this)
+
+        when(item!!.itemId){
+
+            R.id.menu_logout ->  SessionManager.getObj().logout(this);
+
+            R.id.pop1 -> {
+                if(item.isChecked()){
+                    // If item already checked then unchecked it
+                    item.setChecked(false);
+                }else{
+                    // If item is unchecked then checked it
+                    item.setChecked(true);
+                }
+            }
+
+            R.id.pop2 -> {
+                if(item.isChecked()){
+                    // If item already checked then unchecked it
+                    item.setChecked(false);
+                }else {
+                    // If item is unchecked then checked it
+                    item.setChecked(true);
+                }
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -276,6 +307,34 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
         lpw.show();
     }
 
+
+    private fun popupMenu(position: Int){
+
+        if(dialog==null){
+            dialog = Dialog(this)
+            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+            val dialogWindow = dialog?.getWindow()
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+            dialog?.setContentView(R.layout.menu_club_selection)
+
+            val lp = dialogWindow?.getAttributes()
+            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+            lp?.y = -100
+            dialogWindow?.attributes = lp
+            dialog?.setCancelable(true)
+
+            for (views in arrayOf(dialog?.tv_private, dialog?.tv_public)) views?.setOnClickListener(this)
+        }
+
+        if (position == 0) {
+            if(isPrivate==0){
+                dialog?.chk_priavte?.isChecked = true; dialog?.chk_public?.isChecked = true;
+            }
+            else {dialog?.chk_priavte?.isChecked = (isPrivate==2); dialog?.chk_public?.isChecked = (isPrivate==1);}
+        }
+        dialog?.show()
+    }
 
 
     /********************************************************/
@@ -355,15 +414,15 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
 
             R.id.tv_private -> {
                 when(isPrivate){
-                    1->{isPrivate = 0; chk_priavte.setChecked(true);        chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
-                    0,2->{isPrivate = 1; chk_priavte.setChecked(false);     chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
+                    1->{isPrivate = 0; dialog!!.chk_priavte.setChecked(true);       dialog!!.chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
+                    0,2->{isPrivate = 1; dialog!!.chk_priavte.setChecked(false);     dialog!!.chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
                 }
             }
 
             R.id.tv_public -> {
                 when(isPrivate){
-                    2->{isPrivate = 0; chk_priavte.setChecked(true);        chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
-                    0,1->{isPrivate = 2; chk_priavte.setChecked(true);      chk_public.setChecked(false);if (filterListner != null) filterListner!!.onFilterChnge()}
+                    2->{isPrivate = 0; dialog!!.chk_priavte.setChecked(true);        dialog!!.chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
+                    0,1->{isPrivate = 2; dialog!!.chk_priavte.setChecked(true);      dialog!!.chk_public.setChecked(false);if (filterListner != null) filterListner!!.onFilterChnge()}
                 }
             }
 
@@ -395,24 +454,22 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
          when(getClubSearchFragment()!!::class.java.simpleName.toString()){
             Frag_Search_Club::class.java.simpleName -> canshow = true
         }
-        if(!canshow) return
-            filter_list.visibility = View.VISIBLE
+      //  if(!canshow) return
+        if(open && lastDrawerGravity == Gravity.END) popupMenu(position)
+        /*filter_list.visibility = View.VISIBLE
         filter_list.getChildAt(position).visibility = View.VISIBLE
         if (position == 0) {
             if(isPrivate==0){
                 chk_priavte.isChecked = true; chk_public.isChecked = true;
             }
             else {chk_priavte.isChecked = (isPrivate==2); chk_public.isChecked = (isPrivate==1);}
-        }
-
-        (filter_list.getParent()).requestLayout()
-        filter_list.bringToFront()
-
+        }*/
     }
 
     fun closeOption() {
-        for (i in 0..filter_list.childCount - 1) filter_list.getChildAt(i).visibility = View.GONE
-        filter_list.visibility = View.GONE
+        return;
+        /*for (i in 0..filter_list.childCount - 1) filter_list.getChildAt(i).visibility = View.GONE
+        filter_list.visibility = View.GONE*/
     }
 
 
@@ -432,7 +489,6 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
         } catch (e: Exception) {
             //  Util.e("value", e.toString())
         }
-
     }
 
     /**

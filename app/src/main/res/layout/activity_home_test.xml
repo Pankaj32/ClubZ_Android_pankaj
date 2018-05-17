@@ -138,7 +138,6 @@
                         android:padding="@dimen/_3sdp"
                         app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
-
                 </LinearLayout>
 
               <!--  <View
@@ -252,6 +251,9 @@
 
     </RelativeLayout>
 
+
+<!--
+
     <FrameLayout
         android:id="@+id/filter_list"
         android:layout_width="match_parent"
@@ -268,6 +270,7 @@
             android:visibility="visible" />
 
     </FrameLayout>
+-->
 
 
 </android.support.v4.widget.DrawerLayout>
