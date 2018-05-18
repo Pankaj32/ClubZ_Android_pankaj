@@ -55,7 +55,7 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
     @Override
     public AdapterOwnClubMember.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_current_members_item_list, parent, false);
-        ViewHolder adapter = new AdapterOwnClubMember.ViewHolder(v);
+        ViewHolder adapter = new AdapterOwnClubMember.ViewHolder(v, mContext);
         adapter.setSwitchClick();
         return adapter;
     }
@@ -72,8 +72,8 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
         h.tv_FullName.setText(member.getFull_name());
         h.switch1.setChecked(member.getMember_status().equals("1"));
         if(!TextUtils.isEmpty(member.getProfile_image())){
-            Picasso.with(h.iv_profileImage.getContext()).load(member.getProfile_image()).into(h.iv_profileImage);
-        }else Picasso.with(h.iv_profileImage.getContext()).load(R.drawable.ic_user_white).into(h.iv_profileImage);
+            Picasso.with(h.iv_profileImage.getContext()).load(member.getProfile_image()).fit().into(h.iv_profileImage);
+        }else Picasso.with(h.iv_profileImage.getContext()).load(R.drawable.ic_user_white).fit().into(h.iv_profileImage);
 
         if(TextUtils.isEmpty(member.getTag_name())){
             h.tagView.distroy();
@@ -120,7 +120,7 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
         return memberList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends ClubMemberHolder{
 
         private CircularImageView iv_profileImage;
         private TextView tv_FullName;
@@ -129,8 +129,8 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
         private TagView tagView;
         private View divider;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+        public ViewHolder(View itemView, Context context) {
+            super(itemView, context);
             iv_profileImage = itemView.findViewById(R.id.iv_profileImage);
             tv_FullName = itemView.findViewById(R.id.tv_FullName);
             switch1 = itemView.findViewById(R.id.switch1);
@@ -140,6 +140,7 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
         }
 
         public void setSwitchClick() {
+
             switch1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

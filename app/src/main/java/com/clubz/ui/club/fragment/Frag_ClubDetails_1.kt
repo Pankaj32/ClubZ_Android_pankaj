@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.volley.VolleyError
+import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.TermsConditionDialog
 import com.clubz.R
@@ -71,15 +72,19 @@ class Frag_ClubDetails_1 : Fragment() {
         }catch (ex :Exception){}
         tv_descrip_detials.setText(clubz.club_description)
         try{
-            Picasso.with(context).load(clubz.club_image).into(img_club)
+            Picasso.with(context).load(clubz.club_image).fit().into(img_club)
         }catch (ex:Exception){
-
         }
     }
 
     fun setData(clubz: Clubs): Fragment {
         this.clubz = clubz
         return this
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        ClubZ.instance.cancelPendingRequests(WebService.club_detail)
     }
 
     fun getClubDetails(){
@@ -139,6 +144,6 @@ class Frag_ClubDetails_1 : Fragment() {
                 params.put("language", SessionManager.getObj().getLanguage());
                 return params
             }
-        }.execute()
+        }.execute(WebService.club_detail)
     }
 }

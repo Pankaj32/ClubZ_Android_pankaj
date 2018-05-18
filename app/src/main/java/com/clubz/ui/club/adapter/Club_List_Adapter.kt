@@ -23,6 +23,7 @@ import com.clubz.ui.dialogs.LeaveClubDialog
 import com.clubz.utils.CircleTransform
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
+import com.github.siyamed.shapeimageview.CircularImageView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import org.json.JSONObject
@@ -44,9 +45,10 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
     override fun onBindViewHolder(holder: Holder, position: Int) {
         var obj = list.get(position)
         holder.tvname.setText(obj.club_name)
-        holder.leadby.setText(obj.full_name)
+        holder.leadby.setText( if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name)
         holder.body_des.setText(obj.club_description)
         holder.members.text = obj.members+" "+context.getString(R.string.members)
+
         if(activity.latitude==0.0 && activity.longitude==0.0){
             holder.distance.setText("-- Km")
         }
@@ -60,10 +62,19 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
         if(obj.user_id.equals(ClubZ.currentUser?.id)){
             holder.switch1.visibility = View.GONE
             holder.btn_join.visibility = View.GONE
-
-        }else{
-            holder.switch1.visibility = View.VISIBLE
+            if(!ClubZ.currentUser!!.profile_image.isEmpty()){
+                Picasso.with(holder.ivClubManager.context)
+                        .load(ClubZ.currentUser!!.profile_image)
+                        .into(holder.ivClubManager)
+            }else
+                Picasso.with(holder.ivClubManager.context)
+                        .load(R.drawable.ic_user_white)
+                        .into(holder.ivClubManager)
+        }
+        else{
+            //holder.switch1.visibility = View.VISIBLE
             holder.btn_join.visibility = View.VISIBLE
+            holder.switch1.visibility = if(obj.club_user_status.equals("1")) View.VISIBLE else View.GONE
             // emtpty means no action performed yet, 0 = pending for approvial by Club admin , 1 = Joined club
             // obj.club_type 1 = public club and 2 = private club
             if(obj.club_type.equals("1") && obj.club_user_status.isBlank()){
@@ -85,15 +96,30 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
             }
 
             holder.switch1.isChecked = !obj.is_allow_feeds.equals("0")
-            holder.switch1.isEnabled = obj.club_user_status.equals("1")
+           // holder.switch1.isEnabled = obj.club_user_status.equals("1")
         }
-
-       // holder.btn_join.setText(if(obj.club_type.equals("1"))R.string.join else R.string.req_join)
 
         holder.img_status.setImageResource(if(obj.club_type.equals("1")) R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
         holder.status.setText(if(obj.club_type.equals("1")) R.string.Public else R.string.Private)
         try {
-            if(!obj.club_icon.endsWith("defaultProduct.png")) Picasso.with(context).load(obj.club_icon).transform(CircleTransform()).placeholder(R.drawable.img_gallery).into(holder.image_club, object : Callback {
+
+            if(obj.user_image.isEmpty()){
+                Picasso.with(holder.ivClubManager.context)
+                        .load(R.drawable.ic_user_white)
+                        .into(holder.ivClubManager)
+            }else
+                Picasso.with(holder.ivClubManager.context)
+                        .load(obj.user_image)
+                        .fit()
+                        .into(holder.ivClubManager)
+
+            if(!obj.club_icon.endsWith("defaultProduct.png"))
+                Picasso.with(holder.image_club.context)
+                        .load(obj.club_icon)
+                        //.fit()
+                        .transform(CircleTransform())
+                        .placeholder(R.drawable.img_gallery)
+                        .into(holder.image_club, object : Callback {
                 override fun onSuccess() {
                     holder.image_club.setPadding(0,0,0,0)
                 }
@@ -103,28 +129,6 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
                 }
             })
         }catch (ex :Exception){}
-
-       /* holder.itemView.setOnClickListener(object :View.OnClickListener{
-            override fun onClick(v: View?) {
-                activity.draweHandler(activity.lastDrawerGravity)
-                //activity.addFragment(Frag_ClubDetails().setData(obj),0);
-                val intent = ClubDetailActivity.newIntent(context, obj)
-                context.startActivity(intent)
-            }
-        })
-
-        holder.btn_join.setOnClickListener {
-            val pos = holder.adapterPosition
-            val club = list.get(position)
-
-            if(club.club_type.equals("1") && club.club_user_status.equals("1")){
-                showLeaveConfirationDialog(club, pos)
-            }else if(club.club_type.equals("2") && club.club_user_status.equals("1")){
-                showLeaveConfirationDialog(club, pos)
-            }else{
-                joinClub(club, pos)
-            }
-        }*/
     }
 
     override fun getItemCount(): Int {
@@ -142,6 +146,7 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
         var distance    = itemView.findViewById<TextView>(R.id.distance)
         var img_status  = itemView.findViewById<ImageView>(R.id.img_status)
         var image_club  = itemView.findViewById<ImageView>(R.id.image_club)
+        var ivClubManager  = itemView.findViewById<ImageView>(R.id.ivClubManager)
         var btn_join    = itemView.findViewById<Button>(R.id.btn_join)
         var switch1     = itemView.findViewById<Switch>(R.id.switch1)
     }

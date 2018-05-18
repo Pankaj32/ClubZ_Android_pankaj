@@ -3,6 +3,7 @@ package com.clubz.ui.main
 import android.Manifest
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -23,17 +24,14 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v4.app.ActionBarDrawerToggle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.ListPopupWindow
 import android.text.Editable
 import android.text.TextWatcher
 
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.clubz.ClubZ
-import com.clubz.ui.cv.Purchase_membership_dialog
 import com.clubz.R
 import com.clubz.ui.fragment.FilterListner
 import com.clubz.ui.fragment.Textwatcher_Statusbar
@@ -42,6 +40,8 @@ import com.clubz.ui.fragment.home.Frag_News_List
 import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.ui.club.ClubCreationActivity
+import com.clubz.ui.core.BaseActivity
 import com.clubz.utils.DrawerMarginFixer
 import com.clubz.utils.Util
 import com.github.siyamed.shapeimageview.CircularImageView
@@ -57,10 +57,11 @@ import kotlinx.android.synthetic.main.menu_club_selection.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import java.util.*
 
-class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
+class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener,
         NavigationView.OnNavigationItemSelectedListener, PopupMenu.OnMenuItemClickListener {
+
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -97,7 +98,6 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
 
         //tablayout.addOnTabSelectedListener(this)
        // for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
-
 
         replaceFragment(Frag_News_List());
         ///addFragment_new(Frag_Search_Club(),true ,R.id.frag_container2);
@@ -232,7 +232,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
 
         val navProfileimage = nav.findViewById<CircularImageView>(R.id.iv_profileImage)
         if(ClubZ.currentUser!!.profile_image.isNotEmpty()){
-            Picasso.with(this).load(ClubZ.currentUser!!.profile_image).into(navProfileimage)
+            Picasso.with(this).load(ClubZ.currentUser!!.profile_image).fit().into(navProfileimage)
         }
     }
 
@@ -402,12 +402,13 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
             }
             R.id.addsymbol -> {
                 draweHandler(lastDrawerGravity)
-                addFragment(Frag_Create_club(),0)
+                startActivity(Intent(this@HomeActivity, ClubCreationActivity::class.java))
+                /*addFragment(Frag_Create_club(),0)
                 object : Purchase_membership_dialog(this) {
                     override fun viewplansListner() {
                         this.dismiss();
                     }
-                }.show()
+                }.show()*/
             };
 
             R.id.filter_list -> closeOption()
@@ -545,14 +546,14 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
         }
     }*/
 
-    fun hideKeyBoard() {
+    /*fun hideKeyBoard() {
         try {
             val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         } catch (e: Exception) {
 
         }
-    }
+    }*/
 
     fun stausBarHandler(fragemet: Fragment) {
 
@@ -734,7 +735,6 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
     override fun onConnectionSuspended(i: Int) {
