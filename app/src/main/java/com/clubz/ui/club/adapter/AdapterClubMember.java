@@ -35,7 +35,7 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
     @Override
     public AdapterClubMember.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_club_members_list, parent, false);
-        return new AdapterClubMember.ViewHolder(v);
+        return new AdapterClubMember.ViewHolder(v, mContext);
     }
 
     @Override
@@ -68,14 +68,14 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
         return position;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends ClubMemberHolder{
 
         private CircularImageView iv_profileImage;
         private TextView tv_FullName;
         private TagView tagView;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+        public ViewHolder(View itemView, Context mContext) {
+            super(itemView, mContext);
             iv_profileImage = itemView.findViewById(R.id.iv_profileImage);
             tv_FullName = itemView.findViewById(R.id.tv_FullName);
             tagView = itemView.findViewById(R.id.tagView);

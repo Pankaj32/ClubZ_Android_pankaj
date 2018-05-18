@@ -32,6 +32,7 @@ import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.data.model.Club_Category
+import com.clubz.ui.core.BaseFragment
 import com.clubz.ui.fragment.home.Frag_News_List
 import com.clubz.ui.main.HomeActivity
 import com.clubz.utils.*
@@ -56,7 +57,7 @@ import java.util.*
  * Created by mindiii on 3/10/18.
  */
 
-class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDateSetListener, View.OnTouchListener {
+class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.OnDateSetListener, View.OnTouchListener {
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         (activity as HomeActivity).hideKeyBoard()
@@ -466,7 +467,8 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     }
 
     fun  validator() :Boolean{
-        (activity as HomeActivity).hideKeyBoard()
+        //(activity as HomeActivity).hideKeyBoard()
+        listner?.hideKeyBoard()
         checkPhoneNumber(SessionManager.getObj().user.country_code.replace("+",""))
         if(titile_name.text.toString().isBlank()){
             Util.showSnake(context,view!!,R.string.a_clubnme)
@@ -542,9 +544,5 @@ class Frag_Create_club : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             System.err.println("NumberParseException was thrown: " + e.toString())
         }
     }
-
-
-
-
 
 }

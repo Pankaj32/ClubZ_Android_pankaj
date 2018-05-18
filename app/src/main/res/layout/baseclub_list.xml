@@ -25,7 +25,6 @@
                 app:srcCompat="@drawable/ic_shield_outline"
                 android:padding="@dimen/_5sdp"
                 android:background="@drawable/bg_circle_blue"
-                android:layout_marginRight="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"/>
 
             <TextView
@@ -78,22 +77,24 @@
                     android:layout_width="@dimen/_10sdp"
                     android:layout_height="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
-                    app:srcCompat="@drawable/lead_by_ico"/>
-                <TextView
+                    app:srcCompat="@drawable/ic_place_black_24dp"/>
+
+               <!-- <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/inactive_tab"
                     android:textSize="@dimen/_8sdp"
                     android:paddingStart="@dimen/_3sdp"
-                    android:text="Lead by"/>
+                    android:text="Km"/>-->
+
                 <TextView
-                    android:id="@+id/leadby"
+                    android:id="@+id/distance"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/primaryColor"
+                    android:textColor="@color/inactive_tab"
                     android:textSize="@dimen/_8sdp"
-                    android:paddingLeft="@dimen/_5sdp"
-                    android:text=" Jhon Doe"/>
+                    android:paddingLeft="@dimen/_3sdp"
+                    android:text="3 Km"/>
 
 
             </LinearLayout>
@@ -105,9 +106,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_10sdp"
-                android:paddingStart="@dimen/_8sdp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="This is dummy Text to show lotem ipsum adsl dasks its usesjfasjfkasjdfaslf djsfakjasdl asfajsfasjfklal jljjjjjjj"
+                android:text="This is dummy Text to show lotem ipsum adsl dasks its use sjf as jfkasjdf aslf djsfakjasdl asfajsfasjfklal jljjjjjjj"
                 android:layout_marginTop="@dimen/_44sdp"
                 />
 
@@ -117,12 +117,12 @@
                 android:background="@color/pager_line"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:layout_below="@id/body_des"
-                />
+                android:layout_below="@id/body_des" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_below="@id/body_des">
 
                 <Button
@@ -136,34 +136,50 @@
                     android:textSize="@dimen/_14sdp"
                     android:fontFamily="@font/roboto_regular"
                     android:background="@drawable/bg_btn_green"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="end"
-                    android:visibility="visible"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    />
+                    android:visibility="visible" />
 
-                <!-- <android.support.v7.widget.AppCompatImageView
-                     android:id="@+id/ivLocation"
-                     android:layout_width="@dimen/_30sdp"
-                     android:layout_height="@dimen/_30sdp"
-                     app:srcCompat="@drawable/ic_place_black_24dp"
-                     android:layout_alignParentTop="true"
-                     android:layout_margin="@dimen/_8sdp"
-                     android:layout_alignTop="@id/btn_join"
-                     android:padding="@dimen/_4sdp"/>
-     -->
-                <TextView
-                    android:id="@+id/distance"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_30sdp"
-                    android:textColor="@color/primaryColor"
-                    android:textSize="@dimen/_12sdp"
-                    android:drawableLeft="@drawable/ic_place_black_24dp"
-                    android:text="Km"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="@dimen/_20sdp" />
+                    android:layout_centerVertical="true">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/ivClubManager"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:background="@drawable/bg_circle_blue"
+                        android:src="@drawable/ic_user_white"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/club_manager"
+                            android:textColor="@color/inactive_tab"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+                            android:id="@+id/leadby"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="Jhon Doe"
+                            android:textColor="@color/primaryColor"
+                            android:textSize="@dimen/_10sdp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
 
             </RelativeLayout>

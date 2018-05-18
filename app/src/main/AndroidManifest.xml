@@ -128,9 +128,13 @@
             android:value="AIzaSyBbpgox7d2eiD1fxpNu9-VaYCM_WSkhQqE" />
 
         <activity android:name=".ui.ClubsActivity" />
-        <activity android:name=".ui.club.ClubDetailActivity"
-            android:theme="@style/AppThemehome"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.club.ClubDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemehome" />
+        <activity android:name=".ui.club.ClubCreationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemehome"/>
     </application>
 
 </manifest>
