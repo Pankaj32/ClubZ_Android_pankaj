@@ -16,22 +16,22 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
+import android.support.v4.app.*
 
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v4.widget.DrawerLayout
-import android.support.v4.app.ActionBarDrawerToggle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.ListPopupWindow
 import android.text.Editable
 import android.text.TextWatcher
 
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.clubz.ClubZ
+import com.clubz.ui.cv.Purchase_membership_dialog
 import com.clubz.R
 import com.clubz.ui.fragment.FilterListner
 import com.clubz.ui.fragment.Textwatcher_Statusbar
@@ -40,8 +40,8 @@ import com.clubz.ui.fragment.home.Frag_News_List
 import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
-import com.clubz.ui.club.ClubCreationActivity
-import com.clubz.ui.core.BaseActivity
+import com.clubz.ui.activities.activity.NewActivities
+import com.clubz.ui.activities.fragment.Frag_Find_Activities
 import com.clubz.utils.DrawerMarginFixer
 import com.clubz.utils.Util
 import com.github.siyamed.shapeimageview.CircularImageView
@@ -57,11 +57,10 @@ import kotlinx.android.synthetic.main.menu_club_selection.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import java.util.*
 
-class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
+class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
         View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener,
         NavigationView.OnNavigationItemSelectedListener, PopupMenu.OnMenuItemClickListener {
-
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -96,10 +95,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         ClubZ.currentUser = SessionManager.getObj().user
         setUp()
 
-        //tablayout.addOnTabSelectedListener(this)
+       // tablayout.addOnTabSelectedListener(this)
        // for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
 
-        replaceFragment(Frag_News_List());
+
+        replaceFragment(Frag_News_List())
         ///addFragment_new(Frag_Search_Club(),true ,R.id.frag_container2);
         checkLocationUpdate()
         Util.e("authtoken", SessionManager.getObj().user.auth_token);
@@ -369,9 +369,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         when (tab!!.getPosition()) {
             0 -> {
                 setTab(tab, R.drawable.ic_news_active, true)
+                replaceFragment(Frag_News_List())
             }
             1 -> {
                 setTab(tab, R.drawable.ic_activity_active, true)
+                replaceFragment(Frag_Find_Activities())
             }
             2 -> {
                 setTab(tab, R.drawable.ic_chat_bubble_active, true)
@@ -401,14 +403,25 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 draweHandler(Gravity.START)
             }
             R.id.addsymbol -> {
-                draweHandler(lastDrawerGravity)
-                startActivity(Intent(this@HomeActivity, ClubCreationActivity::class.java))
-                /*addFragment(Frag_Create_club(),0)
-                object : Purchase_membership_dialog(this) {
-                    override fun viewplansListner() {
-                        this.dismiss();
+
+                if(open){
+                    draweHandler(lastDrawerGravity)
+                    addFragment(Frag_Create_club(),0)
+                    object : Purchase_membership_dialog(this) {
+                        override fun viewplansListner() {
+                            this.dismiss();
+                        }
+                    }.show()
+                }else{
+                    var fragemet = getCurrentFragment()!!
+                    when (fragemet::class.java.simpleName) {
+
+                        Frag_Find_Activities::class.java.simpleName->{
+                           startActivity(Intent(this@HomeActivity, NewActivities::class.java))
+                        }
                     }
-                }.show()*/
+                }
+
             };
 
             R.id.filter_list -> closeOption()
@@ -486,11 +499,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             bottomtabHandler(fragmentHolder)
             stausBarHandler(fragmentHolder)
             hideKeyBoard()
-
         } catch (e: Exception) {
             //  Util.e("value", e.toString())
         }
     }
+
 
     /**
      * commiting with state loss
@@ -546,14 +559,14 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
     }*/
 
-    /*fun hideKeyBoard() {
+    fun hideKeyBoard() {
         try {
             val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         } catch (e: Exception) {
 
         }
-    }*/
+    }
 
     fun stausBarHandler(fragemet: Fragment) {
 
@@ -577,6 +590,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 search_text.setText("")
                 //search_text.setCursorVisible(false)
             }
+            Frag_Find_Activities::class.java.simpleName->{
+                title_tv.setText(R.string.t_find_activities)
+                for (view in arrayOf(search)) view.visibility = View.GONE
+                for (view in arrayOf(addsymbol, menu, bookmark, title_tv)) view.visibility = View.VISIBLE
+            }
             /*Frag_ClubDetails::class.java.simpleName -> {
                 for (i in 0..cus_status.childCount - 1) cus_status.getChildAt(i).visibility = View.GONE
                 for (view in arrayOf(back, title_tv, bubble_menu)) view.visibility = View.VISIBLE
@@ -589,9 +607,12 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
        try{
 
            when (fragemet::class.java.simpleName) {
-            Frag_News_List::class.java.simpleName -> {
-                tablayout.visibility = View.VISIBLE
-            }else->{tablayout.visibility = View.GONE}
+               Frag_Find_Activities::class.java.simpleName -> tablayout.visibility = View.VISIBLE
+               Frag_News_List::class.java.simpleName -> {
+                   tablayout.visibility = View.VISIBLE
+               }else->{
+               tablayout.visibility = View.GONE
+           }
         }
        }catch (ex:Exception){
            ex.printStackTrace()
@@ -735,6 +756,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
     }
 
     override fun onConnectionSuspended(i: Int) {
