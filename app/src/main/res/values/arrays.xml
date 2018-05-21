@@ -12,6 +12,13 @@
     </array>
 
 
+    <string-array  name="fees_type">
+        <item>Fees type</item>
+        <item>fixed</item>
+        <item>voluntary</item>
+        <item>free</item>
+        <item>dynamic</item>
+    </string-array>
     <!--<item>@font/josefin_sans_regular</item>
     <item>@font/josefin_sans_italic</item>
     <item>@font/josefin_sans_semibold</item>-->

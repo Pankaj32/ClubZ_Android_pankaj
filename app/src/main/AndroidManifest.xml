@@ -135,6 +135,11 @@
         <activity android:name=".ui.club.ClubCreationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemehome"/>
+
+        <activity android:name=".ui.activities.activity.NewActivities"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/AppThemehome"/>
     </application>
 
 </manifest>

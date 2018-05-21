@@ -69,6 +69,9 @@
     <string name="no_internet2">An internet connection is required to sign in, sign up and search clubs. Once you have registered this device, you can access your content offline.</string>
     <!--<string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>-->
 
+    <string name="t_find_activities"> Find activities </string>
+    <string name="t_new_activity"> New Activity </string>
+
     <!--Bottom menu-->
     <string name="item_1">News</string>
     <string name="item_2">Activities</string>
@@ -123,6 +126,14 @@
     <string name="hint_article_name"> Article Name </string>
     <string name="feedtitile"> Title </string>
     <string name="feeddescription"> Description </string>
+
+    <string name="hint_activity_name"> Activity Name* </string>
+    <string name="prompt_spinner_active_leader"> Activity Leader </string>
+    <string name="fees_type"> Fees type</string>
+    <string name="hint_activity_location"> Activity location </string>
+    <string name="hint_fees"> Fee </string>
+    <string name="hint_max_user"> Maximum User </string>
+    <string name="hint_min_user"> Minimum User </string>
 
     <!--Constants-->
     <string name="admin_by"> Administrator by </string>
@@ -259,6 +270,13 @@
     <string name="my_status">My status</string>
     <string name="club_manager">Club manager</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+<!--New Activity-->
+    <string name="general_description">General Description</string>
+    <string name="hint_activity_des"> Activity\'s description </string>
+    <string name="terms_n_condition"> Terms and Condition </string>
 
     <!--<string name="emoji1" > &#x1f60b; </string>-->
     <!--<string name="emoji1" > U+1F60B </string>-->
