@@ -18,4 +18,15 @@ abstract class BaseActivity : AppCompatActivity(), BaseFragment.FragmentListner{
     override fun onFragBackPress() {
         onBackPressed()
     }
+
+    override fun setTitle() {
+
+    }
+
+   /* fun toolbarTitle(toolbarTitle: CharSequence): String {
+        this.toolbarTitle = toolbarTitle
+        return getThis()
+    }
+*/
+    /*protected abstract fun getThis(): String*/
 }
