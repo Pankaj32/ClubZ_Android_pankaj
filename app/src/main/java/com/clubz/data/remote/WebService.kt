@@ -35,6 +35,9 @@ class WebService {
         val feed_getNewsFeedLsit = base_Url + "service/club/getNewsFeedsList";
         val create_feed     = base_Url +"service/club/createNewsFeed"; // Potential search will GEt
 
+        val get_leaders= base_Url+"service/activity/activityLeaderList"
+        val create_activity= base_Url+"service/activity/createActivity"
+
     }
 
 

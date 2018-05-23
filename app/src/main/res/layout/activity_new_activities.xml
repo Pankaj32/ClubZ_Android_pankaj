@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.clubz.ui.activities.activity.NewActivities">
+    tools:context="com.clubz.ui.activities.activity.NewActivities"
+    android:id="@+id/mainLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -162,6 +163,7 @@
                                 android:scaleType="fitCenter"
                                 app:srcCompat="@drawable/ic_down_arrow" />
 
+                            
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_1sdp"
@@ -186,13 +188,22 @@
                             android:tint="@color/black"
                             app:srcCompat="@drawable/ic_map_placeholder" />
 
-                        <EditText
+                        <fragment
+                            android:id="@+id/autocomplete_fragment"
+                            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_marginLeft="@dimen/_7sdp"
+                            android:layout_toRightOf="@id/locationImage" />
+
+                        <TextView
                             android:id="@+id/activityLocation"
                             style="@style/et_club_create"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_30sdp"
                             android:layout_marginLeft="@dimen/_7sdp"
                             android:layout_toRightOf="@id/locationImage"
+                            android:clickable="false"
                             android:hint="@string/hint_activity_location" />
                     </RelativeLayout>
 
@@ -227,10 +238,10 @@
                                     android:layout_height="@dimen/_30sdp"
                                     android:layout_marginLeft="@dimen/_5sdp"
                                     android:layout_marginRight="@dimen/_10sdp"
-                                    android:overlapAnchor="false"
                                     android:background="@null"
-                                    android:textColor="#626262"
-                                    android:prompt="@string/fees_type" />
+                                    android:overlapAnchor="false"
+                                    android:prompt="@string/fees_type"
+                                    android:textColor="#626262" />
 
                                 <android.support.v7.widget.AppCompatImageView
 
@@ -271,14 +282,14 @@
 
                                     <EditText
                                         android:id="@+id/fees"
+                                        style="@style/et_club_create"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/_30sdp"
                                         android:layout_toRightOf="@id/dlrimage"
-
                                         android:hint="@string/hint_fees"
+                                        android:inputType="numberDecimal"
                                         android:textColorHint="@color/text_gray"
-                                        android:textSize="@dimen/_12sdp"
-                                        style="@style/et_club_create"/>
+                                        android:textSize="@dimen/_12sdp" />
                                 </RelativeLayout>
 
                                 <View
@@ -322,7 +333,8 @@
                                     android:layout_height="@dimen/_30sdp"
                                     android:hint="@string/hint_min_user"
                                     android:textColorHint="@color/text_gray"
-                                    android:textSize="@dimen/_12sdp" />
+                                    android:textSize="@dimen/_12sdp"
+                                    android:inputType="number"/>
                             </RelativeLayout>
 
                             <LinearLayout
@@ -343,7 +355,8 @@
                                         android:layout_height="@dimen/_30sdp"
                                         android:hint="@string/hint_max_user"
                                         android:textColorHint="@color/text_gray"
-                                        android:textSize="@dimen/_12sdp" />
+                                        android:textSize="@dimen/_12sdp"
+                                        android:inputType="number"/>
                                 </RelativeLayout>
 
 
@@ -476,9 +489,9 @@
                                 <android.support.v7.widget.AppCompatImageView
                                     android:layout_width="@dimen/_12sdp"
                                     android:layout_height="@dimen/_12sdp"
+                                    android:layout_marginLeft="@dimen/_5sdp"
                                     android:layout_toRightOf="@id/leadby"
                                     android:scaleType="fitCenter"
-                                    android:layout_marginLeft="@dimen/_5sdp"
                                     app:srcCompat="@drawable/ic_down_arrow" />
                             </LinearLayout>
 
