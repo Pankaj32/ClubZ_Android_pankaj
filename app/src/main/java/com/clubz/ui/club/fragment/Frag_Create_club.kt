@@ -372,6 +372,7 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
         }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
+                params.put("city", ClubZ.city)
                 params.put("clubName",titile_name.text.toString())
 
                 params.put("clubType",if(spn_privacy.selectedItem.toString().toLowerCase().equals("public"))"1" else "2") // 1 public 2 private

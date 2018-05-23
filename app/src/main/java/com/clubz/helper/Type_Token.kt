@@ -14,5 +14,8 @@ class Type_Token {
         val club_list       = object : TypeToken<List<Clubs>>() {}.type
         val potential_list  = object : TypeToken<List<Club_Potential_search>>() {}.type
         val club_member_list  = object : TypeToken<List<ClubMember>>() {}.type
+
+        /*Feed related token for data parsing*/
+        val feed_list  = object : TypeToken<List<Feed>>() {}.type
     }
 }

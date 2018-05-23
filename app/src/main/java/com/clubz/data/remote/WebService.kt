@@ -30,6 +30,9 @@ class WebService {
         val club_add_member_Tag = base_Url +"service/club/addUserTag";
 
         val nearclub_names  = base_Url +"service/club/nearByClubsName"; // Potential search will GEt
+
+        /*feed related api*/
+        val feed_getNewsFeedLsit = base_Url + "service/club/getNewsFeedsList";
         val create_feed     = base_Url +"service/club/createNewsFeed"; // Potential search will GEt
 
         val get_leaders= base_Url+"service/activity/activityLeaderList"

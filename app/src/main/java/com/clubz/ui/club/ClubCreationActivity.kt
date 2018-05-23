@@ -2,24 +2,21 @@ package com.clubz.ui.club
 
 import android.Manifest
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.android.volley.*
@@ -33,7 +30,9 @@ import com.clubz.helper.Type_Token
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.club.adapter.CreateClub_Spinner
+import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.cv.Purchase_membership_dialog
 import com.clubz.utils.*
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
@@ -54,7 +53,7 @@ import java.io.IOException
 import java.lang.NullPointerException
 import java.util.*
 
-class ClubCreationActivity : AppCompatActivity(), View.OnClickListener,
+class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         DatePickerDialog.OnDateSetListener, View.OnTouchListener  {
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
@@ -151,7 +150,16 @@ class ClubCreationActivity : AppCompatActivity(), View.OnClickListener,
             }
         })
         for(spinner in arrayOf(spn_privacy,spn_club_category))spinner.setOnTouchListener(this)
+
+        Handler().postDelayed(Runnable {
+            object : Purchase_membership_dialog(this) {
+                override fun viewplansListner() {
+                    this.dismiss();
+                }
+            }.show()
+        }, 100)
     }
+
 
 
     override fun onClick(p0: View?) {
@@ -171,7 +179,7 @@ class ClubCreationActivity : AppCompatActivity(), View.OnClickListener,
     }
 
 
-    fun hideKeyBoard() {
+    /*fun hideKeyBoard() {
         try {
             val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
@@ -179,7 +187,7 @@ class ClubCreationActivity : AppCompatActivity(), View.OnClickListener,
 
         }
     }
-
+*/
     internal fun datePicker(i1: Int, i2: Int, i3: Int) {
         val calendar = GregorianCalendar.getInstance()
         var year = calendar.get(Calendar.YEAR)
@@ -387,6 +395,7 @@ class ClubCreationActivity : AppCompatActivity(), View.OnClickListener,
         }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
+                params.put("city", ClubZ.city)
                 params.put("clubName",titile_name.text.toString())
 
                 params.put("clubType",if(spn_privacy.selectedItem.toString().toLowerCase().equals("public"))"1" else "2") // 1 public 2 private
