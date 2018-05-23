@@ -23,9 +23,5 @@ abstract class Purchase_membership_dialog(context: Context) : Dialog(context) {
         })
     }
 
-
-
     abstract fun viewplansListner()
-
-
 }

@@ -162,20 +162,21 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="@string/club_manager"
-                            android:textColor="@color/inactive_tab"
-                            android:textSize="@dimen/_12sdp" />
-
-                        <TextView
                             android:id="@+id/leadby"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:text="Jhon Doe"
                             android:textColor="@color/primaryColor"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/club_manager"
+                            android:textColor="@color/inactive_tab"
                             android:textSize="@dimen/_10sdp" />
+
                     </LinearLayout>
 
 

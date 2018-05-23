@@ -28,10 +28,8 @@ import android.text.Editable
 import android.text.TextWatcher
 
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.clubz.ClubZ
-import com.clubz.ui.cv.Purchase_membership_dialog
 import com.clubz.R
 import com.clubz.ui.fragment.FilterListner
 import com.clubz.ui.fragment.Textwatcher_Statusbar
@@ -40,8 +38,11 @@ import com.clubz.ui.fragment.home.Frag_News_List
 import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.remote.GioAddressTask
 import com.clubz.ui.activities.activity.NewActivities
 import com.clubz.ui.activities.fragment.Frag_Find_Activities
+import com.clubz.ui.club.ClubCreationActivity
+import com.clubz.ui.core.BaseActivity
 import com.clubz.utils.DrawerMarginFixer
 import com.clubz.utils.Util
 import com.github.siyamed.shapeimageview.CircularImageView
@@ -51,22 +52,24 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
+import com.google.android.gms.maps.model.LatLng
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import java.util.*
 
-class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
+class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener,
         NavigationView.OnNavigationItemSelectedListener, PopupMenu.OnMenuItemClickListener {
+
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     lateinit var mDrawerLayout: DrawerLayout
-    lateinit var mDrawer: DrawerLayout
+   // lateinit var mDrawer: DrawerLayout
     var isOpenMyClub: Boolean = false
     var open: Boolean = false
     var doublebackpress: Boolean = false
@@ -98,34 +101,35 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
        // tablayout.addOnTabSelectedListener(this)
        // for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
 
-
         replaceFragment(Frag_News_List())
         ///addFragment_new(Frag_Search_Club(),true ,R.id.frag_container2);
         checkLocationUpdate()
         Util.e("authtoken", SessionManager.getObj().user.auth_token);
 
-        //TODO disable drawer.
         mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout , R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
             override fun onDrawerClosed(view: View) {
-
+                open = false
                 if(view.id == R.id.navigationView){
 
                 }else{
-                    open = false
-                    stausBarHandler(getCurrentFragment()!!)
-                    bottomtabHandler(getCurrentFragment()!!)
+                    val cFragment =  getCurrentFragment()
+                    setActionbarMenu(cFragment!!)
+                    bottomtabHandler(cFragment)
+                    //stausBarHandler(cFragment)
                     //supportInvalidateOptionsMenu()
                     invalidateOptionsMenu()
                 }
             }
 
             override fun onDrawerOpened(drawerView: View) {
-                supportInvalidateOptionsMenu()
+                //supportInvalidateOptionsMenu()
+                invalidateOptionsMenu()
                 open = true
                 if(drawerView.id== R.id.drawerView2){
                     val far = getSupportFragmentManager().findFragmentById(R.id.fragment2) as Frag_Search_Club
-                    stausBarHandler(far)
+                    setActionbarMenu(far)
+                    //stausBarHandler(far)
                     bottomtabHandler(far)
                     lastDrawerGravity = Gravity.END
 
@@ -180,49 +184,16 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        if (mDrawer != null) {
-            mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-        }
-    }
-
-    private fun lockDrawer() {
-        if (mDrawer != null) {
-            mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-        }
-    }
-
-
     fun setUp(){
         isOpenMyClub = false
         tablayout.addOnTabSelectedListener(this)
-        for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, back)) views.setOnClickListener(this)
-        setTab(tablayout.getTabAt(0)!!, R.drawable.ic_news_active, true)
-
-        mDrawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        val mDrawerToggle = object : android.support.v7.app.ActionBarDrawerToggle(
-                this,
-                mDrawer,
-                R.string.open_drawer,
-                R.string.close_drawer) {
-
-            override fun onDrawerClosed(drawerView: View?) {
-                super.onDrawerClosed(drawerView)
-            }
-
-            override fun onDrawerOpened(drawerView: View?) {
-                super.onDrawerOpened(drawerView)
-                hideKeyBoard()
-            }
+        for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, back)){
+            views.setOnClickListener(this)
         }
 
-        mDrawer.addDrawerListener(mDrawerToggle)
-        mDrawerToggle.syncState()
-
+        setTab(tablayout.getTabAt(0)!!, R.drawable.ic_news_active, true)
         val navigationView = findViewById<NavigationView>(R.id.navigationView)
         navigationView.setNavigationItemSelectedListener(this)
-
         val nav = navigationView.getHeaderView(0)
         nav.nav_tvTitle.setText(ClubZ.currentUser!!.full_name)
         nav.nav_tvStatus.text = getString(R.string.my_status)
@@ -337,6 +308,47 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
     }
 
 
+    fun setActionbarMenu(fragemet: Fragment){
+        for (views in arrayOf(title_tv, menu, search, cancel, addsymbol, back, serch_box))
+            views.visibility = View.GONE
+
+        when (fragemet::class.java.simpleName) {
+
+            Frag_News_List::class.java.simpleName -> {
+                isPrivate = 0
+                for (view in arrayOf(title_tv, bookmark, menu, search)) view.visibility = View.VISIBLE
+               // for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.GONE
+                title_tv.setText(R.string.t_stay_up)
+            }
+
+            Frag_Create_club::class.java.simpleName -> {
+                cus_status.visibility = View.GONE
+            }
+
+            Frag_Search_Club::class.java.simpleName -> {
+                //title_tv.visibility = View.GONE
+                //for (view in arrayOf(title_tv, bookmark, menu, search)) view.visibility = View.GONE
+                for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.VISIBLE
+                filterListner = (fragemet as Frag_Search_Club);
+                textChnageListner = fragemet
+                search_text.setText("")
+                //search_text.setCursorVisible(false)
+            }
+
+            Frag_Find_Activities::class.java.simpleName->{
+                title_tv.setText(R.string.t_find_activities)
+                //for (view in arrayOf(search)) view.visibility = View.GONE
+                for (view in arrayOf(addsymbol, menu, bookmark, title_tv)) view.visibility = View.VISIBLE
+            }
+        /*Frag_ClubDetails::class.java.simpleName -> {
+            for (i in 0..cus_status.childCount - 1) cus_status.getChildAt(i).visibility = View.GONE
+            for (view in arrayOf(back, title_tv, bubble_menu)) view.visibility = View.VISIBLE
+            title_tv.setText(" "+(fragemet as Frag_ClubDetails).clubz.club_name)
+        }*/
+        }
+    }
+
+
     /********************************************************/
     override fun onTabReselected(tab: TabLayout.Tab?) {
         when (tab!!.getPosition()) {
@@ -390,6 +402,8 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
                 ContextCompat.getColor(this , if (isActive) R.color.active_tab else R.color.inactive_tab))
     }
 
+
+    /*Handle view clicks*/
     override fun onClick(p0: View?) {
         when (p0!!.id) {
            // R.id.logout -> SessionManager.getObj().logout(this)
@@ -406,22 +420,21 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
 
                 if(open){
                     draweHandler(lastDrawerGravity)
-                    addFragment(Frag_Create_club(),0)
-                    object : Purchase_membership_dialog(this) {
+                    startActivity(Intent(this@HomeActivity, ClubCreationActivity::class.java))
+                   /* addFragment(Frag_Create_club(),0)
+                      object : Purchase_membership_dialog(this) {
                         override fun viewplansListner() {
                             this.dismiss();
                         }
-                    }.show()
+                    }.show()*/
                 }else{
-                    var fragemet = getCurrentFragment()!!
+                    val fragemet = getCurrentFragment()!!
                     when (fragemet::class.java.simpleName) {
-
                         Frag_Find_Activities::class.java.simpleName->{
                            startActivity(Intent(this@HomeActivity, NewActivities::class.java))
                         }
                     }
                 }
-
             };
 
             R.id.filter_list -> closeOption()
@@ -441,9 +454,7 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
             }
 
             R.id.back -> onBackPressed()
-
         }
-
     }
 
     /**
@@ -497,7 +508,8 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
             fragmentTransaction.replace(R.id.frag_container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
             fragmentTransaction.commit()
             bottomtabHandler(fragmentHolder)
-            stausBarHandler(fragmentHolder)
+           // stausBarHandler(fragmentHolder)
+            setActionbarMenu(fragmentHolder)
             hideKeyBoard()
         } catch (e: Exception) {
             //  Util.e("value", e.toString())
@@ -537,7 +549,8 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
             fragmentTransaction.add(R.id.frag_container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
             fragmentTransaction.commit()
             bottomtabHandler(fragmentHolder)
-            stausBarHandler(fragmentHolder)
+            //stausBarHandler(fragmentHolder)
+            setActionbarMenu(fragmentHolder)
             hideKeyBoard()
             return fragmentHolder
         } catch (e: Exception) {
@@ -559,16 +572,16 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
         }
     }*/
 
-    fun hideKeyBoard() {
+   /* fun hideKeyBoard() {
         try {
             val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         } catch (e: Exception) {
 
         }
-    }
+    }*/
 
-    fun stausBarHandler(fragemet: Fragment) {
+   /* fun stausBarHandler(fragemet: Fragment) {
 
         when (fragemet::class.java.simpleName) {
 
@@ -595,14 +608,14 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
                 for (view in arrayOf(search)) view.visibility = View.GONE
                 for (view in arrayOf(addsymbol, menu, bookmark, title_tv)) view.visibility = View.VISIBLE
             }
-            /*Frag_ClubDetails::class.java.simpleName -> {
-                for (i in 0..cus_status.childCount - 1) cus_status.getChildAt(i).visibility = View.GONE
-                for (view in arrayOf(back, title_tv, bubble_menu)) view.visibility = View.VISIBLE
-                title_tv.setText(" "+(fragemet as Frag_ClubDetails).clubz.club_name)
-            }*/
+        *//*Frag_ClubDetails::class.java.simpleName -> {
+            for (i in 0..cus_status.childCount - 1) cus_status.getChildAt(i).visibility = View.GONE
+            for (view in arrayOf(back, title_tv, bubble_menu)) view.visibility = View.VISIBLE
+            title_tv.setText(" "+(fragemet as Frag_ClubDetails).clubz.club_name)
+        }*//*
         }
     }
-
+*/
     fun bottomtabHandler(fragemet: Fragment){
        try{
 
@@ -654,8 +667,10 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
             super.onBackPressed()
             try {
                 Util.e("Current Fragment", getCurrentFragment()!!::class.java.simpleName.toString())
-                bottomtabHandler(getCurrentFragment()!!)
-                stausBarHandler(getCurrentFragment()!!)
+                var fragemet = getCurrentFragment()
+                bottomtabHandler(fragemet!!)
+                setActionbarMenu(fragemet)
+                //stausBarHandler(fragemet!!)
             } catch (ex: Exception) {
             }
         }
@@ -816,6 +831,12 @@ class HomeActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener,
         ClubZ.latitude = latitude;
         this.longitude = longitude
         ClubZ.longitude = longitude;
+
+        object : GioAddressTask(this@HomeActivity, LatLng(latitude, longitude)){
+            override fun onSuccess(address: com.clubz.data.model.Address?) {
+                ClubZ.city = address?.city.toString();
+            }
+        }.execute()
         Util.showToast(latitude.toString()+" : "+longitude,this)
     }
 }

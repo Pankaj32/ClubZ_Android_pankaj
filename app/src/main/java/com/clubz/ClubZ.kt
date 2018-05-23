@@ -16,6 +16,7 @@ class ClubZ  : Application() {
         lateinit var instance: ClubZ
         var latitude: Double    = 0.toDouble()
         var longitude: Double   = 0.toDouble()
+        var city: String = ""
         var currentUser: User? = null
     }
 

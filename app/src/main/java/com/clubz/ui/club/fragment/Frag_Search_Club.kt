@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.volley.VolleyError
+import com.clubz.ClubZ
 import com.clubz.ui.club.adapter.Club_List_Adapter
 import com.clubz.ui.club.adapter.Potential_Search_Adapter
 import com.clubz.ui.cv.CusDialogProg
@@ -33,7 +35,8 @@ import java.util.ArrayList
 import com.clubz.ui.cv.SimpleDividerItemDecoration
 
 
-class Frag_Search_Club : Fragment() , FilterListner , Textwatcher_Statusbar, View.OnClickListener {
+class Frag_Search_Club : Fragment() , FilterListner , Textwatcher_Statusbar,
+        View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     var isMyClubs : Boolean = false;
     var adapter : Potential_Search_Adapter? = null
@@ -83,7 +86,22 @@ class Frag_Search_Club : Fragment() , FilterListner , Textwatcher_Statusbar, Vie
         }else{
             ClubSearch_Potential(0)
         }
+
+        swipeRefreshLayout.setOnRefreshListener(this)
     }
+
+
+    override fun onRefresh() {
+
+        if(isMyClubs){
+            getMyClubs()
+            ClubSearch_Potential(1)
+        }else{
+            checkLocation()
+        }
+        swipeRefreshLayout.isRefreshing = false
+    }
+
 
  /*   override fun onDestroyView() {
         super.onDestroyView()
@@ -139,6 +157,7 @@ class Frag_Search_Club : Fragment() , FilterListner , Textwatcher_Statusbar, Vie
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("city", ClubZ.city)
                 params.put("latitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.latitude.toString() )+"")
                 params.put("longitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.longitude.toString() )+"")
                 params.put("clubCategoryId","")
@@ -209,7 +228,8 @@ class Frag_Search_Club : Fragment() , FilterListner , Textwatcher_Statusbar, Vie
         val lati= if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.latitude.toString()
         val longi=if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.longitude.toString()
         object  : VolleyGetPost(activity , activity,
-                "${WebService.nearclub_names}?latitude=$lati&longitude=$longi&isMyClub=$isMyClub"
+                "${WebService.nearclub_names}?latitude=$lati&longitude=$longi&isMyClub=$isMyClub" +
+                        "&city=${ClubZ.city}"
                 ,true){
             override fun onVolleyResponse(response: String?) {
                 try {

@@ -339,9 +339,9 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
                             getOwnClubMembers()
                         }else getClubMembers()
 
-                    } else {
+                    }/* else {
                         Util.showToast(obj.getString("message"), context)
-                    }
+                    }*/
                 } catch (ex: Exception) {
                     // Util.showToast(R.string.swr, context)
                 }
@@ -402,6 +402,7 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params.put("tagName", tag!!);
                 params.put("clubUserId",member!!.clubUserId);
+                params.put("userId",member!!.userId);
                 return params
             }
 
