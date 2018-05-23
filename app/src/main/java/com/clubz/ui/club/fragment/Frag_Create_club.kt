@@ -386,10 +386,7 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
                 params.put("clubLatitude",lat.toString())
                 params.put("clubWebsite",club_web.text.toString())
                 params.put("clubLongitude",lng.toString())
-
-
                 params.put("termsConditions",terms_n_condition.text.toString())
-
                 params.put("clubFoundationDate",tv_fondationdate.text.toString())
                 params.put("clubLocation",club_location.text.toString())
                 params.put("userRole",usrerole.text.toString()+"")

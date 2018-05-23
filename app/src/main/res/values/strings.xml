@@ -295,5 +295,14 @@
         2. Please select country code
         3. Please enter valid phone number
         -->
-
+    <!--Create Activity validation-->
+    <string name="a_actnme">Please enter activity name</string>
+    <string name="a_actImg">Please select activity image</string>
+    <string name="a_actLoc">Please select location</string>
+    <string name="a_actFeesType">Please select fees type</string>
+    <string name="a_actfee">Please enter fee</string>
+    <string name="a_actmin">Please enter minimum user</string>
+    <string name="a_actmax">Please enter maximum user</string>
+    <string name="a_actamxMin"> maximum user should grater than minimum User</string>
+    <string name="a_actdes">Please enter description</string>
 </resources>
