@@ -477,8 +477,11 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 params.put("maxUsers", maxUser.text.toString())
                 params.put("description", genDescription.text.toString())
                 params.put("termsConditions", termNConditionTxt.text.toString())
-                params.put("userRole", "admin")
-
+                if(TextUtils.isEmpty(usrerole.text.toString())) {
+                    params.put("userRole", "admin")
+                }else{
+                    params.put("userRole", usrerole.text.toString())
+                }
                 Util.e("parms create", params.toString())
                 return params
             }
