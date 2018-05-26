@@ -298,8 +298,6 @@
     <!--Create Activity validation-->
     <string name="a_actnme">Please enter activity name</string>
     <string name="a_actImg">Please select activity image</string>
-    <string name="a_actClub">Please select activity Club</string>
-    <string name="a_actLeader">Please select activity Leader</string>
     <string name="a_actLoc">Please select location</string>
     <string name="a_actFeesType">Please select fees type</string>
     <string name="a_actfee">Please enter fee</string>
@@ -307,10 +305,4 @@
     <string name="a_actmax">Please enter maximum user</string>
     <string name="a_actamxMin"> maximum user should grater than minimum User</string>
     <string name="a_actdes">Please enter description</string>
-    <!--Activities List-->
-    <string name="h_Today">Today</string>
-    <string name="h_Tomorrow">Tomorrow</string>
-    <string name="h_coming_soon">Comming Soon</string>
-    <string name="Collapse">collapse</string>
-
 </resources>

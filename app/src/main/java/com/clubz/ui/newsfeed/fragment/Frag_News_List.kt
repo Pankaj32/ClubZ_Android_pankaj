@@ -1,4 +1,4 @@
-package com.clubz.ui.fragment.home
+package com.clubz.ui.newsfeed.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -20,7 +20,7 @@ import com.clubz.data.remote.WebService
 import com.clubz.helper.Type_Token
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
-import com.clubz.ui.feed.adapter.NewsFeedAdapter
+import com.clubz.ui.newsfeed.adapter.NewsFeedAdapter
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_news.*
@@ -73,8 +73,13 @@ class Frag_News_List : Fragment(), View.OnClickListener {
     }
 
     fun manageView(){
-        noFeedMsgUI.visibility = if(newsFeeds.size==0)View.VISIBLE else View.GONE
-        adapter?.notifyDataSetChanged()
+        if(newsFeeds.size==0){
+            feedRecycleView.visibility = View.GONE
+        }else{
+            noFeedMsgUI.visibility = if(newsFeeds.size==0)View.VISIBLE else View.GONE
+            feedRecycleView.visibility = View.VISIBLE
+            adapter?.notifyDataSetChanged()
+        }
     }
 
 
@@ -88,7 +93,7 @@ class Frag_News_List : Fragment(), View.OnClickListener {
                     dialog.dismiss();
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
-                        newsFeeds = Gson().fromJson<ArrayList<Feed>>(obj.getJSONArray("data").toString() , Type_Token.feed_list)
+                        newsFeeds.addAll(Gson().fromJson<ArrayList<Feed>>(obj.getJSONArray("data").toString() , Type_Token.feed_list))
                     }
                     manageView()
                 } catch (ex: Exception) {

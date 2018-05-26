@@ -18,8 +18,8 @@ import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.Cus_dialog_material_design
 import com.clubz.ui.main.HomeActivity
 import com.clubz.R
-import com.clubz.ui.fragment.FilterListner
-import com.clubz.ui.fragment.Textwatcher_Statusbar
+import com.clubz.ui.core.FilterListner
+import com.clubz.ui.core.Textwatcher_Statusbar
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.helper.Type_Token
@@ -35,7 +35,7 @@ import java.util.ArrayList
 import com.clubz.ui.cv.SimpleDividerItemDecoration
 
 
-class Frag_Search_Club : Fragment() , FilterListner , Textwatcher_Statusbar,
+class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
         View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     var isMyClubs : Boolean = false;
@@ -47,11 +47,12 @@ class Frag_Search_Club : Fragment() , FilterListner , Textwatcher_Statusbar,
 
     }
 
-    fun setFragmentType(bool : Boolean) {
+    fun setFragmentType(bool : Boolean) : Frag_Search_Club{
         isMyClubs = bool
         text_top?.text = getString(R.string.my_clubs)
         getMyClubs()
         ClubSearch_Potential(1)
+        return this
     }
 
 
@@ -164,7 +165,7 @@ class Frag_Search_Club : Fragment() , FilterListner , Textwatcher_Statusbar,
                 params.put("searchText",text)
                 params.put("offset",offset)
                 params.put("limit","20")
-                params.put("clubType",activity.isPrivate.toString())
+                params.put("clubType",HomeActivity.isPrivate.toString())
                 Util.e("parms search", params.toString())
                 return params
             }
@@ -327,7 +328,7 @@ class Frag_Search_Club : Fragment() , FilterListner , Textwatcher_Statusbar,
                 params.put("searchText",text)
                 params.put("offset",offset)
                 params.put("limit","200")
-                params.put("clubType",activity.isPrivate.toString())
+                params.put("clubType",HomeActivity.isPrivate.toString())
                 return params
             }
 

@@ -1,4 +1,4 @@
-package com.clubz.ui.user_activities.activity
+package com.clubz.ui.activities.activity
 
 import android.Manifest
 import android.content.Intent
@@ -6,9 +6,11 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.support.annotation.IntegerRes
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
@@ -27,14 +29,17 @@ import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.Club_Category
 import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
-import com.clubz.ui.user_activities.model.GetLeaderResponce
+import com.clubz.ui.activities.model.GetLeaderResponce
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.cv.CusDialogProg
-import com.clubz.ui.user_activities.model.GetMyClubResponce
+import com.clubz.ui.fragment.home.Frag_News_List
+import com.clubz.utils.CircleTransform_NoRecycle
 import com.clubz.utils.Constants
+import com.clubz.utils.PatternCheck
 import com.clubz.utils.Util
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
@@ -46,21 +51,19 @@ import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.activity_new_activities.*
 import org.json.JSONObject
+import org.w3c.dom.Text
 import java.io.File
 import java.io.IOException
 
 class NewActivities : BaseActivity(), View.OnClickListener {
 
     private var spinnActivityLeaderAdapter: ArrayAdapter<GetLeaderResponce.DataBean>? = null
-    private var spinnActivityClubAdapter: ArrayAdapter<GetMyClubResponce.DataBean>? = null
     private var spinnFeeTypeAdapter: ArrayAdapter<String>? = null
     private var activityLeaderList: ArrayList<GetLeaderResponce.DataBean>? = null
-    private var activityMyClubList: ArrayList<GetMyClubResponce.DataBean>? = null
     private var feestypeList: ArrayList<String>? = null
     var isCameraSelected: Boolean = false
     var activityLeader: String = ""
     var feesType: String = ""
-    var clubId: String = ""
     var latitute: String = ""
     var longitute: String = ""
     var imageUri: Uri? = null
@@ -71,18 +74,15 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_activities)
         initializeView()
-        getClub()
+        getLeaders()
     }
 
     private fun initializeView() {
         activityLeaderList = ArrayList()
-        activityMyClubList = ArrayList()
         feestypeList = ArrayList()
-        addLeader()
-
-        val clubListBean = GetMyClubResponce.DataBean()
-        clubListBean.club_name = "Activity Club"
-        activityMyClubList!!.add(clubListBean)
+        val leaderListBean: GetLeaderResponce.DataBean = GetLeaderResponce.DataBean()
+        leaderListBean.tag_name = "Activity Leader"
+        activityLeaderList!!.add(leaderListBean)
 
         feestypeList!!.add("Fees type")
         feestypeList!!.add("Fixed")
@@ -92,12 +92,8 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
         spinnActivityLeaderAdapter = ArrayAdapter<GetLeaderResponce.DataBean>(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityLeaderList)
         spinnFeeTypeAdapter = ArrayAdapter<String>(this@NewActivities, R.layout.spinner_item, R.id.spinnText, feestypeList)
-        spinnActivityClubAdapter = ArrayAdapter<GetMyClubResponce.DataBean>(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityMyClubList)
-
-        spinnerClub.adapter = spinnActivityClubAdapter
         spinnerLeader.adapter = spinnActivityLeaderAdapter
         spinnerFeesType.adapter = spinnFeeTypeAdapter
-
 
         autocompleteFragment = fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
 
@@ -135,7 +131,6 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             }
 
         })
-
         spinnerLeader.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -148,6 +143,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 } else {
                     activityLeader = activityLeaderList!![p2].userTagId!!
                 }
+                Toast.makeText(this@NewActivities, activityLeader, Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -161,33 +157,13 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 } else {
                     feesType = feestypeList!![p2]
                 }
+                Toast.makeText(this@NewActivities, feesType, Toast.LENGTH_SHORT).show()
             }
         })
-        spinnerClub.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
 
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (p2 == 0) {
-                    clubId = ""
-                    addLeader()
-                    spinnActivityLeaderAdapter!!.notifyDataSetChanged()
-                } else {
-                    clubId = activityMyClubList!![p2].clubId!!
-                    getLeaders(clubId);
-                }
-            }
-        })
         imageLay.setOnClickListener(this@NewActivities)
         back_f.setOnClickListener(this@NewActivities)
         done.setOnClickListener(this@NewActivities)
-    }
-
-    private fun addLeader() {
-        activityLeaderList?.clear()
-        val leaderListBean = GetLeaderResponce.DataBean()
-        leaderListBean.tag_name = "Activity Leader"
-        activityLeaderList!!.add(leaderListBean)
     }
 
     override fun onClick(view: View?) {
@@ -375,14 +351,10 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             Util.showSnake(this, mainLayout!!, R.string.a_actImg)
             return false
         }
-        if (TextUtils.isEmpty(clubId)) {
-            Util.showSnake(this, mainLayout!!, R.string.a_actClub)
+        /*if (TextUtils.isEmpty(activityLeader)) {
+            Util.showSnake(this, mainLayout!!, R.string.a_foundation)
             return false
-        }
-        if (TextUtils.isEmpty(activityLeader)) {
-            Util.showSnake(this, mainLayout!!, R.string.a_actLeader)
-            return false
-        }
+        }*/
         if (activityLocation.text.toString().isBlank()) {
             Util.showSnake(this, mainLayout!!, R.string.a_actLoc)
             return false
@@ -418,10 +390,10 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         return true
     }
 
-    fun getClub() {
+    fun getLeaders() {
         val dialog = CusDialogProg(this@NewActivities)
         dialog.show()
-        val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_my_club, object : Response.Listener<NetworkResponse> {
+        val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_leaders, object : Response.Listener<NetworkResponse> {
             override fun onResponse(response: NetworkResponse) {
                 val data = String(response.data)
                 Util.e("data", data)
@@ -430,58 +402,14 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 try {
                     val obj = JSONObject(data)
                     if (obj.getString("status").equals("success")) {
-                       /* Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
-                        var clubResponce: GetMyClubResponce = Gson().fromJson(data, GetMyClubResponce::class.java)
-                        for (dataBean in clubResponce.getData()!!) {
-                            activityMyClubList!!.add(dataBean)
-                        }
-                        spinnActivityLeaderAdapter!!.notifyDataSetChanged()
-                    } else {
-                        /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
-                    }
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                    Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()
-                }
-                dialog.dismiss()
-            }
-        }, object : Response.ErrorListener {
-            override fun onErrorResponse(error: VolleyError) {
-                dialog.dismiss()
-                Toast.makeText(this@NewActivities, "Something went wrong", Toast.LENGTH_LONG).show()
-            }
-        }) {
-
-            override fun getHeaders(): MutableMap<String, String> {
-                val params = java.util.HashMap<String, String>()
-                //  params.put("language", SessionManager.getObj().getLanguage())
-                params.put("authToken", SessionManager.getObj().user.auth_token)
-                return params
-            }
-        }
-        request.setRetryPolicy(DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
-        ClubZ.instance.addToRequestQueue(request)
-    }
-
-    fun getLeaders(clubId: String) {
-        val dialog = CusDialogProg(this@NewActivities)
-        dialog.show()
-        val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_leaders + clubId + "&limit=&offset=", object : Response.Listener<NetworkResponse> {
-            override fun onResponse(response: NetworkResponse) {
-                val data = String(response.data)
-                Util.e("data", data)
-                dialog.dismiss()
-                try {
-                    val obj = JSONObject(data)
-                    if (obj.getString("status").equals("success")) {
-                        /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
+                        Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
                         var leaderResponce: GetLeaderResponce = Gson().fromJson(data, GetLeaderResponce::class.java)
                         for (dataBean in leaderResponce.getData()!!) {
                             activityLeaderList!!.add(dataBean)
                         }
                         spinnActivityLeaderAdapter!!.notifyDataSetChanged()
                     } else {
-                        /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
+                        Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
@@ -549,10 +477,9 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 params.put("maxUsers", maxUser.text.toString())
                 params.put("description", genDescription.text.toString())
                 params.put("termsConditions", termNConditionTxt.text.toString())
-                params.put("clubId", clubId)
-                if (TextUtils.isEmpty(usrerole.text.toString())) {
+                if(TextUtils.isEmpty(usrerole.text.toString())) {
                     params.put("userRole", "admin")
-                } else {
+                }else{
                     params.put("userRole", usrerole.text.toString())
                 }
                 Util.e("parms create", params.toString())

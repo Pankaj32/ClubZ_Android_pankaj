@@ -1,6 +1,7 @@
 package com.clubz.ui.club.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,37 +14,36 @@ import android.widget.TextView
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
-import com.clubz.ui.main.HomeActivity
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Clubs
 import com.clubz.data.remote.WebService
 import com.clubz.ui.club.ClubDetailIntent
 import com.clubz.ui.dialogs.LeaveClubDialog
-import com.clubz.utils.CircleTransform
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
-import com.github.siyamed.shapeimageview.CircularImageView
-import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import org.json.JSONObject
 import java.util.ArrayList
 
 /**
- * Created by mindiii on २०/३/१८.
+ * Created by Dharmraj Acharya on 25/05/18.
  */
-class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var context :Context , internal val activity : HomeActivity) : RecyclerView.Adapter<Club_List_Adapter.Holder>() {
-
+class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
+                          internal var context :Context,
+                          var listner : MyClub, var clubFragmentType: Int = 0)
+    : RecyclerView.Adapter<MyClub_List_Adapter.Holder>() {
 
     @SuppressLint("InflateParams")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        var holder = Holder(LayoutInflater.from(context).inflate(R.layout.baseclub_list, null))
+        val holder = Holder(LayoutInflater.from(context).inflate(R.layout.baseclub_list, null))
         setUpClick(holder)
         return holder
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        var obj = list.get(position)
+        val obj = list.get(position)
         holder.tvname.setText(obj.club_name)
         holder.leadby.setText( if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name)
         holder.body_des.setText(obj.club_description)
@@ -93,6 +93,8 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
             }else if(obj.club_type.equals("2") && obj.club_user_status.equals("1")){
                 holder.btn_join.text = context.getString(R.string.leave)
 
+            }else if(obj.club_type.equals("3")){
+                holder.btn_join.visibility = View.GONE
             }
 
             holder.switch1.isChecked = !obj.is_allow_feeds.equals("0")
@@ -119,23 +121,6 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
                     .fit()
                     .placeholder(R.drawable.img_gallery).into(holder.image_club)
 
-
-           /* if(!obj.club_icon.endsWith("defaultProduct.png"))
-                Picasso.with(holder.image_club.context)
-                        .load(obj.club_icon)
-                        .fit()
-                        .transform(CircleTransform())
-                        .placeholder(R.drawable.img_gallery)
-                        .into(holder.image_club, object : Callback {
-                override fun onSuccess() {
-                    holder.image_club.setPadding(0,0,0,0)
-                }
-
-                override fun onError() {
-
-                }
-             })*/
-
         }catch (ex :Exception){}
     }
 
@@ -154,7 +139,7 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
         var distance    = itemView.findViewById<TextView>(R.id.distance)
         var img_status  = itemView.findViewById<ImageView>(R.id.img_status)
         var image_club  = itemView.findViewById<ImageView>(R.id.image_club)
-        var ivClubManager  = itemView.findViewById<ImageView>(R.id.ivClubManager)
+        var ivClubManager = itemView.findViewById<ImageView>(R.id.ivClubManager)
         var btn_join    = itemView.findViewById<Button>(R.id.btn_join)
         var switch1     = itemView.findViewById<Switch>(R.id.switch1)
     }
@@ -200,7 +185,7 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
 
     fun joinClub(club : Clubs, pos : Int){
 
-        val dialog = CusDialogProg(activity )
+        val dialog = CusDialogProg(context )
         dialog.show()
         var clubUserStatus : String = ""
 
@@ -225,7 +210,7 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
             api = WebService.club_leave
         else api = WebService.club_join
 
-        object  : VolleyGetPost(activity , activity ,api,false){
+        object  : VolleyGetPost(context as Activity, context ,api,false){
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try{
@@ -248,9 +233,19 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
                             club.is_allow_feeds = "1"
                         }*/
 
+
                         club.club_user_status = clubUserStatus
                         //list.get(pos).club_user_status = clubUserStatus
-                        notifyItemChanged(pos)
+
+                        if(clubUserStatus.equals("1")){
+                            listner.onJoinedClub(club)
+                            list.removeAt(pos)
+                            notifyItemRemoved(pos)
+                        }else if(clubUserStatus==""){
+                            listner.onLeavedClub(club)
+                            list.removeAt(pos)
+                            notifyItemRemoved(pos)
+                        }else  notifyItemChanged(pos)
                     } else{
                         Util.showToast(obj.getString("message"),context)
                     }
@@ -281,6 +276,10 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
                 return params
             }
         }.execute()
-
     }
+
+
+}  interface MyClub{
+    fun onJoinedClub(club : Clubs)
+    fun onLeavedClub(club : Clubs)
 }

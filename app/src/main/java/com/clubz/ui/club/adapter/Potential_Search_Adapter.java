@@ -148,8 +148,7 @@ abstract public class Potential_Search_Adapter extends RecyclerView.Adapter<Pote
 
 
     private Boolean canAddd(Club_Potential_search obj) {
-        return activity.isPrivate() == 0 || activity.isPrivate() == Integer.parseInt(obj.getClub_type());
-
+        return activity.getClubType() == 0 || activity.getClubType() == Integer.parseInt(obj.getClub_type());
     }
     /*public CharSequence linkifyHashtags(String text) {
         SpannableStringBuilder linkifiedText = new SpannableStringBuilder(text);

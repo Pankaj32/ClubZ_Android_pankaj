@@ -1,5 +1,6 @@
 package com.clubz.data.model
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 /**
@@ -33,7 +34,10 @@ class Clubs :Serializable {
     var full_name = ""
     var club_user_status = ""
     var members = "0"
+
+    @SerializedName("profile_image")
     var profile_image = ""
+
     var user_role = ""
     var club_icon = ""
 

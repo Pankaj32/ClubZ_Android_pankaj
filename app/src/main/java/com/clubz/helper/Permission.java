@@ -25,7 +25,7 @@ public class Permission {
 
     public Permission(Activity activity, Context context) {
         this.activity = activity;
-        context = context;
+        this.context = context;
     }
 
 
@@ -87,11 +87,4 @@ public class Permission {
             return true;
         }
     }
-
-
-
-
-
-
-
 }

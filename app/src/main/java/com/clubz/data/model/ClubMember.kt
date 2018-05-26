@@ -43,4 +43,12 @@ class ClubMember : Serializable {
         val myDate = simpleDateFormat.parse(string)
         return myDate
     }
+
+    fun getFirstTagName() : String{
+        if(tag_name.isNotEmpty()){
+            val index = tag_name.indexOf(",")
+            if(index==-1) return tag_name
+            else return tag_name.substring(0, index )
+        } else return full_name
+    }
 }

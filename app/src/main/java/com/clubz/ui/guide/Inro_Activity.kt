@@ -14,8 +14,6 @@ import kotlinx.android.synthetic.main.actvity_intro_screen.*
  */
 class Inro_Activity : AppCompatActivity(), View.OnClickListener  , ViewPager.OnPageChangeListener{
 
-
-
     lateinit var  view_pager :ViewPager
     lateinit var layouts: IntArray
     override fun onCreate(savedInstanceState: Bundle?) {

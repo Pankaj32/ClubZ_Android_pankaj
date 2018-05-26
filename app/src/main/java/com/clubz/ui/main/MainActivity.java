@@ -8,6 +8,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import com.clubz.R;
+import com.clubz.ui.club.ClubsActivity;
 
 public class MainActivity extends AppCompatActivity implements
         GestureDetector.OnGestureListener {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements
         // Set the gesture detector as the double tap
         // listener.
         //mDetector.setOnDoubleTapListener(this);
+
     }
 
     @Override
@@ -72,6 +74,5 @@ public class MainActivity extends AppCompatActivity implements
         Log.e(DEBUG_TAG, "onSingleTapUp: " + event.toString());
         return true;
     }
-
 
 }
