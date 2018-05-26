@@ -136,7 +136,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemehome"/>
 
-        <activity android:name=".ui.activities.activity.NewActivities"
+        <activity android:name=".ui.user_activities.activity.NewActivities"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/AppThemehome"/>
+
+        <activity android:name=".ui.user_activities.DetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppThemehome"/>

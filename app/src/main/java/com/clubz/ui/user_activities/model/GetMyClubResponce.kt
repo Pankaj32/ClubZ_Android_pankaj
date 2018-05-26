@@ -1,9 +1,16 @@
-package com.clubz.ui.activities.model
+package com.clubz.ui.user_activities.model
 
 /**
- * Created by chiranjib on 22/5/18.
+ * Created by chiranjib on 25/5/18.
  */
-class GetLeaderResponce {
+class GetMyClubResponce {
+
+    /**
+     * status : success
+     * message : found
+     * data : [{"clubId":"72","club_name":"Lions Club"}]
+     */
+
     private var status: String? = null
     private var message: String? = null
     private var data: List<DataBean>? = null
@@ -34,14 +41,14 @@ class GetLeaderResponce {
 
     class DataBean {
         /**
-         * userTagId : 3
-         * tag_name : Rj
+         * clubId : 72
+         * club_name : Lions Club
          */
 
-        var userTagId: String? = null
-        var tag_name: String? = null
+        var clubId: String? = null
+        var club_name: String? = null
         override fun toString(): String {
-            return tag_name!!
+            return club_name!!
         }
     }
 }

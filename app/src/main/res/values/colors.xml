@@ -34,6 +34,7 @@
 
     <color name="active_indicator">#ffffff</color>
     <color name="inactive_indicator">#a2a2a2</color>
+    <color name="activity_border">#a2a2a2</color>
     <color name="text_btn">#efe9f1</color>
     <color name="gray_transprent">#80A2A2A2</color>
     <color name="transprent_text">#80000000</color>
