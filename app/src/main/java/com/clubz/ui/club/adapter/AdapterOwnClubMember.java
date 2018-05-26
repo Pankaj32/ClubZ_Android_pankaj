@@ -92,7 +92,6 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
                 h.edAffiliates.setVisibility(View.GONE);
                 h.divider.setVisibility(View.GONE);
             }
-
         }
     }
 
@@ -120,7 +119,7 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
         return memberList.size();
     }
 
-    class ViewHolder extends ClubMemberHolder{
+    class ViewHolder extends ClubMemberHolder {
 
         private CircularImageView iv_profileImage;
         private TextView tv_FullName;
@@ -138,6 +137,12 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
             tagView = itemView.findViewById(R.id.tagView);
             divider = itemView.findViewById(R.id.divider);
         }
+
+        @Override
+        protected ClubMember getProfile() {
+            return memberList.get(getAdapterPosition());
+        }
+
 
         public void setSwitchClick() {
 

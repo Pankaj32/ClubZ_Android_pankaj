@@ -1,4 +1,4 @@
-package com.clubz.ui.fragment
+package com.clubz.ui.core
 
 /**
  * Created by mindiii on २०/३/१८.

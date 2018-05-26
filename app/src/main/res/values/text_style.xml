@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="TextView.Gray" parent="TextView">
+        <item name="android:textColor">@color/text_color_gray</item>
+    </style>
+
+    <style name="TextView.Black" parent="TextView">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextView.SingleLine.Gray" parent="TextView.Gray">
+        <item name="android:textColor">@color/transprent_text</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextView.Header">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/teko_semibold</item>
+    </style>
+
+    <style name="TextView.SubHeader">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/teko_medium</item>
+    </style>
+
+</resources>

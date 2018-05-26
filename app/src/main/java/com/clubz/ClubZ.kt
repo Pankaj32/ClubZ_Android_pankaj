@@ -20,8 +20,9 @@ class ClubZ  : Application() {
         var currentUser: User? = null
     }
 
-
-
+    fun getCurrentUser(): User?{
+        return currentUser
+    }
 
     var mRequestQueue: RequestQueue? = null
 

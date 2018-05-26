@@ -1,4 +1,4 @@
-package com.clubz.ui.fragment
+package com.clubz.ui.core
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

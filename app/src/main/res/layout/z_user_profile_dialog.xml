@@ -9,18 +9,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true" >
 
         <com.clubz.ui.cv.layout.SquareRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/app_blue">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:tint="@color/white"
+            <ImageView
+                android:id="@+id/iv_profileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/new_user_ico"/>
 
             <LinearLayout
@@ -39,7 +42,7 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_FullName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -48,17 +51,26 @@
                         android:fontFamily="@font/teko_semibold"
                         android:textSize="18sp"
                         android:gravity="bottom"
-                        android:layout_gravity="bottom"
+                        android:enabled="false"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:imeOptions="actionDone"
+                        android:layout_gravity="center"
+                        android:shadowColor="#55000000"
+                        android:shadowDx="6"
+                        android:shadowDy="6"
+                        android:shadowRadius="6"
                         android:text="User Club Nickname"/>
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/ivEdit"
-                        android:layout_width="0dp"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="5dp"
                         android:padding="8dp"
                         app:srcCompat="@drawable/ic_create"
-                        app:tint="@color/white"
-                        android:layout_weight="1"/>
+                        app:tint="@color/white" />
 
                 </LinearLayout>
 
@@ -67,6 +79,10 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/white"
+                    android:shadowColor="#55000000"
+                    android:shadowDx="6"
+                    android:shadowDy="6"
+                    android:shadowRadius="6"
                     android:text="Online"/>
 
             </LinearLayout>

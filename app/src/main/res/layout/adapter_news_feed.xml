@@ -8,22 +8,98 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/white">
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/teko_medium"
+                        android:text="@string/dharmraj_acharya_bhurtel"/>
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/bubble_menu"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_3sdp"
+                        android:layout_marginRight="-16dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        app:tint="@color/text_color_gray"
+                        app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp">
+
+                    <TextView
+                        android:id="@+id/tvClubname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextView.SingleLine.Gray"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/tvCreateTime"
+                        android:layout_alignParentLeft="true"
+                        android:text="@string/dharmraj_acharya_bhurtel"/>
+
+                    <TextView
+                        android:id="@+id/tvCreateTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextView.SingleLine.Gray"
+                        android:layout_alignParentRight="true"
+                        android:text="# Hours ago"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivUserProfile"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+
+            </LinearLayout>-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp">
+                android:layout_height="210dp">
 
                 <ImageView
                     android:id="@+id/ivBanner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:src="@drawable/img_gallery"
                     android:scaleType="fitCenter"/>
 
@@ -31,72 +107,93 @@
                     android:id="@+id/tvDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:ellipsize="end"
                     android:padding="10dp"
                     android:minHeight="50dp"
                     android:fontFamily="@font/roboto_regular"
                     android:layout_alignParentBottom="true"
                     android:background="@color/transprent_text"
+                    android:textColor="@color/white"
                     android:text="@string/dharmraj_acharya_bhurtel"/>
 
             </RelativeLayout>
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:background="@color/white"
-                android:paddingRight="5dp"
-                android:paddingLeft="5dp"
+                android:paddingRight="16dp"
+                android:paddingLeft="16dp"
                 android:gravity="center_vertical">
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_favorite_border"/>
-
-                <TextView
+                <LinearLayout
+                    android:id="@+id/ll1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_gray"
-                    android:text="50 Likes"/>
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/ll2"
+                    android:layout_marginRight="8dp"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical">
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_chat_bubble"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_gray"
+                        android:text="@string/by"/>
 
-                <TextView
+                    <TextView
+                        android:id="@+id/tvCreaterName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primaryColor"
+                        android:fontFamily="@font/roboto_medium"
+                        android:layout_marginLeft="8dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginRight="8dp"
+                        android:text="@string/dharmraj_acharya_bhurtel"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_gray"
-                    android:text="150 Comments"/>
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/tvChatCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextView.SingleLine.Gray"
+                        android:fontFamily="@font/roboto_light"
+                        android:layout_gravity="end|center_vertical"
+                        android:textSize="12sp"
+                        android:text="150 Comments"/>
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="10dp"
-                    android:layout_weight="1"
-                    app:tint="@color/text_gray"
-                    app:srcCompat="@drawable/ic_bookmark_border_black_24dp"/>
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:padding="5dp"
+                        android:layout_marginRight="8dp"
+                        app:srcCompat="@drawable/ic_chat"/>
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="10dp"
-                    android:layout_weight="1"
-                    android:scaleX="-1"
-                    app:srcCompat="@drawable/ic_replay"/>
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:padding="5dp"
+                        app:srcCompat="@drawable/ic_favorite_border"/>
 
-            </LinearLayout>
+                </LinearLayout>
+
+
+            </RelativeLayout>
 
 
         </LinearLayout>

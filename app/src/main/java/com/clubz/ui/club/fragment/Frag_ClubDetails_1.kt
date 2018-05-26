@@ -98,7 +98,7 @@ class Frag_ClubDetails_1 : Fragment() {
                     if (obj.getString("status").equals("success")) {
                        val clubz =  Gson().fromJson<Clubs>(obj.getString("clubDetail"), Clubs::class.java)
                         members.setText(clubz.members+" "+resources.getString(R.string.members))
-                        Picasso.with(context).load(clubz.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).into(image_member2, object : Callback {
+                        Picasso.with(image_member2.context).load(clubz.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).into(image_member2, object : Callback {
                             override fun onSuccess() {
                                 image_member2.setPadding(0,0,0,0)
                             }
@@ -118,9 +118,9 @@ class Frag_ClubDetails_1 : Fragment() {
                             }
                         })
                         usrerole.setText(clubz.user_role)
-                    } else {
+                    } /*else {
                         Util.showToast(obj.getString("message"),context)
-                    }
+                    }*/
                 }catch (ex :Exception){
                     Util.showToast(R.string.swr,context)
                 }

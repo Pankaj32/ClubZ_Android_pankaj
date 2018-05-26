@@ -32,7 +32,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
                     android:background="@color/primaryColor"
-                    android:animateLayoutChanges="true"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatImageView
@@ -159,7 +158,9 @@
                 app:tabIndicatorColor="@color/primaryColor"
                 app:tabIndicatorHeight="@dimen/_3sdp"
                 app:tabPaddingTop="@dimen/_5sdp"
-                app:tabMode="fixed">
+                app:tabMode="fixed"
+                android:elevation="4dp"
+                tools:ignore="UnusedAttribute">
 
                 <android.support.design.widget.TabItem
                     android:id="@+id/ti_news"
