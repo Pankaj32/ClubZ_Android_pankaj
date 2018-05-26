@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,13 +16,10 @@
             android:background="@color/white"
             android:padding="@dimen/_10sdp">
 
-            <android.support.v7.widget.AppCompatImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_club"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_shield_outline"
-                android:padding="@dimen/_5sdp"
                 android:background="@drawable/bg_circle_blue"
                 android:layout_marginBottom="@dimen/_10sdp"/>
 
@@ -148,11 +144,12 @@
                     android:gravity="center_vertical"
                     android:layout_centerVertical="true">
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/ivClubManager"
-                        android:layout_width="@dimen/_32sdp"
-                        android:layout_height="@dimen/_32sdp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:background="@drawable/bg_circle_blue"
+                        app:siBorderColor="@color/transparent"
                         android:src="@drawable/ic_user_white"/>
 
                     <LinearLayout

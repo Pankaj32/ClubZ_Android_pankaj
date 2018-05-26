@@ -80,5 +80,10 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
             tv_FullName = itemView.findViewById(R.id.tv_FullName);
             tagView = itemView.findViewById(R.id.tagView);
         }
+
+        @Override
+        protected ClubMember getProfile() {
+            return memberList.get(getAdapterPosition());
+        }
     }
 }

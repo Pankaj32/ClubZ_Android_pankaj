@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.view.*
@@ -33,7 +32,7 @@ import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.data.model.Club_Category
 import com.clubz.ui.core.BaseFragment
-import com.clubz.ui.fragment.home.Frag_News_List
+import com.clubz.ui.newsfeed.fragment.Frag_News_List
 import com.clubz.ui.main.HomeActivity
 import com.clubz.utils.*
 import com.google.android.gms.common.api.Status

@@ -72,7 +72,6 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
     override fun onClick(p0: View?) {
      when(p0!!.id){
          R.id.next-> if(verfiy())generateOtp()
-
              //(activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code,"1"));
           //generateOtp()
      }

@@ -6,11 +6,9 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.support.annotation.IntegerRes
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
@@ -29,17 +27,13 @@ import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
-import com.clubz.data.model.Club_Category
 import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.activities.model.GetLeaderResponce
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.cv.CusDialogProg
-import com.clubz.ui.fragment.home.Frag_News_List
-import com.clubz.utils.CircleTransform_NoRecycle
 import com.clubz.utils.Constants
-import com.clubz.utils.PatternCheck
 import com.clubz.utils.Util
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
@@ -51,7 +45,6 @@ import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.activity_new_activities.*
 import org.json.JSONObject
-import org.w3c.dom.Text
 import java.io.File
 import java.io.IOException
 

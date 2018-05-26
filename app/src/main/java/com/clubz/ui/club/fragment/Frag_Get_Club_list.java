@@ -1,4 +1,4 @@
-package com.clubz.ui.fragment.home;
+package com.clubz.ui.club.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;

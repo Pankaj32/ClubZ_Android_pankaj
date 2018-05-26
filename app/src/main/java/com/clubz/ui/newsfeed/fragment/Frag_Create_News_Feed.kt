@@ -1,4 +1,4 @@
-package com.clubz.ui.fragment.home
+package com.clubz.ui.newsfeed.fragment
 
 import android.Manifest
 import android.content.Intent

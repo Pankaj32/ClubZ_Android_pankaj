@@ -60,6 +60,10 @@
 
     <string name="t_detils"> Details </string>
     <string name="t_members"> Members </string>
+    <string name="t_my_clubs"> My clubs </string>
+    <string name="t_near_clubs"> Near clubs </string>
+    <string name="t_manage_your_clubs"> Manage your clubs </string>
+    <string name="t_join_the_force"> Joine the force </string>
 
     <string name="t_al_gps"> Please turn on your GPS </string>
     <string name="t_error_location"> Error getting your location </string>
@@ -238,7 +242,7 @@
     <string name="Private"> Private </string>
     <string name="since">Since</string>
     <string name="members">members</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="t_gps_msg"> Your location is required to show feeds near you</string>
     <string name="t_er_loc_msg"> Your location is required to show feeds near you </string>
     <string name="terms_conditions">Terms and conditions</string>
@@ -273,7 +277,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-<!--New Activity-->
+    <!--New Activity-->
     <string name="general_description">General Description</string>
     <string name="hint_activity_des"> Activity\'s description </string>
     <string name="terms_n_condition"> Terms and Condition </string>
@@ -305,4 +309,8 @@
     <string name="a_actmax">Please enter maximum user</string>
     <string name="a_actamxMin"> maximum user should grater than minimum User</string>
     <string name="a_actdes">Please enter description</string>
+    <string name="likes"> Likes </string>
+    <string name="comments"> Comments </string>
+    <string name="error_nickname">Enter nickname first.</string>
+    <string name="by">By</string>
 </resources>
