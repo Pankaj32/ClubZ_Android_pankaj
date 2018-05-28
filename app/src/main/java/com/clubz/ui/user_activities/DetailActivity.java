@@ -29,7 +29,7 @@ public class DetailActivity extends PagerActivity {
     }
 
     @Override
-    public void setViewPagerFragment(PagerActivity.ViewPagerAdapter adapter) {
+    public void setViewPagerFragment(ViewPagerAdapter adapter) {
         adapter.addFragment(new Frag_Find_Activities(), getResources().getString(R.string.t_detils));
         adapter.addFragment(new Frag_Find_Activities(), getResources().getString(R.string.t_detils));
     }

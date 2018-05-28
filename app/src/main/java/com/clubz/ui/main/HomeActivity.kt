@@ -21,7 +21,6 @@ import android.support.v4.app.*
 import android.support.v4.widget.DrawerLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.ListPopupWindow
 import android.text.Editable
@@ -31,18 +30,19 @@ import android.view.*
 import android.widget.*
 import com.clubz.ClubZ
 import com.clubz.R
-import com.clubz.ui.fragment.FilterListner
-import com.clubz.ui.fragment.Textwatcher_Statusbar
+import com.clubz.ui.core.FilterListner
+import com.clubz.ui.core.Textwatcher_Statusbar
 import com.clubz.ui.club.fragment.Frag_Create_club
-import com.clubz.ui.fragment.home.Frag_News_List
+import com.clubz.ui.newsfeed.fragment.Frag_News_List
 import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.GioAddressTask
-import com.clubz.ui.activities.activity.NewActivities
-import com.clubz.ui.activities.fragment.Frag_Find_Activities
 import com.clubz.ui.club.ClubCreationActivity
+import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.core.BaseActivity
+import com.clubz.ui.user_activities.activity.NewActivities
+import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
 import com.clubz.utils.DrawerMarginFixer
 import com.clubz.utils.Util
 import com.github.siyamed.shapeimageview.CircularImageView
@@ -68,6 +68,14 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    companion object {
+        var isPrivate: Int = 0
+    }
+
+    fun getClubType() : Int{
+        return isPrivate
+    }
+
     lateinit var mDrawerLayout: DrawerLayout
    // lateinit var mDrawer: DrawerLayout
     var isOpenMyClub: Boolean = false
@@ -75,13 +83,13 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     var doublebackpress: Boolean = false
     var lastDrawerGravity :Int= Gravity.START;
 
-    var isPrivate: Int = 0  // 0: Both option available , 1:public ,2:private
+    //var isPrivate: Int = 0  // 0: Both option available , 1:public ,2:private
     var filterListner: FilterListner? = null;
     var textChnageListner: Textwatcher_Statusbar? = null
 
-
     var latitude: Double = 0.toDouble()
     var longitude:Double = 0.toDouble()
+
     protected var mGoogleApiClient: GoogleApiClient? = null
     lateinit var locationManager: LocationManager
 
@@ -119,6 +127,8 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                     //stausBarHandler(cFragment)
                     //supportInvalidateOptionsMenu()
                     invalidateOptionsMenu()
+                    //lockNavigation()
+                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
                 }
             }
 
@@ -138,6 +148,8 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                         isOpenMyClub = false
                     }else{
                         far.checkLocation()
+                       // lockNavigation(true)
+                        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, GravityCompat.END);
                     }
                 }
                 else lastDrawerGravity = Gravity.START
@@ -208,6 +220,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     }
 
 
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -215,10 +228,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 // Handle the camera action
             }
             R.id.navItemClubs -> {
-                drawer_layout.closeDrawer(GravityCompat.START)
+                startActivity(Intent(this@HomeActivity, ClubsActivity::class.java))
+                /*drawer_layout.closeDrawer(GravityCompat.START)
                 mDrawerLayout.openDrawer(GravityCompat.END)
                 isOpenMyClub = true
-                return true
+                return true*/
             }
             R.id.navItemHistory -> {
 
