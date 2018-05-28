@@ -309,8 +309,18 @@
     <string name="a_actmax">Please enter maximum user</string>
     <string name="a_actamxMin"> maximum user should grater than minimum User</string>
     <string name="a_actdes">Please enter description</string>
+    <string name="a_actClub">Please select activity Club</string>
+    <string name="a_actLeader">Please select activity Leader</string>
+
+    <!--Activities List-->
+    <string name="h_Today">Today</string>
+    <string name="h_Tomorrow">Tomorrow</string>
+    <string name="h_coming_soon">Comming Soon</string>
+    <string name="Collapse">collapse</string>
+
     <string name="likes"> Likes </string>
     <string name="comments"> Comments </string>
     <string name="error_nickname">Enter nickname first.</string>
     <string name="by">By</string>
+
 </resources>

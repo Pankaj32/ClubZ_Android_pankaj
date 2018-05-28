@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="@dimen/_20sdp">
+    <item>
+        <shape  android:shape="line" >
+            <solid android:color="#626262"/>
+            <size android:height="1dp"/>
+
+        </shape>
+
+    </item>
+</layer-list>-->
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="line">
+    <solid android:color="#626262"/>
+    <size android:height="1dp"/>
+
+</shape>-->
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            &lt;!&ndash; Draw a 2dp width border around shape &ndash;&gt;
+            <stroke
+                android:color="@color/gray_transprent"
+                android:width="@dimen/_1sdp"
+                />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            &lt;!&ndash; Draw a 2dp width border around shape &ndash;&gt;
+            <stroke
+                android:color="@color/gray_transprent"
+                android="@dimen/_1sdp"
+                />
+        </shape>
+    </item>
+    &lt;!&ndash; Overlap the left, top and right border using background color  &ndash;&gt;
+    <item
+        android:bottom="@dimen/_1sdp"
+        >
+        <shape android:shape="rectangle">
+            <solid android:color="@color/background"/>
+        </shape>
+    </item>
+</layer-list>-->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:shape="rectangle">
+    <!-- you can use any color you want I used here gray color-->
+    <solid android:color="@color/white" />
+    <!--<corners android:radius="@dimen/_3sdp" />-->
+    <stroke
+        android:width="@dimen/_1sdp"
+        android:color="@color/background" />
+</shape>

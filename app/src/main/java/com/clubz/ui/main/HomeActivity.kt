@@ -38,11 +38,11 @@ import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.GioAddressTask
-import com.clubz.ui.activities.activity.NewActivities
-import com.clubz.ui.activities.fragment.Frag_Find_Activities
 import com.clubz.ui.club.ClubCreationActivity
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.core.BaseActivity
+import com.clubz.ui.user_activities.activity.NewActivities
+import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
 import com.clubz.utils.DrawerMarginFixer
 import com.clubz.utils.Util
 import com.github.siyamed.shapeimageview.CircularImageView
