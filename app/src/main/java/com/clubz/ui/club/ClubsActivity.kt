@@ -29,8 +29,8 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
 
     fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragger( FragMyClubs(),resources.getString(R.string.t_my_clubs) , " This is First")
-        adapter.addFragger( FragNearClubs(),resources.getString(R.string.t_near_clubs) , " This is second")
+        adapter.addFragment( FragMyClubs(),resources.getString(R.string.t_my_clubs) , " This is First")
+        adapter.addFragment( FragNearClubs(),resources.getString(R.string.t_near_clubs) , " This is second")
         viewPager.adapter = adapter
     }
 

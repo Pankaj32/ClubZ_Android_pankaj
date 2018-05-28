@@ -48,8 +48,8 @@ class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
 
     fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragger( Frag_ClubDetails_1().setData(clubz),resources.getString(R.string.t_detils) , " This is First")
-        adapter.addFragger( Frag_ClubDetails_2().setData(clubz),resources.getString(R.string.t_members) , " This is second")
+        adapter.addFragment( Frag_ClubDetails_1().setData(clubz),resources.getString(R.string.t_detils) , " This is First")
+        adapter.addFragment( Frag_ClubDetails_2().setData(clubz),resources.getString(R.string.t_members) , " This is second")
         viewPager.adapter = adapter
     }
 

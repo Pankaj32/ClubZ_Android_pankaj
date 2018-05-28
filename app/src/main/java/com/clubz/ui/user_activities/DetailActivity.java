@@ -1,9 +1,12 @@
 package com.clubz.ui.user_activities;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
 import com.clubz.R;
+import com.clubz.ui.core.ViewPagerAdapter;
 import com.clubz.ui.user_activities.fragment.Frag_Find_Activities;
 import com.clubz.ui.core.PagerActivity;
 
@@ -24,7 +27,7 @@ public class DetailActivity extends PagerActivity {
     }
 
     @Override
-    public ViewPager getViewPager() {
+    public ViewPager getPager() {
         return findViewById(R.id.view_pager_cd);
     }
 
@@ -34,4 +37,8 @@ public class DetailActivity extends PagerActivity {
         adapter.addFragment(new Frag_Find_Activities(), getResources().getString(R.string.t_detils));
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 }
