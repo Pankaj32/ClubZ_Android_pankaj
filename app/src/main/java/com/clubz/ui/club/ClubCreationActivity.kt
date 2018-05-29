@@ -175,7 +175,6 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             }
             R.id.image_icon->{ isClubIcon = true;   permissionPopUp();            }
         }
-
     }
 
 

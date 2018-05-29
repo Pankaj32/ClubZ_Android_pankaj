@@ -37,23 +37,22 @@ import com.clubz.utils.PhoneNumberTextWatcher
  */
 class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
 
-
-
     var isvalidate : Boolean = false;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         return inflater.inflate(R.layout.frag_sign_up_one, null);
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var smsverify : SmsVerifyCatcher = SmsVerifyCatcher(activity as Sign_up_Activity, this,object : OnSmsCatchListener<String> {
+
+        val smsverify = SmsVerifyCatcher(activity as Sign_up_Activity, this,object : OnSmsCatchListener<String> {
             override fun onSmsCatch(message: String?) {
                 //Util.showToast(message!!,context);
             }
         })
-        smsverify.onStart();
+
+        smsverify.onStart()
         for( view in arrayOf(next)) view.setOnClickListener(this)
         val list = Gson().fromJson<String>(Util.loadJSONFromAsset(context,"country_code.json"), Type_Token.country_list) as ArrayList<Country_Code>
         country_code.adapter = Country_spinner_adapter(context, list, 0, R.layout.spinner_view);
@@ -70,17 +69,13 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
 
 
     override fun onClick(p0: View?) {
-     when(p0!!.id){
-         R.id.next-> if(verfiy())generateOtp()
-             //(activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData("1234" ,  phone_no.text.toString() , (country_code.selectedItem as Country_Code).phone_code,"1"));
-          //generateOtp()
-     }
+        when(p0!!.id){
+            R.id.next-> if(verfiy())generateOtp()
+        }
     }
 
 
     /***** Verfication ****/
-
-
     fun verfiy() :Boolean{
         (activity as Sign_up_Activity).hideKeyBoard()
         Util.e("phone",phone_no.text.toString())
@@ -97,6 +92,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
         }
         return true;
     }
+
     private fun checkPhoneNumber( countryCode : String) {
         val contactNo = phone_no.getText().toString().replace("-","")
         try {
@@ -109,7 +105,6 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
         } catch (e: NumberParseException) {
             System.err.println("NumberParseException was thrown: " + e.toString())
         }
-
     }
 
     fun setCountryCode(list : ArrayList<Country_Code> , spinner : Spinner){
@@ -147,7 +142,6 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
 
             override fun onVolleyError(error: VolleyError?) {
                 dialog.dismiss()
-
             }
 
             override fun onNetError() {
@@ -167,7 +161,6 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
                 params.put( "language", SessionManager.getObj().getLanguage());
                 Util.e("headers" , params.toString())
                 return params
-
             }
         }.execute()
     }
