@@ -45,4 +45,8 @@ public class SimpleChipView extends RelativeLayout implements View.OnClickListen
     public void setTextColor(@ColorRes int id) {
         this.label.setTextColor(getResources().getColor(id));
     }
+
+    public String getTag() {
+        return this.label.getText().toString();
+    }
 }

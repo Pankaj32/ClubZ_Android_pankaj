@@ -41,6 +41,7 @@ import com.clubz.data.remote.GioAddressTask
 import com.clubz.ui.club.ClubCreationActivity
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.core.BaseActivity
+import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
 import com.clubz.utils.DrawerMarginFixer
@@ -446,6 +447,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                     when (fragemet::class.java.simpleName) {
                         Frag_Find_Activities::class.java.simpleName->{
                            startActivity(Intent(this@HomeActivity, NewActivities::class.java))
+                        }
+
+                        Frag_News_List::class.java.simpleName->{
+                            startActivity(Intent(this@HomeActivity,
+                                    CreateNewsFeedActivity::class.java).putExtra("clubId", ""))
                         }
                     }
                 }
