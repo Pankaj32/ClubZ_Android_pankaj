@@ -16,7 +16,6 @@ import android.support.v7.widget.PopupMenu
 import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.Toast
 import com.android.volley.*
@@ -34,7 +33,6 @@ import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
 import com.mvc.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.activity_create_news_feed.*
-import kotlinx.android.synthetic.main.base_search_text.view.*
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
@@ -57,7 +55,7 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
         if(intent.extras!=null)
             clubId = intent.extras.getString("clubId");
 
-        leadby.setText(ClubZ.currentUser!!.full_name)
+        //leadby.setText(ClubZ.currentUser!!.full_name)
         for(views in arrayOf(img_newsFeed ,backBtn , ivDone))views.setOnClickListener(this)
 
         edFilterTag.setOnEditorActionListener { v, actionId, event ->
@@ -92,6 +90,7 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
+
             }
         }
     }
@@ -174,6 +173,7 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
                 params.put("newsFeedTitle", feedTitle!!)
                 params.put("newsFeedDescription", description!!)
                 params.put("clubId", clubId!!)
+                params.put("tagName", tagView.getTagString())
                 params.put("isCommentAllow", if(spn_commentStatus.selectedItem.toString().toLowerCase().equals("public"))"1" else "2")
                 params.put("userRole", if(userRole.isNullOrBlank()) "Admin" else userRole!!)
                 return params
@@ -298,9 +298,9 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (resultCode == -1) {
-            if (requestCode == Constants.SELECT_FILE || requestCode == Constants.REQUEST_CAMERA) {
+
+            if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@CreateNewsFeedActivity, requestCode, resultCode, data);
 
                 if(imageUri!=null) {
@@ -311,8 +311,17 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
                 }else {
                     Toast.makeText(this@CreateNewsFeedActivity ,R.string.swr , Toast.LENGTH_SHORT).show()
                 }
+            }else if (requestCode == Constants.REQUEST_CAMERA){
+                if(imageUri!=null) {
+                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
+                            .setMinCropResultSize(300, 200)
+                            .setMaxCropResultSize(4000, 4000)
+                            .setAspectRatio(300, 200).start(this@CreateNewsFeedActivity)
+                }else {
+                    Toast.makeText(this@CreateNewsFeedActivity ,R.string.swr , Toast.LENGTH_SHORT).show()
+                }
             }
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 val result : CropImage.ActivityResult = CropImage.getActivityResult(data)
                 try {
                     feedImage = MediaStore.Images.Media.getBitmap(this@CreateNewsFeedActivity.getContentResolver(), result.getUri())
@@ -327,5 +336,4 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
         }
         isCameraSelected = false
     }
-
 }

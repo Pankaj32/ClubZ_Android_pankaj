@@ -1,7 +1,5 @@
 package com.clubz.data.model
 
-import java.util.*
-
 /**
  * Created by mindiii on ३१/३/१८.
  */
