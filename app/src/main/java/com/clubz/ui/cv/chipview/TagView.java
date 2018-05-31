@@ -95,7 +95,20 @@ public class TagView extends LinearLayout {
         ArrayList<String> tags = new ArrayList<>();
         for(SimpleChipView tmp : textViews)
             tags.add(tmp.getTag());
-          return tags;
+        return tags;
+    }
+
+    public String getTagString(){
+        String tags = "";
+        for(SimpleChipView tmp : textViews){
+
+            if(tags.isEmpty()){
+                tags = tmp.getTag();
+            }else {
+                tags = tags+","+ tmp.getTag();
+            }
+        }
+        return tags;
     }
 
     private View createSpace() {

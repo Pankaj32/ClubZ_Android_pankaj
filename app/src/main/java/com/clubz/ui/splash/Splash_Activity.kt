@@ -222,8 +222,8 @@ class Splash_Activity : AppCompatActivity() {
                     val intent =if(SessionManager.getObj().isloggedin()) Intent(this@Splash_Activity , HomeActivity::class.java)
                     else Intent(this@Splash_Activity , Inro_Activity::class.java)
 
-                   // startActivity(intent);
-                    startActivity(Intent(this@Splash_Activity, CreateNewsFeedActivity::class.java))
+                    startActivity(intent);
+                   // startActivity(Intent(this@Splash_Activity, CreateNewsFeedActivity::class.java))
                     finish();
                 },200);
             }

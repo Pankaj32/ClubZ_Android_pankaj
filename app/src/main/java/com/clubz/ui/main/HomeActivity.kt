@@ -7,8 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
@@ -58,7 +56,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
 import kotlinx.android.synthetic.main.nav_header.view.*
-import java.util.*
 
 class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
@@ -811,7 +808,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
     }
 
-    private fun getAddress(latitude: Double, longitude: Double): Array<String> {
+  /*  private fun getAddress(latitude: Double, longitude: Double): Array<String> {
         val result = Array<String>(3, {i->""})
         result[0] = ""
         result[1] = ""
@@ -837,7 +834,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
 
         return result
-    }
+    }*/
 
     private fun startLocationUpdates(latitude: Double, longitude: Double) {
 

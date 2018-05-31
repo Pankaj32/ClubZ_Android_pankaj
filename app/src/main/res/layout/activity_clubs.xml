@@ -42,7 +42,14 @@
                     android:paddingTop="@dimen/_3sdp"
                     android:text="@string/app_name"
                     android:textSize="@dimen/_18sdp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
+                <android.support.v7.widget.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:iconifiedByDefault="true"
+                    android:visibility="gone"/>
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/bubble_menu"
@@ -56,18 +63,49 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tablayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_30sdp"
-            style="@style/tabtext"
-            android:background="@color/primaryColor"/>
+            android:layout_height="match_parent">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tablayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                style="@style/tabtext"
+                android:background="@color/primaryColor"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:layout_below="@+id/tablayout"/>
+
+        <RelativeLayout
+            android:id="@+id/search_layout"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background"/>
+            android:background="@color/black50p"
+            android:paddingEnd="@dimen/_16sdp"
+            android:paddingStart="@dimen/_16sdp"
+            android:paddingBottom="@dimen/_16sdp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_potential_srch"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp"
+               />
+
+        </RelativeLayout>
+
+
+
+        </RelativeLayout>
+
 
     </LinearLayout>
 
