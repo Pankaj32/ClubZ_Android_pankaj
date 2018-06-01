@@ -30,6 +30,7 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
         adapter.addFragment(FragActivitiesDetails(), resources.getString(R.string.a_activity_first_tab), " This is First")
         adapter.addFragment(FragActivitiesDetails(), resources.getString(R.string.a_activity_snd_tab), " This is second")
         viewPager.adapter = adapter
+        //Chiranjib
     }
 
     override fun onPageScrollStateChanged(state: Int) {

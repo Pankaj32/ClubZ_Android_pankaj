@@ -157,6 +157,7 @@
 
         <!--chiranjib-->
 
+        <activity android:name=".ui.user_activities.activity.ActivitiesDetails"/>
     </application>
 
 </manifest>
