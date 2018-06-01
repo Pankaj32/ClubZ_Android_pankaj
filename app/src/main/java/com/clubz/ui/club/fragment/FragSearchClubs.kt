@@ -1,7 +1,6 @@
 package com.clubz.ui.club.fragment
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -11,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.volley.VolleyError
+import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.main.HomeActivity
 import com.clubz.R
@@ -18,10 +18,11 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.helper.Type_Token
 import com.clubz.data.remote.WebService
 import com.clubz.data.model.Clubs
-import com.clubz.ui.club.`interface`.MyClubInteraction
+import com.clubz.ui.club.`interface`.SearchListner
 import com.clubz.ui.club.adapter.MyClub
 import com.clubz.ui.club.adapter.MyClub_List_Adapter
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
+import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_my_clubs.*
@@ -29,29 +30,14 @@ import org.json.JSONObject
 import java.util.ArrayList
 
 
-class FragMyClubs : Fragment() , View.OnClickListener,
+class FragSearchClubs : Fragment() , View.OnClickListener, SearchListner,
         SwipeRefreshLayout.OnRefreshListener, MyClub {
 
     var adapter : MyClub_List_Adapter? = null
     var clubList : ArrayList<Clubs> = arrayListOf()
-    var listner : MyClubInteraction? = null
+    var lastQuery : String? = ""
     var pageListner : RecyclerViewScrollListener? = null
 
-    override fun onClick(v: View?) {
-
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is MyClubInteraction){
-            listner = context
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listner = null
-    }
 
     @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -68,6 +54,7 @@ class FragMyClubs : Fragment() , View.OnClickListener,
         list_recycler.setItemAnimator(null)
         list_recycler.setLayoutManager(lm)
         list_recycler.setHasFixedSize(true)
+
         pageListner = object : RecyclerViewScrollListener(lm) {
             override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) {
 
@@ -78,21 +65,25 @@ class FragMyClubs : Fragment() , View.OnClickListener,
             }
         }
         list_recycler.addOnScrollListener(pageListner)
+
         clubList.clear()
-        getMyClubs()
     }
 
+
     override fun onJoinedClub(club: Clubs) {
-        listner?.onJoinClub(club)
     }
 
     override fun onLeavedClub(club: Clubs) {
-        listner?.onLeaveClub(club)
     }
+
+    override fun onClick(v: View?) {
+
+    }
+
 
     override fun onRefresh() {
         clubList.clear()
-        getMyClubs()
+        searchClubs(lastQuery!!, true)
         swipeRefreshLayout.isRefreshing = false
     }
 
@@ -101,14 +92,22 @@ class FragMyClubs : Fragment() , View.OnClickListener,
         adapter?.notifyDataSetChanged()
     }
 
-    fun getMyClubs(text : String = "", offset :String = "0"){  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
-        val dialog = CusDialogProg(activity )
-        dialog.show()
-        object  : VolleyGetPost(activity , activity, WebService.club_my_clubs, false){
+    override fun onTextChange(text: String) {
+        lastQuery = text;
+        clubList.clear()
+        searchClubs(lastQuery!!, true)
+    }
 
+
+    fun searchClubs(text : String = "",showProgres : Boolean = false, offset :String = "0"  ){
+
+        val dialog = CusDialogProg(activity )
+        if(text.isBlank() || showProgres)dialog.show()
+        object  : VolleyGetPost(activity , activity , WebService.club_search_clubs,false){
             override fun onVolleyResponse(response: String?) {
-                try {
-                    dialog.dismiss()
+                dialog.dismiss()
+                //{"status":"success","message":"found","data":[{"clubId":"20","user_id":"52","club_name":"Mindiii","club_description":"this is a mindiii company","club_image":"http:\/\/clubz.co\/dev\/uploads\/club_image\/32e494d9cb36f6a0d73d792bebee8e6e.jpg","club_foundation_date":"2018-03-15","club_email":"pankaj.mindiii@gmail.com","club_contact_no":"9630612281","club_country_code":"+91","club_website":"www.google.com","club_location":"Indore Jn.","club_address":"140 square","club_latitude":"22.7170909","club_longitude":"75.8684423","club_type":"1","club_category_id":"2","terms_conditions":"indore company","comment_count":"0","status":"1","crd":"2018-03-16 11:32:09","upd":"2018-03-16 11:32:09","club_category_name":"Sports","full_name":"Pankaj","club_user_status":"","distance":""}]}
+                try{
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
                         //val searchlist : ArrayList<Clubs> = Gson().fromJson<ArrayList<Clubs>>(obj.getString("data"), Type_Token.club_list)
@@ -116,11 +115,12 @@ class FragMyClubs : Fragment() , View.OnClickListener,
                     }else clubList.clear()
                     adapter?.notifyDataSetChanged()
                 }catch (ex: Exception){
-                    ex.printStackTrace()
+                    Util.showToast(R.string.swr,context)
                 }
             }
 
             override fun onVolleyError(error: VolleyError?) {
+                Util.e("Error", error.toString())
                 dialog.dismiss()
             }
 
@@ -129,17 +129,25 @@ class FragMyClubs : Fragment() , View.OnClickListener,
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("city", ClubZ.city)
+                params.put("latitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString() )+"")
+                params.put("longitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString() )+"")
+                params.put("clubCategoryId","")
                 params.put("searchText",text)
                 params.put("offset",offset)
-                params.put("limit","200")
-                params.put("clubType", HomeActivity.isPrivate.toString())
+                params.put("limit","20")
+                params.put("clubType",HomeActivity.isPrivate.toString())
+                Util.e("parms search", params.toString())
                 return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("language", SessionManager.getObj().getLanguage())
                 params.put("authToken", SessionManager.getObj().user.auth_token)
-                return  params
+                return params
             }
         }.execute()
+
     }
+
 }

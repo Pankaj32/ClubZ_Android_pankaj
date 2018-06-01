@@ -30,6 +30,20 @@
 
     </style>
 
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!-- AppCompat Attributes -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/black</item>
+        <item name="spinnerStyle">@style/MySpinner</item>
+    </style>
+
+    <style name="MySpinner" parent="Base.Widget.AppCompat.Spinner">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
 
     <style name="tabtext" >
         <item name="tabTextAppearance">@style/NavigationTabTextAppeareance</item>

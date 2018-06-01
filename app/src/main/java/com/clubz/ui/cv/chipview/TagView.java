@@ -79,6 +79,38 @@ public class TagView extends LinearLayout {
         }
     }
 
+
+    public void addTag(String tag){
+        SimpleChipView p = createTagView(tag);
+        textViews.add(p);
+        addView(p);
+        addView(createSpace());
+    }
+
+    public int size(){
+        return textViews.size();
+    }
+
+    public ArrayList<String> getTags(){
+        ArrayList<String> tags = new ArrayList<>();
+        for(SimpleChipView tmp : textViews)
+            tags.add(tmp.getTag());
+        return tags;
+    }
+
+    public String getTagString(){
+        String tags = "";
+        for(SimpleChipView tmp : textViews){
+
+            if(tags.isEmpty()){
+                tags = tmp.getTag();
+            }else {
+                tags = tags+","+ tmp.getTag();
+            }
+        }
+        return tags;
+    }
+
     private View createSpace() {
         View v = new View(getContext());
         v.setLayoutParams(SPACE_LAYOUT_PARAM);

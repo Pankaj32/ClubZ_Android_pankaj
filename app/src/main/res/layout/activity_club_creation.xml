@@ -273,8 +273,7 @@
                         android:layout_below="@+id/img_club"
                         android:layout_marginTop="@dimen/_50sdp"
                         android:layout_marginLeft="@dimen/_16sdp"
-                        android:layout_marginRight="@dimen/_16sdp"
-                        >
+                        android:layout_marginRight="@dimen/_16sdp">
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_1sdp"

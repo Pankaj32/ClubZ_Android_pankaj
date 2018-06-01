@@ -228,10 +228,10 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
         val activity  = activity as HomeActivity
         val lati= if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.latitude.toString()
         val longi=if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.longitude.toString()
+        //"${WebService.nearclub_names}?latitude=$lati&longitude=$longi&isMyClub=$isMyClub" + "&city=${ClubZ.city}"
         object  : VolleyGetPost(activity , activity,
-                "${WebService.nearclub_names}?latitude=$lati&longitude=$longi&isMyClub=$isMyClub" +
-                        "&city=${ClubZ.city}"
-                ,true){
+                WebService.nearclub_names,false){
+
             override fun onVolleyResponse(response: String?) {
                 try {
 
@@ -267,8 +267,12 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                /*params.put("latitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.latitude.toString() )+"")
-                params.put("longitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.longitude.toString() )+"")*/
+                params.put("searchText", "")
+                params.put("offset", "0")
+                params.put("limit","100")
+                params.put("clubType", "")
+                params.put("latitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.latitude.toString() )+"")
+                params.put("longitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.longitude.toString() )+"")
                 return  params
             }
 

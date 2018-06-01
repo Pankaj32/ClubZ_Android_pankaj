@@ -28,6 +28,7 @@ class WebService {
         val club_updateMemberStatus = base_Url +"service/club/updateClubMemberStatus";
         val club_member_action = base_Url +"service/club/answerClubRequest";
         val club_add_member_Tag = base_Url +"service/club/addUserTag";
+        val club_search_clubs = base_Url +"service/club/searchClub";
 
         val nearclub_names  = base_Url +"service/club/nearByClubsName"; // Potential search will GEt
 
@@ -39,6 +40,8 @@ class WebService {
         val get_my_club= base_Url+"service/club/myCreatedClubsName"
         val create_activity= base_Url+"service/activity/createActivity"
         val get_my_activity_list= base_Url+"service/activity/myActivityList?listType="
+
+        val create_newsFeed      = base_Url +"service/club/createNewsFeed"
 
     }
 

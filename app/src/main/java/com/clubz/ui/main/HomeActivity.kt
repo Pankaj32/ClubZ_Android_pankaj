@@ -7,8 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
@@ -41,6 +39,7 @@ import com.clubz.data.remote.GioAddressTask
 import com.clubz.ui.club.ClubCreationActivity
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.core.BaseActivity
+import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
 import com.clubz.utils.DrawerMarginFixer
@@ -57,7 +56,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
 import kotlinx.android.synthetic.main.nav_header.view.*
-import java.util.*
 
 class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
@@ -447,6 +445,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                         Frag_Find_Activities::class.java.simpleName->{
                            startActivity(Intent(this@HomeActivity, NewActivities::class.java))
                         }
+
+                        Frag_News_List::class.java.simpleName->{
+                            startActivity(Intent(this@HomeActivity,
+                                    CreateNewsFeedActivity::class.java).putExtra("clubId", ""))
+                        }
                     }
                 }
             };
@@ -805,7 +808,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
     }
 
-    private fun getAddress(latitude: Double, longitude: Double): Array<String> {
+  /*  private fun getAddress(latitude: Double, longitude: Double): Array<String> {
         val result = Array<String>(3, {i->""})
         result[0] = ""
         result[1] = ""
@@ -831,7 +834,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
 
         return result
-    }
+    }*/
 
     private fun startLocationUpdates(latitude: Double, longitude: Double) {
 
