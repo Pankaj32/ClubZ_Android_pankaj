@@ -92,6 +92,7 @@
         android:gravity="center">
 
         <ImageView
+            android:id="@+id/item_child_join"
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
             android:layout_marginRight="@dimen/_5sdp"
