@@ -148,7 +148,9 @@
 
         <!-- chiranjib -->
 
-        <activity android:name=".ui.newsfeed.CreateNewsFeedActivity"></activity>
+        <activity android:name=".ui.newsfeed.CreateNewsFeedActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

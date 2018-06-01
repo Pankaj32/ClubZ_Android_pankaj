@@ -27,7 +27,7 @@
             <LinearLayout
                 android:id="@+id/menuCreateNewsFeed"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_48sdp"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center_vertical"
-                    android:text="@string/create_news_feed"
+                    android:text="@string/new_article"
                     android:textSize="@dimen/_14sdp"
                     android:textColor="@color/black"/>
 
@@ -53,6 +53,7 @@
                 android:id="@+id/menuEditNewsFeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                <!-- <android.support.v7.widget.AppCompatImageView

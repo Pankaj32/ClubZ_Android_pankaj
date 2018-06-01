@@ -141,7 +141,11 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
 
     override fun onBackPressed() {
         if(searchView.visibility==View.VISIBLE){
-            tablayout.getTabAt(0)?.select();
+            tablayout.getTabAt(0)?.select()
+            searchList.clear()
+            searchAdapter?.notifyDataSetChanged()
+            search_layout.visibility = View.GONE
+
         }else super.onBackPressed()
     }
 
@@ -167,6 +171,9 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             searchView.visibility = View.VISIBLE
             search_layout.visibility = View.VISIBLE
             recycleView.visibility = View.VISIBLE
+            searchList.clear()
+            searchAdapter?.notifyDataSetChanged()
+            searchView.queryHint = ""
             searchView.setIconifiedByDefault(true);
             searchView.setFocusable(true);
             searchView.setIconified(false);
