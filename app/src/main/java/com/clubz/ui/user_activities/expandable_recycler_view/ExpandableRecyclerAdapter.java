@@ -138,7 +138,7 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
         } else if (listItem == null) {
             throw new IllegalStateException("Incorrect ViewHolder found");
         } else {
-            onBindChildViewHolder((CVH) holder, position, listItem);
+            onBindChildViewHolder((CVH) holder, position,listItem);
         }
     }
 
@@ -332,7 +332,6 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
         if (parentWrapperIndex == -1) {
             return;
         }
-
         expandViews(parentWrapper, parentWrapperIndex);
     }
 
@@ -373,7 +372,6 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
         } else {
             return;
         }
-
         collapseViews(parentWrapper, parentWrapperIndex);
     }
 
@@ -389,7 +387,6 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
         if (parentWrapperIndex == -1) {
             return;
         }
-
         collapseViews(parentWrapper, parentWrapperIndex);
     }
 
@@ -659,7 +656,6 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
         int sizeChanged = addParentWrapper(wrapperIndex, parentListItem);
         notifyItemRangeInserted(wrapperIndex, sizeChanged);
     }
-
     /**
      * Notify any registered observers that the currently reflected {@code itemCount}
      * ParentListItems starting at {@code parentPositionStart} have been newly inserted.
@@ -830,9 +826,7 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
                 sizeChanged++;
             }
         }
-
         return sizeChanged;
-
     }
 
     /**
@@ -1143,7 +1137,6 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
                 }
             }
         }
-
         return -1;
     }
 
@@ -1165,7 +1158,6 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
                 }
             }
         }
-
         return null;
     }
 }
