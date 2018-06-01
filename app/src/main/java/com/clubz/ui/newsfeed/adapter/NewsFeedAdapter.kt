@@ -29,13 +29,21 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context) : Recyc
         val feed : Feed = items.get(position)
         holder!!.tvDescription?.text = feed.news_feed_description
         holder.tvTitle.text = feed.news_feed_title
-        holder.tvCreateTime.text = "# "+feed.getDate()
+        holder.tvCreateTime.text = feed.getDate()
         holder.tvClubname.text =feed.club_name
         holder.tvCreaterName.text = feed.club_name
         holder.tvChatCount.text = "${feed.comments +" "}${context.getString(R.string.comments)}"
 
-        if(!feed.news_feed_attachment.isEmpty())
+        if(feed.news_feed_attachment.isEmpty()){
+            holder.rl_content.visibility = View.GONE
+            holder.ll_txt.visibility = View.VISIBLE
+            holder!!.tvDescTxt?.text = feed.news_feed_description
+        } else{
+            holder.ll_txt.visibility = View.GONE
+            holder.ivBanner.visibility = View.VISIBLE
+            holder.rl_content.visibility = View.VISIBLE
             Picasso.with(holder.ivBanner.context).load(feed.news_feed_attachment).fit().into(holder.ivBanner)
+        }
 
        /* if(!feed.club_icon.isEmpty())
             Picasso.with(holder.ivUserProfile.context).load(feed.club_icon).fit().into(holder.ivUserProfile)*/
@@ -49,7 +57,10 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     val tvCreateTime = view.tvCreateTime
     val tvClubname = view.tvClubname
     val tvDescription = view.tvDescription
+    val tvDescTxt = view.tvDescTxt
     val tvCreaterName = view.tvCreaterName
     val tvChatCount = view.tvChatCount
+    val ll_txt = view.ll_txt
+    val rl_content = view.rl_content
    // val ivUserProfile = view.ivUserProfile
 }

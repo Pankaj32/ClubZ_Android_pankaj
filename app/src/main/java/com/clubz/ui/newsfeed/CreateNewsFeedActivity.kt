@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
@@ -114,11 +115,11 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
 
         if(feedTitle!!.isEmpty()){
             titile_name.requestFocus()
-            showSneckBar(getString(R.string.club_manager))
+            showSneckBar(getString(R.string.error_article_name))
             return false
         }else if(description!!.isEmpty()){
             etv_description.requestFocus()
-            showSneckBar(getString(R.string.club_manager))
+            showSneckBar(getString(R.string.error_article_desc))
             return false
         }/*else if(feedTitle!!.isEmpty()){
             titile_name.requestFocus()
@@ -129,8 +130,8 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
     }
 
     fun showSneckBar(text : String){
-        Util.showSnake(this@CreateNewsFeedActivity,findViewById(R.id.clRootView), R.string.a_clubnme)
-        //Snackbar.make(findViewById(R.id.clRootView), text, Snackbar.LENGTH_SHORT).show()
+        //Util.showSnake(this@CreateNewsFeedActivity,findViewById(R.id.clRootView), 1,text)
+        Snackbar.make(findViewById(R.id.clRootView), text, Snackbar.LENGTH_SHORT).show()
     }
 
 

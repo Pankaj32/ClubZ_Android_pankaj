@@ -50,7 +50,7 @@ class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
         requireNotNull(clubz) { "no user_id provided in Intent extras" }
 
         title_tv.text = clubz.club_name
-        for (views in arrayOf(backBtn)) views.setOnClickListener(this)
+        for (views in arrayOf(backBtn, bubble_menu)) views.setOnClickListener(this)
         setViewPager(view_pager_cd)
         tablayout_cd.setupWithViewPager(view_pager_cd)
 
@@ -75,6 +75,7 @@ class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.menuCreateNewsFeed ->{
+                dialog?.dismiss()
                 startActivity(Intent(this@ClubDetailActivity,
                         CreateNewsFeedActivity::class.java).putExtra("clubId", clubz.clubId))
             }
