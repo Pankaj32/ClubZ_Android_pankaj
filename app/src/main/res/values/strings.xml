@@ -317,10 +317,16 @@
     <string name="h_Tomorrow">Tomorrow</string>
     <string name="h_coming_soon">Comming Soon</string>
     <string name="Collapse">collapse</string>
+    <!--Activity Details-->
+    <string name="termsnCondition"><u>Terms and Condition</u></string>
+    <string name="a_activity_first_tab">Details</string>
+    <string name="a_activity_snd_tab">Members</string>
 
     <string name="likes"> Likes </string>
     <string name="comments"> Comments </string>
     <string name="error_nickname">Enter nickname first.</string>
     <string name="by">By</string>
+
+
 
 </resources>

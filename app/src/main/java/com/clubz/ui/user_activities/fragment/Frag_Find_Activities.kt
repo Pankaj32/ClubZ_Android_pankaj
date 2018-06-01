@@ -1,10 +1,12 @@
 package com.clubz.ui.user_activities.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,10 +21,13 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.user_activities.activity.ActivitiesDetails
 import com.clubz.ui.user_activities.expandable_recycler_view.ExpandableRecyclerAdapter
 import com.clubz.ui.user_activities.expandable_recycler_view.MovieCategory
 import com.clubz.ui.user_activities.expandable_recycler_view.MovieCategoryAdapter
 import com.clubz.ui.user_activities.expandable_recycler_view.Movies
+import com.clubz.ui.user_activities.listioner.ChildViewClickListioner
+import com.clubz.ui.user_activities.listioner.ParentViewClickListioner
 import com.clubz.utils.Util
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_find_activities.*
@@ -37,8 +42,7 @@ import java.util.*
  * Use the [Frag_Find_Activities.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Frag_Find_Activities : Fragment(), View.OnClickListener {
-
+class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickListioner, ChildViewClickListioner {
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
@@ -95,7 +99,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener {
 
         getActivitiesList("", "", "")
 
-        todayAdapter = MovieCategoryAdapter(mContext, movieCategories)
+        todayAdapter = MovieCategoryAdapter(mContext, movieCategories, this@Frag_Find_Activities,this@Frag_Find_Activities)
         todayAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
                 val expandedMovieCategory = movieCategories[position]
@@ -107,7 +111,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener {
             }
 
         })
-        tomorrowAdapter = MovieCategoryAdapter(mContext, movieCategories)
+        tomorrowAdapter = MovieCategoryAdapter(mContext, movieCategories, this@Frag_Find_Activities, this@Frag_Find_Activities)
         tomorrowAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
                 val expandedMovieCategory = movieCategories[position]
@@ -119,7 +123,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener {
             }
 
         })
-        soonAdapter = MovieCategoryAdapter(mContext, movieCategories)
+        soonAdapter = MovieCategoryAdapter(mContext, movieCategories, this@Frag_Find_Activities, this@Frag_Find_Activities)
         soonAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
                 val expandedMovieCategory = movieCategories[position]
@@ -236,7 +240,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener {
                         /*var leaderResponce: GetLeaderResponce = Gson().fromJson(data, GetLeaderResponce::class.java)*/
 
                     } else {
-                       /* Toast.makeText(mContext, obj.getString("message"), Toast.LENGTH_LONG).show()*/
+                        /* Toast.makeText(mContext, obj.getString("message"), Toast.LENGTH_LONG).show()*/
                     }
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
@@ -286,4 +290,26 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener {
         imgView.startAnimation(rotateAnimation)
     }
 
-}// Required empty public constructor
+    override fun onItemMenuClick(position: Int) {
+        Log.e("parent " + position," "+ position)
+        Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onItemClick(position: Int) {
+    }
+
+    override fun onItemLike(position: Int) {
+    }
+
+    override fun onItemChat(position: Int) {
+    }
+
+    override fun onItemJoin(position: Int) {
+        startActivity(Intent(mContext, ActivitiesDetails::class.java))
+    }
+
+    override fun onJoin(parentPosition: Int, childPosition: Int) {
+        Toast.makeText(context, "parent " + parentPosition + " child " + childPosition, Toast.LENGTH_SHORT).show()
+        Log.e("parent " + parentPosition + " child " + childPosition,"hh")
+    }
+}

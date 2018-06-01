@@ -1,21 +1,29 @@
 package com.clubz.ui.user_activities.expandable_recycler_view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.clubz.R;
+import com.clubz.ui.user_activities.listioner.ChildViewClickListioner;
+import com.clubz.ui.user_activities.listioner.ParentViewClickListioner;
 
 import java.util.List;
 
 public class MovieCategoryAdapter extends ExpandableRecyclerAdapter<MovieCategoryViewHolder, MoviesViewHolder> {
 
     private LayoutInflater mInflator;
+    private ParentViewClickListioner parentViewClickListioner;
+    private ChildViewClickListioner childViewClickListioner;
+    private int parentPosition;
 
-    public MovieCategoryAdapter(Context context, List<? extends ParentListItem> parentItemList) {
+    public MovieCategoryAdapter(Context context, List<? extends ParentListItem> parentItemList, ParentViewClickListioner parentViewClickListioner, ChildViewClickListioner childViewClickListioner) {
         super(parentItemList);
         mInflator = LayoutInflater.from(context);
+        this.parentViewClickListioner = parentViewClickListioner;
+        this.childViewClickListioner = childViewClickListioner;
     }
 
     @Override
@@ -33,12 +41,13 @@ public class MovieCategoryAdapter extends ExpandableRecyclerAdapter<MovieCategor
     @Override
     public void onBindParentViewHolder(MovieCategoryViewHolder movieCategoryViewHolder, int position, ParentListItem parentListItem) {
         MovieCategory movieCategory = (MovieCategory) parentListItem;
-        movieCategoryViewHolder.bind(movieCategory);
+        parentPosition = position;
+        movieCategoryViewHolder.bind(movieCategory, position, parentViewClickListioner);
     }
 
     @Override
     public void onBindChildViewHolder(MoviesViewHolder moviesViewHolder, int position, Object childListItem) {
         Movies movies = (Movies) childListItem;
-        moviesViewHolder.bind(movies);
+        moviesViewHolder.bind(movies, parentPosition, position, childViewClickListioner);
     }
 }
