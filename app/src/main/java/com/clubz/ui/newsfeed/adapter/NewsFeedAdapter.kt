@@ -32,7 +32,7 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context) : Recyc
         holder.tvCreateTime.text = feed.getDate()
         holder.tvClubname.text =feed.club_name
         holder.tvCreaterName.text = feed.club_name
-        holder.tvChatCount.text = "${feed.comments +" "}${context.getString(R.string.comments)}"
+        //holder.tvChatCount.text = "${feed.comments +" "}${context.getString(R.string.comments)}"
 
         if(feed.news_feed_attachment.isEmpty()){
             holder.rl_content.visibility = View.GONE
@@ -59,7 +59,7 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     val tvDescription = view.tvDescription
     val tvDescTxt = view.tvDescTxt
     val tvCreaterName = view.tvCreaterName
-    val tvChatCount = view.tvChatCount
+    //val tvChatCount = view.tvChatCount
     val ll_txt = view.ll_txt
     val rl_content = view.rl_content
    // val ivUserProfile = view.ivUserProfile

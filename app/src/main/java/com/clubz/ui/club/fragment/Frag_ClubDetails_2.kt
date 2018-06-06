@@ -3,6 +3,7 @@ package com.clubz.ui.club.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -26,9 +27,7 @@ import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import org.json.JSONObject
-import android.view.animation.AnimationUtils
-import android.view.animation.Animation
-
+import android.widget.ImageView
 
 /**
  * Created by mindiii on २१/३/१८.
@@ -63,27 +62,12 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
 
             if(tv_expand1.text.equals(getString(R.string.collapse))){
                 tv_expand1.text = getString(R.string.expand)
-                //iv_expand1.animate().rotation(180f).start()
-                val aniRotateClk = AnimationUtils.loadAnimation(activity, R.anim.rotate_clockwise)
-                aniRotateClk.setRepeatCount(Animation.INFINITE);
-                iv_expand1.startAnimation(aniRotateClk)
+                setUpExpandAndCollapse(false, iv_expand1, cardViewMember)
                 rv_members.visibility = View.GONE
-
-                val param = cardViewMember.layoutParams as LinearLayout.LayoutParams
-                param.weight = 0f
-                param.height = WRAP_CONTENT
-
-                param.apply {  }
-
 
             }else{
                 tv_expand1.setText(R.string.collapse)
-               // iv_expand1.animate().rotation(180f).start()
-                val aniRotateClk = AnimationUtils.loadAnimation(activity, R.anim.rotate_clockwise)
-                iv_expand1.startAnimation(aniRotateClk)
-                val param = cardViewMember.layoutParams as LinearLayout.LayoutParams
-                param.height = 0
-                param.weight = 1f
+                setUpExpandAndCollapse(true, iv_expand1, cardViewMember)
                 rv_members.visibility = View.VISIBLE
             }
         }
@@ -92,30 +76,30 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
 
             if(tv_expand2.text.equals(getString(R.string.collapse))){
                 tv_expand2.text = getString(R.string.expand)
-               // iv_expand2.animate().rotation(180f).start()
-
-                val aniRotateClk = AnimationUtils.loadAnimation(activity, R.anim.rotate_clockwise)
-                aniRotateClk.setRepeatCount(Animation.INFINITE);
-                iv_expand2.startAnimation(aniRotateClk)
-
                 rv_appcalints.visibility = View.GONE
-                val param = cardViewApplicant.layoutParams as LinearLayout.LayoutParams
-                param.weight = 0f
-                param.height = WRAP_CONTENT
-                param.apply {  }
-
-
+                setUpExpandAndCollapse(false, iv_expand2, cardViewApplicant)
             }else{
                 tv_expand2.setText(R.string.collapse)
-                //iv_expand2.animate().rotation(180f).start()
-                val aniRotateClk = AnimationUtils.loadAnimation(activity, R.anim.rotate_clockwise)
-                iv_expand2.startAnimation(aniRotateClk)
-
-                val param = cardViewApplicant.layoutParams as LinearLayout.LayoutParams
-                param.height = 0
-                param.weight = 1f
                 rv_appcalints.visibility = View.VISIBLE
+                setUpExpandAndCollapse(true, iv_expand2, cardViewApplicant)
             }
+        }
+    }
+
+    fun setUpExpandAndCollapse(flag: Boolean, imageView: ImageView, cardView: CardView){
+        Util.setRotation(imageView, flag)
+        if(flag){
+            imageView.setImageResource(R.drawable.ic_drop_up_arrow)
+            val param = cardView.layoutParams as LinearLayout.LayoutParams
+            param.height = 0
+            param.weight = 1f
+        }else{
+
+            imageView.setImageResource(R.drawable.ic_down_arrow)
+            val param = cardView.layoutParams as LinearLayout.LayoutParams
+            param.weight = 0f
+            param.height = WRAP_CONTENT
+            param.apply {  }
         }
     }
 
@@ -149,18 +133,18 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
     }
 
     override fun onFocus() {
-        tv_expand2.text = getString(R.string.expand)
-        //iv_expand2.animate().rotation(180f).start()
 
-        val aniRotateClk = AnimationUtils.loadAnimation(activity, R.anim.rotate_clockwise)
-        aniRotateClk.setRepeatCount(Animation.INFINITE);
-        iv_expand2.startAnimation(aniRotateClk)
+        if(tv_expand2.text.equals(getString(R.string.collapse))){
+            tv_expand2.text = getString(R.string.expand)
+            rv_appcalints.visibility = View.GONE
+            setUpExpandAndCollapse(false, iv_expand2, cardViewApplicant)
+        }
 
-        rv_appcalints.visibility = View.GONE
+       /* rv_appcalints.visibility = View.GONE
         val param = cardViewApplicant.layoutParams as LinearLayout.LayoutParams
         param.weight = 0f
         param.height = WRAP_CONTENT
-        param.apply {  }
+        param.apply {  }*/
     }
 
     fun getOwnClubMembers(){
@@ -175,11 +159,9 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
                         memberList = Gson().fromJson<List<ClubMember>>(obj.getString("data"), Type_Token.club_member_list)
                         adapterOwnClubMember?.setMemberList(memberList)
 
-                    } else {
-                        Util.showToast(obj.getString("message"),context)
                     }
                 }catch (ex :Exception){
-                   // Util.showToast(R.string.swr,context)
+                    Util.showToast(R.string.swr,context)
                 }
             }
 
@@ -192,7 +174,6 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-//                params.put("clubId",clubz.clubId);
                 return params
             }
 
@@ -205,8 +186,6 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
     }
 
     fun getClubMembers() {
-        //val dialog = CusDialogProg(context);
-        //dialog.show();   // ?clubId=66&offset=0&limit=10
         object : VolleyGetPost(activity, "${WebService.club_member_list}?clubId=${clubz.clubId}", true) {
             override fun onVolleyResponse(response: String?) {
                 try {
@@ -215,24 +194,17 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
                     if (obj.getString("status").equals("success")) {
                         memberList = Gson().fromJson<List<ClubMember>>(obj.getString("data"), Type_Token.club_member_list)
                         adapterClubMember?.setMemberList(memberList)
-                    } else {
-                        Util.showToast(obj.getString("message"), context)
                     }
-                } catch (ex: Exception) {
-                    //Util.showToast(R.string.swr, context)
-                }
+                } catch (ex: Exception) { }
             }
 
             override fun onVolleyError(error: VolleyError?) {
-               // dialog.dismiss();
             }
 
             override fun onNetError() {
-                //dialog.dismiss();
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-//                params.put("clubId",clubz.clubId);
                 return params
             }
 
@@ -255,12 +227,8 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
                     if (obj.getString("status").equals("success")) {
                         applicantList = Gson().fromJson<List<ClubMember>>(obj.getString("data"), Type_Token.club_member_list)
                         adapter_applicant?.setApplicantList(applicantList)
-                    } else {
-                        //Util.showToast(obj.getString("message"), context)
                     }
-                } catch (ex: Exception) {
-                   // Util.showToast(R.string.swr, context)
-                }
+                } catch (ex: Exception) { }
             }
 
             override fun onVolleyError(error: VolleyError?) {
@@ -272,7 +240,6 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-//                params.put("clubId",clubz.clubId);
                 return params
             }
 
@@ -283,7 +250,6 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
             }
         }.execute()
     }
-
 
     override fun onUpdateClubMember(member: ClubMember?, pos: Int) {
         val dialog = CusDialogProg(context);
@@ -299,9 +265,7 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
                     } else {
                         Util.showToast(obj.getString("message"), context)
                     }
-                } catch (ex: Exception) {
-                    // Util.showToast(R.string.swr, context)
-                }
+                } catch (ex: Exception) { }
             }
 
             override fun onVolleyError(error: VolleyError?) {
@@ -339,11 +303,9 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
                             getOwnClubMembers()
                         }else getClubMembers()
 
-                    }/* else {
-                        Util.showToast(obj.getString("message"), context)
-                    }*/
+                    }
                 } catch (ex: Exception) {
-                    // Util.showToast(R.string.swr, context)
+                     Util.showToast(R.string.swr, context)
                 }
             }
 
@@ -357,7 +319,6 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params.put("clubId",clubz.clubId);
-               // params.put("clubUserId",member!!.clubUserId);
                 params.put("userId",member!!.userId);
                 params.put("answerStatus", status!!);
                 return params
@@ -370,7 +331,6 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
             }
         }.execute()
     }
-
 
     override fun onTagAdd(tag: String?, member: ClubMember?, pos: Int) {
         val dialog = CusDialogProg(context);
@@ -387,7 +347,7 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
                         Util.showToast(obj.getString("message"), context)
                     }
                 } catch (ex: Exception) {
-                    // Util.showToast(R.string.swr, context)
+                     Util.showToast(R.string.swr, context)
                 }
             }
 

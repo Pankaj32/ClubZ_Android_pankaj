@@ -10,6 +10,8 @@ import android.view.View
 import java.io.IOException
 import java.nio.charset.Charset
 import android.support.design.widget.Snackbar;
+import android.view.animation.RotateAnimation
+import android.widget.ImageView
 import android.widget.Toast
 import com.clubz.R
 import java.math.BigDecimal
@@ -111,6 +113,28 @@ class Util {
         }
 
 
+        private val INITIAL_POSITION = 0.0f
+        private val ROTATED_POSITION = 180f
+        public fun setRotation(imgView: ImageView, expanded: Boolean) {
+            val rotateAnimation: RotateAnimation
+            if (expanded) { // rotate clockwise
+                rotateAnimation = RotateAnimation(ROTATED_POSITION,
+                        INITIAL_POSITION,
+                        RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                        RotateAnimation.RELATIVE_TO_SELF, 0.5f)
+            } else { // rotate counterclockwise
+                rotateAnimation = RotateAnimation(-1 * ROTATED_POSITION,
+                        INITIAL_POSITION,
+                        RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                        RotateAnimation.RELATIVE_TO_SELF, 0.5f)
+            }
+
+            rotateAnimation.duration = 200
+            rotateAnimation.fillAfter = true
+            imgView.startAnimation(rotateAnimation)
+        }
+
+
         fun getDistanceinKm( lat1 : Float,  lng1 :Float,  lat2 :Float, lng2 :Float) : Float{
             val earthRadius = 6371000.0 //meters
             Util.e("latlong","$lat1 : $lng2 : $lat2 : $lng2")
@@ -143,7 +167,7 @@ class Util {
             return String(Character.toChars(unicode))
         }
 
-     public   val imageResources = intArrayOf(
+        val imageResources = intArrayOf(
         R.drawable.af,
         R.drawable.al,
         R.drawable.dz,

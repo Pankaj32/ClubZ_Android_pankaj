@@ -199,7 +199,7 @@
                     android:layout_alignParentRight="true"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/tvChatCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -207,7 +207,7 @@
                         android:fontFamily="@font/roboto_light"
                         android:layout_gravity="end|center_vertical"
                         android:textSize="12sp"
-                        android:text="150 Comments"/>
+                        android:text="150 Comments"/>-->
 
                     <android.support.v7.widget.AppCompatImageView
                         android:layout_width="35dp"

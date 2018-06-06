@@ -75,6 +75,8 @@
 
     <string name="t_find_activities"> Find activities </string>
     <string name="t_new_activity"> New Activity </string>
+    <string name="t_chat"> Chat </string>
+    <string name="t_ads"> Ads </string>
 
     <!--Bottom menu-->
     <string name="item_1">News</string>
@@ -248,7 +250,7 @@
     <string name="terms_conditions">Terms and conditions</string>
     <string name="collapse">Collapse</string>
     <string name="dharmraj_acharya_bhurtel">Dharmraj Acharya Bhurtel</string>
-    <string name="applicant">Applicant</string>
+    <string name="applicants">Applicants</string>
     <string name="current_members">Current Members</string>
     <string name="expand">Expand</string>
 
@@ -261,10 +263,11 @@
 
     <!--Nav menu-->
     <string name="about_me">About me</string>
-    <string name="clubs">Clubs</string>
+    <string name="clubs">My clubs</string>
+    <string name="nav_news">My news</string>
+    <string name="nav_activities">My activities</string>
+    <string name="nav_ads">My ads</string>
     <string name="history">History</string>
-    <string name="nav_activities">Activities</string>
-    <string name="nav_ads">Ads</string>
     <string name="settings">Settings</string>
 
     <string name="open_drawer">open drawer</string>
@@ -326,7 +329,7 @@
     <string name="comments"> Comments </string>
     <string name="error_nickname">Enter nickname first.</string>
     <string name="by">By</string>
-    
+
     <string name="prompt_comment_disabled">Comment disabled</string>
     <string name="tab_to_add_filter_tags">tab to add filter tags</string>
     <string name="create_news_feed">Create news feed</string>
@@ -334,7 +337,7 @@
     <string name="new_article">New Article</string>
     <string name="error_article_name">Please enert article name.</string>
     <string name="error_article_desc">Please enert article description.</string>
-
+    <string name="under_development">Under Development</string>
 
 
 </resources>

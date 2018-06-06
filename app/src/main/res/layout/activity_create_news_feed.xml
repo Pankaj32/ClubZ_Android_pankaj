@@ -130,20 +130,88 @@
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:layout_marginRight="@dimen/_16sdp">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_40sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:layout_marginBottom="@dimen/_10sdp">
 
                         <ImageView
+                            android:id="@+id/imageFilter"
                             android:layout_width="@dimen/_35sdp"
                             android:layout_height="@dimen/_35sdp"
+                            android:layout_centerVertical="true"
                             app:srcCompat="@drawable/ic_filter" />
 
-                        <LinearLayout
+                        <HorizontalScrollView
+                            android:id="@+id/tagScroll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="none"
+                            android:layout_toRightOf="@+id/imageFilter"
+                            android:layout_centerVertical="true"
+                            android:overScrollMode="never">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <com.clubz.ui.cv.chipview.TagView
+                                    android:id="@+id/tagView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:layout_gravity="center_vertical"/>
+
+                                <View
+                                    android:id="@+id/tagDivider"
+                                    android:layout_width="1dp"
+                                    android:layout_height="@dimen/_12sdp"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:background="@color/text_color_gray"
+                                    android:visibility="gone"/>
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/edFilterTag"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_28sdp"
+                                    android:hint="@string/tab_to_add_filter_tags"
+                                    android:paddingRight="@dimen/_5sdp"
+                                    android:textColorHint="@color/text_color_gray"
+                                    android:textColor="@color/black"
+                                    android:singleLine="true"
+                                    android:inputType="textCapWords"
+                                    android:maxLength="15"
+                                    android:textSize="@dimen/_10sdp"
+                                    android:fontFamily="@font/roboto_italic"
+                                    android:imeOptions="actionDone"
+                                    style="@style/et_sign_up"/>
+
+                              <!--  <ProgressBar
+                                    android:id="@+id/pb_loading_indicator"
+                                    style="?android:attr/progressBarStyleSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:layout_marginRight="8dp"
+                                    android:visibility="visible"/>-->
+
+                            </LinearLayout>
+
+                        </HorizontalScrollView>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:layout_below="@+id/tagScroll"
+                            android:layout_toRightOf="@+id/imageFilter"
+                            android:background="@color/ab_icon"/>
+
+                        <!--<LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -177,10 +245,11 @@
                                         android:background="@color/text_color_gray"
                                         android:visibility="gone"/>
 
-                                    <EditText
+                                    <AutoCompleteTextView
                                         android:id="@+id/edFilterTag"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="0dp"
                                         android:layout_height="@dimen/_26sdp"
+                                        android:layout_weight="1"
                                         android:hint="@string/tab_to_add_filter_tags"
                                         android:paddingRight="@dimen/_5sdp"
                                         android:textColorHint="@color/text_color_gray"
@@ -203,10 +272,10 @@
                                 android:layout_marginTop="@dimen/_3sdp"
                                 android:background="@color/ab_icon"/>
 
-                        </LinearLayout>
+                        </LinearLayout>-->
 
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <include layout="@layout/divider_start_view"
                         android:layout_height="wrap_content"

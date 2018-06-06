@@ -22,19 +22,20 @@ class WebService {
         val club_detail     = base_Url +"service/club/clubDetail";  //will get
         val club_join       = base_Url +"service/club/joinClub";  //will get
         val club_leave      = base_Url +"service/club/leaveClub";  //leave club get
-        val club_applicant_list = base_Url +"service/club/getClubApplicants";
-        val club_member_list = base_Url +"service/club/getClubMembers"; // ?clubId=66&offset=0&limit=10
-        val club_my_clubs = base_Url +"service/club/myClubs";
-        val club_updateMemberStatus = base_Url +"service/club/updateClubMemberStatus";
-        val club_member_action = base_Url +"service/club/answerClubRequest";
-        val club_add_member_Tag = base_Url +"service/club/addUserTag";
-        val club_search_clubs = base_Url +"service/club/searchClub";
+        val club_applicant_list = base_Url +"service/club/getClubApplicants"
+        val club_member_list = base_Url +"service/club/getClubMembers" // ?clubId=66&offset=0&limit=10
+        val club_my_clubs = base_Url +"service/club/myClubs"
+        val club_updateMemberStatus = base_Url +"service/club/updateClubMemberStatus"
+        val club_member_action = base_Url +"service/club/answerClubRequest"
+        val club_add_member_Tag = base_Url +"service/club/addUserTag"
+        val club_search_clubs = base_Url +"service/club/searchClub"
+        val feed_filter_tag = base_Url +"service/club/allNewsFilterTags"
 
-        val nearclub_names  = base_Url +"service/club/nearByClubsName"; // Potential search will GEt
+        val nearclub_names  = base_Url +"service/club/nearByClubsName" // Potential search will GEt
 
         /*feed related api*/
-        val feed_getNewsFeedLsit = base_Url + "service/club/getNewsFeedsList";
-        val create_feed     = base_Url +"service/club/createNewsFeed"; // Potential search will GEt
+        val feed_getNewsFeedLsit = base_Url + "service/club/getNewsFeedsList"
+        val create_feed     = base_Url +"service/club/createNewsFeed" // Potential search will GEt
 
         val get_leaders= base_Url+"service/activity/activityLeaderList?clubId="
         val get_my_club= base_Url+"service/club/myCreatedClubsName"

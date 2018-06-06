@@ -12,6 +12,24 @@
             android:icon="@drawable/ic_nav_clubs"
             android:title="@string/clubs" />
 
+        <item
+            android:id="@+id/navItemNews"
+            android:checked="true"
+            android:icon="@drawable/ic_chat"
+            android:title="@string/nav_news" />
+
+        <item
+            android:id="@+id/navItemActivity"
+            android:checked="true"
+            android:icon="@drawable/ic_nav_event"
+            android:title="@string/nav_activities" />
+
+        <item
+            android:id="@+id/navItemAds"
+            android:checked="true"
+            android:icon="@drawable/ic_nav_ads"
+            android:title="@string/nav_ads" />
+
     </group>
 
     <item
@@ -25,17 +43,6 @@
                 android:icon="@drawable/ic_nav_history"
                 android:title="@string/history" />
 
-            <item
-                android:id="@+id/navItemActivity"
-                android:checked="true"
-                android:icon="@drawable/ic_nav_event"
-                android:title="@string/nav_activities" />
-
-            <item
-                android:id="@+id/navItemAds"
-                android:checked="true"
-                android:icon="@drawable/ic_nav_ads"
-                android:title="@string/nav_ads" />
             <item
                 android:id="@+id/navItemSetting"
                 android:checked="true"

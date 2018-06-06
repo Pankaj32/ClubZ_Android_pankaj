@@ -196,6 +196,7 @@
                         android:paddingStart="@dimen/_4sdp"
                         android:paddingEnd="@dimen/_4sdp"
                         android:layout_below="@id/img_club"/>
+
                     <EditText
                         android:id="@+id/tv_fondationdate"
                         android:layout_width="wrap_content"
@@ -315,6 +316,7 @@
                         android:inputType="textEmailAddress"
                         android:layout_marginLeft="@dimen/_46sdp"
                         android:layout_marginRight="@dimen/_16sdp"
+                        android:maxLength="100"
                         style="@style/et_club_create"
                         />
                     <android.support.v7.widget.AppCompatImageView
@@ -332,7 +334,7 @@
                         android:layout_below="@+id/club_email"
                         android:hint="@string/club_phone"
                         android:inputType="phone"
-                        android:maxLength="10"
+                        android:maxLength="15"
                         android:digits="1234567890"
                         android:nextFocusForward="@+id/club_adres"
                         android:layout_marginLeft="@dimen/_46sdp"
