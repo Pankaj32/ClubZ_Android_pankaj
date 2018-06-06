@@ -28,7 +28,9 @@ import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.newsfeed.adapter.AdapterAutoTextView
 import com.clubz.utils.Constants
+import com.clubz.utils.KeyboardUtil
 import com.clubz.utils.Util
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
@@ -38,15 +40,17 @@ import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 
-class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
+class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, AdapterView.OnItemClickListener {
 
-    var userRole : String? = "Admin"
-    var feedTitle : String? =null
-    var clubId : String? =null
-    var description : String? =null
-    var isCameraSelected : Boolean = false
-    var imageUri : Uri? = null
-    var feedImage : Bitmap? = null
+    var userRole        : String? = "Admin"
+    var feedTitle       : String? = null
+    var clubId          : String? = null
+    var description     : String? = null
+    var isCameraSelected: Boolean = false
+    var imageUri        : Uri?    = null
+    var feedImage       : Bitmap? = null
+    val tagFilter       : ArrayList<String>? = arrayListOf()
+    var adapter : AdapterAutoTextView?  = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,8 +58,9 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
         setContentView(R.layout.activity_create_news_feed)
 
         if(intent.extras!=null)
-            clubId = intent.extras.getString("clubId");
+            clubId = intent.extras.getString("clubId")
 
+        leadby.text = ClubZ.currentUser?.full_name
         //leadby.setText(ClubZ.currentUser!!.full_name)
         for(views in arrayOf(img_newsFeed ,backBtn , ivDone))views.setOnClickListener(this)
 
@@ -73,6 +78,7 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
                         if(tagView.size()>=3){
                             tagDivider.visibility = View.GONE
                             edFilterTag.visibility = View.GONE
+                            KeyboardUtil.hideKeyboard(this@CreateNewsFeedActivity)
                         }
                     }else {
                         tagDivider.visibility = View.GONE
@@ -83,15 +89,49 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
             false
         }
 
+        //edFilterTag.addTextChangedListener(this)
+
         spn_commentStatus!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                if(spn_commentStatus.selectedItem.toString().equals(getString(R.string.prompt_comment_disabled))){
                    ivComment.setImageResource(R.drawable.ic_comment_disable)
-               }else  ivComment.setImageResource(R.drawable.ic_comment_enable)
+               }else  ivComment  .setImageResource(R.drawable.ic_comment_enable)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
+            }
+        }
+
+        //adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, tagFilter)
+        adapter = object : AdapterAutoTextView(this, tagFilter){
+            override fun getFilterItemFromServer(txt: String?) {
+                getTagFilterSuggestion(txt!!)
+            }
+        }
+        edFilterTag.setOnItemClickListener(this)
+        edFilterTag.setThreshold(1)
+        edFilterTag.setAdapter(adapter) // 'this' is Activity instance
+    }
+
+
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val tag = parent?.getItemAtPosition(position).toString()
+        if (!TextUtils.isEmpty(tag)){
+            if(tagView.size()<3){
+                tagView.addTag(tag)
+                edFilterTag.setText("")
+                tagDivider.visibility = View.VISIBLE
+                tagView.setVisibility(View.VISIBLE)
+
+                if(tagView.size()>=3){
+                    tagDivider.visibility = View.GONE
+                    edFilterTag.visibility = View.GONE
+                    KeyboardUtil.hideKeyboard(this@CreateNewsFeedActivity)
+                }
+            }else {
+                tagDivider.visibility = View.GONE
+                edFilterTag.visibility = View.GONE
             }
         }
     }
@@ -103,7 +143,7 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
 
             R.id.img_newsFeed-> { permissionPopUp() }
 
-            R.id.ivDone-> { if(isValidData())publicNewsFeed()}
+            R.id.ivDone-> { if(isValidData())publishNewsFeed()}
         }
     }
 
@@ -135,7 +175,7 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
     }
 
 
-    fun publicNewsFeed(){
+    fun publishNewsFeed(){
         val activity = this@CreateNewsFeedActivity
         val dialog = CusDialogProg(this@CreateNewsFeedActivity)
         dialog.show()
@@ -201,8 +241,58 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener{
         ClubZ.instance.addToRequestQueue(request)
     }
 
+    fun getTagFilterSuggestion(searchText : String = ""){
+        ClubZ.instance.cancelPendingRequests(CreateNewsFeedActivity::class.java.name)
+       // pb_loading_indicator.visibility = View.VISIBLE
+        val request = object : VolleyMultipartRequest(Request.Method.POST,
+                WebService.feed_filter_tag,
+                object : Response.Listener<NetworkResponse> {
 
-    /*sdf;ak fj;klsfjdsafjasfjds*/
+                    override fun onResponse(response: NetworkResponse) {
+                        //pb_loading_indicator.visibility = View.GONE
+                        val data = String(response.data)
+                        try {
+                            val obj = JSONObject(data)
+                            if(obj.getString("status").equals("success")){
+                                var data = obj.getJSONArray("data")
+                                for (i in 0..data.length()-1){
+                                    tagFilter?.add(data.getJSONObject(i).getString("feed_filter_tag_name"))
+                                }
+                            }
+                            adapter?.notifyDataSetChanged()
+                            if(!edFilterTag.isPopupShowing && edFilterTag.text.length > 0) {
+                                edFilterTag.showDropDown()
+                            }
+                        }catch ( e : java.lang.Exception){
+                            e.printStackTrace()
+                        }
+                    }
+                }, object : Response.ErrorListener {
+            override fun onErrorResponse(error: VolleyError) {
+                //pb_loading_indicator.visibility = View.GONE
+            }
+        }) {
+            override fun getParams(): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params.put("searchText", searchText)
+                params.put("clubId", clubId!!)
+                return params
+            }
+
+            override fun getHeaders(): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params.put("language", SessionManager.getObj().getLanguage())
+                params.put("authToken", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }
+        request.setRetryPolicy(
+                DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+        ClubZ.instance.addToRequestQueue(request, CreateNewsFeedActivity::class.java.name)
+    }
+
     fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(this@CreateNewsFeedActivity, R.style.popstyle)
         val popupMenu = PopupMenu(wrapper, img_newsFeed, Gravity.CENTER)

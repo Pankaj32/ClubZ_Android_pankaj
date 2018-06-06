@@ -36,6 +36,8 @@ import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.GioAddressTask
+import com.clubz.ui.ads.fragment.AdsFragment
+import com.clubz.ui.chat.ChatFragment
 import com.clubz.ui.club.ClubCreationActivity
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.core.BaseActivity
@@ -321,14 +323,14 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
 
     fun setActionbarMenu(fragemet: Fragment){
-        for (views in arrayOf(title_tv, menu, search, cancel, addsymbol, back, serch_box))
+        for (views in arrayOf(title_tv, menu, search, cancel, addsymbol, back, serch_box, bubble_menu))
             views.visibility = View.GONE
 
         when (fragemet::class.java.simpleName) {
 
             Frag_News_List::class.java.simpleName -> {
                 isPrivate = 0
-                for (view in arrayOf(title_tv, bookmark, menu, search)) view.visibility = View.VISIBLE
+                for (view in arrayOf(title_tv, menu, search)) view.visibility = View.VISIBLE
                // for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.GONE
                 title_tv.setText(R.string.t_stay_up)
             }
@@ -340,7 +342,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             Frag_Search_Club::class.java.simpleName -> {
                 //title_tv.visibility = View.GONE
                 //for (view in arrayOf(title_tv, bookmark, menu, search)) view.visibility = View.GONE
-                for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.VISIBLE
+                for (view in arrayOf(search_text, back, addsymbol, serch_box, bubble_menu)) view.visibility = View.VISIBLE
                 filterListner = (fragemet as Frag_Search_Club);
                 textChnageListner = fragemet
                 search_text.setText("")
@@ -350,7 +352,17 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             Frag_Find_Activities::class.java.simpleName->{
                 title_tv.setText(R.string.t_find_activities)
                 //for (view in arrayOf(search)) view.visibility = View.GONE
-                for (view in arrayOf(addsymbol, menu, bookmark, title_tv)) view.visibility = View.VISIBLE
+                for (view in arrayOf(addsymbol, menu, title_tv)) view.visibility = View.VISIBLE
+            }
+
+            ChatFragment::class.java.simpleName->{
+                title_tv.setText(R.string.t_chat)
+                for (view in arrayOf(menu, title_tv)) view.visibility = View.VISIBLE
+            }
+
+            AdsFragment::class.java.simpleName->{
+                title_tv.setText(R.string.t_ads)
+                for (view in arrayOf(menu, title_tv)) view.visibility = View.VISIBLE
             }
         /*Frag_ClubDetails::class.java.simpleName -> {
             for (i in 0..cus_status.childCount - 1) cus_status.getChildAt(i).visibility = View.GONE
@@ -401,9 +413,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             }
             2 -> {
                 setTab(tab, R.drawable.ic_chat_bubble_active, true)
+                replaceFragment(AdsFragment())
             }
             3 -> {
                 setTab(tab, R.drawable.ic_ads_active, true)
+                replaceFragment(AdsFragment())
             }
         }
     }
@@ -637,13 +651,12 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
        try{
 
            when (fragemet::class.java.simpleName) {
-               Frag_Find_Activities::class.java.simpleName -> tablayout.visibility = View.VISIBLE
-               Frag_News_List::class.java.simpleName -> {
-                   tablayout.visibility = View.VISIBLE
-               }else->{
-               tablayout.visibility = View.GONE
+               Frag_Find_Activities::class.java.simpleName ->  tablayout.visibility = View.VISIBLE
+               AdsFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
+               ChatFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
+               Frag_News_List::class.java.simpleName ->  tablayout.visibility = View.VISIBLE
+               else-> tablayout.visibility = View.GONE
            }
-        }
        }catch (ex:Exception){
            ex.printStackTrace()
        }

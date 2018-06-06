@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:singleLine="true"
-                    android:text="@string/applicant"
+                    android:text="@string/applicants"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_18sdp"
                     android:fontFamily="@font/teko_semibold"/>

@@ -31,104 +31,141 @@ import java.util.ArrayList
  */
 class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
                           internal var context :Context,
-                          var listner : MyClub, var clubFragmentType: Int = 0)
-    : RecyclerView.Adapter<MyClub_List_Adapter.Holder>() {
+                          var listner : MyClub, var isMyClub: Boolean = false)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     @SuppressLint("InflateParams")
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val holder = Holder(LayoutInflater.from(context).inflate(R.layout.baseclub_list, null))
-        setUpClick(holder)
-        return holder
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+        if(viewType == 0){
+            val holder = MyClubHolder(LayoutInflater.from(context).inflate(R.layout.adapter_my_clubs, null))
+            setUpClick(holder)
+            return holder
+        }else {
+            val holder = Holder(LayoutInflater.from(context).inflate(R.layout.baseclub_list, null))
+            setUpClick(holder)
+            return holder
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if(isMyClub){
+            val obj = list.get(position)
+            if(obj.user_id.equals(ClubZ.currentUser?.id))
+                return 0
+            else return 1
+        }else return 1
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: Holder, position: Int) {
+    override fun onBindViewHolder(h: RecyclerView.ViewHolder, position: Int) {
         val obj = list.get(position)
-        holder.tvname.setText(obj.club_name)
-        holder.leadby.setText( if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name)
-        holder.body_des.setText(obj.club_description)
-        holder.members.text = obj.members+" "+context.getString(R.string.members)
 
-        if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0){
-            holder.distance.setText("-- Km")
-        }
-        else {
-            try {
-                holder.distance.setText(" ${(Util.getDistanceMile(arrayOf(ClubZ.latitude, ClubZ.longitude,obj.club_latitude.toDouble() , obj.club_longitude.toDouble()))*1.60934).toInt()} Km");
-            }catch (ex :Exception){}
-        }
-
-
-        if(obj.user_id.equals(ClubZ.currentUser?.id)){
-            holder.switch1.visibility = View.GONE
-            holder.btn_join.visibility = View.GONE
-            if(!ClubZ.currentUser!!.profile_image.isEmpty()){
-                Picasso.with(holder.ivClubManager.context)
-                        .load(ClubZ.currentUser!!.profile_image)
-                        .into(holder.ivClubManager)
-            }else
-                Picasso.with(holder.ivClubManager.context)
-                        .load(R.drawable.ic_user_white)
-                        .into(holder.ivClubManager)
-        }
-        else{
-            //holder.switch1.visibility = View.VISIBLE
-            holder.btn_join.visibility = View.VISIBLE
-            holder.switch1.visibility = if(obj.club_user_status.equals("1")) View.VISIBLE else View.GONE
-            // emtpty means no action performed yet, 0 = pending for approvial by Club admin , 1 = Joined club
-            // obj.club_type 1 = public club and 2 = private club
-            if(obj.club_type.equals("1") && obj.club_user_status.isBlank()){
-                // holder.btn_join.setText(if(obj.club_type.equals("1"))R.string.join else R.string.req_join)
-                holder.btn_join.text = context.getString(R.string.join)
-
-            }else if(obj.club_type.equals("1") && obj.club_user_status.equals("1")){
-                holder.btn_join.text = context.getString(R.string.leave)
-
-            }else if(obj.club_type.equals("2") && obj.club_user_status.isBlank()){
-                holder.btn_join.text = context.getString(R.string.req_join)
-
-            }else if(obj.club_type.equals("2") && obj.club_user_status.equals("0")){
-                holder.btn_join.text = context.getString(R.string.dismiss)
-
-            }else if(obj.club_type.equals("2") && obj.club_user_status.equals("1")){
-                holder.btn_join.text = context.getString(R.string.leave)
-
-            }else if(obj.club_type.equals("3")){
-                holder.btn_join.visibility = View.GONE
-            }
-
-            holder.switch1.isChecked = !obj.is_allow_feeds.equals("0")
-           // holder.switch1.isEnabled = obj.club_user_status.equals("1")
-        }
-
-        holder.img_status.setImageResource(if(obj.club_type.equals("1")) R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
-        holder.status.setText(if(obj.club_type.equals("1")) R.string.Public else R.string.Private)
-        try {
-
-            if(obj.profile_image.isEmpty()){
-                Picasso.with(holder.ivClubManager.context)
-                        .load(R.drawable.ic_user_white)
-                        .fit()
-                        .into(holder.ivClubManager)
-            }else
-                Picasso.with(holder.ivClubManager.context)
-                        .load(obj.profile_image)
-                        .fit()
-                        .into(holder.ivClubManager)
-
+        if(h is MyClubHolder){
+            val holder : MyClubHolder = h
+            holder.tvname.setText(obj.club_name)
+            holder.leadby.setText( if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name)
             Picasso.with(holder.image_club.context)
                     .load(obj.club_icon)
                     .fit()
                     .placeholder(R.drawable.img_gallery).into(holder.image_club)
 
-        }catch (ex :Exception){}
+        }else if(h is Holder){
+
+            val holder : Holder = h
+            holder.tvname.setText(obj.club_name)
+            holder.leadby.setText( if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name)
+            holder.body_des.setText(obj.club_description)
+            holder.members.text = obj.members+" "+context.getString(R.string.members)
+
+            if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0){
+                holder.distance.setText("-- Km")
+            }
+            else {
+                try {
+                    holder.distance.setText(" ${(Util.getDistanceMile(arrayOf(ClubZ.latitude, ClubZ.longitude,obj.club_latitude.toDouble() , obj.club_longitude.toDouble()))*1.60934).toInt()} Km");
+                }catch (ex :Exception){}
+            }
+
+
+            if(obj.user_id.equals(ClubZ.currentUser?.id)){
+                holder.switch1.visibility = View.GONE
+                holder.btn_join.visibility = View.GONE
+                if(!ClubZ.currentUser!!.profile_image.isEmpty()){
+                    Picasso.with(holder.ivClubManager.context)
+                            .load(ClubZ.currentUser!!.profile_image)
+                            .into(holder.ivClubManager)
+                }else
+                    Picasso.with(holder.ivClubManager.context)
+                            .load(R.drawable.ic_user_white)
+                            .into(holder.ivClubManager)
+            }
+            else{
+                //holder.switch1.visibility = View.VISIBLE
+                holder.btn_join.visibility = View.VISIBLE
+                holder.switch1.visibility = if(obj.club_user_status.equals("1")) View.VISIBLE else View.GONE
+                // emtpty means no action performed yet, 0 = pending for approvial by Club admin , 1 = Joined club
+                // obj.club_type 1 = public club and 2 = private club
+                if(obj.club_type.equals("1") && obj.club_user_status.isBlank()){
+                    // holder.btn_join.setText(if(obj.club_type.equals("1"))R.string.join else R.string.req_join)
+                    holder.btn_join.text = context.getString(R.string.join)
+
+                }else if(obj.club_type.equals("1") && obj.club_user_status.equals("1")){
+                    holder.btn_join.text = context.getString(R.string.leave)
+
+                }else if(obj.club_type.equals("2") && obj.club_user_status.isBlank()){
+                    holder.btn_join.text = context.getString(R.string.req_join)
+
+                }else if(obj.club_type.equals("2") && obj.club_user_status.equals("0")){
+                    holder.btn_join.text = context.getString(R.string.dismiss)
+
+                }else if(obj.club_type.equals("2") && obj.club_user_status.equals("1")){
+                    holder.btn_join.text = context.getString(R.string.leave)
+
+                }else if(obj.club_type.equals("3")){
+                    holder.btn_join.visibility = View.GONE
+                }
+
+                holder.switch1.isChecked = !obj.is_allow_feeds.equals("0")
+                // holder.switch1.isEnabled = obj.club_user_status.equals("1")
+            }
+
+            holder.img_status.setImageResource(if(obj.club_type.equals("1")) R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
+            holder.status.setText(if(obj.club_type.equals("1")) R.string.Public else R.string.Private)
+            try {
+
+                if(obj.profile_image.isEmpty()){
+                    Picasso.with(holder.ivClubManager.context)
+                            .load(R.drawable.ic_user_white)
+                            .fit()
+                            .into(holder.ivClubManager)
+                }else
+                    Picasso.with(holder.ivClubManager.context)
+                            .load(obj.profile_image)
+                            .fit()
+                            .into(holder.ivClubManager)
+
+                Picasso.with(holder.image_club.context)
+                        .load(obj.club_icon)
+                        .fit()
+                        .placeholder(R.drawable.img_gallery).into(holder.image_club)
+
+            }catch (ex :Exception){}
+        }
+
     }
 
     override fun getItemCount(): Int {
         return list.size;
-
     }
 
+
+    class MyClubHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var tvname      = itemView.findViewById<TextView>(R.id.tvname)
+        var leadby      = itemView.findViewById<TextView>(R.id.leadby)
+        var status      = itemView.findViewById<TextView>(R.id.status)
+        var image_club  = itemView.findViewById<ImageView>(R.id.image_club)
+    }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvname      = itemView.findViewById<TextView>(R.id.tvname)
@@ -143,6 +180,7 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
         var btn_join    = itemView.findViewById<Button>(R.id.btn_join)
         var switch1     = itemView.findViewById<Switch>(R.id.switch1)
     }
+
 
 
     fun setUpClick(holder: Holder){
@@ -166,6 +204,14 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
             }else{
                 joinClub(club, pos)
             }
+        }
+    }
+
+    fun setUpClick(holder: MyClubHolder){
+        holder.itemView.setOnClickListener {
+            val pos = holder.adapterPosition
+            val club = list.get(pos)
+            context.startActivity(context.ClubDetailIntent(club))
         }
     }
 
