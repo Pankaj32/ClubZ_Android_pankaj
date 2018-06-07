@@ -244,7 +244,7 @@ public class CropImageView extends FrameLayout {
                     // if aspect ratio is set then set fixed to true
                     if (ta.hasValue(R.styleable.CropImageView_cropAspectRatioX) &&
                             ta.hasValue(R.styleable.CropImageView_cropAspectRatioX) &&
-                            !ta.hasValue(R.styleable.CropImageView_cropFixAspectRatio)) {
+                            !ta.hasValue(R.styleable.CropImageView_cropFixAspectRatio)){
                         options.fixAspectRatio = true;
                     }
                 } finally {

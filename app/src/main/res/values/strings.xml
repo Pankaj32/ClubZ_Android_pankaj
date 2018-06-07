@@ -253,6 +253,7 @@
     <string name="applicants">Applicants</string>
     <string name="current_members">Current Members</string>
     <string name="expand">Expand</string>
+    <string name="no_activites">No Activities Available</string>
 
     <!--leave club dialog-->
     <string name="leave">Leave</string>
@@ -320,6 +321,9 @@
     <string name="h_Tomorrow">Tomorrow</string>
     <string name="h_coming_soon">Coming Soon</string>
     <string name="Collapse">collapse</string>
+    <string name="joinTitle">Select who joins the activity</string>
+    <string name="joinBtnText">JOIN</string>
+
     <!--Activity Details-->
     <string name="termsnCondition"><u>Terms and Condition</u></string>
     <string name="a_activity_first_tab">Details</string>
@@ -338,6 +342,7 @@
     <string name="error_article_name">Please enert article name.</string>
     <string name="error_article_desc">Please enert article description.</string>
     <string name="under_development">Under Development</string>
+
 
 
 </resources>

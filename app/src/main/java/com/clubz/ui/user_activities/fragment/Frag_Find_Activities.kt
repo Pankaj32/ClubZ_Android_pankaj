@@ -1,11 +1,11 @@
 package com.clubz.ui.user_activities.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,21 +14,17 @@ import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.Toast
 import com.android.volley.*
-import com.clubz.ClubZ
 
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
-import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.user_activities.activity.ActivitiesDetails
-import com.clubz.ui.user_activities.expandable_recycler_view.ExpandableRecyclerAdapter
-import com.clubz.ui.user_activities.expandable_recycler_view.MovieCategory
-import com.clubz.ui.user_activities.expandable_recycler_view.MovieCategoryAdapter
-import com.clubz.ui.user_activities.expandable_recycler_view.Movies
+import com.clubz.ui.user_activities.expandable_recycler_view.*
 import com.clubz.ui.user_activities.listioner.ChildViewClickListioner
 import com.clubz.ui.user_activities.listioner.ParentViewClickListioner
-import com.clubz.utils.Util
+import com.clubz.ui.user_activities.model.GetActivitiesResponce
+import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_find_activities.*
 import org.json.JSONObject
@@ -48,14 +44,17 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
     private var mParam1: String? = null
     private var mParam2: String? = null
     private var mContext: Context? = null
-    private var todayAdapter: MovieCategoryAdapter? = null
-    private var tomorrowAdapter: MovieCategoryAdapter? = null
-    private var soonAdapter: MovieCategoryAdapter? = null
+    private var todayAdapter: TodaysActivitiesCategoryAdapter? = null
+    private var tomorrowAdapter: TomorrowActivitiesCategoryAdapter? = null
+    private var soonAdapter: SoonActivitiesCategoryAdapter? = null
     private var isTodayOpen: Boolean = false
     private var isTomorrowOpen: Boolean = false
     private var isSoonOpen: Boolean = false
     private val INITIAL_POSITION = 0.0f
     private val ROTATED_POSITION = 180f
+    private var todayList: List<GetActivitiesResponce.DataBean.TodayBean>? = null
+    private var tomorrowList: List<GetActivitiesResponce.DataBean.TomorrowBean>? = null
+    private var soonList: List<GetActivitiesResponce.DataBean.SoonBean>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -77,67 +76,6 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         recyclerViewTomorrow.layoutManager = LinearLayoutManager(mContext)
         recyclerViewSoon.layoutManager = LinearLayoutManager(mContext)
 
-        val movie_one = Movies("The Shawshank Redemption")
-        val movie_two = Movies("The Godfather")
-        val movie_three = Movies("The Dark Knight")
-        val movie_four = Movies("Schindler's List ")
-        val movie_five = Movies("12 Angry Men ")
-        val movie_six = Movies("Pulp Fiction")
-        val movie_seven = Movies("The Lord of the Rings: The Return of the King")
-        val movie_eight = Movies("The Good, the Bad and the Ugly")
-        val movie_nine = Movies("Fight Club")
-        val movie_ten = Movies("Star Wars: Episode V - The Empire Strikes")
-        val movie_eleven = Movies("Forrest Gump")
-        val movie_tweleve = Movies("Inception")
-
-        val molvie_category_one = MovieCategory("Drama", Arrays.asList<Movies>(movie_one, movie_two, movie_three, movie_four))
-        val molvie_category_two = MovieCategory("Action", Arrays.asList<Movies>(movie_five, movie_six, movie_seven, movie_eight))
-        val molvie_category_three = MovieCategory("History", Arrays.asList<Movies>(movie_nine, movie_ten, movie_eleven, movie_tweleve))
-        val molvie_category_four = MovieCategory("Thriller", Arrays.asList<Movies>(movie_one, movie_five, movie_nine, movie_tweleve))
-
-        val movieCategories = Arrays.asList<MovieCategory>(molvie_category_one, molvie_category_two, molvie_category_three, molvie_category_four)
-
-        getActivitiesList("", "", "")
-
-        todayAdapter = MovieCategoryAdapter(mContext, movieCategories, this@Frag_Find_Activities,this@Frag_Find_Activities)
-        todayAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
-            override fun onListItemExpanded(position: Int) {
-                val expandedMovieCategory = movieCategories[position]
-
-            }
-
-            override fun onListItemCollapsed(position: Int) {
-                val collapsedMovieCategory = movieCategories[position]
-            }
-
-        })
-        tomorrowAdapter = MovieCategoryAdapter(mContext, movieCategories, this@Frag_Find_Activities, this@Frag_Find_Activities)
-        tomorrowAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
-            override fun onListItemExpanded(position: Int) {
-                val expandedMovieCategory = movieCategories[position]
-
-            }
-
-            override fun onListItemCollapsed(position: Int) {
-                val collapsedMovieCategory = movieCategories[position]
-            }
-
-        })
-        soonAdapter = MovieCategoryAdapter(mContext, movieCategories, this@Frag_Find_Activities, this@Frag_Find_Activities)
-        soonAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
-            override fun onListItemExpanded(position: Int) {
-                val expandedMovieCategory = movieCategories[position]
-
-            }
-
-            override fun onListItemCollapsed(position: Int) {
-                val collapsedMovieCategory = movieCategories[position]
-            }
-
-        })
-        recyclerViewToday.setAdapter(todayAdapter)
-        recyclerViewTomorrow.setAdapter(tomorrowAdapter)
-        recyclerViewSoon.setAdapter(soonAdapter)
         todayLay.setOnClickListener(this@Frag_Find_Activities)
         tomorrowLay.setOnClickListener(this@Frag_Find_Activities)
         soonLay.setOnClickListener(this@Frag_Find_Activities)
@@ -187,88 +125,198 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                     setRotation(arowToday, isTodayOpen)
                     isTodayOpen = false
                     arowToday.setImageResource(R.drawable.ic_down_arrow)
-                    recyclerViewToday.visibility = View.GONE
+                    if (todayList != null && todayList!!.size > 0) {
+                        recyclerViewToday.visibility = View.GONE
+                    } else {
+                        todayNoDataTxt.visibility = View.GONE
+                    }
                 } else {
                     setRotation(arowToday, isTodayOpen)
                     isTodayOpen = true
-                    recyclerViewToday.visibility = View.VISIBLE
                     arowToday.setImageResource(R.drawable.ic_drop_up_arrow)
-
+                    if (todayList != null && todayList!!.size > 0) {
+                        recyclerViewToday.visibility = View.VISIBLE
+                    } else {
+                        todayNoDataTxt.visibility = View.VISIBLE
+                    }
                 }
             }
             R.id.tomorrowLay -> {
                 if (isTomorrowOpen) {
                     setRotation(arowTomorrow, isTomorrowOpen)
                     isTomorrowOpen = false
-                    recyclerViewTomorrow.visibility = View.GONE
                     arowTomorrow.setImageResource(R.drawable.ic_down_arrow)
+                    if (tomorrowList != null && tomorrowList!!.size > 0) {
+                        recyclerViewTomorrow.visibility = View.GONE
+                    } else {
+                        tomorrowNoDataTxt.visibility = View.GONE
+                    }
                 } else {
                     setRotation(arowTomorrow, isTomorrowOpen)
                     isTomorrowOpen = true
-                    recyclerViewTomorrow.visibility = View.VISIBLE
                     arowTomorrow.setImageResource(R.drawable.ic_drop_up_arrow)
+                    if (tomorrowList != null && tomorrowList!!.size > 0) {
+                        recyclerViewTomorrow.visibility = View.VISIBLE
+                    } else {
+                        tomorrowNoDataTxt.visibility = View.VISIBLE
+                    }
                 }
             }
             R.id.soonLay -> {
                 if (isSoonOpen) {
                     setRotation(arowSoon, isSoonOpen)
                     isSoonOpen = false
-                    recyclerViewSoon.visibility = View.GONE
                     arowSoon.setImageResource(R.drawable.ic_down_arrow)
+                    if (soonList != null && soonList!!.size > 0) {
+                        recyclerViewSoon.visibility = View.GONE
+                    } else {
+                        soonNoDataTxt.visibility = View.GONE
+                    }
                 } else {
                     setRotation(arowSoon, isSoonOpen)
                     isSoonOpen = true
                     recyclerViewSoon.visibility = View.VISIBLE
                     arowSoon.setImageResource(R.drawable.ic_drop_up_arrow)
+                    if (soonList != null && soonList!!.size > 0) {
+                        recyclerViewSoon.visibility = View.VISIBLE
+                    } else {
+                        soonNoDataTxt.visibility = View.VISIBLE
+                    }
                 }
             }
         }
     }
 
-    fun getActivitiesList(listType: String, limit: String, offset: String) {
+    fun getActivitiesList(listType: String = "", limit: String = "", offset: String = "") {
+
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
-        val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_my_activity_list + listType + "&limit=&offset=", object : Response.Listener<NetworkResponse> {
-            override fun onResponse(response: NetworkResponse) {
-                val data = String(response.data)
-                Util.e("data", data)
+        //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
+        object : VolleyGetPost(mContext as Activity?, mContext,
+                "${WebService.get_activity_list}?listType=${listType}&offset=${offset}&limit=${limit}",
+                //WebService.get_activity_list + listType + "&limit=&offset=",
+                true) {
+            override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {
-                    val obj = JSONObject(data)
+
+                    val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
-
-                        /*var leaderResponce: GetLeaderResponce = Gson().fromJson(data, GetLeaderResponce::class.java)*/
-
-                    } else {
-                        /* Toast.makeText(mContext, obj.getString("message"), Toast.LENGTH_LONG).show()*/
+                        var activitiesResponce: GetActivitiesResponce = Gson().fromJson(response, GetActivitiesResponce::class.java)
+                        updateUi(activitiesResponce)
                     }
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                    Toast.makeText(mContext, R.string.swr, Toast.LENGTH_LONG).show()
-                }
-                dialog.dismiss()
-            }
-        }, object : Response.ErrorListener {
-            override fun onErrorResponse(error: VolleyError) {
-                dialog.dismiss()
-                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_LONG).show()
-            }
-        }) {
+                    // searchAdapter?.notifyDataSetChanged()
 
-            override fun getHeaders(): MutableMap<String, String> {
-                val params = java.util.HashMap<String, String>()
-                //  params.put("language", SessionManager.getObj().getLanguage())
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                /* params.put("searchText", searchTxt)
+                 params.put("offset", offset.toString())
+                 params.put("limit","10")
+                 params.put("clubType", "")
+                 params.put("latitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString() )+"")
+                 params.put("longitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString() )+"")*/
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
                 params.put("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
+        }.execute(Frag_Find_Activities::class.java.name)
+    }
+
+
+    private fun updateUi(activitiesResponce: GetActivitiesResponce) {
+        for (i in 0..activitiesResponce.getData()!!.today!!.size - 1) {
+            var todayData = activitiesResponce.getData()!!.today!!.get(i)
+            for (j in 0..todayData.events!!.size - 1) {
+                var eventData = todayData.events!!.get(j)
+                eventData.childIndex = j
+                eventData.parentIndex = i
+                if (eventData.is_confirm.equals("1")) todayData.is_Confirm = true
+            }
         }
-        request.setRetryPolicy(DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
-        ClubZ.instance.addToRequestQueue(request)
+        todayList = activitiesResponce.getData()!!.today
+
+        for (i in 0..activitiesResponce.getData()!!.tomorrow!!.size - 1) {
+            var tomorrowData = activitiesResponce.getData()!!.tomorrow!!.get(i)
+            for (j in 0..tomorrowData.events!!.size - 1) {
+                var eventData = tomorrowData.events!!.get(j)
+                eventData.childIndex = j
+                eventData.parentIndex = i
+                if (eventData.is_confirm.equals("1")) tomorrowData.is_Confirm = true
+            }
+        }
+        tomorrowList = activitiesResponce.getData()!!.tomorrow
+
+        for (i in 0..activitiesResponce.getData()!!.soon!!.size - 1) {
+            var soonData = activitiesResponce.getData()!!.soon!!.get(i)
+            for (j in 0..soonData.events!!.size - 1) {
+                var eventData = soonData.events!!.get(j)
+                eventData.childIndex = j
+                eventData.parentIndex = i
+                if (eventData.is_confirm.equals("1")) soonData.is_Confirm = true
+            }
+        }
+        soonList = activitiesResponce.getData()!!.soon
+
+        todayAdapter = TodaysActivitiesCategoryAdapter(mContext, todayList, this@Frag_Find_Activities, this@Frag_Find_Activities)
+        todayAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
+            override fun onListItemExpanded(position: Int) {
+                val expandedMovieCategory = todayList!![position]
+
+            }
+
+            override fun onListItemCollapsed(position: Int) {
+                val collapsedMovieCategory = todayList!![position]
+            }
+
+        })
+        recyclerViewToday.setAdapter(todayAdapter)
+        tomorrowAdapter = TomorrowActivitiesCategoryAdapter(mContext, tomorrowList, this@Frag_Find_Activities, this@Frag_Find_Activities)
+        tomorrowAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
+            override fun onListItemExpanded(position: Int) {
+                val expandedMovieCategory = tomorrowList!![position]
+
+            }
+
+            override fun onListItemCollapsed(position: Int) {
+                val collapsedMovieCategory = tomorrowList!![position]
+            }
+
+        })
+        recyclerViewTomorrow.setAdapter(tomorrowAdapter)
+
+        soonAdapter = SoonActivitiesCategoryAdapter(mContext, soonList, this@Frag_Find_Activities, this@Frag_Find_Activities)
+        soonAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
+            override fun onListItemExpanded(position: Int) {
+                val expandedMovieCategory = soonList!![position]
+
+            }
+
+            override fun onListItemCollapsed(position: Int) {
+                val collapsedMovieCategory = soonList!![position]
+            }
+
+        })
+        recyclerViewSoon.setAdapter(soonAdapter)
     }
 
     override fun onResume() {
         super.onResume()
-        getActivitiesList("", "", "")
+        getActivitiesList()
     }
 
     private fun setRotation(imgView: ImageView, expanded: Boolean) {
@@ -291,8 +339,8 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
     }
 
     override fun onItemMenuClick(position: Int) {
-        Log.e("parent " + position," "+ position)
-        Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show()
+        Log.e("parent " + position, " " + position)
+        //Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show()
     }
 
     override fun onItemClick(position: Int) {
@@ -310,6 +358,6 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
 
     override fun onJoin(parentPosition: Int, childPosition: Int) {
         Toast.makeText(context, "parent " + parentPosition + " child " + childPosition, Toast.LENGTH_SHORT).show()
-        Log.e("parent " + parentPosition + " child " + childPosition,"hh")
+        Log.e("parent " + parentPosition + " child " + childPosition, "hh")
     }
 }

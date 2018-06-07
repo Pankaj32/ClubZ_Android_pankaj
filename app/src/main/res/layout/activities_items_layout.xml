@@ -65,6 +65,7 @@
                             app:srcCompat="@drawable/ic_inactive_hand_ico" />
 
                         <ImageView
+                            android:id="@+id/itemLike"
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp"
                             android:layout_marginRight="@dimen/_7sdp"
@@ -91,6 +92,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/clubName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/teko_regular"

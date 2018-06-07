@@ -1,93 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_events"
+    android:paddingBottom="@dimen/_5sdp"
     android:paddingLeft="@dimen/_3sdp"
     android:paddingRight="@dimen/_3sdp"
     android:paddingTop="@dimen/_5sdp"
-    android:paddingBottom="@dimen/_5sdp"
     android:weightSum="1">
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight=".15"
         android:gravity="center">
 
         <TextView
+            android:id="@+id/eventDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/teko_regular"
             android:text="25. May"
             android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_13sdp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight=".15"
-        android:gravity="center">
+        android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/eventTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/teko_regular"
+            android:paddingLeft="@dimen/_5sdp"
             android:text="25. May"
             android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_13sdp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight=".4"
-        android:gravity="center">
+        android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/eventDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/teko_regular"
+            android:paddingLeft="@dimen/_5sdp"
             android:singleLine="true"
-            android:text="Lession title. Lorem ipsum dolor et sit emit"
+            android:text="Lession "
             android:textColor="@color/black"
-            android:textSize="@dimen/_10sdp" />
+            android:textSize="@dimen/_12sdp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight=".1"
         android:gravity="center">
 
         <TextView
+            android:id="@+id/eventFee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/teko_regular"
             android:text="$ 5"
             android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_13sdp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight=".1"
         android:gravity="center">
 
         <TextView
+            android:id="@+id/eventUsers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/teko_regular"
             android:text="7/10"
             android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_13sdp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight=".1"
         android:gravity="center">
 
@@ -96,6 +104,6 @@
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
             android:layout_marginRight="@dimen/_5sdp"
-            android:src="@drawable/hand_ico" />
+            app:srcCompat="@drawable/ic_inactive_hand_ico" />
     </LinearLayout>
 </LinearLayout>
