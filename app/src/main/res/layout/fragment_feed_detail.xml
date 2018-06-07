@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.newsfeed.fragment.FeedDetailFragment">
+    tools:context=".ui.newsfeed.fragment.FeedDetailFragment"
+    android:scrollbars="none">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_margin="5dp"
         app:cardBackgroundColor="@color/white"
         app:cardUseCompatPadding="true">
 
@@ -42,18 +41,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextView.SingleLine.Gray"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/black"
                     android:text="@string/club_s_name"/>
 
             </LinearLayout>
 
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/ivBanner"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="240dp"
                 android:src="@drawable/img_gallery"
                 android:scaleType="fitCenter"/>
 
@@ -62,98 +59,167 @@
                 android:layout_height="1dp"
                 android:background="@color/gray_transprent"/>
 
+
             <LinearLayout
-                android:id="@+id/ll2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="@dimen/_8sdp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvCreateTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/TextView.SingleLine.Gray"
-                    android:text="# Hours ago"/>
-
-                <android.support.v4.widget.Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:padding="5dp"
-                    android:layout_marginRight="8dp"
-                    app:srcCompat="@drawable/ic_chat_bubble_active"/>
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:padding="5dp"
-                    app:srcCompat="@drawable/active_heart_ico"/>
-
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/tvDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="6"
-                android:ellipsize="end"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:minHeight="50dp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/text_color_gray" />
-
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:background="@color/white"
-                android:paddingRight="16dp"
-                android:paddingLeft="16dp"
-                android:gravity="center_vertical">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/ll1"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ll2"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/ll2"
-                    android:layout_marginRight="8dp"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_vertical">
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tvCreateTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text_gray"
-                        android:text="@string/by"/>
+                        style="@style/TextView.SingleLine.Gray"
+                        android:textSize="10sp"
+                        android:text="# Hours ago"/>
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/likeIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_check_favorite"
+                        android:button="@null"
+                        android:checked="false"
+                        android:layout_marginRight="5dp"
+                        android:stateListAnimator="@animator/scale"
+                        tools:ignore="UnusedAttribute" />
+                   <!-- <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:padding="5dp"
+                        app:srcCompat="@drawable/active_heart_ico"/>-->
 
                     <TextView
-                        android:id="@+id/tvCreaterName"
+                        android:id="@+id/tvLikeCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/primaryColor"
-                        android:fontFamily="@font/roboto_medium"
-                        android:layout_marginLeft="8dp"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:layout_marginRight="8dp"
-                        android:text="@string/dharmraj_acharya_bhurtel"/>
+                        style="@style/TextView.SingleLine.Gray"
+                        android:textSize="10sp"
+                        android:text="50 Likes"/>
+
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:layout_marginLeft="5dp"
+                        app:srcCompat="@drawable/ic_chat"
+                        app:tint="@color/primaryColor"/>
+
+                    <TextView
+                        android:id="@+id/tvCommentCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextView.SingleLine.Gray"
+                        android:textSize="10sp"
+                        android:text="150 Comments"/>
 
                 </LinearLayout>
 
+                <include layout="@layout/divider_start_view"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent" />
 
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black" />
 
+                <LinearLayout
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
 
-            </RelativeLayout>
+                    <View
+                        android:layout_width="@dimen/_2sdp"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_gravity="right"
+                        android:background="@color/black"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/black" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rtv_leadby"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/image_member2"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        app:siBorderColor="@color/text_gray"
+                        app:siBorderWidth="@dimen/_1sdp"
+                        android:padding="@dimen/_8sdp"
+                        android:background="@drawable/bg_circle_blue"
+                        app:srcCompat="@drawable/ic_user_shape" />
+
+                    <TextView
+                        android:id="@+id/leadby"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/teko_light"
+                        android:background="@null"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp"
+                        android:text="@string/by"
+                        android:layout_marginLeft="@dimen/_16sdp"
+                        android:layout_alignTop="@id/image_member2"
+                        android:layout_toRightOf="@id/image_member2"/>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvUsername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp"
+                        android:fontFamily="@font/teko_semibold"
+                        android:layout_marginLeft="@dimen/_4sdp"
+                        android:layout_toRightOf="@id/leadby"
+                        android:text="@string/dharmraj_acharya_bhurtel"/>
+
+                    <TextView
+                        android:id="@+id/tvUsreRole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:textColorHint="#666666"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_16sdp"
+                        android:layout_toRightOf="@id/image_member2"
+                        android:layout_below="@+id/leadby"
+                        android:text="@string/admin"
+                        />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
 
         </LinearLayout>
@@ -161,4 +227,4 @@
 
     </android.support.v7.widget.CardView>
 
-</FrameLayout>
+</ScrollView>

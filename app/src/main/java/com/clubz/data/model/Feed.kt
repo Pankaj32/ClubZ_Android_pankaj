@@ -13,10 +13,10 @@ class Feed : Serializable{
     var club_name  = ""
     var user_name  = ""
     var user_id  = ""
-    var likes  = ""
-    var comments  = ""
+    var likes : Int = 0
+    var comments : Int = 0
     var bookmarks  = ""
-    var isLiked = ""
+    var isLiked : Int = 0
     var isBookmarked = ""
     var news_feed_attachment  = ""
     var club_image  = ""
@@ -27,6 +27,13 @@ class Feed : Serializable{
 
     fun getDate() : String {
         val pattern = "MMM dd, yyyy"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        val date = simpleDateFormat.format(stringToDate(datetime))
+        return date
+    }
+
+    fun getFormatedDate() : String {
+        val pattern = "EEEE, MMMM dd, yyyy"
         val simpleDateFormat = SimpleDateFormat(pattern)
         val date = simpleDateFormat.format(stringToDate(datetime))
         return date

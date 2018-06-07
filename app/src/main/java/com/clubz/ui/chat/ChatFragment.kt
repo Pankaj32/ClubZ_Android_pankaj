@@ -9,8 +9,6 @@ import com.clubz.R
 
 
 class ChatFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,5 +20,20 @@ class ChatFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_ads, container, false)
+    }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         * @param bundle
+         * @return A new instance of fragment FeedDetailFragment.
+         */
+        @JvmStatic
+        fun newInstance(bundle: Bundle) = ChatFragment().apply {
+            arguments = Bundle().apply {
+                putBundle("bundle", bundle)
+            }
+        }
     }
 }

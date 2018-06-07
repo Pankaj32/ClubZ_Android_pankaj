@@ -75,6 +75,7 @@
 
     <string name="t_find_activities"> Find activities </string>
     <string name="t_new_activity"> New Activity </string>
+    <string name="t_content"> Content </string>
     <string name="t_chat"> Chat </string>
     <string name="t_ads"> Ads </string>
 
@@ -343,6 +344,7 @@
     <string name="error_article_desc">Please enert article description.</string>
     <string name="under_development">Under Development</string>
     <string name="club_s_name">Club\'s name</string>
+    <string name="admin">Admin</string>
 
 
 </resources>
