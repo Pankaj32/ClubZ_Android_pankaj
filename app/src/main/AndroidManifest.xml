@@ -147,11 +147,12 @@
         </provider>
 
         <!-- chiranjib -->
-        <activity android:name=".ui.user_activities.activity.ActivitiesDetails"/>
-
-        <activity android:name=".ui.newsfeed.CreateNewsFeedActivity"
+        <activity android:name=".ui.user_activities.activity.ActivitiesDetails" />
+        <activity
+            android:name=".ui.newsfeed.CreateNewsFeedActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity android:name=".ui.newsfeed.NewsFeedDetailActivity"></activity>
     </application>
 
 </manifest>

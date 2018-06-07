@@ -342,7 +342,7 @@
     <string name="error_article_name">Please enert article name.</string>
     <string name="error_article_desc">Please enert article description.</string>
     <string name="under_development">Under Development</string>
-
+    <string name="club_s_name">Club\'s name</string>
 
 
 </resources>
