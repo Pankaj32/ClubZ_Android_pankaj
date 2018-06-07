@@ -7,8 +7,9 @@ import android.widget.TextView;
 
 import com.clubz.R;
 import com.clubz.ui.user_activities.listioner.ParentViewClickListioner;
+import com.clubz.ui.user_activities.model.GetActivitiesResponce;
 
-public class MovieCategoryViewHolder extends ParentViewHolder {
+public class TomorrowActivitiesCategoryViewHolder extends ParentViewHolder {
 
     private static final float INITIAL_POSITION = 0.0f;
     private static final float ROTATED_POSITION = 180f;
@@ -16,7 +17,7 @@ public class MovieCategoryViewHolder extends ParentViewHolder {
     private final ImageView mArrowExpandImageView, itemMenu, itemJoin;
     private TextView mMovieTextView;
 
-    public MovieCategoryViewHolder(View itemView) {
+    public TomorrowActivitiesCategoryViewHolder(View itemView) {
         super(itemView);
         // mMovieTextView = (TextView) itemView.findViewById(R.id.tv_movie_category);
 
@@ -25,7 +26,7 @@ public class MovieCategoryViewHolder extends ParentViewHolder {
         itemJoin = itemView.findViewById(R.id.item_join);
     }
 
-    public void bind(MovieCategory movieCategory, final int position, final ParentViewClickListioner parentViewClickListioner) {
+    public void bind(GetActivitiesResponce.DataBean.TomorrowBean movieCategory, final int position, final ParentViewClickListioner parentViewClickListioner) {
         //  mMovieTextView.setText(movieCategory.getName());
         itemMenu.setOnClickListener(new View.OnClickListener() {
             @Override
