@@ -1,9 +1,10 @@
 package com.clubz.data.model
 
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Feed {
+class Feed : Serializable{
 
     var newsFeedId : Int? = null
     var news_feed_title  = ""
@@ -11,6 +12,7 @@ class Feed {
     var datetime  = ""
     var club_name  = ""
     var user_name  = ""
+    var user_id  = ""
     var likes  = ""
     var comments  = ""
     var bookmarks  = ""

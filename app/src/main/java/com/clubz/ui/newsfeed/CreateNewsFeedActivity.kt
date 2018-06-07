@@ -286,6 +286,7 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
                 return params
             }
         }
+
         request.setRetryPolicy(
                 DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
