@@ -7,6 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
+    android:background="@color/background"
     tools:context=".ui.newsfeed.NewsFeedDetailActivity">
 
     <LinearLayout
@@ -56,7 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
             style="@style/tabtext"
-            android:background="@color/primaryColor"/>
+            android:background="@color/primaryColor"
+            app:tabIndicatorColor="@color/white"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager_cd"

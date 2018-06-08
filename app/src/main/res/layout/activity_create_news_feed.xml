@@ -211,69 +211,6 @@
                             android:layout_toRightOf="@+id/imageFilter"
                             android:background="@color/ab_icon"/>
 
-                        <!--<LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="vertical">
-
-                            <HorizontalScrollView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:scrollbars="none"
-                                android:overScrollMode="never">
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:orientation="horizontal">
-
-                                    <com.clubz.ui.cv.chipview.TagView
-                                        android:id="@+id/tagView"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:layout_gravity="center_vertical"/>
-
-                                    <View
-                                        android:id="@+id/tagDivider"
-                                        android:layout_width="1dp"
-                                        android:layout_height="@dimen/_12sdp"
-                                        android:layout_marginLeft="@dimen/_5sdp"
-                                        android:layout_marginRight="@dimen/_5sdp"
-                                        android:background="@color/text_color_gray"
-                                        android:visibility="gone"/>
-
-                                    <AutoCompleteTextView
-                                        android:id="@+id/edFilterTag"
-                                        android:layout_width="0dp"
-                                        android:layout_height="@dimen/_26sdp"
-                                        android:layout_weight="1"
-                                        android:hint="@string/tab_to_add_filter_tags"
-                                        android:paddingRight="@dimen/_5sdp"
-                                        android:textColorHint="@color/text_color_gray"
-                                        android:textColor="@color/black"
-                                        android:singleLine="true"
-                                        android:inputType="textCapWords"
-                                        android:maxLength="15"
-                                        android:textSize="@dimen/_10sdp"
-                                        android:fontFamily="@font/roboto_italic"
-                                        android:imeOptions="actionDone"
-                                        style="@style/et_sign_up"/>
-
-                                </LinearLayout>
-
-                            </HorizontalScrollView>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_marginTop="@dimen/_3sdp"
-                                android:background="@color/ab_icon"/>
-
-                        </LinearLayout>-->
-
 
                     </RelativeLayout>
 

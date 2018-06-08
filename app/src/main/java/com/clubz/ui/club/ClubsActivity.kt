@@ -1,5 +1,6 @@
 package com.clubz.ui.club
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
@@ -45,6 +46,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         setContentView(R.layout.activity_clubs)
         headerTxt.text = resources.getString(R.string.t_manage_your_clubs)
         ivBack.setOnClickListener(this)
+        addsymbol.setOnClickListener(this)
         setViewPager(viewPager)
         tablayout.setupWithViewPager(viewPager)
         viewPager.addOnPageChangeListener(this)
@@ -135,6 +137,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.ivBack ->{ onBackPressed() }
+            R.id.addsymbol ->{startActivity(Intent(this@ClubsActivity, ClubCreationActivity::class.java))}
         }
     }
 
@@ -161,13 +164,16 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             searchView.clearFocus()
             searchView.visibility = View.GONE
             search_layout.visibility = View.GONE
+            addsymbol.visibility = View.VISIBLE
             headerTxt.text = resources.getString(R.string.t_manage_your_clubs)
         }else if (position ==1){
             searchView.clearFocus()
             searchView.visibility = View.GONE
             search_layout.visibility = View.GONE
+            addsymbol.visibility = View.VISIBLE
             headerTxt.text = resources.getString(R.string.t_join_the_force)
         }else if(position ==2){
+            addsymbol.visibility = View.GONE
             searchView.visibility = View.VISIBLE
             search_layout.visibility = View.VISIBLE
             recycleView.visibility = View.VISIBLE

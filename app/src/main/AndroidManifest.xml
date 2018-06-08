@@ -148,14 +148,20 @@
 
         <!-- chiranjib -->
         <activity android:name=".ui.user_activities.activity.ActivitiesDetails" />
+
         <activity
             android:name=".ui.newsfeed.CreateNewsFeedActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.newsfeed.NewsFeedDetailActivity" />
-        <activity android:name=".ui.user_activities.activity.MyActivities"
+
+        <activity android:name=".ui.newsfeed.NewsFeedDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
+        <activity android:name=".ui.newsfeed.MyNewsFeedActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
     </application>
 
 </manifest>

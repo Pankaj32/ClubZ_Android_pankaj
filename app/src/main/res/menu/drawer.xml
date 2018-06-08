@@ -8,25 +8,21 @@
             android:title="@string/about_me" />
         <item
             android:id="@+id/navItemClubs"
-            android:checked="true"
             android:icon="@drawable/ic_nav_clubs"
             android:title="@string/clubs" />
 
         <item
             android:id="@+id/navItemNews"
-            android:checked="true"
             android:icon="@drawable/ic_chat"
             android:title="@string/nav_news" />
 
         <item
             android:id="@+id/navItemActivity"
-            android:checked="true"
             android:icon="@drawable/ic_nav_event"
             android:title="@string/nav_activities" />
 
         <item
             android:id="@+id/navItemAds"
-            android:checked="true"
             android:icon="@drawable/ic_nav_ads"
             android:title="@string/nav_ads" />
 
@@ -39,13 +35,11 @@
         <menu>
             <item
                 android:id="@+id/navItemHistory"
-                android:checked="true"
                 android:icon="@drawable/ic_nav_history"
                 android:title="@string/history" />
 
             <item
                 android:id="@+id/navItemSetting"
-                android:checked="true"
                 android:icon="@drawable/ic_settings_black"
                 android:title="@string/settings" />
         </menu>

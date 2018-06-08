@@ -24,6 +24,7 @@ import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.Feed
 import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
@@ -35,6 +36,7 @@ import com.clubz.utils.Util
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
 import com.mvc.imagepicker.ImagePicker
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_create_news_feed.*
 import org.json.JSONObject
 import java.io.File
@@ -51,14 +53,21 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
     var feedImage       : Bitmap? = null
     val tagFilter       : ArrayList<String>? = arrayListOf()
     var adapter : AdapterAutoTextView?  = null
+    var feed : Feed? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_news_feed)
 
-        if(intent.extras!=null)
-            clubId = intent.extras.getString("clubId")
+        run {
+            if(intent.extras!=null)
+                clubId = intent.extras.getString("clubId")
+                feed = intent.extras.getSerializable("feed") as Feed
+        }
+
+     /*   if(intent.extras!=null)
+            clubId = intent.extras.getString("clubId")*/
 
         leadby.text = ClubZ.currentUser?.full_name
         //leadby.setText(ClubZ.currentUser!!.full_name)
@@ -112,6 +121,8 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
         edFilterTag.setOnItemClickListener(this)
         edFilterTag.setThreshold(1)
         edFilterTag.setAdapter(adapter) // 'this' is Activity instance
+
+        if(feed!=null) updateViewIntoEditableMode()
     }
 
 
@@ -136,6 +147,16 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
         }
     }
 
+    fun updateViewIntoEditableMode(){
+        leadby.text = ClubZ.currentUser?.full_name
+        titile_name.setText(feed!!.news_feed_title)
+        usrerole.setText(getString(R.string.admin))
+        etv_description.setText(feed!!.news_feed_description)
+        spn_commentStatus.setSelection(feed!!.is_comment_allow)
+        if(!feed?.news_feed_attachment.isNullOrEmpty())
+            Picasso.with(img_newsFeed.context).load(feed!!.news_feed_attachment).fit().into(img_newsFeed)
+    }
+
     override fun onClick(v: View?) {
 
         when(v?.id){
@@ -143,7 +164,11 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
 
             R.id.img_newsFeed-> { permissionPopUp() }
 
-            R.id.ivDone-> { if(isValidData())publishNewsFeed()}
+            R.id.ivDone-> {
+                if(isValidData()) {
+                    if (feed == null) publishNewsFeed() else updateNewsFeed()
+                }
+            }
         }
     }
 
@@ -176,7 +201,6 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
 
 
     fun publishNewsFeed(){
-        val activity = this@CreateNewsFeedActivity
         val dialog = CusDialogProg(this@CreateNewsFeedActivity)
         dialog.show()
         val request = object : VolleyMultipartRequest(Request.Method.POST,
@@ -210,13 +234,14 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
         }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
-                params.put("city", ClubZ.city)
-                params.put("newsFeedTitle", feedTitle!!)
-                params.put("newsFeedDescription", description!!)
-                params.put("clubId", clubId!!)
-                params.put("tagName", tagView.getTagString())
-                params.put("isCommentAllow", if(spn_commentStatus.selectedItem.toString().toLowerCase().equals("public"))"1" else "2")
-                params.put("userRole", if(userRole.isNullOrBlank()) "Admin" else userRole!!)
+                params["city"] =  ClubZ.city
+                params["clubId"] =  clubId!!
+                params["newsFeedId"] =  feed!!.newsFeedId.toString()
+                params["newsFeedTitle"] = feedTitle!!
+                params["newsFeedDescription"] = description!!
+                params["tagName"] =  tagView.getTagString()
+                params["isCommentAllow"] = if(spn_commentStatus.selectedItem.toString().toLowerCase().equals("Comment disabled"))"0" else "1"
+                params["userRole"] = if(userRole.isNullOrBlank()) "Admin" else userRole!!
                 return params
             }
 
@@ -225,6 +250,72 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
                 if (feedImage != null) {
                     params.put("newsFeedAttachment", DataPart("newsFeed_image.jpg",
                                     AppHelper.getFileDataFromDrawable(feedImage),
+                            "image*//*"))
+                }
+                return params
+            }
+
+            override fun getHeaders(): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params.put("language", SessionManager.getObj().getLanguage())
+                params.put("authToken", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }
+        request.setRetryPolicy(DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+        ClubZ.instance.addToRequestQueue(request)
+    }
+
+    fun updateNewsFeed(){
+        val dialog = CusDialogProg(this@CreateNewsFeedActivity)
+        dialog.show()
+        val request = object : VolleyMultipartRequest(Request.Method.POST,
+                WebService.update_newsFeed,
+                object : Response.Listener<NetworkResponse> {
+
+                    override fun onResponse(response: NetworkResponse) {
+                        val data = String(response.data)
+                        Util.e("data",data)
+                        dialog.dismiss()
+                        //{"status":"success","message":"Club added successfully"}
+                        try {
+                            val obj = JSONObject(data)
+                            if(obj.getString("status").equals("success")){
+                                Toast.makeText(this@CreateNewsFeedActivity,obj.getString("message"), Toast.LENGTH_LONG).show()
+                                finish()
+                            }else{
+                                Toast.makeText(this@CreateNewsFeedActivity,obj.getString("message"), Toast.LENGTH_LONG).show()
+                            }
+                        }catch ( e : java.lang.Exception){
+                            e.printStackTrace()
+                            Toast.makeText(this@CreateNewsFeedActivity,R.string.swr, Toast.LENGTH_LONG).show()
+                        }
+                        dialog.dismiss()
+                    }
+                }, object : Response.ErrorListener {
+            override fun onErrorResponse(error: VolleyError) {
+                dialog.dismiss()
+                Toast.makeText(this@CreateNewsFeedActivity, "Something went wrong", Toast.LENGTH_LONG).show()
+            }
+        }) {
+            override fun getParams(): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params["city"] =  ClubZ.city
+                params["clubId"] =  feed!!.clubId
+                params["newsFeedId"] =  feed!!.newsFeedId.toString()
+                params["newsFeedTitle"] = feedTitle!!
+                params["newsFeedDescription"] = description!!
+                params["tagName"] =  tagView.getTagString()
+                params["isCommentAllow"] = if(spn_commentStatus.selectedItem.toString().toLowerCase().equals("Comment disabled"))"0" else "1"
+                params["userRole"] = if(userRole.isNullOrBlank()) "Admin" else userRole!!
+                return params
+            }
+
+            override fun getByteData(): MutableMap<String, DataPart>? {
+                val params = java.util.HashMap<String, DataPart>()
+                if (feedImage != null) {
+                    params.put("newsFeedAttachment", DataPart("newsFeed_image.jpg",
+                            AppHelper.getFileDataFromDrawable(feedImage),
                             "image*//*"))
                 }
                 return params
