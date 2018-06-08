@@ -59,7 +59,6 @@ public class InfoViewDialog extends DialogFragment{
                 dismiss();
             }
         });
-
         builder.setView(view);
         Dialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

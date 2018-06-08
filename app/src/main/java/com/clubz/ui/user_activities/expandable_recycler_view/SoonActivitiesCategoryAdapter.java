@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.clubz.R;
 import com.clubz.ui.user_activities.listioner.ChildViewClickListioner;
 import com.clubz.ui.user_activities.listioner.ParentViewClickListioner;
-import com.clubz.ui.user_activities.model.GetActivitiesResponce;
+import com.clubz.ui.user_activities.model.GetOthersActivitiesResponce;
 
 import java.util.List;
 
@@ -39,13 +39,13 @@ public class SoonActivitiesCategoryAdapter extends ExpandableRecyclerAdapter<Soo
 
     @Override
     public void onBindParentViewHolder(SoonActivitiesCategoryViewHolder soonActivitiesCategoryViewHolder, int position, ParentListItem parentListItem) {
-        GetActivitiesResponce.DataBean.SoonBean movieCategory = (GetActivitiesResponce.DataBean.SoonBean) parentListItem;
+        GetOthersActivitiesResponce.DataBean.SoonBean movieCategory = (GetOthersActivitiesResponce.DataBean.SoonBean) parentListItem;
         soonActivitiesCategoryViewHolder.bind(movieCategory, position, parentViewClickListioner);
     }
 
     @Override
     public void onBindChildViewHolder(SoonEventsViewHolder soonEventsViewHolder, int position, Object childListItem) {
-        GetActivitiesResponce.DataBean.SoonBean.EventsBeanXX movies = (GetActivitiesResponce.DataBean.SoonBean.EventsBeanXX) childListItem;
+        GetOthersActivitiesResponce.DataBean.SoonBean.EventsBeanXX movies = (GetOthersActivitiesResponce.DataBean.SoonBean.EventsBeanXX) childListItem;
         soonEventsViewHolder.bind(movies, position, childViewClickListioner);
     }
 }

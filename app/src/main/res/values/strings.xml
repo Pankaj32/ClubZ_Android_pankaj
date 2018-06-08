@@ -95,6 +95,7 @@
     <string name="slider_t2"> News  </string>
     <string name="slider_t3"> Chat  </string>
     <string name="slider_t4"> Ads   </string>
+    <string name="slider_my_activities">My Activities</string>
 
 
     <string name="slider_b1"> Find matches, \n events, classes,\n interesting groups\n and many other \n great things \n around you   </string>
@@ -321,6 +322,7 @@
     <string name="h_Today">Today</string>
     <string name="h_Tomorrow">Tomorrow</string>
     <string name="h_coming_soon">Coming Soon</string>
+    <string name="h_others">Others</string>
     <string name="Collapse">collapse</string>
     <string name="joinTitle">Select who joins the activity</string>
     <string name="joinBtnText">JOIN</string>
@@ -348,5 +350,10 @@
     <string name="there_is_no_news_stil_here">There is no news stil here</string>
     <string name="no_feed_content_body">The news feed will be available once the club manager create it.</string>
 
+    <!--Activities Menu-->
+    <string name="add_date">Add a new date</string>
+    <string name="remove_activity">Remove this activity</string>
+    <string name="hide_activity">Hide this activity</string>
+    <string name="disable_notification">Disable Notification</string>
 
 </resources>

@@ -43,6 +43,7 @@ import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.newsfeed.MyNewsFeedActivity
+import com.clubz.ui.user_activities.activity.MyActivities
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
 import com.clubz.utils.DrawerMarginFixer
@@ -237,7 +238,9 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             R.id.navItemNews -> {
                 startActivity(Intent(this@HomeActivity, MyNewsFeedActivity::class.java))
             }
-            R.id.navItemActivity -> { }
+            R.id.navItemActivity -> {
+                startActivity(Intent(this@HomeActivity, MyActivities::class.java))
+            }
             R.id.navItemAds -> { }
         }
         drawer_layout.closeDrawer(GravityCompat.START)

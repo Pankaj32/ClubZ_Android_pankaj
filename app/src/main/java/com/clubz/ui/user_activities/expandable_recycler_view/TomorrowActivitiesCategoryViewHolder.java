@@ -1,5 +1,6 @@
 package com.clubz.ui.user_activities.expandable_recycler_view;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -7,43 +8,49 @@ import android.widget.TextView;
 
 import com.clubz.R;
 import com.clubz.ui.user_activities.listioner.ParentViewClickListioner;
-import com.clubz.ui.user_activities.model.GetActivitiesResponce;
+import com.clubz.ui.user_activities.model.GetOthersActivitiesResponce;
+import com.squareup.picasso.Picasso;
 
 public class TomorrowActivitiesCategoryViewHolder extends ParentViewHolder {
 
     private static final float INITIAL_POSITION = 0.0f;
     private static final float ROTATED_POSITION = 180f;
 
-    private final ImageView mArrowExpandImageView, itemMenu, itemJoin;
-    private TextView mMovieTextView;
+    private final ImageView mArrowExpandImageView, itemMenu, itemJoin, itemLike, activityImge;
+    private TextView clubName, activityName;
 
     public TomorrowActivitiesCategoryViewHolder(View itemView) {
         super(itemView);
-        // mMovieTextView = (TextView) itemView.findViewById(R.id.tv_movie_category);
-
         mArrowExpandImageView = itemView.findViewById(R.id.iv_arrow_expand);
         itemMenu = itemView.findViewById(R.id.item_menu);
         itemJoin = itemView.findViewById(R.id.item_join);
+        activityName = itemView.findViewById(R.id.activityName);
+        clubName = itemView.findViewById(R.id.clubName);
+        itemLike = itemView.findViewById(R.id.itemLike);
+        activityImge = itemView.findViewById(R.id.activityImge);
     }
 
-    public void bind(GetActivitiesResponce.DataBean.TomorrowBean movieCategory, final int position, final ParentViewClickListioner parentViewClickListioner) {
-        //  mMovieTextView.setText(movieCategory.getName());
-        itemMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                parentViewClickListioner.onItemMenuClick(position);
-            }
-        });
-        /*itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                parentViewClickListioner.onItemClick(position);
-            }
-        });*/
+    public void bind(GetOthersActivitiesResponce.DataBean.TomorrowBean activities, final int position, final ParentViewClickListioner parentViewClickListioner) {
+        if (!TextUtils.isEmpty(activities.getImage())) {
+            Picasso.with(activityImge.getContext()).load(activities.getImage()).fit().placeholder(R.drawable.new_app_icon).into(activityImge);
+        }
+        activityName.setText(activities.getActivityName());
+        clubName.setText(activities.getClub_name());
+        itemMenu.setVisibility(View.GONE);
+        if (activities.is_Confirm()) {
+            itemJoin.setImageResource(R.drawable.hand_ico);
+        } else {
+            itemJoin.setImageResource(R.drawable.ic_inactive_hand_ico);
+        }
+        if (activities.is_like().equals("1")) {
+            itemLike.setImageResource(R.drawable.active_heart_ico);
+        } else {
+            itemLike.setImageResource(R.drawable.inactive_heart_ico);
+        }
         itemJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentViewClickListioner.onItemJoin(position);
+                parentViewClickListioner.onItemJoin(position, "tomorrow");
             }
         });
     }

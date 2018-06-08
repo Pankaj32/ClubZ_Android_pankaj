@@ -31,19 +31,19 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
 
         title_tv.text = feed.news_feed_title
         for (views in arrayOf(backBtn, bubble_menu)) views.setOnClickListener(this)
-        setViewPager(view_pager_cd)
+        //setViewPager(view_pager_cd)
         tablayout_cd.setupWithViewPager(view_pager_cd)
 
        // bubble_menu.visibility = if(feed.user_id.equals(ClubZ.currentUser?.id)) View.VISIBLE else View.GONE
 
     }
 
-    fun setViewPager(viewPager: ViewPager) {
+  /*  fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment( FeedDetailFragment.newInstance(feed), resources.getString(R.string.t_content), "First")
         adapter.addFragment( ChatFragment.newInstance(Bundle.EMPTY),resources.getString(R.string.t_chat) , "second")
         viewPager.adapter = adapter
-    }
+    }*/
 
 
     override fun onClick(v: View?) {

@@ -11,15 +11,15 @@ import com.clubz.ui.user_activities.listioner.ParentViewClickListioner;
 import com.clubz.ui.user_activities.model.GetOthersActivitiesResponce;
 import com.squareup.picasso.Picasso;
 
-public class TodaysActivitiesCategoryViewHolder extends ParentViewHolder {
+public class OthersActivitiesCategoryViewHolder extends ParentViewHolder {
 
     private static final float INITIAL_POSITION = 0.0f;
     private static final float ROTATED_POSITION = 180f;
 
-    private final ImageView mArrowExpandImageView, itemMenu, itemJoin, itemLike, activityImge;
+    private final ImageView mArrowExpandImageView, itemMenu, itemJoin, itemLike,activityImge;
     private TextView clubName, activityName;
 
-    public TodaysActivitiesCategoryViewHolder(View itemView) {
+    public OthersActivitiesCategoryViewHolder(View itemView) {
         super(itemView);
         mArrowExpandImageView = itemView.findViewById(R.id.iv_arrow_expand);
         itemMenu = itemView.findViewById(R.id.item_menu);
@@ -30,10 +30,9 @@ public class TodaysActivitiesCategoryViewHolder extends ParentViewHolder {
         activityImge = itemView.findViewById(R.id.activityImge);
     }
 
-    public void bind(GetOthersActivitiesResponce.DataBean.TodayBean activities, final int position, final ParentViewClickListioner parentViewClickListioner) {
-        if (!TextUtils.isEmpty(activities.getImage())) {
-            Picasso.with(activityImge.getContext()).load(activities.getImage()).fit().placeholder(R.drawable.new_app_icon).into(activityImge);
-        }
+    public void bind(GetOthersActivitiesResponce.DataBean.OthersBean activities, final int position, final ParentViewClickListioner parentViewClickListioner) {
+        if (!TextUtils.isEmpty(activities.getImage())){
+            Picasso.with(activityImge.getContext()).load(activities.getImage()).fit().placeholder(R.drawable.new_app_icon).into(activityImge);}
         activityName.setText(activities.getActivityName());
         clubName.setText(activities.getClub_name());
         itemMenu.setVisibility(View.GONE);
@@ -50,7 +49,7 @@ public class TodaysActivitiesCategoryViewHolder extends ParentViewHolder {
         itemJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentViewClickListioner.onItemJoin(position, "today");
+                parentViewClickListioner.onItemJoin(position,"others");
             }
         });
     }
@@ -58,13 +57,11 @@ public class TodaysActivitiesCategoryViewHolder extends ParentViewHolder {
     @Override
     public void setExpanded(boolean expanded) {
         super.setExpanded(expanded);
-
         if (expanded) {
             mArrowExpandImageView.setRotation(ROTATED_POSITION);
         } else {
             mArrowExpandImageView.setRotation(INITIAL_POSITION);
         }
-
     }
 
     @Override
@@ -83,10 +80,8 @@ public class TodaysActivitiesCategoryViewHolder extends ParentViewHolder {
                     RotateAnimation.RELATIVE_TO_SELF, 0.5f,
                     RotateAnimation.RELATIVE_TO_SELF, 0.5f);
         }
-
         rotateAnimation.setDuration(200);
         rotateAnimation.setFillAfter(true);
         mArrowExpandImageView.startAnimation(rotateAnimation);
-
     }
 }

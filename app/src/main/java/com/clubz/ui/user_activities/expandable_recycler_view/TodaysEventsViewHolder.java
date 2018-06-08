@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.clubz.R;
 import com.clubz.ui.user_activities.listioner.ChildViewClickListioner;
-import com.clubz.ui.user_activities.model.GetActivitiesResponce;
+import com.clubz.ui.user_activities.model.GetOthersActivitiesResponce;
 
 public class TodaysEventsViewHolder extends ChildViewHolder {
 
@@ -25,7 +25,7 @@ public class TodaysEventsViewHolder extends ChildViewHolder {
         item_child_join = itemView.findViewById(R.id.item_child_join);
     }
 
-    public void bind(final GetActivitiesResponce.DataBean.TodayBean.EventsBean events, final int childPos, final ChildViewClickListioner childViewClickListioner) {
+    public void bind(final GetOthersActivitiesResponce.DataBean.TodayBean.EventsBean events, final int childPos, final ChildViewClickListioner childViewClickListioner) {
         eventDate.setText(events.getDate());
         eventTime.setText(events.getTime());
         if (!TextUtils.isEmpty(events.getDescription())) {

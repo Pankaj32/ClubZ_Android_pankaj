@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:padding="@dimen/_5sdp">
+
+
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:id="@+id/item_image"
+        android:layout_width="@dimen/_42sdp"
+        android:layout_height="@dimen/_42sdp"
+        android:background="@drawable/bg_circle_blue"
+        android:src="@drawable/ic_user_white" />
+
+    <TextView
+        android:id="@+id/itemUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_toRightOf="@id/item_image"
+        android:fontFamily="@font/teko_semibold"
+        android:text="Club username"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/itemJoin"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:tint="@color/black"
+        app:srcCompat="@drawable/inactive_heart_ico" />
+
+</RelativeLayout>

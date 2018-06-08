@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.clubz.R;
 import com.clubz.ui.user_activities.listioner.ChildViewClickListioner;
-import com.clubz.ui.user_activities.model.GetActivitiesResponce;
+import com.clubz.ui.user_activities.model.GetOthersActivitiesResponce;
 
 public class SoonEventsViewHolder extends ChildViewHolder {
 
@@ -24,7 +24,7 @@ public class SoonEventsViewHolder extends ChildViewHolder {
         eventUsers = itemView.findViewById(R.id.eventUsers);
     }
 
-    public void bind(final GetActivitiesResponce.DataBean.SoonBean.EventsBeanXX events, final int childPos, final ChildViewClickListioner childViewClickListioner) {
+    public void bind(final GetOthersActivitiesResponce.DataBean.SoonBean.EventsBeanXX events, final int childPos, final ChildViewClickListioner childViewClickListioner) {
         eventDate.setText(events.getDate());
         eventTime.setText(events.getTime());
         if (!TextUtils.isEmpty(events.getDescription())) {

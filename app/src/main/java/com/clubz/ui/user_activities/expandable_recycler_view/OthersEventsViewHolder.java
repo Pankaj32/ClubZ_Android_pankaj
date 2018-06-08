@@ -9,12 +9,12 @@ import com.clubz.R;
 import com.clubz.ui.user_activities.listioner.ChildViewClickListioner;
 import com.clubz.ui.user_activities.model.GetOthersActivitiesResponce;
 
-public class TomorrowEventsViewHolder extends ChildViewHolder {
+public class OthersEventsViewHolder extends ChildViewHolder {
 
     private TextView eventDate, eventTime, eventDesc, eventFee, eventUsers;
     private ImageView item_child_join;
 
-    public TomorrowEventsViewHolder(View itemView) {
+    public OthersEventsViewHolder(View itemView) {
         super(itemView);
         item_child_join = itemView.findViewById(R.id.item_child_join);
         eventDate = itemView.findViewById(R.id.eventDate);
@@ -22,10 +22,9 @@ public class TomorrowEventsViewHolder extends ChildViewHolder {
         eventDesc = itemView.findViewById(R.id.eventDesc);
         eventFee = itemView.findViewById(R.id.eventFee);
         eventUsers = itemView.findViewById(R.id.eventUsers);
-        item_child_join = itemView.findViewById(R.id.item_child_join);
     }
 
-    public void bind(final GetOthersActivitiesResponce.DataBean.TomorrowBean.EventsBeanX events, final int childPos, final ChildViewClickListioner childViewClickListioner) {
+    public void bind(final GetOthersActivitiesResponce.DataBean.OthersBean.EventsBeanXXX events, final int childPos, final ChildViewClickListioner childViewClickListioner) {
         eventDate.setText(events.getDate());
         eventTime.setText(events.getTime());
         if (!TextUtils.isEmpty(events.getDescription())) {
@@ -43,7 +42,7 @@ public class TomorrowEventsViewHolder extends ChildViewHolder {
         item_child_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //   childViewClickListioner.onJoin(events.getParentIndex(), events.getChildIndex());
+             //   childViewClickListioner.onJoin(events.getParentIndex(), events.getChildIndex());
             }
         });
     }
