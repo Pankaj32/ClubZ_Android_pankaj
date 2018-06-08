@@ -236,6 +236,78 @@
                     android:visibility="gone"/>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:animateLayoutChanges="true"
+                android:background="@color/background">
+
+                <RelativeLayout
+                    android:id="@+id/othersLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/teko_semibold"
+                        android:paddingBottom="@dimen/_3sdp"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:text="@string/h_others"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16sdp" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/arowOthers"
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_down_arrow"
+                        android:layout_marginRight="@dimen/_5sdp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_toLeftOf="@id/arowOthers"
+                        android:fontFamily="@font/poppins_italic"
+                        android:text="@string/collapse"
+                        android:textColor="@color/text_gray"
+                        android:textSize="@dimen/_8sdp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_2sdp"
+                    android:background="@color/gray_transprent" />
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerViewOthers"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        android:nestedScrollingEnabled="true"/>
+                <TextView
+                    android:id="@+id/othersNoDataTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_toLeftOf="@id/arowToday"
+                    android:fontFamily="@font/poppins_italic"
+                    android:text="@string/no_activites"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_10sdp"
+                    android:visibility="gone"/>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

@@ -40,6 +40,24 @@
         <item name="spinnerStyle">@style/MySpinner</item>
     </style>
 
+
+    <style name="MyPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:itemBackground">@android:color/holo_red_light</item>
+    </style>
+
+
+    <!-- This helps the PopupMenu stick with Light theme while the ActionBar is in Dark theme -->
+    <style name="YourActionBarWidget" parent="android:Theme.Holo.Light">
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:textColor">@color/text_color_gray</item>
+        <item name="android:popupMenuStyle">@android:style/Widget.Holo.Light.PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+    </style>
+
+
+
+
     <style name="MySpinner" parent="Base.Widget.AppCompat.Spinner">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
@@ -224,5 +242,6 @@
 
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">@android:color/white</item>
+        <item name="android:textColor">@color/text_color_gray</item>
     </style>
 </resources>

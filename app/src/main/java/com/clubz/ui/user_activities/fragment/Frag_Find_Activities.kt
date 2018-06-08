@@ -23,12 +23,11 @@ import com.clubz.ui.user_activities.activity.ActivitiesDetails
 import com.clubz.ui.user_activities.expandable_recycler_view.*
 import com.clubz.ui.user_activities.listioner.ChildViewClickListioner
 import com.clubz.ui.user_activities.listioner.ParentViewClickListioner
-import com.clubz.ui.user_activities.model.GetActivitiesResponce
+import com.clubz.ui.user_activities.model.GetOthersActivitiesResponce
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_find_activities.*
 import org.json.JSONObject
-import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -47,14 +46,17 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
     private var todayAdapter: TodaysActivitiesCategoryAdapter? = null
     private var tomorrowAdapter: TomorrowActivitiesCategoryAdapter? = null
     private var soonAdapter: SoonActivitiesCategoryAdapter? = null
+    private var othersAdapter: OthersActivitiesCategoryAdapter? = null
     private var isTodayOpen: Boolean = false
     private var isTomorrowOpen: Boolean = false
     private var isSoonOpen: Boolean = false
+    private var isOthersOpen: Boolean = false
     private val INITIAL_POSITION = 0.0f
     private val ROTATED_POSITION = 180f
-    private var todayList: List<GetActivitiesResponce.DataBean.TodayBean>? = null
-    private var tomorrowList: List<GetActivitiesResponce.DataBean.TomorrowBean>? = null
-    private var soonList: List<GetActivitiesResponce.DataBean.SoonBean>? = null
+    private var todayList: List<GetOthersActivitiesResponce.DataBean.TodayBean>? = null
+    private var tomorrowList: List<GetOthersActivitiesResponce.DataBean.TomorrowBean>? = null
+    private var soonList: List<GetOthersActivitiesResponce.DataBean.SoonBean>? = null
+    private var othersList: List<GetOthersActivitiesResponce.DataBean.OthersBean>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -75,10 +77,12 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         recyclerViewToday.layoutManager = LinearLayoutManager(mContext)
         recyclerViewTomorrow.layoutManager = LinearLayoutManager(mContext)
         recyclerViewSoon.layoutManager = LinearLayoutManager(mContext)
+        recyclerViewOthers.layoutManager = LinearLayoutManager(mContext)
 
         todayLay.setOnClickListener(this@Frag_Find_Activities)
         tomorrowLay.setOnClickListener(this@Frag_Find_Activities)
         soonLay.setOnClickListener(this@Frag_Find_Activities)
+        othersLay.setOnClickListener(this@Frag_Find_Activities)
     }
 
     override fun onAttach(context: Context?) {
@@ -124,7 +128,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 if (isTodayOpen) {
                     setRotation(arowToday, isTodayOpen)
                     isTodayOpen = false
-                    arowToday.setImageResource(R.drawable.ic_down_arrow)
+                    //  arowToday.setImageResource(R.drawable.ic_down_arrow)
                     if (todayList != null && todayList!!.size > 0) {
                         recyclerViewToday.visibility = View.GONE
                     } else {
@@ -133,7 +137,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 } else {
                     setRotation(arowToday, isTodayOpen)
                     isTodayOpen = true
-                    arowToday.setImageResource(R.drawable.ic_drop_up_arrow)
+                    //   arowToday.setImageResource(R.drawable.ic_drop_up_arrow)
                     if (todayList != null && todayList!!.size > 0) {
                         recyclerViewToday.visibility = View.VISIBLE
                     } else {
@@ -145,7 +149,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 if (isTomorrowOpen) {
                     setRotation(arowTomorrow, isTomorrowOpen)
                     isTomorrowOpen = false
-                    arowTomorrow.setImageResource(R.drawable.ic_down_arrow)
+                    // arowTomorrow.setImageResource(R.drawable.ic_down_arrow)
                     if (tomorrowList != null && tomorrowList!!.size > 0) {
                         recyclerViewTomorrow.visibility = View.GONE
                     } else {
@@ -154,7 +158,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 } else {
                     setRotation(arowTomorrow, isTomorrowOpen)
                     isTomorrowOpen = true
-                    arowTomorrow.setImageResource(R.drawable.ic_drop_up_arrow)
+                    // arowTomorrow.setImageResource(R.drawable.ic_drop_up_arrow)
                     if (tomorrowList != null && tomorrowList!!.size > 0) {
                         recyclerViewTomorrow.visibility = View.VISIBLE
                     } else {
@@ -184,6 +188,28 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                     }
                 }
             }
+            R.id.othersLay -> {
+                if (isOthersOpen) {
+                    setRotation(arowOthers, isOthersOpen)
+                    isOthersOpen = false
+                    //  arowOthers.setImageResource(R.drawable.ic_down_arrow)
+                    if (othersList != null && othersList!!.size > 0) {
+                        recyclerViewOthers.visibility = View.GONE
+                    } else {
+                        othersNoDataTxt.visibility = View.GONE
+                    }
+                } else {
+                    setRotation(arowOthers, isOthersOpen)
+                    isOthersOpen = true
+                    recyclerViewOthers.visibility = View.VISIBLE
+                    //   arowSoon.setImageResource(R.drawable.ic_drop_up_arrow)
+                    if (othersList != null && othersList!!.size > 0) {
+                        recyclerViewOthers.visibility = View.VISIBLE
+                    } else {
+                        othersNoDataTxt.visibility = View.VISIBLE
+                    }
+                }
+            }
         }
     }
 
@@ -199,11 +225,10 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {
-
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
-                        var activitiesResponce: GetActivitiesResponce = Gson().fromJson(response, GetActivitiesResponce::class.java)
-                        updateUi(activitiesResponce)
+                        var othersActivitiesResponce: GetOthersActivitiesResponce = Gson().fromJson(response, GetOthersActivitiesResponce::class.java)
+                        updateUi(othersActivitiesResponce)
                     }
                     // searchAdapter?.notifyDataSetChanged()
 
@@ -238,9 +263,9 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
     }
 
 
-    private fun updateUi(activitiesResponce: GetActivitiesResponce) {
-        for (i in 0..activitiesResponce.getData()!!.today!!.size - 1) {
-            var todayData = activitiesResponce.getData()!!.today!!.get(i)
+    private fun updateUi(othersActivitiesResponce: GetOthersActivitiesResponce) {
+        for (i in 0..othersActivitiesResponce.getData()!!.today!!.size - 1) {
+            var todayData = othersActivitiesResponce.getData()!!.today!!.get(i)
             for (j in 0..todayData.events!!.size - 1) {
                 var eventData = todayData.events!!.get(j)
                 eventData.childIndex = j
@@ -248,10 +273,10 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 if (eventData.is_confirm.equals("1")) todayData.is_Confirm = true
             }
         }
-        todayList = activitiesResponce.getData()!!.today
+        todayList = othersActivitiesResponce.getData()!!.today
 
-        for (i in 0..activitiesResponce.getData()!!.tomorrow!!.size - 1) {
-            var tomorrowData = activitiesResponce.getData()!!.tomorrow!!.get(i)
+        for (i in 0..othersActivitiesResponce.getData()!!.tomorrow!!.size - 1) {
+            var tomorrowData = othersActivitiesResponce.getData()!!.tomorrow!!.get(i)
             for (j in 0..tomorrowData.events!!.size - 1) {
                 var eventData = tomorrowData.events!!.get(j)
                 eventData.childIndex = j
@@ -259,10 +284,10 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 if (eventData.is_confirm.equals("1")) tomorrowData.is_Confirm = true
             }
         }
-        tomorrowList = activitiesResponce.getData()!!.tomorrow
+        tomorrowList = othersActivitiesResponce.getData()!!.tomorrow
 
-        for (i in 0..activitiesResponce.getData()!!.soon!!.size - 1) {
-            var soonData = activitiesResponce.getData()!!.soon!!.get(i)
+        for (i in 0..othersActivitiesResponce.getData()!!.soon!!.size - 1) {
+            var soonData = othersActivitiesResponce.getData()!!.soon!!.get(i)
             for (j in 0..soonData.events!!.size - 1) {
                 var eventData = soonData.events!!.get(j)
                 eventData.childIndex = j
@@ -270,7 +295,18 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 if (eventData.is_confirm.equals("1")) soonData.is_Confirm = true
             }
         }
-        soonList = activitiesResponce.getData()!!.soon
+        soonList = othersActivitiesResponce.getData()!!.soon
+
+        for (i in 0..othersActivitiesResponce.getData()!!.others!!.size - 1) {
+            var otherData = othersActivitiesResponce.getData()!!.others!!.get(i)
+            for (j in 0..otherData.events!!.size - 1) {
+                var eventData = otherData.events!!.get(j)
+                eventData.childIndex = j
+                eventData.parentIndex = i
+                if (eventData.is_confirm.equals("1")) otherData.is_Confirm = true
+            }
+        }
+        othersList = othersActivitiesResponce.getData()!!.others
 
         todayAdapter = TodaysActivitiesCategoryAdapter(mContext, todayList, this@Frag_Find_Activities, this@Frag_Find_Activities)
         todayAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
@@ -312,6 +348,20 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
 
         })
         recyclerViewSoon.setAdapter(soonAdapter)
+
+        othersAdapter = OthersActivitiesCategoryAdapter(mContext, othersList, this@Frag_Find_Activities, this@Frag_Find_Activities)
+        othersAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
+            override fun onListItemExpanded(position: Int) {
+                val expandedMovieCategory = othersList!![position]
+
+            }
+
+            override fun onListItemCollapsed(position: Int) {
+                val collapsedMovieCategory = othersList!![position]
+            }
+
+        })
+        recyclerViewSoon.setAdapter(othersAdapter)
     }
 
     override fun onResume() {
@@ -338,7 +388,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         imgView.startAnimation(rotateAnimation)
     }
 
-    override fun onItemMenuClick(position: Int) {
+    override fun onItemMenuClick(position: Int, itemMenu: ImageView) {
         Log.e("parent " + position, " " + position)
         //Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show()
     }
@@ -352,8 +402,23 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
     override fun onItemChat(position: Int) {
     }
 
-    override fun onItemJoin(position: Int) {
-        startActivity(Intent(mContext, ActivitiesDetails::class.java))
+    override fun onItemJoin(position: Int, type: String) {
+        // startActivity(Intent(mContext, ActivitiesDetails::class.java))
+        when (type) {
+            "today" -> {
+
+            }
+            "tomorrow" -> {
+
+            }
+            "soon" -> {
+
+            }
+            "others" -> {
+
+            }
+
+        }
     }
 
     override fun onJoin(parentPosition: Int, childPosition: Int) {

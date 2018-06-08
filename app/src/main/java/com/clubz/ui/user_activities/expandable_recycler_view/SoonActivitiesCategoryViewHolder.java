@@ -1,5 +1,6 @@
 package com.clubz.ui.user_activities.expandable_recycler_view;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -7,14 +8,15 @@ import android.widget.TextView;
 
 import com.clubz.R;
 import com.clubz.ui.user_activities.listioner.ParentViewClickListioner;
-import com.clubz.ui.user_activities.model.GetActivitiesResponce;
+import com.clubz.ui.user_activities.model.GetOthersActivitiesResponce;
+import com.squareup.picasso.Picasso;
 
 public class SoonActivitiesCategoryViewHolder extends ParentViewHolder {
 
     private static final float INITIAL_POSITION = 0.0f;
     private static final float ROTATED_POSITION = 180f;
 
-    private final ImageView mArrowExpandImageView, itemMenu, itemJoin, itemLike;
+    private final ImageView mArrowExpandImageView, itemMenu, itemJoin, itemLike, activityImge;
     private TextView clubName, activityName;
 
     public SoonActivitiesCategoryViewHolder(View itemView) {
@@ -25,11 +27,16 @@ public class SoonActivitiesCategoryViewHolder extends ParentViewHolder {
         activityName = itemView.findViewById(R.id.activityName);
         clubName = itemView.findViewById(R.id.clubName);
         itemLike = itemView.findViewById(R.id.itemLike);
+        activityImge = itemView.findViewById(R.id.itemLike);
     }
 
-    public void bind(GetActivitiesResponce.DataBean.SoonBean activities, final int position, final ParentViewClickListioner parentViewClickListioner) {
+    public void bind(GetOthersActivitiesResponce.DataBean.SoonBean activities, final int position, final ParentViewClickListioner parentViewClickListioner) {
+        if (!TextUtils.isEmpty(activities.getImage())) {
+            Picasso.with(activityImge.getContext()).load(activities.getImage()).fit().placeholder(R.drawable.new_app_icon).into(activityImge);
+        }
         activityName.setText(activities.getActivityName());
         clubName.setText(activities.getClub_name());
+        itemMenu.setVisibility(View.GONE);
         if (activities.is_Confirm()) {
             itemJoin.setImageResource(R.drawable.hand_ico);
         } else {
@@ -40,16 +47,10 @@ public class SoonActivitiesCategoryViewHolder extends ParentViewHolder {
         } else {
             itemLike.setImageResource(R.drawable.inactive_heart_ico);
         }
-        itemMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                parentViewClickListioner.onItemMenuClick(position);
-            }
-        });
         itemJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentViewClickListioner.onItemJoin(position);
+                parentViewClickListioner.onItemJoin(position, "soon");
             }
         });
     }

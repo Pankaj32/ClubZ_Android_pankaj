@@ -152,7 +152,10 @@
             android:name=".ui.newsfeed.CreateNewsFeedActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.newsfeed.NewsFeedDetailActivity"></activity>
+        <activity android:name=".ui.newsfeed.NewsFeedDetailActivity" />
+        <activity android:name=".ui.user_activities.activity.MyActivities"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

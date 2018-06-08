@@ -42,6 +42,7 @@ import com.clubz.ui.club.ClubCreationActivity
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
+import com.clubz.ui.user_activities.activity.MyActivities
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
 import com.clubz.utils.DrawerMarginFixer
@@ -240,6 +241,9 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             R.id.navItemSetting -> {
 
             }
+            R.id.navItemActivity -> {
+                startActivity(Intent(this@HomeActivity, MyActivities::class.java))
+            }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
@@ -348,13 +352,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 search_text.setText("")
                 //search_text.setCursorVisible(false)
             }
-
             Frag_Find_Activities::class.java.simpleName->{
                 title_tv.setText(R.string.t_find_activities)
                 //for (view in arrayOf(search)) view.visibility = View.GONE
-                for (view in arrayOf(addsymbol, menu, title_tv)) view.visibility = View.VISIBLE
+                for (view in arrayOf(menu, title_tv)) view.visibility = View.VISIBLE
             }
-
             ChatFragment::class.java.simpleName->{
                 title_tv.setText(R.string.t_chat)
                 for (view in arrayOf(menu, title_tv)) view.visibility = View.VISIBLE
@@ -850,7 +852,6 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     }*/
 
     private fun startLocationUpdates(latitude: Double, longitude: Double) {
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return
         }
