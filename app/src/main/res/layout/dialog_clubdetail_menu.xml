@@ -39,7 +39,7 @@
                     app:srcCompat="@drawable/ic_add_white_48dp"/>-->
 
                 <TextView
-                    android:layout_width="@dimen/_190sdp"
+                    android:layout_width="@dimen/_160sdp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center_vertical"

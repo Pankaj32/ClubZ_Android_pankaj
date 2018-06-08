@@ -42,6 +42,7 @@ import com.clubz.ui.club.ClubCreationActivity
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
+import com.clubz.ui.newsfeed.MyNewsFeedActivity
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
 import com.clubz.utils.DrawerMarginFixer
@@ -220,7 +221,6 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     }
 
 
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -234,12 +234,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 isOpenMyClub = true
                 return true*/
             }
-            R.id.navItemHistory -> {
-
+            R.id.navItemNews -> {
+                startActivity(Intent(this@HomeActivity, MyNewsFeedActivity::class.java))
             }
-            R.id.navItemSetting -> {
-
-            }
+            R.id.navItemActivity -> { }
+            R.id.navItemAds -> { }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
