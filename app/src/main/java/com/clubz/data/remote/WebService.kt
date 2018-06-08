@@ -45,6 +45,7 @@ class WebService {
         val get_activity_list= base_Url+"service/activity/activityList"
 
         val create_newsFeed      = base_Url +"service/club/createNewsFeed"
+        val update_newsFeed      = base_Url +"service/club/updateNewsFeed"
 
     }
 

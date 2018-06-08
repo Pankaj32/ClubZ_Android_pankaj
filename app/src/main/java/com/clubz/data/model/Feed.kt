@@ -1,5 +1,6 @@
 package com.clubz.data.model
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
@@ -11,10 +12,19 @@ class Feed : Serializable{
     var news_feed_description  = ""
     var datetime  = ""
     var club_name  = ""
+    var clubId  = ""
+
+    @SerializedName("full_name")
     var user_name  = ""
+
+    var profile_image  = ""
+
+    @SerializedName("userId")
     var user_id  = ""
+
     var likes : Int = 0
     var comments : Int = 0
+    var is_comment_allow : Int = 0
     var bookmarks  = ""
     var isLiked : Int = 0
     var isBookmarked = ""

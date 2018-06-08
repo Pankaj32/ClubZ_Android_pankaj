@@ -169,13 +169,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/image_member2"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/image_member"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"
-                        app:siBorderColor="@color/text_gray"
-                        app:siBorderWidth="@dimen/_1sdp"
-                        android:padding="@dimen/_8sdp"
                         android:background="@drawable/bg_circle_blue"
                         app:srcCompat="@drawable/ic_user_shape" />
 
@@ -189,8 +186,8 @@
                         android:textSize="@dimen/_14sdp"
                         android:text="@string/by"
                         android:layout_marginLeft="@dimen/_16sdp"
-                        android:layout_alignTop="@id/image_member2"
-                        android:layout_toRightOf="@id/image_member2"/>
+                        android:layout_alignTop="@id/image_member"
+                        android:layout_toRightOf="@id/image_member"/>
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tvUsername"
@@ -212,7 +209,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp"
                         android:layout_marginLeft="@dimen/_16sdp"
-                        android:layout_toRightOf="@id/image_member2"
+                        android:layout_toRightOf="@id/image_member"
                         android:layout_below="@+id/leadby"
                         android:text="@string/admin"
                         />

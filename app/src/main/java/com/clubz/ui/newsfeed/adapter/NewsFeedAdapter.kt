@@ -2,7 +2,6 @@ package com.clubz.ui.newsfeed.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,16 +13,18 @@ import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Feed
 import com.clubz.data.remote.WebService
-import com.clubz.ui.newsfeed.NewsFeedDetailActivity
 import com.clubz.utils.VolleyGetPost
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.adapter_news_feed.view.*
-import kotlinx.android.synthetic.main.fragment_feed_detail.*
 import org.json.JSONObject
 
-class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context) :
+class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val listner : Listner) :
         RecyclerView.Adapter<NewsFeedAdapter.ViewHolder>(){
 
+    interface Listner{
+        fun onItemClick(feed: Feed)
+        fun onFeedEditClick(feed: Feed)
+    }
     // Gets the number of animals in the list
     override fun getItemCount(): Int {
         return items.size
@@ -84,7 +85,12 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context) :
         init {
             view.setOnClickListener(View.OnClickListener { v: View? ->
                 val feed = items.get(adapterPosition)
-                context.startActivity(Intent(context, NewsFeedDetailActivity::class.java).putExtra("feed",feed))
+                listner.onItemClick(feed)
+            })
+
+            bubble_menu.setOnClickListener(View.OnClickListener { v: View? ->
+                val feed = items.get(adapterPosition)
+                listner.onFeedEditClick(feed)
             })
 
             likeIcon.setOnClickListener(View.OnClickListener { v: View? ->

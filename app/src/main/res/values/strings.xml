@@ -345,6 +345,8 @@
     <string name="under_development">Under Development</string>
     <string name="club_s_name">Club\'s name</string>
     <string name="admin">Admin</string>
+    <string name="there_is_no_news_stil_here">There is no news stil here</string>
+    <string name="no_feed_content_body">The news feed will be available once the club manager create it.</string>
 
 
 </resources>

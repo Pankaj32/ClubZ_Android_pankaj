@@ -62,6 +62,11 @@ class FeedDetailFragment : Fragment() {
         if(feed?.news_feed_attachment.isNullOrEmpty())
             ivBanner.visibility = View.GONE
         else Picasso.with(ivBanner.context).load(feed?.news_feed_attachment).fit().into(ivBanner)
+
+        if(feed?.profile_image.isNullOrEmpty())
+            Picasso.with(ivBanner.context).load(R.drawable.ic_user_white).fit().into(image_member)
+        else
+            Picasso.with(ivBanner.context).load(feed?.profile_image).fit().into(image_member)
     }
 
 

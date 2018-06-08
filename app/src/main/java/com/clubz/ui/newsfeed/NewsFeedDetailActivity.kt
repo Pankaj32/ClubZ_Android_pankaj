@@ -20,6 +20,11 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_feed_detail)
+
+        intent?.let {
+            feed = it.extras.getSerializable("feed") as Feed
+        }
+
         val intent = getIntent()
         feed = intent!!.extras.getSerializable("feed") as Feed
         requireNotNull(feed) { "no user_id provided in Intent extras" }
@@ -29,7 +34,7 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
         setViewPager(view_pager_cd)
         tablayout_cd.setupWithViewPager(view_pager_cd)
 
-        bubble_menu.visibility = if(feed.user_id.equals(ClubZ.currentUser?.id)) View.VISIBLE else View.GONE
+       // bubble_menu.visibility = if(feed.user_id.equals(ClubZ.currentUser?.id)) View.VISIBLE else View.GONE
 
     }
 

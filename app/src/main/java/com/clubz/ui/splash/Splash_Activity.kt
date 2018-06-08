@@ -14,7 +14,6 @@ import com.clubz.ui.guide.Inro_Activity
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.ui.main.HomeActivity
-import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import io.fabric.sdk.android.Fabric
 import com.crashlytics.android.core.CrashlyticsCore
 import com.crashlytics.android.Crashlytics

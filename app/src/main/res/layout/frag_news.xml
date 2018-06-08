@@ -6,13 +6,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/background">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/feedRecycleView"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/adapter_news_feed"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/swipeRefreshLayout">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/feedRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/adapter_news_feed"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/noFeedMsgUI"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +51,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14sdp"
                 android:fontFamily="@font/teko_semibold"
-                android:text="@string/no_content"
+                android:text="@string/there_is_no_news_stil_here"
                 android:layout_marginStart="@dimen/_61sdp" />
 
             <TextView
@@ -51,36 +61,12 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_10sdp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@string/no_content_body"
+                android:text="@string/no_feed_content_body"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginStart="@dimen/_61sdp" />
 
-            <View
-                android:layout_width="@dimen/_250sdp"
-                android:layout_height="@dimen/_1sdp"
-                android:background="@color/black"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_below="@id/body_t" />
-            <Button
-                android:id="@+id/search_t"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_36sdp"
-                android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_16sdp"
-                android:text="@string/search"
-                android:textAllCaps="true"
-                android:textSize="@dimen/_14sdp"
-                android:fontFamily="@font/roboto_regular"
-                android:background="@drawable/bg_btn_green"
-                android:layout_below="@id/body_t"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/_24sdp"
-                />
-
-
         </RelativeLayout>
+
     </android.support.v7.widget.CardView>
 
 
