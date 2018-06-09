@@ -10,6 +10,7 @@ class Feed : Serializable{
     var newsFeedId : Int? = null
     var news_feed_title  = ""
     var news_feed_description  = ""
+    var tagName  = ""
     var datetime  = ""
     var club_name  = ""
     var clubId  = ""

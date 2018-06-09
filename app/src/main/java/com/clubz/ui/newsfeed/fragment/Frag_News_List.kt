@@ -30,7 +30,6 @@ import com.clubz.ui.newsfeed.adapter.NewsFeedAdapter
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.android.synthetic.main.frag_news.*
 import org.json.JSONObject
 
