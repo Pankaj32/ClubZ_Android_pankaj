@@ -1,17 +1,20 @@
 package com.clubz.ui.user_activities.fragment
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
-import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.android.volley.*
 
@@ -19,7 +22,7 @@ import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
 import com.clubz.ui.cv.CusDialogProg
-import com.clubz.ui.user_activities.activity.ActivitiesDetails
+import com.clubz.ui.user_activities.adapter.AffiliatesAdapter
 import com.clubz.ui.user_activities.expandable_recycler_view.*
 import com.clubz.ui.user_activities.listioner.ChildViewClickListioner
 import com.clubz.ui.user_activities.listioner.ParentViewClickListioner
@@ -57,6 +60,8 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
     private var tomorrowList: List<GetOthersActivitiesResponce.DataBean.TomorrowBean>? = null
     private var soonList: List<GetOthersActivitiesResponce.DataBean.SoonBean>? = null
     private var othersList: List<GetOthersActivitiesResponce.DataBean.OthersBean>? = null
+    private var height:Int=0
+    private var width:Int=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -83,6 +88,9 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         tomorrowLay.setOnClickListener(this@Frag_Find_Activities)
         soonLay.setOnClickListener(this@Frag_Find_Activities)
         othersLay.setOnClickListener(this@Frag_Find_Activities)
+        val display =getActivity().getWindowManager().getDefaultDisplay()
+        width = display.getWidth()
+        height = display.getHeight()
     }
 
     override fun onAttach(context: Context?) {
@@ -257,6 +265,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
                 params.put("authToken", SessionManager.getObj().user.auth_token)
+                Log.e("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
         }.execute(Frag_Find_Activities::class.java.name)
@@ -361,7 +370,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             }
 
         })
-        recyclerViewSoon.setAdapter(othersAdapter)
+        recyclerViewOthers.setAdapter(othersAdapter)
     }
 
     override fun onResume() {
@@ -396,7 +405,22 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
     override fun onItemClick(position: Int) {
     }
 
-    override fun onItemLike(position: Int) {
+    override fun onItemLike(position: Int,type: String) {
+        when (type) {
+            "today" -> {
+                popUpJoin("heart")
+            }
+            "tomorrow" -> {
+                popUpJoin("heart")
+            }
+            "soon" -> {
+                popUpJoin("heart")
+            }
+            "others" -> {
+                popUpJoin("heart")
+            }
+
+        }
     }
 
     override fun onItemChat(position: Int) {
@@ -406,23 +430,71 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         // startActivity(Intent(mContext, ActivitiesDetails::class.java))
         when (type) {
             "today" -> {
-
+                popUpJoin("hand")
             }
             "tomorrow" -> {
-
+                popUpJoin("hand")
             }
             "soon" -> {
-
+                popUpJoin("hand")
             }
             "others" -> {
-
+                popUpJoin("hand")
             }
 
         }
     }
 
-    override fun onJoin(parentPosition: Int, childPosition: Int) {
-        Toast.makeText(context, "parent " + parentPosition + " child " + childPosition, Toast.LENGTH_SHORT).show()
-        Log.e("parent " + parentPosition + " child " + childPosition, "hh")
+    override fun onJoin(parentPosition: Int, childPosition: Int, type: String) {
+        when (type) {
+            "today" -> {
+                popUpJoin("hand")
+            }
+            "tomorrow" -> {
+                popUpJoin("hand")
+            }
+            "soon" -> {
+                popUpJoin("hand")
+            }
+            "others" -> {
+                popUpJoin("hand")
+            }
+
+        }
+    }
+
+    internal fun popUpJoin(type:String) {
+        val dialog = Dialog(mContext)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.dialog_join_events)
+         dialog.window!!.setLayout(width * 10 / 11, WindowManager.LayoutParams.WRAP_CONTENT)
+    //    dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        val profileImage = dialog.findViewById<View>(R.id.profileImage) as ImageView
+        val topIcon = dialog.findViewById<View>(R.id.topIcon) as ImageView
+        val like = dialog.findViewById<View>(R.id.like) as ImageView
+        val dialogRecycler = dialog.findViewById<View>(R.id.dialogRecycler) as RecyclerView
+        val adapter = AffiliatesAdapter(mContext,type)
+        dialogRecycler.adapter = adapter
+        val activityUserName = dialog.findViewById<View>(R.id.activityUserName) as TextView
+        val mTitle = dialog.findViewById<View>(R.id.mTitle) as TextView
+        val mCancel = dialog.findViewById<View>(R.id.mCancel) as TextView
+        val mJoin = dialog.findViewById<View>(R.id.mJoin) as TextView
+        if (type == "hand") {
+            like.setImageResource(R.drawable.ic_inactive_hand_ico)
+            topIcon.setImageResource(R.drawable.hand_ico)
+            mTitle.setText(R.string.confirmTitle)
+        } else {
+            like.setImageResource(R.drawable.inactive_heart_ico)
+            topIcon.setImageResource(R.drawable.active_heart_ico)
+            mTitle.setText(R.string.joinTitle)
+        }
+        dialog.setCancelable(true)
+        dialog.show()
+        mCancel.setOnClickListener(View.OnClickListener { dialog.dismiss() })
+        mJoin.setOnClickListener(View.OnClickListener {
+            dialog.dismiss()
+        })
     }
 }

@@ -30,12 +30,13 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_18sdp" />
 
-        <!--<android.support.v7.widget.AppCompatImageView
-            android:id="@+id/done"
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/addActivity"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
             android:padding="@dimen/_12sdp"
-            app:srcCompat="@drawable/ic_check_white_24dp" />-->
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_add_24" />
 
     </LinearLayout>
 
@@ -65,19 +66,9 @@
                     android:nestedScrollingEnabled="true"
                     android:visibility="visible" />
 
-                <TextView
-                    android:id="@+id/todayNoDataTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_toLeftOf="@id/arowToday"
-                    android:fontFamily="@font/poppins_italic"
-                    android:padding="@dimen/_10sdp"
-                    android:text="@string/no_activites"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
+                <include
+                    android:id="@+id/nodataLay"
+                    layout="@layout/no_activity_layout"
                     android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>

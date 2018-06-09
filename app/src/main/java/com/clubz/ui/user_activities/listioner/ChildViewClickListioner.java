@@ -5,5 +5,5 @@ package com.clubz.ui.user_activities.listioner;
  */
 
 public interface ChildViewClickListioner {
-    void onJoin(int parentPosition,int childPosition);
+    void onJoin(int parentPosition,int childPosition,String type);
 }

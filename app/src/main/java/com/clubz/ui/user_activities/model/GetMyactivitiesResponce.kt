@@ -63,6 +63,7 @@ class GetMyactivitiesResponce {
         var activityName: String? = null
         var activityId: String? = null
         var club_name: String? = null
+        var is_hide: String? = null
         var events: List<EventsBean>? = null
         var is_Confirm: Boolean? = false
 

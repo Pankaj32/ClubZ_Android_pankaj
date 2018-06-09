@@ -43,7 +43,7 @@ public class TomorrowEventsViewHolder extends ChildViewHolder {
         item_child_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //   childViewClickListioner.onJoin(events.getParentIndex(), events.getChildIndex());
+                   childViewClickListioner.onJoin(events.getParentIndex(), events.getChildIndex(),"tomorrow");
             }
         });
     }

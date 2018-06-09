@@ -46,10 +46,16 @@ public class OthersActivitiesCategoryViewHolder extends ParentViewHolder {
         } else {
             itemLike.setImageResource(R.drawable.inactive_heart_ico);
         }
-        itemJoin.setOnClickListener(new View.OnClickListener() {
+        /*itemJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 parentViewClickListioner.onItemJoin(position,"others");
+            }
+        });*/
+        itemLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentViewClickListioner.onItemLike(position,"others");
             }
         });
     }

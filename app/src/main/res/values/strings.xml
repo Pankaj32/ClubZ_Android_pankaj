@@ -325,6 +325,7 @@
     <string name="h_others">Others</string>
     <string name="Collapse">collapse</string>
     <string name="joinTitle">Select who joins the activity</string>
+    <string name="confirmTitle">Select who confirms the activity</string>
     <string name="joinBtnText">JOIN</string>
 
     <!--Activity Details-->
@@ -348,7 +349,9 @@
     <string name="club_s_name">Club\'s name</string>
     <string name="admin">Admin</string>
     <string name="there_is_no_news_stil_here">There is no news stil here</string>
+    <string name="there_is_no_activity_stil_here">There is no activity stil here</string>
     <string name="no_feed_content_body">The news feed will be available once the club manager create it.</string>
+    <string name="no_activity_content_body">The activity will be available once the club manager create it.</string>
 
     <!--Activities Menu-->
     <string name="add_date">Add a new date</string>
