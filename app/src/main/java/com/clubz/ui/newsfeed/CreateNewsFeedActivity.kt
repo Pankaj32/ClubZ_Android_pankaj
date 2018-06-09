@@ -1,6 +1,7 @@
 package com.clubz.ui.newsfeed
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -282,6 +283,7 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
                             val obj = JSONObject(data)
                             if(obj.getString("status").equals("success")){
                                 Toast.makeText(this@CreateNewsFeedActivity,obj.getString("message"), Toast.LENGTH_LONG).show()
+                                setResult(Activity.RESULT_OK, intent)
                                 finish()
                             }else{
                                 Toast.makeText(this@CreateNewsFeedActivity,obj.getString("message"), Toast.LENGTH_LONG).show()

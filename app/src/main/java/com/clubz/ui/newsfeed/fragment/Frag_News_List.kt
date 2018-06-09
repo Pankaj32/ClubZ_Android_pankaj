@@ -1,6 +1,7 @@
 package com.clubz.ui.newsfeed.fragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -127,13 +128,15 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
     }
 
 
-    override fun onItemClick(feed: Feed) {
+    override fun onItemClick(feed: Feed, pos : Int) {
         startActivityForResult(Intent(context,
-                NewsFeedDetailActivity::class.java).putExtra("feed",feed),
+                NewsFeedDetailActivity::class.java)
+                .putExtra("feed",feed)
+                .putExtra("pos",pos),
                 1001)
     }
 
-    override fun onFeedEditClick(view: View,feed: Feed) {
+    override fun onFeedEditClick(view: View,feed: Feed, pos: Int) {
         val products =  arrayOf(getString(R.string.edit), getString(R.string.delete))
         val lpw =  ListPopupWindow(context)
         lpw.setAnchorView(view)
@@ -146,7 +149,8 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
             if(position==0){
                 startActivityForResult(Intent(context,
                         CreateNewsFeedActivity::class.java)
-                        .putExtra("feed",feed),
+                        .putExtra("feed",feed)
+                        .putExtra("pos",pos),
                         1002)
             }else if(position == 1){
 
@@ -167,11 +171,15 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode==1001 && resultCode==-1) run {
+        if(requestCode==1001 && resultCode== Activity.RESULT_OK) run {
             val feed: Feed = data?.extras?.getSerializable("feed") as Feed
-            val position = data?.extras?.getInt("pos")
-        }else if(resultCode==1001 && resultCode==-1){
-
+            val position = data.extras?.getInt("pos")
+            newsFeeds.set(position!!, feed)
+            adapter?.notifyItemChanged(position)
+        }else if(requestCode == 1002 && resultCode==Activity.RESULT_OK)run {
+            newsFeeds.clear()
+            pageListner?.resetState()
+            getFeeds(0)
         }
     }
 

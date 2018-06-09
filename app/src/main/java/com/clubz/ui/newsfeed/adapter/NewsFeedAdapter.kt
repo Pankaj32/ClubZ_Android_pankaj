@@ -22,8 +22,8 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
         RecyclerView.Adapter<NewsFeedAdapter.ViewHolder>(){
 
     interface Listner{
-        fun onItemClick(feed: Feed)
-        fun onFeedEditClick(view: View, feed: Feed)
+        fun onItemClick(feed: Feed, pos : Int)
+        fun onFeedEditClick(view: View, feed: Feed, pos : Int)
         fun onChatClick(feed: Feed)
     }
     // Gets the number of animals in the list
@@ -83,12 +83,12 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
         init {
             view.setOnClickListener(View.OnClickListener { v: View? ->
                 val feed = items.get(adapterPosition)
-                listner.onItemClick(feed)
+                listner.onItemClick(feed, adapterPosition)
             })
 
             bubble_menu.setOnClickListener(View.OnClickListener { v: View? ->
                 val feed = items.get(adapterPosition)
-                listner.onFeedEditClick(bubble_menu, feed)
+                listner.onFeedEditClick(bubble_menu, feed, adapterPosition)
             })
 
             likeIcon.setOnClickListener(View.OnClickListener { v: View? ->
