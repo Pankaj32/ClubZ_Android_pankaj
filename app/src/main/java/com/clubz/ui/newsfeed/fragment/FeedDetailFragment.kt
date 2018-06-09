@@ -13,6 +13,7 @@ import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Feed
 import com.clubz.data.remote.WebService
+import com.clubz.ui.newsfeed.NewsFeedDetailActivity
 import com.clubz.utils.VolleyGetPost
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_feed_detail.*
@@ -45,6 +46,8 @@ class FeedDetailFragment : Fragment() {
             feed?.isLiked = if(isCheck) 1 else 0
             if (isCheck) feed!!.likes++ else feed!!.likes--
             tvLikeCount.text = feed?.likes.toString()+" Likes"
+            val activity = context as NewsFeedDetailActivity
+            activity.updateNewsfeed(feed)
         })
     }
 

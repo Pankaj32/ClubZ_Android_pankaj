@@ -34,7 +34,7 @@
             android:fontFamily="@font/teko_semibold"
             android:gravity="center_vertical"
             android:paddingTop="@dimen/_3sdp"
-            android:text="@string/my_clubs"
+            android:text="@string/nav_news"
             android:textColor="@color/white"
             android:textSize="@dimen/_18sdp" />
 

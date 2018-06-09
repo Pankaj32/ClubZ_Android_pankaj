@@ -18,6 +18,7 @@ class ClubZ  : Application() {
         var longitude: Double   = 0.toDouble()
         var city: String = ""
         var currentUser: User? = null
+        var isNeedToUpdateNewsFeed = false
     }
 
     fun getCurrentUser(): User?{
