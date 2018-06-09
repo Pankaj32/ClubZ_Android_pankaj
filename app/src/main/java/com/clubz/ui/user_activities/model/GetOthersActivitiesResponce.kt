@@ -44,6 +44,7 @@ class GetOthersActivitiesResponce {
     }
 
     class DataBean {
+        var hasAffiliate:Int?=null
         var today: List<TodayBean>? = null
         var tomorrow: List<TomorrowBean>? = null
         var soon: List<SoonBean>? = null
@@ -95,6 +96,9 @@ class GetOthersActivitiesResponce {
                  * is_confirm : 0
                  * total_users : 1
                  * joined_users : 1
+                 * "is_confirm": "0",
+                "hasJoined": "0",
+                "hasAffiliatesJoined": "0"
                  */
 
                 var activityEventId: String? = null
@@ -111,6 +115,8 @@ class GetOthersActivitiesResponce {
                 var is_confirm: String? = null
                 var total_users: String? = null
                 var joined_users: String? = null
+                var hasJoined: String? = null
+                var hasAffiliatesJoined: String? = null
                 var parentIndex: Int?=null
                 var childIndex: Int?=null
 
@@ -210,6 +216,8 @@ class GetOthersActivitiesResponce {
                 var is_confirm: String? = null
                 var total_users: String? = null
                 var joined_users: String? = null
+                var hasJoined: String? = null
+                var hasAffiliatesJoined: String? = null
                 var parentIndex: Int?=null
                 var childIndex: Int?=null
 
@@ -309,6 +317,8 @@ class GetOthersActivitiesResponce {
                 var is_confirm: String? = null
                 var total_users: String? = null
                 var joined_users: String? = null
+                var hasJoined: String? = null
+                var hasAffiliatesJoined: String? = null
                 var parentIndex: Int?=null
                 var childIndex: Int?=null
 
@@ -408,6 +418,8 @@ class GetOthersActivitiesResponce {
                 var is_confirm: String? = null
                 var total_users: String? = null
                 var joined_users: String? = null
+                var hasJoined: String? = null
+                var hasAffiliatesJoined: String? = null
                 var parentIndex: Int?=null
                 var childIndex: Int?=null
 

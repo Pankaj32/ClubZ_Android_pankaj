@@ -47,10 +47,16 @@ public class TodaysActivitiesCategoryViewHolder extends ParentViewHolder {
         } else {
             itemLike.setImageResource(R.drawable.inactive_heart_ico);
         }
-        itemJoin.setOnClickListener(new View.OnClickListener() {
+        /*itemJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 parentViewClickListioner.onItemJoin(position, "today");
+            }
+        });*/
+        itemLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentViewClickListioner.onItemLike(position, "today");
             }
         });
     }
@@ -58,7 +64,6 @@ public class TodaysActivitiesCategoryViewHolder extends ParentViewHolder {
     @Override
     public void setExpanded(boolean expanded) {
         super.setExpanded(expanded);
-
         if (expanded) {
             mArrowExpandImageView.setRotation(ROTATED_POSITION);
         } else {
@@ -70,7 +75,6 @@ public class TodaysActivitiesCategoryViewHolder extends ParentViewHolder {
     @Override
     public void onExpansionToggled(boolean expanded) {
         super.onExpansionToggled(expanded);
-
         RotateAnimation rotateAnimation;
         if (expanded) { // rotate clockwise
             rotateAnimation = new RotateAnimation(ROTATED_POSITION,
@@ -83,10 +87,8 @@ public class TodaysActivitiesCategoryViewHolder extends ParentViewHolder {
                     RotateAnimation.RELATIVE_TO_SELF, 0.5f,
                     RotateAnimation.RELATIVE_TO_SELF, 0.5f);
         }
-
         rotateAnimation.setDuration(200);
         rotateAnimation.setFillAfter(true);
         mArrowExpandImageView.startAnimation(rotateAnimation);
-
     }
 }

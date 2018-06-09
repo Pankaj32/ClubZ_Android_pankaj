@@ -101,9 +101,9 @@
 
         <ImageView
             android:id="@+id/item_child_join"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:padding="@dimen/_5sdp"
             app:srcCompat="@drawable/ic_inactive_hand_ico" />
     </LinearLayout>
 </LinearLayout>
