@@ -47,10 +47,16 @@ public class TomorrowActivitiesCategoryViewHolder extends ParentViewHolder {
         } else {
             itemLike.setImageResource(R.drawable.inactive_heart_ico);
         }
-        itemJoin.setOnClickListener(new View.OnClickListener() {
+        /*itemJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 parentViewClickListioner.onItemJoin(position, "tomorrow");
+            }
+        });*/
+        itemLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentViewClickListioner.onItemLike(position, "tomorrow");
             }
         });
     }

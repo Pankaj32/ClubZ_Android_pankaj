@@ -61,31 +61,31 @@
 
                 <ImageView
                     android:id="@+id/item_join"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_7sdp"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:padding="@dimen/_5sdp"
                     app:srcCompat="@drawable/ic_inactive_hand_ico" />
 
                 <ImageView
                     android:id="@+id/itemLike"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_7sdp"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:padding="@dimen/_5sdp"
                     android:src="@drawable/inactive_heart_ico" />
 
 
                 <ImageView
                     android:id="@+id/itemChat"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_7sdp"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:padding="@dimen/_5sdp"
                     android:src="@drawable/chat_icon" />
 
                 <ImageView
                     android:id="@+id/item_menu"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:padding="@dimen/_5sdp"
                     app:srcCompat="@drawable/list_menu_icon" />
             </LinearLayout>
         </RelativeLayout>

@@ -40,7 +40,7 @@
         <activity
             android:name=".ui.main.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppThmeLight"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".ui.main.MainActivity"
@@ -164,7 +164,7 @@
 
         <activity android:name=".ui.user_activities.activity.MyActivities"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppThmeLight" />
 
     </application>
 

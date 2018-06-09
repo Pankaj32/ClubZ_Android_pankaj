@@ -27,7 +27,7 @@ public class SoonActivitiesCategoryViewHolder extends ParentViewHolder {
         activityName = itemView.findViewById(R.id.activityName);
         clubName = itemView.findViewById(R.id.clubName);
         itemLike = itemView.findViewById(R.id.itemLike);
-        activityImge = itemView.findViewById(R.id.itemLike);
+        activityImge = itemView.findViewById(R.id.activityImge);
     }
 
     public void bind(GetOthersActivitiesResponce.DataBean.SoonBean activities, final int position, final ParentViewClickListioner parentViewClickListioner) {
@@ -47,10 +47,16 @@ public class SoonActivitiesCategoryViewHolder extends ParentViewHolder {
         } else {
             itemLike.setImageResource(R.drawable.inactive_heart_ico);
         }
-        itemJoin.setOnClickListener(new View.OnClickListener() {
+        /*itemJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 parentViewClickListioner.onItemJoin(position, "soon");
+            }
+        });*/
+        itemLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentViewClickListioner.onItemLike(position, "soon");
             }
         });
     }

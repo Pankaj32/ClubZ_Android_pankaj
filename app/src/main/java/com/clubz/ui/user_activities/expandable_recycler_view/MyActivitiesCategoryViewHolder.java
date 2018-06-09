@@ -78,6 +78,5 @@ public class MyActivitiesCategoryViewHolder extends ParentViewHolder {
         rotateAnimation.setDuration(200);
         rotateAnimation.setFillAfter(true);
         mArrowExpandImageView.startAnimation(rotateAnimation);
-
     }
 }
