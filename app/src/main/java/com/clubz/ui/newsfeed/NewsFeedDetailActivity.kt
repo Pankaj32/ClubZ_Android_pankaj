@@ -1,5 +1,6 @@
 package com.clubz.ui.newsfeed
 
+import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
@@ -14,37 +15,43 @@ import kotlinx.android.synthetic.main.activity_club_detail.*
 
 class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
 
+    var pos = 0
     lateinit var feed: Feed
     lateinit var adapter : ViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_feed_detail)
-
         intent?.let {
             feed = it.extras.getSerializable("feed") as Feed
+            pos = it.extras.getInt("pos")
         }
 
-        val intent = getIntent()
+       /* val intent = getIntent()
         feed = intent!!.extras.getSerializable("feed") as Feed
-        requireNotNull(feed) { "no user_id provided in Intent extras" }
+        requireNotNull(feed) { "no user_id provided in Intent extras" }*/
 
         title_tv.text = feed.news_feed_title
         for (views in arrayOf(backBtn, bubble_menu)) views.setOnClickListener(this)
-        //setViewPager(view_pager_cd)
+        setViewPager(view_pager_cd)
         tablayout_cd.setupWithViewPager(view_pager_cd)
-
-       // bubble_menu.visibility = if(feed.user_id.equals(ClubZ.currentUser?.id)) View.VISIBLE else View.GONE
-
+        bubble_menu.visibility = if(feed.user_id.equals(ClubZ.currentUser?.id)) View.VISIBLE else View.GONE
     }
 
-  /*  fun setViewPager(viewPager: ViewPager) {
+    fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment( FeedDetailFragment.newInstance(feed), resources.getString(R.string.t_content), "First")
         adapter.addFragment( ChatFragment.newInstance(Bundle.EMPTY),resources.getString(R.string.t_chat) , "second")
         viewPager.adapter = adapter
-    }*/
+    }
 
+
+    fun updateNewsfeed(feed: Feed?){
+        val result = intent
+        result.putExtra("feed", feed)
+        result.putExtra("pos", pos)
+        setResult(Activity.RESULT_OK, result)
+    }
 
     override fun onClick(v: View?) {
         when(v?.id){

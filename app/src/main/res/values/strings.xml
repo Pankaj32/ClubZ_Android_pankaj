@@ -359,4 +359,11 @@
     <string name="hide_activity">Hide this activity</string>
     <string name="disable_notification">Disable Notification</string>
 
+    <string name="menu_filter_by_clubs">Filter by clubs</string>
+    <string name="menu_filter_by_comments">Filter by comments</string>
+    <string name="menu_filter_by_likes">Filter by likes</string>
+    <string name="menu_clear_news">Clear news</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+
 </resources>
