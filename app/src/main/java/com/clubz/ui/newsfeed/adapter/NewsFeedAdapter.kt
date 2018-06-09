@@ -23,7 +23,8 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
 
     interface Listner{
         fun onItemClick(feed: Feed)
-        fun onFeedEditClick(feed: Feed)
+        fun onFeedEditClick(view: View, feed: Feed)
+        fun onChatClick(feed: Feed)
     }
     // Gets the number of animals in the list
     override fun getItemCount(): Int {
@@ -62,11 +63,7 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
             Picasso.with(holder.ivUserProfile.context).load(feed.club_icon).fit().into(holder.ivUserProfile)*/
     }
 
-    inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        override fun onClick(v: View?) {
-
-        }
-
+    inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         // Holds the TextView that will add each animal to
         val ivBanner = view.ivBanner
         val tvTitle = view.tvTitle
@@ -80,6 +77,7 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
         val rl_content = view.rl_content
         val bubble_menu = view.bubble_menu
         val likeIcon = view.likeIcon
+        val ivChat = view.ivChat
         // val ivUserProfile = view.ivUserProfile
 
         init {
@@ -90,7 +88,7 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
 
             bubble_menu.setOnClickListener(View.OnClickListener { v: View? ->
                 val feed = items.get(adapterPosition)
-                listner.onFeedEditClick(feed)
+                listner.onFeedEditClick(bubble_menu, feed)
             })
 
             likeIcon.setOnClickListener(View.OnClickListener { v: View? ->
@@ -101,6 +99,12 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
                 notifyItemChanged(adapterPosition)
                 likeNewsFeed(feed)
             })
+
+            ivChat.setOnClickListener(View.OnClickListener { v: View? ->
+                val feed = items.get(adapterPosition)
+                listner.onChatClick(feed)
+            })
+
         }
     }
 

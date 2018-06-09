@@ -230,10 +230,10 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
 
 
     fun joinClub(club : Clubs, pos : Int){
-
+        ClubZ.isNeedToUpdateNewsFeed = true
         val dialog = CusDialogProg(context )
         dialog.show()
-        var clubUserStatus : String = ""
+        var clubUserStatus = ""
 
         if(club.club_type.equals("1") && club.club_user_status.isBlank()){
             clubUserStatus = "1"
@@ -263,16 +263,17 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
 
-                        if(club.club_type.equals("1") && clubUserStatus.equals("1")){
+                        if(club.club_type=="1" && clubUserStatus=="1"){
                             club.is_allow_feeds = ""
 
-                        }else if( (club.club_type.equals("1") && clubUserStatus.isBlank()) || (club.club_type.equals("2") && clubUserStatus.isBlank())) {
+                        }else if( (club.club_type=="1" && clubUserStatus.isBlank()) ||
+                                (club.club_type=="2" && clubUserStatus.isBlank())) {
                             club.is_allow_feeds = "1"
 
-                        }else if(club.club_type.equals("2") && clubUserStatus.equals("0")){
+                        }else if(club.club_type=="2" && clubUserStatus=="0"){
                             club.is_allow_feeds = ""
 
-                        }else if(club.club_type.equals("2") && clubUserStatus.equals("0")){
+                        }else if(club.club_type=="2" && clubUserStatus=="0"){
                             club.is_allow_feeds = "0"
 
                         }/*else if(club.club_type.equals("2") && clubUserStatus.isBlank()){
@@ -283,10 +284,12 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
                         club.club_user_status = clubUserStatus
                         //list.get(pos).club_user_status = clubUserStatus
 
-                        if(clubUserStatus.equals("1")){
+                        if(clubUserStatus=="1"){
                             listner.onJoinedClub(club)
                             list.removeAt(pos)
                             notifyItemRemoved(pos)
+                        }else if(club.club_type=="2" && clubUserStatus == "") {
+                            notifyItemChanged(pos)
                         }else if(clubUserStatus==""){
                             listner.onLeavedClub(club)
                             list.removeAt(pos)

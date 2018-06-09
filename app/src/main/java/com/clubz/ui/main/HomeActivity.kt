@@ -64,11 +64,7 @@ import kotlinx.android.synthetic.main.nav_header.view.*
 class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener,
-        NavigationView.OnNavigationItemSelectedListener, PopupMenu.OnMenuItemClickListener {
-
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+        NavigationView.OnNavigationItemSelectedListener {
 
     companion object {
         var isPrivate: Int = 0
@@ -105,16 +101,13 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_test)
+
         ClubZ.currentUser = SessionManager.getObj().user
+        Util.e("authtoken", SessionManager.getObj().user.auth_token)
+
         setUp()
-
-       // tablayout.addOnTabSelectedListener(this)
-       // for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
-
         replaceFragment(Frag_News_List())
-        ///addFragment_new(Frag_Search_Club(),true ,R.id.frag_container2);
         checkLocationUpdate()
-        Util.e("authtoken", SessionManager.getObj().user.auth_token);
 
         mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout , R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
@@ -126,10 +119,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                     val cFragment =  getCurrentFragment()
                     setActionbarMenu(cFragment!!)
                     bottomtabHandler(cFragment)
-                    //stausBarHandler(cFragment)
-                    //supportInvalidateOptionsMenu()
                     invalidateOptionsMenu()
-                    //lockNavigation()
                     mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
                 }
             }
@@ -141,7 +131,6 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 if(drawerView.id== R.id.drawerView2){
                     val far = getSupportFragmentManager().findFragmentById(R.id.fragment2) as Frag_Search_Club
                     setActionbarMenu(far)
-                    //stausBarHandler(far)
                     bottomtabHandler(far)
                     lastDrawerGravity = Gravity.END
 
@@ -150,7 +139,6 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                         isOpenMyClub = false
                     }else{
                         far.checkLocation()
-                       // lockNavigation(true)
                         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, GravityCompat.END);
                     }
                 }
@@ -166,7 +154,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
 
         mDrawerLayout.setDrawerListener(mDrawerToggle)
-        mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
+        mDrawerLayout.setScrimColor(resources.getColor(android.R.color.transparent));
 
         search_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {

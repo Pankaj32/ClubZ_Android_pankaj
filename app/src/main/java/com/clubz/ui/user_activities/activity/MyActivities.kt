@@ -141,9 +141,10 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
 
     }
 
-    override fun onItemJoin(position: Int) {
-
+    override fun onItemJoin(position: Int, type: String?) {
     }
+
+
 
     override fun onJoin(parentPosition: Int, childPosition: Int) {
         Toast.makeText(this@MyActivities, "parent " + parentPosition + " child " + childPosition, Toast.LENGTH_SHORT).show()
