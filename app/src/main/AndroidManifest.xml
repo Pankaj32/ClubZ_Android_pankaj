@@ -160,7 +160,7 @@
 
         <activity android:name=".ui.newsfeed.MyNewsFeedActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppThmeLight" />
 
         <activity android:name=".ui.user_activities.activity.MyActivities"
             android:screenOrientation="portrait"

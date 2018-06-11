@@ -343,6 +343,7 @@
     <string name="create_news_feed">Create news feed</string>
     <string name="article_s_content">Article\'s content</string>
     <string name="new_article">New Article</string>
+    <string name="update_article">Edit Article</string>
     <string name="error_article_name">Please enert article name.</string>
     <string name="error_article_desc">Please enert article description.</string>
     <string name="under_development">Under Development</string>

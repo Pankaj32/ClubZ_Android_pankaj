@@ -24,6 +24,7 @@
             app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
         <TextView
+            android:id="@+id/tv_header"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"

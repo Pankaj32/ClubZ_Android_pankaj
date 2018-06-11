@@ -152,6 +152,7 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
     }
 
     fun updateViewIntoEditableMode(){
+        tv_header.text = getString(R.string.update_article)
         leadby.text = ClubZ.currentUser?.full_name
         titile_name.setText(feed!!.news_feed_title)
         usrerole.setText(getString(R.string.admin))
