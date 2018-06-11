@@ -30,7 +30,6 @@ import com.clubz.ui.newsfeed.adapter.NewsFeedAdapter
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.android.synthetic.main.frag_news.*
 import org.json.JSONObject
 
@@ -140,10 +139,10 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
         val products =  arrayOf(getString(R.string.edit), getString(R.string.delete))
         val lpw =  ListPopupWindow(context)
         lpw.setAnchorView(view)
-        lpw.setDropDownGravity(Gravity.RIGHT);
-        lpw.setHeight(ListPopupWindow.WRAP_CONTENT);
-        lpw.setWidth(200);
-        lpw.setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, products)); // list_item is your textView with gravity.
+        lpw.setDropDownGravity(Gravity.RIGHT)
+        lpw.setHeight(ListPopupWindow.WRAP_CONTENT)
+        lpw.setWidth(200)
+        lpw.setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, products)) // list_item is your textView with gravity.
         lpw.setOnItemClickListener { parent, view, position, id ->
             lpw.dismiss()
             if(position==0){
@@ -153,7 +152,7 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
                         .putExtra("pos",pos),
                         1002)
             }else if(position == 1){
-
+                Util.showToast(R.string.under_development, context)
             }
         }
         lpw.show();

@@ -77,24 +77,7 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
         edFilterTag.setOnEditorActionListener { v, actionId, event ->
             if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
                 val tag = edFilterTag.text.toString().trim { it <= ' ' }
-
-                if (!TextUtils.isEmpty(tag)){
-                    if(tagView.size()<3){
-                        tagView.addTag(tag)
-                        edFilterTag.setText("")
-                        tagDivider.visibility = View.VISIBLE
-                        tagView.setVisibility(View.VISIBLE)
-
-                        if(tagView.size()>=3){
-                            tagDivider.visibility = View.GONE
-                            edFilterTag.visibility = View.GONE
-                            KeyboardUtil.hideKeyboard(this@CreateNewsFeedActivity)
-                        }
-                    }else {
-                        tagDivider.visibility = View.GONE
-                        edFilterTag.visibility = View.GONE
-                    }
-                }
+                addTag(tag)
             }
             false
         }
@@ -126,9 +109,7 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
         if(feed!=null) updateViewIntoEditableMode()
     }
 
-
-    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val tag = parent?.getItemAtPosition(position).toString()
+    fun addTag(tag : String){
         if (!TextUtils.isEmpty(tag)){
             if(tagView.size()<3){
                 tagView.addTag(tag)
@@ -148,7 +129,30 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
         }
     }
 
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val tag = parent?.getItemAtPosition(position).toString()
+        addTag(tag)
+        /*if (!TextUtils.isEmpty(tag)){
+            if(tagView.size()<3){
+                tagView.addTag(tag)
+                edFilterTag.setText("")
+                tagDivider.visibility = View.VISIBLE
+                tagView.setVisibility(View.VISIBLE)
+
+                if(tagView.size()>=3){
+                    tagDivider.visibility = View.GONE
+                    edFilterTag.visibility = View.GONE
+                    KeyboardUtil.hideKeyboard(this@CreateNewsFeedActivity)
+                }
+            }else {
+                tagDivider.visibility = View.GONE
+                edFilterTag.visibility = View.GONE
+            }
+        }*/
+    }
+
     fun updateViewIntoEditableMode(){
+        tv_header.text = getString(R.string.update_article)
         leadby.text = ClubZ.currentUser?.full_name
         titile_name.setText(feed!!.news_feed_title)
         usrerole.setText(getString(R.string.admin))
@@ -156,6 +160,8 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
         spn_commentStatus.setSelection(feed!!.is_comment_allow)
         if(!feed?.news_feed_attachment.isNullOrEmpty())
             Picasso.with(img_newsFeed.context).load(feed!!.news_feed_attachment).fit().into(img_newsFeed)
+
+        feed?.tagName
     }
 
     override fun onClick(v: View?) {
