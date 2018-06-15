@@ -49,6 +49,7 @@
             android:background="@color/gray_transprent" />
 
         <RelativeLayout
+            android:id="@+id/likeLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -79,7 +80,6 @@
                 android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:tint="@color/black"
                 app:srcCompat="@drawable/inactive_heart_ico" />
         </RelativeLayout>
 

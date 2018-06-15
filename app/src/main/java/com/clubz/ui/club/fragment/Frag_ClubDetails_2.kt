@@ -60,13 +60,13 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
 
         ll_expand1.setOnClickListener {
 
-            if(tv_expand1.text.equals(getString(R.string.collapse))){
+            if(tv_expand1.text.equals(getString(R.string.collapsed))){
                 tv_expand1.text = getString(R.string.expand)
                 setUpExpandAndCollapse(false, iv_expand1, cardViewMember)
                 rv_members.visibility = View.GONE
 
             }else{
-                tv_expand1.setText(R.string.collapse)
+                tv_expand1.setText(R.string.collapsed)
                 setUpExpandAndCollapse(true, iv_expand1, cardViewMember)
                 rv_members.visibility = View.VISIBLE
             }
@@ -74,12 +74,12 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
 
         ll_expand2.setOnClickListener {
 
-            if(tv_expand2.text.equals(getString(R.string.collapse))){
+            if(tv_expand2.text.equals(getString(R.string.collapsed))){
                 tv_expand2.text = getString(R.string.expand)
                 rv_appcalints.visibility = View.GONE
                 setUpExpandAndCollapse(false, iv_expand2, cardViewApplicant)
             }else{
-                tv_expand2.setText(R.string.collapse)
+                tv_expand2.setText(R.string.collapsed)
                 rv_appcalints.visibility = View.VISIBLE
                 setUpExpandAndCollapse(true, iv_expand2, cardViewApplicant)
             }
@@ -134,7 +134,7 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
 
     override fun onFocus() {
 
-        if(tv_expand2.text.equals(getString(R.string.collapse))){
+        if(tv_expand2.text.equals(getString(R.string.collapsed))){
             tv_expand2.text = getString(R.string.expand)
             rv_appcalints.visibility = View.GONE
             setUpExpandAndCollapse(false, iv_expand2, cardViewApplicant)

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white_internet"
+    android:orientation="vertical"
+    android:id="@+id/containerLay">
+
+
+    <View
+        android:id="@+id/top_primary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:background="@drawable/bg_white_internet_top" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/topIcon"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/bg_circle_white"
+        android:padding="12dp"
+        android:tint="@color/primaryColor"
+        app:srcCompat="@drawable/ic_nav_event" />
+
+    <LinearLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_primary"
+        android:layout_margin="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/mTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/teko_regular"
+            android:text=""
+            android:textColor="@color/inactive_tab"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@color/gray_transprent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp">
+
+            <EditText
+                android:id="@+id/eventNameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_7sdp"
+                android:background="@null"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/h_eventTitle"
+                android:textColor="@color/black"
+                android:textColorHint="@color/nav_gray"
+                android:textSize="16sp"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@color/gray_transprent" />
+
+        <RelativeLayout
+            android:id="@+id/datelay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/dateIcon"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:tint="@color/text_color_gray"
+                app:srcCompat="@drawable/ic_nav_event" />
+
+            <TextView
+                android:id="@+id/addDateTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_7sdp"
+                android:layout_toRightOf="@id/dateIcon"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/h_select_date"
+                android:textColor="@color/black"
+                android:textColorHint="@color/nav_gray"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/like"
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:tint="@color/black"
+                app:srcCompat="@drawable/ic_down_arrow"
+                app:tint="@color/nav_gray" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_transprent" />
+
+        <RelativeLayout
+            android:id="@+id/timeLay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/timeIcon"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:tint="@color/text_color_gray"
+                app:srcCompat="@drawable/ic_clock" />
+
+            <TextView
+                android:id="@+id/addTimeTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_7sdp"
+                android:layout_toRightOf="@id/timeIcon"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/h_select_time"
+                android:textColor="@color/black"
+                android:textColorHint="@color/nav_gray"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_transprent" />
+
+        <RelativeLayout
+            android:id="@+id/loctionLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/_45sdp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/locationIcon"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:tint="@color/text_color_gray"
+                app:srcCompat="@drawable/ic_map_placeholder" />
+
+            <TextView
+                android:id="@+id/locationTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_7sdp"
+                android:layout_toRightOf="@id/locationIcon"
+                android:background="@color/white"
+                android:clickable="false"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/_30sdp"
+                android:hint="Location"
+                android:textColor="@color/black"
+                android:textColorHint="@color/nav_gray"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_transprent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp">
+
+            <EditText
+                android:id="@+id/descTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_7sdp"
+                android:background="@null"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/h_activity_desc"
+                android:textColor="@color/black"
+                android:textColorHint="@color/nav_gray"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_transprent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/rl_content"
+        android:layout_gravity="right"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/mCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_size"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="@string/cancel"
+            android:textAllCaps="true"
+            android:textColor="@color/primaryColor"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/mAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_size"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="@string/addDateBtnText"
+            android:textAllCaps="true"
+            android:textColor="@color/primaryColor"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

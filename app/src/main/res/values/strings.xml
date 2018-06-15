@@ -250,7 +250,8 @@
     <string name="t_gps_msg"> Your location is required to show feeds near you</string>
     <string name="t_er_loc_msg"> Your location is required to show feeds near you </string>
     <string name="terms_conditions">Terms and conditions</string>
-    <string name="collapse">Collapse</string>
+    <string name="collapsed">Collapsed</string>
+    <string name="expanded">Expanded</string>
     <string name="dharmraj_acharya_bhurtel">Dharmraj Acharya Bhurtel</string>
     <string name="applicants">Applicants</string>
     <string name="current_members">Current Members</string>
@@ -327,6 +328,11 @@
     <string name="joinTitle">Select who joins the activity</string>
     <string name="confirmTitle">Select who confirms the activity</string>
     <string name="joinBtnText">JOIN</string>
+    <string name="addDateBtnText">ADD DATE</string>
+    <string name="h_activity_desc">Activity description optional</string>
+    <string name="h_eventTitle">Event title</string>
+    <string name="h_select_date">Select date</string>
+    <string name="h_select_time">Select Time</string>
 
     <!--Activity Details-->
     <string name="termsnCondition"><u>Terms and Condition</u></string>
@@ -365,5 +371,13 @@
     <string name="menu_clear_news">Clear news</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <!--activity alart-->
+    <string name="a_EventName">Please enter event name</string>
+    <string name="a_date">Please add  date</string>
+    <string name="a_time">Please add  time</string>
+    <string name="a_location_dl">Please add location</string>
 
+    <!--demo-->
+    <string name="d_no_affiliates">You don\'t have affliates to confirm </string>
+    <string name="d_cant_join">You cant\'t join events first you have to confirm </string>
 </resources>

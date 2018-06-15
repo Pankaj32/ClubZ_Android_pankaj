@@ -16,7 +16,7 @@ public class SoonActivitiesCategoryViewHolder extends ParentViewHolder {
     private static final float INITIAL_POSITION = 0.0f;
     private static final float ROTATED_POSITION = 180f;
 
-    private final ImageView mArrowExpandImageView, itemMenu, itemJoin, itemLike, activityImge;
+    private final ImageView mArrowExpandImageView, itemMenu, itemJoin, itemLike, activityImge,itemChat;
     private TextView clubName, activityName;
 
     public SoonActivitiesCategoryViewHolder(View itemView) {
@@ -28,6 +28,7 @@ public class SoonActivitiesCategoryViewHolder extends ParentViewHolder {
         clubName = itemView.findViewById(R.id.clubName);
         itemLike = itemView.findViewById(R.id.itemLike);
         activityImge = itemView.findViewById(R.id.activityImge);
+        itemChat = itemView.findViewById(R.id.itemChat);
     }
 
     public void bind(GetOthersActivitiesResponce.DataBean.SoonBean activities, final int position, final ParentViewClickListioner parentViewClickListioner) {
@@ -37,6 +38,8 @@ public class SoonActivitiesCategoryViewHolder extends ParentViewHolder {
         activityName.setText(activities.getActivityName());
         clubName.setText(activities.getClub_name());
         itemMenu.setVisibility(View.GONE);
+        itemChat.setVisibility(View.GONE);
+        itemJoin.setVisibility(View.GONE);
         if (activities.is_Confirm()) {
             itemJoin.setImageResource(R.drawable.hand_ico);
         } else {

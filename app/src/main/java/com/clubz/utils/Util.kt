@@ -148,6 +148,27 @@ class Util {
 
         }
 
+        fun setTimeFormat(time: String): String {
+            var formatedTime = ""
+            val TimeList = time.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val hourSt = TimeList[0]
+            val minute = TimeList[1]
+            var hour = Integer.parseInt(hourSt)
+            val format: String
+            if (hour == 0) {
+                hour += 12
+                format = "A.M."
+            } else if (hour == 12) {
+                format = "P.M."
+            } else if (hour > 12) {
+                hour -= 12
+                format = "P.M."
+            } else {
+                format = "A.M."
+            }
+            formatedTime = "$hour:$minute $format"
+            return formatedTime
+        }
         fun getDistanceMile(LL: Array<Double>): Double {
             Util.e("LAT LONG ", LL[0].toString() + " " + LL[1] + " " + LL[2] + " " + LL[3])
 

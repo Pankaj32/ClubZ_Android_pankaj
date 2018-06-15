@@ -48,6 +48,11 @@ class WebService {
 
         val create_newsFeed      = base_Url +"service/club/createNewsFeed"
         val update_newsFeed      = base_Url +"service/club/updateNewsFeed"
+        val addEvents= base_Url +"service/activity/addActivityEvent"
+        val joinActivity= base_Url +"service/activity/joinActivity"
+        val confirmActivity= base_Url +"service/activity/confirmActivity"
+        val getuserJoinAffiliates= base_Url +"service/activity/userJoinAffiliates"
+        val getuserConfirmAffiliates= base_Url +"service/activity/userConfirmAffiliates"
 
     }
 

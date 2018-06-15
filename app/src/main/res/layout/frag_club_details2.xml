@@ -55,7 +55,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_italic"
                         android:textColor="@color/text_color_gray"
-                        android:text="@string/collapse" />
+                        android:text="@string/collapsed" />
 
                     <ImageView
                         android:id="@+id/iv_expand1"
@@ -134,7 +134,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_italic"
                         android:textColor="@color/text_color_gray"
-                        android:text="@string/collapse" />
+                        android:text="@string/collapsed" />
 
                     <ImageView
                         android:id="@+id/iv_expand2"
