@@ -101,15 +101,18 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
         tv_landLine.text = "(+91) 0731 - 284243"
         tv_email.text = "dharmrajacharya@gmail.com"
 
-        Picasso.with(this).load(profile!!.profile_image).into(toolbar_image,  object : com.squareup.picasso.Callback{
-            override fun onSuccess() {
-                setPlated()
-            }
+        if(!profile!!.profile_image.isBlank()){
+            Picasso.with(this).load(profile!!.profile_image).into(toolbar_image,  object : com.squareup.picasso.Callback{
+                override fun onSuccess() {
+                    setPlated()
+                }
 
-            override fun onError() {
-                setPlated()
-            }
-        })
+                override fun onError() {
+                    setPlated()
+                }
+            })
+        }
+
     }
 
     private fun updateView(){
