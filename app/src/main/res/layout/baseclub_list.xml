@@ -132,6 +132,7 @@
                     android:textSize="@dimen/_14sdp"
                     android:fontFamily="@font/roboto_regular"
                     android:background="@drawable/bg_btn_green"
+                    android:textColor="@color/white"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="end"
                     android:visibility="visible" />

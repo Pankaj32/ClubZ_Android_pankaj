@@ -1,13 +1,20 @@
 package com.clubz.ui.club
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
+import android.view.Gravity
 import android.view.View
+import android.view.Window
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.R
@@ -28,6 +35,7 @@ import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_clubs.*
+import kotlinx.android.synthetic.main.menu_club_selection.*
 import org.json.JSONObject
 import java.util.ArrayList
 
@@ -35,11 +43,15 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         ViewPager.OnPageChangeListener {
 
     lateinit var adapter : ViewPagerAdapter
-    var searchListner: SearchListner? = null
-    var searchAdapter : SearchClubName_Adapter? = null
-    var searchList : ArrayList<Club_Potential_search> = arrayListOf()
-    var pageListner : RecyclerViewScrollListener? = null
-    var isMyClub = true
+    private var searchListner    : SearchListner? = null
+    private var searchAdapter    : SearchClubName_Adapter? = null
+    private var searchList       : ArrayList<Club_Potential_search> = arrayListOf()
+    private var pageListner      : RecyclerViewScrollListener? = null
+    private var dialog : Dialog? = null
+
+    companion object {
+        var isPrivate: Int = 0
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +59,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         headerTxt.text = resources.getString(R.string.t_manage_your_clubs)
         ivBack.setOnClickListener(this)
         addsymbol.setOnClickListener(this)
+        bubble_menu.setOnClickListener(this)
         setViewPager(viewPager)
         tablayout.setupWithViewPager(viewPager)
         viewPager.addOnPageChangeListener(this)
@@ -71,12 +84,9 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             }
         })
 
-        val closeListner = object : SearchView.OnCloseListener{
-            override fun onClose(): Boolean {
-                search_layout.visibility = View.GONE
-                return false
-            }
-
+        val closeListner = SearchView.OnCloseListener {
+            search_layout.visibility = View.GONE
+            false
         }
         searchView.setOnCloseListener(closeListner)
 
@@ -90,8 +100,8 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         }
 
         val lm = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
-        recycleView.setItemAnimator(null)
-        recycleView.setLayoutManager(lm)
+        recycleView.itemAnimator = null
+        recycleView.layoutManager = lm
         recycleView.setHasFixedSize(true)
         recycleView.addItemDecoration(SimpleDividerItemDecoration(this))
         recycleView.adapter = searchAdapter
@@ -108,7 +118,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         adapter.notifyDataSetChanged()
     }
 
-    fun setViewPager(viewPager: ViewPager) {
+    private fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment( FragMyClubs(),resources.getString(R.string.t_my_clubs) , " This is First")
         adapter.addFragment( FragNearClubs(),resources.getString(R.string.t_near_clubs) , " This is second")
@@ -137,7 +147,54 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.ivBack ->{ onBackPressed() }
-            R.id.addsymbol ->{startActivity(Intent(this@ClubsActivity, ClubCreationActivity::class.java))}
+            R.id.bubble_menu ->{ showFilterDialog(0) }
+            R.id.addsymbol ->{
+                startActivityForResult(Intent(this@ClubsActivity, ClubCreationActivity::class.java), 1001)}
+
+            R.id.tv_private -> {
+                when(isPrivate){
+                    1->{
+                        isPrivate = 0; dialog!!.chk_priavte.isChecked = true
+                        dialog!!.chk_public.isChecked = true
+                        refreshNow()
+                    }
+                    0,2->{
+                        isPrivate = 1; dialog!!.chk_priavte.isChecked = false
+                        dialog!!.chk_public.isChecked = true
+                        refreshNow()
+                    }
+                }
+            }
+
+            R.id.tv_public -> {
+                when(isPrivate){
+                    2->{
+                        isPrivate = 0; dialog!!.chk_priavte.isChecked = true
+                        dialog!!.chk_public.isChecked = true
+                        refreshNow()
+                    }
+                    0,1->{
+                        isPrivate = 2; dialog!!.chk_priavte.isChecked = true
+                        dialog!!.chk_public.isChecked = false
+                        refreshNow()
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun refreshNow(){
+        val frag =  adapter.getItem(viewPager.currentItem)
+        if(frag is FragMyClubs){
+            frag.refreshList()
+        }else (frag as? FragNearClubs)?.refreshList()
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==1001 && resultCode==Activity.RESULT_OK){
+            val frag = adapter.getItem(0) as FragMyClubs
+            frag.refreshList()
         }
     }
 
@@ -160,41 +217,78 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
 
     override fun onPageSelected(position: Int) {
 
-        if(position==0){
-            searchView.clearFocus()
-            searchView.visibility = View.GONE
-            search_layout.visibility = View.GONE
-            addsymbol.visibility = View.VISIBLE
-            headerTxt.text = resources.getString(R.string.t_manage_your_clubs)
-        }else if (position ==1){
-            searchView.clearFocus()
-            searchView.visibility = View.GONE
-            search_layout.visibility = View.GONE
-            addsymbol.visibility = View.VISIBLE
-            headerTxt.text = resources.getString(R.string.t_join_the_force)
-        }else if(position ==2){
-            addsymbol.visibility = View.GONE
-            searchView.visibility = View.VISIBLE
-            search_layout.visibility = View.VISIBLE
-            recycleView.visibility = View.VISIBLE
-            searchList.clear()
-            searchAdapter?.notifyDataSetChanged()
-            searchView.queryHint = ""
-            searchView.setIconifiedByDefault(true);
-            searchView.setFocusable(true);
-            searchView.setIconified(false);
-            searchView.requestFocusFromTouch();
-            headerTxt.text = resources.getString(R.string.search)
+        when (position) {
+            0 -> {
+                searchView.clearFocus()
+                searchView.visibility = View.GONE
+                search_layout.visibility = View.GONE
+                addsymbol.visibility = View.VISIBLE
+                bubble_menu.visibility = View.VISIBLE
+                headerTxt.visibility = View.VISIBLE
+                headerTxt.text = resources.getString(R.string.t_manage_your_clubs)
+            }
+            1 -> {
+                searchView.clearFocus()
+                searchView.visibility = View.GONE
+                search_layout.visibility = View.GONE
+                addsymbol.visibility = View.VISIBLE
+                bubble_menu.visibility = View.VISIBLE
+                headerTxt.visibility = View.VISIBLE
+                headerTxt.text = resources.getString(R.string.t_join_the_force)
+            }
+            2 -> {
+                addsymbol.visibility = View.GONE
+                bubble_menu.visibility = View.GONE
+                headerTxt.visibility = View.GONE
+                searchView.visibility = View.VISIBLE
+                search_layout.visibility = View.VISIBLE
+                recycleView.visibility = View.VISIBLE
+                searchList.clear()
+                searchAdapter?.notifyDataSetChanged()
+                searchView.queryHint = ""
+                searchView.setIconifiedByDefault(true)
+                searchView.isFocusable = true
+                searchView.isIconified = false
+                searchView.requestFocusFromTouch()
+                headerTxt.text = resources.getString(R.string.search)
+            }
         }
     }
 
 
+    @SuppressLint("RtlHardcoded")
+    private fun showFilterDialog(position: Int){
+
+        if(dialog==null){
+            dialog = Dialog(this)
+            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val dialogWindow = dialog?.window
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            dialog?.setContentView(R.layout.menu_club_selection)
+            for (views in arrayOf(dialog?.tv_private, dialog?.tv_public)) views?.setOnClickListener(this)
+
+            val lp = dialogWindow?.attributes
+            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+            lp?.y = -100
+            dialogWindow?.attributes = lp
+            dialog?.setCancelable(true)
+        }
+
+        if (position == 0) {
+            if(isPrivate ==0){
+                dialog?.chk_priavte?.isChecked = true; dialog?.chk_public?.isChecked = true
+            } else {
+                dialog?.chk_priavte?.isChecked = (isPrivate ==2)
+                dialog?.chk_public?.isChecked  = (isPrivate ==1)
+            }
+        }
+
+        dialog?.show()
+    }
+
 
     fun searchClubsName(searchTxt: String = "", offset:Int=0){
-        /*val lati= if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString()
-        val longi=if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString()*/
-
-       // "${WebService.club_search}?latitude=$lati&longitude=$longi&isMyClub=$isMyClub" + "&city=${ClubZ.city}"
         search_layout.visibility = View.VISIBLE
         recycleView.visibility = View.VISIBLE
         ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
@@ -205,7 +299,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 try {
 
                     val obj = JSONObject(response)
-                    if(obj.getString("status").equals("success")){
+                    if(obj.getString("status")=="success"){
                         searchList.addAll(Gson().fromJson<ArrayList<Club_Potential_search>>(obj.getString("data"),
                                 Type_Token.potential_list))
                     }
@@ -222,17 +316,17 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("searchText", searchTxt)
-                params.put("offset", offset.toString())
-                params.put("limit","10")
-                params.put("clubType", "")
-                params.put("latitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString() )+"")
-                params.put("longitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString() )+"")
+                params["searchText"] = searchTxt
+                params["offset"] = offset.toString()
+                params["limit"] = "10"
+                params["clubType"] = ""
+                params["latitude" ] = if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString()
+                params["longitude"] = if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString()
                 return  params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["authToken"] = SessionManager.getObj().user.auth_token
                 return  params
             }
         }.execute(ClubsActivity::class.java.name)

@@ -7,10 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
@@ -205,6 +202,12 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
                 joinClub(club, pos)
             }
         }
+
+        holder.switch1.setOnCheckedChangeListener( object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+
+            }
+        })
     }
 
     fun setUpClick(holder: MyClubHolder){
@@ -227,7 +230,6 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
             }
         }.show()
     }
-
 
     fun joinClub(club : Clubs, pos : Int){
         ClubZ.isNeedToUpdateNewsFeed = true

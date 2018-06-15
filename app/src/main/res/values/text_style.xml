@@ -34,4 +34,16 @@
         <item name="android:fontFamily">@font/teko_medium</item>
     </style>
 
+    <style name="TextAppearanceExpand" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/teko_semibold</item>
+    </style>
+
+    <style name="TextAppearanceHeader" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/teko_semibold</item>
+    </style>
+
+
 </resources>

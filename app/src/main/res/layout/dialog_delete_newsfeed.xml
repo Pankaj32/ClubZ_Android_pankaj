@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/bg_white_internet">
+
+
+    <View
+        android:id="@+id/top_primary"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/bg_white_internet_top"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/bg_circle_white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/ic_gavel"
+        android:padding="12dp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:layout_below="@+id/top_primary">
+
+        <TextView
+            android:id="@+id/mTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/title_delete_feed_conformation"
+            android:textSize="20sp"
+            android:fontFamily="@font/teko_bold"/>
+
+        <TextView
+            android:id="@+id/mDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mTitle"
+            android:textColor="@color/text_color_gray"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppins_regular"
+            android:lineSpacingExtra="6dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/delete_feed_desc"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_below="@+id/rl_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right">
+
+        <TextView
+            android:id="@+id/mCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_size"
+            android:text="@string/cancel"
+            android:textSize="16sp"
+            android:textAllCaps="true"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:textColor="@color/primaryColor"
+            android:layout_marginEnd="8dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/mLeaveClub"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_size"
+            android:text="@string/delete"
+            android:textSize="16sp"
+            android:textAllCaps="true"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/primaryColor"
+            android:gravity="center"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

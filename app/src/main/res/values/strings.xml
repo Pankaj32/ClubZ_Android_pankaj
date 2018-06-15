@@ -2,6 +2,8 @@
     <string name="app_name">Club Z</string>
     <string name="facebook_app_id">1901949733451269</string>
     <string name="fb_login_protocol_scheme">fb1901949733451269</string>
+    <string name="server_client_id">303882214487-pkujqbkqgmq3m22muu8kbkj17n6hvvdc.apps.googleusercontent.com</string>
+
 
     <string name="explore1">Explore the</string>
     <string name="explore2">universe</string>
@@ -37,7 +39,8 @@
     <string name="finaly_sel"> Finally select or write your interest </string>
     <string name="sel_skill"> And select or write your skill </string>
     <string name="alert"> Alert </string>
-    <string name="no_content"> There is no content still here  </string>
+    <string name="no_content"> There is no content still here</string>
+    <string name="no_content_here_body">The activity will be available once the club manager create it.</string>
     <string name="no_content_body"> Join to a club to get exclusive content like news, activities, chats, ads and more. </string>
     <string name="near_club"> Near clubs </string>
 
@@ -96,6 +99,9 @@
     <string name="slider_t3"> Chat  </string>
     <string name="slider_t4"> Ads   </string>
     <string name="slider_my_activities">My Activities</string>
+
+    <string name="error_session_expired">Session expired</string>
+    <string name="error_session_expired_msg">Your session is expired please login again</string>
 
 
     <string name="slider_b1"> Find matches, \n events, classes,\n interesting groups\n and many other \n great things \n around you   </string>
@@ -263,6 +269,8 @@
     <string name="leave_the_club">LEAVE THE CLUB</string>
     <string name="leave_club_desc">Instead you could silence the club.\nBy silencing a club you wan\'t receive more information till you enable it again.</string>
     <string name="title_leave_club_conformation">Are you sure you want to leave?</string>
+    <string name="title_delete_feed_conformation">Are you sure you want to delete?</string>
+    <string name="delete_feed_desc">delete this news feed</string>
 
     <!--Nav menu-->
     <string name="about_me">About me</string>
@@ -366,5 +374,128 @@
     <string name="menu_clear_news">Clear news</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+
+    <!-- Date Util -->
+    <string name="date_util_term_less">less than</string>
+    <string name="date_util_term_a">a</string>
+    <string name="date_util_term_an">an</string>
+
+    <string name="date_util_unit_second">second</string>
+    <string name="date_util_unit_seconds">seconds</string>
+    <string name="date_util_unit_minute">minute</string>
+    <string name="date_util_unit_minutes">minutes</string>
+    <string name="date_util_unit_hour">hour</string>
+    <string name="date_util_unit_hours">hours</string>
+    <string name="date_util_unit_day">day</string>
+    <string name="date_util_unit_days">days</string>
+    <string name="date_util_unit_month">month</string>
+    <string name="date_util_unit_months">months</string>
+    <string name="date_util_unit_year">year</string>
+    <string name="date_util_unit_years">years</string>
+    <string name="date_util_prefix_lt">less than a</string>
+    <string name="date_util_prefix_about">about</string>
+    <string name="date_util_prefix_over">over</string>
+    <string name="date_util_prefix_almost">almost</string>
+    <string name="date_util_suffix">ago</string>
+
+    <string name="likes_count">%d Likes</string>
+    <string name="comments_count">%d Comments</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+
+    <!--Profile Activity-->
+    <string name="my_affilites">My Affiliates</string>
+    <string name="my_skills">My Skills</string>
+    <string name="my_interests">My Interests</string>
+
+    <string name="large_text">
+        "Material is the metaphor.\n\n"
+
+        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
+        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
+        "technologically advanced and open to imagination and magic.\n"
+        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
+        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
+        "flexibility of the material creates new affordances that supercede those in the physical "
+        "world, without breaking the rules of physics.\n"
+        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
+        "interact, and exist in space and in relation to each other. Realistic lighting shows "
+        "seams, divides space, and indicates moving parts.\n\n"
+
+        "Bold, graphic, intentional.\n\n"
+
+        "The foundational elements of print based design typography, grids, space, scale, color, "
+        "and use of imagery guide visual treatments. These elements do far more than please the "
+        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
+        "imagery, large scale typography, and intentional white space create a bold and graphic "
+        "interface that immerse the user in the experience.\n"
+        "An emphasis on user actions makes core functionality immediately apparent and provides "
+        "waypoints for the user.\n\n"
+
+        "Motion provides meaning.\n\n"
+
+        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
+        "inflection points that initiate motion, transforming the whole design.\n"
+        "All action takes place in a single environment. Objects are presented to the user without "
+        "breaking the continuity of experience even as they transform and reorganize.\n"
+        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
+        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
+
+        "3D world.\n\n"
+
+        "The material environment is a 3D space, which means all objects have x, y, and z "
+        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
+        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
+        "position along the z-axis and has a standard 1dp thickness.\n"
+        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
+        "emulated by manipulating the y-axis.\n\n"
+
+        "Light and shadow.\n\n"
+
+        "Within the material environment, virtual lights illuminate the scene. Key lights create "
+        "directional shadows, while ambient light creates soft shadows from all angles.\n"
+        "Shadows in the material environment are cast by these two light sources. In Android "
+        "development, shadows occur when light sources are blocked by sheets of material at "
+        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
+        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
+
+        "Resting elevation.\n\n"
+
+        "All material objects, regardless of size, have a resting elevation, or default elevation "
+        "that does not change. If an object changes elevation, it should return to its resting "
+        "elevation as soon as possible.\n\n"
+
+        "Component elevations.\n\n"
+
+        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
+        "does not vary from 6dp in one app to 16dp in another app).\n"
+        "Components may have different resting elevations across platforms, depending on the depth "
+        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
+
+        "Responsive elevation and dynamic elevation offsets.\n\n"
+
+        "Some component types have responsive elevation, meaning they change elevation in response "
+        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
+        "changes are consistently implemented using dynamic elevation offsets.\n"
+        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
+        "to the component’s resting state. They ensure that elevation changes are consistent "
+        "across actions and component types. For example, all components that lift on press have "
+        "the same elevation change relative to their resting elevation.\n"
+        "Once the input event is completed or cancelled, the component will return to its resting "
+        "elevation.\n\n"
+
+        "Avoiding elevation interference.\n\n"
+
+        "Components with responsive elevations may encounter other components as they move between "
+        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
+        "through other material, components avoid interfering with one another any number of ways, "
+        "whether on a per component basis or using the entire app layout.\n"
+        "On a component level, components can move or be removed before they cause interference. "
+        "For example, a floating action button (FAB) can disappear or move off screen before a "
+        "user picks up a card, or it can move if a snackbar appears.\n"
+        "On the layout level, design your app layout to minimize opportunities for interference. "
+        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
+        "when a user tries to pick up one of cards.\n\n"
+    </string>
+    <string name="silece_this_user">Silece this user</string>
 
 </resources>

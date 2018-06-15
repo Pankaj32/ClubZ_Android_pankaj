@@ -18,6 +18,7 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.helper.Type_Token
 import com.clubz.data.remote.WebService
 import com.clubz.data.model.Clubs
+import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.club.`interface`.MyClubInteraction
 import com.clubz.ui.club.adapter.MyClub
 import com.clubz.ui.club.adapter.MyClub_List_Adapter
@@ -25,6 +26,7 @@ import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_my_clubs.*
+import kotlinx.android.synthetic.main.no_contant_layout.*
 import org.json.JSONObject
 import java.util.ArrayList
 
@@ -65,19 +67,23 @@ class FragMyClubs : Fragment() , View.OnClickListener,
         list_recycler.adapter = adapter
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
-        list_recycler.setItemAnimator(null)
-        list_recycler.setLayoutManager(lm)
+        list_recycler.itemAnimator = null
+        list_recycler.layoutManager = lm
         list_recycler.setHasFixedSize(true)
         pageListner = object : RecyclerViewScrollListener(lm) {
-            override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) {
-
-            }
-
+            override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) { }
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-
+                getMyClubs("",page*10,false)
             }
         }
         list_recycler.addOnScrollListener(pageListner)
+        clubList.clear()
+        getMyClubs()
+    }
+
+
+    fun refreshList(){
+        pageListner?.resetState()
         clubList.clear()
         getMyClubs()
     }
@@ -97,42 +103,52 @@ class FragMyClubs : Fragment() , View.OnClickListener,
     }
 
     fun updateAdapter(club : Clubs){
-        clubList?.add(club)
+        clubList.add(club)
+        if(clubList.size>0){
+            noFeedMsgUI.visibility = View.GONE
+            swipeRefreshLayout.visibility = View.VISIBLE
+        }else {
+            noFeedMsgUI.visibility = View.VISIBLE
+            swipeRefreshLayout.visibility = View.GONE
+        }
         adapter?.notifyDataSetChanged()
     }
 
-    fun getMyClubs(text : String = "", offset :String = "0"){  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
+    fun getMyClubs(text : String = "", offset :Int = 0, showProgress : Boolean = true){  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
         val dialog = CusDialogProg(activity )
-        dialog.show()
-        object  : VolleyGetPost(activity , activity, WebService.club_my_clubs, false){
+        if(showProgress)dialog.show()
 
+        object  : VolleyGetPost(activity , activity, WebService.club_my_clubs, false){
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
-                        //val searchlist : ArrayList<Clubs> = Gson().fromJson<ArrayList<Clubs>>(obj.getString("data"), Type_Token.club_list)
                         clubList.addAll(Gson().fromJson<ArrayList<Clubs>>(obj.getString("data"), Type_Token.club_list))
-                    }else clubList.clear()
+                    }
+
+                    if(clubList.size>0){
+                        noFeedMsgUI.visibility = View.GONE
+                        swipeRefreshLayout.visibility = View.VISIBLE
+                    }else {
+                        noFeedMsgUI.visibility = View.VISIBLE
+                        swipeRefreshLayout.visibility = View.GONE
+                    }
                     adapter?.notifyDataSetChanged()
                 }catch (ex: Exception){
                     ex.printStackTrace()
                 }
             }
 
-            override fun onVolleyError(error: VolleyError?) {
-                dialog.dismiss()
-            }
+            override fun onVolleyError(error: VolleyError?) { dialog.dismiss() }
 
-            override fun onNetError() {
-                dialog.dismiss()
-            }
+            override fun onNetError() { dialog.dismiss() }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("searchText",text)
-                params.put("offset",offset)
-                params.put("limit","200")
-                params.put("clubType", HomeActivity.isPrivate.toString())
+                params["searchText"] = text
+                params["offset"] = offset.toString()
+                params["limit"]= "10"
+                params["clubType"] = ClubsActivity.isPrivate.toString()
                 return params
             }
 

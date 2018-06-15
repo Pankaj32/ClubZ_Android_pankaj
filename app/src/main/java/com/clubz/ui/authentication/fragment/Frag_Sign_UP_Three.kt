@@ -32,9 +32,9 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
     lateinit var _code : String
     lateinit var _authtoken : String
 
-    var list : ArrayList<String> = ArrayList();
+    var list : ArrayList<String> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.frag_sign_up_three , null);
+        return inflater.inflate(R.layout.frag_sign_up_three , null)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -75,6 +75,7 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
 
     fun addView(){
         val chip = object : ChipView(context,chip_grid.childCount.toString()){
+            override fun getLayout(): Int { return 0 }
             override fun setDeleteListner(chipView: ChipView?) {
                 for (s  in list){
                     if(s.trim().toLowerCase().equals(chipView!!.text.trim().toLowerCase())){

@@ -48,7 +48,7 @@
                         android:padding="@dimen/_3sdp"
                         android:layout_marginRight="-16dp"
                         android:background="?selectableItemBackgroundBorderless"
-                        app:tint="@color/text_color_gray"
+                        app:tint="@color/icon_tint_gray"
                         app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
                 </LinearLayout>
@@ -193,7 +193,7 @@
                         android:layout_height="35dp"
                         android:padding="5dp"
                         android:layout_marginRight="8dp"
-                        app:srcCompat="@drawable/ic_chat"/>
+                        app:srcCompat="@drawable/chat_icon" />
 
                     <android.support.v7.widget.AppCompatCheckBox
                         android:id="@+id/likeIcon"

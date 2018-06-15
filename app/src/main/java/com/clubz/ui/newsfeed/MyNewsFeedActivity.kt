@@ -1,7 +1,7 @@
 package com.clubz.ui.newsfeed
 
+import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
@@ -17,11 +17,11 @@ import kotlinx.android.synthetic.main.menu_news_filter.*
 
 class MyNewsFeedActivity : AppCompatActivity(), View.OnClickListener {
 
-    var dialog : Dialog? = null
-    var like = false
-    var comment = false
-    var club = false
-    var ifNeedTocallApi : Boolean = false;
+    private var dialog : Dialog? = null
+    private var like = false
+    private var comment = false
+    private var club = false
+    private var ifNeedTocallApi : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +32,17 @@ class MyNewsFeedActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    fun addFragment(fragmentHolder: Fragment): Fragment? {
-        try {
+    private fun addFragment(fragmentHolder: Fragment): Fragment? {
+        return try {
             val fragmentManager = supportFragmentManager
             val fragmentName = fragmentHolder.javaClass.name
             val fragmentTransaction = fragmentManager.beginTransaction()
             fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             fragmentTransaction.add(R.id.container, fragmentHolder, fragmentName)
             fragmentTransaction.commit()
-            return fragmentHolder
+            fragmentHolder
         } catch (e: Exception) {
-            return null
+            null
         }
     }
 
@@ -88,8 +88,7 @@ class MyNewsFeedActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun updateMyNewsFeed(){
-
+    private fun updateMyNewsFeed(){
         if(ifNeedTocallApi){
             ifNeedTocallApi = false
             val fragemet : List<Fragment> = supportFragmentManager.fragments
@@ -105,16 +104,17 @@ class MyNewsFeedActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
+    @SuppressLint("RtlHardcoded")
     private fun showFilterDialog(){
         if(dialog==null){
             dialog = Dialog(this)
             dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
-            val dialogWindow = dialog?.getWindow()
-            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+            val dialogWindow = dialog?.window
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog?.setContentView(R.layout.menu_news_filter)
 
-            val lp = dialogWindow?.getAttributes()
+            val lp = dialogWindow?.attributes
             dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
             lp?.y = -100
             dialogWindow?.attributes = lp
@@ -124,7 +124,7 @@ class MyNewsFeedActivity : AppCompatActivity(), View.OnClickListener {
                 views?.setOnClickListener(this)
         }
         dialog?.show()
-        dialog?.setOnDismissListener(DialogInterface.OnDismissListener { dialog ->
+        dialog?.setOnDismissListener({
             updateMyNewsFeed()
         })
     }
