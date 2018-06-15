@@ -14,19 +14,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import com.android.volley.VolleyError
+import com.android.volley.*
 import com.clubz.ClubZ
 
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Feed
+import com.clubz.data.model.Profile
 import com.clubz.data.remote.WebService
 import com.clubz.helper.Type_Token
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
+import com.clubz.ui.dialogs.DeleteNewsFeedDialog
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.newsfeed.NewsFeedDetailActivity
 import com.clubz.ui.newsfeed.adapter.NewsFeedAdapter
+import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
@@ -34,26 +37,26 @@ import kotlinx.android.synthetic.main.frag_news.*
 import org.json.JSONObject
 
 /**
- * Created by mindiii on 3/12/18.
+ * Created by Dharmraj Acharya on 3/12/18.
  */
 
 class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         SwipeRefreshLayout.OnRefreshListener {
 
-    var pageListner : RecyclerViewScrollListener? = null
-    var newsFeeds : ArrayList<Feed> = arrayListOf()
-    var adapter : NewsFeedAdapter? = null
-    var isMyFeed : Boolean = false
+    private var pageListner : RecyclerViewScrollListener? = null
+    private var newsFeeds : ArrayList<Feed> = arrayListOf()
+    private var adapter : NewsFeedAdapter? = null
+    private var isMyFeed : Boolean = false
 
-    var isFilterByLike = false
-    var isFilterByComment = false
-    var isFilterByClub = false
+    private var isFilterByLike = false
+    private var isFilterByComment = false
+    private var isFilterByClub = false
 
     companion object {
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
-         * @param feed
+         * @param isMyFeed
          * @return A new instance of fragment FeedDetailFragment.
          */
         @JvmStatic
@@ -75,9 +78,7 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            isMyFeed = it.getBoolean("isMyFeed")
-        }
+        arguments?.let { isMyFeed = it.getBoolean("isMyFeed") }
     }
 
     @SuppressLint("InflateParams")
@@ -87,19 +88,14 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //search_t.setOnClickListener(this)
-
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
-        feedRecycleView.setItemAnimator(null)
-        feedRecycleView.setLayoutManager(lm)
+        feedRecycleView.itemAnimator = null
+        feedRecycleView.layoutManager = lm
         feedRecycleView.setHasFixedSize(true)
         adapter = NewsFeedAdapter(newsFeeds, context, this)
         feedRecycleView.adapter = adapter
         pageListner = object : RecyclerViewScrollListener(lm) {
-            override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) {
-
-            }
-
+            override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) { }
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                 getFeeds(page*10)
             }
@@ -135,13 +131,22 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
                 1001)
     }
 
-    override fun onFeedEditClick(view: View,feed: Feed, pos: Int) {
+    override fun onProfileClick(feed: Feed) {
+        val profile = Profile()
+        profile.userId = feed.user_id
+        profile.fullName = feed.user_name
+        profile.userImage = feed.profile_image
+        startActivity(Intent(context, ProfileActivity::class.java).putExtra("profile", profile))
+    }
+
+    @SuppressLint("RtlHardcoded")
+    override fun onFeedEditClick(view: View, feed: Feed, pos: Int) {
         val products =  arrayOf(getString(R.string.edit), getString(R.string.delete))
         val lpw =  ListPopupWindow(context)
-        lpw.setAnchorView(view)
+        lpw.anchorView = view
         lpw.setDropDownGravity(Gravity.RIGHT)
-        lpw.setHeight(ListPopupWindow.WRAP_CONTENT)
-        lpw.setWidth(200)
+        lpw.height = ListPopupWindow.WRAP_CONTENT
+        lpw.width = 200
         lpw.setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, products)) // list_item is your textView with gravity.
         lpw.setOnItemClickListener { parent, view, position, id ->
             lpw.dismiss()
@@ -152,10 +157,19 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
                         .putExtra("pos",pos),
                         1002)
             }else if(position == 1){
-                Util.showToast(R.string.under_development, context)
+                object : DeleteNewsFeedDialog(context){
+                    override fun onCloseClicked(dialog : DeleteNewsFeedDialog) {
+                        dialog.dismiss()
+                    }
+
+                    override fun onDeleteNewsFeed(dialog : DeleteNewsFeedDialog) {
+                        dialog.dismiss()
+                        deleteFeeds(feed,pos)
+                    }
+                }.show()
             }
         }
-        lpw.show();
+        lpw.show()
     }
 
     override fun onChatClick(feed: Feed) {
@@ -164,7 +178,7 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
 
     override fun onClick(v: View) {
         when(v.id){
-            //R.id.search_t-> (activity as HomeActivity).draweHandler(Gravity.END)
+        //R.id.search_t-> (activity as HomeActivity).draweHandler(Gravity.END)
         }
     }
 
@@ -173,7 +187,7 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
         if(requestCode==1001 && resultCode== Activity.RESULT_OK) run {
             val feed: Feed = data?.extras?.getSerializable("feed") as Feed
             val position = data.extras?.getInt("pos")
-            newsFeeds.set(position!!, feed)
+            newsFeeds[position!!] = feed
             adapter?.notifyItemChanged(position)
         }else if(requestCode == 1002 && resultCode==Activity.RESULT_OK)run {
             newsFeeds.clear()
@@ -182,43 +196,35 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
         }
     }
 
-    fun manageView(){
-        if(newsFeeds.size==0){
-            feedRecycleView.visibility = View.GONE
-        }else{
-            noFeedMsgUI.visibility = if(newsFeeds.size==0)View.VISIBLE else View.GONE
+    private fun updateUI(){
+        if(newsFeeds.size>0) {
             feedRecycleView.visibility = View.VISIBLE
-            adapter?.notifyDataSetChanged()
+            noFeedMsgUI.visibility = View.GONE
+        } else {
+            noFeedMsgUI.visibility = View.VISIBLE
+            feedRecycleView.visibility = View.GONE
         }
+        adapter?.notifyDataSetChanged()
     }
 
-
-    fun getFeeds(pageNo : Int = 0){
-
+    private fun getFeeds(pageNo : Int = 0){
         val dialog = CusDialogProg(context)
         if(pageNo!=10)  dialog.show()
-
         object : VolleyGetPost(activity, WebService.feed_getNewsFeedLsit, false) {
             override fun onVolleyResponse(response: String?) {
                 try {
-                    dialog.dismiss();
+                    dialog.dismiss()
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
+                    if (obj.getString("status")=="success"){
                         newsFeeds.addAll(Gson().fromJson<ArrayList<Feed>>(obj.getJSONArray("data").toString() , Type_Token.feed_list))
                     }
-                    manageView()
-                } catch (ex: Exception) {
-                    // Util.showToast(R.string.swr, context)
-                }
+                    updateUI()
+                } catch (ex: Exception) { }
             }
 
-            override fun onVolleyError(error: VolleyError?) {
-                dialog?.dismiss()
-            }
+            override fun onVolleyError(error: VolleyError?) { dialog.dismiss() }
 
-            override fun onNetError() {
-                dialog.dismiss()
-            }
+            override fun onNetError() { dialog.dismiss() }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["offset"] = pageNo.toString()
@@ -232,7 +238,39 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["authToken"] = ClubZ.currentUser!!.auth_token
-                params["language"] = SessionManager.getObj().getLanguage()
+                params["language"] = SessionManager.getObj().language
+                return params
+            }
+        }.execute()
+    }
+
+    private fun deleteFeeds(feed: Feed, pos: Int){
+        val dialog = CusDialogProg(context)
+        dialog.show()
+        object : VolleyGetPost(activity, WebService.delete_newsFeed, false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if (obj.getString("status")=="success") {
+                        newsFeeds.removeAt(pos)
+                        adapter?.notifyItemRemoved(pos)
+                    }
+                } catch (ex: Exception) { Util.showToast(R.string.swr, context) }
+            }
+
+            override fun onVolleyError(error: VolleyError?) { dialog.dismiss() }
+
+            override fun onNetError() { dialog.dismiss() }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["newsFeedId"] =   feed.newsFeedId.toString()
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()

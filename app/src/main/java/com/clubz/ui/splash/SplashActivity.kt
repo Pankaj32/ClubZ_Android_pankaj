@@ -18,14 +18,12 @@ import io.fabric.sdk.android.Fabric
 import com.crashlytics.android.core.CrashlyticsCore
 import com.crashlytics.android.Crashlytics
 
-
-
-
-class Splash_Activity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //Set up Crashlytics, disabled for debug builds
-        val crashlyticsKit = Crashlytics.Builder()
+        //val crashlyticsKit =
+                Crashlytics.Builder()
                 .core(CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
                 .build()
 
@@ -50,7 +48,7 @@ class Splash_Activity : AppCompatActivity() {
 
     }
 
-    fun startEffect(){
+    private fun startEffect(){
         val animat1 = AnimationUtils.loadAnimation(this, R.anim.dark_strip_in)
         val animat2 = AnimationUtils.loadAnimation(this, R.anim.fox_in)
         val animat3 = AnimationUtils.loadAnimation(this, R.anim.club_title_in)
@@ -58,17 +56,17 @@ class Splash_Activity : AppCompatActivity() {
         val animat5 = AnimationUtils.loadAnimation(this, R.anim.bottom_line_in)
         val animat6 = AnimationUtils.loadAnimation(this, R.anim.slogan_in)
 
-        ribbion.setAnimation(animat1);
-        image.setAnimation(animat2);
-        text1.setAnimation(animat3);
+        ribbion.animation = animat1
+        image.animation = animat2
+        text1.animation = animat3
 
-        line1.setAnimation(animat4);
-        line2.setAnimation(animat5);
+        line1.animation = animat4
+        line2.animation = animat5
 
 
-        text2.setAnimation(animat6);
-        text3.setAnimation(animat6);
-        text_view.setAnimation(animat6);
+        text2.animation = animat6
+        text3.animation = animat6
+        text_view.animation = animat6
 
 
         animat1.setAnimationListener(object : Animation.AnimationListener {
@@ -127,7 +125,7 @@ class Splash_Activity : AppCompatActivity() {
                 text_view.visibility= View.VISIBLE
                 Handler().postDelayed({
                     dimmedEffet()
-                },2000);
+                },2000)
             }
 
             override fun onAnimationRepeat(animation: Animation) {
@@ -144,17 +142,17 @@ class Splash_Activity : AppCompatActivity() {
         val animat5 = AnimationUtils.loadAnimation(this, R.anim.bottom_line_out)
         val animat6 = AnimationUtils.loadAnimation(this, R.anim.slogan_out)
 
-        ribbion.startAnimation(animat1);
-        image.startAnimation(animat2);
-        text1.startAnimation(animat3);
+        ribbion.startAnimation(animat1)
+        image.startAnimation(animat2)
+        text1.startAnimation(animat3)
 
-        line1.startAnimation(animat4);
-        line2.startAnimation(animat5);
+        line1.startAnimation(animat4)
+        line2.startAnimation(animat5)
 
 
-        text2.startAnimation(animat6);
-        text3.startAnimation(animat6);
-        text_view.startAnimation(animat6);
+        text2.startAnimation(animat6)
+        text3.startAnimation(animat6)
+        text_view.startAnimation(animat6)
 
 
 
@@ -218,20 +216,19 @@ class Splash_Activity : AppCompatActivity() {
 
                 ribbion.visibility= View.INVISIBLE
                 Handler().postDelayed({
-                    val intent =if(SessionManager.getObj().isloggedin()) Intent(this@Splash_Activity , HomeActivity::class.java)
-                    else Intent(this@Splash_Activity , Inro_Activity::class.java)
+                    val intent =if(SessionManager.getObj().isloggedin()) Intent(this@SplashActivity , HomeActivity::class.java)
+                    else Intent(this@SplashActivity , Inro_Activity::class.java)
 
-                    startActivity(intent);
-                   // startActivity(Intent(this@Splash_Activity, CreateNewsFeedActivity::class.java))
-                    finish();
-                },200);
+                    startActivity(intent)
+                    //startActivity(Intent(this@SplashActivity, ProfileActivity::class.java))
+                    finish()
+                },200)
             }
 
             override fun onAnimationRepeat(animation: Animation) {
 
             }
         })
-
     }
 
     /*

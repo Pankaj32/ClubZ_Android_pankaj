@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Splash">
         <activity
-            android:name=".ui.splash.Splash_Activity"
+            android:name=".ui.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -79,7 +79,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".broadcastreceiver.activity.NetworkErrorActivity" />
+        <activity android:name=".helper.broadcastreceiver.activity.NetworkErrorActivity" />
         <activity
             android:name=".ui.club.ClubsActivity"
             android:screenOrientation="portrait"
@@ -99,7 +99,7 @@
             android:windowSoftInputMode="stateHidden" />
 
         <!-- Service -->
-        <receiver android:name=".broadcastreceiver.NetworkChangeReceiver">
+        <receiver android:name=".helper.broadcastreceiver.NetworkChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
@@ -148,24 +148,26 @@
 
         <!-- chiranjib -->
         <activity android:name=".ui.user_activities.activity.ActivitiesDetails" />
-
         <activity
             android:name=".ui.newsfeed.CreateNewsFeedActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
-        <activity android:name=".ui.newsfeed.NewsFeedDetailActivity"
+        <activity
+            android:name=".ui.newsfeed.NewsFeedDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
-        <activity android:name=".ui.newsfeed.MyNewsFeedActivity"
+        <activity
+            android:name=".ui.newsfeed.MyNewsFeedActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight" />
-
-        <activity android:name=".ui.user_activities.activity.MyActivities"
+        <activity
+            android:name=".ui.user_activities.activity.MyActivities"
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight" />
-
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppThmeLight"/>
     </application>
 
 </manifest>

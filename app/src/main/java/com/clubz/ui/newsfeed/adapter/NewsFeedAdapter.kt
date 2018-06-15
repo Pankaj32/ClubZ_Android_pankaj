@@ -25,6 +25,7 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
         fun onItemClick(feed: Feed, pos : Int)
         fun onFeedEditClick(view: View, feed: Feed, pos : Int)
         fun onChatClick(feed: Feed)
+        fun onProfileClick(feed: Feed)
     }
     // Gets the number of animals in the list
     override fun getItemCount(): Int {
@@ -40,22 +41,23 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val feed : Feed = items.get(position)
-        holder!!.tvDescription?.text = feed.news_feed_description
+        holder!!.tvDescription.text = feed.news_feed_description
         holder.tvTitle.text = feed.news_feed_title
-        holder.tvCreateTime.text = feed.getDate()
+        holder.tvCreateTime.text = feed.getTimeAgo(context)
         holder.tvClubname.text =feed.club_name
-        holder.tvCreaterName.text = feed.club_name
-        holder.bubble_menu.visibility = if(feed.user_id.equals(ClubZ.currentUser?.id)) View.VISIBLE else View.GONE
+        holder.tvCreaterName.text = feed.user_name
+        holder.bubbleMenu.visibility = if(feed.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE
         holder.likeIcon.isChecked = feed.isLiked==1
+        holder.ivChat.setImageResource(if(feed.comments>0) R.drawable.chat_icon else R.drawable.ic_chat_outline)
 
         if(feed.news_feed_attachment.isEmpty()){
-            holder.rl_content.visibility = View.GONE
-            holder.ll_txt.visibility = View.VISIBLE
-            holder.tvDescTxt?.text = feed.news_feed_description
+            holder.rlContent.visibility = View.GONE
+            holder.llTxt.visibility = View.VISIBLE
+            holder.tvDescTxt.text = feed.news_feed_description
         } else{
-            holder.ll_txt.visibility = View.GONE
+            holder.llTxt.visibility = View.GONE
             holder.ivBanner.visibility = View.VISIBLE
-            holder.rl_content.visibility = View.VISIBLE
+            holder.rlContent.visibility = View.VISIBLE
             Picasso.with(holder.ivBanner.context).load(feed.news_feed_attachment).fit().into(holder.ivBanner)
         }
 
@@ -65,33 +67,34 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
 
     inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         // Holds the TextView that will add each animal to
-        val ivBanner = view.ivBanner
-        val tvTitle = view.tvTitle
-        val tvCreateTime = view.tvCreateTime
-        val tvClubname = view.tvClubname
-        val tvDescription = view.tvDescription
-        val tvDescTxt = view.tvDescTxt
-        val tvCreaterName = view.tvCreaterName
+        val ivBanner = view.ivBanner!!
+        val tvTitle = view.tvTitle!!
+        val tvCreateTime = view.tvCreateTime!!
+        val tvClubname = view.tvClubname!!
+        val tvDescription = view.tvDescription!!
+        val tvDescTxt = view.tvDescTxt!!
+        val tvCreaterName = view.tvCreaterName!!
         //val tvChatCount = view.tvChatCount
-        val ll_txt = view.ll_txt
-        val rl_content = view.rl_content
-        val bubble_menu = view.bubble_menu
-        val likeIcon = view.likeIcon
-        val ivChat = view.ivChat
+        val llTxt = view.ll_txt!!
+        val rlContent = view.rl_content!!
+        val bubbleMenu = view.bubble_menu!!
+        val likeIcon = view.likeIcon!!
+        val ivChat = view.ivChat!!
+        val ll1 = view.ll1!!
         // val ivUserProfile = view.ivUserProfile
 
         init {
-            view.setOnClickListener(View.OnClickListener { v: View? ->
+            view.setOnClickListener({ v: View? ->
                 val feed = items.get(adapterPosition)
                 listner.onItemClick(feed, adapterPosition)
             })
 
-            bubble_menu.setOnClickListener(View.OnClickListener { v: View? ->
+            bubbleMenu.setOnClickListener({ v: View? ->
                 val feed = items.get(adapterPosition)
-                listner.onFeedEditClick(bubble_menu, feed, adapterPosition)
+                listner.onFeedEditClick(bubbleMenu, feed, adapterPosition)
             })
 
-            likeIcon.setOnClickListener(View.OnClickListener { v: View? ->
+            likeIcon.setOnClickListener({ v: View? ->
                 val feed = items.get(adapterPosition)
                 val isCheck = likeIcon.isChecked
                 feed.isLiked = if(isCheck) 1 else 0
@@ -100,9 +103,14 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
                 likeNewsFeed(feed)
             })
 
-            ivChat.setOnClickListener(View.OnClickListener { v: View? ->
+            ivChat.setOnClickListener({ v: View? ->
                 val feed = items.get(adapterPosition)
                 listner.onChatClick(feed)
+            })
+
+            ll1.setOnClickListener({ v: View? ->
+                val feed = items.get(adapterPosition)
+                listner.onProfileClick(feed)
             })
 
         }
@@ -118,7 +126,7 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
                     // dialog.dismiss();
                     Log.d("newsFeedsLike", response)
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
+                    if (obj.getString("status")=="success") {
 
                     }
                 } catch (ex: Exception) {
@@ -135,13 +143,13 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("newsFeedId", feed?.newsFeedId.toString());
+                params["newsFeedId"] = feed.newsFeedId.toString()
                 return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", ClubZ.currentUser!!.auth_token);
-                params.put("language", SessionManager.getObj().getLanguage());
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().getLanguage()
                 return params
             }
         }.execute()

@@ -20,6 +20,7 @@ public abstract class ChipView extends RelativeLayout implements View.OnClickLis
     TextView label;
     ImageView delete_button;
     String Id;
+    private boolean isDeletable = true;
 
     // ChipDeleteListner chipDeleteListner;
     public ChipView(Context context, String Id) {
@@ -29,12 +30,26 @@ public abstract class ChipView extends RelativeLayout implements View.OnClickLis
         initiateview();
     }
 
+    public ChipView(Context context, String Id, boolean isDeletable) {
+        super(context);
+        this.context = context;
+        this.Id = Id;
+        this.isDeletable = isDeletable;
+        initiateview();
+    }
 
     void initiateview() {
-        View view = inflate(context, R.layout.z_cus_chip_view, this);
+        int layoutId = getLayout();
+        if(layoutId==0) layoutId =  R.layout.z_cus_chip_view;
+       // View view = inflate(context, R.layout.z_cus_chip_view, this);
+        View view = inflate(context, layoutId, this);
         delete_button =  view.findViewById(R.id.delete_button);
-        delete_button.setVisibility(VISIBLE);
+        delete_button.setVisibility(isDeletable?VISIBLE:GONE);
         label =  view.findViewById(R.id.label);
+        if(!isDeletable){
+            int dimen = (int) context.getResources().getDimension(R.dimen._6sdp);
+            label.setPadding(dimen,0, dimen,0);
+        }
         delete_button.setOnClickListener(this);
         ((ShadowView) view.findViewById(R.id.shadow_view)).setShadowDy( context.getResources().getDimension(R.dimen._3sdp));
 
@@ -75,4 +90,6 @@ public abstract class ChipView extends RelativeLayout implements View.OnClickLis
         delete_button.setVisibility(GONE);
         return this;
     }
+
+    public abstract int getLayout();
 }

@@ -93,17 +93,18 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
 
     override fun onClick(p0: View?) {
         faebookLogin = false;
-     when(p0!!.id){
-         R.id.iv_capture-> permissionPopUp();
-         R.id.next -> if(verify()) signup();
-         R.id.facebook_lnr->{
-             faebookLogin = true;
-             facebooklogin()
-         }
-         R.id.google_lnr->{
-             googleSignin()
-         }
-     }
+        when(p0!!.id){
+            R.id.iv_capture-> permissionPopUp();
+            R.id.next -> if(verify()) signup();
+            R.id.facebook_lnr->{
+                faebookLogin = true;
+                facebooklogin()
+            }
+
+            R.id.google_lnr->{
+                googleSignin()
+            }
+        }
     }
 
 
@@ -130,10 +131,6 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
 
         } catch (e: ApiException) {
             actvity.dialog.dismiss()
-            //The ApiException status code indicates the detailed failure reason.
-            //Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.e("failed google", "signInResult:failed code=" + e.statusCode)
-
         }
 
     }
@@ -210,7 +207,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
         when (caseid) {
             Constants.INTENTCAMERA -> {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                var file : File = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg");
+                val file = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg");
                 imageUri =
                         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
                             FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file)
@@ -239,54 +236,44 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == -1) {
+        if(faebookLogin){
+            actvity.dialog.dismiss()
+            if(callbackManager==null) callbackManager = CallbackManager.Factory.create()
+            callbackManager!!.onActivityResult(requestCode, resultCode, data)
+
+        }else if (requestCode == Constants.RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+
+        }else if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
 
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data);
                 if (imageUri != null) {
                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(160,160).setMaxCropResultSize(4000,4000).setAspectRatio(400, 400).start(context,this);
                 } else {
-                    Toast.makeText(context ,R.string.swr, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context ,R.string.swr, Toast.LENGTH_SHORT).show()
                 }
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
                 if (imageUri != null) {
                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(160,160).setMaxCropResultSize(4000,4000).setAspectRatio(400, 400).start(context,this);
-                } else {
-                    Toast.makeText(context ,R.string.swr , Toast.LENGTH_SHORT).show();
-                }
-
-
+                } else Toast.makeText(context ,R.string.swr , Toast.LENGTH_SHORT).show()
             }
              if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                var result : CropImage.ActivityResult = CropImage.getActivityResult(data);
+                val result : CropImage.ActivityResult = CropImage.getActivityResult(data)
                 try {
                     if (result != null)
-                        profilieImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri());
-
-
+                        profilieImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri())
                     if (profilieImage != null) {
                         image_picker.setImageBitmap(profilieImage)
                     }
                 } catch ( e : IOException) {
                     e.printStackTrace();
                 }
-
             }
-            if (requestCode == Constants.RC_SIGN_IN) {
-                // The Task returned from this call is always completed, no need to attach
-                // a listener.
-                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-                handleSignInResult(task)
-            }
-            if(faebookLogin){
-              if(callbackManager==null)  callbackManager = CallbackManager.Factory.create()
-                callbackManager!!.onActivityResult(requestCode, resultCode, data)
-            }
-
         }
-
         isCameraSelected = false
     }
 
@@ -407,7 +394,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
 //            CALLBACK = Constants.CALL_BACK_FB
             LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult) {
-                    var progressDialog  = CusDialogProg(context, R.layout.custom_progress_dialog_layout)
+                    val progressDialog  = CusDialogProg(context, R.layout.custom_progress_dialog_layout)
                     progressDialog.setCancelable(false)
                     progressDialog.setCanceledOnTouchOutside(false)
                     progressDialog.show()
@@ -416,7 +403,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
                             loginResult.accessToken
                     ) { `object`, response ->
                         Util.e(this.javaClass.name, "login result" + `object`.toString() + response.toString())
-                        var FBemail: String =""
+                        var FBemail = ""
                         try {
 
                             try {

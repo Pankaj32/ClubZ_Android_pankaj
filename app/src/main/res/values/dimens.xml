@@ -11,11 +11,12 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="design_navigation_separator_height" tools:override="true">0dp</dimen>
     <dimen name="design_navigation_separator_vertical_padding" tools:override="true">0dp</dimen>
-    <dimen name="filed_linewidth" >@dimen/_120sdp</dimen>
-    <dimen name="indicator_size" >@dimen/_10sdp</dimen>
+    <dimen name="filed_linewidth">@dimen/_120sdp</dimen>
+    <dimen name="indicator_size">@dimen/_10sdp</dimen>
 
-    <dimen name="button_size" >@dimen/_36sdp</dimen>
-    <dimen name="btn_pading_left" >@dimen/_16sdp</dimen>
-    <dimen name="btn_pading_right" >@dimen/_16sdp</dimen>
+    <dimen name="button_size">@dimen/_36sdp</dimen>
+    <dimen name="btn_pading_left">@dimen/_16sdp</dimen>
+    <dimen name="btn_pading_right">@dimen/_16sdp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 
 </resources>

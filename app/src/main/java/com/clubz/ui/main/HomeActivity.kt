@@ -1,8 +1,10 @@
 package com.clubz.ui.main
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -59,6 +61,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
+import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
 class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
@@ -101,6 +104,13 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mCurrentLocation: Location
     var dialog : Dialog? = null
+    var newsFilterDialog : Dialog? = null
+
+    // filter for news feed page
+    var like = false
+    var comment = false
+    var club = false
+    var ifNeedTocallApi : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -280,7 +290,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
     // Display anchored popup menu based on view selected
     fun showLogoutPopup(v : View) {
-        val products =  arrayOf("Logout")
+        val products =  arrayOf(getString(R.string.logout))
         val lpw =  ListPopupWindow(this)
         lpw.setAnchorView(v);
         lpw.setDropDownGravity(Gravity.RIGHT);
@@ -295,32 +305,75 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     }
 
 
+    @SuppressLint("RtlHardcoded")
     private fun popupMenu(position: Int){
 
         if(dialog==null){
             dialog = Dialog(this)
             dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-
             val dialogWindow = dialog?.getWindow()
-            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
             dialog?.setContentView(R.layout.menu_club_selection)
+            for (views in arrayOf(dialog?.tv_private, dialog?.tv_public)) views?.setOnClickListener(this)
 
             val lp = dialogWindow?.getAttributes()
             dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
             lp?.y = -100
             dialogWindow?.attributes = lp
             dialog?.setCancelable(true)
-
-            for (views in arrayOf(dialog?.tv_private, dialog?.tv_public)) views?.setOnClickListener(this)
         }
 
         if (position == 0) {
             if(isPrivate==0){
                 dialog?.chk_priavte?.isChecked = true; dialog?.chk_public?.isChecked = true;
+            } else {
+                dialog?.chk_priavte?.isChecked = (isPrivate==2)
+                dialog?.chk_public?.isChecked  = (isPrivate==1)
             }
-            else {dialog?.chk_priavte?.isChecked = (isPrivate==2); dialog?.chk_public?.isChecked = (isPrivate==1);}
         }
+
         dialog?.show()
+    }
+
+    @SuppressLint("RtlHardcoded")
+    private fun showFilterDialog(){
+        if(newsFilterDialog==null){
+            newsFilterDialog = Dialog(this)
+            newsFilterDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+            val dialogWindow = newsFilterDialog?.window
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            newsFilterDialog?.setContentView(R.layout.menu_news_filter)
+
+            val lp = dialogWindow?.attributes
+            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+            lp?.y = -100
+            dialogWindow?.attributes = lp
+            newsFilterDialog?.setCancelable(true)
+
+            for (views in arrayOf(newsFilterDialog?.ch_byClubs, newsFilterDialog?.ch_byComments, newsFilterDialog?.ch_byLikes, newsFilterDialog?.ll_clearFilter))
+                views?.setOnClickListener(this)
+        }
+        newsFilterDialog?.show()
+        newsFilterDialog?.setOnDismissListener(DialogInterface.OnDismissListener { dialog ->
+            updateMyNewsFeed()
+        })
+    }
+
+    fun updateMyNewsFeed(){
+        if(ifNeedTocallApi){
+            ifNeedTocallApi = false
+            val fragemet : List<Fragment> = supportFragmentManager.fragments
+            var newsFeedFragment: Frag_News_List? = null
+            for(frag in fragemet){
+                if(frag::class.java.simpleName==Frag_News_List::class.java.simpleName){
+                    newsFeedFragment = frag as Frag_News_List
+                    break
+                }
+            }
+            newsFeedFragment?.setFilter(club, like, comment)
+        }
     }
 
 
@@ -332,7 +385,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
             Frag_News_List::class.java.simpleName -> {
                 isPrivate = 0
-                for (view in arrayOf(title_tv, menu, search)) view.visibility = View.VISIBLE
+                for (view in arrayOf(title_tv, bubble_menu, menu)) view.visibility = View.VISIBLE
                // for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.GONE
                 title_tv.setText(R.string.t_stay_up)
             }
@@ -345,7 +398,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 //title_tv.visibility = View.GONE
                 //for (view in arrayOf(title_tv, bookmark, menu, search)) view.visibility = View.GONE
                 for (view in arrayOf(search_text, back, addsymbol, serch_box, bubble_menu)) view.visibility = View.VISIBLE
-                filterListner = (fragemet as Frag_Search_Club);
+                filterListner = (fragemet as Frag_Search_Club)
                 textChnageListner = fragemet
                 search_text.setText("")
                 //search_text.setCursorVisible(false)
@@ -440,7 +493,19 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 search_text.setText("")
                 hideKeyBoard()
             }
-            R.id.bubble_menu -> clubOptions(0);
+            R.id.bubble_menu -> {
+
+                if(open){
+                    clubOptions(0)
+                }else{
+                    val frag = getCurrentFragment()
+                    when(frag!!::class.java.simpleName){
+                        Frag_News_List::class.java.simpleName ->{
+                            showFilterDialog()
+                        }
+                    }
+                }
+            }
             R.id.menu -> {
                 draweHandler(Gravity.START)
             }
@@ -487,6 +552,32 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             }
 
             R.id.back -> onBackPressed()
+
+            R.id.ll_clearFilter->{
+                club =      false
+                like =      false
+                comment =   false
+                ifNeedTocallApi = true
+                newsFilterDialog?.ch_byClubs?.isChecked = false
+                newsFilterDialog?.ch_byLikes?.isChecked = false
+                newsFilterDialog?.ch_byComments?.isChecked = false
+                newsFilterDialog?.dismiss()
+            }
+
+            R.id.ch_byClubs->{
+                ifNeedTocallApi = true
+                club = newsFilterDialog?.ch_byClubs?.isChecked!!
+            }
+
+            R.id.ch_byComments->{
+                ifNeedTocallApi = true
+                comment = newsFilterDialog?.ch_byComments?.isChecked!!
+            }
+
+            R.id.ch_byLikes->{
+                ifNeedTocallApi = true
+                like = newsFilterDialog?.ch_byLikes?.isChecked!!
+            }
         }
     }
 
@@ -525,7 +616,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     }
 
     fun closeOption() {
-        return;
+        return
         /*for (i in 0..filter_list.childCount - 1) filter_list.getChildAt(i).visibility = View.GONE
         filter_list.visibility = View.GONE*/
     }
@@ -549,29 +640,6 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
     }
 
-
-    /**
-     * commiting with state loss
-     */
-    /*internal fun replaceFragmentLoss(fragmentHolder: Fragment) {
-        try {
-            val fragmentManager = supportFragmentManager
-            fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            val fragmentName = fragmentHolder.javaClass.name
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.fade_out)
-            fragmentTransaction.replace(R.id.frag_container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
-            fragmentTransaction.commitAllowingStateLoss() // important
-            bottomtabHandler(fragmentHolder)
-            stausBarHandler(fragmentHolder)
-            hideKeyBoard()
-        } catch (e: Exception) {
-            //Util.e("value", e.toString())
-        }
-
-    }*/
-
-
     fun addFragment(fragmentHolder: Fragment, animationValue: Int): Fragment? {
         try {
             val fragmentManager = supportFragmentManager
@@ -591,64 +659,6 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
     }
 
-
-   /* fun addFragment_new(fragment: Fragment, addToBackStack: Boolean, containerId: Int) {
-        val backStackName = fragment::class.java.simpleName
-        val fragmentPopped = fragmentManager.popBackStackImmediate(backStackName, 0)
-        if (!fragmentPopped) {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-            transaction.add(containerId, fragment, backStackName) //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            if (addToBackStack)
-                transaction.addToBackStack(backStackName)
-            transaction.commit()
-        }
-    }*/
-
-   /* fun hideKeyBoard() {
-        try {
-            val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-        } catch (e: Exception) {
-
-        }
-    }*/
-
-   /* fun stausBarHandler(fragemet: Fragment) {
-
-        when (fragemet::class.java.simpleName) {
-
-            Frag_News_List::class.java.simpleName -> {
-                isPrivate = 0
-                for (view in arrayOf(title_tv, bookmark, menu, search)) view.visibility = View.VISIBLE
-                for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.GONE
-                title_tv.setText(R.string.t_stay_up)
-            }
-            Frag_Create_club::class.java.simpleName -> {
-                cus_status.visibility = View.GONE
-            }
-            Frag_Search_Club::class.java.simpleName -> {
-                title_tv.visibility = View.GONE
-                for (view in arrayOf(title_tv, bookmark, menu, search)) view.visibility = View.GONE
-                for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.VISIBLE
-                filterListner = (fragemet as Frag_Search_Club);
-                textChnageListner = fragemet
-                search_text.setText("")
-                //search_text.setCursorVisible(false)
-            }
-            Frag_Find_Activities::class.java.simpleName->{
-                title_tv.setText(R.string.t_find_activities)
-                for (view in arrayOf(search)) view.visibility = View.GONE
-                for (view in arrayOf(addsymbol, menu, bookmark, title_tv)) view.visibility = View.VISIBLE
-            }
-        *//*Frag_ClubDetails::class.java.simpleName -> {
-            for (i in 0..cus_status.childCount - 1) cus_status.getChildAt(i).visibility = View.GONE
-            for (view in arrayOf(back, title_tv, bubble_menu)) view.visibility = View.VISIBLE
-            title_tv.setText(" "+(fragemet as Frag_ClubDetails).clubz.club_name)
-        }*//*
-        }
-    }
-*/
     fun bottomtabHandler(fragemet: Fragment){
        try{
 
@@ -670,7 +680,6 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             fragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
-
 
     fun showStatusBar() {
         cus_status.visibility = View.VISIBLE

@@ -116,12 +116,12 @@
 
 
                     <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/ivChat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="3dp"
                         android:layout_marginLeft="5dp"
-                        app:srcCompat="@drawable/ic_chat"
-                        app:tint="@color/primaryColor"/>
+                        app:srcCompat="@drawable/ic_chat_outline" />
 
                     <TextView
                         android:id="@+id/tvCommentCount"
@@ -136,6 +136,13 @@
                 <include layout="@layout/divider_start_view"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent" />
+
+                <com.clubz.ui.cv.FlowLayout
+                    android:id="@+id/chip_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/tvDescription"

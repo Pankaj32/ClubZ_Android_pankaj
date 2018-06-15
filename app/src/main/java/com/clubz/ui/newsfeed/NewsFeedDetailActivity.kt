@@ -38,7 +38,7 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
         bubble_menu.visibility = if(feed.user_id.equals(ClubZ.currentUser?.id)) View.VISIBLE else View.GONE
     }
 
-    fun setViewPager(viewPager: ViewPager) {
+   private fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment( FeedDetailFragment.newInstance(feed), resources.getString(R.string.t_content), "First")
         adapter.addFragment( ChatFragment.newInstance(Bundle.EMPTY),resources.getString(R.string.t_chat) , "second")

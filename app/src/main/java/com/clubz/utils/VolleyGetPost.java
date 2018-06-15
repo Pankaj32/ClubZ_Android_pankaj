@@ -2,10 +2,13 @@ package com.clubz.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -14,12 +17,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.clubz.ClubZ;
-import com.clubz.ui.cv.Internet_Connection_dialog;
 import com.clubz.R;
+import com.clubz.data.local.pref.SessionManager;
+import com.clubz.ui.cv.Internet_Connection_dialog;
 
-
+import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,8 +36,7 @@ public abstract class VolleyGetPost {
     private String Url;
     private boolean isMethodGet;
     private int retryTime = 20000;
-    private Activity activity;
-   // SessionManager sessionManager;
+    private AlertDialog.Builder builder;
 
     /**
      * @param context     prefferd getApplication Context
@@ -47,7 +49,6 @@ public abstract class VolleyGetPost {
         this.isMethodGet = isMethodGet;
     }
 
-
     /**
      * @param activity    set Your current activity Like LoginActivity.this , (LoginActivity) getActivity
      * @param context     prefferd getApplication Context
@@ -58,8 +59,6 @@ public abstract class VolleyGetPost {
         this.context = context;
         this.Url = url;
         this.isMethodGet = isMethodGet;
-        this.activity = activity;
-       // this.sessionManager = new SessionManager(context);
     }
 
     public void execute(){
@@ -92,23 +91,32 @@ public abstract class VolleyGetPost {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            try {Util.Companion.e("response" , error.toString());
-                                toast(R.string.swr);
-                                    if(error.networkResponse.statusCode==400 && new JSONObject(new String(error.networkResponse.data)).getString("message").equals("Invalid Auth Token")){
-                                        {
-                                           /*
-                                           sessionManager.logout(activity);
-                                           toast(activity,R.string.authtoken);
-                                           */
-                                        }
-                                    }
-                                    else {
-
-                                    }
-                            }catch (Exception e){
-                            }
                             onVolleyError(error);
-
+                            NetworkResponse response = error.networkResponse;
+                            if(response != null && response.data != null){
+                                switch(response.statusCode){
+                                    case 400:
+                                        String json = new String(response.data);
+                                        json = trimMessage(json, "message");
+                                        if(json != null) displayMessage(json);
+                                        //ClubZ.instance.cancelAllPendingRequests();
+                                        if(builder==null){
+                                            builder = new AlertDialog.Builder(context);
+                                            builder.setTitle(context.getString(R.string.error_session_expired));
+                                            builder.setMessage(context.getString(R.string.error_session_expired_msg));
+                                            builder.setCancelable(true);
+                                            builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                    SessionManager.getObj().logout(context);
+                                                }
+                                            });
+                                            builder.show();
+                                        }
+                                        break;
+                                }
+                            }
                         }
                     }
             ) {
@@ -150,6 +158,26 @@ public abstract class VolleyGetPost {
             }.show();
             onNetError();
         }
+    }
+
+
+    public String trimMessage(String json, String key){
+        String trimmedString = null;
+
+        try{
+            JSONObject obj = new JSONObject(json);
+            trimmedString = obj.getString(key);
+        } catch(JSONException e){
+            e.printStackTrace();
+            return null;
+        }
+
+        return trimmedString;
+    }
+
+    //Somewhere that has access to a context
+    public void displayMessage(String toastString){
+        Toast.makeText(context, toastString, Toast.LENGTH_LONG).show();
     }
 
     /***
