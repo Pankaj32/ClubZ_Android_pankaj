@@ -134,8 +134,8 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
     override fun onProfileClick(feed: Feed) {
         val profile = Profile()
         profile.userId = feed.user_id
-        profile.fullName = feed.user_name
-        profile.userImage = feed.profile_image
+        profile.full_name = feed.user_name
+        profile.profile_image = feed.profile_image
         startActivity(Intent(context, ProfileActivity::class.java).putExtra("profile", profile))
     }
 
