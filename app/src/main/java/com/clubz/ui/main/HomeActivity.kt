@@ -37,6 +37,7 @@ import com.clubz.ui.newsfeed.fragment.Frag_News_List
 import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.Profile
 import com.clubz.data.remote.GioAddressTask
 import com.clubz.ui.ads.fragment.AdsFragment
 import com.clubz.ui.chat.ChatFragment
@@ -45,6 +46,7 @@ import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.newsfeed.MyNewsFeedActivity
+import com.clubz.ui.profile.ProfileActivity
 import com.clubz.ui.user_activities.activity.MyActivities
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
@@ -62,6 +64,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
+import kotlinx.android.synthetic.main.nav_header.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
 class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
@@ -85,7 +88,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
    // lateinit var mDrawer: DrawerLayout
     var isOpenMyClub: Boolean = false
     var open: Boolean = false
-    var doublebackpress: Boolean = false
+    private var doublebackpress: Boolean = false
     var lastDrawerGravity :Int= Gravity.START;
 
     //var isPrivate: Int = 0  // 0: Both option available , 1:public ,2:private
@@ -103,20 +106,20 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mCurrentLocation: Location
-    var dialog : Dialog? = null
-    var newsFilterDialog : Dialog? = null
+    private var dialog : Dialog? = null
+    private var newsFilterDialog : Dialog? = null
 
     // filter for news feed page
-    var like = false
-    var comment = false
-    var club = false
-    var ifNeedTocallApi : Boolean = false
+    private var like = false
+    private var comment = false
+    private var club = false
+    private var ifNeedTocallApi : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_test)
         ClubZ.currentUser = SessionManager.getObj().user
-        setUp()
+        initView()
 
        // tablayout.addOnTabSelectedListener(this)
        // for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
@@ -176,7 +179,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
 
         mDrawerLayout.setDrawerListener(mDrawerToggle)
-        mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
+        mDrawerLayout.setScrimColor(resources.getColor(android.R.color.transparent));
 
         search_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -208,7 +211,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     }
 
 
-    fun setUp(){
+    fun initView(){
         isOpenMyClub = false
         tablayout.addOnTabSelectedListener(this)
         for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, back)){
@@ -219,15 +222,15 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         val navigationView = findViewById<NavigationView>(R.id.navigationView)
         navigationView.setNavigationItemSelectedListener(this)
         val nav = navigationView.getHeaderView(0)
+        nav.rlMyProfile.setOnClickListener(this)
         nav.nav_tvTitle.setText(ClubZ.currentUser!!.full_name)
         nav.nav_tvStatus.text = getString(R.string.my_status)
         nav.nav_optionMenu.setOnClickListener {
             showLogoutPopup(nav.nav_optionMenu)
         }
 
-        val navProfileimage = nav.findViewById<CircularImageView>(R.id.iv_profileImage)
         if(ClubZ.currentUser!!.profile_image.isNotEmpty()){
-            Picasso.with(this).load(ClubZ.currentUser!!.profile_image).fit().into(navProfileimage)
+            Picasso.with(this).load(ClubZ.currentUser!!.profile_image).fit().into(nav.iv_profileImage)
         }
     }
 
@@ -259,36 +262,16 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
         when(item!!.itemId){
-
-            R.id.menu_logout ->  SessionManager.getObj().logout(this);
-
-            R.id.pop1 -> {
-                if(item.isChecked()){
-                    // If item already checked then unchecked it
-                    item.setChecked(false);
-                }else{
-                    // If item is unchecked then checked it
-                    item.setChecked(true);
-                }
-            }
-
-            R.id.pop2 -> {
-                if(item.isChecked()){
-                    // If item already checked then unchecked it
-                    item.setChecked(false);
-                }else {
-                    // If item is unchecked then checked it
-                    item.setChecked(true);
-                }
-            }
-
+            R.id.menu_logout ->  SessionManager.getObj().logout(this)
+            R.id.pop1 -> { item.isChecked = !item.isChecked() }
+            R.id.pop2 -> { item.isChecked = !item.isChecked() }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    // Display anchored popup menu based on view selected
+    @SuppressLint("RtlHardcoded")
+// Display anchored popup menu based on view selected
     fun showLogoutPopup(v : View) {
         val products =  arrayOf(getString(R.string.logout))
         val lpw =  ListPopupWindow(this)
@@ -301,7 +284,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             lpw.dismiss()
             SessionManager.getObj().logout(this)
         }
-        lpw.show();
+        lpw.show()
     }
 
 
@@ -356,7 +339,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 views?.setOnClickListener(this)
         }
         newsFilterDialog?.show()
-        newsFilterDialog?.setOnDismissListener(DialogInterface.OnDismissListener { dialog ->
+        newsFilterDialog?.setOnDismissListener({ dialog ->
             updateMyNewsFeed()
         })
     }
@@ -440,18 +423,10 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
         when (tab!!.getPosition()) {
-            0 -> {
-                setTab(tab, R.drawable.ic_news, false)
-            }
-            1 -> {
-                setTab(tab, R.drawable.ic_activity, false)
-            }
-            2 -> {
-                setTab(tab, R.drawable.ic_chat_bubble, false)
-            }
-            3 -> {
-                setTab(tab, R.drawable.ic_ads, false)
-            }
+            0 -> { setTab(tab, R.drawable.ic_news, false) }
+            1 -> { setTab(tab, R.drawable.ic_activity, false) }
+            2 -> { setTab(tab, R.drawable.ic_chat_bubble, false) }
+            3 -> { setTab(tab, R.drawable.ic_ads, false) }
         }
     }
 
@@ -577,6 +552,14 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             R.id.ch_byLikes->{
                 ifNeedTocallApi = true
                 like = newsFilterDialog?.ch_byLikes?.isChecked!!
+            }
+
+            R.id.rlMyProfile ->{
+                val profile = Profile()
+                profile.userId = ClubZ.currentUser!!.id
+                profile.full_name = ClubZ.currentUser!!.full_name
+                profile.profile_image = ClubZ.currentUser!!.profile_image
+                startActivity(Intent(this@HomeActivity, ProfileActivity::class.java).putExtra("profile", profile))
             }
         }
     }

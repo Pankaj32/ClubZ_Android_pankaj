@@ -23,11 +23,13 @@ import android.view.WindowManager
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.data.local.pref.SessionManager
-import com.clubz.data.model.Feed
 import com.clubz.data.remote.WebService
+import com.clubz.ui.cv.ChipView
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.cv.FlowLayout
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
+import com.google.gson.Gson
 import org.json.JSONObject
 
 
@@ -37,6 +39,7 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
     private var collapsedMenu: Menu? = null
     private var appBarExpanded = true
     private var profile : Profile? = null
+    private var isMyprofile = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,7 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
 
         intent.let {
             if(intent.hasExtra("profile")) profile = it.extras.getSerializable("profile") as Profile
+            isMyprofile = profile?.userId==ClubZ.currentUser!!.id
         }
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar) as Toolbar
@@ -59,10 +63,9 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
         collapse_toolbar.setCollapsedTitleTypeface(face)
         collapse_toolbar.setExpandedTitleTypeface(face)
         toolbarImage.getLayoutParams().height = dWidth.width
-        appbar_layout!!.addOnOffsetChangedListener(this)
+
         collapse_toolbar.setTitle(getString(R.string.dharmraj_acharya_bhurtel))
         initView()
-
         getProfile()
     }
 
@@ -83,14 +86,22 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
 
 
     private fun initView(){
+        if(isMyprofile){
+            ll_silenceUser.visibility = View.GONE
+            ivChat.visibility = View.GONE
+        }else{
+            ll_silenceUser.visibility = View.VISIBLE
+            ivChat.visibility = View.VISIBLE
+            appbar_layout!!.addOnOffsetChangedListener(this)
+        }
 
-        collapse_toolbar.setTitle(profile!!.fullName)
+        collapse_toolbar.setTitle(profile!!.full_name)
         tvDob.text = "1989, November 13"
         tv_phoneNo.text = "(+91) 9977141811"
         tv_landLine.text = "(+91) 0731 - 284243"
         tv_email.text = "dharmrajacharya@gmail.com"
 
-        Picasso.with(this).load(profile!!.userImage).into(toolbar_image,  object : com.squareup.picasso.Callback{
+        Picasso.with(this).load(profile!!.profile_image).into(toolbar_image,  object : com.squareup.picasso.Callback{
             override fun onSuccess() {
                 setPlated()
             }
@@ -99,6 +110,33 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
                 setPlated()
             }
         })
+    }
+
+    private fun updateView(){
+        collapse_toolbar.setTitle(profile!!.full_name)
+        tvDob.text = profile?.getFormatedDOB()
+        tv_phoneNo.text = profile?.getContactNo()
+        tv_landLine.text = profile?.getContactNo()
+        tv_email.text = profile?.email
+
+        addChip(affilitesChip , profile!!.affiliates)
+        addChip(skillsChip , profile!!.skills)
+        addChip(interestChip , profile!!.interests)
+    }
+
+    private fun addChip(chipHolder : FlowLayout, str: String){
+        if (str.isNotBlank()){
+            val tagList = str.split(",").map { it.trim() }
+            for (tag in tagList){
+                val chip = object : ChipView(this@ProfileActivity, chipHolder.childCount.toString(), false){
+                    override fun getLayout(): Int { return R.layout.z_cus_chip_view_newsfeed }
+                    override fun setDeleteListner(chipView: ChipView?) {
+                    }
+                }
+                chip.text = tag
+                chipHolder.addView(chip)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -147,7 +185,6 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
         val maxScroll = appBarLayout.totalScrollRange
         val percentage = Math.abs(offset).toFloat() / maxScroll.toFloat()
-
         if (percentage>0.95) {
             ivChat.visibility = View.GONE
             appBarExpanded = false
@@ -162,18 +199,19 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
 
     fun getProfile(){
          val dialog = CusDialogProg(this@ProfileActivity);
-         dialog.show();   // ?clubId=66&offset=0&limit=10
+         dialog.show()   // ?clubId=66&offset=0&limit=10
         object : VolleyGetPost(this@ProfileActivity,
                     WebService.get_profile+"?userId="+profile!!.userId
                         ,true) {
 
             override fun onVolleyResponse(response: String?) {
                 try {
-                    // dialog.dismiss();
-                    Log.d("newsFeedsLike", response)
+                     dialog.dismiss()
+                    Log.d("profile", response)
                     val obj = JSONObject(response)
                     if (obj.getString("status")=="success") {
-
+                        profile = Gson().fromJson(obj.getString("data"), Profile::class.java)
+                        updateView()
                     }
                 } catch (ex: Exception) {
                      Util.showToast(R.string.swr, this@ProfileActivity)
