@@ -101,6 +101,10 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
 
     fun addIntrest(){
         val chip = object : ChipView(context,chip_grid.childCount.toString()){
+            override fun getLayout(): Int {
+                return 0
+            }
+
             override fun setDeleteListner(chipView: ChipView?) {
             }
         }
@@ -112,6 +116,9 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
     }
     fun addSkill(){
         val chip = object : ChipView(context,chip_grid2.childCount.toString()){
+            override fun getLayout(): Int {
+                return 0
+            }
             override fun setDeleteListner(chipView: ChipView?) {
             }
         }

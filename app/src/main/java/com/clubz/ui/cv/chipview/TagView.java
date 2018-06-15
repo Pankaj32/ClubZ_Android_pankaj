@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.clubz.R;
 
@@ -20,6 +21,11 @@ public class TagView extends LinearLayout {
     private final LinearLayout.LayoutParams SPACE_LAYOUT_PARAM = new LinearLayout.LayoutParams(5, LinearLayout.LayoutParams.WRAP_CONTENT);
     private final List<SimpleChipView> textViews = new ArrayList<>();
     private int tagCount = -1;
+    private Listner listner;
+
+    public void setListner(Listner listner) {
+        this.listner = listner;
+    }
 
     public TagView(Context context) {
         super(context);
@@ -45,7 +51,6 @@ public class TagView extends LinearLayout {
         setOrientation(LinearLayout.HORIZONTAL);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TagView);
         tagCount = typedArray.getInt(R.styleable.TagView_TagCount, 0);
-
         typedArray.recycle();
         bindViews();
     }
@@ -53,16 +58,12 @@ public class TagView extends LinearLayout {
     private void bindViews() {
         textViews.clear();
         removeAllViews();
-        /*for (int i = 0; i < tagCount; i++) {
-            final TextView p = createTagView();
-            textViews.add(p);
-            addView(p);
-            if ((i + 1) < tagCount) {
-                addView(createSpace());
-            }
-        }*/
     }
 
+
+    public interface Listner{
+        void onDeleteChip(int size);
+    }
 
     public void addTag(List<String> tagList){
         textViews.clear();
@@ -79,9 +80,13 @@ public class TagView extends LinearLayout {
         }
     }
 
-
     public void addTag(String tag){
-        SimpleChipView p = createTagView(tag);
+       addTag(tag, false);
+    }
+
+    public void addTag(String tag, boolean isRemoviable){
+        SimpleChipView p = createTagView(tag, isRemoviable);
+        if(textViews.size()>0) addView(createSpace());
         textViews.add(p);
         addView(p);
         addView(createSpace());
@@ -105,7 +110,7 @@ public class TagView extends LinearLayout {
             if(tags.isEmpty()){
                 tags = tmp.getTag();
             }else {
-                tags = tags+","+ tmp.getTag();
+                tags = String.format("%s,%s", tags, tmp.getTag());
             }
         }
         return tags;
@@ -118,13 +123,50 @@ public class TagView extends LinearLayout {
     }
 
     private SimpleChipView createTagView(String tag) {
-        SimpleChipView p = new SimpleChipView(getContext());
+        SimpleChipView p = new SimpleChipView(getContext(), false);
         p.setText(tag);
-        //p.setTextColor(R.color.white);
-        //p.setBackgroundResource(R.drawable.bg_btn_green);
-        //p.setGravity(Gravity.CENTER |Gravity.TOP);
-       // p.setPadding(8,0,8,0);
-        //p.setLayoutParams(TAG_VIEW_LAYOUT_PARAM);
+        p.setListner(new SimpleChipView.Listner() {
+            @Override
+            public void onDeleteBtnClick(SimpleChipView chipView) {
+                textViews.remove(chipView);
+                removeAllViews();
+                tagCount = textViews.size();
+                for(int i=0; i<textViews.size(); i++){
+                    SimpleChipView tmp = textViews.get(i);
+                    addView(tmp);
+                    if ((i + 1) < tagCount) {
+                        addView(createSpace());
+                    }
+                }
+
+                if(listner!=null) listner.onDeleteChip(textViews.size());
+            }
+        });
+        return p;
+    }
+
+    private SimpleChipView createTagView(String tag, boolean isRemoviable) {
+        SimpleChipView p = new SimpleChipView(getContext(), isRemoviable);
+        if(isRemoviable){
+            p.setListner(new SimpleChipView.Listner() {
+                @Override
+                public void onDeleteBtnClick(SimpleChipView chipView) {
+                    textViews.remove(chipView);
+                    removeAllViews();
+                    tagCount = textViews.size();
+                    for(int i=0; i<textViews.size(); i++){
+                        SimpleChipView tmp = textViews.get(i);
+                        addView(tmp);
+                        if ((i + 1) < tagCount) {
+                            addView(createSpace());
+                        }
+                    }
+
+                    if(listner!=null) listner.onDeleteChip(textViews.size());
+                }
+            });
+        }
+        p.setText(tag);
         return p;
     }
 

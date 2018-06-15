@@ -7,10 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
@@ -65,6 +62,7 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
             val holder : MyClubHolder = h
             holder.tvname.setText(obj.club_name)
             holder.leadby.setText( if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name)
+            holder.status.setText(if(obj.club_type=="2") R.string.Private else R.string.Public)
             Picasso.with(holder.image_club.context)
                     .load(obj.club_icon)
                     .fit()
@@ -131,7 +129,8 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
             }
 
             holder.img_status.setImageResource(if(obj.club_type.equals("1")) R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
-            holder.status.setText(if(obj.club_type.equals("1")) R.string.Public else R.string.Private)
+            //holder.status.setText(if(obj.club_type.equals("1")) R.string.Public else R.string.Private)
+            holder.status.setText(if(obj.club_type=="2") R.string.Private else R.string.Public)
             try {
 
                 if(obj.profile_image.isEmpty()){
@@ -205,6 +204,12 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
                 joinClub(club, pos)
             }
         }
+
+        holder.switch1.setOnCheckedChangeListener( object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+
+            }
+        })
     }
 
     fun setUpClick(holder: MyClubHolder){
@@ -227,7 +232,6 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
             }
         }.show()
     }
-
 
     fun joinClub(club : Clubs, pos : Int){
         ClubZ.isNeedToUpdateNewsFeed = true

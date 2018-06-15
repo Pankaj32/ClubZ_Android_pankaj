@@ -177,7 +177,7 @@ class Sign_up_Activity : AppCompatActivity() {
             super.onBackPressed()
         } else {
             finish();
-           /* runnable = Runnable { doublebackpress = false }
+            /* runnable = Runnable { doublebackpress = false }
             handler.postDelayed(runnable, 1000.toLong())
             if (doublebackpress) {
                 handler.removeCallbacks(runnable)
@@ -197,13 +197,5 @@ class Sign_up_Activity : AppCompatActivity() {
                 return null
             }
         }
-
     }
-
-
-
-
-
-
-
 }

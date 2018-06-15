@@ -16,11 +16,11 @@ import com.clubz.utils.Constants;
 
 public class SessionManager {
 
-    SharedPreferences           mypref;
-    SharedPreferences.Editor    editor;
-    String Pref_Name = "ClubZ_app";
-    String IS_LOGED_IN = "is_logged_in ";
-    static SessionManager obj;
+    private SharedPreferences           mypref;
+    private SharedPreferences.Editor    editor;
+    private String Pref_Name = "ClubZ_app";
+    private String IS_LOGED_IN = "is_logged_in ";
+    private static SessionManager obj;
 
     private SessionManager(Context context){
         mypref = context.getSharedPreferences(Pref_Name, Context.MODE_PRIVATE);
@@ -88,5 +88,13 @@ public class SessionManager {
         Intent intent = new Intent(activity , Sign_up_Activity.class);
         activity.startActivity(intent);
         activity.finish();
+    }
+
+    public void logout(Context context){
+        editor.clear();
+        editor.apply();
+        Intent i = new Intent(context , Sign_up_Activity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(i);
     }
 }

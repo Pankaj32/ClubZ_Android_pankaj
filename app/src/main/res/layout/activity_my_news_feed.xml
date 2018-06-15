@@ -43,7 +43,8 @@
             android:layout_width="@dimen/_30sdp"
             android:layout_height="match_parent"
             android:padding="@dimen/_3sdp"
-            app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+            app:srcCompat="@drawable/ic_filter"
+            android:tint="@color/white"/>
 
     </LinearLayout>
 

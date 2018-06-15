@@ -24,6 +24,7 @@
             app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
         <TextView
+            android:id="@+id/tv_header"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
@@ -143,7 +144,25 @@
                             android:layout_centerVertical="true"
                             app:srcCompat="@drawable/ic_filter" />
 
-                        <HorizontalScrollView
+                        <AutoCompleteTextView
+                            android:id="@+id/edFilterTag"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_28sdp"
+                            android:hint="@string/tab_to_add_filter_tags"
+                            android:paddingRight="@dimen/_5sdp"
+                            android:textColorHint="@color/text_color_gray"
+                            android:textColor="@color/black"
+                            android:singleLine="true"
+                            android:inputType="textCapWords"
+                            android:layout_toRightOf="@+id/imageFilter"
+                            android:maxLength="15"
+                            android:textSize="@dimen/_10sdp"
+                            android:fontFamily="@font/roboto_italic"
+                            android:layout_centerVertical="true"
+                            android:imeOptions="actionDone"
+                            style="@style/et_sign_up"/>
+
+                        <!--<HorizontalScrollView
                             android:id="@+id/tagScroll"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -190,29 +209,37 @@
                                     android:imeOptions="actionDone"
                                     style="@style/et_sign_up"/>
 
-                              <!--  <ProgressBar
+                              &lt;!&ndash;  <ProgressBar
                                     android:id="@+id/pb_loading_indicator"
                                     style="?android:attr/progressBarStyleSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical|right"
                                     android:layout_marginRight="8dp"
-                                    android:visibility="visible"/>-->
+                                    android:visibility="visible"/>&ndash;&gt;
 
                             </LinearLayout>
 
-                        </HorizontalScrollView>
+                        </HorizontalScrollView>-->
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginTop="@dimen/_3sdp"
-                            android:layout_below="@+id/tagScroll"
+                            android:layout_below="@+id/edFilterTag"
                             android:layout_toRightOf="@+id/imageFilter"
                             android:background="@color/ab_icon"/>
 
 
                     </RelativeLayout>
+
+                    <com.clubz.ui.cv.FlowLayout
+                        android:id="@+id/chip_grid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_16sdp"
+                        android:visibility="gone"/>
 
                     <include layout="@layout/divider_start_view"
                         android:layout_height="wrap_content"
@@ -327,11 +354,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_light"
+                            android:enabled="false"
                             android:background="@null"
                             android:textColorHint="#666666"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12sdp"
-                            android:hint="@string/user_role"
+                            android:hint="@string/club_manager"
                             android:layout_marginLeft="@dimen/_16sdp"
                             android:layout_below="@+id/leadby"
                             android:inputType="textCapSentences"

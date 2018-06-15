@@ -5,36 +5,40 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
-import com.clubz.ui.main.HomeActivity
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.helper.Type_Token
 import com.clubz.data.remote.WebService
 import com.clubz.data.model.Clubs
+import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.club.`interface`.MyClubInteraction
 import com.clubz.ui.club.adapter.MyClub
 import com.clubz.ui.club.adapter.MyClub_List_Adapter
+import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_my_clubs.*
+import kotlinx.android.synthetic.main.no_contant_layout.*
 import org.json.JSONObject
 import java.util.ArrayList
 
 class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, MyClub {
 
-    var adapter : MyClub_List_Adapter? = null
+    var adapter  : MyClub_List_Adapter? = null
     var clubList : ArrayList<Clubs> = arrayListOf()
-    var listner : MyClubInteraction? = null
+    var listner  : MyClubInteraction? = null
+    var pageListner : RecyclerViewScrollListener? = null
 
     override fun onClick(v: View?) {
-
     }
 
     override fun onAttach(context: Context?) {
@@ -61,6 +65,18 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
         list_recycler.adapter = adapter
         swipeRefreshLayout.setOnRefreshListener(this)
         clubList.clear()
+
+        val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        list_recycler.itemAnimator = null
+        list_recycler.layoutManager = lm
+        //list_recycler.setHasFixedSize(true)
+        pageListner = object : RecyclerViewScrollListener(lm) {
+            override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) { }
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                getNearByClubs("",false, page*10)
+            }
+        }
+        list_recycler.addOnScrollListener(pageListner)
         getNearByClubs()
     }
 
@@ -76,19 +92,33 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
 
     override fun onRefresh() {
         clubList.clear()
+        pageListner?.resetState()
         getNearByClubs()
         swipeRefreshLayout.isRefreshing = false
     }
 
+    fun refreshList(){
+        clubList.clear()
+        pageListner?.resetState()
+        getNearByClubs()
+    }
+
     fun updateAdapter(club : Clubs){
-        clubList?.add(club)
+        clubList.add(club)
+        if(clubList.size>0){
+            noFeedMsgUI.visibility = View.GONE
+            swipeRefreshLayout.visibility = View.VISIBLE
+        }else {
+            noFeedMsgUI.visibility = View.VISIBLE
+            swipeRefreshLayout.visibility = View.GONE
+        }
         adapter?.notifyDataSetChanged()
     }
 
     /**
      *@clubtype 1 means public , 2 means private , 0 means all
      */
-    private fun getNearByClubs(text : String = "", showProgres : Boolean = false, offset :String = "0"  ){
+    private fun getNearByClubs(text : String = "", showProgres : Boolean = false, offset : Int = 0){
         val dialog = CusDialogProg(activity )
         if(text.isBlank() || showProgres)dialog.show()
         object  : VolleyGetPost(activity , activity , WebService.club_search,false){
@@ -104,6 +134,13 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
                     /*else{
                         Util.showToast(obj.getString("message"),context)
                     }*/
+                    if(clubList.size>0){
+                        noFeedMsgUI.visibility = View.GONE
+                        swipeRefreshLayout.visibility = View.VISIBLE
+                    }else {
+                        noFeedMsgUI.visibility = View.VISIBLE
+                        swipeRefreshLayout.visibility = View.GONE
+                    }
                     adapter?.notifyDataSetChanged()
 
                 }catch (ex: Exception){
@@ -111,14 +148,9 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
                 }
             }
 
-            override fun onVolleyError(error: VolleyError?) {
-                Util.e("Error", error.toString())
-                dialog.dismiss()
-            }
+            override fun onVolleyError(error: VolleyError?) { dialog.dismiss() }
 
-            override fun onNetError() {
-                dialog.dismiss()
-            }
+            override fun onNetError() { dialog.dismiss() }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["city"] = ClubZ.city
@@ -126,10 +158,10 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
                 params["longitude"] = (if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString() )+""
                 params["clubCategoryId"] = ""
                 params["searchText"] = text
-                params["offset"] = offset
-                params["limit"] = "20"
-                params["clubType"] = HomeActivity.isPrivate.toString()
-                Util.e("parms search", response = params.toString())
+                params["offset"] = offset.toString()
+                params["limit"] = "10"
+                params["clubType"] = ClubsActivity.isPrivate.toString()
+                //Util.e("parms search", response = params.toString())
                 return params
             }
 

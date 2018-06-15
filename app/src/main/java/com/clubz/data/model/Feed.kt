@@ -1,5 +1,7 @@
 package com.clubz.data.model
 
+import android.content.Context
+import com.clubz.utils.DateTimeUtil
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.text.SimpleDateFormat
@@ -10,6 +12,8 @@ class Feed : Serializable{
     var newsFeedId : Int? = null
     var news_feed_title  = ""
     var news_feed_description  = ""
+    @SerializedName("tagName")
+    var tagName  = ""
     var datetime  = ""
     var club_name  = ""
     var clubId  = ""
@@ -34,6 +38,9 @@ class Feed : Serializable{
     var currentDateTime  = ""
     var crd  = ""
 
+    fun getTimeAgo(ctx: Context) : String{
+        return DateTimeUtil.getTimeAgo(stringToDate(datetime).time, ctx)
+    }
 
     fun getDate() : String {
         val pattern = "MMM dd, yyyy"

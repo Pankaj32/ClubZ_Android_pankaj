@@ -8,7 +8,6 @@
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         app:cardBackgroundColor="@color/white"
         android:layout_margin="@dimen/_10sdp"
