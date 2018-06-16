@@ -52,7 +52,7 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
         val dWidth = windowManager.defaultDisplay
         appBarLayout = findViewById<AppBarLayout>(R.id.appbar_layout) as AppBarLayout
@@ -96,10 +96,10 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
         }
 
         collapse_toolbar.setTitle(profile!!.full_name)
-        tvDob.text = "1989, November 13"
+        /*tvDob.text = "1989, November 13"
         tv_phoneNo.text = "(+91) 9977141811"
         tv_landLine.text = "(+91) 0731 - 284243"
-        tv_email.text = "dharmrajacharya@gmail.com"
+        tv_email.text = "dharmrajacharya@gmail.com"*/
 
         if(!profile!!.profile_image.isBlank()){
             Picasso.with(this).load(profile!!.profile_image).into(toolbar_image,  object : com.squareup.picasso.Callback{
@@ -121,6 +121,7 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
         tv_phoneNo.text = profile?.getContactNo()
         tv_landLine.text = profile?.getContactNo()
         tv_email.text = profile?.email
+        tvAboutMe.text = profile?.about_me
 
         addChip(affilitesChip , profile!!.affiliates)
         addChip(skillsChip , profile!!.skills)

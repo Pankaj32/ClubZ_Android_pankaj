@@ -18,7 +18,7 @@ abstract class DeleteNewsFeedDialog (internal val context: Context) : Dialog(con
     }
 
     lateinit var mTitle : TextView;
-    lateinit var mDesc : TextView;
+    //lateinit var mDesc : TextView;
     lateinit var mCancel : TextView;
     lateinit var mLeaveClub : TextView;
 
@@ -32,7 +32,7 @@ abstract class DeleteNewsFeedDialog (internal val context: Context) : Dialog(con
 
     fun setViews(view :View){
         mTitle      = view.findViewById(R.id.mTitle)
-        mDesc       = view.findViewById(R.id.mDesc)
+        //mDesc       = view.findViewById(R.id.mDesc)
         mCancel     = view.findViewById(R.id.mCancel)
         mLeaveClub  = view.findViewById(R.id.mLeaveClub)
         mCancel.setOnClickListener(this)
