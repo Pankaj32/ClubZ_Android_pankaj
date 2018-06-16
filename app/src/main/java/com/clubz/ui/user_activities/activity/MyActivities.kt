@@ -2,17 +2,20 @@ package com.clubz.ui.user_activities.activity
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.DatePickerDialog
+import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.view.ContextThemeWrapper
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PopupMenu
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
@@ -28,9 +31,20 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_my_activities.*
 import org.json.JSONObject
 import android.view.MenuItem
-import android.widget.ImageView
 import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.view.menu.MenuPopupHelper
+import android.util.DisplayMetrics
+import android.util.Log
+import android.view.Window
+import android.view.WindowManager
+import android.widget.*
+import com.clubz.utils.Util
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesRepairableException
+import com.google.android.gms.location.places.ui.PlaceAutocomplete
+import kotlinx.android.synthetic.main.dialog_add_events.*
+import java.util.*
 
 
 class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewClickListioner, View.OnClickListener, PopupMenu.OnMenuItemClickListener {
@@ -44,6 +58,16 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
     private var todayList: List<GetMyactivitiesResponce.DataBean>? = null
     private var actionPosition: Int? = null
     private var hideUnhide: String? = null
+    private var height: Int = 0
+    private var width: Int = 0
+    var day = -1
+    var month = -1
+    var year = -1
+    var eventDate: String = ""
+    var eventTime: String = ""
+    var latitude = ""
+    var longitute = ""
+    val REQUEST_CODE_AUTOCOMPLETE: Int = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +75,12 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
         recyclerViewMyActivities.layoutManager = LinearLayoutManager(this@MyActivities)
         back_f.setOnClickListener(this@MyActivities)
         addActivity.setOnClickListener(this@MyActivities)
+        //   val display = getWindowManager().getDefaultDisplay()
+
+        val diametric = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(diametric)
+        width = diametric.widthPixels
+        height = diametric.heightPixels
     }
 
     override fun onResume() {
@@ -74,8 +104,8 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
                     if (obj.getString("status").equals("success")) {
                         var myActivitiesResponce: GetMyactivitiesResponce = Gson().fromJson(response, GetMyactivitiesResponce::class.java)
                         updateUi(myActivitiesResponce)
-                    }else{
-                        nodataLay.visibility=View.VISIBLE
+                    } else {
+                        nodataLay.visibility = View.VISIBLE
                     }
                     // searchAdapter?.notifyDataSetChanged()
                 } catch (ex: Exception) {
@@ -119,7 +149,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
             }
         }
         todayList = myActivitiesResponce.getData()
-        nodataLay.visibility = if (todayList!!.size==0)View.VISIBLE else View.GONE
+        nodataLay.visibility = if (todayList!!.size == 0) View.VISIBLE else View.GONE
         todayAdapter = MyActivitiesCategoryAdapter(this@MyActivities, todayList, this@MyActivities, this@MyActivities)
         todayAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
@@ -144,7 +174,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
         startActivity(Intent(this@MyActivities, ActivitiesDetails::class.java))
     }
 
-    override fun onItemLike(position: Int,type: String) {
+    override fun onItemLike(position: Int, type: String) {
 
     }
 
@@ -156,7 +186,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
 
     }
 
-    override fun onJoin(parentPosition: Int, childPosition: Int,type: String) {
+    override fun onJoin(parentPosition: Int, childPosition: Int, type: String) {
         /*Toast.makeText(this@MyActivities, "parent " + parentPosition + " child " + childPosition, Toast.LENGTH_SHORT).show()
         Log.e("parent " + parentPosition + " child " + childPosition, "hh")*/
     }
@@ -200,6 +230,8 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item!!.getItemId()) {
             R.id.addDate -> {
+                var activities = todayList!![actionPosition!!]
+                popUpAddEvents(activities)
                 return true
             }
             R.id.removeAct -> {
@@ -334,5 +366,223 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
                 return params
             }
         }.execute(MyActivities::class.java.name)
+    }
+
+    var dialog: Dialog? = null
+    private fun popUpAddEvents(activities: GetMyactivitiesResponce.DataBean) {
+        if (dialog == null) {
+            dialog = Dialog(this@MyActivities)
+            dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog!!.setContentView(R.layout.dialog_add_events)
+            dialog!!.window!!.setLayout(width * 10 / 11, WindowManager.LayoutParams.WRAP_CONTENT)
+            //    dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+            // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+            val mCancel = dialog!!.findViewById<View>(R.id.mCancel) as TextView
+            val mAdd = dialog!!.findViewById<View>(R.id.mAdd) as TextView
+            val mTitle = dialog!!.findViewById<View>(R.id.mTitle) as TextView
+            val addDateTxt = dialog!!.findViewById<View>(R.id.addDateTxt) as TextView
+            val addTimeTxt = dialog!!.findViewById<View>(R.id.addTimeTxt) as TextView
+            val locationTxt = dialog!!.findViewById<View>(R.id.locationTxt) as TextView
+            val descTxt = dialog!!.findViewById<View>(R.id.descTxt) as EditText
+            val eventNameTxt = dialog!!.findViewById<View>(R.id.eventNameTxt) as EditText
+            val datelay = dialog!!.findViewById<View>(R.id.datelay) as RelativeLayout
+            val timeLay = dialog!!.findViewById<View>(R.id.timeLay) as RelativeLayout
+            val loctionLay = dialog!!.findViewById<View>(R.id.loctionLay) as RelativeLayout
+            val containerLay = dialog!!.findViewById<View>(R.id.containerLay) as RelativeLayout
+
+            var latitute: String = ""
+            var longitute: String = ""
+            mTitle.text = activities.activityName
+
+            dialog!!.setCancelable(false)
+            mCancel.setOnClickListener(View.OnClickListener { dialog!!.dismiss() })
+            mAdd.setOnClickListener(View.OnClickListener {
+                var eventTitle = eventNameTxt.text.toString().trim()
+                var location = locationTxt.text.toString().trim()
+                var dese = descTxt.text.toString().trim()
+                if (isvaildDataToSend(eventNameTxt, addDateTxt, addTimeTxt, locationTxt, containerLay)) addEvent(eventTitle, eventDate, eventTime, location, activities.activityId!!, dese)
+            })
+            datelay.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(p0: View?) {
+                    datePicker(day, month, year, addDateTxt)
+                }
+            })
+            timeLay.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(p0: View?) {
+                    timePicker(addTimeTxt)
+                }
+            })
+            locationTxt.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(p0: View?) {
+                    openAutocompleteActivity()
+                }
+            })
+
+            dialog!!.setOnDismissListener { dialogInterface ->
+                dialog = null
+            }
+        }
+
+        dialog?.show()
+    }
+
+
+    private fun isvaildDataToSend(eventNameTxt: EditText, addDateTxt: TextView, addTimeTxt: TextView, locationTxt: TextView, containerLay: RelativeLayout): Boolean {
+        if (eventNameTxt.text.toString().isBlank()) {
+            Util.showSnake(this, containerLay, R.string.a_EventName)
+            eventNameTxt.requestFocus()
+            return false
+        } else if (addDateTxt.text.toString().isBlank()) {
+            Util.showSnake(this, containerLay, R.string.a_date)
+            return false
+        } else if (addTimeTxt.text.toString().isBlank()) {
+            Util.showSnake(this, containerLay, R.string.a_time)
+            return false
+        } else if (locationTxt.text.toString().isBlank()) {
+            Util.showSnake(this, containerLay, R.string.a_location_dl)
+            return false
+        }
+        return true
+    }
+
+    fun datePicker(i1: Int, i2: Int, i3: Int, addDateTxt: TextView) {
+        val calendar = GregorianCalendar.getInstance()
+        var year = calendar.get(Calendar.YEAR)
+        var month = calendar.get(Calendar.MONTH)
+        var day = calendar.get(Calendar.DATE)
+        if (i1 != -1) {
+            day = i1
+            month = i2 - 1
+            year = i3
+        }
+        val datepickerdialog = DatePickerDialog(this@MyActivities, R.style.DialogTheme2, object : DatePickerDialog.OnDateSetListener {
+            override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+                val check = Date()
+                check.year = p1 - 1900; check.month; check.date = p3
+                var d = Date(System.currentTimeMillis() - 1000)
+                d.hours = 0
+                d.minutes = 0
+                d.seconds = 0
+                Util.e("Tag", "$d : ${p0!!.minDate} : $check")
+                year = p1; month = p2 + 1;day = p3
+                eventDate = "" + year + "/" + month + "/" + day
+                addDateTxt.setText(Util.convertDate("$year-$month-$day"))
+            }
+        }, year, month, day)
+        // datepickerdialog.datePicker.maxDate = System.currentTimeMillis() - 1000
+        datepickerdialog.window!!.setBackgroundDrawableResource(R.color.white)
+
+        datepickerdialog.show()
+    }
+
+    fun timePicker(addTimeTxt: TextView) {
+        var mcurrentTime = Calendar.getInstance()
+        var hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
+        var minute = mcurrentTime.get(Calendar.MINUTE)
+        var mTimePicker = TimePickerDialog(this@MyActivities, R.style.DialogTheme2, object : TimePickerDialog.OnTimeSetListener {
+            override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
+                val onTimeSet: Unit
+                eventTime = "" + p1 + ":" + p2
+                addTimeTxt.text = Util.setTimeFormat(eventTime)
+            }
+        }, hour, minute, false)
+        mTimePicker.setTitle("Select Time");
+        mTimePicker.show();
+    }
+
+    fun addEvent(eventTitle: String,
+                 eventDate: String,
+                 eventTime: String,
+                 location: String,
+                 activityId: String,
+                 description: String) {
+        val dialogProgress = CusDialogProg(this@MyActivities)
+        dialogProgress.show()
+        //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
+        object : VolleyGetPost(this@MyActivities, this@MyActivities,
+                "${WebService.addEvents}",
+                //WebService.get_activity_list + listType + "&limit=&offset=",
+                false) {
+            override fun onVolleyResponse(response: String?) {
+                dialogProgress.dismiss()
+                try {
+
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+                        dialog?.dismiss()
+                        getActivitiesList()
+                    } else {
+                        nodataLay.visibility = View.VISIBLE
+                    }
+                    // searchAdapter?.notifyDataSetChanged()
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialogProgress.dismiss()
+            }
+
+            override fun onNetError() {
+                dialogProgress.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["eventTitle"] = eventTitle
+                params["eventDate"] = eventDate
+                params["eventTime"] = eventTime
+                params["location"] = location
+                params["latitude"] = latitude
+                params["longitude"] = longitute
+                params["activityId"] = activityId
+                params["description"] = description
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("authToken", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }.execute(MyActivities::class.java.name)
+    }
+
+    private fun openAutocompleteActivity() {
+        try {
+            // The autocomplete activity requires Google Play Services to be available. The intent
+            // builder checks this and throws an exception if it is not the case.
+            val intent = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                    .build(this)
+            startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE)
+        } catch (e: GooglePlayServicesRepairableException) {
+            // Indicates that Google Play Services is either not installed or not up to date. Prompt
+            // the user to correct the issue.
+            GoogleApiAvailability.getInstance().getErrorDialog(this, e.getConnectionStatusCode(),
+                    0 /* requestCode */).show()
+        } catch (e: GooglePlayServicesNotAvailableException) {
+            // Indicates that Google Play Services is not available and the problem is not easily
+            // resolvable.
+            val message = "Google Play Services is not available: " + GoogleApiAvailability.getInstance().getErrorString(e.errorCode)
+
+            Log.e("TAG", message)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_AUTOCOMPLETE) {
+            if (resultCode == RESULT_OK) {
+                // Get the user's selected place from the Intent.
+                val place = PlaceAutocomplete.getPlace(this, data)
+                latitude = place.latLng.latitude.toString()
+                longitute = place.latLng.longitude.toString()
+
+                dialog?.locationTxt?.text = place.address
+                dialog?.show()
+                Log.e("TAG", "Place Selected: " + place.getName() + " " + latitude + " " + longitute);
+            }
+        }
     }
 }

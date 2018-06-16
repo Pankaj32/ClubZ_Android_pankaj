@@ -44,7 +44,7 @@ class GetOthersActivitiesResponce {
     }
 
     class DataBean {
-        var hasAffiliate:Int?=null
+        var hasAffiliates:Int?=null
         var today: List<TodayBean>? = null
         var tomorrow: List<TomorrowBean>? = null
         var soon: List<SoonBean>? = null
@@ -384,7 +384,7 @@ class GetOthersActivitiesResponce {
             var club_name: String? = null
             var is_like: String? = null
             var is_Confirm: Boolean? = false
-            var events: List<EventsBeanXXX>? = null
+            var events = null //: List<EventsBeanXXX>? =
 
             class EventsBeanXXX {
                 /**

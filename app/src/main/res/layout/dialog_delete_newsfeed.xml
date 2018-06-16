@@ -38,7 +38,7 @@
             android:textSize="20sp"
             android:fontFamily="@font/teko_bold"/>
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/mDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:fontFamily="@font/poppins_regular"
             android:lineSpacingExtra="6dp"
             android:layout_marginTop="20dp"
-            android:text="@string/delete_feed_desc"/>
+            android:text="@string/delete_feed_desc"/>-->
 
     </RelativeLayout>
 

@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:padding="@dimen/_5sdp"
+    android:id="@+id/snakLay"
     tools:context="com.clubz.ui.user_activities.fragment.Frag_Find_Activities">
 
     <ScrollView
@@ -36,7 +37,7 @@
                         android:paddingBottom="@dimen/_3sdp"
                         android:paddingTop="@dimen/_3sdp"
                         android:text="@string/h_Today"
-                        android:textColor="@color/black"
+                        android:textColor="@color/nav_gray"
                         android:textSize="@dimen/_16sdp" />
 
                     <android.support.v7.widget.AppCompatImageView
@@ -50,16 +51,16 @@
                         android:layout_marginRight="@dimen/_5sdp"/>
 
                     <TextView
+                        android:id="@+id/todayExCol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:layout_toLeftOf="@id/arowToday"
-                        android:fontFamily="@font/poppins_italic"
-                        android:text="@string/collapse"
+                        android:fontFamily="@font/teko_light"
+                        android:text="@string/collapsed"
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/_8sdp" />
-
+                        android:textSize="@dimen/_10sdp" />
                 </RelativeLayout>
 
                 <View
@@ -110,7 +111,7 @@
                         android:paddingBottom="@dimen/_3sdp"
                         android:paddingTop="@dimen/_3sdp"
                         android:text="@string/h_Tomorrow"
-                        android:textColor="@color/black"
+                        android:textColor="@color/nav_gray"
                         android:textSize="@dimen/_16sdp" />
 
                     <android.support.v7.widget.AppCompatImageView
@@ -124,15 +125,16 @@
                         android:layout_marginRight="@dimen/_5sdp"/>
 
                     <TextView
+                        android:id="@+id/tomorrowExCol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:layout_toLeftOf="@id/arowTomorrow"
-                        android:fontFamily="@font/poppins_italic"
-                        android:text="@string/collapse"
+                        android:fontFamily="@font/teko_light"
+                        android:text="@string/collapsed"
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/_8sdp" />
+                        android:textSize="@dimen/_10sdp" />
 
                 </RelativeLayout>
 
@@ -182,7 +184,7 @@
                         android:paddingBottom="@dimen/_3sdp"
                         android:paddingTop="@dimen/_3sdp"
                         android:text="@string/h_coming_soon"
-                        android:textColor="@color/black"
+                        android:textColor="@color/nav_gray"
                         android:textSize="@dimen/_16sdp" />
 
                     <android.support.v7.widget.AppCompatImageView
@@ -196,15 +198,16 @@
                         android:layout_marginRight="@dimen/_5sdp"/>
 
                     <TextView
+                        android:id="@+id/soonExCol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:layout_toLeftOf="@id/arowSoon"
-                        android:fontFamily="@font/poppins_italic"
-                        android:text="@string/collapse"
+                        android:fontFamily="@font/teko_light"
+                        android:text="@string/collapsed"
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/_8sdp" />
+                        android:textSize="@dimen/_10sdp" />
 
                 </RelativeLayout>
 
@@ -255,7 +258,7 @@
                         android:paddingBottom="@dimen/_3sdp"
                         android:paddingTop="@dimen/_3sdp"
                         android:text="@string/h_others"
-                        android:textColor="@color/black"
+                        android:textColor="@color/nav_gray"
                         android:textSize="@dimen/_16sdp" />
 
                     <android.support.v7.widget.AppCompatImageView
@@ -269,15 +272,16 @@
                         android:layout_marginRight="@dimen/_5sdp"/>
 
                     <TextView
+                        android:id="@+id/othersExCol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:layout_toLeftOf="@id/arowOthers"
-                        android:fontFamily="@font/poppins_italic"
-                        android:text="@string/collapse"
+                        android:fontFamily="@font/teko_light"
+                        android:text="@string/collapsed"
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/_8sdp" />
+                        android:textSize="@dimen/_10sdp" />
 
                 </RelativeLayout>
 

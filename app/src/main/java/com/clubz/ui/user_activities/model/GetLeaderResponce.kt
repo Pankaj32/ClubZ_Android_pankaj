@@ -38,10 +38,10 @@ class GetLeaderResponce {
          * tag_name : Rj
          */
 
-        var userTagId: String? = null
-        var tag_name: String? = null
+        var userId: String? = null
+        var name: String? = null
         override fun toString(): String {
-            return tag_name!!
+            return name!!
         }
     }
 }

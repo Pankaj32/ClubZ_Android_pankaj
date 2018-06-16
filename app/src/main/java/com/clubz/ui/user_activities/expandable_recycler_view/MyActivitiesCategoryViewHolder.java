@@ -46,6 +46,7 @@ public class MyActivitiesCategoryViewHolder extends ParentViewHolder {
         });
         itemJoin.setVisibility(View.GONE);
         itemLike.setVisibility(View.GONE);
+        itemChat.setVisibility(View.GONE);
     }
 
     @Override

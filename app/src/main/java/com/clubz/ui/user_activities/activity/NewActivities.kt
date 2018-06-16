@@ -146,7 +146,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 if (p2 == 0) {
                     activityLeader = ""
                 } else {
-                    activityLeader = activityLeaderList!![p2].userTagId!!
+                    activityLeader = activityLeaderList!![p2].userId!!
                 }
             }
         })
@@ -186,7 +186,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
     private fun addLeader() {
         activityLeaderList?.clear()
         val leaderListBean = GetLeaderResponce.DataBean()
-        leaderListBean.tag_name = "Activity Leader"
+        leaderListBean.name = "Activity Leader"
         activityLeaderList!!.add(leaderListBean)
     }
 
@@ -375,14 +375,14 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             Util.showSnake(this, mainLayout!!, R.string.a_actImg)
             return false
         }
-        if (TextUtils.isEmpty(clubId)) {
+        /*if (TextUtils.isEmpty(clubId)) {
             Util.showSnake(this, mainLayout!!, R.string.a_actClub)
             return false
         }
         if (TextUtils.isEmpty(activityLeader)) {
             Util.showSnake(this, mainLayout!!, R.string.a_actLeader)
             return false
-        }
+        }*/
         if (activityLocation.text.toString().isBlank()) {
             Util.showSnake(this, mainLayout!!, R.string.a_actLoc)
             return false
@@ -520,10 +520,10 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                     val obj = JSONObject(data)
                     if (obj.getString("status").equals("success")) {
                         Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
+                        finish()
                     } else {
                         Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
-                    finish()
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                     Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()

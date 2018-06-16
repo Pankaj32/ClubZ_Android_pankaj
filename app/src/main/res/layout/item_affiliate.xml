@@ -33,7 +33,7 @@
         android:layout_height="@dimen/_20sdp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:tint="@color/black"
+
         app:srcCompat="@drawable/inactive_heart_ico" />
 
 </RelativeLayout>

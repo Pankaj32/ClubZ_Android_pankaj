@@ -70,11 +70,7 @@ import kotlinx.android.synthetic.main.nav_header.view.*
 class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener,
-        NavigationView.OnNavigationItemSelectedListener, PopupMenu.OnMenuItemClickListener {
-
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+        NavigationView.OnNavigationItemSelectedListener{
 
     companion object {
         var isPrivate: Int = 0
@@ -390,7 +386,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             Frag_Find_Activities::class.java.simpleName->{
                 title_tv.setText(R.string.t_find_activities)
                 //for (view in arrayOf(search)) view.visibility = View.GONE
-                for (view in arrayOf(addsymbol, menu, title_tv)) view.visibility = View.VISIBLE
+                for (view in arrayOf(menu, title_tv)) view.visibility = View.VISIBLE
             }
 
             ChatFragment::class.java.simpleName->{
