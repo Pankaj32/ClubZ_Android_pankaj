@@ -36,7 +36,7 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder{
         }*/
 
 
-        UserProfileDialog dialog = new UserProfileDialog(mContext, member) {
+        UserProfileDialog dialog = new UserProfileDialog(mContext, member, true) {
             @Override
             public void showError(@NotNull String msg) {
                 showToast(msg);
