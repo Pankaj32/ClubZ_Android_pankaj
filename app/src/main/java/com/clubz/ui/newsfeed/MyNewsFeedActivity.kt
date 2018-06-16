@@ -11,7 +11,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import com.clubz.R
-import com.clubz.ui.newsfeed.fragment.Frag_News_List
+import com.clubz.ui.newsfeed.fragment.FragNewsList
 import kotlinx.android.synthetic.main.activity_my_news_feed.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 
@@ -26,7 +26,7 @@ class MyNewsFeedActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_news_feed)
-        addFragment(Frag_News_List.newInstance(true))
+        addFragment(FragNewsList.newInstance(true))
         backBtn.setOnClickListener(this)
         bubble_menu.setOnClickListener(this)
     }
@@ -92,10 +92,10 @@ class MyNewsFeedActivity : AppCompatActivity(), View.OnClickListener {
         if(ifNeedTocallApi){
             ifNeedTocallApi = false
             val fragemet : List<Fragment> = supportFragmentManager.fragments
-            var newsFeedFragment: Frag_News_List? = null
+            var newsFeedFragment: FragNewsList? = null
             for(frag in fragemet){
-                if(frag::class.java.simpleName==Frag_News_List::class.java.simpleName){
-                    newsFeedFragment = frag as Frag_News_List
+                if(frag::class.java.simpleName==FragNewsList::class.java.simpleName){
+                    newsFeedFragment = frag as FragNewsList
                     break
                 }
             }

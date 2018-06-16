@@ -14,11 +14,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.android.volley.*
 import com.clubz.ClubZ
 
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.ClubMember
 import com.clubz.data.model.Feed
 import com.clubz.data.model.Profile
 import com.clubz.data.remote.WebService
@@ -26,6 +28,7 @@ import com.clubz.helper.Type_Token
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.dialogs.DeleteNewsFeedDialog
+import com.clubz.ui.dialogs.UserProfileDialog
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.newsfeed.NewsFeedDetailActivity
 import com.clubz.ui.newsfeed.adapter.NewsFeedAdapter
@@ -40,7 +43,7 @@ import org.json.JSONObject
  * Created by Dharmraj Acharya on 3/12/18.
  */
 
-class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
+class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         SwipeRefreshLayout.OnRefreshListener {
 
     private var pageListner : RecyclerViewScrollListener? = null
@@ -60,7 +63,7 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
          * @return A new instance of fragment FeedDetailFragment.
          */
         @JvmStatic
-        fun newInstance(isMyFeed : Boolean = false) = Frag_News_List().apply {
+        fun newInstance(isMyFeed : Boolean = false) = FragNewsList().apply {
             arguments = Bundle().apply {
                 putBoolean("isMyFeed", isMyFeed)
             }
@@ -132,11 +135,40 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
     }
 
     override fun onProfileClick(feed: Feed) {
-        val profile = Profile()
-        profile.userId = feed.user_id
-        profile.full_name = feed.user_name
-        profile.profile_image = feed.profile_image
-        startActivity(Intent(context, ProfileActivity::class.java).putExtra("profile", profile))
+
+        val user = ClubMember()
+        user.profile_image = feed.profile_image
+        user.userId = feed.user_id
+        user.full_name = feed.user_name
+
+        val dialog = object : UserProfileDialog(context, user, false) {
+            override fun showError(msg: String) {
+                showToast(msg)
+            }
+
+            override fun onCallClicked() {
+                showToast("call clicked!")
+            }
+
+            override fun onChatClicked() {
+                showToast("chat clicked!")
+            }
+
+            override fun onLikeClicked() {
+                showToast("favorite clicked!")
+            }
+
+            override fun onFlagClicked() {
+                dismiss()
+                val profile = Profile()
+                profile.userId = feed.user_id
+                profile.full_name = feed.user_name
+                profile.profile_image = feed.profile_image
+                startActivity(Intent(context, ProfileActivity::class.java).putExtra("profile", profile))
+            }
+        }
+        dialog.setCancelable(true)
+        dialog.show()
     }
 
     @SuppressLint("RtlHardcoded")
@@ -194,6 +226,10 @@ class Frag_News_List : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner
             pageListner?.resetState()
             getFeeds(0)
         }
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
     private fun updateUI(){

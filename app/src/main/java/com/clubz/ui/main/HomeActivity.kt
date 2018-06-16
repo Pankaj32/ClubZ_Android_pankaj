@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -33,7 +32,7 @@ import com.clubz.R
 import com.clubz.ui.core.FilterListner
 import com.clubz.ui.core.Textwatcher_Statusbar
 import com.clubz.ui.club.fragment.Frag_Create_club
-import com.clubz.ui.newsfeed.fragment.Frag_News_List
+import com.clubz.ui.newsfeed.fragment.FragNewsList
 import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
@@ -52,7 +51,6 @@ import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
 import com.clubz.utils.DrawerMarginFixer
 import com.clubz.utils.Util
-import com.github.siyamed.shapeimageview.CircularImageView
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
@@ -64,7 +62,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
-import kotlinx.android.synthetic.main.nav_header.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
 class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
@@ -120,7 +117,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
        // tablayout.addOnTabSelectedListener(this)
        // for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
 
-        replaceFragment(Frag_News_List())
+        replaceFragment(FragNewsList())
         ///addFragment_new(Frag_Search_Club(),true ,R.id.frag_container2);
         checkLocationUpdate()
         Util.e("authtoken", SessionManager.getObj().user.auth_token);
@@ -344,10 +341,10 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         if(ifNeedTocallApi){
             ifNeedTocallApi = false
             val fragemet : List<Fragment> = supportFragmentManager.fragments
-            var newsFeedFragment: Frag_News_List? = null
+            var newsFeedFragment: FragNewsList? = null
             for(frag in fragemet){
-                if(frag::class.java.simpleName==Frag_News_List::class.java.simpleName){
-                    newsFeedFragment = frag as Frag_News_List
+                if(frag::class.java.simpleName==FragNewsList::class.java.simpleName){
+                    newsFeedFragment = frag as FragNewsList
                     break
                 }
             }
@@ -362,7 +359,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
         when (fragemet::class.java.simpleName) {
 
-            Frag_News_List::class.java.simpleName -> {
+            FragNewsList::class.java.simpleName -> {
                 isPrivate = 0
                 for (view in arrayOf(title_tv, bubble_menu, menu)) view.visibility = View.VISIBLE
                // for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.GONE
@@ -431,7 +428,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         when (tab!!.getPosition()) {
             0 -> {
                 setTab(tab, R.drawable.ic_news_active, true)
-                replaceFragment(Frag_News_List())
+                replaceFragment(FragNewsList())
             }
             1 -> {
                 setTab(tab, R.drawable.ic_activity_active, true)
@@ -471,7 +468,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 }else{
                     val frag = getCurrentFragment()
                     when(frag!!::class.java.simpleName){
-                        Frag_News_List::class.java.simpleName ->{
+                        FragNewsList::class.java.simpleName ->{
                             showFilterDialog()
                         }
                     }
@@ -498,7 +495,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                            startActivity(Intent(this@HomeActivity, NewActivities::class.java))
                         }
 
-                        Frag_News_List::class.java.simpleName->{
+                        FragNewsList::class.java.simpleName->{
                             startActivity(Intent(this@HomeActivity,
                                     CreateNewsFeedActivity::class.java).putExtra("clubId", ""))
                         }
@@ -645,7 +642,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                Frag_Find_Activities::class.java.simpleName ->  tablayout.visibility = View.VISIBLE
                AdsFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
                ChatFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
-               Frag_News_List::class.java.simpleName ->  tablayout.visibility = View.VISIBLE
+               FragNewsList::class.java.simpleName ->  tablayout.visibility = View.VISIBLE
                else-> tablayout.visibility = View.GONE
            }
        }catch (ex:Exception){

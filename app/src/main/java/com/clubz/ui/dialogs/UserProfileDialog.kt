@@ -11,7 +11,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.baseclub_list.*
 import kotlinx.android.synthetic.main.z_user_profile_dialog.*
 
-abstract class UserProfileDialog (internal val context: Context, member: ClubMember) : Dialog(context), View.OnClickListener{
+abstract class UserProfileDialog(internal val context: Context, member: ClubMember, isEditable : Boolean=true)
+    : Dialog(context), View.OnClickListener{
 
     var user: ClubMember? = null
 
@@ -50,7 +51,7 @@ abstract class UserProfileDialog (internal val context: Context, member: ClubMem
     init {
         this.user = member
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        val view : View = LayoutInflater.from(context).inflate(R.layout.z_user_profile_dialog,null);
+        val view : View = LayoutInflater.from(context).inflate(R.layout.z_user_profile_dialog,null)
         this.setContentView(view)
 
         if(member.profile_image.isNotEmpty()){
@@ -59,6 +60,8 @@ abstract class UserProfileDialog (internal val context: Context, member: ClubMem
         } else iv_profileImage.setColorFilter(R.color.white)
 
         tv_FullName.setText(member.getFirstTagName())
+        tv_FullName.isEnabled = isEditable
+        ivEdit.visibility = if(isEditable) View.VISIBLE else View.GONE
 
         ic_call.setOnClickListener(this)
         ic_chat.setOnClickListener(this)

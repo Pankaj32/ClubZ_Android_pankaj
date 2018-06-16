@@ -7,11 +7,11 @@ import java.util.*
 class ClubMember : Serializable {
 
     var tag_name = ""
-    val userId = ""
-    val clubUserId = ""
-    val full_name = ""
+    var userId = ""
+    var clubUserId = ""
+    var full_name = ""
     var member_status = ""
-    val profile_image = ""
+    var profile_image = ""
 
     val requestDateTime = ""
     val distance : String = ""
