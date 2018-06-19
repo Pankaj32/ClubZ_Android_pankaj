@@ -41,7 +41,7 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
     @Override
     public void onBindViewHolder(AdapterClubMember.ViewHolder h, int position) {
         final ClubMember member = memberList.get(position);
-        h.tv_FullName.setText(member.getFull_name());
+        h.tv_FullName.setText(member.getNickname());
 
         if(!TextUtils.isEmpty(member.getProfile_image())){
             Picasso.with(h.iv_profileImage.getContext()).load(member.getProfile_image()).into(h.iv_profileImage);
@@ -84,6 +84,11 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
         @Override
         protected ClubMember getProfile() {
             return memberList.get(getAdapterPosition());
+        }
+
+        @Override
+        protected void notyfyData(int pos) {
+            notifyItemChanged(pos);
         }
     }
 }

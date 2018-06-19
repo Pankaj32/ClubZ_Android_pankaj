@@ -2,16 +2,24 @@ package com.clubz.ui.dialogs
 
 import android.app.Dialog
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
+import com.android.volley.NetworkResponse
+import com.android.volley.Request
+import com.android.volley.Response
+import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.ClubMember
+import com.clubz.data.remote.WebService
+import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.baseclub_list.*
 import kotlinx.android.synthetic.main.z_user_profile_dialog.*
+import org.json.JSONObject
 
-abstract class UserProfileDialog(internal val context: Context, member: ClubMember, isEditable : Boolean=true)
+abstract class UserProfileDialog(internal val context: Context, val member: ClubMember, isEditable : Boolean=true)
     : Dialog(context), View.OnClickListener{
 
     var user: ClubMember? = null
@@ -27,20 +35,21 @@ abstract class UserProfileDialog(internal val context: Context, member: ClubMemb
                 val bool = !tv_FullName.isEnabled
                 if(bool){
                     tv_FullName.isEnabled = bool
-                    ivEdit.setImageDrawable(context.resources.getDrawable(R.drawable.ic_check_white_24dp))
+                    ivEdit.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp))
                 }else {
 
                     val name = tv_FullName.text.toString()
 
-                    if(name.isEmpty())
-                        showError(context.getString(R.string.comments))
-                    else if(name.equals(user?.getFirstTagName())){
-                        //showToast(context.getString(R.string.comments))
-                        tv_FullName.isEnabled = bool
-                        ivEdit.setImageDrawable(context.resources.getDrawable(R.drawable.ic_create))
-                    }else{
-                        tv_FullName.isEnabled = bool
-                        ivEdit.setImageDrawable(context.resources.getDrawable(R.drawable.ic_create))
+                    when {
+                        name.isEmpty() -> showError(context.getString(R.string.comments))
+                        name == user?.getNickname() -> {
+                            //showToast(context.getString(R.string.comments))
+                            tv_FullName.isEnabled = bool
+                            ivEdit.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_create))
+                        }
+                        else -> {
+                            updateNickName(name)
+                        }
                     }
                 }
             }
@@ -59,8 +68,8 @@ abstract class UserProfileDialog(internal val context: Context, member: ClubMemb
             Picasso.with(context).load(member.profile_image).into(iv_profileImage)
         } else iv_profileImage.setColorFilter(R.color.white)
 
-        tv_FullName.setText(member.getFirstTagName())
-        tv_FullName.isEnabled = isEditable
+        tv_FullName.setText(member.getNickname())
+        tv_FullName.isEnabled = false
         ivEdit.visibility = if(isEditable) View.VISIBLE else View.GONE
 
         ic_call.setOnClickListener(this)
@@ -74,5 +83,53 @@ abstract class UserProfileDialog(internal val context: Context, member: ClubMemb
     abstract fun onChatClicked()
     abstract fun onLikeClicked()
     abstract fun onFlagClicked()
+    abstract fun onProfileUpdate(name : String)
     abstract fun showError(msg : String)
+
+    private fun updateNickName(nickName : String = ""){
+        ClubZ.instance.cancelPendingRequests(UserProfileDialog::class.java.name)
+        progress_bar.visibility = View.VISIBLE
+        ivEdit.visibility = View.GONE
+        val request = object : VolleyMultipartRequest(Request.Method.POST,
+                WebService.update_nickName,
+                Response.Listener<NetworkResponse> { response ->
+                    val data = String(response.data)
+                    try {
+                        progress_bar.visibility = View.GONE
+                        ivEdit.visibility = View.VISIBLE
+                        val obj = JSONObject(data)
+                        if(obj.getString("status")=="success"){
+                           // val dataArray = obj.getJSONArray("data")
+                            tv_FullName.isEnabled = false
+                            ivEdit.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_create))
+                            onProfileUpdate(nickName)
+
+                        }
+                    }catch ( e : java.lang.Exception){
+                        e.printStackTrace()
+                        progress_bar.visibility = View.GONE
+                    }
+                }, Response.ErrorListener {
+            progress_bar.visibility = View.GONE
+            ivEdit.visibility = View.VISIBLE
+            //pb_loading_indicator.visibility = View.GONE
+        }) {
+            override fun getParams(): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params["clubUserId"] = member.clubUserId
+                params["userNickName"] = nickName
+                params["userId"] = member.userId
+                return params
+            }
+
+            override fun getHeaders(): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params["language"] = SessionManager.getObj().language
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                return params
+            }
+        }
+
+        ClubZ.instance.addToRequestQueue(request, UserProfileDialog::class.java.name)
+    }
 }
