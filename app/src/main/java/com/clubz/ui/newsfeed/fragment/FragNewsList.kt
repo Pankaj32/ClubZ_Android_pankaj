@@ -142,6 +142,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         user.full_name = feed.user_name
 
         val dialog = object : UserProfileDialog(context, user, false) {
+            override fun onProfileUpdate(name: String) {}
             override fun showError(msg: String) {
                 showToast(msg)
             }

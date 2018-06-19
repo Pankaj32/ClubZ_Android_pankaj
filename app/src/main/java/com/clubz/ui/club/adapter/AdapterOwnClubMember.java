@@ -143,6 +143,11 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
             return memberList.get(getAdapterPosition());
         }
 
+        @Override
+        protected void notyfyData(int pos) {
+            notifyItemChanged(pos);
+        }
+
 
         public void setSwitchClick() {
 

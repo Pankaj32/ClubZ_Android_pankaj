@@ -64,7 +64,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
         val check = Date()
         check.year = p1-1900 ; check.month ; check.date = p3
-        var d = Date(System.currentTimeMillis() - 1000)
+        val d = Date(System.currentTimeMillis() - 1000)
         d.hours =0
         d.minutes=0
         d.seconds=0
@@ -125,8 +125,8 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         username.setText(SessionManager.getObj().user.full_name)
         try{
 
-            if(!SessionManager.getObj().user.profile_image.isNullOrEmpty()){
-                Picasso.with(this).load(SessionManager.getObj().user.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).into(image_member2, object : Callback {
+            if(ClubZ.currentUser!!.profile_image.isNotBlank()){
+                Picasso.with(this).load(SessionManager.getObj().user.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).fit().into(image_member2, object : Callback {
                     override fun onSuccess() {
                         image_member2.setPadding(0,0,0,0)
                     }
@@ -154,7 +154,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         Handler().postDelayed(Runnable {
             object : Purchase_membership_dialog(this) {
                 override fun viewplansListner() {
-                    this.dismiss();
+                    this.dismiss()
                 }
             }.show()
         }, 100)

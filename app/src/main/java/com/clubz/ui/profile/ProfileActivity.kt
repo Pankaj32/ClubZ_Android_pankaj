@@ -144,30 +144,37 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.profile_menu, menu)
+        menuInflater.inflate(if(isMyprofile) R.menu.my_profile_menu else R.menu.profile_menu, menu)
         collapsedMenu = menu
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (collapsedMenu != null && (!appBarExpanded || collapsedMenu!!.size() != 1)) {
-            //collapsed
-            /*collapsedMenu!!.add("Chat")
-                    .setIcon(R.drawable.ic_chat_outline)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)*/
 
-            val m = menu.getItem(0)
-            m?.isEnabled = true
-            val drawable = m?.icon
-            if (drawable != null) {
-                drawable.mutate()
-                drawable.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP)
+        if(isMyprofile){
+
+        }else{
+            if (collapsedMenu != null && (!appBarExpanded || collapsedMenu!!.size() != 1)) {
+                //collapsed
+                /*collapsedMenu!!.add("Chat")
+                        .setIcon(R.drawable.ic_chat_outline)
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)*/
+
+                val m = menu.getItem(0)
+                m?.isEnabled = true
+                val drawable = m?.icon
+                if (drawable != null) {
+                    drawable.mutate()
+                    drawable.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP)
+                }
+            } else {
+                //expanded
+                menu.getItem(0).isVisible = false
             }
-        } else {
-            //expanded
-            menu.getItem(0).isVisible = false
+            return super.onPrepareOptionsMenu(collapsedMenu)
         }
-        return super.onPrepareOptionsMenu(collapsedMenu)
+
+        return super.onPrepareOptionsMenu(menu)
     }
 
 
@@ -178,6 +185,9 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                 return true
             }
             R.id.action_chat -> return true
+            R.id.action_edit ->{
+                Toast.makeText(this@ProfileActivity, R.string.under_development, Toast.LENGTH_SHORT).show()
+            }
         }
         if (item.title === "Add") {
             Toast.makeText(this, "clicked add", Toast.LENGTH_SHORT).show()
@@ -187,16 +197,19 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
 
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
-        val maxScroll = appBarLayout.totalScrollRange
-        val percentage = Math.abs(offset).toFloat() / maxScroll.toFloat()
-        if (percentage > 0.95) {
-            ivChat.visibility = View.GONE
-            appBarExpanded = false
-            invalidateOptionsMenu()
-        } else {
-            ivChat.visibility = View.VISIBLE
-            appBarExpanded = true
-            invalidateOptionsMenu()
+
+        if(!isMyprofile){
+            val maxScroll = appBarLayout.totalScrollRange
+            val percentage = Math.abs(offset).toFloat() / maxScroll.toFloat()
+            if (percentage > 0.95) {
+                ivChat.visibility = View.GONE
+                appBarExpanded = false
+                invalidateOptionsMenu()
+            } else {
+                ivChat.visibility = View.VISIBLE
+                appBarExpanded = true
+                invalidateOptionsMenu()
+            }
         }
     }
 

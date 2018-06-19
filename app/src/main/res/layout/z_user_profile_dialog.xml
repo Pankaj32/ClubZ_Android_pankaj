@@ -72,6 +72,16 @@
                         app:srcCompat="@drawable/ic_create"
                         app:tint="@color/white" />
 
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="5dp"
+                        android:progressTint="@color/primaryColor"
+                        android:visibility="gone"/>
+
                 </LinearLayout>
 
                 <TextView

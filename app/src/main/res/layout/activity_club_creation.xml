@@ -541,12 +541,14 @@
                             android:textColorHint="#666666"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12sdp"
-                            android:hint="@string/user_role"
+                            android:hint="@string/club_manager"
+                            android:text="@string/club_manager"
                             android:layout_marginLeft="@dimen/_16sdp"
                             android:layout_below="@+id/leadby"
                             android:inputType="textCapSentences"
                             android:maxLength="38"
                             android:singleLine="true"
+                            android:editable="false"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                             android:layout_toRightOf="@id/image_member2"/>
                         <View

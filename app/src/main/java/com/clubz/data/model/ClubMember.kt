@@ -7,6 +7,7 @@ import java.util.*
 class ClubMember : Serializable {
 
     var tag_name = ""
+    var user_nickname = ""
     var userId = ""
     var clubUserId = ""
     var full_name = ""
@@ -42,6 +43,10 @@ class ClubMember : Serializable {
         simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
         val myDate = simpleDateFormat.parse(string)
         return myDate
+    }
+
+    fun getNickname():String {
+        if(user_nickname.isNotEmpty()) return user_nickname else return full_name;
     }
 
     fun getFirstTagName() : String{
