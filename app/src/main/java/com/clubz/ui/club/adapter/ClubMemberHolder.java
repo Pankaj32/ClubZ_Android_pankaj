@@ -30,13 +30,19 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder{
 
     protected void showProfile(){
 
-        ClubMember member = getProfile();
+        final ClubMember member = getProfile();
         /*if(member.getClubUserId().equals(ClubZ.instance.getCurrentUser().getId())){
 
         }*/
 
 
-        UserProfileDialog dialog = new UserProfileDialog(mContext, member) {
+        UserProfileDialog dialog = new UserProfileDialog(mContext, member, true) {
+            @Override
+            public void onProfileUpdate(String name) {
+                member.setUser_nickname(name);
+                notyfyData(getAdapterPosition());
+            }
+
             @Override
             public void showError(@NotNull String msg) {
                 showToast(msg);
@@ -67,6 +73,7 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder{
     }
 
     protected abstract ClubMember getProfile();
+    protected abstract void notyfyData(int pos);
 
     private void showToast(String text){
         Toast.makeText(mContext,  text, Toast.LENGTH_SHORT).show();

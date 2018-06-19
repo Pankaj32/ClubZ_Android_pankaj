@@ -1,28 +1,28 @@
 package com.clubz.ui.profile
 
+import android.graphics.PorterDuff
+import android.graphics.Typeface
+import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import android.os.Bundle
-import com.clubz.R
 import android.support.design.widget.AppBarLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.Toolbar
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
-import android.view.MenuItem
-import android.graphics.PorterDuff
-import android.graphics.Typeface
-import android.os.Build
-import com.clubz.data.model.Profile
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_profile.*
-import android.graphics.drawable.BitmapDrawable
-import android.util.Log
-import android.view.WindowManager
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
+import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.Profile
 import com.clubz.data.remote.WebService
 import com.clubz.ui.cv.ChipView
 import com.clubz.ui.cv.CusDialogProg
@@ -30,15 +30,16 @@ import com.clubz.ui.cv.FlowLayout
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_profile.*
 import org.json.JSONObject
 
-
-class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListener {
+class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
 
     private var appBarLayout: AppBarLayout? = null
     private var collapsedMenu: Menu? = null
     private var appBarExpanded = true
-    private var profile : Profile? = null
+    private var profile: Profile? = null
     private var isMyprofile = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,63 +47,59 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
         setContentView(R.layout.activity_profile)
 
         intent.let {
-            if(intent.hasExtra("profile")) profile = it.extras.getSerializable("profile") as Profile
-            isMyprofile = profile?.userId==ClubZ.currentUser!!.id
+            if (intent.hasExtra("profile")) profile = it.extras.getSerializable("profile") as Profile
+            isMyprofile = profile?.userId == ClubZ.currentUser!!.id
         }
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val dWidth = windowManager.defaultDisplay
+        val diametric = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(diametric)
+
         appBarLayout = findViewById<AppBarLayout>(R.id.appbar_layout) as AppBarLayout
         val toolbarImage = findViewById<View>(R.id.toolbar_image) as ImageView
-        val face = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            resources.getFont(R.font.teko_medium)
-        } else Typeface.createFromAsset(assets, "teko_medium.ttf")
-        collapse_toolbar.setCollapsedTitleTypeface(face)
-        collapse_toolbar.setExpandedTitleTypeface(face)
-        toolbarImage.getLayoutParams().height = dWidth.width
-
-        collapse_toolbar.setTitle(getString(R.string.dharmraj_acharya_bhurtel))
+        val face =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) resources.getFont(R.font.teko_medium)
+                else Typeface.createFromAsset(assets, "teko_medium.ttf")
+        collapse_toolbar.run {
+            setCollapsedTitleTypeface(face)
+            setExpandedTitleTypeface(face)
+        }
+        toolbarImage.layoutParams.height = diametric.widthPixels
         initView()
         getProfile()
     }
 
-    private fun setPlated(){
+    private fun setPlated() {
         //val bitmap = BitmapFactory.decodeResource(resources, R.drawable.dharmrja)
-        val bitmap = (toolbar_image.getDrawable() as BitmapDrawable).bitmap
+        val bitmap = (toolbar_image.drawable as BitmapDrawable).bitmap
         Palette.from(bitmap).generate { palette: Palette? ->
-            val mutedColor = palette?.getMutedColor(resources.getColor(R.color.primaryColor))
+            val mutedColor = palette?.getMutedColor(ContextCompat.getColor(this, R.color.primaryColor))
             collapse_toolbar.setContentScrimColor(mutedColor!!)
             collapse_toolbar.setStatusBarScrimColor(mutedColor)
-            val window = getWindow()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                window.setStatusBarColor(mutedColor)
+                window.statusBarColor = mutedColor
             }
         }
     }
 
 
-    private fun initView(){
-        if(isMyprofile){
+    private fun initView() {
+        if (isMyprofile) {
             ll_silenceUser.visibility = View.GONE
             ivChat.visibility = View.GONE
-        }else{
+        } else {
             ll_silenceUser.visibility = View.VISIBLE
             ivChat.visibility = View.VISIBLE
             appbar_layout!!.addOnOffsetChangedListener(this)
         }
 
-        collapse_toolbar.setTitle(profile!!.full_name)
-        /*tvDob.text = "1989, November 13"
-        tv_phoneNo.text = "(+91) 9977141811"
-        tv_landLine.text = "(+91) 0731 - 284243"
-        tv_email.text = "dharmrajacharya@gmail.com"*/
-
-        if(!profile!!.profile_image.isBlank()){
-            Picasso.with(this).load(profile!!.profile_image).into(toolbar_image,  object : com.squareup.picasso.Callback{
+        collapse_toolbar.title = profile!!.full_name
+        if (!profile!!.profile_image.isBlank()) {
+            Picasso.with(this).load(profile!!.profile_image).into(toolbar_image, object : com.squareup.picasso.Callback {
                 override fun onSuccess() {
                     setPlated()
                 }
@@ -115,25 +112,28 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
 
     }
 
-    private fun updateView(){
-        collapse_toolbar.setTitle(profile!!.full_name)
+    private fun updateView() {
+        collapse_toolbar.title = profile!!.full_name
         tvDob.text = profile?.getFormatedDOB()
         tv_phoneNo.text = profile?.getContactNo()
         tv_landLine.text = profile?.getContactNo()
         tv_email.text = profile?.email
         tvAboutMe.text = profile?.about_me
 
-        addChip(affilitesChip , profile!!.affiliates)
-        addChip(skillsChip , profile!!.skills)
-        addChip(interestChip , profile!!.interests)
+        addChip(affilitesChip, profile!!.affiliates)
+        addChip(skillsChip, profile!!.skills)
+        addChip(interestChip, profile!!.interests)
     }
 
-    private fun addChip(chipHolder : FlowLayout, str: String){
-        if (str.isNotBlank()){
+    private fun addChip(chipHolder: FlowLayout, str: String) {
+        if (str.isNotBlank()) {
             val tagList = str.split(",").map { it.trim() }
-            for (tag in tagList){
-                val chip = object : ChipView(this@ProfileActivity, chipHolder.childCount.toString(), false){
-                    override fun getLayout(): Int { return R.layout.z_cus_chip_view_newsfeed }
+            for (tag in tagList) {
+                val chip = object : ChipView(this@ProfileActivity, chipHolder.childCount.toString(), false) {
+                    override fun getLayout(): Int {
+                        return R.layout.z_cus_chip_view_newsfeed
+                    }
+
                     override fun setDeleteListner(chipView: ChipView?) {
                     }
                 }
@@ -144,42 +144,52 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        getMenuInflater().inflate(R.menu.profile_menu, menu)
+        menuInflater.inflate(if(isMyprofile) R.menu.my_profile_menu else R.menu.profile_menu, menu)
         collapsedMenu = menu
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (collapsedMenu != null && (!appBarExpanded || collapsedMenu!!.size() != 1)) {
-            //collapsed
-            /*collapsedMenu!!.add("Chat")
-                    .setIcon(R.drawable.ic_chat_outline)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)*/
 
-            val m = menu.getItem(0)
-            m?.isEnabled = true
-            val drawable = m?.icon
-            if (drawable != null) {
-                drawable.mutate()
-                drawable.setColorFilter(resources.getColor(R.color.white), PorterDuff.Mode.SRC_ATOP)
+        if(isMyprofile){
+
+        }else{
+            if (collapsedMenu != null && (!appBarExpanded || collapsedMenu!!.size() != 1)) {
+                //collapsed
+                /*collapsedMenu!!.add("Chat")
+                        .setIcon(R.drawable.ic_chat_outline)
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)*/
+
+                val m = menu.getItem(0)
+                m?.isEnabled = true
+                val drawable = m?.icon
+                if (drawable != null) {
+                    drawable.mutate()
+                    drawable.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP)
+                }
+            } else {
+                //expanded
+                menu.getItem(0).isVisible = false
             }
-        } else {
-            //expanded
-            menu.getItem(0).setVisible(false)
+            return super.onPrepareOptionsMenu(collapsedMenu)
         }
-        return super.onPrepareOptionsMenu(collapsedMenu);
+
+        return super.onPrepareOptionsMenu(menu)
     }
 
 
-   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.getItemId()) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 return true
             }
             R.id.action_chat -> return true
+            R.id.action_edit ->{
+                Toast.makeText(this@ProfileActivity, R.string.under_development, Toast.LENGTH_SHORT).show()
+            }
         }
-        if (item.getTitle() === "Add") {
+        if (item.title === "Add") {
             Toast.makeText(this, "clicked add", Toast.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
@@ -187,44 +197,50 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
 
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
-        val maxScroll = appBarLayout.totalScrollRange
-        val percentage = Math.abs(offset).toFloat() / maxScroll.toFloat()
-        if (percentage>0.95) {
-            ivChat.visibility = View.GONE
-            appBarExpanded = false
-            invalidateOptionsMenu()
-        } else {
-            ivChat.visibility = View.VISIBLE
-            appBarExpanded = true
-            invalidateOptionsMenu()
+
+        if(!isMyprofile){
+            val maxScroll = appBarLayout.totalScrollRange
+            val percentage = Math.abs(offset).toFloat() / maxScroll.toFloat()
+            if (percentage > 0.95) {
+                ivChat.visibility = View.GONE
+                appBarExpanded = false
+                invalidateOptionsMenu()
+            } else {
+                ivChat.visibility = View.VISIBLE
+                appBarExpanded = true
+                invalidateOptionsMenu()
+            }
         }
     }
 
 
-    fun getProfile(){
-         val dialog = CusDialogProg(this@ProfileActivity);
-         dialog.show()   // ?clubId=66&offset=0&limit=10
+    private fun getProfile() {
+        val dialog = CusDialogProg(this@ProfileActivity)
+        dialog.show()   // ?clubId=66&offset=0&limit=10
         object : VolleyGetPost(this@ProfileActivity,
-                    WebService.get_profile+"?userId="+profile!!.userId
-                        ,true) {
+                WebService.get_profile + "?userId=" + profile!!.userId
+                , true) {
 
             override fun onVolleyResponse(response: String?) {
                 try {
-                     dialog.dismiss()
+                    dialog.dismiss()
                     Log.d("profile", response)
                     val obj = JSONObject(response)
-                    if (obj.getString("status")=="success") {
+                    if (obj.getString("status") == "success") {
                         profile = Gson().fromJson(obj.getString("data"), Profile::class.java)
                         updateView()
                     }
                 } catch (ex: Exception) {
-                     Util.showToast(R.string.swr, this@ProfileActivity)
+                    Util.showToast(R.string.swr, this@ProfileActivity)
                 }
             }
 
-            override fun onVolleyError(error: VolleyError?) { dialog.dismiss(); }
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss(); }
 
-            override fun onNetError() { dialog.dismiss()}
+            override fun onNetError() {
+                dialog.dismiss()
+            }
 
             override fun setParams(params: MutableMap<String, String>?): MutableMap<String, String> {
                 return params!!
@@ -232,7 +248,7 @@ class ProfileActivity : AppCompatActivity() , AppBarLayout.OnOffsetChangedListen
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["authToken"] = ClubZ.currentUser!!.auth_token
-                params["language"] = SessionManager.getObj().getLanguage()
+                params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()

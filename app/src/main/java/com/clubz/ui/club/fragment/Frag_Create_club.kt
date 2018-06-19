@@ -32,7 +32,7 @@ import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.data.model.Club_Category
 import com.clubz.ui.core.BaseFragment
-import com.clubz.ui.newsfeed.fragment.Frag_News_List
+import com.clubz.ui.newsfeed.fragment.FragNewsList
 import com.clubz.ui.main.HomeActivity
 import com.clubz.utils.*
 import com.google.android.gms.common.api.Status
@@ -353,7 +353,7 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
                     val obj = JSONObject(data)
                     if(obj.getString("status").equals("success")){
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
-                        activity.replaceFragment(Frag_News_List())
+                        activity.replaceFragment(FragNewsList())
                     }else{
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
