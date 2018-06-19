@@ -522,13 +522,7 @@
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_14sdp" />
 
-                                <android.support.v7.widget.AppCompatImageView
-                                    android:layout_width="@dimen/_12sdp"
-                                    android:layout_height="@dimen/_12sdp"
-                                    android:layout_marginLeft="@dimen/_5sdp"
-                                    android:layout_toRightOf="@id/leadby"
-                                    android:scaleType="fitCenter"
-                                    app:srcCompat="@drawable/ic_down_arrow" />
+
                             </LinearLayout>
 
                             <android.support.v7.widget.AppCompatTextView
@@ -540,9 +534,10 @@
                                 android:layout_toRightOf="@id/leadLay"
                                 android:fontFamily="@font/teko_semibold"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/_14sdp" />
+                                android:textSize="@dimen/_14sdp"
+                                android:text=""/>
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/usrerole"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -553,12 +548,14 @@
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:fontFamily="@font/roboto_light"
                                 android:hint="@string/user_role"
+                                android:text="@string/user_role_txt"
                                 android:inputType="textCapSentences"
                                 android:maxLength="38"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
                                 android:textColorHint="#666666"
-                                android:textSize="@dimen/_12sdp" />
+                                android:textSize="@dimen/_12sdp"
+                                />
 
                             <View
                                 android:layout_width="wrap_content"

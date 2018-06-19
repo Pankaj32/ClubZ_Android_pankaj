@@ -1,6 +1,7 @@
 package com.clubz.ui.user_activities.activity
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -44,6 +45,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_new_activities.*
 import org.json.JSONObject
 import java.io.File
@@ -65,6 +67,9 @@ class NewActivities : BaseActivity(), View.OnClickListener {
     var longitute: String = ""
     var imageUri: Uri? = null
     var activityImage: Bitmap? = null
+    private var userId = ""
+    private var userName = ""
+    private var userImage = ""
     lateinit var autocompleteFragment: PlaceAutocompleteFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,12 +83,18 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         activityLeaderList = ArrayList()
         activityMyClubList = ArrayList()
         feestypeList = ArrayList()
+        userId = ClubZ.currentUser!!.id
+        userName = ClubZ.currentUser!!.full_name
+        userImage = ClubZ.currentUser!!.profile_image
+        if (!TextUtils.isEmpty(userImage)) {
+            Picasso.with(image_member2.context).load(userImage).into(image_member2)
+        }
+        username.text = userName
         addLeader()
 
         val clubListBean = GetMyClubResponce.DataBean()
         clubListBean.club_name = "Activity Club"
         activityMyClubList!!.add(clubListBean)
-
         feestypeList!!.add("Fees type")
         feestypeList!!.add("Fixed")
         feestypeList!!.add("Voluntary")
@@ -151,18 +162,29 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             }
         })
 
-        spinnerFeesType.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        spinnerFeesType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (p2 == 0) {
-                    feesType = ""
-                } else {
-                    feesType = feestypeList!![p2]
-                }
-            }
-        })
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) =
+                    if (p2 == 0) {
+                        feesType = ""
+                        fees.isEnabled = true
+                        /*fees.setFocusable(true)
+                        fees.setClickable(true)*/
+                    } else if (p2 == 3) {
+                        /*fees.setFocusable(false)
+                        fees.setClickable(true)*/
+                        fees.isEnabled = false
+                        feesType = feestypeList!![p2]
+                        fees.setText("")
+                    } else {
+                        feesType = feestypeList!![p2]
+                        fees.isEnabled = true
+                        /*fees.setFocusable(true)
+                        fees.setClickable(true)*/
+                    }
+        }
         spinnerClub.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
@@ -375,14 +397,14 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             Util.showSnake(this, mainLayout!!, R.string.a_actImg)
             return false
         }
-        /*if (TextUtils.isEmpty(clubId)) {
+        if (TextUtils.isEmpty(clubId)) {
             Util.showSnake(this, mainLayout!!, R.string.a_actClub)
             return false
         }
-        if (TextUtils.isEmpty(activityLeader)) {
-            Util.showSnake(this, mainLayout!!, R.string.a_actLeader)
-            return false
-        }*/
+        /* if (TextUtils.isEmpty(activityLeader)) {
+             Util.showSnake(this, mainLayout!!, R.string.a_actLeader)
+             return false
+         }*/
         if (activityLocation.text.toString().isBlank()) {
             Util.showSnake(this, mainLayout!!, R.string.a_actLoc)
             return false
@@ -391,9 +413,11 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             Util.showSnake(this, mainLayout!!, R.string.a_actFeesType)
             return false
         }
-        if (fees.text.toString().isBlank()) {
-            Util.showSnake(this, mainLayout!!, R.string.a_actfee)
-            return false
+        if(!feesType.equals("Free")){
+            if (fees.text.toString().isBlank()) {
+                Util.showSnake(this, mainLayout!!, R.string.a_actfee)
+                return false
+            }
         }
         if (minUser.text.toString().isBlank()) {
             Util.showSnake(this, mainLayout!!, R.string.a_actmin)
@@ -430,7 +454,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 try {
                     val obj = JSONObject(data)
                     if (obj.getString("status").equals("success")) {
-                       /* Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
+                        /* Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
                         var clubResponce: GetMyClubResponce = Gson().fromJson(data, GetMyClubResponce::class.java)
                         for (dataBean in clubResponce.getData()!!) {
                             activityMyClubList!!.add(dataBean)

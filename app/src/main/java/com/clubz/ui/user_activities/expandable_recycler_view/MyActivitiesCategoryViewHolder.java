@@ -47,6 +47,23 @@ public class MyActivitiesCategoryViewHolder extends ParentViewHolder {
         itemJoin.setVisibility(View.GONE);
         itemLike.setVisibility(View.GONE);
         itemChat.setVisibility(View.GONE);
+
+        mArrowExpandImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isExpanded()) {
+                    collapseView();
+                } else {
+                    expandView();
+                }
+            }
+        });
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentViewClickListioner.onItemClick(position, "today");
+            }
+        });
     }
 
     @Override

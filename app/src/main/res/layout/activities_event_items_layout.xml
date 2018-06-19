@@ -23,7 +23,7 @@
             android:fontFamily="@font/teko_regular"
             android:text=""
             android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,9 +38,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/teko_regular"
             android:paddingLeft="@dimen/_5sdp"
-            android:text=""
+            android:text="12:58 P.M"
             android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,7 +58,7 @@
             android:singleLine="true"
             android:text="Lession "
             android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +74,7 @@
             android:fontFamily="@font/teko_regular"
             android:text=""
             android:textColor="@color/black"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -90,7 +90,7 @@
             android:fontFamily="@font/teko_regular"
             android:text="7/10"
             android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
     <LinearLayout

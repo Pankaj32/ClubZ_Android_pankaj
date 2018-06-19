@@ -3,6 +3,7 @@ package com.clubz.ui.user_activities.fragment
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -22,6 +23,7 @@ import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.user_activities.activity.ActivitiesDetails
 import com.clubz.ui.user_activities.adapter.ConfirmAffiliatesAdapter
 import com.clubz.ui.user_activities.adapter.JoinAffiliatesAdapter
 import com.clubz.ui.user_activities.expandable_recycler_view.*
@@ -430,7 +432,8 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         //Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(position: Int, type: String) {
+        startActivity(Intent(mContext, ActivitiesDetails::class.java))
     }
 
     override fun onItemLike(position: Int, type: String) {

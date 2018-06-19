@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 public interface ParentViewClickListioner {
     void onItemMenuClick(int position, ImageView itemMenu);
-    void onItemClick(int position);
+    void onItemClick(int position,String type);
     void onItemLike(int position,String type);
     void onItemChat(int position);
     void onItemJoin(int position,String type);
