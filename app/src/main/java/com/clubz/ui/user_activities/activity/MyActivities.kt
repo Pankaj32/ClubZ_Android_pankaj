@@ -38,6 +38,7 @@ import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.*
+import com.clubz.ClubZ
 import com.clubz.utils.Util
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
@@ -69,13 +70,13 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
     var longitute = ""
     val REQUEST_CODE_AUTOCOMPLETE: Int = 1000
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_activities)
         recyclerViewMyActivities.layoutManager = LinearLayoutManager(this@MyActivities)
         back_f.setOnClickListener(this@MyActivities)
         addActivity.setOnClickListener(this@MyActivities)
-        //   val display = getWindowManager().getDefaultDisplay()
 
         val diametric = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(diametric)
@@ -170,7 +171,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
         showPopup(itemMenu, position)
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(position: Int,type: String) {
         startActivity(Intent(this@MyActivities, ActivitiesDetails::class.java))
     }
 
@@ -242,9 +243,9 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
                 showConfirmationDialog(hideUnhide!!)
                 return true
             }
-            R.id.disableNotification -> {
+            /*R.id.disableNotification -> {
                 return true
-            }
+            }*/
             else -> return false
         }
     }
@@ -357,7 +358,6 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params.put("activityId", activityId)
-
                 return params
             }
 
@@ -470,7 +470,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
                 addDateTxt.setText(Util.convertDate("$year-$month-$day"))
             }
         }, year, month, day)
-        // datepickerdialog.datePicker.maxDate = System.currentTimeMillis() - 1000
+         datepickerdialog.datePicker.minDate = System.currentTimeMillis() - 1000
         datepickerdialog.window!!.setBackgroundDrawableResource(R.color.white)
 
         datepickerdialog.show()

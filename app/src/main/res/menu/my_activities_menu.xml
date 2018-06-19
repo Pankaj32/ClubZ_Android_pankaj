@@ -16,9 +16,9 @@
         android:icon="@drawable/ic_visibility_off"
         android:iconTint="@color/text_color_gray"
         android:title="@string/hide_activity" />
-    <item
+   <!-- <item
         android:id="@+id/disableNotification"
         android:icon="@drawable/ic_notifications_off"
         android:iconTint="@color/text_color_gray"
-        android:title="@string/disable_notification" />
+        android:title="@string/disable_notification" />-->
 </menu>

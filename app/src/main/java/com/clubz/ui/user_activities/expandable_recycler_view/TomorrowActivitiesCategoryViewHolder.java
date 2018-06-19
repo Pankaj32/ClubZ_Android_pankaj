@@ -16,7 +16,7 @@ public class TomorrowActivitiesCategoryViewHolder extends ParentViewHolder {
     private static final float INITIAL_POSITION = 0.0f;
     private static final float ROTATED_POSITION = 180f;
 
-    private final ImageView mArrowExpandImageView, itemMenu, itemJoin, itemLike, activityImge,itemChat;
+    private final ImageView mArrowExpandImageView, itemMenu, itemJoin, itemLike, activityImge, itemChat;
     private TextView clubName, activityName;
 
     public TomorrowActivitiesCategoryViewHolder(View itemView) {
@@ -39,11 +39,13 @@ public class TomorrowActivitiesCategoryViewHolder extends ParentViewHolder {
         clubName.setText(activities.getClub_name());
         itemMenu.setVisibility(View.GONE);
         itemChat.setVisibility(View.GONE);
-        itemJoin.setVisibility(View.GONE);
+        // itemJoin.setVisibility(View.GONE);
         if (activities.is_Confirm()) {
+            itemJoin.setVisibility(View.VISIBLE);
             itemJoin.setImageResource(R.drawable.hand_ico);
         } else {
-            itemJoin.setImageResource(R.drawable.ic_inactive_hand_ico);
+            itemJoin.setVisibility(View.GONE);
+            //   itemJoin.setImageResource(R.drawable.ic_inactive_hand_ico);
         }
         if (activities.is_like().equals("1")) {
             itemLike.setImageResource(R.drawable.active_heart_ico);
@@ -60,6 +62,22 @@ public class TomorrowActivitiesCategoryViewHolder extends ParentViewHolder {
             @Override
             public void onClick(View view) {
                 parentViewClickListioner.onItemLike(position, "tomorrow");
+            }
+        });
+        mArrowExpandImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isExpanded()) {
+                    collapseView();
+                } else {
+                    expandView();
+                }
+            }
+        });
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentViewClickListioner.onItemClick(position, "today");
             }
         });
     }

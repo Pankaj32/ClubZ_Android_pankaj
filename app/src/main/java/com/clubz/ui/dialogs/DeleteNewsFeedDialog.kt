@@ -38,7 +38,6 @@ abstract class DeleteNewsFeedDialog (internal val context: Context) : Dialog(con
         mCancel.setOnClickListener(this)
         mLeaveClub.setOnClickListener(this)
     }
-
     abstract fun onCloseClicked(dialog : DeleteNewsFeedDialog)
     abstract fun onDeleteNewsFeed(dialog : DeleteNewsFeedDialog)
 }
