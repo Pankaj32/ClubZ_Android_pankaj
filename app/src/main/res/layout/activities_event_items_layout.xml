@@ -23,13 +23,13 @@
             android:fontFamily="@font/teko_regular"
             android:text=""
             android:textColor="@color/black"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight=".15"
+        android:layout_weight=".2"
         android:gravity="center_vertical">
 
         <TextView
@@ -40,13 +40,13 @@
             android:paddingLeft="@dimen/_5sdp"
             android:text="12:58 P.M"
             android:textColor="@color/black"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight=".4"
+        android:layout_weight=".37"
         android:gravity="center_vertical">
 
         <TextView
@@ -58,7 +58,7 @@
             android:singleLine="true"
             android:text="Lession "
             android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +74,7 @@
             android:fontFamily="@font/teko_regular"
             android:text=""
             android:textColor="@color/black"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -90,7 +90,7 @@
             android:fontFamily="@font/teko_regular"
             android:text="7/10"
             android:textColor="@color/black"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout

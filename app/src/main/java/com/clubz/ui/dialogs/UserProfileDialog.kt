@@ -70,7 +70,13 @@ abstract class UserProfileDialog(internal val context: Context, val member: Club
 
         tv_FullName.setText(member.getNickname())
         tv_FullName.isEnabled = false
-        ivEdit.visibility = if(isEditable) View.VISIBLE else View.GONE
+        //ivEdit.visibility = if(isEditable) View.VISIBLE else View.GONE
+
+        if(isEditable){
+            ivEdit.visibility =  View.VISIBLE
+        }else{
+            ivEdit.visibility =  View.GONE
+        }
 
         ic_call.setOnClickListener(this)
         ic_chat.setOnClickListener(this)

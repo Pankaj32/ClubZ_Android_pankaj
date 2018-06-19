@@ -74,7 +74,7 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
         recycler_potential_search.layoutManager = LinearLayoutManager(context)
         recycler_potential_search.addItemDecoration(SimpleDividerItemDecoration(context))
 
-       adapter = object : Potential_Search_Adapter(context, searchList, activity as HomeActivity){
+        adapter = object : Potential_Search_Adapter(context, searchList, activity as HomeActivity){
             override fun onItemClick(serch_obj: Club_Potential_search) {
                 search_layout.visibility = View.GONE
                 searchClubs(serch_obj.club_name ,true)

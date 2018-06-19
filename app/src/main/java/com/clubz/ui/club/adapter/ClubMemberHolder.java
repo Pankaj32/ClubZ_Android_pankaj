@@ -36,7 +36,7 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder{
         }*/
 
 
-        UserProfileDialog dialog = new UserProfileDialog(mContext, member, true) {
+        UserProfileDialog dialog = new UserProfileDialog(mContext, member, canEditNickName()) {
             @Override
             public void onProfileUpdate(String name) {
                 member.setUser_nickname(name);
@@ -74,6 +74,7 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder{
 
     protected abstract ClubMember getProfile();
     protected abstract void notyfyData(int pos);
+    protected abstract boolean canEditNickName();
 
     private void showToast(String text){
         Toast.makeText(mContext,  text, Toast.LENGTH_SHORT).show();

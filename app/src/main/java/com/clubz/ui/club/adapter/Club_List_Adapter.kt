@@ -231,6 +231,7 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
                 try{
                     val obj = JSONObject(response)
                     if(obj.getString("status").equals("success")){
+                        ClubZ.isNeedToUpdateNewsFeed = true
 
                         if(club.club_type.equals("1") && clubUserStatus.equals("1")){
                             club.is_allow_feeds = ""
