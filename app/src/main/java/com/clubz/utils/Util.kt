@@ -111,8 +111,6 @@ class Util {
             }
 
         }
-
-
         private val INITIAL_POSITION = 0.0f
         private val ROTATED_POSITION = 180f
         public fun setRotation(imgView: ImageView, expanded: Boolean) {

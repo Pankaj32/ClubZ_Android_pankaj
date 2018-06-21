@@ -58,6 +58,7 @@ class WebService {
         val confirmActivity      = base_Url +"service/activity/confirmActivity"
         val getuserJoinAffiliates= base_Url +"service/activity/userJoinAffiliates"
         val getuserConfirmAffiliates= base_Url +"service/activity/userConfirmAffiliates"
+        val getActivityDetails= base_Url +"service/activity/activityDetail"
 
     }
 
