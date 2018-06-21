@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.text.Editable
@@ -86,8 +87,13 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         userId = ClubZ.currentUser!!.id
         userName = ClubZ.currentUser!!.full_name
         userImage = ClubZ.currentUser!!.profile_image
-        if (!TextUtils.isEmpty(userImage)) {
+        if (userImage.isNotEmpty()) {
             Picasso.with(image_member2.context).load(userImage).into(image_member2)
+        }else {
+            val padding =  resources.getDimension(R.dimen._8sdp).toInt()
+            image_member2.setPadding(padding,padding,padding,padding)
+            image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
+            image_member2.setImageResource(R.drawable.ic_user_shape)
         }
         username.text = userName
         addLeader()

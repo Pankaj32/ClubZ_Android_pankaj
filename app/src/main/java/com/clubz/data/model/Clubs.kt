@@ -10,6 +10,7 @@ import java.io.Serializable
 class Clubs :Serializable {
     var clubId = "";
     var user_id = ""
+    var clubUserId = ""
     var club_name = ""
     var club_description = ""
     var club_image = ""

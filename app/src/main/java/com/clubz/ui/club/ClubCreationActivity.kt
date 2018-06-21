@@ -1,6 +1,7 @@
 package com.clubz.ui.club
 
 import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -375,6 +376,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 try {
                     val obj = JSONObject(data)
                     if(obj.getString("status").equals("success")){
+                        setResult(Activity.RESULT_OK)
                         Toast.makeText(this@ClubCreationActivity,obj.getString("message"), Toast.LENGTH_LONG).show()
                        finish()
                     }else{

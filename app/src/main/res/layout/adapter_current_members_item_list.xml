@@ -10,13 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="5dp">
+        android:padding="@dimen/_5sdp">
 
         <com.github.siyamed.shapeimageview.CircularImageView
             android:id="@+id/iv_profileImage"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:src="@drawable/ic_user_white"
+            android:layout_margin="@dimen/_3sdp"
             android:background="@drawable/bg_circle_blue"/>
 
         <LinearLayout

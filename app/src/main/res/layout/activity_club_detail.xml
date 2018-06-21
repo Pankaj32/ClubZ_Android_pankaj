@@ -57,7 +57,11 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
             style="@style/tabtext"
-            android:background="@color/primaryColor"/>
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            android:background="@color/primaryColor"
+            app:tabBackground="@color/primaryColor"
+           />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager_cd"

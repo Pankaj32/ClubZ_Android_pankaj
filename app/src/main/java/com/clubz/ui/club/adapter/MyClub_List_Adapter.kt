@@ -46,12 +46,14 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
     }
 
     override fun getItemViewType(position: Int): Int {
-        if(isMyClub){
+        return if(this.isMyClub){
             val obj = list.get(position)
-            if(obj.user_id.equals(ClubZ.currentUser?.id))
-                return 0
-            else return 1
-        }else return 1
+            when {
+                obj.user_id == ClubZ.currentUser?.id -> 0
+                obj.club_type == "3" -> 0
+                else -> 1
+            }
+        }else 1
     }
 
     @SuppressLint("SetTextI18n")
@@ -61,7 +63,7 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
         if(h is MyClubHolder){
             val holder : MyClubHolder = h
             holder.tvname.setText(obj.club_name)
-            holder.leadby.setText( if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name)
+            holder.leadby.text = if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name
             holder.status.setText(if(obj.club_type=="2") R.string.Private else R.string.Public)
             Picasso.with(holder.image_club.context)
                     .load(obj.club_icon)
@@ -71,9 +73,9 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
         }else if(h is Holder){
 
             val holder : Holder = h
-            holder.tvname.setText(obj.club_name)
-            holder.leadby.setText( if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name)
-            holder.body_des.setText(obj.club_description)
+            holder.tvname.text = obj.club_name
+            holder.leadby.text = if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name
+            holder.body_des.text = obj.club_description
             holder.members.text = obj.members+" "+context.getString(R.string.members)
 
             if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0){
@@ -81,7 +83,7 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
             }
             else {
                 try {
-                    holder.distance.setText(" ${(Util.getDistanceMile(arrayOf(ClubZ.latitude, ClubZ.longitude,obj.club_latitude.toDouble() , obj.club_longitude.toDouble()))*1.60934).toInt()} Km");
+                    holder.distance.text = " ${(Util.getDistanceMile(arrayOf(ClubZ.latitude, ClubZ.longitude,obj.club_latitude.toDouble() , obj.club_longitude.toDouble()))*1.60934).toInt()} Km";
                 }catch (ex :Exception){}
             }
 
@@ -101,34 +103,34 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
             else{
                 //holder.switch1.visibility = View.VISIBLE
                 holder.btn_join.visibility = View.VISIBLE
-                holder.switch1.visibility = if(obj.club_user_status.equals("1")) View.VISIBLE else View.GONE
+                holder.switch1.visibility = if(obj.club_user_status == "1") View.VISIBLE else View.GONE
                 // emtpty means no action performed yet, 0 = pending for approvial by Club admin , 1 = Joined club
                 // obj.club_type 1 = public club and 2 = private club
                 if(obj.club_type.equals("1") && obj.club_user_status.isBlank()){
                     // holder.btn_join.setText(if(obj.club_type.equals("1"))R.string.join else R.string.req_join)
                     holder.btn_join.text = context.getString(R.string.join)
 
-                }else if(obj.club_type.equals("1") && obj.club_user_status.equals("1")){
+                }else if(obj.club_type.equals("1") && obj.club_user_status == "1"){
                     holder.btn_join.text = context.getString(R.string.leave)
 
-                }else if(obj.club_type.equals("2") && obj.club_user_status.isBlank()){
+                }else if(obj.club_type == "2" && obj.club_user_status.isBlank()){
                     holder.btn_join.text = context.getString(R.string.req_join)
 
-                }else if(obj.club_type.equals("2") && obj.club_user_status.equals("0")){
+                }else if(obj.club_type == "2" && obj.club_user_status == "0"){
                     holder.btn_join.text = context.getString(R.string.dismiss)
 
-                }else if(obj.club_type.equals("2") && obj.club_user_status.equals("1")){
+                }else if(obj.club_type == "2" && obj.club_user_status == "1"){
                     holder.btn_join.text = context.getString(R.string.leave)
 
                 }else if(obj.club_type.equals("3")){
                     holder.btn_join.visibility = View.GONE
                 }
 
-                holder.switch1.isChecked = !obj.is_allow_feeds.equals("0")
+                holder.switch1.isChecked = obj.is_allow_feeds != "0"
                 // holder.switch1.isEnabled = obj.club_user_status.equals("1")
             }
 
-            holder.img_status.setImageResource(if(obj.club_type.equals("1")) R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
+            holder.img_status.setImageResource(if(obj.club_type == "1") R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
             //holder.status.setText(if(obj.club_type.equals("1")) R.string.Public else R.string.Private)
             holder.status.setText(if(obj.club_type=="2") R.string.Private else R.string.Public)
             try {
@@ -155,7 +157,7 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
     }
 
     override fun getItemCount(): Int {
-        return list.size;
+        return list.size
     }
 
 
@@ -205,6 +207,11 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
             }
         }
 
+        holder.switch1.setOnClickListener(View.OnClickListener {
+            val pos = holder.adapterPosition
+            listner?.onSilenceClub(list.get(pos), pos)
+        })
+
         holder.switch1.setOnCheckedChangeListener( object : CompoundButton.OnCheckedChangeListener{
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
 
@@ -212,7 +219,7 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
         })
     }
 
-    fun setUpClick(holder: MyClubHolder){
+    private fun setUpClick(holder: MyClubHolder){
         holder.itemView.setOnClickListener {
             val pos = holder.adapterPosition
             val club = list.get(pos)
@@ -220,15 +227,15 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
         }
     }
 
-    fun showLeaveConfirationDialog(club : Clubs, pos : Int){
+    private fun showLeaveConfirationDialog(club : Clubs, pos : Int){
         object : LeaveClubDialog(context) {
             override fun onLeaveClubClicked() {
-                this.dismiss();
+                this.dismiss()
                 joinClub(club, pos)
             }
 
             override fun onCloseClicked() {
-                this.dismiss();
+                this.dismiss()
             }
         }.show()
     }
@@ -335,4 +342,5 @@ class MyClub_List_Adapter(internal var list : ArrayList<Clubs>,
 }  interface MyClub{
     fun onJoinedClub(club : Clubs)
     fun onLeavedClub(club : Clubs)
+    fun onSilenceClub(club : Clubs, position: Int)
 }

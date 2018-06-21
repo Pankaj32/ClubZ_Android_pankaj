@@ -148,6 +148,11 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
             notifyItemChanged(pos);
         }
 
+        @Override
+        protected boolean canEditNickName() {
+            return true;
+        }
+
 
         public void setSwitchClick() {
 

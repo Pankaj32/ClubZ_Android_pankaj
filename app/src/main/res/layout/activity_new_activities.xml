@@ -493,15 +493,14 @@
                             android:paddingBottom="@dimen/_8sdp"
                             android:paddingTop="@dimen/_8sdp">
 
-                            <android.support.v7.widget.AppCompatImageView
+                            <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/image_member2"
                                 android:layout_width="@dimen/_40sdp"
                                 android:layout_height="@dimen/_40sdp"
                                 android:background="@drawable/bg_circle_blue"
-                                android:padding="@dimen/_8sdp"
                                 app:siBorderColor="@color/text_gray"
                                 app:siBorderWidth="@dimen/_1sdp"
-                                app:srcCompat="@drawable/ic_user_shape" />
+                                android:src="@drawable/ic_user_shape" />
 
                             <LinearLayout
                                 android:id="@+id/leadLay"

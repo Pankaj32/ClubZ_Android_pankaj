@@ -63,6 +63,7 @@ import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
+import java.util.*
 
 class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
@@ -172,7 +173,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
 
         mDrawerLayout.setDrawerListener(mDrawerToggle)
-        mDrawerLayout.setScrimColor(resources.getColor(android.R.color.transparent));
+        mDrawerLayout.setScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
 
         search_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -337,7 +338,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         })
     }
 
-    fun updateMyNewsFeed(){
+    private fun updateMyNewsFeed(){
         if(ifNeedTocallApi){
             ifNeedTocallApi = false
             val fragemet : List<Fragment> = supportFragmentManager.fragments
@@ -364,6 +365,13 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 for (view in arrayOf(title_tv, bubble_menu, menu)) view.visibility = View.VISIBLE
                // for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.GONE
                 title_tv.setText(R.string.t_stay_up)
+
+                if(ClubZ.isNeedToUpdateNewsFeed) {
+                    ClubZ.isNeedToUpdateNewsFeed = false
+                    ifNeedTocallApi = true
+                    updateMyNewsFeed()
+
+                }
             }
 
             Frag_Create_club::class.java.simpleName -> {

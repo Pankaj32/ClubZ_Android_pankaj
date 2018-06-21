@@ -90,5 +90,10 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
         protected void notyfyData(int pos) {
             notifyItemChanged(pos);
         }
+
+        @Override
+        protected boolean canEditNickName() {
+            return false;
+        }
     }
 }

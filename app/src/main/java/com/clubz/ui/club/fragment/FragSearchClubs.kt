@@ -34,6 +34,8 @@ import java.util.ArrayList
 
 
 class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefreshListener, MyClub {
+    override fun onSilenceClub(club: Clubs, position: Int) {
+    }
 
     var adapter : MyClub_List_Adapter? = null
     var clubList : ArrayList<Clubs> = arrayListOf()

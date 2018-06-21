@@ -64,6 +64,13 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         tablayout.setupWithViewPager(viewPager)
         viewPager.addOnPageChangeListener(this)
 
+        /*floating_search_view.setOnQueryChangeListener { oldQuery, newQuery ->
+            searchList.clear()
+            searchClubsName(newQuery)
+            searchAdapter?.setCurrentText(newQuery)
+        }*/
+
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 searchListner!!.onTextChange(query!!)
@@ -222,6 +229,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 searchView.clearFocus()
                 searchView.visibility = View.GONE
                 search_layout.visibility = View.GONE
+                //floating_search_view.visibility = View.GONE
                 addsymbol.visibility = View.VISIBLE
                 bubble_menu.visibility = View.VISIBLE
                 headerTxt.visibility = View.VISIBLE
@@ -231,6 +239,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 searchView.clearFocus()
                 searchView.visibility = View.GONE
                 search_layout.visibility = View.GONE
+                //floating_search_view.visibility = View.GONE
                 addsymbol.visibility = View.VISIBLE
                 bubble_menu.visibility = View.VISIBLE
                 headerTxt.visibility = View.VISIBLE
@@ -240,11 +249,13 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 addsymbol.visibility = View.GONE
                 bubble_menu.visibility = View.GONE
                 headerTxt.visibility = View.GONE
-                searchView.visibility = View.VISIBLE
+                //
                 search_layout.visibility = View.VISIBLE
                 recycleView.visibility = View.VISIBLE
+                //floating_search_view.visibility = View.VISIBLE
                 searchList.clear()
                 searchAdapter?.notifyDataSetChanged()
+                searchView.visibility = View.VISIBLE
                 searchView.queryHint = ""
                 searchView.setIconifiedByDefault(true)
                 searchView.isFocusable = true
@@ -303,6 +314,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                         searchList.addAll(Gson().fromJson<ArrayList<Club_Potential_search>>(obj.getString("data"),
                                 Type_Token.potential_list))
                     }
+                    //floating_search_view.swapSuggestions(searchList)
                     searchAdapter?.notifyDataSetChanged()
                 }catch (ex: Exception){
                     ex.printStackTrace()
