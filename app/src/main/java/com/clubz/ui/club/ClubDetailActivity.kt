@@ -1,5 +1,6 @@
 package com.clubz.ui.club
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -31,36 +32,41 @@ private const val INTENT_CLUBZ = "clubz"
 
 class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
 
-    lateinit var clubz : Clubs;
+    lateinit var clubz : Clubs
     lateinit var adapter : ViewPagerAdapter
     var dialog : Dialog? = null
 
-    fun newIntent(context: Context, clubz : Clubs): Intent {
+   /* fun newIntent(context: Context, clubz : Clubs): Intent {
         val intent = Intent(context, ClubDetailActivity::class.java)
         intent.putExtra(INTENT_CLUBZ, clubz)
         return intent
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_club_detail)
 
-        val intent = getIntent()
         clubz = intent!!.extras.getSerializable("clubz") as Clubs
         requireNotNull(clubz) { "no user_id provided in Intent extras" }
 
         title_tv.text = clubz.club_name
         for (views in arrayOf(backBtn, bubble_menu)) views.setOnClickListener(this)
         setViewPager(view_pager_cd)
-        tablayout_cd.setupWithViewPager(view_pager_cd)
-
-        bubble_menu.visibility = if(clubz.user_id.equals(ClubZ.currentUser?.id)) View.VISIBLE else View.GONE
+        bubble_menu.visibility = if(clubz.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE
     }
 
-    fun setViewPager(viewPager: ViewPager) {
+    private fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment( Frag_ClubDetails_1().setData(clubz),resources.getString(R.string.t_detils) , " This is First")
-        adapter.addFragment( Frag_ClubDetails_2().setData(clubz),resources.getString(R.string.t_members) , " This is second")
+        if(clubz.user_id==ClubZ.currentUser!!.id){
+
+            adapter.addFragment( Frag_ClubDetails_2().setData(clubz),resources.getString(R.string.t_members) , " This is second")
+            tablayout_cd.setupWithViewPager(view_pager_cd)
+
+        }else {
+            tablayout_cd.setSelectedTabIndicatorHeight(0)
+            tablayout_cd.visibility = View.GONE
+        }
         viewPager.adapter = adapter
     }
 
@@ -85,17 +91,18 @@ class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
+    @SuppressLint("RtlHardcoded")
     private fun showDialog(){
 
         if(dialog==null){
             dialog = Dialog(this)
             dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
-            val dialogWindow = dialog?.getWindow()
-            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+            val dialogWindow = dialog?.window
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog?.setContentView(R.layout.dialog_clubdetail_menu)
 
-            val lp = dialogWindow?.getAttributes()
+            val lp = dialogWindow?.attributes
             dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
             lp?.y = -100
             dialogWindow?.attributes = lp
@@ -104,6 +111,6 @@ class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
             for (views in arrayOf(dialog?.menuCreateNewsFeed, dialog?.menuEditNewsFeed))
                 views?.setOnClickListener(this)
         }
-        dialog?.show();
+        dialog?.show()
     }
 }

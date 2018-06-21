@@ -26,6 +26,7 @@ class WebService {
         val club_member_list = base_Url +"service/club/getClubMembers" // ?clubId=66&offset=0&limit=10
         val club_my_clubs = base_Url +"service/club/myClubs"
         val club_updateMemberStatus = base_Url +"service/club/updateClubMemberStatus"
+        val club_silence = base_Url +"service/club/updateAllowFeedStatus"
         val club_member_action = base_Url +"service/club/answerClubRequest"
         val club_add_member_Tag = base_Url +"service/club/addUserTag"
         val club_search_clubs = base_Url +"service/club/searchClub"

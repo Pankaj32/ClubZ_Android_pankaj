@@ -39,13 +39,14 @@
                     android:text="@string/current_members"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_18sdp"
+                    android:layout_marginLeft="@dimen/_3sdp"
                     android:fontFamily="@font/teko_semibold"/>
 
 
                 <LinearLayout
                     android:id="@+id/ll_expand1"
                     android:layout_width="0dp"
-                    android:layout_weight=".38"
+                    android:layout_weight=".4"
                     android:gravity="right"
                     android:layout_height="wrap_content">
 
@@ -118,13 +119,14 @@
                     android:text="@string/applicants"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_18sdp"
+                    android:layout_marginLeft="@dimen/_3sdp"
                     android:fontFamily="@font/teko_semibold"/>
 
 
                 <LinearLayout
                     android:id="@+id/ll_expand2"
                     android:layout_width="0dp"
-                    android:layout_weight=".38"
+                    android:layout_weight=".4"
                     android:gravity="right"
                     android:layout_height="wrap_content">
 

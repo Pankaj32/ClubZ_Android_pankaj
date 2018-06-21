@@ -11,8 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.volley.VolleyError
+import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
-import com.clubz.ui.main.HomeActivity
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.helper.Type_Token
@@ -34,10 +34,10 @@ import java.util.ArrayList
 class FragMyClubs : Fragment() , View.OnClickListener,
         SwipeRefreshLayout.OnRefreshListener, MyClub {
 
-    var adapter : MyClub_List_Adapter? = null
-    var clubList : ArrayList<Clubs> = arrayListOf()
-    var listner : MyClubInteraction? = null
-    var pageListner : RecyclerViewScrollListener? = null
+    private var adapter : MyClub_List_Adapter? = null
+    private var clubList : ArrayList<Clubs> = arrayListOf()
+    private var listner : MyClubInteraction? = null
+    private var pageListner : RecyclerViewScrollListener? = null
 
     override fun onClick(v: View?) {
 
@@ -123,7 +123,7 @@ class FragMyClubs : Fragment() , View.OnClickListener,
                 try {
                     dialog.dismiss()
                     val obj = JSONObject(response)
-                    if(obj.getString("status").equals("success")){
+                    if(obj.getString("status") == "success"){
                         clubList.addAll(Gson().fromJson<ArrayList<Clubs>>(obj.getString("data"), Type_Token.club_list))
                     }
 
@@ -153,9 +153,47 @@ class FragMyClubs : Fragment() , View.OnClickListener,
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
                 return  params
             }
         }.execute()
     }
+
+
+    override fun onSilenceClub(club: Clubs, position : Int) {
+        val dialog = CusDialogProg(context)
+        dialog.show()   // ?clubId=66&offset=0&limit=10
+        object : VolleyGetPost(activity, WebService.club_silence, false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if (obj.getString("status") == "success") {
+
+                    }
+                } catch (ex: Exception) { }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+                dialog.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["clubUserId"] = club.clubUserId
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
+                return params
+            }
+        }.execute()
+    }
+
 }

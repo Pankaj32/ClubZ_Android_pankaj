@@ -32,6 +32,8 @@ import org.json.JSONObject
 import java.util.ArrayList
 
 class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, MyClub {
+    override fun onSilenceClub(club: Clubs, position: Int) {
+    }
 
     var adapter  : MyClub_List_Adapter? = null
     var clubList : ArrayList<Clubs> = arrayListOf()
