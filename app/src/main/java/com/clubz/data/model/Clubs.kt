@@ -34,7 +34,7 @@ class Clubs :Serializable {
     var club_category_name = ""
     var full_name = ""
     var club_user_status = ""
-    var members = "0"
+    var members : Int = 0
 
     @SerializedName("profile_image")
     var profile_image = ""
@@ -45,6 +45,6 @@ class Clubs :Serializable {
     /*
     * is_allow_feeds 1 = ON and 0 = OFF notifications
     */
-    var is_allow_feeds = "1"
+    var is_allow_feeds = ""
     var user_image = ""
 }

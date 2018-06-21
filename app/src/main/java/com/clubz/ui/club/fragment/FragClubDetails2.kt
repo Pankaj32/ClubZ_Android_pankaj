@@ -30,13 +30,13 @@ import org.json.JSONObject
 import android.widget.ImageView
 
 /**
- * Created by mindiii on २१/३/१८.
+ * Created by Dhrmraj Acharya on २१/३/१८.
  */
-class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubApplicant.Listner {
+class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubApplicant.Listner {
 
-    lateinit var clubz :Clubs;
+    lateinit var clubz :Clubs
     var adapterOwnClubMember : AdapterOwnClubMember? = null
-    var adapter_applicant : AdapterClubApplicant? = null
+    var adapterApplicant : AdapterClubApplicant? = null
     var adapterClubMember : AdapterClubMember? = null
 
     var memberList : List<ClubMember> = emptyList()
@@ -60,7 +60,7 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
 
         ll_expand1.setOnClickListener {
 
-            if(tv_expand1.text.equals(getString(R.string.collapsed))){
+            if(tv_expand1.text == getString(R.string.collapsed)){
                 tv_expand1.text = getString(R.string.expand)
                 setUpExpandAndCollapse(false, iv_expand1, cardViewMember)
                 rv_members.visibility = View.GONE
@@ -74,7 +74,7 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
 
         ll_expand2.setOnClickListener {
 
-            if(tv_expand2.text.equals(getString(R.string.collapsed))){
+            if(tv_expand2.text == getString(R.string.collapsed)){
                 tv_expand2.text = getString(R.string.expand)
                 rv_appcalints.visibility = View.GONE
                 setUpExpandAndCollapse(false, iv_expand2, cardViewApplicant)
@@ -86,7 +86,7 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
         }
     }
 
-    fun setUpExpandAndCollapse(flag: Boolean, imageView: ImageView, cardView: CardView){
+    private fun setUpExpandAndCollapse(flag: Boolean, imageView: ImageView, cardView: CardView){
         Util.setRotation(imageView, flag)
         if(flag){
             imageView.setImageResource(R.drawable.ic_drop_up_arrow)
@@ -104,22 +104,20 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
     }
 
 
-    fun setView(){
+    private fun setView(){
 
         rv_members.layoutManager = LinearLayoutManager(context)
-        if(clubz.user_id.equals(ClubZ.currentUser?.id)){
+        if(clubz.user_id == ClubZ.currentUser?.id){
 
             adapterOwnClubMember = object : AdapterOwnClubMember(context, memberList, this,
-                    !clubz.club_type.equals("1")){
+                    clubz.club_type != "1"){
             }
             rv_members.adapter = adapterOwnClubMember
 
             rv_appcalints.layoutManager = LinearLayoutManager(context)
-            //rv_appcalints.addItemDecoration(SimpleDividerItemDecoration(context))
-            adapter_applicant = object : AdapterClubApplicant(context, this){
-
+            adapterApplicant = object : AdapterClubApplicant(context, this){
             }
-            rv_appcalints.adapter = adapter_applicant
+            rv_appcalints.adapter = adapterApplicant
             getOwnClubMembers()
             getApplicants()
         }else{
@@ -133,29 +131,22 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
     }
 
     override fun onFocus() {
-
-        if(tv_expand2.text.equals(getString(R.string.collapsed))){
+        if(tv_expand2.text == getString(R.string.collapsed)){
             tv_expand2.text = getString(R.string.expand)
             rv_appcalints.visibility = View.GONE
             setUpExpandAndCollapse(false, iv_expand2, cardViewApplicant)
         }
-
-       /* rv_appcalints.visibility = View.GONE
-        val param = cardViewApplicant.layoutParams as LinearLayout.LayoutParams
-        param.weight = 0f
-        param.height = WRAP_CONTENT
-        param.apply {  }*/
     }
 
-    fun getOwnClubMembers(){
-        val dialog = CusDialogProg(context );
-        dialog.show();   // ?clubId=66&offset=0&limit=10
+    private fun getOwnClubMembers(){
+        val dialog = CusDialogProg(context )
+        dialog.show()   // ?clubId=66&offset=0&limit=10
         object : VolleyGetPost(activity,"${WebService.club_member_list}?clubId=${clubz.clubId}",true){
             override fun onVolleyResponse(response: String?) {
                 try {
-                    dialog.dismiss();
+                    dialog.dismiss()
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
+                    if (obj.getString("status") == "success") {
                         memberList = Gson().fromJson<List<ClubMember>>(obj.getString("data"), Type_Token.club_member_list)
                         adapterOwnClubMember?.setMemberList(memberList)
 
@@ -166,11 +157,11 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
             }
 
             override fun onVolleyError(error: VolleyError?) {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun onNetError() {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -178,8 +169,8 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().getUser().auth_token);
-                params.put("language", SessionManager.getObj().getLanguage());
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()
@@ -191,7 +182,7 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
                 try {
                     //dialog.dismiss();
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
+                    if (obj.getString("status") == "success") {
                         memberList = Gson().fromJson<List<ClubMember>>(obj.getString("data"), Type_Token.club_member_list)
                         adapterClubMember?.setMemberList(memberList)
                     }
@@ -209,34 +200,34 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().getUser().auth_token);
-                params.put("language", SessionManager.getObj().getLanguage());
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()
     }
 
-    fun getApplicants() {
-        val dialog = CusDialogProg(context);
-        dialog.show();   // ?clubId=66&offset=0&limit=10
+    private fun getApplicants() {
+        val dialog = CusDialogProg(context)
+        dialog.show()   // ?clubId=66&offset=0&limit=10
         object : VolleyGetPost(activity, "${WebService.club_applicant_list}?clubId=${clubz.clubId}", true) {
             override fun onVolleyResponse(response: String?) {
                 try {
-                    dialog.dismiss();
+                    dialog.dismiss()
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
+                    if (obj.getString("status") == "success") {
                         applicantList = Gson().fromJson<List<ClubMember>>(obj.getString("data"), Type_Token.club_member_list)
-                        adapter_applicant?.setApplicantList(applicantList)
+                        adapterApplicant?.setApplicantList(applicantList)
                     }
                 } catch (ex: Exception) { }
             }
 
             override fun onVolleyError(error: VolleyError?) {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun onNetError() {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -244,62 +235,62 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().getUser().auth_token);
-                params.put("language", SessionManager.getObj().getLanguage());
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()
     }
 
     override fun onUpdateClubMember(member: ClubMember?, pos: Int) {
-        val dialog = CusDialogProg(context);
-        dialog.show();   // ?clubId=66&offset=0&limit=10
+        val dialog = CusDialogProg(context)
+        dialog.show()   // ?clubId=66&offset=0&limit=10
         object : VolleyGetPost(activity, WebService.club_updateMemberStatus, false) {
             override fun onVolleyResponse(response: String?) {
                 try {
-                    dialog.dismiss();
+                    dialog.dismiss()
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
+                    if (obj.getString("status") == "success") {
                         member?.member_status = obj.getString("member_status")
                         adapterOwnClubMember?.updateMember(member, pos)
                     } else {
-                        Util.showToast(obj.getString("message"), context)
+                        Util.showToast(obj.getString("message") , context)
                     }
                 } catch (ex: Exception) { }
             }
 
             override fun onVolleyError(error: VolleyError?) {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun onNetError() {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("clubUserId",member!!.clubUserId);
+                params["clubUserId"] = member!!.clubUserId
                 return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().getUser().auth_token);
-                params.put("language", SessionManager.getObj().getLanguage());
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()
     }
 
     override fun onClickAction(member: ClubMember?, status: String?, pos: Int) {
-        val dialog = CusDialogProg(context);
-        dialog.show();   // ?clubId=66&offset=0&limit=10
+        val dialog = CusDialogProg(context)
+        dialog.show()   // ?clubId=66&offset=0&limit=10
         object : VolleyGetPost(activity, WebService.club_member_action, false) {
             override fun onVolleyResponse(response: String?) {
                 try {
-                    dialog.dismiss();
+                    dialog.dismiss()
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
-                        adapter_applicant?.removeApplicent(pos)
-                        if(clubz.user_id.equals(ClubZ.currentUser?.id)){
+                    if (obj.getString("status") == "success") {
+                        adapterApplicant?.removeApplicent(pos)
+                        if(clubz.user_id == ClubZ.currentUser?.id){
                             getOwnClubMembers()
                         }else getClubMembers()
 
@@ -310,37 +301,37 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
             }
 
             override fun onVolleyError(error: VolleyError?) {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun onNetError() {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("clubId",clubz.clubId);
-                params.put("userId",member!!.userId);
-                params.put("answerStatus", status!!);
+                params["clubId"] = clubz.clubId
+                params["userId"] = member!!.userId
+                params["answerStatus"] = status!!
                 return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().getUser().auth_token);
-                params.put("language", SessionManager.getObj().getLanguage());
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()
     }
 
     override fun onTagAdd(tag: String?, member: ClubMember?, pos: Int) {
-        val dialog = CusDialogProg(context);
-        dialog.show();
+        val dialog = CusDialogProg(context)
+        dialog.show()
         object : VolleyGetPost(activity, WebService.club_add_member_Tag, false) {
             override fun onVolleyResponse(response: String?) {
                 try {
-                    dialog.dismiss();
+                    dialog.dismiss()
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
+                    if (obj.getString("status") == "success") {
                         adapterOwnClubMember?.addTag(tag, pos)
 
                     } else {
@@ -352,23 +343,23 @@ class Frag_ClubDetails_2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClub
             }
 
             override fun onVolleyError(error: VolleyError?) {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun onNetError() {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("tagName", tag!!);
-                params.put("clubUserId",member!!.clubUserId);
-                params.put("userId",member!!.userId);
+                params["tagName"] = tag!!
+                params["clubUserId"] = member!!.clubUserId
+                params["userId"] = member.userId
                 return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().getUser().auth_token);
-                params.put("language", SessionManager.getObj().getLanguage());
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()

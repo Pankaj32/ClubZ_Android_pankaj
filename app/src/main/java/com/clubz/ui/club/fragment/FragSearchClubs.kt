@@ -1,7 +1,6 @@
 package com.clubz.ui.club.fragment
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -21,12 +20,11 @@ import com.clubz.data.remote.WebService
 import com.clubz.data.model.Clubs
 import com.clubz.ui.club.`interface`.SearchListner
 import com.clubz.ui.club.adapter.MyClub
-import com.clubz.ui.club.adapter.MyClub_List_Adapter
+import com.clubz.ui.club.adapter.MyClubListAdapter
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_clubs.*
 import kotlinx.android.synthetic.main.frag_my_clubs.*
 import kotlinx.android.synthetic.main.no_contant_layout.*
 import org.json.JSONObject
@@ -37,7 +35,7 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
     override fun onSilenceClub(club: Clubs, position: Int) {
     }
 
-    var adapter : MyClub_List_Adapter? = null
+    var adapter : MyClubListAdapter? = null
     var clubList : ArrayList<Clubs> = arrayListOf()
     var lastQuery : String? = ""
     var pageListner : RecyclerViewScrollListener? = null
@@ -51,12 +49,12 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
         super.onViewCreated(view, savedInstanceState)
         noFeedMsgUI.visibility = View.GONE
         swipeRefreshLayout.setOnRefreshListener(this)
-        adapter = MyClub_List_Adapter(clubList, context, this)
+        adapter = MyClubListAdapter(clubList, context, this)
         list_recycler.adapter = adapter
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
-        list_recycler.setItemAnimator(null)
-        list_recycler.setLayoutManager(lm)
+        list_recycler.itemAnimator = null
+        list_recycler.layoutManager = lm
         list_recycler.setHasFixedSize(true)
 
         pageListner = object : RecyclerViewScrollListener(lm) {
@@ -83,10 +81,6 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
         swipeRefreshLayout.isRefreshing = false
     }
 
-  /*  fun updateAdapter(club : Clubs){
-        clubList.add(club)
-        adapter?.notifyDataSetChanged()
-    }*/
 
     override fun onTextChange(text: String) {
         lastQuery = text
@@ -105,7 +99,7 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
                 dialog.dismiss()
                 try{
                     val obj = JSONObject(response)
-                    if(obj.getString("status").equals("success")){
+                    if(obj.getString("status") == "success"){
                         clubList.addAll(Gson().fromJson<ArrayList<Clubs>>(obj.getString("data"), Type_Token.club_list))
                     }
                     if(clubList.size>0){
@@ -135,13 +129,12 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
                 params["offset"] = offset.toString()
                 params["limit"] = "10"
                 params["clubType"] = HomeActivity.isPrivate.toString()
-                //Util.e("parms search", params.toString())
                 return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("language", SessionManager.getObj().getLanguage())
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["language"] = SessionManager.getObj().language
+                params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }
         }.execute()
