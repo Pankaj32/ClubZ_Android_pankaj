@@ -1,4 +1,4 @@
-package com.clubz.fcm;
+package com.clubz.helper.fcm;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;

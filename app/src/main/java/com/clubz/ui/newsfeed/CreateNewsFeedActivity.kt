@@ -13,6 +13,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.text.TextUtils
@@ -67,7 +68,19 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
             if(intent.hasExtra("feed")) feed = intent.extras.getSerializable("feed") as Feed
         }
 
-        leadby.text = ClubZ.currentUser?.full_name
+        leadby.text = String.format("%s "+ClubZ.currentUser?.full_name, getString(R.string.lead_by))
+
+        let {
+            if (ClubZ.currentUser!!.profile_image.isNotEmpty()) {
+                Picasso.with(image_member2.context).load(ClubZ.currentUser!!.profile_image).into(image_member2)
+            }else {
+                val padding =  resources.getDimension(R.dimen._8sdp).toInt()
+                image_member2.setPadding(padding,padding,padding,padding)
+                image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
+                image_member2.setImageResource(R.drawable.ic_user_shape)
+            }
+        }
+
         for(views in arrayOf(img_newsFeed ,backBtn , ivDone))views.setOnClickListener(this)
 
         edFilterTag.setOnEditorActionListener { v, actionId, event ->
@@ -174,16 +187,11 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
             etv_description.requestFocus()
             showSneckBar(getString(R.string.error_article_desc))
             return false
-        }/*else if(feedTitle!!.isEmpty()){
-            titile_name.requestFocus()
-            showSneckBar(getString(R.string.club_manager))
-            return false
-        }*/
+        }
         return true
     }
 
     private fun showSneckBar(text : String){
-        //Util.showSnake(this@CreateNewsFeedActivity,findViewById(R.id.clRootView), 1,text)
         Snackbar.make(findViewById(R.id.clRootView), text, Snackbar.LENGTH_SHORT).show()
     }
 
@@ -219,7 +227,6 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
                 val params = java.util.HashMap<String, String>()
                 params["city"] =  ClubZ.city
                 params["clubId"] =  clubId!!
-                // params["newsFeedId"] =  feed!!.newsFeedId.toString()
                 params["newsFeedTitle"] = feedTitle!!
                 params["newsFeedDescription"] = description!!
                 params["tagName"] =  tagList.joinToString()
@@ -313,11 +320,9 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
 
     private fun getTagFilterSuggestion(searchText : String = ""){
         ClubZ.instance.cancelPendingRequests(CreateNewsFeedActivity::class.java.name)
-        // pb_loading_indicator.visibility = View.VISIBLE
         val request = object : VolleyMultipartRequest(Request.Method.POST,
                 WebService.feed_filter_tag,
                 Response.Listener<NetworkResponse> { response ->
-                    //pb_loading_indicator.visibility = View.GONE
                     val data = String(response.data)
                     try {
                         val obj = JSONObject(data)
@@ -335,7 +340,6 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
                         e.printStackTrace()
                     }
                 }, Response.ErrorListener {
-            //pb_loading_indicator.visibility = View.GONE
         }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
@@ -352,9 +356,6 @@ class CreateNewsFeedActivity : AppCompatActivity() , View.OnClickListener, Adapt
             }
         }
 
-        request.retryPolicy = DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         ClubZ.instance.addToRequestQueue(request, CreateNewsFeedActivity::class.java.name)
     }
 

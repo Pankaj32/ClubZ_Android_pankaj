@@ -17,8 +17,8 @@
 
     <application
         android:name=".ClubZ"
-        android:allowBackup="true"
-        android:fullBackupContent="true"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:icon="@drawable/new_app_icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/new_app_icon"
@@ -113,12 +113,12 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".fcm.MyFirebaseMessagingService">
+        <service android:name=".helper.fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".fcm.MyFirebaseInstanceIDService">
+        <service android:name=".helper.fcm.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -167,6 +167,8 @@
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:label="@string/title_activity_profile"
+            android:theme="@style/AppThmeLight" />
+        <activity android:name=".ui.setting.SettingActivity"
             android:theme="@style/AppThmeLight"/>
     </application>
 

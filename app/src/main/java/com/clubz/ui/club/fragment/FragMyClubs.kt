@@ -21,7 +21,7 @@ import com.clubz.data.model.Clubs
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.club.`interface`.MyClubInteraction
 import com.clubz.ui.club.adapter.MyClub
-import com.clubz.ui.club.adapter.MyClub_List_Adapter
+import com.clubz.ui.club.adapter.MyClubListAdapter
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
@@ -34,9 +34,9 @@ import java.util.ArrayList
 class FragMyClubs : Fragment() , View.OnClickListener,
         SwipeRefreshLayout.OnRefreshListener, MyClub {
 
-    private var adapter : MyClub_List_Adapter? = null
+    private var adapter  : MyClubListAdapter? = null
     private var clubList : ArrayList<Clubs> = arrayListOf()
-    private var listner : MyClubInteraction? = null
+    private var listner  : MyClubInteraction? = null
     private var pageListner : RecyclerViewScrollListener? = null
 
     override fun onClick(v: View?) {
@@ -63,7 +63,7 @@ class FragMyClubs : Fragment() , View.OnClickListener,
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener(this)
-        adapter = MyClub_List_Adapter(clubList, context, this, true)
+        adapter = MyClubListAdapter(clubList, context, this)
         list_recycler.adapter = adapter
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)

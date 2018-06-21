@@ -314,13 +314,12 @@
                         android:paddingBottom="@dimen/_8sdp"
                         android:paddingTop="@dimen/_8sdp">
 
-                        <android.support.v7.widget.AppCompatImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/image_member2"
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="@dimen/_40sdp"
                             app:siBorderColor="@color/text_gray"
                             app:siBorderWidth="@dimen/_1sdp"
-                            android:padding="@dimen/_8sdp"
                             android:background="@drawable/bg_circle_blue"
                             app:srcCompat="@drawable/ic_user_shape"
                             />

@@ -21,7 +21,7 @@ import com.clubz.data.model.Clubs
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.club.`interface`.MyClubInteraction
 import com.clubz.ui.club.adapter.MyClub
-import com.clubz.ui.club.adapter.MyClub_List_Adapter
+import com.clubz.ui.club.adapter.MyClubListAdapter
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
@@ -35,7 +35,7 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
     override fun onSilenceClub(club: Clubs, position: Int) {
     }
 
-    var adapter  : MyClub_List_Adapter? = null
+    var adapter  : MyClubListAdapter? = null
     var clubList : ArrayList<Clubs> = arrayListOf()
     var listner  : MyClubInteraction? = null
     var pageListner : RecyclerViewScrollListener? = null
@@ -45,9 +45,7 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is MyClubInteraction){
-            listner = context
-        }
+        if (context is MyClubInteraction) listner = context
     }
 
     override fun onDetach() {
@@ -63,7 +61,7 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MyClub_List_Adapter(clubList, context, this)
+        adapter = MyClubListAdapter(clubList, context, this)
         list_recycler.adapter = adapter
         swipeRefreshLayout.setOnRefreshListener(this)
         clubList.clear()
@@ -133,9 +131,7 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
                         //val list  = Gson().fromJson<ArrayList<Clubs>>(obj.getJSONArray("data").toString() , Type_Token.club_list)
                         clubList.addAll(Gson().fromJson<ArrayList<Clubs>>(obj.getJSONArray("data").toString() , Type_Token.club_list))
                     }
-                    /*else{
-                        Util.showToast(obj.getString("message"),context)
-                    }*/
+
                     if(clubList.size>0){
                         noFeedMsgUI.visibility = View.GONE
                         swipeRefreshLayout.visibility = View.VISIBLE
@@ -163,7 +159,6 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
                 params["offset"] = offset.toString()
                 params["limit"] = "10"
                 params["clubType"] = ClubsActivity.isPrivate.toString()
-                //Util.e("parms search", response = params.toString())
                 return params
             }
 

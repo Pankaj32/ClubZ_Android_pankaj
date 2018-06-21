@@ -15,8 +15,8 @@ import android.view.Window
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.model.Clubs
-import com.clubz.ui.club.fragment.Frag_ClubDetails_1
-import com.clubz.ui.club.fragment.Frag_ClubDetails_2
+import com.clubz.ui.club.fragment.FragClubDetails1
+import com.clubz.ui.club.fragment.FragClubDetails2
 import com.clubz.ui.core.ViewPagerAdapter
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import kotlinx.android.synthetic.main.activity_club_detail.*
@@ -57,10 +57,10 @@ class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment( Frag_ClubDetails_1().setData(clubz),resources.getString(R.string.t_detils) , " This is First")
+        adapter.addFragment( FragClubDetails1().setData(clubz),resources.getString(R.string.t_detils) , " This is First")
         if(clubz.user_id==ClubZ.currentUser!!.id){
 
-            adapter.addFragment( Frag_ClubDetails_2().setData(clubz),resources.getString(R.string.t_members) , " This is second")
+            adapter.addFragment( FragClubDetails2().setData(clubz),resources.getString(R.string.t_members) , " This is second")
             tablayout_cd.setupWithViewPager(view_pager_cd)
 
         }else {

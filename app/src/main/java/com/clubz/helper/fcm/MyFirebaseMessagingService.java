@@ -1,18 +1,7 @@
-package com.clubz.fcm;
-
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.media.RingtoneManager;
-import android.support.v4.app.NotificationCompat;
+package com.clubz.helper.fcm;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
-
-import java.util.Date;
-import java.util.Random;
 
 
 /**

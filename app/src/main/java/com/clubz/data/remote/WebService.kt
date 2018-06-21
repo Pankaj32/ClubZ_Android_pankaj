@@ -5,7 +5,7 @@ package com.clubz.data.remote
  */
 class WebService {
     companion object {
-        val base_Url= "http://clubz.co/dev/"
+        private const val   base_Url= "http://clubz.co/dev/"
 
         val Login           = base_Url +"service/login"
         val Chek_Social     = base_Url +"service/checkSocialRegister"
@@ -37,8 +37,8 @@ class WebService {
 
         /*feed related api*/
         val feed_getNewsFeedLsit = base_Url + "service/club/getNewsFeedsList"
-        val create_feed     = base_Url +"service/club/createNewsFeed" // Potential search will GEt
-        val feed_like     = base_Url +"service/club/newsFeedsLike"
+        val create_feed          = base_Url +"service/club/createNewsFeed" // Potential search will GEt
+        val feed_like            = base_Url +"service/club/newsFeedsLike"
 
         val get_leaders= base_Url+"service/activity/activityLeaderList?clubId="
         val get_my_club= base_Url+"service/club/myCreatedClubsName"
@@ -51,11 +51,11 @@ class WebService {
         val create_newsFeed      = base_Url +"service/club/createNewsFeed"
         val update_newsFeed      = base_Url +"service/club/updateNewsFeed"
         val delete_newsFeed      = base_Url +"service/club/deleteNewsFeed"
-        val get_profile      = base_Url +"service/user/userProfile"
+        val get_profile          = base_Url +"service/user/userProfile"
 
-        val addEvents= base_Url +"service/activity/addActivityEvent"
-        val joinActivity= base_Url +"service/activity/joinActivity"
-        val confirmActivity= base_Url +"service/activity/confirmActivity"
+        val addEvents            = base_Url +"service/activity/addActivityEvent"
+        val joinActivity         = base_Url +"service/activity/joinActivity"
+        val confirmActivity      = base_Url +"service/activity/confirmActivity"
         val getuserJoinAffiliates= base_Url +"service/activity/userJoinAffiliates"
         val getuserConfirmAffiliates= base_Url +"service/activity/userConfirmAffiliates"
 

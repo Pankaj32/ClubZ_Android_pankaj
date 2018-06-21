@@ -26,8 +26,8 @@ import org.json.JSONObject
 /**
  * Created by mindiii on २१/३/१८.
  */
-class Frag_ClubDetails_1 : Fragment() {
-    lateinit var clubz :Clubs;
+class FragClubDetails1 : Fragment() {
+    lateinit var clubz :Clubs
 
     @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,37 +40,29 @@ class Frag_ClubDetails_1 : Fragment() {
         getClubDetails()
         view!!.setOnClickListener{}
 
-
-        tv_terms.setOnClickListener {
-            //var pop = InfoViewDialog.newInstance(resources.getString(R.string.terms_conditions)!!, clubz.terms_conditions!!)!!
-
-
-            object : TermsConditionDialog(context, resources.getString(R.string.terms_conditions), clubz.terms_conditions) {
+        tv_terms.setOnClickListener { object : TermsConditionDialog(context, resources.getString(R.string.terms_conditions), clubz.terms_conditions) {
                 override fun onCloseClicked() {
-                    this.dismiss();
+                    this.dismiss()
                 }
             }.show()
-
-           /* val fm = activity.fragmentManager
-            pop.show(fm,"yy")*/
         }
     }
 
-    fun setView(){
-        titile_name.setText(clubz.club_name)
-        club_category.setText(clubz.club_category_name)
-        img_privacy.setImageResource(if(clubz.club_type.equals("1")) R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
-        privacy_status.setText(if(clubz.club_type.equals("1")) R.string.Public else R.string.Private)
-        club_email.setText(clubz.club_email)
-        club_phone.setText(clubz.club_country_code+""+clubz.club_contact_no)
-        club_address.setText(clubz.club_address)
-        club_web.setText(clubz.club_website)
-        username.setText(clubz.full_name)
-        members.setText("0 "+resources.getString(R.string.members))
+    private fun setView(){
+        titile_name.text = clubz.club_name
+        club_category.text = clubz.club_category_name
+        img_privacy.setImageResource(if(clubz.club_type == "1") R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
+        privacy_status.setText(if(clubz.club_type == "1") R.string.Public else R.string.Private)
+        club_email.text = clubz.club_email
+        club_phone.text = String.format("%s%s", clubz.club_country_code, clubz.club_contact_no)
+        club_address.text = clubz.club_address
+        club_web.text = clubz.club_website
+        username.text = clubz.full_name
+        members.text = String.format("%d %s", 1, getString(R.string.members))
         try {
-            date.setText(resources.getString(R.string.since)+" "+Util.convertDate2(clubz.club_foundation_date))
+            date.text = String.format("%s %s", getString(R.string.since), Util.convertDate2(clubz.club_foundation_date))
         }catch (ex :Exception){}
-        tv_descrip_detials.setText(clubz.club_description)
+        tv_descrip_detials.text = clubz.club_description
         try{
             Picasso.with(context).load(clubz.club_image).fit().into(img_club)
         }catch (ex:Exception){
@@ -87,25 +79,23 @@ class Frag_ClubDetails_1 : Fragment() {
         ClubZ.instance.cancelPendingRequests(WebService.club_detail)
     }
 
-    fun getClubDetails(){
-        val dialog = CusDialogProg(context );
-        dialog.show();
+    private fun getClubDetails(){
+        val dialog = CusDialogProg(context )
+        dialog.show()
         object : VolleyGetPost(activity,activity,"${WebService.club_detail}?clubId=${clubz.clubId}",true){
             override fun onVolleyResponse(response: String?) {
                 try {
-                    dialog.dismiss();
+                    dialog.dismiss()
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
+                    if (obj.getString("status") == "success") {
                        val clubz =  Gson().fromJson<Clubs>(obj.getString("clubDetail"), Clubs::class.java)
-                        members.setText(clubz.members+" "+resources.getString(R.string.members))
+                        members.text = String.format("%d %s",clubz.members+1, getString(R.string.members))
                         Picasso.with(image_member2.context).load(clubz.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).into(image_member2, object : Callback {
                             override fun onSuccess() {
                                 image_member2.setPadding(0,0,0,0)
                             }
 
-                            override fun onError() {
-
-                            }
+                            override fun onError() { }
                         })
 
                         if(!clubz.club_icon.endsWith("defaultProduct.png"))Picasso.with(context).load(clubz.club_icon).transform(CircleTransform()).into(image_icon, object : Callback {
@@ -113,11 +103,9 @@ class Frag_ClubDetails_1 : Fragment() {
                                 image_icon.setPadding(0,0,0,0)
                             }
 
-                            override fun onError() {
-
-                            }
+                            override fun onError() { }
                         })
-                        usrerole.setText(clubz.user_role)
+                        usrerole.text = clubz.user_role
                     } /*else {
                         Util.showToast(obj.getString("message"),context)
                     }*/
@@ -127,11 +115,11 @@ class Frag_ClubDetails_1 : Fragment() {
             }
 
             override fun onVolleyError(error: VolleyError?) {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun onNetError() {
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -140,8 +128,8 @@ class Frag_ClubDetails_1 : Fragment() {
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().getUser().auth_token);
-                params.put("language", SessionManager.getObj().getLanguage());
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute(WebService.club_detail)
