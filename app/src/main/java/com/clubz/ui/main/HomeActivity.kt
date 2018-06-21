@@ -31,7 +31,6 @@ import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.ui.core.FilterListner
 import com.clubz.ui.core.Textwatcher_Statusbar
-import com.clubz.ui.club.fragment.Frag_Create_club
 import com.clubz.ui.newsfeed.fragment.FragNewsList
 import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
@@ -374,9 +373,9 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 }
             }
 
-            Frag_Create_club::class.java.simpleName -> {
+            /*Frag_Create_club::class.java.simpleName -> {
                 cus_status.visibility = View.GONE
-            }
+            }*/
 
             Frag_Search_Club::class.java.simpleName -> {
                 //title_tv.visibility = View.GONE
