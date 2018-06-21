@@ -172,7 +172,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
     }
 
     override fun onItemClick(position: Int,type: String) {
-        startActivity(Intent(this@MyActivities, ActivitiesDetails::class.java))
+        startActivity(Intent(this@MyActivities, ActivitiesDetails::class.java).putExtra("activityId", todayList!![position].activityId))
     }
 
     override fun onItemLike(position: Int, type: String) {

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,6 +17,7 @@ import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.android.volley.*
 import com.clubz.ClubZ
 
@@ -433,7 +435,22 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
     }
 
     override fun onItemClick(position: Int, type: String) {
-        startActivity(Intent(mContext, ActivitiesDetails::class.java))
+        var activityId = ""
+        when (type) {
+            "today" -> {
+                activityId = todayList!![position].activityId!!
+            }
+            "tomorrow" -> {
+                activityId = tomorrowList!![position].activityId!!
+            }
+            "soon" -> {
+                activityId = soonList!![position].activityId!!
+            }
+            "others" -> {
+                activityId = othersList!![position].activityId!!
+            }
+        }
+        startActivity(Intent(mContext, ActivitiesDetails::class.java).putExtra("activityId", activityId))
     }
 
     override fun onItemLike(position: Int, type: String) {
@@ -502,7 +519,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             "today" -> {
                 var todayActivity = todayList!![parentPosition]
                 var todayEvents = todayActivity.events!![childPosition]
-                if (todayEvents.hasAffiliatesJoined.equals("1")) {
+                if (todayEvents.hasJoined.equals("1")) {
                     getUserConfirmAfiliatesList(todayActivity.activityId!!, todayEvents.activityEventId!!)
                 } else {
                     Util.showSnake(mContext!!, snakLay!!, R.string.d_cant_join)
@@ -511,7 +528,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             "tomorrow" -> {
                 var tomorrowActivity = tomorrowList!![parentPosition]
                 var tomorrowEvents = tomorrowActivity.events!![childPosition]
-                if (tomorrowEvents.hasAffiliatesJoined.equals("1")) {
+                if (tomorrowEvents.hasJoined.equals("1")) {
                     getUserConfirmAfiliatesList(tomorrowActivity.activityId!!, tomorrowEvents.activityEventId!!)
                 } else {
                     Util.showSnake(mContext!!, snakLay!!, R.string.d_cant_join)
@@ -520,7 +537,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             "soon" -> {
                 var soonActivity = soonList!![parentPosition]
                 var soonEvents = soonActivity.events!![childPosition]
-                if (soonEvents.hasAffiliatesJoined.equals("1")) {
+                if (soonEvents.hasJoined.equals("1")) {
                     getUserConfirmAfiliatesList(soonActivity.activityId!!, soonEvents.activityEventId!!)
                 } else {
                     Util.showSnake(mContext!!, snakLay!!, R.string.d_cant_join)
@@ -608,6 +625,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         //    dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
         val likeLay = dialog.findViewById<View>(R.id.likeLay) as RelativeLayout
+        val showSnack = dialog.findViewById<View>(R.id.showSnack) as RelativeLayout
         val profileImage = dialog.findViewById<View>(R.id.profileImage) as ImageView
         val topIcon = dialog.findViewById<View>(R.id.topIcon) as ImageView
         val like = dialog.findViewById<View>(R.id.like) as ImageView
@@ -663,7 +681,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                     }
                 }
             }
-            confirmActivity(activityId, affiliateId, activityEventId, mUserId, dialog)
+            confirmActivity(activityId, affiliateId, activityEventId, mUserId, dialog, showSnack)
         })
     }
 
@@ -820,7 +838,8 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                         affiliateId: String,
                         activityEventId: String,
                         userId: String,
-                        dialog1: Dialog) {
+                        dialog1: Dialog,
+                        showSnack: RelativeLayout) {
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
@@ -833,10 +852,14 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 try {
 
                     val obj = JSONObject(response)
+                    var msg = obj.getString("message")
                     if (obj.getString("status").equals("success")) {
                         dialog1.dismiss()
                         getActivitiesList()
                     } else {
+                        Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show()
+                        //   Snackbar.make(showSnack, msg, Snackbar.LENGTH_LONG).show()
+                        //  Util.showSnake(mContext!!,showSnack,1,msg)
                         // nodataLay.visibility = View.VISIBLE
                     }
                     // searchAdapter?.notifyDataSetChanged()

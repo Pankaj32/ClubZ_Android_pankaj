@@ -14,9 +14,14 @@ import kotlinx.android.synthetic.main.activities_details.*
 class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.OnPageChangeListener {
 
     lateinit var adapter: ViewPagerAdapter
+    private var activityId = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activities_details)
+        val bundle = intent.extras
+        if (bundle != null) {
+            activityId = bundle.getString("activityId")
+        }
         // headerTxt.text = resources.getString(R.string.hint_activity_name)
         headerTxt.text = "Activity Name"
         ivBack.setOnClickListener(this)
@@ -27,8 +32,8 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
 
     fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(FragActivitiesDetails(), resources.getString(R.string.a_activity_first_tab), " This is First")
-        adapter.addFragment(FragActivitiesDetails(), resources.getString(R.string.a_activity_snd_tab), " This is second")
+        adapter.addFragment(FragActivitiesDetails.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")
+        adapter.addFragment(FragActivitiesDetails.newInstance(activityId), resources.getString(R.string.a_activity_snd_tab), " This is second")
         viewPager.adapter = adapter
         //Chiranjib
     }

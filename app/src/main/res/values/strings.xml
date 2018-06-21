@@ -368,6 +368,10 @@
     <string name="there_is_no_activity_stil_here">There is no activity stil here</string>
     <string name="no_feed_content_body">The news feed will be available once the club manager create it.</string>
     <string name="no_activity_content_body">The activity will be available once the club manager create it.</string>
+    <string name="t_date_title">Date title</string>
+    <string name="t_next_date">Next date</string>
+    <string name="t_general_desc">General Description</string>
+    <string name="t_no_events">no events available</string>
 
     <!--Activities Menu-->
     <string name="add_date">Add a new date</string>
@@ -389,7 +393,7 @@
 
     <!--demo-->
     <string name="d_no_affiliates">You don\'t have affliates to confirm </string>
-    <string name="d_cant_join">You cant\'t join events first you have to confirm </string>
+    <string name="d_cant_join">You cant\'t confirm events first you have to join</string>
     <!-- Date Util -->
     <string name="date_util_term_less">less than</string>
     <string name="date_util_term_a">a</string>
