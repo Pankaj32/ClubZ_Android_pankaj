@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,11 +35,10 @@ import org.json.JSONObject
 class FragActivitiesDetails : Fragment() {
 
     // TODO: Rename and change types of parameters
-    private var mParam1: String? = null
-    private var mParam2: String? = null
+
     private var mContext: Context? = null
     private var activityId = ""
-    var activityDetails: GetActivityDetailsResponce?=null
+    var activityDetails: GetActivityDetailsResponce? = null
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -56,13 +56,15 @@ class FragActivitiesDetails : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
             activityId = arguments.getString(IDKEY)
+            Log.e("ActivityId:  ", activityId)
             getActivityDetails()
         }
-        termsNCondition.setOnClickListener { object : TermsConditionDialog(context, resources.getString(R.string.terms_conditions), activityDetails?.getData()?.terms_conditions!!) {
-            override fun onCloseClicked() {
-                this.dismiss()
-            }
-        }.show()
+        termsNCondition.setOnClickListener {
+            object : TermsConditionDialog(context, resources.getString(R.string.terms_conditions), activityDetails?.getData()?.terms_conditions!!) {
+                override fun onCloseClicked() {
+                    this.dismiss()
+                }
+            }.show()
         }
     }
 
@@ -107,7 +109,7 @@ class FragActivitiesDetails : Fragment() {
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
                         dialogProgress?.dismiss()
-                         activityDetails= Gson().fromJson(response, GetActivityDetailsResponce::class.java)
+                        activityDetails = Gson().fromJson(response, GetActivityDetailsResponce::class.java)
                         updateUi()
                     } else {
                         //  nodataLay.visibility = View.VISIBLE
@@ -148,11 +150,11 @@ class FragActivitiesDetails : Fragment() {
     private fun updateUi() {
         activityName.text = activityDetails?.getData()?.name
         clubName.text = activityDetails?.getData()?.club_name
-        if (activityDetails?.getData()?.is_like.equals("0")) {
+        /*if (activityDetails?.getData()?.is_like.equals("0")) {
             likeImg.setImageResource(R.drawable.inactive_heart_ico)
         } else {
             likeImg.setImageResource(R.drawable.active_heart_ico)
-        }
+        }*/
         if (activityDetails?.getData()?.image?.isNotEmpty()!!) {
             Picasso.with(imgActivity.context).load(activityDetails?.getData()?.image).into(imgActivity)
         }
@@ -169,7 +171,7 @@ class FragActivitiesDetails : Fragment() {
             fee.visibility = View.GONE
             feeView.visibility = View.GONE
         }
-        maxMinUser.text = "Maximum " + activityDetails?.getData()?.max_users + " and Minimun" + activityDetails?.getData()?.min_users + " users"
+        maxMinUser.text = "Maximum " + activityDetails?.getData()?.max_users + " and Minimum " + activityDetails?.getData()?.min_users + " users"
         if (activityDetails?.getData()?.next_event == null) {
             nextLay.visibility = View.GONE
             noNextTxt.visibility = View.VISIBLE
