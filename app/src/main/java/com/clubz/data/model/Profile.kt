@@ -19,6 +19,14 @@ class Profile : Serializable{
     var interests = ""
     var affiliates = ""
 
+    var aboutMeVisibility = 0
+    var dobVisibility = 0
+    var contactNoVisibility = 0
+    var emailVisibility = 0
+    var affiliatesVisibility = 0
+    var skillsVisibility = 0
+    var interestVisibility = 0
+
     public fun getStringToList():List<String>?{
         return affiliates.split(",").map { it.trim() }
     }

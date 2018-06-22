@@ -168,7 +168,10 @@
             android:name=".ui.profile.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppThmeLight" />
-        <activity android:name=".ui.setting.SettingActivity"
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:theme="@style/AppThmeLight" />
+        <activity android:name=".ui.profile.ProfileEditActivity"
             android:theme="@style/AppThmeLight"/>
     </application>
 
