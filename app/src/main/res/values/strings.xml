@@ -517,5 +517,12 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="silece_this_user">Silece this user</string>
+    <string name="only_for_my_contact">Only for my contact</string>
+    <string name="write_something_interesting_about_you">Write something interesting about you</string>
+    <string name="email_address">Email address</string>
+    <string name="only_for_club_member">Only for club member</string>
+    <string name="hiddne">Hiddne</string>
+    <string name="landline_number">Landline number</string>
+    <string name="mobile_number">Mobile number</string>
 
 </resources>

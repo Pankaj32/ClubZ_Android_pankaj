@@ -1,5 +1,6 @@
 package com.clubz.ui.profile
 
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
@@ -131,7 +132,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
             for (tag in tagList) {
                 val chip = object : ChipView(this@ProfileActivity, chipHolder.childCount.toString(), false) {
                     override fun getLayout(): Int {
-                        return R.layout.z_cus_chip_view_newsfeed
+                        return R.layout.z_cus_chip_view
                     }
 
                     override fun setDeleteListner(chipView: ChipView?) {
@@ -186,7 +187,9 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
             }
             R.id.action_chat -> return true
             R.id.action_edit ->{
-                Toast.makeText(this@ProfileActivity, R.string.under_development, Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this@ProfileActivity, ProfileEditActivity::class.java)
+                        .putExtra("profile", profile))
+                //Toast.makeText(this@ProfileActivity, R.string.under_development, Toast.LENGTH_SHORT).show()
             }
         }
         if (item.title === "Add") {

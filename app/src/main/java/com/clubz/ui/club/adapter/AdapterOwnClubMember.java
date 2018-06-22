@@ -69,7 +69,7 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
     public void onBindViewHolder(AdapterOwnClubMember.ViewHolder h, int position) {
         final ClubMember member = memberList.get(position);
 
-        h.tv_FullName.setText(member.getFull_name());
+        h.tv_FullName.setText(member.getNickname());
         h.switch1.setChecked(member.getMember_status().equals("1"));
         if(!TextUtils.isEmpty(member.getProfile_image())){
             Picasso.with(h.iv_profileImage.getContext()).load(member.getProfile_image()).fit().into(h.iv_profileImage);

@@ -52,6 +52,7 @@ class WebService {
         val update_newsFeed      = base_Url +"service/club/updateNewsFeed"
         val delete_newsFeed      = base_Url +"service/club/deleteNewsFeed"
         val get_profile          = base_Url +"service/user/userProfile"
+        val update_profile          = base_Url +"service/user/updateProfile"
 
         val addEvents            = base_Url +"service/activity/addActivityEvent"
         val joinActivity         = base_Url +"service/activity/joinActivity"

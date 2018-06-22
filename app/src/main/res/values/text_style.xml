@@ -7,6 +7,13 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 
+    <style name="TextView_Profile">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_color_gray</item>
+        <item name="android:fontFamily">@font/roboto_italic</item>
+    </style>
+
+
     <style name="TextView.Gray" parent="TextView">
         <item name="android:textColor">@color/text_color_gray</item>
     </style>
