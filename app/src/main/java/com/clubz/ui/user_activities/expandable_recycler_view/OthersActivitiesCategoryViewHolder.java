@@ -63,6 +63,12 @@ public class OthersActivitiesCategoryViewHolder extends ParentViewHolder {
                 parentViewClickListioner.onItemLike(position, "others");
             }
         });
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                parentViewClickListioner.onItemClick(position, "others");
+            }
+        });
     }
 
     @Override

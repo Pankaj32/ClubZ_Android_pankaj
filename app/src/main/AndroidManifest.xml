@@ -147,7 +147,9 @@
         </provider>
 
         <!-- chiranjib -->
-        <activity android:name=".ui.user_activities.activity.ActivitiesDetails" />
+        <activity android:name=".ui.user_activities.activity.ActivitiesDetails"
+            android:theme="@style/AppThmeLight"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.newsfeed.CreateNewsFeedActivity"
             android:screenOrientation="portrait"

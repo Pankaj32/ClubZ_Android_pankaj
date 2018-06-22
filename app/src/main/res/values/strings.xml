@@ -346,7 +346,8 @@
     <!--Activity Details-->
     <string name="termsnCondition"><u>Terms and Condition</u></string>
     <string name="a_activity_first_tab">Details</string>
-    <string name="a_activity_snd_tab">Members</string>
+    <string name="a_activity_snd_tab">Chat</string>
+    <string name="a_activity_rd_tab">Members</string>
 
     <string name="likes"> Likes </string>
     <string name="comments"> Comments </string>
