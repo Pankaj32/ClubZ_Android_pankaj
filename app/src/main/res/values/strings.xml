@@ -367,8 +367,10 @@
     <string name="admin">Admin</string>
     <string name="there_is_no_news_stil_here">There is no news stil here</string>
     <string name="there_is_no_activity_stil_here">There is no activity stil here</string>
+    <string name="there_is_no_member_stil_here">There is no member stil here</string>
     <string name="no_feed_content_body">The news feed will be available once the club manager create it.</string>
     <string name="no_activity_content_body">The activity will be available once the club manager create it.</string>
+    <string name="no_member_content_body">The member will be available once the club manager create it.</string>
     <string name="t_date_title">Date title</string>
     <string name="t_next_date">Next date</string>
     <string name="t_general_desc">General Description</string>
@@ -526,5 +528,6 @@
     <string name="mobile_number">Mobile number</string>
     <string name="enterprise">Enterprise</string>
     <string name="max_min_text">Maximum %s  and Minimum %s users</string>
+    <string name="no_tag_available">no Tag available</string>
 
 </resources>
