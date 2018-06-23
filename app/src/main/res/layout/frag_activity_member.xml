@@ -14,7 +14,7 @@
 
     <include
         android:id="@+id/nodataLay"
-        layout="@layout/no_activity_layout"
+        layout="@layout/no_member_layout"
         android:visibility="gone"/>
 
 </FrameLayout>

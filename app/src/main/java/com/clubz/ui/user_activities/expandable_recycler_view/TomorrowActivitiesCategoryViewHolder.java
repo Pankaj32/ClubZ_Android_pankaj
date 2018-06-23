@@ -77,7 +77,7 @@ public class TomorrowActivitiesCategoryViewHolder extends ParentViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentViewClickListioner.onItemClick(position, "today");
+                parentViewClickListioner.onItemClick(position, "tomorrow");
             }
         });
     }

@@ -24,7 +24,7 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
     private static final float ROTATED_POSITION = 180f;
 
     private final ImageView mArrowExpandImageView;
-    private TextView tv_FullName;
+    private TextView tv_FullName, noTagTxt;
     private ImageView iv_profileImage;
     private TagView tagView;
     private Context mContext;
@@ -36,6 +36,7 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
         iv_profileImage = itemView.findViewById(R.id.iv_profileImage);
         tv_FullName = itemView.findViewById(R.id.tv_FullName);
         tagView = itemView.findViewById(R.id.tagView);
+        noTagTxt = itemView.findViewById(R.id.noTagTxt);
     }
 
     public void bind(Context context, GetActivityMembersResponce.DataBean dataBean, final int position) {
@@ -44,7 +45,7 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
             Picasso.with(iv_profileImage.getContext()).load(dataBean.getProfile_image()).into(iv_profileImage);
         }
         tv_FullName.setText(dataBean.getFull_name());
-        addChip();
+        addChip(dataBean.getTag_name(), noTagTxt);
     }
 
     @Override
@@ -81,11 +82,13 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
 
     }
 
-    private void addChip() {
+    private void addChip(String tag_name, TextView noTagTxt) {
         ArrayList<String> stringList = new ArrayList<>();
-        stringList.add("User Tag 1");
-        stringList.add("User Tag 2");
-        stringList.add("User Tag 3");
+        String tag_names[] = tag_name.split(",");
+        for (String tags : tag_names) {
+            stringList.add(tags);
+        }
+        if (tag_names.length == 0) noTagTxt.setVisibility(View.VISIBLE);
         tagView.addTag(stringList);
         /*for (String s : stringList) {
             ChipView chipView = new ChipView(mContext,
