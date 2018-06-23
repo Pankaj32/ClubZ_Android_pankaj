@@ -38,32 +38,44 @@
             android:layout_margin="@dimen/_3sdp"
             android:background="@drawable/bg_circle_blue"
             android:src="@drawable/ic_user_white" />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/_5sdp">
-        <TextView
-            android:id="@+id/tv_FullName"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/teko_semibold"
-            android:maxLines="1"
-            android:text="@string/dharmraj_acharya_bhurtel"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_16sdp" />
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/_5sdp">
 
-    <!--<com.clubz.ui.cv.FlowLayout
-        android:id="@+id/affilitesChip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"/>-->
-    <com.clubz.ui.cv.chipview.TagView
-        android:id="@+id/tagView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center_vertical"/>
-</LinearLayout>
+            <TextView
+                android:id="@+id/tv_FullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/teko_semibold"
+                android:maxLines="1"
+                android:text="@string/dharmraj_acharya_bhurtel"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sdp" />
+
+            <!--<com.clubz.ui.cv.FlowLayout
+                android:id="@+id/affilitesChip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"/>-->
+            <com.clubz.ui.cv.chipview.TagView
+                android:id="@+id/tagView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/noTagTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/no_tag_available"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

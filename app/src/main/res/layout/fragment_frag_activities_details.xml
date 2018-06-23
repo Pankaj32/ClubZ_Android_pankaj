@@ -41,19 +41,18 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/teko_semibold"
                             android:text="Activity Name"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_17sdp" />
+                            android:textColor="@color/nav_gray"
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/clubName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/activityName"
-                            android:layout_marginTop="@dimen/_2sdp"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Clubs Name"
+                            android:text="Club's Name"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_14sdp" />
+                            android:textSize="14sp" />
 
                         <!--<ImageView
                             android:id="@+id/likeImg"
@@ -108,9 +107,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:fontFamily="@font/teko_semibold"
-                            android:text="Smith"
+                            android:text=""
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_16sdp" />
+                            android:textSize="14sp" />
 
                         <View
                             android:id="@+id/leaderView"
@@ -127,9 +126,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Leader"
+                            android:text=""
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -143,7 +142,7 @@
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:padding="@dimen/_6sdp"
-                            android:tint="@color/gray_transprent"
+                            android:tint="@color/activity_details_icon"
                             app:srcCompat="@drawable/ic_map_placeholder" />
 
 
@@ -155,9 +154,9 @@
                             android:layout_toRightOf="@id/locationImage"
                             android:clickable="false"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="gfdgsfdgdgfdgfdgfdgfdagfdagfdgfdag"
+                            android:text=""
                             android:textColor="@color/primaryColor"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -170,7 +169,7 @@
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:padding="@dimen/_6sdp"
-                            android:tint="@color/gray_transprent"
+                            android:tint="@color/activity_details_icon"
                             app:srcCompat="@drawable/ic_dollar_symbol" />
 
                         <TextView
@@ -182,7 +181,7 @@
                             android:text=""
                             android:fontFamily="@font/roboto_regular"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_16sdp" />
+                            android:textSize="14sp" />
 
                         <View
                             android:id="@+id/feeView"
@@ -201,7 +200,7 @@
                             android:layout_toRightOf="@id/locationImage"
                             android:text=""
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_16sdp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -214,7 +213,7 @@
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:padding="@dimen/_6sdp"
-                            android:tint="@color/gray_transprent"
+                            android:tint="@color/activity_details_icon"
                             app:srcCompat="@drawable/ic_users_social_symbol" />
 
                         <TextView
@@ -223,7 +222,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/_5sdp"
-                            android:text="Minimum X and maximum Y users"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14sdp" />
 
@@ -236,7 +235,7 @@
                         android:fontFamily="@font/teko_semibold"
                         android:text="@string/t_next_date"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_16sdp" />
+                        android:textSize="14sp" />
 
                     <LinearLayout
                         android:id="@+id/nextLay"
@@ -255,7 +254,7 @@
                             android:gravity="center_vertical"
                             android:text="@string/t_date_title"
                             android:textColor="@color/text_gray"
-                            android:textSize="@dimen/_14sdp" />
+                            android:textSize="14sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -271,7 +270,7 @@
                                 <android.support.v7.widget.AppCompatImageView
                                     android:layout_width="@dimen/_18sdp"
                                     android:layout_height="@dimen/_30sdp"
-                                    android:tint="@color/gray_transprent"
+                                    android:tint="@color/activity_details_icon"
                                     app:srcCompat="@drawable/ic_nav_event" />
 
                                 <TextView
@@ -280,11 +279,11 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/_4sdp"
                                     android:layout_toRightOf="@id/locationImage"
-                                    android:fontFamily="@font/roboto_regular"
+                                    android:fontFamily="@font/roboto_light"
                                     android:clickable="false"
                                     android:text="MMM dd, YYYY"
-                                    android:textColor="@color/text_gray"
-                                    android:textSize="@dimen/_12sdp" />
+                                    android:textColor="@color/nav_gray"
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -296,7 +295,7 @@
                                 <android.support.v7.widget.AppCompatImageView
                                     android:layout_width="@dimen/_18sdp"
                                     android:layout_height="@dimen/_30sdp"
-                                    android:tint="@color/gray_transprent"
+                                    android:tint="@color/activity_details_icon"
                                     app:srcCompat="@drawable/ic_nav_history" />
 
                                 <TextView
@@ -305,11 +304,11 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/_4sdp"
                                     android:layout_toRightOf="@id/locationImage"
-                                    android:fontFamily="@font/roboto_regular"
+                                    android:fontFamily="@font/roboto_light"
                                     android:clickable="false"
                                     android:text="hh:mm"
-                                    android:textColor="@color/text_gray"
-                                    android:textSize="@dimen/_12sdp" />
+                                    android:textColor="@color/nav_gray"
+                                    android:textSize="12sp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -321,7 +320,7 @@
                             <android.support.v7.widget.AppCompatImageView
                                 android:layout_width="@dimen/_18sdp"
                                 android:layout_height="@dimen/_30sdp"
-                                android:tint="@color/gray_transprent"
+                                android:tint="@color/activity_details_icon"
                                 app:srcCompat="@drawable/ic_map_placeholder" />
 
                             <TextView
@@ -329,11 +328,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/_4sdp"
-                                android:fontFamily="@font/roboto_regular"
+                                android:fontFamily="@font/roboto_light"
                                 android:clickable="false"
                                 android:text="Location"
-                                android:textColor="@color/text_gray"
-                                android:textSize="@dimen/_12sdp" />
+                                android:textColor="@color/nav_gray"
+                                android:textSize="12sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -344,7 +343,7 @@
                             <android.support.v7.widget.AppCompatImageView
                                 android:layout_width="@dimen/_18sdp"
                                 android:layout_height="@dimen/_30sdp"
-                                android:tint="@color/gray_transprent"
+                                android:tint="@color/activity_details_icon"
                                 app:srcCompat="@drawable/ic_desc_black_24dp" />
 
                             <TextView
@@ -352,11 +351,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/_4sdp"
-                                android:fontFamily="@font/roboto_regular"
+                                android:fontFamily="@font/roboto_light"
                                 android:clickable="false"
                                 android:text=""
-                                android:textColor="@color/text_gray"
-                                android:textSize="@dimen/_12sdp" />
+                                android:textColor="@color/nav_gray"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -371,8 +370,8 @@
                         android:padding="@dimen/_15sdp"
                         android:text="@string/t_no_events"
                         android:textAlignment="center"
-                        android:textColor="@color/text_gray"
-                        android:textSize="@dimen/_14sdp"
+                        android:textColor="@color/nav_gray"
+                        android:textSize="14sp"
                         android:visibility="gone" />
 
                     <TextView
@@ -382,7 +381,7 @@
                         android:fontFamily="@font/teko_semibold"
                         android:text="@string/t_general_desc"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_16sdp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/genDescription"
@@ -390,9 +389,9 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text=""
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/text_gray"
-                        android:textSize="@dimen/_10sdp" />
+                        android:fontFamily="@font/roboto_light"
+                        android:textColor="@color/nav_gray"
+                        android:textSize="12sp" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -456,7 +455,7 @@
                                         android:fontFamily="@font/teko_light"
                                         android:text="@string/lead_by"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/_14sdp" />
+                                        android:textSize="14sp" />
                                 </LinearLayout>
 
                                 <android.support.v7.widget.AppCompatTextView
@@ -469,7 +468,7 @@
                                     android:fontFamily="@font/teko_semibold"
                                     android:text=""
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/_14sdp" />
+                                    android:textSize="14sp" />
 
                                 <TextView
                                     android:id="@+id/usrerole"
@@ -486,8 +485,8 @@
                                     android:maxLength="38"
                                     android:singleLine="true"
                                     android:text="@string/user_role_txt"
-                                    android:textColor="@color/black"
-                                    android:textColorHint="#666666"
+                                    android:textColor="@color/nav_gray"
+                                    android:textColorHint="@color/nav_gray"
                                     android:textSize="@dimen/_12sdp" />
                             </RelativeLayout>
                         </LinearLayout>
@@ -502,7 +501,8 @@
                             android:paddingBottom="@dimen/_8sdp"
                             android:fontFamily="@font/roboto_regular"
                             android:text="@string/termsnCondition"
-                            android:textColor="@color/primaryColor" />
+                            android:textColor="@color/primaryColor"
+                            android:textSize="12sp"/>
                     </RelativeLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
