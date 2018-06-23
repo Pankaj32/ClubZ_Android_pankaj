@@ -135,7 +135,7 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
                 }
             }
 
-            holder.imgStatus.setImageResource(if(obj.club_type == "1") R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
+            holder.imgStatus.setImageResource(if(obj.club_type == "1") R.drawable.ic_lock_open else R.drawable.ic_lock_outline)
             //holder.status.setText(if(obj.club_type.equals("1")) R.string.Public else R.string.Private)
             holder.status.setText(if(obj.club_type=="2") R.string.Private else R.string.Public)
             try {

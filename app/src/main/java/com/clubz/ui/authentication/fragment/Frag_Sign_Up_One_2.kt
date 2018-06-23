@@ -140,7 +140,7 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
 
                         SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
                         startActivity(Intent(activity, HomeActivity::class.java))
-                        activity.finish()
+                        activity?.finish()
                     }
                     else{
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()

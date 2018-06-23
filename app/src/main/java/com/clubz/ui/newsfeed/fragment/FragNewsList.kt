@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.ListPopupWindow
 import android.support.v7.widget.RecyclerView
@@ -35,9 +36,13 @@ import com.clubz.ui.newsfeed.adapter.NewsFeedAdapter
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
+import com.clubz.utils.decorator.VerticalSpaceItemDecoration
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_news.*
 import org.json.JSONObject
+import io.fabric.sdk.android.services.settings.IconRequest.build
+
+
 
 /**
  * Created by Dharmraj Acharya on 3/12/18.
@@ -97,6 +102,8 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         feedRecycleView.setHasFixedSize(true)
         adapter = NewsFeedAdapter(newsFeeds, context, this)
         feedRecycleView.adapter = adapter
+        //val decor = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        //feedRecycleView.addItemDecoration(decor)
         pageListner = object : RecyclerViewScrollListener(lm) {
             override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) { }
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {

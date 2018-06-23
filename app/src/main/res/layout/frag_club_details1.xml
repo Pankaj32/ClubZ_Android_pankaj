@@ -68,6 +68,7 @@
                     android:layout_alignBottom="@+id/privacy_status"
                     android:layout_toStartOf="@+id/privacy_status"
                     android:padding="@dimen/_2sdp"
+                    android:tint="@color/primaryColor"
                     app:srcCompat="@drawable/ic_locked_padlock"/>
 
                 <TextView

@@ -16,7 +16,8 @@
     <color name="text_gray">#333333</color>
     <color name="hintcolor">#9c9c9c</color>
     <color name="text_color_gray">#757575</color>
-    <color name="nav_gray">#333333</color>
+    <color name="nav_gray">#666666</color>
+    <!--<color name="nav_gray">#333333</color>-->
 
 
     <color name="background">#F2F2F2</color>
