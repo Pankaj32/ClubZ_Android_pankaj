@@ -66,7 +66,7 @@ class Frag_Create_News_Feed : Fragment(), View.OnClickListener {
         }
     }
 
-    fun permissionPopUp() {
+    private fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(activity, R.style.popstyle)
         val popupMenu = PopupMenu(wrapper, img_feed, Gravity.CENTER)
         popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())

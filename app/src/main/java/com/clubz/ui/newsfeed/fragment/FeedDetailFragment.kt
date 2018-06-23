@@ -15,7 +15,6 @@ import com.clubz.data.model.Feed
 import com.clubz.data.remote.WebService
 import com.clubz.ui.cv.ChipView
 import com.clubz.ui.newsfeed.NewsFeedDetailActivity
-import com.clubz.utils.KeyboardUtil
 import com.clubz.utils.VolleyGetPost
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_feed_detail.*
