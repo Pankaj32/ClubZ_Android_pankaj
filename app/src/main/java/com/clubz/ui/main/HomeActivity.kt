@@ -60,8 +60,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
+import kotlinx.android.synthetic.main.menu_my_activity.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
+import java.util.*
 
 class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
@@ -119,7 +121,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         replaceFragment(FragNewsList())
         ///addFragment_new(Frag_Search_Club(),true ,R.id.frag_container2);
         checkLocationUpdate()
-        Util.e("authtoken", SessionManager.getObj().user.auth_token)
+        Util.e("authtoken", SessionManager.getObj().user.auth_token);
 
         mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout , R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
@@ -135,7 +137,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                     //supportInvalidateOptionsMenu()
                     invalidateOptionsMenu()
                     //lockNavigation()
-                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END)
+                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
                 }
             }
 
@@ -254,8 +256,9 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             }
             /*R.id.navItemActivity -> {
                 startActivity(Intent(this@HomeActivity, MyActivities::class.java))
-            }*/
-        }
+            }
+            R.id.navItemAds -> { }
+        }*/
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
@@ -264,10 +267,8 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId){
             R.id.menu_logout ->  SessionManager.getObj().logout(this)
-            R.id.pop1 -> { item.isChecked = !item.isChecked
-            }
-            R.id.pop2 -> { item.isChecked = !item.isChecked
-            }
+            R.id.pop1 -> { item.isChecked = !item.isChecked() }
+            R.id.pop2 -> { item.isChecked = !item.isChecked() }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -516,7 +517,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                         }
                     }
                 }
-            }
+            };
 
             R.id.filter_list -> closeOption()
 
@@ -562,6 +563,17 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 like = newsFilterDialog?.ch_byLikes?.isChecked!!
             }
 
+            R.id.rlMyProfile -> {
+                val profile = Profile()
+                profile.userId = ClubZ.currentUser!!.id
+                profile.full_name = ClubZ.currentUser!!.full_name
+                profile.profile_image = ClubZ.currentUser!!.profile_image
+                startActivity(Intent(this@HomeActivity, ProfileActivity::class.java).putExtra("profile", profile))
+            }
+            R.id.myActivity -> {
+                startActivity(Intent(this@HomeActivity, MyActivities::class.java))
+                myActivityDailog?.dismiss()
+            }
         }
     }
 

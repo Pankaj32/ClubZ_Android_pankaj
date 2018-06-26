@@ -104,6 +104,7 @@ class Frag_Activity_Member : Fragment() {
                         updateUi(activityDetails)
                     } else {
                         nodataLay.visibility = View.VISIBLE
+                        dataLay.visibility = View.GONE
                     }
                     // searchAdapter?.notifyDataSetChanged()
                 } catch (ex: Exception) {
@@ -135,7 +136,6 @@ class Frag_Activity_Member : Fragment() {
         activityMemberAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
                 val expandedMovieCategory = activityDetails.getData()!![position]
-
             }
 
             override fun onListItemCollapsed(position: Int) {
