@@ -366,7 +366,6 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         tomorrowAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
                 val expandedMovieCategory = tomorrowList!![position]
-
             }
 
             override fun onListItemCollapsed(position: Int) {

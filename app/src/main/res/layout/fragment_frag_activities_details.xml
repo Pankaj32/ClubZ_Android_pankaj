@@ -17,7 +17,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_6sdp"
+                android:layout_margin="@dimen/_8sdp"
                 android:elevation="@dimen/_4sdp"
                 app:cardBackgroundColor="@color/white"
                 app:cardElevation="@dimen/_4sdp">
