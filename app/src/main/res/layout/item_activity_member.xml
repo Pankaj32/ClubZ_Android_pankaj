@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background"
     android:orientation="vertical">
 
     <View
@@ -60,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"/>-->
+
             <com.clubz.ui.cv.chipview.TagView
                 android:id="@+id/tagView"
                 android:layout_width="wrap_content"
