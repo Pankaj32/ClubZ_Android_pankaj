@@ -55,14 +55,14 @@ class FragClubDetails1 : Fragment() {
         img_privacy.setImageResource(if(clubz.club_type == "1") R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
         privacy_status.setText(if(clubz.club_type == "1") R.string.Public else R.string.Private)
         club_email.setText(clubz.club_email)
-        club_phone.setText(String.format("%s%s", clubz.club_country_code, clubz.club_contact_no))
+        club_phone.setText(String.format("%s %s", clubz.club_country_code, clubz.club_contact_no))
         club_city.setText(clubz.club_city)
         club_address.setText(clubz.club_location)
         club_web.setText(clubz.club_website)
         username.text = clubz.full_name
         members.text = String.format("%d %s", 1, getString(R.string.members))
         try {
-            foundation_date.setText(String.format("%s %s", getString(R.string.since), Util.convertDate2(clubz.club_foundation_date)))
+            foundation_date.setText(String.format("%s", Util.convertDate2(clubz.club_foundation_date)))
         }catch (ex :Exception){}
         tv_descrip_detials.text = clubz.club_description
 
