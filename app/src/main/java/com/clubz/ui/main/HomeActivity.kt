@@ -102,6 +102,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     private lateinit var mCurrentLocation: Location
     private var dialog : Dialog? = null
     private var newsFilterDialog : Dialog? = null
+    private var myActivityDailog: Dialog? = null
 
     // filter for news feed page
     private var like = false
@@ -257,8 +258,8 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             /*R.id.navItemActivity -> {
                 startActivity(Intent(this@HomeActivity, MyActivities::class.java))
             }
-            R.id.navItemAds -> { }
-        }*/
+            R.id.navItemAds -> { }*/
+        }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
@@ -346,6 +347,28 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         })
     }
 
+    private fun showMyActivityDialog() {
+        if (myActivityDailog == null) {
+            myActivityDailog = Dialog(this)
+            myActivityDailog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+            val dialogWindow = myActivityDailog?.window
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            myActivityDailog?.setContentView(R.layout.menu_my_activity)
+
+            val lp = dialogWindow?.attributes
+            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+            lp?.y = -100
+            dialogWindow?.attributes = lp
+            myActivityDailog?.myActivity?.setOnClickListener(this)
+            myActivityDailog?.show()
+            /*  for (views in arrayOf(newsFilterDialog?.ch_byClubs, newsFilterDialog?.ch_byComments, newsFilterDialog?.ch_byLikes, newsFilterDialog?.ll_clearFilter))
+                  views?.setOnClickListener(this)*/
+        }
+        myActivityDailog?.show()
+
+    }
+
     private fun updateMyNewsFeed(){
         if(ifNeedTocallApi){
             ifNeedTocallApi = false
@@ -399,7 +422,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             Frag_Find_Activities::class.java.simpleName->{
                 title_tv.setText(R.string.t_find_activities)
                 //for (view in arrayOf(search)) view.visibility = View.GONE
-                for (view in arrayOf(menu, title_tv)) view.visibility = View.VISIBLE
+                for (view in arrayOf(menu, title_tv, bubble_menu)) view.visibility = View.VISIBLE
             }
 
             ChatFragment::class.java.simpleName->{
@@ -487,6 +510,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                         FragNewsList::class.java.simpleName ->{
                             showFilterDialog()
                         }
+
+                        Frag_Find_Activities::class.java.simpleName -> {
+                            showMyActivityDialog()
+                        }
+
                     }
                 }
             }
@@ -517,7 +545,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                         }
                     }
                 }
-            };
+            }
 
             R.id.filter_list -> closeOption()
 
