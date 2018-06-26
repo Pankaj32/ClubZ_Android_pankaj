@@ -40,7 +40,7 @@ class FeedDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
 
-        likeIcon.setOnClickListener({
+        likeIcon.setOnClickListener {
             likeNewsFeed()
             val isCheck = likeIcon.isChecked
             feed?.isLiked = if(isCheck) 1 else 0
@@ -48,7 +48,7 @@ class FeedDetailFragment : Fragment() {
             tvLikeCount.text = String.format(getString(R.string.likes_count), feed!!.likes)
             val activity = context as NewsFeedDetailActivity
             activity.updateNewsfeed(feed)
-        })
+        }
     }
 
     private fun initView(){

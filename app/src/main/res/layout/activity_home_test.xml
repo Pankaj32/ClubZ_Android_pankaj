@@ -215,8 +215,7 @@
         app:itemIconTint="@color/nav_gray"
         android:padding="0dp"
         app:menu="@menu/drawer"
-        android:visibility="visible"
-        >
+        android:visibility="visible">
 
        <!-- <Button
             android:id="@+id/logout"

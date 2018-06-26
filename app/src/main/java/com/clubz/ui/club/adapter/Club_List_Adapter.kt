@@ -104,7 +104,7 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
            // holder.switch1.isEnabled = obj.club_user_status.equals("1")
         }
 
-        holder.img_status.setImageResource(if(obj.club_type == "1") R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
+        holder.img_status.setImageResource(if(obj.club_type == "1") R.drawable.ic_lock_open else R.drawable.ic_lock_outline)
         holder.status.setText(if(obj.club_type == "1") R.string.Public else R.string.Private)
         try {
 

@@ -54,16 +54,36 @@ class FragClubDetails1 : Fragment() {
         club_category.text = clubz.club_category_name
         img_privacy.setImageResource(if(clubz.club_type == "1") R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
         privacy_status.setText(if(clubz.club_type == "1") R.string.Public else R.string.Private)
-        club_email.text = clubz.club_email
-        club_phone.text = String.format("%s%s", clubz.club_country_code, clubz.club_contact_no)
-        club_address.text = clubz.club_address
-        club_web.text = clubz.club_website
+        club_email.setText(clubz.club_email)
+        club_phone.setText(String.format("%s%s", clubz.club_country_code, clubz.club_contact_no))
+        club_city.setText(clubz.club_city)
+        club_address.setText(clubz.club_location)
+        club_web.setText(clubz.club_website)
         username.text = clubz.full_name
         members.text = String.format("%d %s", 1, getString(R.string.members))
         try {
-            date.text = String.format("%s %s", getString(R.string.since), Util.convertDate2(clubz.club_foundation_date))
+            foundation_date.setText(String.format("%s %s", getString(R.string.since), Util.convertDate2(clubz.club_foundation_date)))
         }catch (ex :Exception){}
         tv_descrip_detials.text = clubz.club_description
+
+
+        if(clubz.profile_image.isEmpty())
+            Picasso.with(context).load(R.drawable.ic_user_white).fit().into(image_member2)
+        else
+            Picasso.with(context).load(clubz.profile_image).fit().into(image_member2)
+
+        /*if(clubz.profile_image.isNotEmpty()){
+            Picasso.with(image_member2.context).load(clubz.profile_image)
+                    .transform(CircleTransform()).placeholder(R.drawable.ic_user_shape)
+                    .fit().into(image_member2, object : Callback {
+                        override fun onSuccess() {
+                            image_member2?.setPadding(0,0,0,0)
+                        }
+
+                        override fun onError() { }
+                    })
+        }
+*/
         try{
             Picasso.with(context).load(clubz.club_image).fit().into(img_club)
         }catch (ex:Exception){
@@ -96,20 +116,17 @@ class FragClubDetails1 : Fragment() {
                     if (obj.getString("status") == "success") {
                        val clubz =  Gson().fromJson<Clubs>(obj.getString("clubDetail"), Clubs::class.java)
                         members.text = String.format("%d %s",clubz.members+1, getString(R.string.members))
-                        Picasso.with(image_member2.context).load(clubz.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).into(image_member2, object : Callback {
+                        club_city.setText(clubz.club_city)
+                       /* Picasso.with(image_member2.context).load(clubz.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape)
+                                .fit().into(image_member2, object : Callback {
                             override fun onSuccess() {
                                 image_member2?.setPadding(0,0,0,0)
                             }
 
                             override fun onError() { }
-                        })
+                        })*/
 
-                        if (clubz.club_icon.endsWith("clubDefault.png")) {
-                            val padding = resources.getDimension(R.dimen._8sdp).toInt()
-                            image_member2.setPadding(padding, padding, padding, padding)
-                            image_member2.background = ContextCompat.getDrawable(context, R.drawable.ic_shield_outline)
-                            image_member2.setImageResource(R.drawable.ic_user_shape)
-                        } else {
+                        if (!clubz.club_icon.endsWith("clubDefault.png")) {
                             Picasso.with(context).load(clubz.club_icon).transform(CircleTransform()).into(image_icon, object : Callback {
                                 override fun onSuccess() {
                                     image_icon?.setPadding(0,0,0,0)
@@ -117,11 +134,13 @@ class FragClubDetails1 : Fragment() {
 
                                 override fun onError() { }
                             })
+                            /*val padding = resources.getDimension(R.dimen._8sdp).toInt()
+                            image_icon.setPadding(padding, padding, padding, padding)
+                            image_icon.background = ContextCompat.getDrawable(context, R.drawable.ic_shield_outline)
+                            image_icon.setImageResource(R.drawable.ic_user_shape)*/
                         }
                         usrerole.text = clubz.user_role
-                    } /*else {
-                        Util.showToast(obj.getString("message"),context)
-                    }*/
+                    }
                 }catch (ex :Exception){
                     Util.showToast(R.string.swr,context)
                 }

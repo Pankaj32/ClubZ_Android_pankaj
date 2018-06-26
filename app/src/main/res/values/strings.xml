@@ -51,11 +51,20 @@
     <string name="club_addres">Club\'s address</string>
     <string name="club_locati">Club\'s location</string>
     <string name="club_website">Club\'s website</string>
-    <string name="club_description">Club\'s description</string>
+    <string name="club_description">Club description</string>
     <string name="lead_by">Lead by</string>
     <string name="user_role">User Role</string>
-    <string name="Terms_and_1"><u>Terms and Conditions</u></string>
+    <string name="Terms_and_1"><u>Terms And Conditions</u></string>
     <string name="Terms_and_2">Terms and Conditions text</string>
+
+    <string name="club_info">Club info</string>
+    <string name="foundation_date">Foundation date</string>
+    <string name="club_email">Club email</string>
+    <string name="club_phone_no">Club phone</string>
+    <string name="club_city">Club city</string>
+    <string name="club_address">Club address</string>
+    <string name="club_web_site">Club website</string>
+
 
     <!--Titiles-->
     <string name="t_stay_up"> Stay updated </string>
@@ -275,7 +284,8 @@
 
     <!--Nav menu-->
     <string name="about_me">About me</string>
-    <string name="clubs">My clubs</string>
+    <string name="clubs">Clubs</string>
+    <string name="contacts">Contacts</string>
     <string name="nav_news">My news</string>
     <string name="nav_activities">My activities</string>
     <string name="nav_ads">My ads</string>
@@ -493,30 +503,8 @@
         "Components may have different resting elevations across platforms, depending on the depth "
         "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
 
-        "Responsive elevation and dynamic elevation offsets.\n\n"
+        "Responsive elevation and dynamic elevation offsets."
 
-        "Some component types have responsive elevation, meaning they change elevation in response "
-        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
-        "changes are consistently implemented using dynamic elevation offsets.\n"
-        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
-        "to the component’s resting state. They ensure that elevation changes are consistent "
-        "across actions and component types. For example, all components that lift on press have "
-        "the same elevation change relative to their resting elevation.\n"
-        "Once the input event is completed or cancelled, the component will return to its resting "
-        "elevation.\n\n"
-
-        "Avoiding elevation interference.\n\n"
-
-        "Components with responsive elevations may encounter other components as they move between "
-        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
-        "through other material, components avoid interfering with one another any number of ways, "
-        "whether on a per component basis or using the entire app layout.\n"
-        "On a component level, components can move or be removed before they cause interference. "
-        "For example, a floating action button (FAB) can disappear or move off screen before a "
-        "user picks up a card, or it can move if a snackbar appears.\n"
-        "On the layout level, design your app layout to minimize opportunities for interference. "
-        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
-        "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="silece_this_user">Silece this user</string>
     <string name="only_for_my_contact">Only for my contact</string>

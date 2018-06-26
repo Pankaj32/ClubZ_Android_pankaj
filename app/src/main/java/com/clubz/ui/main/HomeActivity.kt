@@ -62,7 +62,6 @@ import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
-import java.util.*
 
 class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
@@ -82,10 +81,10 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     var isOpenMyClub: Boolean = false
     var open: Boolean = false
     private var doublebackpress: Boolean = false
-    var lastDrawerGravity :Int= Gravity.START;
+    var lastDrawerGravity :Int= Gravity.START
 
     //var isPrivate: Int = 0  // 0: Both option available , 1:public ,2:private
-    var filterListner: FilterListner? = null;
+    var filterListner: FilterListner? = null
     var textChnageListner: Textwatcher_Statusbar? = null
 
     var latitude: Double = 0.toDouble()
@@ -120,7 +119,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         replaceFragment(FragNewsList())
         ///addFragment_new(Frag_Search_Club(),true ,R.id.frag_container2);
         checkLocationUpdate()
-        Util.e("authtoken", SessionManager.getObj().user.auth_token);
+        Util.e("authtoken", SessionManager.getObj().user.auth_token)
 
         mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout , R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
@@ -136,7 +135,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                     //supportInvalidateOptionsMenu()
                     invalidateOptionsMenu()
                     //lockNavigation()
-                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END)
                 }
             }
 
@@ -145,7 +144,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 invalidateOptionsMenu()
                 open = true
                 if(drawerView.id== R.id.drawerView2){
-                    val far = getSupportFragmentManager().findFragmentById(R.id.fragment2) as Frag_Search_Club
+                    val far = supportFragmentManager.findFragmentById(R.id.fragment2) as Frag_Search_Club
                     setActionbarMenu(far)
                     //stausBarHandler(far)
                     bottomtabHandler(far)
@@ -157,7 +156,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                     }else{
                         far.checkLocation()
                        // lockNavigation(true)
-                        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, GravityCompat.END);
+                        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, GravityCompat.END)
                     }
                 }
                 else lastDrawerGravity = Gravity.START
@@ -178,7 +177,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             override fun afterTextChanged(p0: Editable?) {
                 if (textChnageListner != null) {
                     textChnageListner!!.afterchangeText(p0)
-                    search_text.setCursorVisible(true)
+                    search_text.isCursorVisible = true
                 }
             }
 
@@ -204,7 +203,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     }
 
 
-    fun initView(){
+    private fun initView(){
         isOpenMyClub = false
         tablayout.addOnTabSelectedListener(this)
         for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, back)){
@@ -238,6 +237,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 profile.profile_image = ClubZ.currentUser!!.profile_image
                 startActivity(Intent(this@HomeActivity, ProfileActivity::class.java).putExtra("profile", profile))
             }
+
+            R.id.navContact -> { }
+
+            R.id.navMembership -> { }
+
             R.id.navItemClubs -> {
                 startActivity(Intent(this@HomeActivity, ClubsActivity::class.java))
                 /*drawer_layout.closeDrawer(GravityCompat.START)
@@ -248,10 +252,9 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             R.id.navItemNews -> {
                 startActivity(Intent(this@HomeActivity, MyNewsFeedActivity::class.java))
             }
-            R.id.navItemActivity -> {
+            /*R.id.navItemActivity -> {
                 startActivity(Intent(this@HomeActivity, MyActivities::class.java))
-            }
-            R.id.navItemAds -> { }
+            }*/
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
@@ -261,22 +264,23 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId){
             R.id.menu_logout ->  SessionManager.getObj().logout(this)
-            R.id.pop1 -> { item.isChecked = !item.isChecked() }
-            R.id.pop2 -> { item.isChecked = !item.isChecked() }
+            R.id.pop1 -> { item.isChecked = !item.isChecked
+            }
+            R.id.pop2 -> { item.isChecked = !item.isChecked
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     @SuppressLint("RtlHardcoded")
-// Display anchored popup menu based on view selected
-    fun showLogoutPopup(v : View) {
+    private fun showLogoutPopup(v : View) {
         val products =  arrayOf(getString(R.string.logout))
         val lpw =  ListPopupWindow(this)
-        lpw.setAnchorView(v);
-        lpw.setDropDownGravity(Gravity.RIGHT);
-        lpw.setHeight(ListPopupWindow.WRAP_CONTENT);
-        lpw.setWidth(300);
-        lpw.setAdapter( ArrayAdapter(this, android.R.layout.simple_list_item_1, products)); // list_item is your textView with gravity.
+        lpw.anchorView = v
+        lpw.setDropDownGravity(Gravity.RIGHT)
+        lpw.height = ListPopupWindow.WRAP_CONTENT
+        lpw.width = 300
+        lpw.setAdapter( ArrayAdapter(this, android.R.layout.simple_list_item_1, products)) // list_item is your textView with gravity.
         lpw.setOnItemClickListener { parent, view, position, id ->
             lpw.dismiss()
             SessionManager.getObj().logout(this)
@@ -291,13 +295,13 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         if(dialog==null){
             dialog = Dialog(this)
             dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            val dialogWindow = dialog?.getWindow()
+            val dialogWindow = dialog?.window
             dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
             dialog?.setContentView(R.layout.menu_club_selection)
             for (views in arrayOf(dialog?.tv_private, dialog?.tv_public)) views?.setOnClickListener(this)
 
-            val lp = dialogWindow?.getAttributes()
+            val lp = dialogWindow?.attributes
             dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
             lp?.y = -100
             dialogWindow?.attributes = lp
@@ -306,7 +310,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
         if (position == 0) {
             if(isPrivate==0){
-                dialog?.chk_priavte?.isChecked = true; dialog?.chk_public?.isChecked = true;
+                dialog?.chk_priavte?.isChecked = true; dialog?.chk_public?.isChecked = true
             } else {
                 dialog?.chk_priavte?.isChecked = (isPrivate==2)
                 dialog?.chk_public?.isChecked  = (isPrivate==1)
@@ -336,7 +340,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 views?.setOnClickListener(this)
         }
         newsFilterDialog?.show()
-        newsFilterDialog?.setOnDismissListener({ dialog ->
+        newsFilterDialog?.setOnDismissListener({
             updateMyNewsFeed()
         })
     }
@@ -417,7 +421,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
     /********************************************************/
     override fun onTabReselected(tab: TabLayout.Tab?) {
-        when (tab!!.getPosition()) {
+        when (tab!!.position) {
             0 -> { }
             1 -> { }
             2 -> { }
@@ -426,7 +430,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
-        when (tab!!.getPosition()) {
+        when (tab!!.position) {
             0 -> { setTab(tab, R.drawable.ic_news, false) }
             1 -> { setTab(tab, R.drawable.ic_activity, false) }
             2 -> { setTab(tab, R.drawable.ic_chat_bubble, false) }
@@ -436,7 +440,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         hideKeyBoard()
-        when (tab!!.getPosition()) {
+        when (tab!!.position) {
             0 -> {
                 setTab(tab, R.drawable.ic_news_active, true)
                 replaceFragment(FragNewsList())
@@ -456,7 +460,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
     }
 
-    internal fun setTab(tab: TabLayout.Tab, imageRes: Int, isActive: Boolean) {
+    private fun setTab(tab: TabLayout.Tab, imageRes: Int, isActive: Boolean) {
         tab.customView!!.findViewById<AppCompatImageView>(android.R.id.icon).setImageResource(imageRes)
         tab.customView!!.findViewById<TextView>(android.R.id.text1).setTextColor(
                 ContextCompat.getColor(this , if (isActive) R.color.active_tab else R.color.inactive_tab))
@@ -512,21 +516,21 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                         }
                     }
                 }
-            };
+            }
 
             R.id.filter_list -> closeOption()
 
             R.id.tv_private -> {
                 when(isPrivate){
-                    1->{isPrivate = 0; dialog!!.chk_priavte.setChecked(true);       dialog!!.chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
-                    0,2->{isPrivate = 1; dialog!!.chk_priavte.setChecked(false);     dialog!!.chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
+                    1->{isPrivate = 0; dialog!!.chk_priavte.isChecked = true; dialog!!.chk_public.isChecked = true; if (filterListner != null) filterListner!!.onFilterChnge()}
+                    0,2->{isPrivate = 1; dialog!!.chk_priavte.isChecked = false; dialog!!.chk_public.isChecked = true; if (filterListner != null) filterListner!!.onFilterChnge()}
                 }
             }
 
             R.id.tv_public -> {
                 when(isPrivate){
-                    2->{isPrivate = 0; dialog!!.chk_priavte.setChecked(true);        dialog!!.chk_public.setChecked(true); if (filterListner != null) filterListner!!.onFilterChnge()}
-                    0,1->{isPrivate = 2; dialog!!.chk_priavte.setChecked(true);      dialog!!.chk_public.setChecked(false);if (filterListner != null) filterListner!!.onFilterChnge()}
+                    2->{isPrivate = 0; dialog!!.chk_priavte.isChecked = true; dialog!!.chk_public.isChecked = true; if (filterListner != null) filterListner!!.onFilterChnge()}
+                    0,1->{isPrivate = 2; dialog!!.chk_priavte.isChecked = true; dialog!!.chk_public.isChecked = false;if (filterListner != null) filterListner!!.onFilterChnge()}
                 }
             }
 
@@ -568,17 +572,17 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
      *                GravityCompat.START or GravityCompat.END may also be used.
      */
     fun draweHandler(gravity :Int = lastDrawerGravity){
-        if (!open) {
+        open = if (!open) {
             mDrawerLayout.openDrawer(gravity)
-            open = true
+            true
         } else {
             mDrawerLayout.closeDrawer(gravity)
-            open = false
+            false
         }
     }
 
 
-    fun clubOptions(position: Int) {
+    private fun clubOptions(position: Int) {
         var canshow = false
          when(getClubSearchFragment()!!::class.java.simpleName.toString()){
             Frag_Search_Club::class.java.simpleName -> canshow = true
@@ -620,7 +624,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
     }
 
-    fun addFragment(fragmentHolder: Fragment, animationValue: Int): Fragment? {
+    /*fun addFragment(fragmentHolder: Fragment, animationValue: Int): Fragment? {
         try {
             val fragmentManager = supportFragmentManager
             val fragmentName = fragmentHolder.javaClass.name
@@ -638,7 +642,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             return null
         }
     }
-
+*/
     fun bottomtabHandler(fragemet: Fragment){
        try{
 
@@ -688,7 +692,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             super.onBackPressed()
             try {
                 Util.e("Current Fragment", getCurrentFragment()!!::class.java.simpleName.toString())
-                var fragemet = getCurrentFragment()
+                val fragemet = getCurrentFragment()
                 bottomtabHandler(fragemet!!)
                 setActionbarMenu(fragemet)
                 //stausBarHandler(fragemet!!)
@@ -785,7 +789,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
             if (mGoogleApiClient == null)
                 return
-            if (!mGoogleApiClient!!.isConnected())
+            if (!mGoogleApiClient!!.isConnected)
                 return
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
 
@@ -804,7 +808,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     }
 
     override fun onLocationChanged(location: Location) {
-        if (mGoogleApiClient!!.isConnected()) {
+        if (mGoogleApiClient!!.isConnected) {
             startLocationUpdates(location.latitude, location.longitude)
             //LocationServices.getFusedLocationProviderClient(this).removeLocationUpdates(LocationCallback());
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this)
@@ -849,15 +853,15 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
         this.latitude = latitude
-        ClubZ.latitude = latitude;
+        ClubZ.latitude = latitude
         this.longitude = longitude
-        ClubZ.longitude = longitude;
+        ClubZ.longitude = longitude
 
-        object : GioAddressTask(this@HomeActivity, LatLng(latitude, longitude)){
+       object : GioAddressTask(this@HomeActivity, LatLng(latitude, longitude)){
             override fun onSuccess(address: com.clubz.data.model.Address?) {
-                ClubZ.city = address?.city.toString();
+                ClubZ.city = address?.city.toString()
             }
         }.execute()
-        Util.showToast(latitude.toString()+" : "+longitude,this)
+        //Util.showToast(latitude.toString()+" : "+longitude,this)
     }
 }
