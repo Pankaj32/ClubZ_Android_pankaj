@@ -115,6 +115,11 @@
                     android:paddingLeft="@dimen/_3sdp"
                     android:text="3 Km"/>
 
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    app:srcCompat="@drawable/ic_down_arrow"/>
 
             </LinearLayout>
 

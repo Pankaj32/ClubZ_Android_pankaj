@@ -14,11 +14,15 @@
     <color name="unserline_color">#fefefe</color>
     <color name="pager_line">#a2a2a2</color>
     <color name="text_gray">#333333</color>
-    <color name="hintcolor">#9c9c9c</color>
     <color name="text_color_gray">#757575</color>
+    <color name="hint_color_gray">#959595</color>
     <color name="nav_gray">#666666</color>
-    <!--<color name="nav_gray">#333333</color>-->
 
+    <!--Dharmraj-->
+    <color name="text_header_color">#333333</color>
+    <color name="hint_color">#9c9c9c</color>
+    <color name="icon_tint">#4d4d4d</color>
+    <color name="under_line">#a6a6a6</color>
 
     <color name="background">#F2F2F2</color>
     <color name="active_tab">#009688</color>

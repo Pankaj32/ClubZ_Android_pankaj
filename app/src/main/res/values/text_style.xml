@@ -23,7 +23,7 @@
     </style>
 
     <style name="TextView.SingleLine.Gray" parent="TextView.Gray">
-        <item name="android:textColor">@color/transprent_text</item>
+        <item name="android:textColor">@color/text_color_gray</item>
         <item name="android:singleLine">true</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
@@ -33,6 +33,11 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/teko_semibold</item>
+    </style>
+
+
+    <style name="TextView.Header.Gray" parent="TextView.Header">
+        <item name="android:textColor">@color/text_header_color</item>
     </style>
 
     <style name="TextView.SubHeader">
@@ -50,6 +55,31 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/teko_semibold</item>
+    </style>
+
+
+    <style name="tvStyle" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColor">@color/icon_tint</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="colorAccent">@color/hint_color</item>
+        <item name="colorControlNormal">@color/icon_tint</item>
+        <item name="colorControlActivated">@color/hint_color</item>
+        <item name="colorControlHighlight">@color/icon_tint</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="EditText">
+        <item name="android:textColor">@color/icon_tint</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:focusable">false</item>
+    </style>
+
+    <style name="EditText.ClubDetail" parent="EditText">
+        <item name="android:enabled">false</item>
+        <item name="android:singleLine">true</item>
+
     </style>
 
 

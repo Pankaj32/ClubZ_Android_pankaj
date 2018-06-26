@@ -19,6 +19,7 @@ class Clubs :Serializable {
     var club_contact_no = ""
     var club_country_code = ""
     var club_website = ""
+    var club_city = ""
     var club_location = ""
     var club_address = ""
     var club_latitude = ""
