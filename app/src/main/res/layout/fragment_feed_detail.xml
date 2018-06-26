@@ -82,7 +82,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/TextView.SingleLine.Gray"
-                        android:textSize="10sp"
+                        android:fontFamily="@font/roboto_light"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
                         android:text="# Hours ago"/>
 
                     <android.support.v4.widget.Space
@@ -111,7 +113,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/TextView.SingleLine.Gray"
-                        android:textSize="10sp"
+                        android:fontFamily="@font/roboto_light"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
                         android:text="50 Likes"/>
 
 
@@ -128,7 +132,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/TextView.SingleLine.Gray"
-                        android:textSize="10sp"
+                        android:fontFamily="@font/roboto_light"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
                         android:text="150 Comments"/>
 
                 </LinearLayout>

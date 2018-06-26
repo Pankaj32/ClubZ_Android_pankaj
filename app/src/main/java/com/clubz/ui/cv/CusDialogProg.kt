@@ -8,7 +8,7 @@ import android.view.Window
 import com.clubz.R
 
 
-class CusDialogProg(internal var context: Context, Layout: Int = R.layout.custom_progress_dialog_layout) : Dialog(context, R.style.DialogThemes) {
+class CusDialogProg(internal var context: Context?, Layout: Int = R.layout.custom_progress_dialog_layout) : Dialog(context, R.style.DialogThemes) {
     init {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
         this.setContentView(Layout)

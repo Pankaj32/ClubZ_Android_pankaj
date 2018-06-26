@@ -526,6 +526,8 @@
     <string name="hiddne">Hiddne</string>
     <string name="landline_number">Landline number</string>
     <string name="mobile_number">Mobile number</string>
+    <string name="enterprise">Enterprise</string>
+    <string name="max_min_text">Maximum %s  and Minimum %s users</string>
     <string name="no_tag_available">no Tag available</string>
 
 </resources>

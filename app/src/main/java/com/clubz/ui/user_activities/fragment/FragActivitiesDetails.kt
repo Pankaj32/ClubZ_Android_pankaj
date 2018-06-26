@@ -171,7 +171,8 @@ class FragActivitiesDetails : Fragment() {
             fee.visibility = View.GONE
             feeView.visibility = View.GONE
         }
-        maxMinUser.text = "Maximum " + activityDetails?.getData()?.max_users + " and Minimum " + activityDetails?.getData()?.min_users + " users"
+        maxMinUser.text = String().format(getString(R.string.max_min_text),
+                activityDetails?.getData()?.max_users, activityDetails?.getData()?.min_users)
         if (activityDetails?.getData()?.next_event == null) {
             nextLay.visibility = View.GONE
             noNextTxt.visibility = View.VISIBLE

@@ -218,7 +218,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         navigationView.setNavigationItemSelectedListener(this)
         val nav = navigationView.getHeaderView(0)
         nav.rlMyProfile.setOnClickListener(this)
-        nav.nav_tvTitle.setText(ClubZ.currentUser!!.full_name)
+        nav.nav_tvTitle.text = ClubZ.currentUser!!.full_name
         nav.nav_tvStatus.text = getString(R.string.my_status)
         nav.nav_optionMenu.setOnClickListener {
             showLogoutPopup(nav.nav_optionMenu)
@@ -234,7 +234,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.navItemAbout -> {
-                // Handle the camera action
+                val profile = Profile()
+                profile.userId = ClubZ.currentUser!!.id
+                profile.full_name = ClubZ.currentUser!!.full_name
+                profile.profile_image = ClubZ.currentUser!!.profile_image
+                startActivity(Intent(this@HomeActivity, ProfileActivity::class.java).putExtra("profile", profile))
             }
             R.id.navItemClubs -> {
                 startActivity(Intent(this@HomeActivity, ClubsActivity::class.java))

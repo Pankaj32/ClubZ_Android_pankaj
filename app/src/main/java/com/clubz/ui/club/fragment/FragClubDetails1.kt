@@ -3,6 +3,7 @@ package com.clubz.ui.club.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,6 +75,11 @@ class FragClubDetails1 : Fragment() {
         return this
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        ClubZ.instance.cancelPendingRequests(WebService.club_detail)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         ClubZ.instance.cancelPendingRequests(WebService.club_detail)
@@ -92,19 +98,26 @@ class FragClubDetails1 : Fragment() {
                         members.text = String.format("%d %s",clubz.members+1, getString(R.string.members))
                         Picasso.with(image_member2.context).load(clubz.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).into(image_member2, object : Callback {
                             override fun onSuccess() {
-                                image_member2.setPadding(0,0,0,0)
+                                image_member2?.setPadding(0,0,0,0)
                             }
 
                             override fun onError() { }
                         })
 
-                        if(!clubz.club_icon.endsWith("defaultProduct.png"))Picasso.with(context).load(clubz.club_icon).transform(CircleTransform()).into(image_icon, object : Callback {
-                            override fun onSuccess() {
-                                image_icon.setPadding(0,0,0,0)
-                            }
+                        if (clubz.club_icon.endsWith("clubDefault.png")) {
+                            val padding = resources.getDimension(R.dimen._8sdp).toInt()
+                            image_member2.setPadding(padding, padding, padding, padding)
+                            image_member2.background = ContextCompat.getDrawable(context, R.drawable.ic_shield_outline)
+                            image_member2.setImageResource(R.drawable.ic_user_shape)
+                        } else {
+                            Picasso.with(context).load(clubz.club_icon).transform(CircleTransform()).into(image_icon, object : Callback {
+                                override fun onSuccess() {
+                                    image_icon?.setPadding(0,0,0,0)
+                                }
 
-                            override fun onError() { }
-                        })
+                                override fun onError() { }
+                            })
+                        }
                         usrerole.text = clubz.user_role
                     } /*else {
                         Util.showToast(obj.getString("message"),context)

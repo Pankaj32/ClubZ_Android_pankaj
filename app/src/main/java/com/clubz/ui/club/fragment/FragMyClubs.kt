@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -68,6 +69,9 @@ class FragMyClubs : Fragment() , View.OnClickListener,
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         list_recycler.itemAnimator = null
+       // val decor = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+       // list_recycler.addItemDecoration(decor)
+
         list_recycler.layoutManager = lm
         list_recycler.setHasFixedSize(true)
         pageListner = object : RecyclerViewScrollListener(lm) {

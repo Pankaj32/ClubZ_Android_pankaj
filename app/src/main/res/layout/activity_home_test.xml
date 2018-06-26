@@ -211,7 +211,7 @@
         android:background="@color/white"
         android:theme="@style/NavigationView"
         app:headerLayout="@layout/nav_header"
-        app:itemTextColor="@color/black"
+        app:itemTextColor="@color/nav_gray"
         app:itemIconTint="@color/nav_gray"
         android:padding="0dp"
         app:menu="@menu/drawer"
