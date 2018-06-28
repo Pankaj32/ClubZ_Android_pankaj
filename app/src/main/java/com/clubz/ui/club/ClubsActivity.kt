@@ -35,6 +35,7 @@ import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_clubs.*
+import kotlinx.android.synthetic.main.club_more_menu.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
 import org.json.JSONObject
 import java.util.ArrayList
@@ -48,6 +49,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
     private var searchList       : ArrayList<Club_Potential_search> = arrayListOf()
     private var pageListner      : RecyclerViewScrollListener? = null
     private var dialog : Dialog? = null
+    private var menuDialog : Dialog? = null
 
     companion object {
         var isPrivate: Int = 0
@@ -58,7 +60,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         setContentView(R.layout.activity_clubs)
         headerTxt.text = resources.getString(R.string.t_manage_your_clubs)
         ivBack.setOnClickListener(this)
-        addsymbol.setOnClickListener(this)
+       // addsymbol.setOnClickListener(this)
         bubble_menu.setOnClickListener(this)
         setViewPager(viewPager)
         tablayout.setupWithViewPager(viewPager)
@@ -154,9 +156,16 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.ivBack ->{ onBackPressed() }
-            R.id.bubble_menu ->{ showFilterDialog(0) }
-            R.id.addsymbol ->{
-                startActivityForResult(Intent(this@ClubsActivity, ClubCreationActivity::class.java), 1001)}
+            R.id.bubble_menu ->{ showMenu() }
+            R.id.ll_menu1 ->{
+                menuDialog?.dismiss()
+                startActivityForResult(Intent(this@ClubsActivity, ClubCreationActivity::class.java), 1001)
+            }
+
+            R.id.ll_menu2 ->{
+                menuDialog?.dismiss()
+                showFilterDialog(0)
+            }
 
             R.id.tv_private -> {
                 when(isPrivate){
@@ -230,7 +239,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 searchView.visibility = View.GONE
                 search_layout.visibility = View.GONE
                 //floating_search_view.visibility = View.GONE
-                addsymbol.visibility = View.VISIBLE
+                //addsymbol.visibility = View.VISIBLE
                 bubble_menu.visibility = View.VISIBLE
                 headerTxt.visibility = View.VISIBLE
                 headerTxt.text = resources.getString(R.string.t_manage_your_clubs)
@@ -240,13 +249,13 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 searchView.visibility = View.GONE
                 search_layout.visibility = View.GONE
                 //floating_search_view.visibility = View.GONE
-                addsymbol.visibility = View.VISIBLE
+                //addsymbol.visibility = View.VISIBLE
                 bubble_menu.visibility = View.VISIBLE
                 headerTxt.visibility = View.VISIBLE
                 headerTxt.text = resources.getString(R.string.t_join_the_force)
             }
             2 -> {
-                addsymbol.visibility = View.GONE
+                //addsymbol.visibility = View.GONE
                 bubble_menu.visibility = View.GONE
                 headerTxt.visibility = View.GONE
                 //
@@ -280,7 +289,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             for (views in arrayOf(dialog?.tv_private, dialog?.tv_public)) views?.setOnClickListener(this)
 
             val lp = dialogWindow?.attributes
-            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+            dialogWindow?.setGravity(Gravity.CENTER )
             lp?.y = -100
             dialogWindow?.attributes = lp
             dialog?.setCancelable(true)
@@ -296,6 +305,26 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         }
 
         dialog?.show()
+    }
+
+    @SuppressLint("RtlHardcoded")
+    private fun showMenu(){
+        if(menuDialog==null){
+            menuDialog = Dialog(this)
+            menuDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val dialogWindow = menuDialog?.window
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            menuDialog?.setContentView(R.layout.club_more_menu)
+            for (views in arrayOf(menuDialog?.ll_menu1, menuDialog?.ll_menu2)) views?.setOnClickListener(this)
+
+            val lp = dialogWindow?.attributes
+            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+            lp?.y = -100
+            dialogWindow?.attributes = lp
+            menuDialog?.setCancelable(true)
+        }
+        menuDialog?.show()
     }
 
 

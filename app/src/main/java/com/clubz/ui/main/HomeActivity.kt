@@ -2,12 +2,9 @@ package com.clubz.ui.main
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
@@ -21,7 +18,6 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.widget.AppCompatImageView
-import android.support.v7.widget.ListPopupWindow
 import android.text.Editable
 import android.text.TextWatcher
 
@@ -32,19 +28,22 @@ import com.clubz.R
 import com.clubz.ui.core.FilterListner
 import com.clubz.ui.core.Textwatcher_Statusbar
 import com.clubz.ui.newsfeed.fragment.FragNewsList
-import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.Address
+import com.clubz.data.model.DialogMenu
 import com.clubz.data.model.Profile
+import com.clubz.data.model.UserLocation
 import com.clubz.data.remote.GioAddressTask
 import com.clubz.ui.ads.fragment.AdsFragment
 import com.clubz.ui.chat.ChatFragment
 import com.clubz.ui.club.ClubCreationActivity
 import com.clubz.ui.club.ClubsActivity
-import com.clubz.ui.core.BaseActivity
+import com.clubz.ui.club.fragment.FragMyClubs
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.newsfeed.MyNewsFeedActivity
 import com.clubz.ui.profile.ProfileActivity
+import com.clubz.ui.setting.SettingActivity
 import com.clubz.ui.user_activities.activity.MyActivities
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
@@ -56,19 +55,14 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
-import com.google.android.gms.maps.model.LatLng
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
-import kotlinx.android.synthetic.main.menu_my_activity.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
-import java.util.*
 
-class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
-        View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener,
-        NavigationView.OnNavigationItemSelectedListener{
+class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener{
 
     companion object {
         var isPrivate: Int = 0
@@ -89,20 +83,14 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     var filterListner: FilterListner? = null
     var textChnageListner: Textwatcher_Statusbar? = null
 
-    var latitude: Double = 0.toDouble()
-    var longitude:Double = 0.toDouble()
-
-    protected var mGoogleApiClient: GoogleApiClient? = null
-    lateinit var locationManager: LocationManager
-
     private  var isGPSEnabled = false       // flag for GPS status
     private  var isNetworkEnabled = false   // flag for network status
 
-    private lateinit var mLocationRequest: LocationRequest
     private lateinit var mCurrentLocation: Location
-    private var dialog : Dialog? = null
-    private var newsFilterDialog : Dialog? = null
-    private var myActivityDailog: Dialog? = null
+    private lateinit var locationManager: LocationManager
+    private lateinit var mLocationRequest: LocationRequest
+    private lateinit var mGoogleApiClient: GoogleApiClient
+    private lateinit var sessionManager: SessionManager // user session
 
     // filter for news feed page
     private var like = false
@@ -113,16 +101,16 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_test)
-        ClubZ.currentUser = SessionManager.getObj().user
+
+        sessionManager = SessionManager.getObj()
+        val userLocation = sessionManager.lastKnownLocation
+        if(userLocation==null) checkLocationUpdate()
+        else ClubZ.latitude = userLocation.latitude; ClubZ.longitude = userLocation.longitude
+
+        Util.e("authtoken", ClubZ.currentUser!!.auth_token)
+
         initView()
-
-       // tablayout.addOnTabSelectedListener(this)
-       // for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
-
         replaceFragment(FragNewsList())
-        ///addFragment_new(Frag_Search_Club(),true ,R.id.frag_container2);
-        checkLocationUpdate()
-        Util.e("authtoken", SessionManager.getObj().user.auth_token);
 
         mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout , R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
@@ -134,36 +122,26 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                     val cFragment =  getCurrentFragment()
                     setActionbarMenu(cFragment!!)
                     bottomtabHandler(cFragment)
-                    //stausBarHandler(cFragment)
-                    //supportInvalidateOptionsMenu()
                     invalidateOptionsMenu()
-                    //lockNavigation()
-                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END)
                 }
             }
 
             override fun onDrawerOpened(drawerView: View) {
-                //supportInvalidateOptionsMenu()
                 invalidateOptionsMenu()
                 open = true
                 if(drawerView.id== R.id.drawerView2){
-                    val far = supportFragmentManager.findFragmentById(R.id.fragment2) as Frag_Search_Club
+                    val far = supportFragmentManager.findFragmentById(R.id.fragment2) as FragMyClubs
                     setActionbarMenu(far)
-                    //stausBarHandler(far)
                     bottomtabHandler(far)
                     lastDrawerGravity = Gravity.END
 
                     if(isOpenMyClub){
-                        far.setFragmentType(true)
                         isOpenMyClub = false
                     }else{
-                        far.checkLocation()
-                       // lockNavigation(true)
                         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, GravityCompat.END)
                     }
-                }
-                else lastDrawerGravity = Gravity.START
-
+                } else lastDrawerGravity = Gravity.START
             }
 
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
@@ -183,26 +161,13 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                     search_text.isCursorVisible = true
                 }
             }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0!!.length > 0) {
-                    search_back_icon.visibility = View.GONE
-                } else {
-                    search_back_icon.visibility = View.VISIBLE
-                }
+                search_back_icon.visibility = if(p0!!.isNotEmpty()) View.GONE else View.VISIBLE
             }
         })
 
-        try{
-            latitude = ClubZ.latitude
-            longitude = ClubZ.longitude
-        }catch (ex:Exception){}
         DrawerMarginFixer.fixMinDrawerMargin(mDrawerLayout)
-
     }
 
 
@@ -217,7 +182,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         val navigationView = findViewById<NavigationView>(R.id.navigationView)
         navigationView.setNavigationItemSelectedListener(this)
         val nav = navigationView.getHeaderView(0)
-        nav.rlMyProfile.setOnClickListener(this)
+        //nav.rlMyProfile.setOnClickListener(this)
         nav.nav_tvTitle.text = ClubZ.currentUser!!.full_name
         nav.nav_tvStatus.text = getString(R.string.my_status)
         nav.nav_optionMenu.setOnClickListener {
@@ -229,6 +194,9 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
     }
 
+    override fun getActivity(): HomeActivity {
+        return this@HomeActivity
+    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
@@ -252,13 +220,13 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 isOpenMyClub = true
                 return true*/
             }
-            R.id.navItemNews -> {
+            /*R.id.navItemNews -> {
                 startActivity(Intent(this@HomeActivity, MyNewsFeedActivity::class.java))
+            }*/
+            R.id.navItemSetting -> {
+                startActivity(Intent(this@HomeActivity, SettingActivity::class.java))
             }
-            /*R.id.navItemActivity -> {
-                startActivity(Intent(this@HomeActivity, MyActivities::class.java))
-            }
-            R.id.navItemAds -> { }*/
+            R.id.navItemHistory -> { }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
@@ -268,108 +236,14 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId){
             R.id.menu_logout ->  SessionManager.getObj().logout(this)
-            R.id.pop1 -> { item.isChecked = !item.isChecked() }
-            R.id.pop2 -> { item.isChecked = !item.isChecked() }
+            R.id.pop1 -> { item.isChecked = !item.isChecked }
+            R.id.pop2 -> { item.isChecked = !item.isChecked }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    @SuppressLint("RtlHardcoded")
-    private fun showLogoutPopup(v : View) {
-        val products =  arrayOf(getString(R.string.logout))
-        val lpw =  ListPopupWindow(this)
-        lpw.anchorView = v
-        lpw.setDropDownGravity(Gravity.RIGHT)
-        lpw.height = ListPopupWindow.WRAP_CONTENT
-        lpw.width = 300
-        lpw.setAdapter( ArrayAdapter(this, android.R.layout.simple_list_item_1, products)) // list_item is your textView with gravity.
-        lpw.setOnItemClickListener { parent, view, position, id ->
-            lpw.dismiss()
-            SessionManager.getObj().logout(this)
-        }
-        lpw.show()
-    }
 
-
-    @SuppressLint("RtlHardcoded")
-    private fun popupMenu(position: Int){
-
-        if(dialog==null){
-            dialog = Dialog(this)
-            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            val dialogWindow = dialog?.window
-            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            dialog?.setContentView(R.layout.menu_club_selection)
-            for (views in arrayOf(dialog?.tv_private, dialog?.tv_public)) views?.setOnClickListener(this)
-
-            val lp = dialogWindow?.attributes
-            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
-            lp?.y = -100
-            dialogWindow?.attributes = lp
-            dialog?.setCancelable(true)
-        }
-
-        if (position == 0) {
-            if(isPrivate==0){
-                dialog?.chk_priavte?.isChecked = true; dialog?.chk_public?.isChecked = true
-            } else {
-                dialog?.chk_priavte?.isChecked = (isPrivate==2)
-                dialog?.chk_public?.isChecked  = (isPrivate==1)
-            }
-        }
-
-        dialog?.show()
-    }
-
-    @SuppressLint("RtlHardcoded")
-    private fun showFilterDialog(){
-        if(newsFilterDialog==null){
-            newsFilterDialog = Dialog(this)
-            newsFilterDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-
-            val dialogWindow = newsFilterDialog?.window
-            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            newsFilterDialog?.setContentView(R.layout.menu_news_filter)
-
-            val lp = dialogWindow?.attributes
-            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
-            lp?.y = -100
-            dialogWindow?.attributes = lp
-            newsFilterDialog?.setCancelable(true)
-
-            for (views in arrayOf(newsFilterDialog?.ch_byClubs, newsFilterDialog?.ch_byComments, newsFilterDialog?.ch_byLikes, newsFilterDialog?.ll_clearFilter))
-                views?.setOnClickListener(this)
-        }
-        newsFilterDialog?.show()
-        newsFilterDialog?.setOnDismissListener({
-            updateMyNewsFeed()
-        })
-    }
-
-    private fun showMyActivityDialog() {
-        if (myActivityDailog == null) {
-            myActivityDailog = Dialog(this)
-            myActivityDailog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-
-            val dialogWindow = myActivityDailog?.window
-            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            myActivityDailog?.setContentView(R.layout.menu_my_activity)
-
-            val lp = dialogWindow?.attributes
-            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
-            lp?.y = -100
-            dialogWindow?.attributes = lp
-            myActivityDailog?.myActivity?.setOnClickListener(this)
-            myActivityDailog?.show()
-            /*  for (views in arrayOf(newsFilterDialog?.ch_byClubs, newsFilterDialog?.ch_byComments, newsFilterDialog?.ch_byLikes, newsFilterDialog?.ll_clearFilter))
-                  views?.setOnClickListener(this)*/
-        }
-        myActivityDailog?.show()
-
-    }
-
-    private fun updateMyNewsFeed(){
+    override fun updateMyNewsFeed(){
         if(ifNeedTocallApi){
             ifNeedTocallApi = false
             val fragemet : List<Fragment> = supportFragmentManager.fragments
@@ -385,11 +259,11 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     }
 
 
-    fun setActionbarMenu(fragemet: Fragment){
+    override fun setActionbarMenu(fragmentHolder: Fragment){
         for (views in arrayOf(title_tv, menu, search, cancel, addsymbol, back, serch_box, bubble_menu))
             views.visibility = View.GONE
 
-        when (fragemet::class.java.simpleName) {
+        when (fragmentHolder::class.java.simpleName) {
 
             FragNewsList::class.java.simpleName -> {
                 isPrivate = 0
@@ -405,19 +279,19 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 }
             }
 
-            /*Frag_Create_club::class.java.simpleName -> {
-                cus_status.visibility = View.GONE
-            }*/
+            FragMyClubs::class.java.simpleName -> {
+                for (view in arrayOf(search_text, back, addsymbol, serch_box, bubble_menu)) view.visibility = View.VISIBLE
+              /*  filterListner = (fragemet as Frag_Search_Club)
+                textChnageListner = fragemet
+                search_text.setText("")*/
+            }
 
-            Frag_Search_Club::class.java.simpleName -> {
-                //title_tv.visibility = View.GONE
-                //for (view in arrayOf(title_tv, bookmark, menu, search)) view.visibility = View.GONE
+           /* Frag_Search_Club::class.java.simpleName -> {
                 for (view in arrayOf(search_text, back, addsymbol, serch_box, bubble_menu)) view.visibility = View.VISIBLE
                 filterListner = (fragemet as Frag_Search_Club)
                 textChnageListner = fragemet
                 search_text.setText("")
-                //search_text.setCursorVisible(false)
-            }
+            }*/
 
             Frag_Find_Activities::class.java.simpleName->{
                 title_tv.setText(R.string.t_find_activities)
@@ -494,12 +368,13 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     /*Handle view clicks*/
     override fun onClick(p0: View?) {
         when (p0!!.id) {
-           // R.id.logout -> SessionManager.getObj().logout(this)
+
             R.id.search -> {}//{addFragment(Frag_Search_Club(), 0);}
             R.id.cancel -> {
                 search_text.setText("")
                 hideKeyBoard()
             }
+
             R.id.bubble_menu -> {
 
                 if(open){
@@ -508,19 +383,22 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                     val frag = getCurrentFragment()
                     when(frag!!::class.java.simpleName){
                         FragNewsList::class.java.simpleName ->{
-                            showFilterDialog()
+                           // showFilterDialog()
+                            val list : ArrayList<DialogMenu> = arrayListOf()
+                            list.add(DialogMenu("Filter clubs", R.drawable.ic_filter_list))
+                            list.add(DialogMenu("Renew my location", R.drawable.ic_refresh))
+                            showMenu(list)
                         }
 
                         Frag_Find_Activities::class.java.simpleName -> {
                             showMyActivityDialog()
                         }
-
                     }
                 }
             }
-            R.id.menu -> {
-                draweHandler(Gravity.START)
-            }
+
+            R.id.menu -> { draweHandler(Gravity.START) }
+
             R.id.addsymbol -> {
 
                 if(open){
@@ -546,8 +424,6 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                     }
                 }
             }
-
-            R.id.filter_list -> closeOption()
 
             R.id.tv_private -> {
                 when(isPrivate){
@@ -591,16 +467,26 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
                 like = newsFilterDialog?.ch_byLikes?.isChecked!!
             }
 
-            R.id.rlMyProfile -> {
-                val profile = Profile()
-                profile.userId = ClubZ.currentUser!!.id
-                profile.full_name = ClubZ.currentUser!!.full_name
-                profile.profile_image = ClubZ.currentUser!!.profile_image
-                startActivity(Intent(this@HomeActivity, ProfileActivity::class.java).putExtra("profile", profile))
-            }
             R.id.myActivity -> {
                 startActivity(Intent(this@HomeActivity, MyActivities::class.java))
                 myActivityDailog?.dismiss()
+            }
+
+            R.id.ll_menu1 -> {
+                menuDialog?.dismiss()
+            }
+            R.id.ll_menu2 -> {
+                menuDialog?.dismiss()
+                if(open){
+
+                }else{
+                    val fragemet = getCurrentFragment()!!
+                    when (fragemet::class.java.simpleName) {
+                        FragNewsList::class.java.simpleName->{
+                            showFilterDialog()
+                        }
+                    }
+                }
             }
         }
     }
@@ -625,7 +511,8 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     private fun clubOptions(position: Int) {
         var canshow = false
          when(getClubSearchFragment()!!::class.java.simpleName.toString()){
-            Frag_Search_Club::class.java.simpleName -> canshow = true
+            //Frag_Search_Club::class.java.simpleName -> canshow = true
+             FragMyClubs::class.java.simpleName -> canshow = true
         }
       //  if(!canshow) return
         if(open && lastDrawerGravity == Gravity.END) popupMenu(position)
@@ -639,53 +526,17 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }*/
     }
 
-    fun closeOption() {
-        return
-        /*for (i in 0..filter_list.childCount - 1) filter_list.getChildAt(i).visibility = View.GONE
-        filter_list.visibility = View.GONE*/
-    }
 
+    override fun onLowMemory() {
+        super.onLowMemory()
+        dialog = null
+        menuDialog = null
+        newsFilterDialog = null
+        myActivityDailog = null
 
-    internal fun replaceFragment(fragmentHolder: Fragment) {
-        try {
-            val fragmentManager = supportFragmentManager
-            fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            val fragmentName = fragmentHolder.javaClass.name
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            fragmentTransaction.replace(R.id.frag_container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
-            fragmentTransaction.commit()
-            bottomtabHandler(fragmentHolder)
-           // stausBarHandler(fragmentHolder)
-            setActionbarMenu(fragmentHolder)
-            hideKeyBoard()
-        } catch (e: Exception) {
-            //  Util.e("value", e.toString())
-        }
     }
-
-    /*fun addFragment(fragmentHolder: Fragment, animationValue: Int): Fragment? {
-        try {
-            val fragmentManager = supportFragmentManager
-            val fragmentName = fragmentHolder.javaClass.name
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            //fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.fade_out)
-            fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-            fragmentTransaction.add(R.id.frag_container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
-            fragmentTransaction.commit()
-            bottomtabHandler(fragmentHolder)
-            //stausBarHandler(fragmentHolder)
-            setActionbarMenu(fragmentHolder)
-            hideKeyBoard()
-            return fragmentHolder
-        } catch (e: Exception) {
-            return null
-        }
-    }
-*/
-    fun bottomtabHandler(fragemet: Fragment){
+    override fun bottomtabHandler(fragemet: Fragment){
        try{
-
            when (fragemet::class.java.simpleName) {
                Frag_Find_Activities::class.java.simpleName ->  tablayout.visibility = View.VISIBLE
                AdsFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
@@ -699,7 +550,6 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-
         for (fragment in supportFragmentManager.fragments) {
             fragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
@@ -725,7 +575,6 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             return
         }
 
-        closeOption()
         val handler = Handler()
         val runnable: Runnable?
         if (supportFragmentManager.backStackEntryCount > 1) {
@@ -764,7 +613,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
 
 
     /************************************************/
-    private fun checkLocationUpdate() {
+    override fun checkLocationUpdate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (Permission(this,this).checkLocationPermission()) {
@@ -856,34 +705,6 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         }
     }
 
-  /*  private fun getAddress(latitude: Double, longitude: Double): Array<String> {
-        val result = Array<String>(3, {i->""})
-        result[0] = ""
-        result[1] = ""
-        result[2] = ""
-        val geocoder: Geocoder
-        val addresses: List<Address>
-        geocoder = Geocoder(this, Locale.US)
-
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1)
-            val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            val city = addresses[0].locality
-            //  String addressLine = addresses.get(0).getAddressLine(1);
-            result[0] = addresses[0].adminArea  //state
-            result[1] = addresses[0].countryName  //country
-            // String postalCode = addresses.get(0).getPostalCode();
-            // String knownName = addresses.get(0).getFeatureName();
-            //result = knownName + " ," + addressLine + " , " + city + "," + state + "," + country + " counter" + counter;// Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            result[2] = address// Here 1 represent max location result to returned, by documents it recommended 1 to 5
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return result
-    }*/
-
     private fun startLocationUpdates(latitude: Double, longitude: Double) {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -892,16 +713,24 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
 
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
-        this.latitude = latitude
         ClubZ.latitude = latitude
-        this.longitude = longitude
         ClubZ.longitude = longitude
 
-       object : GioAddressTask(this@HomeActivity, LatLng(latitude, longitude)){
-            override fun onSuccess(address: com.clubz.data.model.Address?) {
-                ClubZ.city = address?.city.toString()
+        val userLocation = UserLocation()
+        userLocation.city = "hf"
+        userLocation.latitude = latitude
+        userLocation.longitude =longitude
+        userLocation.isLocationAvailable = true
+        sessionManager.setLocation(userLocation)
+
+        val task = @SuppressLint("StaticFieldLeak")
+        object : GioAddressTask() {
+            override fun onSuccess(address: Address) {
+                ClubZ.city = address.city.toString()
+                userLocation.city = ClubZ.city
+                sessionManager.setLocation(userLocation)
             }
-        }.execute()
-        //Util.showToast(latitude.toString()+" : "+longitude,this)
+        }
+        task.execute(latitude, longitude)
     }
 }

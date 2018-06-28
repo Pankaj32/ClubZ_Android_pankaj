@@ -19,7 +19,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseFragment.FragmentListner{
         onBackPressed()
     }
 
-    override fun setTitle() {
+    /*override fun setTitle() {
 
-    }
+    }*/
 }

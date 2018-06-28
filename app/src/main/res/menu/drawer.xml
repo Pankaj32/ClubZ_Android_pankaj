@@ -21,10 +21,10 @@
             android:icon="@drawable/ic_card_membership"
             android:title="@string/membership" />
 
-        <item
+     <!--   <item
             android:id="@+id/navItemNews"
             android:icon="@drawable/ic_chat"
-            android:title="@string/nav_news" />
+            android:title="@string/nav_news" />-->
 
        <!-- <item
             android:id="@+id/navItemActivity"

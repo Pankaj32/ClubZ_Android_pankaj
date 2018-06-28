@@ -368,7 +368,7 @@
     <string name="tab_to_add_filter_tags">tab to add filter tags</string>
     <string name="create_news_feed">Create news feed</string>
     <string name="article_s_content">Article\'s content</string>
-    <string name="new_article">New Article</string>
+    <string name="new_article">Create new article</string>
     <string name="update_article">Edit Article</string>
     <string name="error_article_name">Please enert article name.</string>
     <string name="error_article_desc">Please enert article description.</string>
@@ -517,5 +517,30 @@
     <string name="enterprise">Enterprise</string>
     <string name="max_min_text">Maximum %s  and Minimum %s users</string>
     <string name="no_tag_available">no Tag available</string>
+    <string name="create_new_club">Create new club</string>
+    <string name="filter_clubs">Filter clubs</string>
+
+    <!--Setting page-->
+    <string name="notifications">Notifications</string>
+    <string name="allow_notifications">Allow notifications</string>
+    <string name="news_notifications">News Notifications</string>
+    <string name="activities_notifications">Activities Notifications</string>
+    <string name="chat_notifications">Chat Notifications</string>
+    <string name="setting">Setting</string>
+    <string name="ads_notifications">Ads Notifications</string>
+    <string name="privacy">Privacy</string>
+    <string name="show_my_profile">Show my profile</string>
+    <string name="delete_my_account">Delete my account</string>
+    <string name="change_my_phone_number">Change my phone number</string>
+    <string name="change_the_language">Change the language</string>
+    <string name="change_my_main_location">Change my main location</string>
+    <string name="account">Account</string>
+    <string name="user_club_nickname">User club nickname</string>
+    <string name="silenced_users">Silenced users</string>
+    <string name="sync_only_wifi">Sync only wifi</string>
+    <string name="data_use">Data Use</string>
+    <string name="allow_anyone_to_contact_me">Allow anyone to contact me</string>
+    <string name="tap_to_add_new_tags">Tap to add new tags</string>
+
 
 </resources>

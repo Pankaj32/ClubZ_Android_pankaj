@@ -36,6 +36,7 @@ class Clubs :Serializable {
     var full_name = ""
     var club_user_status = ""
     var members : Int = 0
+    var isVisiableBody :Boolean = false
 
     @SerializedName("profile_image")
     var profile_image = ""
