@@ -5,6 +5,7 @@ import android.text.TextUtils
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.User
 
 /**
@@ -34,6 +35,10 @@ class ClubZ  : Application() {
         super.onCreate()
         instance = this@ClubZ
         //Fabric.with(this, new Crashlytics());
+        val sessionManager = SessionManager.getObj()
+        ClubZ.currentUser = sessionManager.user
+        val userLocation = sessionManager.lastKnownLocation
+        if(userLocation!=null) ClubZ.latitude = userLocation.latitude; ClubZ.longitude = userLocation.longitude
     }
 
 
