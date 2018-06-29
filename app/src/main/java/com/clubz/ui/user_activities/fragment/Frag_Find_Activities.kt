@@ -435,21 +435,42 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
 
     override fun onItemClick(position: Int, type: String) {
         var activityId = ""
+        var userId = ""
+        var userName = ""
+        var userProfileImg = ""
         when (type) {
             "today" -> {
                 activityId = todayList!![position].activityId!!
+                userId = todayList!![position].userId!!
+                userName = todayList!![position].full_name!!
+                userProfileImg = todayList!![position].profile_image!!
             }
             "tomorrow" -> {
                 activityId = tomorrowList!![position].activityId!!
+                userId = tomorrowList!![position].userId!!
+                userName = tomorrowList!![position].full_name!!
+                userProfileImg = tomorrowList!![position].profile_image!!
             }
             "soon" -> {
                 activityId = soonList!![position].activityId!!
+                userId = soonList!![position].userId!!
+                userName = soonList!![position].full_name!!
+                userProfileImg = soonList!![position].profile_image!!
             }
             "others" -> {
                 activityId = othersList!![position].activityId!!
+                userId = othersList!![position].userId!!
+                userName = othersList!![position].full_name!!
+                userProfileImg = othersList!![position].profile_image!!
             }
         }
-        startActivity(Intent(mContext, ActivitiesDetails::class.java).putExtra("activityId", activityId))
+        startActivity(Intent(mContext, ActivitiesDetails::class.java)
+                .putExtra("activityId", activityId)
+                .putExtra("From", "OthersActivity")
+                .putExtra("userId", userId)
+                .putExtra("userName", userName)
+                .putExtra("userProfileImg", userProfileImg)
+        )
     }
 
     override fun onItemLike(position: Int, type: String) {

@@ -76,6 +76,10 @@ class GetOthersActivitiesResponce {
             var activityName: String? = null
             var activityId: String? = null
             var club_name: String? = null
+            var userId: String? = null
+            var full_name: String? = null
+            var device_token: String? = null
+            var profile_image: String? = null
             var is_like: String? = null
             var is_Confirm: Boolean? = false
             var events: List<EventsBean>? = null
@@ -180,6 +184,10 @@ class GetOthersActivitiesResponce {
             var activityName: String? = null
             var activityId: String? = null
             var club_name: String? = null
+            var userId: String? = null
+            var full_name: String? = null
+            var device_token: String? = null
+            var profile_image: String? = null
             var is_like: String? = null
             var is_Confirm: Boolean? = false
             var events: List<EventsBeanX>? = null
@@ -281,6 +289,10 @@ class GetOthersActivitiesResponce {
             var activityName: String? = null
             var activityId: String? = null
             var club_name: String? = null
+            var userId: String? = null
+            var full_name: String? = null
+            var device_token: String? = null
+            var profile_image: String? = null
             var is_like: String? = null
             var is_Confirm: Boolean? = false
             var events: List<EventsBeanXX>? = null
@@ -382,6 +394,10 @@ class GetOthersActivitiesResponce {
             var activityName: String? = null
             var activityId: String? = null
             var club_name: String? = null
+            var userId: String? = null
+            var full_name: String? = null
+            var device_token: String? = null
+            var profile_image: String? = null
             var is_like: String? = null
             var is_Confirm: Boolean? = false
             var events = null //: List<EventsBeanXXX>? =

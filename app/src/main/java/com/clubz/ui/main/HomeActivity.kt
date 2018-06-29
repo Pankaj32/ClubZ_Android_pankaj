@@ -29,6 +29,8 @@ import android.view.*
 import android.widget.*
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.model.UserBean
+import com.clubz.chat.util.ChatUtil
 import com.clubz.ui.core.FilterListner
 import com.clubz.ui.core.Textwatcher_Statusbar
 import com.clubz.ui.newsfeed.fragment.FragNewsList
@@ -57,6 +59,10 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
@@ -115,7 +121,7 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
         setContentView(R.layout.activity_home_test)
         ClubZ.currentUser = SessionManager.getObj().user
         initView()
-
+        updateFirebaseToken()
         // tablayout.addOnTabSelectedListener(this)
         // for (views in arrayOf(menu, search, cancel, bubble_menu, addsymbol, filter_list, tv_private, tv_public , back)) views.setOnClickListener(this)
 
@@ -918,5 +924,20 @@ class HomeActivity : BaseActivity(), TabLayout.OnTabSelectedListener,
             }
         }.execute()
         Util.showToast(latitude.toString() + " : " + longitude, this)
+    }
+
+
+    private fun updateFirebaseToken() {
+        val chatUserBean = UserBean()
+        chatUserBean.uid = ClubZ.currentUser?.id
+        chatUserBean.email = ClubZ.currentUser?.email
+        chatUserBean.firebaseToken = FirebaseInstanceId.getInstance().getToken();
+        chatUserBean.name = ClubZ.currentUser?.full_name
+        chatUserBean.profilePic = ClubZ.currentUser?.profile_image
+        FirebaseDatabase.getInstance()
+                .reference
+                .child(ChatUtil.ARG_USERS)
+                .child(chatUserBean.uid)
+                .setValue(chatUserBean).addOnCompleteListener { }
     }
 }
