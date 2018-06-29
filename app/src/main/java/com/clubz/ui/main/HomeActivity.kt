@@ -2,12 +2,9 @@ package com.clubz.ui.main
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
@@ -21,7 +18,6 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.widget.AppCompatImageView
-import android.support.v7.widget.ListPopupWindow
 import android.text.Editable
 import android.text.TextWatcher
 
@@ -34,9 +30,10 @@ import com.clubz.chat.util.ChatUtil
 import com.clubz.ui.core.FilterListner
 import com.clubz.ui.core.Textwatcher_Statusbar
 import com.clubz.ui.newsfeed.fragment.FragNewsList
-import com.clubz.ui.club.fragment.Frag_Search_Club
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.Address
+import com.clubz.data.model.DialogMenu
 import com.clubz.data.model.Profile
 import com.clubz.data.model.UserLocation
 import com.clubz.data.remote.GioAddressTask
@@ -45,10 +42,9 @@ import com.clubz.ui.chat.ChatFragment
 import com.clubz.ui.club.ClubCreationActivity
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.club.fragment.FragMyClubs
-import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
-import com.clubz.ui.newsfeed.MyNewsFeedActivity
 import com.clubz.ui.profile.ProfileActivity
+import com.clubz.ui.setting.SettingActivity
 import com.clubz.ui.user_activities.activity.MyActivities
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
@@ -60,16 +56,13 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
-import kotlinx.android.synthetic.main.menu_my_activity.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
-import java.util.*
 
 class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener{
@@ -78,7 +71,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         var isPrivate: Int = 0
     }
 
-    fun getClubType(): Int {
+    fun getClubType() : Int{
         return isPrivate
     }
 
@@ -87,27 +80,26 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     var isOpenMyClub: Boolean = false
     var open: Boolean = false
     private var doublebackpress: Boolean = false
-    var lastDrawerGravity: Int = Gravity.START;
+    var lastDrawerGravity :Int= Gravity.START
 
     //var isPrivate: Int = 0  // 0: Both option available , 1:public ,2:private
-    var filterListner: FilterListner? = null;
+    var filterListner: FilterListner? = null
     var textChnageListner: Textwatcher_Statusbar? = null
 
     private  var isGPSEnabled = false       // flag for GPS status
     private  var isNetworkEnabled = false   // flag for network status
 
-    private lateinit var mLocationRequest: LocationRequest
     private lateinit var mCurrentLocation: Location
-
     private lateinit var locationManager: LocationManager
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mGoogleApiClient: GoogleApiClient
     private lateinit var sessionManager: SessionManager // user session
+
     // filter for news feed page
     private var like = false
     private var comment = false
     private var club = false
-    private var ifNeedTocallApi: Boolean = false
+    private var ifNeedTocallApi : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,13 +113,11 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         Util.e("authtoken", ClubZ.currentUser!!.auth_token)
 
         initView()
+        updateFirebaseToken()
         replaceFragment(FragNewsList())
-        ///addFragment_new(Frag_Search_Club(),true ,R.id.frag_container2);
-        checkLocationUpdate()
-        Util.e("authtoken", SessionManager.getObj().user.auth_token);
 
         mDrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
-        val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
+        val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout , R.drawable.ic_menu_black_24dp, R.string.app_name, R.string.app_name) {
             override fun onDrawerClosed(view: View) {
                 open = false
                 if(view.id == R.id.navigationView){
@@ -136,8 +126,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                     val cFragment =  getCurrentFragment()
                     setActionbarMenu(cFragment!!)
                     bottomtabHandler(cFragment)
-                    //stausBarHandler(cFragment)
-                    //supportInvalidateOptionsMenu()
                     invalidateOptionsMenu()
                     mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END)
                 }
@@ -158,7 +146,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, GravityCompat.END)
                     }
                 } else lastDrawerGravity = Gravity.START
-
             }
 
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
@@ -185,7 +172,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         })
 
         DrawerMarginFixer.fixMinDrawerMargin(mDrawerLayout)
-
     }
 
 
@@ -238,15 +224,13 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 isOpenMyClub = true
                 return true*/
             }
-            /*R.id.navItemNews -> {
-                startActivity(Intent(this@HomeActivity, MyNewsFeedActivity::class.java))
-            }*/
+        /*R.id.navItemNews -> {
+            startActivity(Intent(this@HomeActivity, MyNewsFeedActivity::class.java))
+        }*/
             R.id.navItemSetting -> {
                 startActivity(Intent(this@HomeActivity, SettingActivity::class.java))
             }
-            R.id.navItemHistory -> {
-                startActivity(Intent(this@HomeActivity, MyActivities::class.java))
-            }
+            R.id.navItemHistory -> { }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
@@ -267,13 +251,9 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         if(ifNeedTocallApi){
             ifNeedTocallApi = false
             val fragemet : List<Fragment> = supportFragmentManager.fragments
-            var newsFeedFragment: FragNewsList? = null
-            for (frag in fragemet) {
-                if (frag::class.java.simpleName == FragNewsList::class.java.simpleName) {
-                    newsFeedFragment = frag as FragNewsList
-                    break
-                }
-            }
+            val newsFeedFragment: FragNewsList? = fragemet
+                    .firstOrNull { it::class.java.simpleName==FragNewsList::class.java.simpleName }
+                    ?.let { it as FragNewsList }
             newsFeedFragment?.setFilter(club, like, comment)
         }
     }
@@ -288,7 +268,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             FragNewsList::class.java.simpleName -> {
                 isPrivate = 0
                 for (view in arrayOf(title_tv, bubble_menu, menu)) view.visibility = View.VISIBLE
-               // for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.GONE
+                // for (view in arrayOf(search_text, back, addsymbol, serch_box)) view.visibility = View.GONE
                 title_tv.setText(R.string.t_stay_up)
 
                 if(ClubZ.isNeedToUpdateNewsFeed) {
@@ -301,17 +281,17 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
             FragMyClubs::class.java.simpleName -> {
                 for (view in arrayOf(search_text, back, addsymbol, serch_box, bubble_menu)) view.visibility = View.VISIBLE
-              /*  filterListner = (fragemet as Frag_Search_Club)
-                textChnageListner = fragemet
-                search_text.setText("")*/
+                /*  filterListner = (fragemet as Frag_Search_Club)
+                  textChnageListner = fragemet
+                  search_text.setText("")*/
             }
 
-           /* Frag_Search_Club::class.java.simpleName -> {
-                for (view in arrayOf(search_text, back, addsymbol, serch_box, bubble_menu)) view.visibility = View.VISIBLE
-                filterListner = (fragemet as Frag_Search_Club)
-                textChnageListner = fragemet
-                search_text.setText("")
-            }*/
+        /* Frag_Search_Club::class.java.simpleName -> {
+             for (view in arrayOf(search_text, back, addsymbol, serch_box, bubble_menu)) view.visibility = View.VISIBLE
+             filterListner = (fragemet as Frag_Search_Club)
+             textChnageListner = fragemet
+             search_text.setText("")
+         }*/
 
             Frag_Find_Activities::class.java.simpleName->{
                 title_tv.setText(R.string.t_find_activities)
@@ -319,7 +299,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 for (view in arrayOf(menu, title_tv, bubble_menu)) view.visibility = View.VISIBLE
             }
 
-            ChatFragment::class.java.simpleName -> {
+            ChatFragment::class.java.simpleName->{
                 title_tv.setText(R.string.t_chat)
                 for (view in arrayOf(menu, title_tv)) view.visibility = View.VISIBLE
             }
@@ -403,7 +383,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                     val frag = getCurrentFragment()
                     when(frag!!::class.java.simpleName){
                         FragNewsList::class.java.simpleName ->{
-                           // showFilterDialog()
+                            // showFilterDialog()
                             val list : ArrayList<DialogMenu> = arrayListOf()
                             list.add(DialogMenu("Filter clubs", R.drawable.ic_filter_list))
                             list.add(DialogMenu("Renew my location", R.drawable.ic_refresh))
@@ -424,17 +404,17 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 if(open){
                     draweHandler(lastDrawerGravity)
                     startActivity(Intent(this@HomeActivity, ClubCreationActivity::class.java))
-                   /* addFragment(Frag_Create_club(),0)
-                      object : Purchase_membership_dialog(this) {
-                        override fun viewplansListner() {
-                            this.dismiss();
-                        }
-                    }.show()*/
+                    /* addFragment(Frag_Create_club(),0)
+                       object : Purchase_membership_dialog(this) {
+                         override fun viewplansListner() {
+                             this.dismiss();
+                         }
+                     }.show()*/
                 }else{
                     val fragemet = getCurrentFragment()!!
                     when (fragemet::class.java.simpleName) {
                         Frag_Find_Activities::class.java.simpleName->{
-                           startActivity(Intent(this@HomeActivity, NewActivities::class.java))
+                            startActivity(Intent(this@HomeActivity, NewActivities::class.java))
                         }
 
                         FragNewsList::class.java.simpleName->{
@@ -530,11 +510,11 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     private fun clubOptions(position: Int) {
         var canshow = false
-         when(getClubSearchFragment()!!::class.java.simpleName.toString()){
-            //Frag_Search_Club::class.java.simpleName -> canshow = true
-             FragMyClubs::class.java.simpleName -> canshow = true
+        when(getClubSearchFragment()!!::class.java.simpleName.toString()){
+        //Frag_Search_Club::class.java.simpleName -> canshow = true
+            FragMyClubs::class.java.simpleName -> canshow = true
         }
-      //  if(!canshow) return
+        //  if(!canshow) return
         if(open && lastDrawerGravity == Gravity.END) popupMenu(position)
         /*filter_list.visibility = View.VISIBLE
         filter_list.getChildAt(position).visibility = View.VISIBLE
@@ -554,17 +534,17 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         newsFilterDialog = null
         myActivityDailog = null
 
-    fun bottomtabHandler(fragemet: Fragment) {
-        try {
-
+    }
+    override fun bottomtabHandler(fragemet: Fragment){
+        try{
             when (fragemet::class.java.simpleName) {
-                Frag_Find_Activities::class.java.simpleName -> tablayout.visibility = View.VISIBLE
+                Frag_Find_Activities::class.java.simpleName ->  tablayout.visibility = View.VISIBLE
                 AdsFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
                 ChatFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
-                FragNewsList::class.java.simpleName -> tablayout.visibility = View.VISIBLE
-                else -> tablayout.visibility = View.GONE
+                FragNewsList::class.java.simpleName ->  tablayout.visibility = View.VISIBLE
+                else-> tablayout.visibility = View.GONE
             }
-        } catch (ex: Exception) {
+        }catch (ex:Exception){
             ex.printStackTrace()
         }
     }
@@ -620,16 +600,16 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         }
     }
 
-        fun getCurrentFragment(): Fragment? {
-            val fragments = supportFragmentManager.fragments
-            return fragments[fragments.size - 1]
-            //return supportFragmentManager.findFragmentById(R.id.frag_container)
-        }
+    fun getCurrentFragment(): Fragment? {
+        val fragments = supportFragmentManager.fragments
+        return fragments[fragments.size - 1]
+        //return supportFragmentManager.findFragmentById(R.id.frag_container)
+    }
 
 
-        private fun getClubSearchFragment(): Fragment? {
-            return supportFragmentManager.findFragmentById(R.id.fragment2)
-        }
+    private fun getClubSearchFragment(): Fragment? {
+        return supportFragmentManager.findFragmentById(R.id.fragment2)
+    }
 
 
     /************************************************/
@@ -638,12 +618,12 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
             if (Permission(this,this).checkLocationPermission()) {
                 buildGoogleApiClient()
-                mGoogleApiClient!!.connect()
+                mGoogleApiClient.connect()
             }
         } else {
             if (checkLocationPermissionLowerApi()) {
                 buildGoogleApiClient()
-                mGoogleApiClient!!.connect()
+                mGoogleApiClient.connect()
             } else {
                 showSettingsAlert()
             }
@@ -698,7 +678,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
             if (mGoogleApiClient == null)
                 return
-            if (!mGoogleApiClient!!.isConnected)
+            if (!mGoogleApiClient.isConnected)
                 return
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
 
@@ -717,7 +697,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     }
 
     override fun onLocationChanged(location: Location) {
-        if (mGoogleApiClient!!.isConnected) {
+        if (mGoogleApiClient.isConnected) {
             startLocationUpdates(location.latitude, location.longitude)
             //LocationServices.getFusedLocationProviderClient(this).removeLocationUpdates(LocationCallback());
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this)
@@ -752,16 +732,13 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             }
         }
         task.execute(latitude, longitude)
-        }
-        task.execute(latitude, longitude)
     }
-
 
     private fun updateFirebaseToken() {
         val chatUserBean = UserBean()
         chatUserBean.uid = ClubZ.currentUser?.id
         chatUserBean.email = ClubZ.currentUser?.email
-        chatUserBean.firebaseToken = FirebaseInstanceId.getInstance().getToken();
+        chatUserBean.firebaseToken = FirebaseInstanceId.getInstance().token
         chatUserBean.name = ClubZ.currentUser?.full_name
         chatUserBean.profilePic = ClubZ.currentUser?.profile_image
         FirebaseDatabase.getInstance()
@@ -770,4 +747,5 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 .child(chatUserBean.uid)
                 .setValue(chatUserBean).addOnCompleteListener { }
     }
+
 }
