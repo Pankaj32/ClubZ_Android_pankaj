@@ -77,7 +77,7 @@
                     android:id="@+id/edAffiliates"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_25sdp"
-                    android:hint="tab to add new tags"
+                    android:hint="@string/tap_to_add_new_tags"
                     android:paddingRight="@dimen/_5sdp"
                     android:textColorHint="@color/text_color_gray"
                     android:textColor="@color/black"

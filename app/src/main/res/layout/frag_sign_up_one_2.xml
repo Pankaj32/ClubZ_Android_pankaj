@@ -76,7 +76,7 @@
                 android:textSize="@dimen/_14sdp"
                 android:inputType="number"
                 android:textColor="@color/text_gray"
-                android:textColorHint="@color/hintcolor"
+                android:textColorHint="@color/hint_color"
                 style="@style/lighttheme"
                 android:singleLine="true"
                 android:maxLength="4"

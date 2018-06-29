@@ -15,7 +15,6 @@ import com.clubz.data.model.Feed
 import com.clubz.data.remote.WebService
 import com.clubz.ui.cv.ChipView
 import com.clubz.ui.newsfeed.NewsFeedDetailActivity
-import com.clubz.utils.KeyboardUtil
 import com.clubz.utils.VolleyGetPost
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_feed_detail.*
@@ -41,7 +40,7 @@ class FeedDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
 
-        likeIcon.setOnClickListener({
+        likeIcon.setOnClickListener {
             likeNewsFeed()
             val isCheck = likeIcon.isChecked
             feed?.isLiked = if(isCheck) 1 else 0
@@ -49,7 +48,7 @@ class FeedDetailFragment : Fragment() {
             tvLikeCount.text = String.format(getString(R.string.likes_count), feed!!.likes)
             val activity = context as NewsFeedDetailActivity
             activity.updateNewsfeed(feed)
-        })
+        }
     }
 
     private fun initView(){

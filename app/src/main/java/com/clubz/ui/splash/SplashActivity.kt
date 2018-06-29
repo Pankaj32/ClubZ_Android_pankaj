@@ -129,11 +129,11 @@ class SplashActivity : AppCompatActivity() {
             override fun onAnimationStart(animation: Animation) { }
 
             override fun onAnimationEnd(animation: Animation) {
-                image.visibility= View.INVISIBLE
-                text1.visibility= View.INVISIBLE
-                text_view.visibility= View.INVISIBLE
-                text2.visibility= View.INVISIBLE
-                text3.visibility= View.INVISIBLE
+                image.visibility = View.INVISIBLE
+                text1.visibility = View.INVISIBLE
+                text_view.visibility = View.INVISIBLE
+                text2.visibility = View.INVISIBLE
+                text3.visibility = View.INVISIBLE
             }
 
             override fun onAnimationRepeat(animation: Animation) { }

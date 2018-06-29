@@ -211,12 +211,11 @@
         android:background="@color/white"
         android:theme="@style/NavigationView"
         app:headerLayout="@layout/nav_header"
-        app:itemTextColor="@color/black"
+        app:itemTextColor="@color/nav_gray"
         app:itemIconTint="@color/nav_gray"
         android:padding="0dp"
         app:menu="@menu/drawer"
-        android:visibility="visible"
-        >
+        android:visibility="visible">
 
        <!-- <Button
             android:id="@+id/logout"
@@ -243,7 +242,7 @@
 
         <fragment
             android:id="@+id/fragment2"
-            android:name="com.clubz.ui.club.fragment.Frag_Search_Club"
+            android:name="com.clubz.ui.club.fragment.FragMyClubs"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="@dimen/_50sdp"

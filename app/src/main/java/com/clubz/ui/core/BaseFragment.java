@@ -17,6 +17,5 @@ public abstract class BaseFragment extends Fragment{
     public interface FragmentListner{
         void hideKeyBoard();
         void onFragBackPress();
-        void setTitle();
     }
 }

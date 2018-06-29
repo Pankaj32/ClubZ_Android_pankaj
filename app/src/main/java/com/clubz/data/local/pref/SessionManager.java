@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.clubz.ClubZ;
+import com.clubz.data.model.UserLocation;
 import com.clubz.ui.authentication.Sign_up_Activity;
 import com.clubz.data.model.User;
 import com.clubz.utils.Constants;
+import com.google.gson.Gson;
 
 /**
  * Created by mindiii on 2/26/18.
@@ -76,6 +78,23 @@ public class SessionManager {
 
     public String getLanguage(){
         return mypref.getString(Constants._userLanguage, "en");
+    }
+
+    public UserLocation getLastKnownLocation(){
+      String text = mypref.getString(Constants._userLastLocation,"");
+      if(!text.isEmpty()){
+          Gson gson = new Gson();
+          return gson.fromJson(text, UserLocation.class);
+      }
+      return null;
+    }
+
+    public void setLocation(UserLocation location){
+        if(location!=null){
+            Gson gson = new Gson();
+            editor.putString(Constants._userLastLocation, gson.toJson(location));
+            editor.apply();
+        }
     }
 
     public boolean isloggedin(){

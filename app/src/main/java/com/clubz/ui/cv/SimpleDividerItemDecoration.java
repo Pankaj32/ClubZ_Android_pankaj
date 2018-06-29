@@ -22,21 +22,27 @@ public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
         int right = parent.getWidth() - parent.getPaddingRight();
 
         int childCount = parent.getAdapter().getItemCount();
-        for (int i = 0; i < childCount; i++) {
 
-            if (i == (childCount - 1)) {
-                continue;
+        try{
+            for (int i = 0; i < childCount; i++) {
+
+                if (i == (childCount - 1)) {
+                    continue;
+                }
+
+                View child = parent.getChildAt(i);
+
+                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+
+                int top = child.getBottom() + params.bottomMargin;
+                int bottom = top + mDivider.getIntrinsicHeight();
+
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
             }
-
-            View child = parent.getChildAt(i);
-
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-
-            int top = child.getBottom() + params.bottomMargin;
-            int bottom = top + mDivider.getIntrinsicHeight();
-
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(c);
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 }

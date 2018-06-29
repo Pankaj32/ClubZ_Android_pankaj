@@ -31,8 +31,7 @@ import org.json.JSONObject
 import java.util.ArrayList
 
 
-class FragMyClubs : Fragment() , View.OnClickListener,
-        SwipeRefreshLayout.OnRefreshListener, MyClub {
+class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, MyClub {
 
     private var adapter  : MyClubListAdapter? = null
     private var clubList : ArrayList<Clubs> = arrayListOf()
@@ -68,6 +67,9 @@ class FragMyClubs : Fragment() , View.OnClickListener,
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         list_recycler.itemAnimator = null
+       // val decor = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+       // list_recycler.addItemDecoration(decor)
+
         list_recycler.layoutManager = lm
         list_recycler.setHasFixedSize(true)
         pageListner = object : RecyclerViewScrollListener(lm) {
@@ -153,7 +155,7 @@ class FragMyClubs : Fragment() , View.OnClickListener,
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["authToken"] = SessionManager.getObj().user.auth_token
                 params["language"] = SessionManager.getObj().language
                 return  params
             }

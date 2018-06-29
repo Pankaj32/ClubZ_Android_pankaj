@@ -1,8 +1,10 @@
 package com.clubz.ui.club.adapter
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +25,12 @@ import com.clubz.utils.VolleyGetPost
 import com.squareup.picasso.Picasso
 import org.json.JSONObject
 import java.util.ArrayList
+
+
+
+
+
+
 
 /**
  * Created by Dharmraj Acharya on 25/05/18.
@@ -82,6 +90,7 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
             holder.leadBy.text = if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name
             holder.bodyDes.text = obj.club_description
             holder.members.text = String.format("%d ",obj.members+1, context.getString(R.string.members))
+            holder.ll_bodyContent.visibility = if (obj.isVisiableBody) View.VISIBLE else View.GONE
 
             if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0){
                 holder.distance.text = "-- Km"
@@ -135,7 +144,7 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
                 }
             }
 
-            holder.imgStatus.setImageResource(if(obj.club_type == "1") R.drawable.ic_unlocked_padlock_black else R.drawable.ic_locked_padlock_black)
+            holder.imgStatus.setImageResource(if(obj.club_type == "1") R.drawable.ic_lock_open else R.drawable.ic_lock_outline)
             //holder.status.setText(if(obj.club_type.equals("1")) R.string.Public else R.string.Private)
             holder.status.setText(if(obj.club_type=="2") R.string.Private else R.string.Public)
             try {
@@ -202,6 +211,8 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
         var btn_join    = itemView.findViewById<Button>(R.id.btn_join)!!
         var switch1     = itemView.findViewById<Switch>(R.id.switch1)!!
         var llProfile   = itemView.findViewById<LinearLayout>(R.id.ll_profile)!!
+        var ll_bodyContent   = itemView.findViewById<LinearLayout>(R.id.ll_bodyContent)!!
+        var ivExpandBtn   = itemView.findViewById<ImageView>(R.id.ivExpandBtn)!!
     }
 
 
@@ -225,14 +236,49 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
             }
         }
 
-        holder.switch1.setOnClickListener({
+        holder.switch1.setOnClickListener {
             val pos = holder.adapterPosition
             listner.onSilenceClub(list[pos], pos)
-        })
+        }
 
-        holder.llProfile.setOnClickListener({
+        holder.llProfile.setOnClickListener {
             holder.showProfile()
-        })
+        }
+
+        holder.ivExpandBtn.setOnClickListener {
+            val pos = holder.adapterPosition
+           /* if(list[pos].isVisiableBody){
+
+                val animate = TranslateAnimation(0f,  0f ,0f, 0.0f+holder.ll_bodyContent.width)
+                animate.duration = 500
+                animate.fillAfter = true
+                holder.ll_bodyContent.startAnimation(animate)
+                holder.ll_bodyContent.visibility = View.GONE
+
+                holder.ll_bodyContent.animate()
+                        .translationY(0f+holder.ll_bodyContent.height)
+                        .setDuration(300)
+                        .setListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator) {
+                                super.onAnimationEnd(animation)
+                                holder.ll_bodyContent.visibility = View.GONE
+                            }
+                        })
+            }else{
+                holder.ll_bodyContent.animate()
+                        .translationY(-0f+holder.ll_bodyContent.height)
+                        .setDuration(300)
+                        .setListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator) {
+                                super.onAnimationEnd(animation)
+                                holder.ll_bodyContent.visibility = View.VISIBLE
+                            }
+                        })
+
+            }*/
+            holder.ll_bodyContent.visibility = if(list[pos].isVisiableBody) View.GONE else View.VISIBLE
+            list[pos].isVisiableBody = !list[pos].isVisiableBody
+        }
 
     }
 

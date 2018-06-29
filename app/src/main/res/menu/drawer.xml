@@ -12,19 +12,31 @@
             android:title="@string/clubs" />
 
         <item
-            android:id="@+id/navItemNews"
-            android:icon="@drawable/ic_chat"
-            android:title="@string/nav_news" />
+            android:id="@+id/navContact"
+            android:icon="@drawable/ic_contacts"
+            android:title="@string/contacts" />
 
         <item
+            android:id="@+id/navMembership"
+            android:icon="@drawable/ic_card_membership"
+            android:title="@string/membership" />
+
+     <!--   <item
+            android:id="@+id/navItemNews"
+            android:icon="@drawable/ic_chat"
+            android:title="@string/nav_news" />-->
+
+       <!-- <item
             android:id="@+id/navItemActivity"
             android:icon="@drawable/ic_nav_event"
-            android:title="@string/nav_activities" />
+            android:title="@string/nav_activities"
+            android:enabled="false"/>
 
         <item
             android:id="@+id/navItemAds"
             android:icon="@drawable/ic_nav_ads"
-            android:title="@string/nav_ads" />
+            android:title="@string/nav_ads"
+            android:enabled="false"/>-->
 
     </group>
 

@@ -2,199 +2,237 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@null"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp">
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="2dp"
+        app:cardBackgroundColor="@color/white">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="@dimen/_10sdp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/image_club"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/bg_circle_blue"
-                android:layout_marginBottom="@dimen/_10sdp"/>
-
-            <TextView
-                android:id="@+id/tvname"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_18sdp"
-                android:fontFamily="@font/teko_semibold"
-                android:text="Phillipeldia Phillips"
-                android:layout_marginLeft="@dimen/_50sdp"
-                android:layout_marginStart="@dimen/_50sdp"
-                android:singleLine="true"
-                android:layout_toLeftOf="@+id/switch1"
-                android:paddingRight="@dimen/_10sdp" />
+                android:background="@color/white"
+                android:padding="@dimen/_10sdp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_club"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:background="@drawable/bg_circle_blue"
+                    android:visibility="visible"/>
+
+
+                <TextView
+                    android:id="@+id/tvname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18sdp"
+                    android:fontFamily="@font/teko_semibold"
+                    android:text="Phillipeldia Phillips"
+                    android:layout_marginLeft="@dimen/_50sdp"
+                    android:layout_marginStart="@dimen/_50sdp"
+                    android:singleLine="true"
+                    android:layout_toLeftOf="@+id/switch1"
+                    android:paddingRight="@dimen/_10sdp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_28sdp"
+                    android:layout_marginLeft="@dimen/_50sdp">
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10sdp"
+                        app:srcCompat="@drawable/new_user_ico"/>
+                    <TextView
+                        android:id="@+id/members"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/inactive_tab"
+                        android:textSize="@dimen/_8sdp"
+                        android:paddingStart="@dimen/_3sdp"
+                        android:text="1000 members"/>
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/img_status"
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_lock_open"/>
+
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/inactive_tab"
+                        android:textSize="@dimen/_8sdp"
+                        android:paddingStart="@dimen/_3sdp"
+                        android:text="Private"/>
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        app:srcCompat="@drawable/ic_place_black_24dp"/>
+
+                    <!-- <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+                         android:textColor="@color/inactive_tab"
+                         android:textSize="@dimen/_8sdp"
+                         android:paddingStart="@dimen/_3sdp"
+                         android:text="Km"/>-->
+
+                    <TextView
+                        android:id="@+id/distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/inactive_tab"
+                        android:textSize="@dimen/_8sdp"
+                        android:paddingLeft="@dimen/_3sdp"
+                        android:text="3 Km"/>
+
+                </LinearLayout>
+
+
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:theme="@style/SCBSwitch"
+                    android:visibility="visible"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/ivExpandBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/ll_header"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:layout_marginRight="@dimen/_12sdp"
+                    android:layout_alignParentRight="true"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_down"/>
+
+            </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/ll_bodyContent"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:layout_marginLeft="@dimen/_50sdp">
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
-                    app:srcCompat="@drawable/new_user_ico"/>
-                <TextView
-                    android:id="@+id/members"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/inactive_tab"
-                    android:textSize="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_3sdp"
-                    android:text="1000 members"/>
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/img_status"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@android:drawable/ic_lock_lock"/>
-                <TextView
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/inactive_tab"
-                    android:textSize="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_3sdp"
-                    android:text="Private"/>
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    app:srcCompat="@drawable/ic_place_black_24dp"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:orientation="vertical">
 
-               <!-- <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/inactive_tab"
-                    android:textSize="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_3sdp"
-                    android:text="Km"/>-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black_trans80" />
 
                 <TextView
-                    android:id="@+id/distance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/inactive_tab"
-                    android:textSize="@dimen/_8sdp"
-                    android:paddingLeft="@dimen/_3sdp"
-                    android:text="3 Km"/>
+                    android:id="@+id/body_des"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:textColor="@color/nav_gray"
+                    android:textSize="@dimen/_10sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="This is dummy Text to show lotem ipsum adsl dasks its use sjf as jfkasjdf aslf djsfakjasdl asfajsfasjfklal jljjjjjjj" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black_trans80" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <Button
+                        android:id="@+id/btn_join"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_size"
+                        android:paddingStart="@dimen/btn_pading_left"
+                        android:paddingEnd="@dimen/btn_pading_right"
+                        android:text="@string/join"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/_14sdp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:background="@drawable/bg_btn_green"
+                        android:textColor="@color/white" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:gravity="end"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/leadby"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/TextView.SingleLine.Gray"
+                                android:gravity="center_vertical"
+                                android:text="Jhon Doe"
+                                android:textColor="@color/primaryColor"
+                                android:textSize="@dimen/_12sdp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                style="@style/TextView.SingleLine.Gray"
+                                android:text="@string/club_manager"
+                                android:textSize="@dimen/_10sdp" />
+
+                        </LinearLayout>
+
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/ivClubManager"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/bg_circle_blue"
+                            app:siBorderColor="@color/transparent"
+                            android:src="@drawable/ic_user_white"/>
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
 
 
             </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/body_des"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10sdp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="This is dummy Text to show lotem ipsum adsl dasks its use sjf as jfkasjdf aslf djsfakjasdl asfajsfasjfklal jljjjjjjj"
-                android:layout_marginTop="@dimen/_44sdp"
-                />
+        </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:background="@color/pager_line"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_below="@id/body_des" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_below="@id/body_des">
-
-                <Button
-                    android:id="@+id/btn_join"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/button_size"
-                    android:paddingStart="@dimen/btn_pading_left"
-                    android:paddingEnd="@dimen/btn_pading_right"
-                    android:text="@string/join"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/_14sdp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@drawable/bg_btn_green"
-                    android:textColor="@color/white"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="end"
-                    android:visibility="visible" />
-
-
-                <LinearLayout
-                    android:id="@+id/ll_profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_centerVertical="true">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/ivClubManager"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:background="@drawable/bg_circle_blue"
-                        app:siBorderColor="@color/transparent"
-                        android:src="@drawable/ic_user_white"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/leadby"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text="Jhon Doe"
-                            android:textColor="@color/primaryColor"
-                            android:textSize="@dimen/_12sdp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="@string/club_manager"
-                            android:textColor="@color/inactive_tab"
-                            android:textSize="@dimen/_10sdp" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
-
-
-            <Switch
-                android:id="@+id/switch1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:theme="@style/SCBSwitch" />
-
-        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 

@@ -87,6 +87,7 @@
         <activity
             android:name=".ui.club.ClubDetailActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.club.ClubCreationActivity"

@@ -113,7 +113,6 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
     override fun onDestroy() {
         (activity as HomeActivity).filterListner = null
         super.onDestroy()
-
     }
 
     //TODO pagination
@@ -159,8 +158,8 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params.put("city", ClubZ.city)
-                params.put("latitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.latitude.toString() )+"")
-                params.put("longitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.longitude.toString() )+"")
+                params.put("latitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString() )+"")
+                params.put("longitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString() )+"")
                 params.put("clubCategoryId","")
                 params.put("searchText",text)
                 params.put("offset",offset)
@@ -195,7 +194,7 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
         val permission = Permission(activity,context)
         if(!permission.checkLocationPermission()) return
         val activity = (activity as HomeActivity)
-                    if (activity.latitude==0.0 && activity.longitude==0.0  && permission.askForGps()){ val al_dialog : Cus_dialog_material_design  = object : Cus_dialog_material_design(context){
+                    if (ClubZ.latitude ==0.0 && ClubZ.longitude==0.0  && permission.askForGps()){ val al_dialog : Cus_dialog_material_design  = object : Cus_dialog_material_design(context){
                         override fun onDisagree() {
                             this.dismiss()
                         }
@@ -226,8 +225,8 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
 
     fun ClubSearch_Potential(isMyClub : Int){
         val activity  = activity as HomeActivity
-        val lati= if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.latitude.toString()
-        val longi=if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.longitude.toString()
+        val lati= if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString()
+        val longi=if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString()
         //"${WebService.nearclub_names}?latitude=$lati&longitude=$longi&isMyClub=$isMyClub" + "&city=${ClubZ.city}"
         object  : VolleyGetPost(activity , activity,
                 WebService.nearclub_names,false){
@@ -271,8 +270,8 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
                 params.put("offset", "0")
                 params.put("limit","100")
                 params.put("clubType", "")
-                params.put("latitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.latitude.toString() )+"")
-                params.put("longitude",(if(activity.latitude==0.0 && activity.longitude==0.0)"" else activity.longitude.toString() )+"")
+                params.put("latitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString() )+"")
+                params.put("longitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString() )+"")
                 return  params
             }
 

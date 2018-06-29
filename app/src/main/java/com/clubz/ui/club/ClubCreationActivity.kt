@@ -70,7 +70,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         d.minutes=0
         d.seconds=0
         Util.e("Tag", "$d : ${p0!!.minDate} : $check")
-        year = p1 ; month = p2+1 ;day = p3;
+        year = p1 ; month = p2+1 ;day = p3
         tv_fondationdate.setText(Util.convertDate("$year-$month-$day"))
     }
 
@@ -83,7 +83,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
     lateinit var  autocompleteFragment1 : PlaceAutocompleteFragment
     var lat = 0.0
     var lng = 0.0
-    var isvalidate: Boolean = false;
+    var isvalidate: Boolean = false
 
 
     var day = -1
@@ -98,16 +98,14 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_club_creation)
 
-
-
         for(views in arrayOf(img_club ,tv_fondationdate , iv_like ,done ,back_f, all , arow ,image_icon))views.setOnClickListener(this)
         try{
             autocompleteFragment1 = fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
             // var autocompleteFragment  =( activity as HomeActivity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment;
             autocompleteFragment1.setOnPlaceSelectedListener(object : PlaceSelectionListener {
                 override fun onPlaceSelected(p0: Place?) {
-                    club_location.setText(p0!!.name)
-                    club_location.setSelected(true)
+                    club_location.text = p0!!.name
+                    club_location.isSelected = true
                     lat = p0.latLng.latitude
                     lng = p0.latLng.longitude
                 }
@@ -123,7 +121,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         val list = Arrays.asList(*resources.getStringArray(R.array.privacy_type))
         spn_privacy.adapter = CreateClub_Spinner(this, list, Constants.CreateClub_Spinner_Type_privacy_type)
         getCategory()
-        username.setText(SessionManager.getObj().user.full_name)
+        username.text = SessionManager.getObj().user.full_name
         try{
 
             if(ClubZ.currentUser!!.profile_image.isNotBlank()){
@@ -210,7 +208,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
 
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
-                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@ClubCreationActivity, requestCode, resultCode, data);
+                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@ClubCreationActivity, requestCode, resultCode, data)
                 if (imageUri != null) {
                     if(!isClubIcon)
                         CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
@@ -245,11 +243,11 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                var result : CropImage.ActivityResult = CropImage.getActivityResult(data)
+                val result : CropImage.ActivityResult = CropImage.getActivityResult(data)
                 try {
                     if (result != null)
                         if(isClubIcon){
-                            clubIcon = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.getContentResolver(), result.getUri())
+                            clubIcon = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, result.uri)
 
                             if (clubIcon != null) {
                                 image_icon.setPadding(0,0,0,0)
@@ -257,7 +255,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                             }
                         }
                         else
-                        {    clubImage = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.getContentResolver(), result.getUri())
+                        {    clubImage = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, result.uri)
 
 
                             if (clubImage != null) {
@@ -271,14 +269,14 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         isCameraSelected = false
     }
 
-    fun permissionPopUp() {
+   private fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(this@ClubCreationActivity, R.style.popstyle)
         val popupMenu = PopupMenu(wrapper, if(isClubIcon) image_icon else img_club, Gravity.CENTER)
-        popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())
+        popupMenu.menuInflater.inflate(R.menu.popupmenu, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem): Boolean {
                 isCameraSelected = true
-                when (item.getItemId()) {
+                when (item.itemId) {
                     R.id.pop1 -> if (Build.VERSION.SDK_INT >= 23) {
                         if (this@ClubCreationActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                             callIntent(Constants.INTENTREQUESTCAMERA)
@@ -313,17 +311,17 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         when (caseid) {
             Constants.INTENTCAMERA -> {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                var file  = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg");
+                val file  = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg")
                 imageUri =
                         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N){
                             FileProvider.getUriForFile(this@ClubCreationActivity, BuildConfig.APPLICATION_ID + ".provider",file)
                         }else {
                             Uri.fromFile(file)}
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);//USE file code in_ this case
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri)//USE file code in_ this case
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-                ImagePicker.pickImage(this);
+                ImagePicker.pickImage(this)
             }
             Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this@ClubCreationActivity, arrayOf(Manifest.permission.CAMERA,  Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_CAMERA)
@@ -363,7 +361,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    fun crateClub() {
+    private fun crateClub() {
         val activity = this@ClubCreationActivity
         val dialog = CusDialogProg(this@ClubCreationActivity)
         dialog.show()
@@ -396,30 +394,22 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
-                params.put("city", ClubZ.city)
-                params.put("clubName",titile_name.text.toString())
-
-                params.put("clubType",if(spn_privacy.selectedItem.toString().toLowerCase().equals("public"))"1" else "2") // 1 public 2 private
-                params.put("clubCategoryId",(spn_club_category.selectedItem as Club_Category).clubCategoryId)
-
-                params.put("clubEmail",club_email.text.toString())
-                params.put("clubContactNo",club_phone.text.toString())
-
-                params.put("clubCountryCode", SessionManager.getObj().user.country_code)// TODO In Ui
-
-                params.put("clubAddress",club_adres.text.toString())
-                params.put("clubLatitude",lat.toString())
-                params.put("clubWebsite",club_web.text.toString())
-                params.put("clubLongitude",lng.toString())
-
-
-                params.put("termsConditions",terms_n_condition.text.toString())
-
-                params.put("clubFoundationDate",tv_fondationdate.text.toString())
-                params.put("clubLocation",club_location.text.toString())
-                params.put("userRole",usrerole.text.toString()+"")
-
-                params.put("clubDescription",etv_description.getText().toString()+"") //*\\StringEscapeUtils.escapeJava(etv_description.getText().toString()).replace("\\uD83D"," \\uD83D")+"")*//*
+                params["city"] = ClubZ.city
+                params["clubName"] = titile_name.text.toString()
+                params["clubType"] = if(spn_privacy.selectedItem.toString().toLowerCase().equals("public"))"1" else "2" // 1 public 2 private
+                params["clubCategoryId"] = (spn_club_category.selectedItem as Club_Category).clubCategoryId
+                params["clubEmail"] = club_email.text.toString()
+                params["clubContactNo"] = club_phone.text.toString()
+                params["clubCountryCode"] = SessionManager.getObj().user.country_code// TODO In Ui
+                params["clubAddress"] = club_adres.text.toString()
+                params["clubLatitude"] = lat.toString()
+                params["clubWebsite"] = club_web.text.toString()
+                params["clubLongitude"] = lng.toString()
+                params["termsConditions"] = terms_n_condition.text.toString()
+                params["clubFoundationDate"] = tv_fondationdate.text.toString()
+                params["clubLocation"] = club_location.text.toString()
+                params["userRole"] = usrerole.text.toString()+""
+                params["clubDescription"] = etv_description.text.toString()+"" //*\\StringEscapeUtils.escapeJava(etv_description.getText().toString()).replace("\\uD83D"," \\uD83D")+"")*//*
                 Util.e("parms create", params.toString())
                 return params
             }
@@ -427,28 +417,28 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             override fun getByteData(): MutableMap<String, DataPart>? {
                 val params = java.util.HashMap<String, DataPart>()
                 if (clubImage != null) {
-                    params.put("clubImage",DataPart("club_image.jpg", AppHelper.getFileDataFromDrawable(clubImage), "image*//*"))
+                    params["clubImage"] = DataPart("club_image.jpg", AppHelper.getFileDataFromDrawable(clubImage), "image*//*")
                 }
                 if (clubIcon != null) {
-                    params.put("clubIcon",DataPart("club_icon.jpg", AppHelper.getFileDataFromDrawable(clubIcon), "image*//*"))
+                    params["clubIcon"] = DataPart("club_icon.jpg", AppHelper.getFileDataFromDrawable(clubIcon), "image*//*")
                 }
                 return params
             }
 
             override fun getHeaders(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
-                params.put("language", SessionManager.getObj().getLanguage())
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["language"] = SessionManager.getObj().language
+                params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }
         }
-        request.setRetryPolicy(DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+        request.retryPolicy = DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         ClubZ.instance.addToRequestQueue(request)
     }
 
 
 
-    fun getCategory(){
+   private fun getCategory(){
         val activity = this@ClubCreationActivity
         val dialog = CusDialogProg(this@ClubCreationActivity)
         dialog.show()
@@ -559,7 +549,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
 
 
     private fun checkPhoneNumber( countryCode : String) {
-        val contactNo = club_phone.getText().toString()
+        val contactNo = club_phone.text.toString()
         try {
             val phoneUtil = PhoneNumberUtil.createInstance(this@ClubCreationActivity)
             val code = countryCode.toUpperCase()
