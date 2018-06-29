@@ -8,11 +8,12 @@
         android:id="@+id/userTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
         android:layout_marginBottom="@dimen/_3sdp"
         android:layout_marginLeft="@dimen/_12sdp"
         android:text="Addition Smith"
         android:textColor="@color/primaryColor"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -30,9 +31,11 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:paddingLeft="@dimen/_8sdp"
             android:paddingRight="@dimen/_8sdp"
-            android:text=""
+            android:text="hellodgjfdgjfdgj"
             android:textColor="@color/black"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="12sp"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -63,7 +66,8 @@
             android:paddingBottom="@dimen/_3sdp"
             android:paddingLeft="@dimen/_7sdp"
             android:paddingRight="@dimen/_7sdp"
-            android:text=""
+            android:fontFamily="@font/roboto_light"
+            android:text="6.00pm"
             android:textColor="@color/nav_gray"
             android:textSize="8sp"
             android:visibility="visible" />

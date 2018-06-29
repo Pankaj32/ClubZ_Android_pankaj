@@ -33,6 +33,7 @@ import org.json.JSONObject
 import android.view.MenuItem
 import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.view.menu.MenuPopupHelper
+import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Window
@@ -74,7 +75,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_activities)
-        recyclerViewMyActivities.layoutManager = LinearLayoutManager(this@MyActivities)
+        recyclerViewMyActivities.layoutManager = LinearLayoutManager(this@MyActivities) as RecyclerView.LayoutManager?
         back_f.setOnClickListener(this@MyActivities)
         addActivity.setOnClickListener(this@MyActivities)
 
@@ -172,7 +173,8 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
     }
 
     override fun onItemClick(position: Int,type: String) {
-        startActivity(Intent(this@MyActivities, ActivitiesDetails::class.java).putExtra("activityId", todayList!![position].activityId))
+        startActivity(Intent(this@MyActivities, ActivitiesDetails::class.java).putExtra("activityId", todayList!![position].activityId)
+                .putExtra("From","MyActivities"))
     }
 
     override fun onItemLike(position: Int, type: String) {

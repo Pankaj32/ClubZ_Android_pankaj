@@ -150,6 +150,7 @@
         <!-- chiranjib -->
         <activity android:name=".ui.user_activities.activity.ActivitiesDetails"
             android:theme="@style/AppThmeLight"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.newsfeed.CreateNewsFeedActivity"

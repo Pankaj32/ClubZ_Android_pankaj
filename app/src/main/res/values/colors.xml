@@ -46,6 +46,8 @@
     <color name="transprent_text">#80000000</color>
     <color name="black_trans80">#33000000</color>
     <color name="activity_details_icon">#626262</color>
-
+<!--Chat-->
+    <color name="chat_time">#9a9a9a</color>
+    <color name="chat_my_bg">#f2f7fb</color>
 
 </resources>
