@@ -15,6 +15,7 @@ import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.DatePicker
@@ -40,6 +41,7 @@ import com.clubz.utils.cropper.CropImageView
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
+import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
@@ -57,30 +59,15 @@ import java.util.*
 class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         DatePickerDialog.OnDateSetListener, View.OnTouchListener  {
 
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        KeyboardUtil.hideKeyboard(this@ClubCreationActivity)
-        return false
-    }
-
-    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        val check = Date()
-        check.year = p1-1900 ; check.month ; check.date = p3
-        val d = Date(System.currentTimeMillis() - 1000)
-        d.hours =0
-        d.minutes=0
-        d.seconds=0
-        Util.e("Tag", "$d : ${p0!!.minDate} : $check")
-        year = p1 ; month = p2+1 ;day = p3
-        tv_fondationdate.setText(Util.convertDate("$year-$month-$day"))
-    }
-
+    private val TAG = ClubCreationActivity::class.java.canonicalName
+    var PLACE_PICKER_REQUEST = 1
 
     var clubImage : Bitmap? = null
     var clubIcon : Bitmap? = null
     var isCameraSelected : Boolean = false
     var isClubIcon : Boolean = false
     var imageUri : Uri? = null
-    lateinit var  autocompleteFragment1 : PlaceAutocompleteFragment
+  //  lateinit var  autocompleteFragment1 : PlaceAutocompleteFragment
     var lat = 0.0
     var lng = 0.0
     var isvalidate: Boolean = false
@@ -98,8 +85,8 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_club_creation)
 
-        for(views in arrayOf(img_club ,tv_fondationdate , iv_like ,done ,back_f, all , arow ,image_icon))views.setOnClickListener(this)
-        try{
+        for(views in arrayOf(img_club ,ed_foundation_date  ,done ,back_f, all ,image_icon, club_address))views.setOnClickListener(this)
+        /*try{
             autocompleteFragment1 = fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
             // var autocompleteFragment  =( activity as HomeActivity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment;
             autocompleteFragment1.setOnPlaceSelectedListener(object : PlaceSelectionListener {
@@ -117,7 +104,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             })}catch (ex :Exception){
             ex.printStackTrace()
         }
-
+*/
         val list = Arrays.asList(*resources.getStringArray(R.array.privacy_type))
         spn_privacy.adapter = CreateClub_Spinner(this, list, Constants.CreateClub_Spinner_Type_privacy_type)
         getCategory()
@@ -141,13 +128,11 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         }catch (ex : NullPointerException){
             ex.printStackTrace()
         }
-        club_phone.setOnEditorActionListener(object : TextView.OnEditorActionListener{
-            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                if (p1 == EditorInfo.IME_ACTION_NEXT) {
-                    club_adres.requestFocus()               }
-                return false
-            }
-        })
+        club_phone.setOnEditorActionListener { p0, p1, p2 ->
+            if (p1 == EditorInfo.IME_ACTION_NEXT) {
+                club_address.requestFocus()               }
+            false
+        }
         for(spinner in arrayOf(spn_privacy,spn_club_category))spinner.setOnTouchListener(this)
 
         Handler().postDelayed(Runnable {
@@ -165,14 +150,11 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
        hideKeyBoard()
         when(p0!!.id){
             R.id.img_club-> { isClubIcon = false;   permissionPopUp();  }
-            R.id.tv_fondationdate , R.id.iv_like , R.id.arow->{
-                datePicker(day,month,year)
-            }
+            R.id.ed_foundation_date->{ datePicker(day,month,year) }
             R.id.done-> if(validator())crateClub()
-            R.id.back_f->{
-                onBackPressed()
-            }
-            R.id.image_icon->{ isClubIcon = true;   permissionPopUp();            }
+            R.id.back_f->{ onBackPressed() }
+            R.id.image_icon->{ isClubIcon = true;   permissionPopUp(); }
+            R.id.club_address->{ showPlacePicker() }
         }
     }
 
@@ -203,8 +185,28 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         datepickerdialog.show()
     }
 
+    private fun showPlacePicker() {
+       val builder =  PlacePicker.IntentBuilder()
+        try {
+            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST)
+        } catch (e: Exception) {
+            Log.e(TAG, e.stackTrace.toString())
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                val place = PlacePicker.getPlace(this, data)
+                club_address.setText(place!!.name)
+                club_address.isSelected = true
+                lat = place.latLng.latitude
+                lng = place.latLng.longitude
+                Toast.makeText(this, String.format("Place: %s", place.name), Toast.LENGTH_LONG).show()
+            }
+        }
 
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
@@ -401,13 +403,13 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 params["clubEmail"] = club_email.text.toString()
                 params["clubContactNo"] = club_phone.text.toString()
                 params["clubCountryCode"] = SessionManager.getObj().user.country_code// TODO In Ui
-                params["clubAddress"] = club_adres.text.toString()
+                params["clubAddress"] = club_address.text.toString()
                 params["clubLatitude"] = lat.toString()
                 params["clubWebsite"] = club_web.text.toString()
                 params["clubLongitude"] = lng.toString()
                 params["termsConditions"] = terms_n_condition.text.toString()
-                params["clubFoundationDate"] = tv_fondationdate.text.toString()
-                params["clubLocation"] = club_location.text.toString()
+                params["clubFoundationDate"] = ed_foundation_date.text.toString()
+                params["clubLocation"] = club_address.text.toString()
                 params["userRole"] = usrerole.text.toString()+""
                 params["clubDescription"] = etv_description.text.toString()+"" //*\\StringEscapeUtils.escapeJava(etv_description.getText().toString()).replace("\\uD83D"," \\uD83D")+"")*//*
                 Util.e("parms create", params.toString())
@@ -436,9 +438,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         ClubZ.instance.addToRequestQueue(request)
     }
 
-
-
-   private fun getCategory(){
+    private fun getCategory(){
         val activity = this@ClubCreationActivity
         val dialog = CusDialogProg(this@ClubCreationActivity)
         dialog.show()
@@ -481,7 +481,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         }.execute()
     }
 
-    fun  validator() :Boolean{
+    private fun validator() :Boolean{
         //hideKeyBoard()
         checkPhoneNumber(SessionManager.getObj().user.country_code.replace("+",""))
         if(titile_name.text.toString().isBlank()){
@@ -492,7 +492,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_image)
             return false
         }
-        if(tv_fondationdate.text.toString().isBlank()){
+        if(ed_foundation_date.text.toString().isBlank()){
             Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_foundation)
             return false
         }
@@ -512,15 +512,15 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             Util.showSnake(context, view!!,R.string.a_phone_no_valid);
             return false
         }*/
-        if(club_adres.text.toString().isBlank()){
+        if(club_address.text.toString().isBlank()){
             Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_address)
             return false
         }
-        if(club_location.text.toString().isBlank()){
+        if(club_address.text.toString().isBlank()){
             Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_location)
             return false
         }
-        if(club_location.text.toString().isBlank() || (lat==0.0 && lng == 0.0)){
+        if(club_address.text.toString().isBlank() || (lat==0.0 && lng == 0.0)){
             Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_location)
             return false
         }
@@ -547,7 +547,6 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         return true
     }
 
-
     private fun checkPhoneNumber( countryCode : String) {
         val contactNo = club_phone.text.toString()
         try {
@@ -559,5 +558,23 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             System.err.println("NumberParseException was thrown: " + e.toString())
         }
     }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        KeyboardUtil.hideKeyboard(this@ClubCreationActivity)
+        return false
+    }
+
+    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+        val check = Date()
+        check.year = p1-1900 ; check.month ; check.date = p3
+        val d = Date(System.currentTimeMillis() - 1000)
+        d.hours =0
+        d.minutes=0
+        d.seconds=0
+        Util.e("Tag", "$d : ${p0!!.minDate} : $check")
+        year = p1 ; month = p2+1 ;day = p3
+        ed_foundation_date.setText(Util.convertDate("$year-$month-$day"))
+    }
+
 
 }

@@ -103,19 +103,14 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         tomorrowLay.setOnClickListener(this@Frag_Find_Activities)
         soonLay.setOnClickListener(this@Frag_Find_Activities)
         othersLay.setOnClickListener(this@Frag_Find_Activities)
-        val display = getActivity().getWindowManager().getDefaultDisplay()
-        width = display.getWidth()
-        height = display.getHeight()
+        val display = activity.windowManager.defaultDisplay
+        width = display.width
+        height = display.height
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         mContext = context
-
-    }
-
-    override fun onDetach() {
-        super.onDetach()
 
     }
 
@@ -149,7 +144,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         when (p0?.id) {
             R.id.todayLay -> {
                 if (isTodayOpen) {
-                    setRotation(arowToday, isTodayOpen)
+                    Util.setRotation(arowToday, isTodayOpen)
                     isTodayOpen = false
                     todayExCol.setText(R.string.collapsed)
                     //  arowToday.setImageResource(R.drawable.ic_down_arrow)
@@ -159,7 +154,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                         todayNoDataTxt.visibility = View.GONE
                     }
                 } else {
-                    setRotation(arowToday, isTodayOpen)
+                    Util.setRotation(arowToday, isTodayOpen)
                     isTodayOpen = true
                     todayExCol.setText(R.string.expanded)
                     //   arowToday.setImageResource(R.drawable.ic_drop_up_arrow)
@@ -171,21 +166,21 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 }
             }
             R.id.tomorrowLay -> {
+
+                Util.setRotation(arowTomorrow, isTomorrowOpen)
                 if (isTomorrowOpen) {
-                    setRotation(arowTomorrow, isTomorrowOpen)
                     isTomorrowOpen = false
                     tomorrowExCol.setText(R.string.collapsed)
-                    // arowTomorrow.setImageResource(R.drawable.ic_down_arrow)
+                    arowTomorrow.setImageResource(R.drawable.ic_down_arrow)
                     if (tomorrowList != null && tomorrowList!!.size > 0) {
                         recyclerViewTomorrow.visibility = View.GONE
                     } else {
                         tomorrowNoDataTxt.visibility = View.GONE
                     }
                 } else {
-                    setRotation(arowTomorrow, isTomorrowOpen)
                     isTomorrowOpen = true
                     tomorrowExCol.setText(R.string.expanded)
-                    // arowTomorrow.setImageResource(R.drawable.ic_drop_up_arrow)
+                     arowTomorrow.setImageResource(R.drawable.ic_drop_up_arrow)
                     if (tomorrowList != null && tomorrowList!!.size > 0) {
                         recyclerViewTomorrow.visibility = View.VISIBLE
                     } else {
@@ -195,7 +190,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             }
             R.id.soonLay -> {
                 if (isSoonOpen) {
-                    setRotation(arowSoon, isSoonOpen)
+                    Util.setRotation(arowSoon, isSoonOpen)
                     isSoonOpen = false
                     soonExCol.setText(R.string.collapsed)
                     arowSoon.setImageResource(R.drawable.ic_down_arrow)
@@ -205,7 +200,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                         soonNoDataTxt.visibility = View.GONE
                     }
                 } else {
-                    setRotation(arowSoon, isSoonOpen)
+                    Util.setRotation(arowSoon, isSoonOpen)
                     isSoonOpen = true
                     soonExCol.setText(R.string.expanded)
                     recyclerViewSoon.visibility = View.VISIBLE
@@ -219,22 +214,22 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             }
             R.id.othersLay -> {
                 if (isOthersOpen) {
-                    setRotation(arowOthers, isOthersOpen)
+                    Util.setRotation(arowOthers, isOthersOpen)
                     isOthersOpen = false
                     othersExCol.setText(R.string.collapsed)
-                    //  arowOthers.setImageResource(R.drawable.ic_down_arrow)
+                    arowOthers.setImageResource(R.drawable.ic_down_arrow)
                     if (othersList != null && othersList!!.size > 0) {
                         recyclerViewOthers.visibility = View.GONE
                     } else {
                         othersNoDataTxt.visibility = View.GONE
                     }
                 } else {
-                    setRotation(arowOthers, isOthersOpen)
+                    Util.setRotation(arowOthers, isOthersOpen)
                     isOthersOpen = true
                     othersExCol.setText(R.string.expanded)
                     recyclerViewOthers.visibility = View.VISIBLE
-                    //   arowSoon.setImageResource(R.drawable.ic_drop_up_arrow)
-                    if (othersList != null && othersList!!.size > 0) {
+                    arowSoon.setImageResource(R.drawable.ic_drop_up_arrow)
+                    if (othersList != null && othersList!!.isNotEmpty()) {
                         recyclerViewOthers.visibility = View.VISIBLE
                     } else {
                         othersNoDataTxt.visibility = View.VISIBLE
@@ -307,10 +302,10 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         }
         todayList = othersActivitiesResponce.getData()!!.today
 
-        for (i in 0..othersActivitiesResponce.getData()!!.tomorrow!!.size - 1) {
-            var tomorrowData = othersActivitiesResponce.getData()!!.tomorrow!!.get(i)
-            for (j in 0..tomorrowData.events!!.size - 1) {
-                var eventData = tomorrowData.events!!.get(j)
+        for (i in 0 until othersActivitiesResponce.getData()!!.tomorrow!!.size) {
+            val tomorrowData = othersActivitiesResponce.getData()!!.tomorrow!!.get(i)
+            for (j in 0 until tomorrowData.events!!.size) {
+                val eventData = tomorrowData.events!!.get(j)
                 eventData.childIndex = j
                 eventData.parentIndex = i
                 if (eventData.is_confirm.equals("1")) tomorrowData.is_Confirm = true
@@ -318,10 +313,10 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         }
         tomorrowList = othersActivitiesResponce.getData()!!.tomorrow
 
-        for (i in 0..othersActivitiesResponce.getData()!!.soon!!.size - 1) {
-            var soonData = othersActivitiesResponce.getData()!!.soon!!.get(i)
-            for (j in 0..soonData.events!!.size - 1) {
-                var eventData = soonData.events!!.get(j)
+        for (i in 0 until othersActivitiesResponce.getData()!!.soon!!.size) {
+            val soonData = othersActivitiesResponce.getData()!!.soon!!.get(i)
+            for (j in 0 until soonData.events!!.size) {
+                val eventData = soonData.events!!.get(j)
                 eventData.childIndex = j
                 eventData.parentIndex = i
                 if (eventData.is_confirm.equals("1")) soonData.is_Confirm = true
@@ -353,13 +348,13 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             }
 
         })
-        recyclerViewToday.setAdapter(todayAdapter)
+        recyclerViewToday.adapter = todayAdapter
         if (todayList != null && todayList!!.size > 0) {
             recyclerViewToday.visibility = View.VISIBLE
         } else {
             todayNoDataTxt.visibility = View.VISIBLE
         }
-        setRotation(arowToday, isTodayOpen)
+        Util.setRotation(arowToday, isTodayOpen)
         isTodayOpen = false
         todayExCol.setText(R.string.expanded)
         tomorrowAdapter = TomorrowActivitiesCategoryAdapter(mContext, tomorrowList, this@Frag_Find_Activities, this@Frag_Find_Activities)
@@ -373,13 +368,12 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             }
 
         })
-        recyclerViewTomorrow.setAdapter(tomorrowAdapter)
+        recyclerViewTomorrow.adapter = tomorrowAdapter
 
         soonAdapter = SoonActivitiesCategoryAdapter(mContext, soonList, this@Frag_Find_Activities, this@Frag_Find_Activities)
         soonAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
                 val expandedMovieCategory = soonList!![position]
-
             }
 
             override fun onListItemCollapsed(position: Int) {
@@ -387,8 +381,8 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             }
 
         })
-        recyclerViewSoon.setAdapter(soonAdapter)
 
+        recyclerViewSoon.adapter = soonAdapter
         othersAdapter = OthersActivitiesCategoryAdapter(mContext, othersList, this@Frag_Find_Activities, this@Frag_Find_Activities)
         othersAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
@@ -401,7 +395,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             }
 
         })
-        recyclerViewOthers.setAdapter(othersAdapter)
+        recyclerViewOthers.adapter = othersAdapter
     }
 
     override fun onResume() {
@@ -409,7 +403,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         getActivitiesList()
     }
 
-    private fun setRotation(imgView: ImageView, expanded: Boolean) {
+   /* private fun setRotation(imgView: ImageView, expanded: Boolean) {
         val rotateAnimation: RotateAnimation
         if (expanded) { // rotate clockwise
             rotateAnimation = RotateAnimation(ROTATED_POSITION,
@@ -426,7 +420,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         rotateAnimation.duration = 200
         rotateAnimation.fillAfter = true
         imgView.startAnimation(rotateAnimation)
-    }
+    }*/
 
     override fun onItemMenuClick(position: Int, itemMenu: ImageView) {
         Log.e("parent " + position, " " + position)
@@ -486,7 +480,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             }
             "tomorrow" -> {
                 if (hasAffliates == 1) {
-                    var tomorrowActivity = tomorrowList!![position]
+                    val tomorrowActivity = tomorrowList!![position]
                     getUserJoinAfiliatesList(tomorrowActivity.activityId!!)
                 } else {
                     Util.showSnake(mContext!!, snakLay!!, R.string.d_no_affiliates)
@@ -494,7 +488,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             }
             "soon" -> {
                 if (hasAffliates == 1) {
-                    var soonActivity = soonList!![position]
+                    val soonActivity = soonList!![position]
                     getUserJoinAfiliatesList(soonActivity.activityId!!)
                 } else {
                     Util.showSnake(mContext!!, snakLay!!, R.string.d_no_affiliates)
@@ -502,7 +496,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             }
             "others" -> {
                 if (hasAffliates == 1) {
-                    var othersActivity = othersList!![position]
+                    val othersActivity = othersList!![position]
                     getUserJoinAfiliatesList(othersActivity.activityId!!)
                 } else {
                     Util.showSnake(mContext!!, snakLay!!, R.string.d_no_affiliates)
@@ -599,7 +593,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         }
         topIcon.setImageResource(R.drawable.active_heart_ico)
         mTitle.setText(R.string.joinTitle)
-        activityUserName.setText(userName)
+        activityUserName.text = userName
         if (!userImage.equals("")) {
             Picasso.with(profileImage.context).load(userImage).fit().into(profileImage)
         }
@@ -622,21 +616,22 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             if (getJoinAffliates.getData()!!.isJoined.equals("1")) {
                 mUserId = userId
             }
-            for (affiliates in getJoinAffliates.getData()!!.affiliates!!) {
-                if (affiliates.isJoined.equals("1")) {
-                    if (affiliateId.equals("")) {
-                        affiliateId = affiliates.userAffiliateId!!
-                    } else {
-                        affiliateId = affiliateId + "," + affiliates.userAffiliateId
+            getJoinAffliates.getData()!!.affiliates!!
+                    .asSequence()
+                    .filter { it.isJoined.equals("1") }
+                    .forEach {
+                        affiliateId = if (affiliateId.equals("")) {
+                            it.userAffiliateId!!
+                        } else {
+                            affiliateId + "," + it.userAffiliateId
+                        }
                     }
-                }
-            }
             joinActivity(activityId, affiliateId, mUserId, dialog)
         })
     }
 
     internal fun popUpConfirm(activityId: String, activityEventId: String, confirmAffiliates: GetConfirmAffiliates) {
-        var isLike: Boolean = false;
+        var isLike: Boolean = false
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -669,7 +664,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         mTitle.setText(R.string.confirmTitle)
 
 
-        activityUserName.setText(userName)
+        activityUserName.text = userName
         if (!userImage.equals("")) {
             Picasso.with(profileImage.context).load(userImage).fit().into(profileImage)
         }
@@ -692,20 +687,21 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             if (confirmAffiliates.getData()!!.isConfirmed.equals("1")) {
                 mUserId = userId
             }
-            for (affiliates in confirmAffiliates.getData()!!.affiliates!!) {
-                if (affiliates.isConfirmed.equals("1")) {
-                    if (affiliateId.equals("")) {
-                        affiliateId = affiliates.userAffiliateId!!
-                    } else {
-                        affiliateId = affiliateId + "," + affiliates.userAffiliateId
+            confirmAffiliates.getData()!!.affiliates!!
+                    .asSequence()
+                    .filter { it.isConfirmed.equals("1") }
+                    .forEach {
+                        affiliateId = if (affiliateId.equals("")) {
+                            it.userAffiliateId!!
+                        } else {
+                            affiliateId + "," + it.userAffiliateId
+                        }
                     }
-                }
-            }
             confirmActivity(activityId, affiliateId, activityEventId, mUserId, dialog, showSnack)
         })
     }
 
-    fun getUserJoinAfiliatesList(activityId: String) {
+    private fun getUserJoinAfiliatesList(activityId: String) {
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)

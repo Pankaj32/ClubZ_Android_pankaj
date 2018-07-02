@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.android.volley.VolleyError
+import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
@@ -75,6 +76,7 @@ class Otp_activity : AppCompatActivity(), View.OnClickListener {
                     if(obj.getString("status").equals("success")){
 
                         SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
+                        ClubZ.currentUser = SessionManager.getObj().user
                         startActivity(Intent(this@Otp_activity, HomeActivity::class.java))
                         finish()
                     }

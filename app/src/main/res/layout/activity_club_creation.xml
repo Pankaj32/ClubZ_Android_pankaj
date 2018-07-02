@@ -203,7 +203,7 @@
                         app:srcCompat="@drawable/ic_new_img"
                         android:background="#00A8D1"/>
 
-                    <android.support.v7.widget.AppCompatImageView
+                   <!-- <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/iv_like"
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
@@ -234,13 +234,13 @@
                         android:gravity="bottom"
                         android:layout_toRightOf="@+id/iv_like"
                         android:layout_alignTop="@+id/iv_like"/>
-                    <!-- <View
+                    &lt;!&ndash; <View
                          android:layout_width="wrap_content"
                          android:layout_height="@dimen/_1sdp"
                          android:layout_alignBottom="@id/tv_fondationdate"
                          android:layout_alignStart="@id/tv_fondationdate"
                          android:layout_alignEnd="@+id/arow"
-                         android:background="#666666"/>-->
+                         android:background="#666666"/>&ndash;&gt;
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/arow"
@@ -253,7 +253,7 @@
                         android:layout_marginLeft="@dimen/_8sdp"
                         android:layout_alignBottom="@+id/tv_fondationdate"
                         android:layout_alignTop="@+id/tv_fondationdate"
-                        android:layout_toRightOf="@+id/tv_fondationdate" />
+                        android:layout_toRightOf="@+id/tv_fondationdate" />-->
 
                     <!--<TextView
                         android:id="@+id/tv_comment"
@@ -287,6 +287,16 @@
                          android:layout_toStartOf="@id/iv_back"
                          app:srcCompat="@drawable/ic_bookmark_border_black_24dp" />-->
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/img_club"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16sdp"
+                        android:text="@string/club_info"
+                        android:layout_marginLeft="@dimen/_16sdp"
+                        android:fontFamily="@font/teko_semibold"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -306,29 +316,13 @@
                             android:background="@color/text_gray"/>
                     </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/img_club"
-                        android:layout_marginTop="@dimen/_66sdp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_16sdp"
-                        android:text="@string/contact_info"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        android:fontFamily="@font/teko_semibold"/>
-
-
-
-
-
-
 
                     <LinearLayout
                         android:id="@+id/ll_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/img_club"
-                        android:layout_marginTop="@dimen/_96sdp"
+                        android:layout_marginTop="@dimen/_65sdp"
                         android:orientation="vertical"
                         android:padding="@dimen/_16sdp">
 
@@ -349,17 +343,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/_16sdp"
-                                android:focusable="false"
                                 android:theme="@style/tvStyle">
 
                                 <EditText
-                                    android:id="@+id/foundation_date"
+                                    android:id="@+id/ed_foundation_date"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    style="@style/EditText.ClubDetail"
-                                    android:textColor="@color/text_gray"
-                                    android:hint="@string/foundation_date"
-                                    android:text="@string/dharmraj_acharya_bhurtel"/>
+                                    style="@style/EditText.ClubCreation"
+                                    android:hint="@string/foundation_date" />
 
                             </android.support.design.widget.TextInputLayout>
 
@@ -388,10 +379,10 @@
                                     android:id="@+id/club_email"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    style="@style/EditText.ClubCreation"
                                     android:hint="@string/club_email"
                                     android:maxLength="100"
-                                    style="@style/et_club_create"
-                                    android:text="Dharmrajacharya@gmail.com"/>
+                                    android:inputType="textEmailAddress" />
 
                             </android.support.design.widget.TextInputLayout>
 
@@ -420,7 +411,10 @@
                                     android:id="@+id/club_phone"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    style="@style/EditText.ClubDetail"
+                                    style="@style/EditText.ClubCreation"
+                                    android:inputType="phone"
+                                    android:maxLength="15"
+                                    android:digits="1234567890"
                                     android:hint="@string/club_phone_no"
                                     android:text="+91 9977141811"/>
 
@@ -451,9 +445,8 @@
                                     android:id="@+id/club_city"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    style="@style/EditText.ClubDetail"
-                                    android:hint="@string/club_city"
-                                    android:text="Indore"/>
+                                    style="@style/EditText.ClubCreation"
+                                    android:hint="@string/club_city" />
 
                             </android.support.design.widget.TextInputLayout>
 
@@ -482,9 +475,8 @@
                                     android:id="@+id/club_address"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    style="@style/EditText.ClubDetail"
-                                    android:hint="@string/club_address"
-                                    android:text="Mindiii System Pvt. Ltd."/>
+                                    style="@style/EditText.ClubCreation"
+                                    android:hint="@string/club_address" />
 
                             </android.support.design.widget.TextInputLayout>
 
@@ -513,54 +505,36 @@
                                     android:id="@+id/club_web"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    style="@style/EditText.ClubDetail"
+                                    style="@style/EditText.ClubCreation"
                                     android:hint="@string/club_web_site"
-                                    android:text="www.mindiii.com"/>
+                                    android:inputType="textWebEmailAddress"/>
 
                             </android.support.design.widget.TextInputLayout>
 
                         </LinearLayout>
 
+                       <!-- <LinearLayout
+                            android:id="@+id/frm_address"
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="0dp"
+                            android:layout_alignBottom="@+id/lnr_location"
+                            android:layout_alignStart="@+id/lnr_location"
+                            android:layout_alignEnd="@id/lnr_location"
+                            android:layout_alignTop="@+id/lnr_location">
+
+                            <fragment
+                                android:id="@+id/autocomplete_fragment"
+                                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                        </LinearLayout>-->
+
                     </LinearLayout>
 
 
 
-                    <EditText
-                        android:id="@+id/club_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_marginTop="@dimen/_96sdp"
-                        android:layout_below="@+id/img_club"
-                        android:hint="@string/club_mail"
-                        android:inputType="textEmailAddress"
-                        android:layout_marginLeft="@dimen/_46sdp"
-                        android:layout_marginRight="@dimen/_16sdp"
-                        android:maxLength="100"
-                        style="@style/et_club_create"
-                        />
-                    <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_below="@+id/club_email"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        app:srcCompat="@drawable/ic_phone_call_button"
-                        android:padding="@dimen/_6sdp"
-                        />
-                    <EditText
-                        android:id="@+id/club_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_below="@+id/club_email"
-                        android:hint="@string/club_phone"
-                        android:inputType="phone"
-                        android:maxLength="15"
-                        android:digits="1234567890"
-                        android:nextFocusForward="@+id/club_adres"
-                        android:layout_marginLeft="@dimen/_46sdp"
-                        android:layout_marginRight="@dimen/_16sdp"
-                        style="@style/et_club_create" />
 
-                    <LinearLayout
+                  <!--  <LinearLayout
                         android:id="@+id/frm_address"
                         android:layout_width="@dimen/_150sdp"
                         android:layout_height="0dp"
@@ -575,12 +549,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/lnr_location"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_below="@+id/club_phone"
+                        android:layout_below="@+id/ll_info"
                         android:layout_marginStart="@dimen/_16sdp"
                         android:layout_marginEnd="@dimen/_16sdp">
 
@@ -623,35 +598,15 @@
                                 />
                         </RelativeLayout>
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
 
-
-                    <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_below="@+id/lnr_location"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        app:srcCompat="@drawable/ic_earth_globe"
-                        android:padding="@dimen/_6sdp"
-                        />
-
-                    <EditText
-                        android:id="@+id/club_web"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_below="@+id/lnr_location"
-                        android:hint="@string/club_website"
-                        android:layout_marginStart="@dimen/_46sdp"
-                        android:layout_marginEnd="@dimen/_16sdp"
-                        style="@style/et_club_create"
-                        />
 
                     <TextView
                         android:id="@+id/tv_descrip"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/club_web"
+                        android:layout_below="@+id/ll_info"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_16sdp"
                         android:text="@string/club_description"
@@ -685,15 +640,58 @@
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:src="@drawable/resizer"
-                        android:layout_alignBottom="@+id/etv_description"
-                        android:layout_alignEnd="@+id/etv_description"/>
+                        android:layout_alignBottom="@+id/terms_n_condition"
+                        android:layout_alignEnd="@+id/terms_n_condition"/>
+
+
+                    <TextView
+                        android:id="@+id/tv_terms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/etv_description"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
+                        android:text="@string/Terms_and_1"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:layout_marginLeft="@dimen/_16sdp" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/terms_n_condition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="@dimen/_100sdp"
+                        android:layout_below="@+id/tv_terms"
+                        android:background="@drawable/bg_edit_text"
+                        android:layout_marginLeft="@dimen/_16sdp"
+                        android:hint="@string/hint_club_termcondi"
+                        android:textColorHint="#666666"
+                        android:textColor="@color/black"
+                        android:gravity="top"
+                        style="@style/graytheme"
+                        android:maxLength="200"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:textSize="@dimen/_12sdp"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:paddingEnd="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_16sdp"
+                        android:layout_marginRight="@dimen/_16sdp"/>
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/resizer"
+                        android:layout_alignBottom="@+id/terms_n_condition"
+                        android:layout_alignEnd="@+id/terms_n_condition"/>
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_20sdp"
                         android:layout_marginStart="@dimen/_16sdp"
                         android:layout_marginTop="@dimen/_16sdp"
                         android:layout_alignEnd="@+id/rtv_leadby"
-                        android:layout_below="@+id/etv_description">
+                        android:layout_below="@+id/terms_n_condition">
                         <View
                             android:layout_marginTop="@dimen/_2sdp"
                             android:layout_width="match_parent"
@@ -713,9 +711,9 @@
                         android:paddingStart="@dimen/_16sdp"
                         android:paddingBottom="@dimen/_8sdp"
                         android:paddingTop="@dimen/_8sdp"
-
-                        android:layout_below="@+id/etv_description"
+                        android:layout_below="@+id/terms_n_condition"
                         android:layout_marginTop="@dimen/_20sdp">
+
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/image_member2"
                             android:layout_width="@dimen/_40sdp"
@@ -751,24 +749,17 @@
                             android:layout_alignTop="@id/leadby"
                             android:layout_toRightOf="@id/leadby"/>
 
-                        <EditText
+                        <TextView
                             android:id="@+id/usrerole"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_light"
-                            android:background="@null"
-                            android:textColorHint="#666666"
-                            android:textColor="@color/black"
+                            android:textColor="@color/text_gray"
                             android:textSize="@dimen/_12sdp"
-                            android:hint="@string/club_manager"
                             android:text="@string/club_manager"
                             android:layout_marginLeft="@dimen/_16sdp"
                             android:layout_below="@+id/leadby"
-                            android:inputType="textCapSentences"
-                            android:maxLength="38"
                             android:singleLine="true"
-                            android:editable="false"
-                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                             android:layout_toRightOf="@id/image_member2"/>
                         <View
                             android:layout_width="wrap_content"
@@ -778,48 +769,6 @@
                             android:layout_alignStart="@id/usrerole"
                             android:layout_alignEnd="@+id/usrerole"/>
                     </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/tv_terms"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rtv_leadby"
-                        android:textColor="@color/primaryColor"
-                        android:textSize="@dimen/_12sdp"
-                        android:text="@string/Terms_and_1"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:layout_marginBottom="@dimen/_8sdp"
-                        android:layout_marginLeft="@dimen/_16sdp" />
-
-                    <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/terms_n_condition"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="@dimen/_100sdp"
-                        android:layout_below="@+id/tv_terms"
-                        android:background="@drawable/bg_edit_text"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        android:layout_marginBottom="@dimen/_16sdp"
-                        android:hint="@string/hint_club_termcondi"
-                        android:textColorHint="#666666"
-                        android:textColor="@color/black"
-                        android:gravity="top"
-                        style="@style/graytheme"
-                        android:maxLength="200"
-                        android:inputType="textCapSentences|textMultiLine"
-                        android:textSize="@dimen/_12sdp"
-                        android:paddingTop="@dimen/_8sdp"
-                        android:paddingStart="@dimen/_8sdp"
-                        android:paddingEnd="@dimen/_8sdp"
-                        android:paddingBottom="@dimen/_16sdp"
-                        android:layout_marginRight="@dimen/_16sdp"/>
-
-                    <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/resizer"
-                        android:layout_alignBottom="@+id/terms_n_condition"
-                        android:layout_alignEnd="@+id/terms_n_condition"/>
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
