@@ -141,9 +141,9 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    fun login(){
+    private fun login(){
         val dialog = CusDialogProg(this);
-        dialog.show();
+        dialog.show()
         object  : VolleyGetPost(this,this, WebService.login_Otp,false) {
             override fun onVolleyResponse(response: String?) {
                 //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}

@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.frag_sign_up_one_2.*
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
+import com.clubz.ClubZ
 import com.clubz.ui.main.HomeActivity
 import com.clubz.helper.sms_reciver.OnSmsCatchListener
 import com.clubz.helper.sms_reciver.SmsVerifyCatcher
@@ -105,10 +106,10 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
     }
 
     fun setData(otp : String , contact : String , code : String ,isnewuser :String) : Frag_Sign_Up_One_2 {
-        _otp = otp;
-        _contact = contact;
-        _code = code;
-        _isnewuser = if(isnewuser.equals("1")) true else false;
+        _otp = otp
+        _contact = contact
+        _code = code
+        _isnewuser = if(isnewuser.equals("1")) true else false
         return this;
     }
 
@@ -125,7 +126,7 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
         return true;
     }
 
-    fun verify_otp(){
+    private fun verify_otp(){
         val dialog = CusDialogProg(context);
         dialog.show();
         object  : VolleyGetPost(activity,activity, WebService.Login,false) {
@@ -136,9 +137,10 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
                 // http://clubz.co/dev/service/login{"status":"success","message":"User authentication successfully done!","messageCode":"normal_login","userDetail":{"userId":"25","full_name":"ratnesh","social_id":"","social_type":"","email":"ratnesh.mindiii@gmail.com","country_code":"+91","contact_no":"9770495603","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/24a9315b55d30ed6bb7d351a469aea09.jpg","auth_token":"3a05500a49e8d5eb03af32f21aa8a7f7c156dc0f","device_type":"3","device_token":""}}
                 try {
                     val obj = JSONObject(response)
-                    if(obj.getString("status").equals("success")){
+                    if(obj.getString("status")=="success"){
 
                         SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
+                        ClubZ.currentUser = SessionManager.getObj().user
                         startActivity(Intent(activity, HomeActivity::class.java))
                         activity?.finish()
                     }
