@@ -4,12 +4,12 @@
     <string name="fb_login_protocol_scheme">fb1901949733451269</string>
     <string name="server_client_id">303882214487-pkujqbkqgmq3m22muu8kbkj17n6hvvdc.apps.googleusercontent.com</string>
 
-
+    <string name="drawer_open">Drawer open</string>
+    <string name="drawer_close">Drawer close</string>
     <string name="explore1">Explore the</string>
     <string name="explore2">universe</string>
     <string name="explore3">around you</string>
     <string name="country">Country</string>
-
 
     <string name="by_taping1">By tapping </string>
     <string name="by_taping1_2">you accept the </string>
@@ -28,11 +28,8 @@
     <string name="stay_update"> Stay updated about your community  </string>
     <string name="in_touch_neigh"> Get in touch with your neighbours   </string>
     <string name="product_service"> Promote your products or services   </string>
-
     <string name="sent_code"> We have sent you confirmation code to validate your phone number </string>
-
     <string name="club_code_sms"> The verification code for your Club Z account is: </string>
-
     <string name="to_start"> To begin , let us know who you are </string>
     <string name="affilites"> Add your affiliates  </string>
     <string name="affilites_is"> An affiliates is a person you could invite to an activity . Your family members or friends.  </string>
@@ -40,6 +37,7 @@
     <string name="sel_skill"> And select or write your skill </string>
     <string name="alert"> Alert </string>
     <string name="no_content"> There is no content still here</string>
+    <string name="no_club_here">The club will be available once the club manager create it.</string>
     <string name="no_content_here_body">The activity will be available once the club manager create it.</string>
     <string name="no_content_body"> Join to a club to get exclusive content like news, activities, chats, ads and more. </string>
     <string name="near_club"> Near clubs </string>
@@ -65,21 +63,17 @@
     <string name="club_address">Club address</string>
     <string name="club_web_site">Club website</string>
 
-
     <!--Titiles-->
     <string name="t_stay_up"> Stay updated </string>
     <string name="t_new_club"> New Club </string>
-
     <string name="t_detils"> Details </string>
     <string name="t_members"> Members </string>
     <string name="t_my_clubs"> My clubs </string>
     <string name="t_near_clubs"> Near clubs </string>
     <string name="t_manage_your_clubs"> Manage your clubs </string>
     <string name="t_join_the_force"> Joine the force </string>
-
     <string name="t_al_gps"> Please turn on your GPS </string>
     <string name="t_error_location"> Error getting your location </string>
-
     <string name="no_internet"> No internet connection </string>
     <string name="temp_sucess"> Successfully registered </string>
     <string name="no_internet2">An internet connection is required to sign in, sign up and search clubs. Once you have registered this device, you can access your content offline.</string>
@@ -101,7 +95,6 @@
     <string name="club_op_1"> Show private clubs</string>
     <string name="club_op_2"> Show public clubs</string>
 
-
     <!--Slider-->
     <string name="slider_t1"> Activities </string>
     <string name="slider_t2"> News  </string>
@@ -111,7 +104,6 @@
 
     <string name="error_session_expired">Session expired</string>
     <string name="error_session_expired_msg">Your session is expired please login again</string>
-
 
     <string name="slider_b1"> Find matches, \n events, classes,\n interesting groups\n and many other \n great things \n around you   </string>
     <string name="slider_b2"> Stay updated\n with your\n community by \n reading the latest \n news and \npress releases </string>
@@ -261,6 +253,7 @@
     <string name="Private"> Private </string>
     <string name="since">Since</string>
     <string name="members">members</string>
+    <string name="members_count">%s Members</string>
     <string name="ok">OK</string>
     <string name="t_gps_msg"> Your location is required to show feeds near you</string>
     <string name="t_er_loc_msg"> Your location is required to show feeds near you </string>
@@ -392,6 +385,7 @@
     <string name="hide_activity">Hide this activity</string>
     <string name="disable_notification">Disable Notification</string>
 
+    <string name="menu_my_newsfeed">Show my feed</string>
     <string name="menu_filter_by_clubs">Filter by clubs</string>
     <string name="menu_filter_by_comments">Filter by comments</string>
     <string name="menu_filter_by_likes">Filter by likes</string>

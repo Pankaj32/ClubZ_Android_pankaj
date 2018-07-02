@@ -75,7 +75,8 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         }
     }
 
-    fun setFilter(club : Boolean = false, like : Boolean = false, comment : Boolean = false){
+    fun setFilter(isMyFeed: Boolean, club : Boolean = false, like : Boolean = false, comment : Boolean = false){
+        this.isMyFeed = isMyFeed
         this.isFilterByClub = club
         this.isFilterByLike = like
         this.isFilterByComment = comment
@@ -84,6 +85,15 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         getFeeds(0)
     }
 
+    /*fun setFilter(club : Boolean = false, like : Boolean = false, comment : Boolean = false){
+        this.isFilterByClub = club
+        this.isFilterByLike = like
+        this.isFilterByComment = comment
+        newsFeeds.clear()
+        pageListner?.resetState()
+        getFeeds(0)
+    }
+*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { isMyFeed = it.getBoolean("isMyFeed") }

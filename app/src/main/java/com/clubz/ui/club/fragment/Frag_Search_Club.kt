@@ -164,7 +164,7 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
                 params.put("searchText",text)
                 params.put("offset",offset)
                 params.put("limit","20")
-                params.put("clubType",HomeActivity.isPrivate.toString())
+                params.put("clubType",ClubZ.isPrivate.toString())
                 Util.e("parms search", params.toString())
                 return params
             }
@@ -331,7 +331,7 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
                 params.put("searchText",text)
                 params.put("offset",offset)
                 params.put("limit","200")
-                params.put("clubType",HomeActivity.isPrivate.toString())
+                params.put("clubType",ClubZ.isPrivate.toString())
                 return params
             }
 

@@ -83,7 +83,7 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
             // emtpty means no action performed yet, 0 = pending for approvial by Club admin , 1 = Joined club
             // obj.club_type 1 = public club and 2 = private club
             if(obj.club_type == "1" && obj.club_user_status.isBlank()){
-                // holder.btn_join.setText(if(obj.club_type.equals("1"))R.string.join else R.string.req_join)
+                // holder.btnJoinClub.setText(if(obj.club_type.equals("1"))R.string.join else R.string.req_join)
                 holder.btn_join.text = context.getString(R.string.join)
 
             }else if(obj.club_type == "1" && obj.club_user_status == "1"){

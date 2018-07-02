@@ -158,7 +158,7 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
                 params["searchText"] = text
                 params["offset"] = offset.toString()
                 params["limit"] = "10"
-                params["clubType"] = ClubsActivity.isPrivate.toString()
+                params["clubType"] = ClubZ.isPrivate.toString()
                 return params
             }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,42 +9,62 @@
     android:id="@+id/clRootView"
     tools:context=".ui.club.ClubCreationActivity">
 
-
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
-        android:orientation="horizontal"
-        android:background="@color/primaryColor">
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/back_f"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:padding="@dimen/_12sdp"
-            app:srcCompat="@drawable/ic_arrow_back_black_24dp"
-            />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="@string/t_new_club"
-            android:fontFamily="@font/teko_semibold"
-            android:gravity="center_vertical"
-            android:textSize="@dimen/_18sdp"
-            android:textColor="@color/white"/>
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/done"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:padding="@dimen/_12sdp"
-            app:srcCompat="@drawable/ic_check_white_24dp"
-            />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:titleTextColor="@color/white"
+            app:contentInsetStart="0dp"
+            app:titleTextAppearance="@style/TextAppearanceExpand"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:orientation="horizontal"
+                android:background="@color/primaryColor">
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/back_f"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:padding="@dimen/_12sdp"
+                    app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="@string/t_new_club"
+                    android:fontFamily="@font/teko_semibold"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/_18sdp"
+                    android:textColor="@color/white"/>
 
-    <ScrollView
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/done"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:padding="@dimen/_12sdp"
+                    app:srcCompat="@drawable/ic_check_white_24dp"
+                    />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -297,15 +317,214 @@
                         android:layout_marginLeft="@dimen/_16sdp"
                         android:fontFamily="@font/teko_semibold"/>
 
-                    <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_marginTop="@dimen/_96sdp"
+
+
+
+
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/img_club"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        app:srcCompat="@drawable/ic_email"
-                        android:padding="@dimen/_6sdp"
-                        />
+                        android:layout_marginTop="@dimen/_96sdp"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_16sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_cake_p"
+                                android:tint="@color/icon_tint" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_layout_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_16sdp"
+                                android:focusable="false"
+                                android:theme="@style/tvStyle">
+
+                                <EditText
+                                    android:id="@+id/foundation_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/EditText.ClubDetail"
+                                    android:textColor="@color/text_gray"
+                                    android:hint="@string/foundation_date"
+                                    android:text="@string/dharmraj_acharya_bhurtel"/>
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_mail_outline"
+                                android:tint="@color/icon_tint" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_layout_clubEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_16sdp"
+                                android:theme="@style/tvStyle">
+
+                                <EditText
+                                    android:id="@+id/club_email"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/club_email"
+                                    android:maxLength="100"
+                                    style="@style/et_club_create"
+                                    android:text="Dharmrajacharya@gmail.com"/>
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_call"
+                                android:tint="@color/icon_tint" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_layout_contact"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_16sdp"
+                                android:theme="@style/tvStyle">
+
+                                <EditText
+                                    android:id="@+id/club_phone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/EditText.ClubDetail"
+                                    android:hint="@string/club_phone_no"
+                                    android:text="+91 9977141811"/>
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_my_location"
+                                android:tint="@color/icon_tint" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_layout_city"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_16sdp"
+                                android:theme="@style/tvStyle">
+
+                                <EditText
+                                    android:id="@+id/club_city"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/EditText.ClubDetail"
+                                    android:hint="@string/club_city"
+                                    android:text="Indore"/>
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_place_black_24dp"
+                                android:tint="@color/icon_tint" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_layout_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_16sdp"
+                                android:theme="@style/tvStyle">
+
+                                <EditText
+                                    android:id="@+id/club_address"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/EditText.ClubDetail"
+                                    android:hint="@string/club_address"
+                                    android:text="Mindiii System Pvt. Ltd."/>
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_glob"
+                                android:tint="@color/icon_tint" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_layout_web"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_16sdp"
+                                android:theme="@style/tvStyle">
+
+                                <EditText
+                                    android:id="@+id/club_web"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/EditText.ClubDetail"
+                                    android:hint="@string/club_web_site"
+                                    android:text="www.mindiii.com"/>
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
                     <EditText
                         android:id="@+id/club_email"
                         android:layout_width="match_parent"
@@ -608,6 +827,7 @@
         </LinearLayout>
 
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
-</LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

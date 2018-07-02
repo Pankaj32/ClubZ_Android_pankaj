@@ -14,6 +14,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.clubz.ClubZ;
 import com.clubz.ui.main.HomeActivity;
 import com.clubz.R;
 import com.clubz.data.model.Club_Potential_search;
@@ -148,7 +149,7 @@ abstract public class Potential_Search_Adapter extends RecyclerView.Adapter<Pote
 
 
     private Boolean canAddd(Club_Potential_search obj) {
-        return activity.getClubType() == 0 || activity.getClubType() == Integer.parseInt(obj.getClub_type());
+        return ClubZ.instance.getClubType()== 0 || ClubZ.instance.getClubType()== Integer.parseInt(obj.getClub_type());
     }
     /*public CharSequence linkifyHashtags(String text) {
         SpannableStringBuilder linkifiedText = new SpannableStringBuilder(text);

@@ -30,6 +30,7 @@
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="match_parent"
                     android:padding="@dimen/_3sdp"
+                    android:background="?selectableItemBackgroundBorderless"
                     app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
                 <TextView
@@ -80,6 +81,7 @@
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="match_parent"
                     android:padding="@dimen/_3sdp"
+                    android:background="?selectableItemBackgroundBorderless"
                     app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
             </LinearLayout>

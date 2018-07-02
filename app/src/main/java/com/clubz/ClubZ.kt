@@ -13,6 +13,11 @@ import com.clubz.data.model.User
  */
 class ClubZ  : Application() {
 
+
+    /**
+     * @param isPrivate mantions if isPrivate = 0 it means it's showing Both option available for clubs.
+     *  and 1 : public and 2 : private clubs
+     */
     companion object {
         lateinit var instance: ClubZ
         var latitude: Double    = 0.toDouble()
@@ -20,6 +25,11 @@ class ClubZ  : Application() {
         var city: String = ""
         var currentUser: User? = null
         var isNeedToUpdateNewsFeed = false
+        var isPrivate: Int = 0
+    }
+
+    fun getClubType() : Int{
+        return isPrivate
     }
 
     fun getCurrentUser(): User?{
@@ -34,11 +44,16 @@ class ClubZ  : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this@ClubZ
-        //Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics())
+
         val sessionManager = SessionManager.getObj()
-        ClubZ.currentUser = sessionManager.user
+        currentUser = sessionManager.user
         val userLocation = sessionManager.lastKnownLocation
-        if(userLocation!=null) ClubZ.latitude = userLocation.latitude; ClubZ.longitude = userLocation.longitude
+
+        if(userLocation!=null){
+            ClubZ.latitude = userLocation.latitude;
+            ClubZ.longitude = userLocation.longitude
+        }
     }
 
 

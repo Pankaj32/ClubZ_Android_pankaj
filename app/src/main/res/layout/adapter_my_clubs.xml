@@ -61,25 +61,27 @@
                     android:id="@+id/status"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto_light"
                     android:textColor="@color/inactive_tab"
                     android:textSize="@dimen/_10sdp"
-                    android:paddingStart="@dimen/_3sdp"
-                    android:text="Private"/>
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:text="@string/Private"/>
 
                 <android.support.v7.widget.AppCompatImageView
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
                     app:srcCompat="@drawable/ic_user_white"
                     app:tint="@color/black"
-                    android:layout_marginLeft="@dimen/_10sdp"/>
+                    android:layout_marginStart="@dimen/_10sdp"/>
 
                 <TextView
                     android:id="@+id/leadby"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/primaryColor"
+                    android:fontFamily="@font/roboto_light"
                     android:textSize="@dimen/_10sdp"
-                    android:paddingStart="@dimen/_3sdp"
+                    android:layout_marginStart="@dimen/_3sdp"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:text="@string/dharmraj_acharya_bhurtel"/>
