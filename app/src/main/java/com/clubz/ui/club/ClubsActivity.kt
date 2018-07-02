@@ -51,9 +51,9 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
     private var dialog : Dialog? = null
     private var menuDialog : Dialog? = null
 
-    companion object {
+    /*companion object {
         var isPrivate: Int = 0
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -168,14 +168,14 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             }
 
             R.id.tv_private -> {
-                when(isPrivate){
+                when(ClubZ.isPrivate){
                     1->{
-                        isPrivate = 0; dialog!!.chk_priavte.isChecked = true
+                        ClubZ.isPrivate = 0; dialog!!.chk_priavte.isChecked = true
                         dialog!!.chk_public.isChecked = true
                         refreshNow()
                     }
                     0,2->{
-                        isPrivate = 1; dialog!!.chk_priavte.isChecked = false
+                        ClubZ.isPrivate = 1; dialog!!.chk_priavte.isChecked = false
                         dialog!!.chk_public.isChecked = true
                         refreshNow()
                     }
@@ -183,14 +183,14 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             }
 
             R.id.tv_public -> {
-                when(isPrivate){
+                when(ClubZ.isPrivate){
                     2->{
-                        isPrivate = 0; dialog!!.chk_priavte.isChecked = true
+                        ClubZ.isPrivate = 0; dialog!!.chk_priavte.isChecked = true
                         dialog!!.chk_public.isChecked = true
                         refreshNow()
                     }
                     0,1->{
-                        isPrivate = 2; dialog!!.chk_priavte.isChecked = true
+                        ClubZ.isPrivate = 2; dialog!!.chk_priavte.isChecked = true
                         dialog!!.chk_public.isChecked = false
                         refreshNow()
                     }
@@ -296,11 +296,11 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         }
 
         if (position == 0) {
-            if(isPrivate ==0){
+            if(ClubZ.isPrivate ==0){
                 dialog?.chk_priavte?.isChecked = true; dialog?.chk_public?.isChecked = true
             } else {
-                dialog?.chk_priavte?.isChecked = (isPrivate ==2)
-                dialog?.chk_public?.isChecked  = (isPrivate ==1)
+                dialog?.chk_priavte?.isChecked = (ClubZ.isPrivate ==2)
+                dialog?.chk_public?.isChecked  = (ClubZ.isPrivate ==1)
             }
         }
 

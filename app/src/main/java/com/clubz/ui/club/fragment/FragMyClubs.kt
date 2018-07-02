@@ -18,7 +18,6 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.helper.Type_Token
 import com.clubz.data.remote.WebService
 import com.clubz.data.model.Clubs
-import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.club.`interface`.MyClubInteraction
 import com.clubz.ui.club.adapter.MyClub
 import com.clubz.ui.club.adapter.MyClubListAdapter
@@ -44,9 +43,7 @@ class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefr
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is MyClubInteraction){
-            listner = context
-        }
+        if (context is MyClubInteraction) listner = context
     }
 
     override fun onDetach() {
@@ -67,22 +64,28 @@ class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefr
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         list_recycler.itemAnimator = null
-       // val decor = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-       // list_recycler.addItemDecoration(decor)
-
         list_recycler.layoutManager = lm
         list_recycler.setHasFixedSize(true)
+
         pageListner = object : RecyclerViewScrollListener(lm) {
             override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) { }
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                 getMyClubs("",page*10,false)
             }
         }
+
         list_recycler.addOnScrollListener(pageListner)
         clubList.clear()
         getMyClubs()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        clubList.clear()
+        adapter = null
+        listner = null
+        pageListner = null
+    }
 
     fun refreshList(){
         pageListner?.resetState()
@@ -120,7 +123,7 @@ class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefr
         val dialog = CusDialogProg(activity )
         if(showProgress)dialog.show()
 
-        object  : VolleyGetPost(activity , activity, WebService.club_my_clubs, false){
+        object : VolleyGetPost(activity , activity, WebService.club_my_clubs, false){
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
@@ -150,7 +153,7 @@ class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefr
                 params["searchText"] = text
                 params["offset"] = offset.toString()
                 params["limit"]= "10"
-                params["clubType"] = ClubsActivity.isPrivate.toString()
+                params["clubType"] = ClubZ.isPrivate.toString()
                 return params
             }
 
@@ -165,7 +168,7 @@ class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefr
 
     override fun onSilenceClub(club: Clubs, position : Int) {
         val dialog = CusDialogProg(context)
-        dialog.show()   // ?clubId=66&offset=0&limit=10
+        dialog.show()
         object : VolleyGetPost(activity, WebService.club_silence, false) {
             override fun onVolleyResponse(response: String?) {
                 try {

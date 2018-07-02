@@ -14,6 +14,7 @@ import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
@@ -79,7 +80,7 @@ abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentList
     }
 
     @SuppressLint("RtlHardcoded")
-    protected fun popupMenu(position: Int){
+    protected fun clubSelectionMenu(position: Int){
         if(dialog==null){
             dialog = Dialog(this)
             dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -95,11 +96,11 @@ abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentList
         }
 
         if (position == 0) {
-            if(HomeActivity.isPrivate ==0){
+            if(ClubZ.isPrivate ==0){
                 dialog?.chk_priavte?.isChecked = true; dialog?.chk_public?.isChecked = true
             } else {
-                dialog?.chk_priavte?.isChecked = (HomeActivity.isPrivate ==2)
-                dialog?.chk_public?.isChecked  = (HomeActivity.isPrivate ==1)
+                dialog?.chk_priavte?.isChecked = (ClubZ.isPrivate ==2)
+                dialog?.chk_public?.isChecked  = (ClubZ.isPrivate ==1)
             }
         }
 
@@ -119,11 +120,11 @@ abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentList
             lp?.y = -100
             dialogWindow?.attributes = lp
             newsFilterDialog?.setCancelable(true)
-            for (views in arrayOf(newsFilterDialog?.ch_byClubs, newsFilterDialog?.ch_byComments, newsFilterDialog?.ch_byLikes, newsFilterDialog?.ll_clearFilter))
+            for (views in arrayOf(newsFilterDialog?.ch_myClubOnly, newsFilterDialog?.ch_byClubs, newsFilterDialog?.ch_byComments, newsFilterDialog?.ch_byLikes, newsFilterDialog?.ll_clearFilter))
                 views?.setOnClickListener(getActivity())
         }
         newsFilterDialog?.show()
-        newsFilterDialog?.setOnDismissListener { updateMyNewsFeed() }
+       // newsFilterDialog?.setOnDismissListener { updateMyNewsFeed() }
     }
 
     @SuppressLint("RtlHardcoded")
@@ -189,7 +190,7 @@ abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentList
     }
 
     abstract fun checkLocationUpdate()
-    abstract fun updateMyNewsFeed()
+    //abstract fun updateMyNewsFeed()
     abstract fun getActivity() : HomeActivity
     abstract fun bottomtabHandler(fragmentHolder: Fragment)
     abstract fun setActionbarMenu(fragmentHolder: Fragment)

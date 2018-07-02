@@ -9,15 +9,15 @@ import java.io.IOException
 import java.lang.ref.WeakReference
 import java.util.*
 
-abstract class GioAddressTask : AsyncTask<Double, Boolean, Boolean>() {
+abstract class GioAddressTask (val mContext: Context): AsyncTask<Double, Boolean, Boolean>() {
 
-    private var mContext: WeakReference<Context>? = null
+   // private var mContext: WeakReference<Context>? = null
     private var latLng: LatLng? = null
     private var address: Address? = null
     
     override fun doInBackground(vararg p0: Double?): Boolean {
 
-        val geocoder = Geocoder(mContext?.get(), Locale.getDefault())
+        val geocoder = Geocoder(mContext, Locale.getDefault())
         try {
             val addresses = geocoder.getFromLocation(p0[0]!!, p0[1]!!, 1)
             if (addresses.size > 0) address = addresses[0]

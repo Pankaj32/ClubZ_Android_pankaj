@@ -176,7 +176,7 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
         }.execute()
     }
 
-    fun getClubMembers() {
+    private fun getClubMembers() {
         object : VolleyGetPost(activity, "${WebService.club_member_list}?clubId=${clubz.clubId}", true) {
             override fun onVolleyResponse(response: String?) {
                 try {

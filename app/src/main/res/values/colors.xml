@@ -49,5 +49,6 @@
 <!--Chat-->
     <color name="chat_time">#9a9a9a</color>
     <color name="chat_my_bg">#f2f7fb</color>
+    <color name="red_favroit">#DD3A58</color>
 
 </resources>

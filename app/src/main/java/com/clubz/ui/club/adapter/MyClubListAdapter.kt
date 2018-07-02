@@ -1,10 +1,8 @@
 package com.clubz.ui.club.adapter
 
-import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -25,12 +23,6 @@ import com.clubz.utils.VolleyGetPost
 import com.squareup.picasso.Picasso
 import org.json.JSONObject
 import java.util.ArrayList
-
-
-
-
-
-
 
 /**
  * Created by Dharmraj Acharya on 25/05/18.
@@ -58,15 +50,6 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
             obj.club_type == "3" -> 0
             else -> 1
         }
-
-        /*return if(this.isMyClub){
-            val obj = list.get(position)
-            when {
-                obj.user_id == ClubZ.currentUser?.id -> 0
-                obj.club_type == "3" -> 0
-                else -> 1
-            }
-        }else 1*/
     }
 
     @SuppressLint("SetTextI18n")
@@ -89,8 +72,8 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
             holder.tvName.text = obj.club_name
             holder.leadBy.text = if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name
             holder.bodyDes.text = obj.club_description
-            holder.members.text = String.format("%d ",obj.members+1, context.getString(R.string.members))
-            holder.ll_bodyContent.visibility = if (obj.isVisiableBody) View.VISIBLE else View.GONE
+            holder.members.text = String.format(context.getString(R.string.members_count),obj.members+1)
+            holder.llBodyContent.visibility = if (obj.isVisiableBody) View.VISIBLE else View.GONE
 
             if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0){
                 holder.distance.text = "-- Km"
@@ -106,7 +89,7 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
 
             if(obj.user_id == ClubZ.currentUser?.id){
                 holder.switch1.visibility = View.GONE
-                holder.btn_join.visibility = View.GONE
+                holder.btnJoinClub.visibility = View.GONE
                 if(!ClubZ.currentUser!!.profile_image.isEmpty()){
                     Picasso.with(holder.ivClubManager.context)
                             .load(ClubZ.currentUser!!.profile_image)
@@ -116,7 +99,7 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
                             .load(R.drawable.ic_user_white)
                             .into(holder.ivClubManager)
             } else{
-                holder.btn_join.visibility = View.VISIBLE
+                holder.btnJoinClub.visibility = View.VISIBLE
                 //holder.switch1.isActivated = obj.is_allow_feeds == "1"
                 // holder.switch1.isEnabled = obj.club_user_status.equals("1")
                 holder.switch1.isChecked = obj.is_allow_feeds == "1"
@@ -124,23 +107,23 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
                 // emtpty means no action performed yet, 0 = pending for approvial by Club admin , 1 = Joined club
                 // obj.club_type 1 = public club and 2 = private club
                 if(obj.club_type == "1" && obj.club_user_status.isBlank()){
-                    // holder.btn_join.setText(if(obj.club_type.equals("1"))R.string.join else R.string.req_join)
-                    holder.btn_join.text = context.getString(R.string.join)
+                    // holder.btnJoinClub.setText(if(obj.club_type.equals("1"))R.string.join else R.string.req_join)
+                    holder.btnJoinClub.text = context.getString(R.string.join)
 
                 }else if(obj.club_type == "1" && obj.club_user_status == "1"){
-                    holder.btn_join.text = context.getString(R.string.leave)
+                    holder.btnJoinClub.text = context.getString(R.string.leave)
 
                 }else if(obj.club_type == "2" && obj.club_user_status.isBlank()){
-                    holder.btn_join.text = context.getString(R.string.req_join)
+                    holder.btnJoinClub.text = context.getString(R.string.req_join)
 
                 }else if(obj.club_type == "2" && obj.club_user_status == "0"){
-                    holder.btn_join.text = context.getString(R.string.dismiss)
+                    holder.btnJoinClub.text = context.getString(R.string.dismiss)
 
                 }else if(obj.club_type == "2" && obj.club_user_status == "1"){
-                    holder.btn_join.text = context.getString(R.string.leave)
+                    holder.btnJoinClub.text = context.getString(R.string.leave)
 
                 }else if(obj.club_type == "3"){
-                    holder.btn_join.visibility = View.GONE
+                    holder.btnJoinClub.visibility = View.GONE
                 }
             }
 
@@ -175,7 +158,7 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
     }
 
 
-    class MyClubHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class MyClubHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvName      = itemView.findViewById<TextView>(R.id.tvname)!!
         var leadby      = itemView.findViewById<TextView>(R.id.leadby)!!
         var status      = itemView.findViewById<TextView>(R.id.status)!!
@@ -208,10 +191,10 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
         var imgStatus   = itemView.findViewById<ImageView>(R.id.img_status)!!
         var imageClub   = itemView.findViewById<ImageView>(R.id.image_club)!!
         var ivClubManager = itemView.findViewById<ImageView>(R.id.ivClubManager)!!
-        var btn_join    = itemView.findViewById<Button>(R.id.btn_join)!!
+        var btnJoinClub    = itemView.findViewById<Button>(R.id.btn_join)!!
         var switch1     = itemView.findViewById<Switch>(R.id.switch1)!!
         var llProfile   = itemView.findViewById<LinearLayout>(R.id.ll_profile)!!
-        var ll_bodyContent   = itemView.findViewById<LinearLayout>(R.id.ll_bodyContent)!!
+        var llBodyContent   = itemView.findViewById<LinearLayout>(R.id.ll_bodyContent)!!
         var ivExpandBtn   = itemView.findViewById<ImageView>(R.id.ivExpandBtn)!!
     }
 
@@ -223,7 +206,7 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
             context.startActivity(context.ClubDetailIntent(club))
         }
 
-        holder.btn_join.setOnClickListener {
+        holder.btnJoinClub.setOnClickListener {
             val pos = holder.adapterPosition
             val club = list[pos]
 
@@ -247,36 +230,9 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
 
         holder.ivExpandBtn.setOnClickListener {
             val pos = holder.adapterPosition
-           /* if(list[pos].isVisiableBody){
-
-                val animate = TranslateAnimation(0f,  0f ,0f, 0.0f+holder.ll_bodyContent.width)
-                animate.duration = 500
-                animate.fillAfter = true
-                holder.ll_bodyContent.startAnimation(animate)
-                holder.ll_bodyContent.visibility = View.GONE
-
-                holder.ll_bodyContent.animate()
-                        .translationY(0f+holder.ll_bodyContent.height)
-                        .setDuration(300)
-                        .setListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator) {
-                                super.onAnimationEnd(animation)
-                                holder.ll_bodyContent.visibility = View.GONE
-                            }
-                        })
-            }else{
-                holder.ll_bodyContent.animate()
-                        .translationY(-0f+holder.ll_bodyContent.height)
-                        .setDuration(300)
-                        .setListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator) {
-                                super.onAnimationEnd(animation)
-                                holder.ll_bodyContent.visibility = View.VISIBLE
-                            }
-                        })
-
-            }*/
-            holder.ll_bodyContent.visibility = if(list[pos].isVisiableBody) View.GONE else View.VISIBLE
+            holder.llBodyContent.visibility = if(list[pos].isVisiableBody) View.GONE else View.VISIBLE
+            Util.setRotation(holder.ivExpandBtn, list[pos].isVisiableBody)
+            holder.ivExpandBtn.setImageResource(if(list[pos].isVisiableBody)R.drawable.ic_keyboard_arrow_down else R.drawable.ic_keyboard_arrow_up)
             list[pos].isVisiableBody = !list[pos].isVisiableBody
         }
 
@@ -303,7 +259,7 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
         }.show()
     }
 
-    fun joinClub(club : Clubs, pos : Int){
+    private fun joinClub(club : Clubs, pos : Int){
         ClubZ.isNeedToUpdateNewsFeed = true
         val dialog = CusDialogProg(context )
         dialog.show()

@@ -6,6 +6,8 @@
     android:orientation="vertical"
     android:background="@color/background">
 
+    <include layout="@layout/no_contant_layout"/>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +20,5 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
-    <include layout="@layout/no_contant_layout"/>
 
 </RelativeLayout>

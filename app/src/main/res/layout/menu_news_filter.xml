@@ -26,6 +26,27 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/ch_myClubOnly"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:buttonTint="@color/primaryColor" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_vertical"
+                    android:text="@string/menu_my_newsfeed"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/ch_byClubs"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
@@ -86,7 +107,6 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp" />
             </LinearLayout>
-
 
             <LinearLayout
                 android:id="@+id/ll_clearFilter"

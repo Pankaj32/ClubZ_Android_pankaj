@@ -40,7 +40,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
             android:fontFamily="@font/roboto_regular"
-            android:text="@string/no_content_here_body"
+            android:text="@string/no_club_here"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_61sdp" />
 
