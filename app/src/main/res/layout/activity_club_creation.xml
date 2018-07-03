@@ -350,6 +350,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     style="@style/EditText.ClubCreation"
+                                    android:focusable="false"
                                     android:hint="@string/foundation_date" />
 
                             </android.support.design.widget.TextInputLayout>
@@ -415,8 +416,7 @@
                                     android:inputType="phone"
                                     android:maxLength="15"
                                     android:digits="1234567890"
-                                    android:hint="@string/club_phone_no"
-                                    android:text="+91 9977141811"/>
+                                    android:hint="@string/club_phone_no" />
 
                             </android.support.design.widget.TextInputLayout>
 
@@ -476,6 +476,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     style="@style/EditText.ClubCreation"
+                                    android:focusable="false"
                                     android:hint="@string/club_address" />
 
                             </android.support.design.widget.TextInputLayout>
@@ -769,7 +770,6 @@
                             android:layout_alignStart="@id/usrerole"
                             android:layout_alignEnd="@+id/usrerole"/>
                     </RelativeLayout>
-
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
