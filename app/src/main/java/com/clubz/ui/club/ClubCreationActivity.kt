@@ -32,6 +32,7 @@ import com.clubz.helper.Type_Token
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.club.adapter.CreateClub_Spinner
+import com.clubz.ui.club.model.ClubDetails
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.Purchase_membership_dialog
@@ -376,6 +377,8 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 try {
                     val obj = JSONObject(data)
                     if(obj.getString("status").equals("success")){
+                        var clubDetails=Gson().fromJson(data,ClubDetails::class.java)
+
                         setResult(Activity.RESULT_OK)
                         Toast.makeText(this@ClubCreationActivity,obj.getString("message"), Toast.LENGTH_LONG).show()
                        finish()
@@ -396,7 +399,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
-                params["city"] = ClubZ.city
+                params["city"] = club_city.text.toString().trim()
                 params["clubName"] = titile_name.text.toString()
                 params["clubType"] = if(spn_privacy.selectedItem.toString().toLowerCase().equals("public"))"1" else "2" // 1 public 2 private
                 params["clubCategoryId"] = (spn_club_category.selectedItem as Club_Category).clubCategoryId
@@ -575,6 +578,5 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         year = p1 ; month = p2+1 ;day = p3
         ed_foundation_date.setText(Util.convertDate("$year-$month-$day"))
     }
-
 
 }

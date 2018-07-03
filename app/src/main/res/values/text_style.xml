@@ -73,17 +73,18 @@
         <item name="android:textColorHint">@color/hint_color</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:focusable">false</item>
     </style>
 
     <style name="EditText.ClubDetail" parent="EditText">
         <item name="android:enabled">false</item>
         <item name="android:singleLine">true</item>
+        <item name="android:focusable">false</item>
     </style>
 
     <style name="EditText.ClubCreation" parent="EditText">
         <item name="android:enabled">true</item>
         <item name="android:singleLine">true</item>
+        <!--<item name="android:focusable">true</item>-->
     </style>
 
 

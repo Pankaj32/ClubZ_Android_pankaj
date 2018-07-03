@@ -63,8 +63,6 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
     private var isTomorrowOpen: Boolean = false
     private var isSoonOpen: Boolean = false
     private var isOthersOpen: Boolean = false
-    private val INITIAL_POSITION = 0.0f
-    private val ROTATED_POSITION = 180f
     private var todayList: List<GetOthersActivitiesResponce.DataBean.TodayBean>? = null
     private var tomorrowList: List<GetOthersActivitiesResponce.DataBean.TomorrowBean>? = null
     private var soonList: List<GetOthersActivitiesResponce.DataBean.SoonBean>? = null
@@ -143,21 +141,20 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.todayLay -> {
+                Util.setRotation(arowToday, isTodayOpen)
                 if (isTodayOpen) {
-                    Util.setRotation(arowToday, isTodayOpen)
                     isTodayOpen = false
                     todayExCol.setText(R.string.collapsed)
-                    //  arowToday.setImageResource(R.drawable.ic_down_arrow)
+                    arowToday.setImageResource(R.drawable.ic_down_arrow)
                     if (todayList != null && todayList!!.size > 0) {
                         recyclerViewToday.visibility = View.GONE
                     } else {
                         todayNoDataTxt.visibility = View.GONE
                     }
                 } else {
-                    Util.setRotation(arowToday, isTodayOpen)
                     isTodayOpen = true
                     todayExCol.setText(R.string.expanded)
-                    //   arowToday.setImageResource(R.drawable.ic_drop_up_arrow)
+                    arowToday.setImageResource(R.drawable.ic_drop_up_arrow)
                     if (todayList != null && todayList!!.size > 0) {
                         recyclerViewToday.visibility = View.VISIBLE
                     } else {
@@ -180,7 +177,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 } else {
                     isTomorrowOpen = true
                     tomorrowExCol.setText(R.string.expanded)
-                     arowTomorrow.setImageResource(R.drawable.ic_drop_up_arrow)
+                    arowTomorrow.setImageResource(R.drawable.ic_drop_up_arrow)
                     if (tomorrowList != null && tomorrowList!!.size > 0) {
                         recyclerViewTomorrow.visibility = View.VISIBLE
                     } else {
@@ -189,8 +186,8 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 }
             }
             R.id.soonLay -> {
+                Util.setRotation(arowSoon, isSoonOpen)
                 if (isSoonOpen) {
-                    Util.setRotation(arowSoon, isSoonOpen)
                     isSoonOpen = false
                     soonExCol.setText(R.string.collapsed)
                     arowSoon.setImageResource(R.drawable.ic_down_arrow)
@@ -200,7 +197,6 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                         soonNoDataTxt.visibility = View.GONE
                     }
                 } else {
-                    Util.setRotation(arowSoon, isSoonOpen)
                     isSoonOpen = true
                     soonExCol.setText(R.string.expanded)
                     recyclerViewSoon.visibility = View.VISIBLE
@@ -213,8 +209,8 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 }
             }
             R.id.othersLay -> {
+                Util.setRotation(arowOthers, isOthersOpen)
                 if (isOthersOpen) {
-                    Util.setRotation(arowOthers, isOthersOpen)
                     isOthersOpen = false
                     othersExCol.setText(R.string.collapsed)
                     arowOthers.setImageResource(R.drawable.ic_down_arrow)
@@ -224,7 +220,6 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                         othersNoDataTxt.visibility = View.GONE
                     }
                 } else {
-                    Util.setRotation(arowOthers, isOthersOpen)
                     isOthersOpen = true
                     othersExCol.setText(R.string.expanded)
                     recyclerViewOthers.visibility = View.VISIBLE
@@ -355,8 +350,9 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
             todayNoDataTxt.visibility = View.VISIBLE
         }
         Util.setRotation(arowToday, isTodayOpen)
-        isTodayOpen = false
+        isTodayOpen = true
         todayExCol.setText(R.string.expanded)
+        arowToday.setImageResource(R.drawable.ic_drop_up_arrow)
         tomorrowAdapter = TomorrowActivitiesCategoryAdapter(mContext, tomorrowList, this@Frag_Find_Activities, this@Frag_Find_Activities)
         tomorrowAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
@@ -402,25 +398,6 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         super.onResume()
         getActivitiesList()
     }
-
-   /* private fun setRotation(imgView: ImageView, expanded: Boolean) {
-        val rotateAnimation: RotateAnimation
-        if (expanded) { // rotate clockwise
-            rotateAnimation = RotateAnimation(ROTATED_POSITION,
-                    INITIAL_POSITION,
-                    RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                    RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-        } else { // rotate counterclockwise
-            rotateAnimation = RotateAnimation(-1 * ROTATED_POSITION,
-                    INITIAL_POSITION,
-                    RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-                    RotateAnimation.RELATIVE_TO_SELF, 0.5f)
-        }
-
-        rotateAnimation.duration = 200
-        rotateAnimation.fillAfter = true
-        imgView.startAnimation(rotateAnimation)
-    }*/
 
     override fun onItemMenuClick(position: Int, itemMenu: ImageView) {
         Log.e("parent " + position, " " + position)
