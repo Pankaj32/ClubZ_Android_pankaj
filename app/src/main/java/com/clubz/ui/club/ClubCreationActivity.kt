@@ -519,6 +519,10 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_address)
             return false
         }
+        if(club_city.text.isBlank()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_city)
+            return false
+        }
         if(club_address.text.toString().isBlank()){
             Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_location)
             return false

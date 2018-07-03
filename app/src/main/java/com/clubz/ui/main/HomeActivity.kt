@@ -94,14 +94,19 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home_test)
+        sessionManager = SessionManager.getObj()
+        if(ClubZ.currentUser==null) ClubZ.currentUser = sessionManager.user
 
+        setContentView(R.layout.activity_home_test)
         setSupportActionBar(toolbar)
 
-        sessionManager = SessionManager.getObj()
         val userLocation = sessionManager.lastKnownLocation
         if(userLocation==null) checkLocationUpdate()
-        else { ClubZ.latitude = userLocation.latitude; ClubZ.longitude = userLocation.longitude }
+        else {
+            ClubZ.latitude = userLocation.latitude;
+            ClubZ.longitude = userLocation.longitude
+            ClubZ.city = userLocation.city
+        }
 
         Util.e("authtoken", ClubZ.currentUser!!.auth_token)
 

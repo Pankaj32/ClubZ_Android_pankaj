@@ -223,6 +223,7 @@
     <string name="a_foundation">Please select foundation date</string>
     <string name="a_phone_club">Please enter  phone number</string>
     <string name="a_address">Please enter address</string>
+    <string name="a_city">Please enter city</string>
     <string name="a_location">Please select Location</string>
     <string name="a_web">Please enter club\'s website</string>
     <string name="a_web_valid">Please enter valid club\'s website url</string>
