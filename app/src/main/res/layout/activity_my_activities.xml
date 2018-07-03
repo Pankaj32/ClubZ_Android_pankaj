@@ -32,18 +32,17 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/addActivity"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:padding="@dimen/_12sdp"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/ic_add_24" />
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_3sdp"
+            android:background="?selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="true">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,6 +70,9 @@
                     layout="@layout/no_activity_layout"
                     android:visibility="gone" />
             </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>

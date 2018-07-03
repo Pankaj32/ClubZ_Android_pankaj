@@ -15,7 +15,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.view.ContextThemeWrapper
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PopupMenu
-import android.view.View
 import com.android.volley.VolleyError
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
@@ -30,22 +29,20 @@ import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_my_activities.*
 import org.json.JSONObject
-import android.view.MenuItem
 import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.view.menu.MenuPopupHelper
-import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.*
-import com.clubz.ClubZ
 import com.clubz.utils.Util
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.location.places.ui.PlaceAutocomplete
 import kotlinx.android.synthetic.main.dialog_add_events.*
+import kotlinx.android.synthetic.main.dialog_clubdetail_menu.*
+import java.lang.System.currentTimeMillis
 import java.util.*
 
 
@@ -70,12 +67,13 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
     var latitude = ""
     var longitute = ""
     val REQUEST_CODE_AUTOCOMPLETE: Int = 1000
+    var addActivityDialog : Dialog? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_activities)
-        recyclerViewMyActivities.layoutManager = LinearLayoutManager(this@MyActivities) as RecyclerView.LayoutManager?
+        recyclerViewMyActivities.layoutManager = LinearLayoutManager(this@MyActivities)
         back_f.setOnClickListener(this@MyActivities)
         addActivity.setOnClickListener(this@MyActivities)
 
@@ -104,7 +102,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
 
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
-                        var myActivitiesResponce: GetMyactivitiesResponce = Gson().fromJson(response, GetMyactivitiesResponce::class.java)
+                        val myActivitiesResponce: GetMyactivitiesResponce = Gson().fromJson(response, GetMyactivitiesResponce::class.java)
                         updateUi(myActivitiesResponce)
                     } else {
                         nodataLay.visibility = View.VISIBLE
@@ -134,24 +132,24 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }
         }.execute(MyActivities::class.java.name)
     }
 
     private fun updateUi(myActivitiesResponce: GetMyactivitiesResponce) {
-        for (i in 0..myActivitiesResponce.getData()!!.size - 1) {
-            var todayData = myActivitiesResponce.getData()!!.get(i)
-            for (j in 0..todayData.events!!.size - 1) {
-                var eventData = todayData.events!!.get(j)
+        for (i in 0 until myActivitiesResponce.getData()!!.size) {
+            val todayData = myActivitiesResponce.getData()!![i]
+            for (j in 0 until todayData.events!!.size) {
+                val eventData = todayData.events!![j]
                 eventData.childIndex = j
                 eventData.parentIndex = i
-                if (eventData.is_confirm.equals("1")) todayData.is_Confirm = true
+                if (eventData.is_confirm=="1") todayData.is_Confirm = true
             }
         }
         todayList = myActivitiesResponce.getData()
-        nodataLay.visibility = if (todayList!!.size == 0) View.VISIBLE else View.GONE
+        nodataLay.visibility = if (todayList!!.isEmpty()) View.VISIBLE else View.GONE
         todayAdapter = MyActivitiesCategoryAdapter(this@MyActivities, todayList, this@MyActivities, this@MyActivities)
         todayAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
@@ -164,7 +162,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
             }
 
         })
-        recyclerViewMyActivities.setAdapter(todayAdapter)
+        recyclerViewMyActivities.adapter = todayAdapter
     }
 
     override fun onItemMenuClick(position: Int, itemMenu: ImageView) {
@@ -200,18 +198,22 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
                 finish()
             }
             R.id.addActivity -> {
+                showAddActivityDialog()
+            }
+            R.id.menuCreateNewsFeed->{
+                addActivityDialog?.dismiss()
                 startActivity(Intent(this@MyActivities, NewActivities::class.java))
             }
         }
     }
 
     @SuppressLint("RestrictedApi")
-    fun showPopup(v: View, position: Int) {
-        var activity = todayList!![actionPosition!!]
+    private fun showPopup(v: View, position: Int) {
+        val activity = todayList!![actionPosition!!]
         val wrapper = ContextThemeWrapper(this, R.style.MyPopupMenu)
         val popup = PopupMenu(wrapper, v)
-        val inflater = popup.getMenuInflater()
-        inflater.inflate(R.menu.my_activities_menu, popup.getMenu())
+        val inflater = popup.menuInflater
+        inflater.inflate(R.menu.my_activities_menu, popup.menu)
 
         val hideActItem = popup.menu.findItem(R.id.hideAct)
         if (activity.is_hide.equals("0")) {
@@ -226,14 +228,14 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
         val menuHelper = MenuPopupHelper(this@MyActivities, popup.menu as MenuBuilder, v)
         menuHelper.setForceShowIcon(true)
 
-        popup.setOnMenuItemClickListener(this@MyActivities);
+        popup.setOnMenuItemClickListener(this@MyActivities)
         menuHelper.show()
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        when (item!!.getItemId()) {
+        when (item!!.itemId) {
             R.id.addDate -> {
-                var activities = todayList!![actionPosition!!]
+                val activities = todayList!![actionPosition!!]
                 popUpAddEvents(activities)
                 return true
             }
@@ -252,24 +254,22 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
         }
     }
 
-    fun showConfirmationDialog(action: String) {
+    private fun showConfirmationDialog(action: String) {
 
         try {
             val builder1 = AlertDialog.Builder(this@MyActivities)
             builder1.setTitle("Alert")
-            builder1.setMessage("Are you sure you want to " + action + " this activity?")
+            builder1.setMessage("Are you sure you want to $action this activity?")
             builder1.setCancelable(false)
-            builder1.setPositiveButton("Ok",
-                    DialogInterface.OnClickListener { dialog, id ->
+            builder1.setPositiveButton("Ok", { dialog, id ->
                         when (action) {
                             "remove" -> {
-                                deleteMyActivity(todayList!!.get(actionPosition!!)!!.activityId!!)
+                                deleteMyActivity(todayList!![actionPosition!!].activityId!!)
                             }
                             "hide",
                             "unhide" -> {
-                                hideMyActivity(todayList!!.get(actionPosition!!)!!.activityId!!)
+                                hideMyActivity(todayList!![actionPosition!!].activityId!!)
                             }
-
                         }
                     })
 
@@ -285,12 +285,12 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
         }
     }
 
-    fun deleteMyActivity(activityId: String) {
+    private fun deleteMyActivity(activityId: String) {
         val dialog = CusDialogProg(this@MyActivities)
         dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(this@MyActivities, this@MyActivities,
-                "${WebService.deleteMyActivity}",
+                WebService.deleteMyActivity,
                 //WebService.get_activity_list + listType + "&limit=&offset=",
                 false) {
             override fun onVolleyResponse(response: String?) {
@@ -298,7 +298,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
                 try {
 
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
+                    if (obj.getString("status") == "success") {
                         getActivitiesList()
                     }
                     // searchAdapter?.notifyDataSetChanged()
@@ -316,24 +316,23 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("activityId", activityId)
+                params["activityId"] = activityId
 
                 return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }
         }.execute(MyActivities::class.java.name)
     }
 
-    fun hideMyActivity(activityId: String) {
+    private fun hideMyActivity(activityId: String) {
         val dialog = CusDialogProg(this@MyActivities)
         dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
-        object : VolleyGetPost(this@MyActivities, this@MyActivities,
-                "${WebService.hideMyActivity}",
+        object : VolleyGetPost(this@MyActivities, this@MyActivities, WebService.hideMyActivity,
                 //WebService.get_activity_list + listType + "&limit=&offset=",
                 false) {
             override fun onVolleyResponse(response: String?) {
@@ -341,7 +340,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
                 try {
 
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
+                    if (obj.getString("status") == "success") {
                         getActivitiesList()
                     }
                     // searchAdapter?.notifyDataSetChanged()
@@ -359,12 +358,12 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("activityId", activityId)
+                params["activityId"] = activityId
                 return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }
         }.execute(MyActivities::class.java.name)
@@ -393,33 +392,21 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
             val loctionLay = dialog!!.findViewById<View>(R.id.loctionLay) as RelativeLayout
             val containerLay = dialog!!.findViewById<View>(R.id.containerLay) as RelativeLayout
 
-            var latitute: String = ""
-            var longitute: String = ""
+           // var latitute: String = ""
+           // var longitute: String = ""
             mTitle.text = activities.activityName
 
             dialog!!.setCancelable(false)
-            mCancel.setOnClickListener(View.OnClickListener { dialog!!.dismiss() })
-            mAdd.setOnClickListener(View.OnClickListener {
-                var eventTitle = eventNameTxt.text.toString().trim()
-                var location = locationTxt.text.toString().trim()
-                var dese = descTxt.text.toString().trim()
+            mCancel.setOnClickListener({ dialog!!.dismiss() })
+            mAdd.setOnClickListener({
+                val eventTitle = eventNameTxt.text.toString().trim()
+                val location = locationTxt.text.toString().trim()
+                val dese = descTxt.text.toString().trim()
                 if (isvaildDataToSend(eventNameTxt, addDateTxt, addTimeTxt, locationTxt, containerLay)) addEvent(eventTitle, eventDate, eventTime, location, activities.activityId!!, dese)
             })
-            datelay.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(p0: View?) {
-                    datePicker(day, month, year, addDateTxt)
-                }
-            })
-            timeLay.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(p0: View?) {
-                    timePicker(addTimeTxt)
-                }
-            })
-            locationTxt.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(p0: View?) {
-                    openAutocompleteActivity()
-                }
-            })
+            datelay.setOnClickListener { datePicker(day, month, year, addDateTxt) }
+            timeLay.setOnClickListener { timePicker(addTimeTxt) }
+            locationTxt.setOnClickListener { openAutocompleteActivity() }
 
             dialog!!.setOnDismissListener { dialogInterface ->
                 dialog = null
@@ -448,7 +435,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
         return true
     }
 
-    fun datePicker(i1: Int, i2: Int, i3: Int, addDateTxt: TextView) {
+    private fun datePicker(i1: Int, i2: Int, i3: Int, addDateTxt: TextView) {
         val calendar = GregorianCalendar.getInstance()
         var year = calendar.get(Calendar.YEAR)
         var month = calendar.get(Calendar.MONTH)
@@ -462,48 +449,48 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
             override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
                 val check = Date()
                 check.year = p1 - 1900; check.month; check.date = p3
-                var d = Date(System.currentTimeMillis() - 1000)
+                val d = Date(currentTimeMillis() - 1000)
                 d.hours = 0
                 d.minutes = 0
                 d.seconds = 0
                 Util.e("Tag", "$d : ${p0!!.minDate} : $check")
                 year = p1; month = p2 + 1;day = p3
                 eventDate = "" + year + "/" + month + "/" + day
-                addDateTxt.setText(Util.convertDate("$year-$month-$day"))
+                addDateTxt.text = Util.convertDate("$year-$month-$day")
             }
         }, year, month, day)
-         datepickerdialog.datePicker.minDate = System.currentTimeMillis() - 1000
+         datepickerdialog.datePicker.minDate = currentTimeMillis() - 1000
         datepickerdialog.window!!.setBackgroundDrawableResource(R.color.white)
 
         datepickerdialog.show()
     }
 
-    fun timePicker(addTimeTxt: TextView) {
-        var mcurrentTime = Calendar.getInstance()
-        var hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
-        var minute = mcurrentTime.get(Calendar.MINUTE)
-        var mTimePicker = TimePickerDialog(this@MyActivities, R.style.DialogTheme2, object : TimePickerDialog.OnTimeSetListener {
+    private fun timePicker(addTimeTxt: TextView) {
+        val mcurrentTime = Calendar.getInstance()
+        val hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
+        val minute = mcurrentTime.get(Calendar.MINUTE)
+        val mTimePicker = TimePickerDialog(this@MyActivities, R.style.DialogTheme2, object : TimePickerDialog.OnTimeSetListener {
             override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
-                val onTimeSet: Unit
-                eventTime = "" + p1 + ":" + p2
+                //val onTimeSet: Unit
+                eventTime = "$p1:$p2"
                 addTimeTxt.text = Util.setTimeFormat(eventTime)
             }
         }, hour, minute, false)
-        mTimePicker.setTitle("Select Time");
-        mTimePicker.show();
+        mTimePicker.setTitle("Select Time")
+        mTimePicker.show()
     }
 
-    fun addEvent(eventTitle: String,
-                 eventDate: String,
-                 eventTime: String,
-                 location: String,
-                 activityId: String,
-                 description: String) {
+    private fun addEvent(eventTitle: String,
+                         eventDate: String,
+                         eventTime: String,
+                         location: String,
+                         activityId: String,
+                         description: String) {
         val dialogProgress = CusDialogProg(this@MyActivities)
         dialogProgress.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(this@MyActivities, this@MyActivities,
-                "${WebService.addEvents}",
+                WebService.addEvents,
                 //WebService.get_activity_list + listType + "&limit=&offset=",
                 false) {
             override fun onVolleyResponse(response: String?) {
@@ -511,7 +498,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
                 try {
 
                     val obj = JSONObject(response)
-                    if (obj.getString("status").equals("success")) {
+                    if (obj.getString("status") == "success") {
                         dialog?.dismiss()
                         getActivitiesList()
                     } else {
@@ -544,7 +531,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }
         }.execute(MyActivities::class.java.name)
@@ -560,7 +547,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
         } catch (e: GooglePlayServicesRepairableException) {
             // Indicates that Google Play Services is either not installed or not up to date. Prompt
             // the user to correct the issue.
-            GoogleApiAvailability.getInstance().getErrorDialog(this, e.getConnectionStatusCode(),
+            GoogleApiAvailability.getInstance().getErrorDialog(this, e.connectionStatusCode,
                     0 /* requestCode */).show()
         } catch (e: GooglePlayServicesNotAvailableException) {
             // Indicates that Google Play Services is not available and the problem is not easily
@@ -583,8 +570,31 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
 
                 dialog?.locationTxt?.text = place.address
                 dialog?.show()
-                Log.e("TAG", "Place Selected: " + place.getName() + " " + latitude + " " + longitute);
+                Log.e("TAG", "Place Selected: " + place.name + " " + latitude + " " + longitute)
             }
         }
+    }
+
+
+    @SuppressLint("RtlHardcoded")
+    private fun showAddActivityDialog(){
+
+        if(addActivityDialog==null){
+            addActivityDialog = Dialog(this)
+            addActivityDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+            val dialogWindow = addActivityDialog?.window
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            addActivityDialog?.setContentView(R.layout.dialog_clubdetail_menu)
+
+            addActivityDialog?.tvMenu1?.text = getString(R.string.add_activity)
+            val lp = dialogWindow?.attributes
+            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+            lp?.y = -100
+            dialogWindow?.attributes = lp
+            addActivityDialog?.setCancelable(true)
+            addActivityDialog?.menuCreateNewsFeed?.setOnClickListener(this)
+        }
+        addActivityDialog?.show()
     }
 }

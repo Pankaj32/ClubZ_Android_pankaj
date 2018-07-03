@@ -58,22 +58,26 @@ public class SessionManager {
 
 
     public User getUser(){
-        User user          = new User();
-        user.setId(mypref.getString(Constants._id, ""));
-        user.setFull_name   (mypref.getString(Constants._full_name  , ""));
-        user.setFirst_name   (mypref.getString(Constants._first_name  , ""));
-        user.setLast_name  (mypref.getString(Constants._last_name   , ""));
-        user.setSocial_id    (mypref.getString(Constants._social_id   , ""));
-        user.setSocial_type  (mypref.getString(Constants._social_type , ""));
-        user.setEmail        (mypref.getString(Constants._email       , ""));
-        user.setCountry_code (mypref.getString(Constants._country_code, ""));
-        user.setContact_no   (mypref.getString(Constants._contact_no  , ""));
-        user.setProfile_image(mypref.getString(Constants._profile_image,""));
-        user.set_verified  (mypref.getString(Constants._is_verified , ""));
-        user.setAuth_token   (mypref.getString(Constants._auth_token  , ""));
-        user.setDevice_type  (mypref.getString(Constants._device_type , ""));
-        user.setDevice_token (mypref.getString(Constants._device_token, ""));
-        return user;
+        if(mypref.getString(Constants._id, "").isEmpty()){
+            return null;
+        }else {
+            User user  = new User();
+            user.setId(mypref.getString(Constants._id, ""));
+            user.setFull_name   (mypref.getString(Constants._full_name  , ""));
+            user.setFirst_name   (mypref.getString(Constants._first_name  , ""));
+            user.setLast_name  (mypref.getString(Constants._last_name   , ""));
+            user.setSocial_id    (mypref.getString(Constants._social_id   , ""));
+            user.setSocial_type  (mypref.getString(Constants._social_type , ""));
+            user.setEmail        (mypref.getString(Constants._email       , ""));
+            user.setCountry_code (mypref.getString(Constants._country_code, ""));
+            user.setContact_no   (mypref.getString(Constants._contact_no  , ""));
+            user.setProfile_image(mypref.getString(Constants._profile_image,""));
+            user.set_verified  (mypref.getString(Constants._is_verified , ""));
+            user.setAuth_token   (mypref.getString(Constants._auth_token  , ""));
+            user.setDevice_type  (mypref.getString(Constants._device_type , ""));
+            user.setDevice_token (mypref.getString(Constants._device_token, ""));
+            return user;
+        }
     }
 
     public String getLanguage(){
