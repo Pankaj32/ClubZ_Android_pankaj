@@ -301,6 +301,7 @@
     <string name="hint_activity_des"> Activity\'s description </string>
     <string name="terms_n_condition"> Terms and Condition </string>
     <string name="user_role_txt">Club Manager</string>
+    <string name="add_activity">Add new activity</string>
 
     <!--<string name="emoji1" > &#x1f60b; </string>-->
     <!--<string name="emoji1" > U+1F60B </string>-->
