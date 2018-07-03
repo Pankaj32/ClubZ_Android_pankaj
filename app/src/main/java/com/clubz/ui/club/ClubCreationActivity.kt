@@ -61,17 +61,17 @@ import java.lang.NullPointerException
 import java.util.*
 
 class ClubCreationActivity : BaseActivity(), View.OnClickListener,
-        DatePickerDialog.OnDateSetListener, View.OnTouchListener {
+        DatePickerDialog.OnDateSetListener, View.OnTouchListener  {
 
     private val TAG = ClubCreationActivity::class.java.canonicalName
     var PLACE_PICKER_REQUEST = 1
 
-    var clubImage: Bitmap? = null
-    var clubIcon: Bitmap? = null
-    var isCameraSelected: Boolean = false
-    var isClubIcon: Boolean = false
-    var imageUri: Uri? = null
-    //  lateinit var  autocompleteFragment1 : PlaceAutocompleteFragment
+    var clubImage : Bitmap? = null
+    var clubIcon : Bitmap? = null
+    var isCameraSelected : Boolean = false
+    var isClubIcon : Boolean = false
+    var imageUri : Uri? = null
+  //  lateinit var  autocompleteFragment1 : PlaceAutocompleteFragment
     var lat = 0.0
     var lng = 0.0
     var isvalidate: Boolean = false
@@ -89,7 +89,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_club_creation)
 
-        for (views in arrayOf(img_club, ed_foundation_date, done, back_f, all, image_icon, club_address)) views.setOnClickListener(this)
+        for(views in arrayOf(img_club ,ed_foundation_date  ,done ,back_f, all ,image_icon, club_address))views.setOnClickListener(this)
         /*try{
             autocompleteFragment1 = fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
             // var autocompleteFragment  =( activity as HomeActivity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment;
@@ -113,12 +113,12 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         spn_privacy.adapter = CreateClub_Spinner(this, list, Constants.CreateClub_Spinner_Type_privacy_type)
         getCategory()
         username.text = SessionManager.getObj().user.full_name
-        try {
+        try{
 
-            if (ClubZ.currentUser!!.profile_image.isNotBlank()) {
+            if(ClubZ.currentUser!!.profile_image.isNotBlank()){
                 Picasso.with(this).load(SessionManager.getObj().user.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).fit().into(image_member2, object : Callback {
                     override fun onSuccess() {
-                        image_member2.setPadding(0, 0, 0, 0)
+                        image_member2.setPadding(0,0,0,0)
                     }
 
                     override fun onError() {
@@ -127,18 +127,17 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 })
             }
 
-        } catch (ex: Exception) {
+        }catch (ex :Exception){
             ex.printStackTrace()
-        } catch (ex: NullPointerException) {
+        }catch (ex : NullPointerException){
             ex.printStackTrace()
         }
         club_phone.setOnEditorActionListener { p0, p1, p2 ->
             if (p1 == EditorInfo.IME_ACTION_NEXT) {
-                club_address.requestFocus()
-            }
+                club_address.requestFocus()               }
             false
         }
-        for (spinner in arrayOf(spn_privacy, spn_club_category)) spinner.setOnTouchListener(this)
+        for(spinner in arrayOf(spn_privacy,spn_club_category))spinner.setOnTouchListener(this)
 
         Handler().postDelayed(Runnable {
             object : Purchase_membership_dialog(this) {
@@ -150,23 +149,16 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
     }
 
 
+
     override fun onClick(p0: View?) {
-        hideKeyBoard()
-        when (p0!!.id) {
-            R.id.img_club -> {
-                isClubIcon = false; permissionPopUp(); }
-            R.id.ed_foundation_date -> {
-                datePicker(day, month, year)
-            }
-            R.id.done -> if (validator()) crateClub()
-            R.id.back_f -> {
-                onBackPressed()
-            }
-            R.id.image_icon -> {
-                isClubIcon = true; permissionPopUp(); }
-            R.id.club_address -> {
-                showPlacePicker()
-            }
+       hideKeyBoard()
+        when(p0!!.id){
+            R.id.img_club-> { isClubIcon = false;   permissionPopUp();  }
+            R.id.ed_foundation_date->{ datePicker(day,month,year) }
+            R.id.done-> if(validator())crateClub()
+            R.id.back_f->{ onBackPressed() }
+            R.id.image_icon->{ isClubIcon = true;   permissionPopUp(); }
+            R.id.club_address->{ showPlacePicker() }
         }
     }
 
@@ -198,7 +190,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
     }
 
     private fun showPlacePicker() {
-        val builder = PlacePicker.IntentBuilder()
+       val builder =  PlacePicker.IntentBuilder()
         try {
             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST)
         } catch (e: Exception) {
@@ -224,58 +216,58 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@ClubCreationActivity, requestCode, resultCode, data)
                 if (imageUri != null) {
-                    if (!isClubIcon)
+                    if(!isClubIcon)
                         CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
-                                .setMinCropResultSize(300, 200)
-                                .setMaxCropResultSize(4000, 4000)
+                                .setMinCropResultSize(300,200)
+                                .setMaxCropResultSize(4000,4000)
                                 .setAspectRatio(300, 200).start(this@ClubCreationActivity)
                     else CropImage.activity(imageUri)
                             .setCropShape(CropImageView.CropShape.OVAL)
-                            .setMinCropResultSize(200, 200)
-                            .setMaxCropResultSize(4000, 4000)
+                            .setMinCropResultSize(200,200)
+                            .setMaxCropResultSize(4000,4000)
                             .setAspectRatio(300, 300).start(this@ClubCreationActivity)
                 } else {
-                    Toast.makeText(this@ClubCreationActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ClubCreationActivity ,R.string.swr, Toast.LENGTH_SHORT).show()
                 }
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    if (!isClubIcon)
+                    if(!isClubIcon)
                         CropImage.activity(imageUri)
                                 .setCropShape(CropImageView.CropShape.RECTANGLE)
-                                .setMinCropResultSize(300, 200)
-                                .setMaxCropResultSize(4000, 4000)
+                                .setMinCropResultSize(300,200)
+                                .setMaxCropResultSize(4000,4000)
                                 .setAspectRatio(300, 200).start(this@ClubCreationActivity)
                     else CropImage.activity(imageUri)
                             .setCropShape(CropImageView.CropShape.OVAL)
-                            .setMinCropResultSize(200, 200)
-                            .setMaxCropResultSize(4000, 4000)
+                            .setMinCropResultSize(200,200)
+                            .setMaxCropResultSize(4000,4000)
                             .setAspectRatio(300, 300).start(this@ClubCreationActivity)
                 } else {
-                    Toast.makeText(this@ClubCreationActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ClubCreationActivity ,R.string.swr , Toast.LENGTH_SHORT).show()
                 }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                val result: CropImage.ActivityResult = CropImage.getActivityResult(data)
+                val result : CropImage.ActivityResult = CropImage.getActivityResult(data)
                 try {
                     if (result != null)
-                        if (isClubIcon) {
+                        if(isClubIcon){
                             clubIcon = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, result.uri)
 
                             if (clubIcon != null) {
-                                image_icon.setPadding(0, 0, 0, 0)
+                                image_icon.setPadding(0,0,0,0)
                                 image_icon.setImageBitmap(CircleTransform_NoRecycle().transform(clubIcon))
                             }
-                        } else {
-                            clubImage = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, result.uri)
+                        }
+                        else
+                        {    clubImage = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, result.uri)
 
 
                             if (clubImage != null) {
                                 img_club.setImageBitmap(clubImage)
-                            }
-                        }
-                } catch (e: IOException) {
+                            }}
+                } catch ( e : IOException) {
                     e.printStackTrace()
                 }
             }
@@ -283,9 +275,9 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         isCameraSelected = false
     }
 
-    private fun permissionPopUp() {
+   private fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(this@ClubCreationActivity, R.style.popstyle)
-        val popupMenu = PopupMenu(wrapper, if (isClubIcon) image_icon else img_club, Gravity.CENTER)
+        val popupMenu = PopupMenu(wrapper, if(isClubIcon) image_icon else img_club, Gravity.CENTER)
         popupMenu.menuInflater.inflate(R.menu.popupmenu, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem): Boolean {
@@ -294,9 +286,11 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                     R.id.pop1 -> if (Build.VERSION.SDK_INT >= 23) {
                         if (this@ClubCreationActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                             callIntent(Constants.INTENTREQUESTCAMERA)
-                        } else if (this@ClubCreationActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        }
+                        else if (this@ClubCreationActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                             callIntent(Constants.INTENTREQUESTREAD)
-                        } else {
+                        }
+                        else {
                             callIntent(Constants.INTENTCAMERA)
                         }
                     } else {
@@ -318,26 +312,24 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         })
         popupMenu.show()
     }
-
     fun callIntent(caseid: Int) {
 
         when (caseid) {
             Constants.INTENTCAMERA -> {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                val file = File(Environment.getExternalStorageDirectory().toString() + File.separator + "image.jpg")
+                val file  = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg")
                 imageUri =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            FileProvider.getUriForFile(this@ClubCreationActivity, BuildConfig.APPLICATION_ID + ".provider", file)
-                        } else {
-                            Uri.fromFile(file)
-                        }
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)//USE file code in_ this case
+                        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N){
+                            FileProvider.getUriForFile(this@ClubCreationActivity, BuildConfig.APPLICATION_ID + ".provider",file)
+                        }else {
+                            Uri.fromFile(file)}
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri)//USE file code in_ this case
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
                 ImagePicker.pickImage(this)
             }
-            Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this@ClubCreationActivity, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+            Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this@ClubCreationActivity, arrayOf(Manifest.permission.CAMERA,  Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_CAMERA)
             Constants.INTENTREQUESTREAD -> ActivityCompat.requestPermissions(this@ClubCreationActivity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
@@ -379,10 +371,10 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         val activity = this@ClubCreationActivity
         val dialog = CusDialogProg(this@ClubCreationActivity)
         dialog.show()
-        val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.crate_club, object : Response.Listener<NetworkResponse> {
+        val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.crate_club,object : Response.Listener<NetworkResponse> {
             override fun onResponse(response: NetworkResponse) {
                 val data = String(response.data)
-                Util.e("data", data)
+                Util.e("data",data)
                 dialog.dismiss()
                 //{"status":"success","message":"Club added successfully"}
                 try {
@@ -395,9 +387,9 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                     } else {
                         Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
-                } catch (e: java.lang.Exception) {
+                }catch ( e : java.lang.Exception){
                     e.printStackTrace()
-                    Toast.makeText(this@ClubCreationActivity, R.string.swr, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@ClubCreationActivity,R.string.swr, Toast.LENGTH_LONG).show()
                 }
                 dialog.dismiss()
             }
@@ -411,7 +403,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 val params = java.util.HashMap<String, String>()
                 params["city"] = club_city.text.toString().trim()
                 params["clubName"] = titile_name.text.toString()
-                params["clubType"] = if (spn_privacy.selectedItem.toString().toLowerCase().equals("public")) "1" else "2" // 1 public 2 private
+                params["clubType"] = if(spn_privacy.selectedItem.toString().toLowerCase().equals("public"))"1" else "2" // 1 public 2 private
                 params["clubCategoryId"] = (spn_club_category.selectedItem as Club_Category).clubCategoryId
                 params["clubEmail"] = club_email.text.toString()
                 params["clubContactNo"] = club_phone.text.toString()
@@ -423,8 +415,8 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 params["termsConditions"] = terms_n_condition.text.toString()
                 params["clubFoundationDate"] = ed_foundation_date.text.toString()
                 params["clubLocation"] = club_address.text.toString()
-                params["userRole"] = usrerole.text.toString() + ""
-                params["clubDescription"] = etv_description.text.toString() + "" //*\\StringEscapeUtils.escapeJava(etv_description.getText().toString()).replace("\\uD83D"," \\uD83D")+"")*//*
+                params["userRole"] = usrerole.text.toString()+""
+                params["clubDescription"] = etv_description.text.toString()+"" //*\\StringEscapeUtils.escapeJava(etv_description.getText().toString()).replace("\\uD83D"," \\uD83D")+"")*//*
                 Util.e("parms create", params.toString())
                 return params
             }
@@ -470,21 +462,21 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         val activity = this@ClubCreationActivity
         val dialog = CusDialogProg(this@ClubCreationActivity)
         dialog.show()
-        object : VolleyGetPost(activity, activity, WebService.club_category, true) {
+        object : VolleyGetPost(activity , activity, WebService.club_category,true){
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {
                     val json = JSONObject(response)
-                    if (json.getString("status").equals("success")) {
-                        val list = Gson().fromJson<ArrayList<Club_Category>>(json.getJSONArray("data").toString(), Type_Token.club_category)
+                    if(json.getString("status").equals("success")){
+                        val list  = Gson().fromJson<ArrayList<Club_Category>>(json.getJSONArray("data").toString() , Type_Token.club_category)
                         spn_club_category.adapter = CreateClub_Spinner(this@ClubCreationActivity, list, Constants.CreateClub_Spinner_Type_ClubCategory)
-                    } else {
+                    }else{
 //TODO check all failure conditions //
-                        Util.showToast(json.getString("message"), this@ClubCreationActivity)
+                        Util.showToast(json.getString("message"),this@ClubCreationActivity)
                     }
-                } catch (ex: Exception) {
+                }catch (ex :Exception){
                     Util.e("Error", ex.toString())
-                    Util.showToast(R.string.swr, this@ClubCreationActivity)
+                    Util.showToast(R.string.swr,this@ClubCreationActivity)
                 }
             }
 
@@ -509,73 +501,73 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         }.execute()
     }
 
-    private fun validator(): Boolean {
+    private fun validator() :Boolean{
         //hideKeyBoard()
-        checkPhoneNumber(SessionManager.getObj().user.country_code.replace("+", ""))
-        if (titile_name.text.toString().isBlank()) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_clubnme)
+        checkPhoneNumber(SessionManager.getObj().user.country_code.replace("+",""))
+        if(titile_name.text.toString().isBlank()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_clubnme)
             return false
         }
-        if (clubImage == null) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_image)
+        if(clubImage==null ){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_image)
             return false
         }
-        if (ed_foundation_date.text.toString().isBlank()) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_foundation)
+        if(ed_foundation_date.text.toString().isBlank()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_foundation)
             return false
         }
-        if (club_email.text.toString().isBlank()) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_email)
+        if(club_email.text.toString().isBlank()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_email)
             return false
         }
-        if (!club_email.text.toString().isBlank() && !PatternCheck.instance.check(PatternCheck._email, club_email.text.toString())) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_email_valid)
+        if(!club_email.text.toString().isBlank() && !PatternCheck.instance.check(PatternCheck._email, club_email.text.toString())){
+            Util.showSnake(this@ClubCreationActivity, clRootView!! ,R.string.a_email_valid)
             return false
         }
-        if (club_phone.text.toString().isBlank()) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_phone_club)
+        if(club_phone.text.toString().isBlank()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_phone_club)
             return false
         }
         /*if(!isvalidate){
             Util.showSnake(context, view!!,R.string.a_phone_no_valid);
             return false
         }*/
-        if (club_address.text.toString().isBlank()) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_address)
+        if(club_address.text.toString().isBlank()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_address)
             return false
         }
-        if (club_address.text.toString().isBlank()) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_location)
+        if(club_address.text.toString().isBlank()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_location)
             return false
         }
-        if (club_address.text.toString().isBlank() || (lat == 0.0 && lng == 0.0)) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_location)
+        if(club_address.text.toString().isBlank() || (lat==0.0 && lng == 0.0)){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_location)
             return false
         }
-        if (club_web.text.toString().isBlank()) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_web)
+        if(club_web.text.toString().isBlank()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_web)
             return false
         }
-        if (!android.util.Patterns.WEB_URL.matcher(club_web.text.toString()).matches()) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_web_valid)
+        if(!android.util.Patterns.WEB_URL.matcher(club_web.text.toString()).matches()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_web_valid)
             return false
         }
-        if (etv_description.text.toString().isBlank()) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_description)
+        if(etv_description.text.toString().isBlank()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_description)
             return false
         }
-        if (terms_n_condition.text.toString().isBlank()) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_terms_n_con)
+        if(terms_n_condition.text.toString().isBlank()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_terms_n_con)
             return false
         }
-        if (usrerole.text.toString().isBlank()) {
-            Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_userRole)
+        if(usrerole.text.toString().isBlank()){
+            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_userRole)
             return false
         }
         return true
     }
 
-    private fun checkPhoneNumber(countryCode: String) {
+    private fun checkPhoneNumber( countryCode : String) {
         val contactNo = club_phone.text.toString()
         try {
             val phoneUtil = PhoneNumberUtil.createInstance(this@ClubCreationActivity)
@@ -594,13 +586,13 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
         val check = Date()
-        check.year = p1 - 1900; check.month; check.date = p3
+        check.year = p1-1900 ; check.month ; check.date = p3
         val d = Date(System.currentTimeMillis() - 1000)
-        d.hours = 0
-        d.minutes = 0
-        d.seconds = 0
+        d.hours =0
+        d.minutes=0
+        d.seconds=0
         Util.e("Tag", "$d : ${p0!!.minDate} : $check")
-        year = p1; month = p2 + 1;day = p3
+        year = p1 ; month = p2+1 ;day = p3
         ed_foundation_date.setText(Util.convertDate("$year-$month-$day"))
     }
 

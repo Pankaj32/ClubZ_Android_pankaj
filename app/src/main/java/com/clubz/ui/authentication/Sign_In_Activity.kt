@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Spinner
 import android.widget.Toast
 import com.android.volley.VolleyError
+import com.clubz.ClubZ
 import com.clubz.ui.authentication.adapter.Country_spinner_adapter
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.R
@@ -271,6 +272,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
                      finish()
                  }else {
                      SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
+                     ClubZ.currentUser = SessionManager.getObj().user
                      startActivity(Intent(this@Sign_In_Activity, HomeActivity::class.java))
                      finish()
                  }
