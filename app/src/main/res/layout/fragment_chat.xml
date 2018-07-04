@@ -6,34 +6,18 @@
     android:background="@color/background"
     tools:context="com.clubz.chat.fragments.FragmentChat">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/_8sdp"
-            android:layout_weight=".88"
-            app:cardElevation="3dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"></LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
+        android:layout_height="match_parent">
         <RelativeLayout
+            android:id="@+id/bottomLay"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/_50sdp"
             android:layout_marginBottom="@dimen/_8sdp"
             android:layout_marginLeft="@dimen/_6sdp"
             android:layout_marginRight="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_2sdp"
-            android:layout_weight=".12">
+            android:layout_alignParentBottom="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -99,7 +83,22 @@
 
             </FrameLayout>
         </RelativeLayout>
-    </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_8sdp"
+            android:layout_above="@id/bottomLay"
+            app:cardElevation="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"></LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
 
 
 </FrameLayout>

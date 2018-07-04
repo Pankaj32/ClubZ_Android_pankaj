@@ -1,6 +1,7 @@
 package com.clubz.ui.club.fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -18,6 +19,7 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.helper.Type_Token
 import com.clubz.data.remote.WebService
 import com.clubz.data.model.Clubs
+import com.clubz.ui.club.`interface`.MyClubInteraction
 import com.clubz.ui.club.`interface`.SearchListner
 import com.clubz.ui.club.adapter.MyClub
 import com.clubz.ui.club.adapter.MyClubListAdapter
@@ -39,6 +41,12 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
     var clubList : ArrayList<Clubs> = arrayListOf()
     var lastQuery : String? = ""
     var pageListner : RecyclerViewScrollListener? = null
+    private var listner  : MyClubInteraction? = null
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is MyClubInteraction) listner = context
+    }
 
     @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -69,9 +77,11 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
 
 
     override fun onJoinedClub(club: Clubs) {
+        listner?.onUpdateFirebase(club, 1)
     }
 
     override fun onLeavedClub(club: Clubs) {
+        listner?.onUpdateFirebase(club, 0)
     }
 
     override fun onRefresh() {
@@ -131,14 +141,12 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
                 params["clubType"] = ClubZ.isPrivate.toString()
                 return params
             }
-
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["language"] = SessionManager.getObj().language
                 params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }
         }.execute()
-
     }
 
 }

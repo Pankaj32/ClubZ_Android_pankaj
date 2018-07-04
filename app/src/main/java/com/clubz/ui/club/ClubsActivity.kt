@@ -146,22 +146,22 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
 
     override fun onJoinClub(club: Clubs) {
         val frag = adapter.getItem(0) as FragMyClubs
-        joinMembersInFireBase(club,1)
         frag.updateAdapter(club)
+        onUpdateFirebase(club,1)
     }
 
 
     override fun onLeaveClub(club: Clubs) {
         val frag = adapter.getItem(1) as FragNearClubs
-        joinMembersInFireBase(club,0)
         frag.updateAdapter(club)
+        onUpdateFirebase(club, 0)
     }
 
-    private fun joinMembersInFireBase(club: Clubs, isjoined: Int) {
-        var memberBean = MemberBean()
+    override fun onUpdateFirebase(club: Clubs, status:Int) {
+        val memberBean = MemberBean()
         memberBean.clubId = club.clubId
         memberBean.userId = ClubZ.currentUser?.id
-        memberBean.isjoind = isjoined
+        memberBean.isjoind = status
 
         FirebaseDatabase.getInstance()
                 .reference
@@ -171,6 +171,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 .setValue(memberBean).addOnCompleteListener {
                 }
     }
+
 
     override fun onClick(v: View?) {
         when (v?.id) {
