@@ -9,12 +9,15 @@ import android.view.Window
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.ClubMember
 import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
+import com.clubz.ui.cv.CusDialogProg
+import com.clubz.utils.VolleyGetPost
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.z_user_profile_dialog.*
 import org.json.JSONObject
@@ -28,7 +31,6 @@ abstract class UserProfileDialog(internal val context: Context, val member: Club
         when(v!!.id){
             R.id.ic_call->{      onCallClicked()}
             R.id.ic_chat->{      onChatClicked()}
-            R.id.ic_favorite->{      onLikeClicked()}
             R.id.ic_flag->{      onFlagClicked()}
             R.id.ivEdit->{ //tv_FullName.isEnabled = !tv_FullName.isEnabled
 
@@ -52,6 +54,16 @@ abstract class UserProfileDialog(internal val context: Context, val member: Club
                         }
                     }
                 }
+            }
+
+            R.id.ic_favorite->{
+                member.isLiked = if(member.isLiked==0) 1 else 0
+                if(member.isLiked==0)
+                    ic_favorite.setImageResource(R.drawable.ic_favorite_border)
+                else
+                    ic_favorite.setImageResource(R.drawable.ic_favorite_fill)
+                updateContactList()
+                //onLikeClicked()
             }
         }
     }
@@ -87,7 +99,7 @@ abstract class UserProfileDialog(internal val context: Context, val member: Club
 
     abstract fun onCallClicked()
     abstract fun onChatClicked()
-    abstract fun onLikeClicked()
+    abstract fun onLikeClicked(isLIked: Int)
     abstract fun onFlagClicked()
     abstract fun onProfileUpdate(name : String)
     abstract fun showError(msg : String)
@@ -137,5 +149,38 @@ abstract class UserProfileDialog(internal val context: Context, val member: Club
         }
 
         ClubZ.instance.addToRequestQueue(request, UserProfileDialog::class.java.name)
+    }
+
+    private fun updateContactList(){
+       /* val dialog = CusDialogProg(context)
+        dialog.show()*/
+
+        object : VolleyGetPost(context, WebService.updateContact, false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                   // dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if (obj.getString("status")=="success"){
+                        onLikeClicked(member.isLiked)
+                    }
+                } catch (ex: Exception) { }
+            }
+
+            override fun onVolleyError(error: VolleyError?) { /*dialog.dismiss()*/ }
+
+            override fun onNetError() { /*dialog.dismiss()*/ }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["clubUserId"] = member.userId
+                params["isFavorite"] = if(member.isLiked==0) "1" else "0"
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
+                return params
+            }
+        }.execute()
     }
 }

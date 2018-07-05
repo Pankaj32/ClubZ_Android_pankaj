@@ -31,10 +31,7 @@ import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.helper.vollyemultipart.VolleySingleton
 import com.clubz.data.model.User
 import com.clubz.ui.authentication.Sign_up_Activity
-import com.clubz.utils.Constants
-import com.clubz.utils.PatternCheck
-import com.clubz.utils.Util
-import com.clubz.utils.VolleyGetPost
+import com.clubz.utils.*
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -56,20 +53,20 @@ import java.util.*
 /**
  * Created by mindiii on 2/6/18.
  */
-class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
+class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener, LinearLayoutThatDetectsSoftKeyboard.Listener {
 
 
-    var isCameraSelected :Boolean=false ;
-    var faebookLogin :Boolean=false ;
-    var imageUri : Uri? = null;
-    var profilieImage :Bitmap? = null;
+    var isCameraSelected :Boolean=false
+    var faebookLogin :Boolean=false
+    var imageUri : Uri? = null
+    var profilieImage :Bitmap? = null
     lateinit var _contact : String
     lateinit var _code : String
-    lateinit var _authtoken : String
     lateinit var actvity : Sign_up_Activity
-    var callbackManager: CallbackManager? = null;
+    var callbackManager: CallbackManager? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.frag_sign_up_two, null);
+        return inflater.inflate(R.layout.frag_sign_up_two, null)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,27 +74,43 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
         FacebookSdk.sdkInitialize(activity)
         FacebookSdk.setIsDebugEnabled(true)
         FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS)
-        FacebookSdk.setApplicationId(getResources().getString(R.string.facebook_app_id));
-        actvity = activity as Sign_up_Activity;
-        username.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        FacebookSdk.setApplicationId(resources.getString(R.string.facebook_app_id))
+        actvity = activity as Sign_up_Activity
+        username.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS
         for(view in arrayOf(iv_capture ,next , google_lnr ,facebook_lnr ))view.setOnClickListener(this)
-        try {
+       /* try {
             val user : User = SessionManager.getObj().getUser()
-            /*username.setText(user.first_name)
-            email.setText(user.email)*/
+            *//*username.setText(user.first_name)
+            email.setText(user.email)*//*
         }catch (ex :Exception){
 
+        }*/
+        mainLayout.setListener(this)
+    }
+
+    override fun onSoftKeyboardShown(isShowing: Boolean) {
+        if(isShowing){
+            scrollView.postDelayed(Runnable {
+                run {
+                    val lastChild = scrollView?.getChildAt(scrollView.childCount - 1) as View
+                    val bottom = lastChild.bottom + scrollView.paddingBottom
+                    val sy = scrollView.scrollY
+                    val sh = scrollView.height
+                    var delta = bottom - (sy + sh)
+                    delta = delta - (rrScrollEnd.height+20)
+                    scrollView.smoothScrollBy(0, delta)
+                }
+            }, 200)
         }
     }
 
-
     override fun onClick(p0: View?) {
-        faebookLogin = false;
+        faebookLogin = false
         when(p0!!.id){
-            R.id.iv_capture-> permissionPopUp();
-            R.id.next -> if(verify()) signup();
+            R.id.iv_capture-> permissionPopUp()
+            R.id.next -> if(verify()) signup()
             R.id.facebook_lnr->{
-                faebookLogin = true;
+                faebookLogin = true
                 facebooklogin()
             }
 
@@ -108,14 +121,13 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     }
 
 
-
     /**
      * Google sign in_
      */
     private fun googleSignin() {
         //val account = GoogleSignIn.getLastSignedInAccount(this)
         actvity.dialog.show()
-        val signInIntent = actvity.mGoogleSignInClient.getSignInIntent()
+        val signInIntent = actvity.mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, Constants.RC_SIGN_IN)
     }
 
@@ -128,22 +140,20 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
             Util.e("photo" ,account.photoUrl.toString())
             actvity.dialog.dismiss()
             registrion(account)
-
         } catch (e: ApiException) {
             actvity.dialog.dismiss()
         }
-
     }
 
     fun setData( contact : String , code : String ) : Frag_Sign_Up_Two {
-        _contact = contact;
-        _code = code;
-        return this;
+        _contact = contact
+        _code = code
+        return this
     }
 
 
     fun verify():Boolean{
-        (activity as Sign_up_Activity).hideKeyBoard();
+        (activity as Sign_up_Activity).hideKeyBoard()
         if(username.text.toString().isBlank()){
             Util.showSnake(context, view!! ,R.string.a_full_name_new)
             return false
@@ -164,23 +174,19 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
         return true
     }
 
-    fun permissionPopUp() {
-        val wrapper = ContextThemeWrapper(activity, R.style.popstyle);
+    private fun permissionPopUp() {
+        val wrapper = ContextThemeWrapper(activity, R.style.popstyle)
         val popupMenu = PopupMenu(wrapper, image_picker, Gravity.BOTTOM)
-        popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())
+        popupMenu.menuInflater.inflate(R.menu.popupmenu, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem): Boolean {
                 isCameraSelected = true
-                when (item.getItemId()) {
+                when (item.itemId) {
                     R.id.pop1 -> if (Build.VERSION.SDK_INT >= 23) {
-                        if (activity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            callIntent(Constants.INTENTREQUESTCAMERA)
-                        }
-                        else if (activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            callIntent(Constants.INTENTREQUESTREAD)
-                        }
-                        else {
-                            callIntent(Constants.INTENTCAMERA)
+                        when {
+                            activity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED -> callIntent(Constants.INTENTREQUESTCAMERA)
+                            activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED -> callIntent(Constants.INTENTREQUESTREAD)
+                            else -> callIntent(Constants.INTENTCAMERA)
                         }
                     } else {
                         callIntent(Constants.INTENTCAMERA)
@@ -207,17 +213,17 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
         when (caseid) {
             Constants.INTENTCAMERA -> {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                val file = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg");
+                val file = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg")
                 imageUri =
                         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
                             FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file)
                         }else {
                             Uri.fromFile(file)}
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);//USE file code in_ this case
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri)//USE file code in_ this case
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-                ImagePicker.pickImage(this);
+                ImagePicker.pickImage(this)
             }
             Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this.activity, arrayOf(Manifest.permission.CAMERA,  Manifest.permission.WRITE_EXTERNAL_STORAGE ,Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_CAMERA)
@@ -248,9 +254,9 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
         }else if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
 
-                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data);
+                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data)
                 if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(160,160).setMaxCropResultSize(4000,4000).setAspectRatio(400, 400).start(context,this);
+                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(160,160).setMaxCropResultSize(4000,4000).setAspectRatio(400, 400).start(context,this)
                 } else {
                     Toast.makeText(context ,R.string.swr, Toast.LENGTH_SHORT).show()
                 }
@@ -258,19 +264,19 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(160,160).setMaxCropResultSize(4000,4000).setAspectRatio(400, 400).start(context,this);
+                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(160,160).setMaxCropResultSize(4000,4000).setAspectRatio(400, 400).start(context,this)
                 } else Toast.makeText(context ,R.string.swr , Toast.LENGTH_SHORT).show()
             }
              if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 val result : CropImage.ActivityResult = CropImage.getActivityResult(data)
                 try {
                     if (result != null)
-                        profilieImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri())
+                        profilieImage = MediaStore.Images.Media.getBitmap(context.contentResolver, result.uri)
                     if (profilieImage != null) {
                         image_picker.setImageBitmap(profilieImage)
                     }
                 } catch ( e : IOException) {
-                    e.printStackTrace();
+                    e.printStackTrace()
                 }
             }
         }
@@ -305,26 +311,19 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
     }
 
     fun signup( ){
-        val dialog = CusDialogProg(context);
-        dialog.show();
+        val dialog = CusDialogProg(context)
+        dialog.show()
         if (Util.isConnectingToInternet(context)) {
 
             val multipartRequest = object : VolleyMultipartRequest(Request.Method.POST, WebService.Registraion, object : Response.Listener<NetworkResponse> {
                 override fun onResponse(response: NetworkResponse) {
                     val data = String(response.data)
-                    Util.e("data",data);
+                    Util.e("data",data)
                     dialog.dismiss()
-                    //{"status":"success","message":"User registration successfully done","userDetail":{"id":"2","first_name":"vinod","last_name":"bhai","email":"vinod.mindiii@gmail.com","social_id":"","social_type":"","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/","address":"","latitude":"","longitude":"","notification_status":"1","device_type":"1","auth_token":"76d7c336ffe6a20f00d2656f6be13be1b3c961a7","device_token":"1234","contact_no":"9770495603","country_code":"+91","OTP":"5811","is_verified":"0","status":"1","crd":"2018-02-13 06:03:45","upd":"2018-02-11 23:58:31"}}
-                    //{"status":"success","message":"User registration successfully done","userDetail":{"id":"26","userName":"","fullName":"Ratnesh","email":"ratnesh.mindiii@gmail.com","userType":"user","countryCode":"","contactNumber":"1234567890","authToken":"a56f75eef07d22577eada7b75ef4d7c139bc5f10","status":"1","createdOn":"2017-11-14 05:53:22","image":""}}
-                    //{"status":"fail","message":"<p>The image you are attempting to upload doesn't fit into the allowed dimensions.<\/p>"}
-                    //{"status":"success","message":"User registration successfully done","userDetail":{"id":"2","first_name":"dharamraj","last_name":"acharya","email":"d2.mindiii@gmail.com","social_id":"","social_type":"","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/bb19394089f31c6c868d1d053933fb4a.jpg","address":"","latitude":"","longitude":"","notification_status":"1","device_type":"1","auth_token":"9983de14c4ac29202943ae41aa0d7e861bdfb49b","device_token":"1234","contact_no":"9770495603","country_code":"+91","OTP":"1670","is_verified":"0","status":"1","crd":"2018-02-13 10:33:31","upd":"2018-02-11 23:58:31"}}
-
-                    // {"status":"fail","message":"Number not registered"}
                     try {
                         val obj = JSONObject(data)
-                        if(obj.getString("status").equals("success")){
+                        if(obj.getString("status") == "success"){
                             SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
-                            //{"status":"success","message":"User registration successfully done","userDetail":{"userId":"16","full_name":"ratnesh","social_id":"","social_type":"","email":"ratnesh.mindiii@gmail.com","country_code":"91","contact_no":"9770495603","profile_image":"http:\/\/clubz.co\/dev\/uploads\/profile\/62db25443654d90353e25317bf5aa73b.jpg","auth_token":"f2c6e239029dfa5f34d474ad5ca2efeef2b1640d","device_type":"1","device_token":"1234"},"messageCode":"normal_reg","step":4}
                             (activity as Sign_up_Activity).replaceFragment(Frag_Sign_UP_Three().setData(_contact ,_code ,obj.getJSONObject("userDetail").getString("auth_token"))) ////Its Temp
                         }else{
                             Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
@@ -344,42 +343,37 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
             }) {
                 override fun getParams(): MutableMap<String, String> {
                     val params = java.util.HashMap<String, String>()
-                    params.put("full_name",username.text.toString())
+                    params["full_name"] = username.text.toString()
                     //params.put("last_name",lastname.text.toString())
-                    params.put("email",email.text.toString())
-                    params.put("contact_no",_contact)
-                    params.put("device_token", FirebaseInstanceId.getInstance().getToken()!!)
-                    params.put("device_type",Constants.DEVICE_TYPE)
-                    params.put("country_code","+"+_code)
-                    params.put("social_id","")
-                    params.put("social_type","")
+                    params["email"] = email.text.toString()
+                    params["contact_no"] = _contact
+                    params["device_token"] = FirebaseInstanceId.getInstance().token!!
+                    params["device_type"] = Constants.DEVICE_TYPE
+                    params["country_code"] = "+"+_code
+                    params["social_id"] = ""
+                    params["social_type"] = ""
                     return params
                 }
 
-
                 override fun getHeaders(): MutableMap<String, String> {
-                    params.put("language", SessionManager.getObj().getLanguage())
+                    params["language"] = SessionManager.getObj().language
                     return super.getHeaders()
                 }
 
-
                 override fun getByteData(): MutableMap<String, DataPart>? {
                     val params = java.util.HashMap<String, DataPart>()
-
-
                     if (profilieImage != null) {
-                        params.put("profile_image", DataPart("profileImage.jpg", AppHelper.getFileDataFromDrawable(profilieImage), "image/jpeg"))
-
+                        params["profile_image"] = DataPart("profileImage.jpg", AppHelper.getFileDataFromDrawable(profilieImage), "image/jpeg")
                     }
                     return params
                 }
             }
-            val socketTimeout = 30000;
-            multipartRequest.setRetryPolicy(DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            val socketTimeout = 30000
+            multipartRequest.retryPolicy = DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
             VolleySingleton.getInstance(context).addToRequestQueue(multipartRequest)
 
         } else {
-            if (dialog != null) dialog.dismiss()
+            dialog.dismiss()
             Toast.makeText(context, "Please Check internet connection.!", Toast.LENGTH_LONG).show()
         }
     }
@@ -403,36 +397,36 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
                             loginResult.accessToken
                     ) { `object`, response ->
                         Util.e(this.javaClass.name, "login result" + `object`.toString() + response.toString())
-                        var FBemail = ""
+                        var fbEmail = ""
                         try {
 
-                            try {
-                                FBemail = `object`.getString("email")
+                            fbEmail = try {
+                                `object`.getString("email")
                             } catch (e: java.lang.Exception) {
-                                 FBemail = `object`.getString("id") + ClubZ::class.java.simpleName + "@fb.com"
+                                `object`.getString("id") + ClubZ::class.java.simpleName + "@fb.com"
                             }
 
                             val FBid = `object`.getString("id")
                             val FBname = `object`.getString("name")
                             val FBgender = `object`.getString("gender")
                             val age = `object`.getJSONObject("age_range")
-                            val FBimageurl = "https://graph.facebook.com/$FBid/picture?type=large"
+                            val fbImageurl = "https://graph.facebook.com/$FBid/picture?type=large"
 
                             val token = AccessToken.getCurrentAccessToken()
                             Util.e("access only Token is", (token.token).toString())
-                            Util.e("image", FBimageurl)
+                            Util.e("image", fbImageurl)
                             Util.e("response", response.toString())
-                            Util.e("Email", FBemail)
+                            Util.e("Email", fbEmail)
                             Util.e("ID", FBid)
                             Util.e("Name", FBname)
-                            Util.e("Fb Image", FBimageurl)
+                            Util.e("Fb Image", fbImageurl)
                             try {
                                 Util.e("Fb BirthDay", `object`.getString("birthday"))
                             } catch (e: java.lang.Exception) {
 
                             }
-                            progressDialog.dismiss();
-                            registrion(null, arrayOf(FBid, FBname , FBimageurl , FBemail))
+                            progressDialog.dismiss()
+                            registrion(null, arrayOf(FBid, FBname , fbImageurl , fbEmail))
 
                         } catch (e: JSONException) {
                             Toast.makeText(context, "Facebooklogin :something went wrong", Toast.LENGTH_SHORT).show()
@@ -462,7 +456,7 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
 
     fun registrion(account: GoogleSignInAccount?, arrayOf: Array<String> = arrayOf("")) {
 
-        actvity.dialog.show();
+        actvity.dialog.show()
         object : VolleyGetPost(activity,activity, WebService.Registraion, false){
             override fun onVolleyResponse(response: String?) {
                 try {
@@ -499,11 +493,11 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
                 }catch (ex : Exception){
                     Toast.makeText(context,R.string.swr, Toast.LENGTH_LONG).show()
                 }
-                actvity.dialog.dismiss();
+                actvity.dialog.dismiss()
             }
 
             override fun onVolleyError(error: VolleyError?) {
-                Util.e("response" , error.toString()!!)
+                Util.e("response" , error.toString())
                 actvity.dialog.dismiss()
             }
 
@@ -513,30 +507,29 @@ class Frag_Sign_Up_Two : Fragment()  , View.OnClickListener {
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 if(account!=null){
-                    params.put("social_id",account.id+"")
-                    params.put("social_type","google")
-                    params.put("full_name",account.displayName.toString())
-                    params.put("email",account.email.toString())
-                    params.put("profile_image",account.photoUrl.toString())
+                    params["social_id"] = account.id+""
+                    params["social_type"] = "google"
+                    params["full_name"] = account.displayName.toString()
+                    params["email"] = account.email.toString()
+                    params["profile_image"] = account.photoUrl.toString()
                 }
                 else{
-                    params.put("social_id",arrayOf.get(0)+"")
-                    params.put("social_type","facebook")
-                    params.put("full_name",arrayOf.get(1))
-                    params.put("profile_image",arrayOf.get(2))
-                    params.put("email",arrayOf.get(3))
+                    params["social_id"] = arrayOf[0] +""
+                    params["social_type"] = "facebook"
+                    params["full_name"] = arrayOf[1]
+                    params["profile_image"] = arrayOf[2]
+                    params["email"] = arrayOf[3]
                 }
-                params.put("contact_no",_contact)
-                params.put("country_code","+"+_code)
-                params.put("device_type",Constants.DEVICE_TYPE)
-                params.put("device_token", FirebaseInstanceId.getInstance().getToken()!!)
-                Util.e("Param" ,params.toString());
+                params["contact_no"] = _contact
+                params["country_code"] = "+"+_code
+                params["device_type"] = Constants.DEVICE_TYPE
+                params["device_token"] = FirebaseInstanceId.getInstance().token!!
+                Util.e("Param" ,params.toString())
                 return params
 
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-
                 return params
             }
         }.execute()

@@ -153,6 +153,11 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
             return true;
         }
 
+        @Override
+        protected void showProfileDetail(ClubMember member) {
+
+        }
+
 
         public void setSwitchClick() {
 

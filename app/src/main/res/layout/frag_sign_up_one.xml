@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.clubz.utils.LinearLayoutThatDetectsSoftKeyboard xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
-    android:descendantFocusability="beforeDescendants">
-
-
-
-
+    android:descendantFocusability="beforeDescendants"
+    android:id="@+id/mainLayout">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:overScrollMode="never"
         android:layout_gravity="center">
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,12 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white"
-
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:orientation="vertical">
-
-
-
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -239,8 +231,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
-
-
-</LinearLayout>
+</com.clubz.utils.LinearLayoutThatDetectsSoftKeyboard>

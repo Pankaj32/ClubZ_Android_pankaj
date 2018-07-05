@@ -10,7 +10,6 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.graphics.Palette
-import android.support.v7.widget.Toolbar
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
@@ -37,7 +36,6 @@ import org.json.JSONObject
 
 class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
 
-    private var appBarLayout: AppBarLayout? = null
     private var collapsedMenu: Menu? = null
     private var appBarExpanded = true
     private var profile: Profile? = null
@@ -52,14 +50,12 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
             isMyprofile = profile?.userId == ClubZ.currentUser!!.id
         }
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val diametric = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(diametric)
 
-        appBarLayout = findViewById<AppBarLayout>(R.id.appbar_layout) as AppBarLayout
         val toolbarImage = findViewById<View>(R.id.toolbar_image) as ImageView
         val face =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) resources.getFont(R.font.teko_medium)
@@ -132,7 +128,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
             for (tag in tagList) {
                 val chip = object : ChipView(this@ProfileActivity, chipHolder.childCount.toString(), false) {
                     override fun getLayout(): Int {
-                        return R.layout.z_cus_chip_view
+                        return R.layout.z_cus_chip_view_profile
                     }
 
                     override fun setDeleteListner(chipView: ChipView?) {

@@ -10,9 +10,12 @@ class ClubMember : Serializable {
     var user_nickname = ""
     var userId = ""
     var clubUserId = ""
+    var isLiked = 0
     var full_name = ""
     var member_status = ""
     var profile_image = ""
+    var country_code = "+91"
+    var contact_no = "9977141811"
 
     val requestDateTime = ""
     val distance : String = ""
