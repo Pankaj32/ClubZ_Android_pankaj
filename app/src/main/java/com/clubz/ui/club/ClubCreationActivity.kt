@@ -25,6 +25,8 @@ import com.android.volley.*
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.model.ClubBean
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Club_Category
 import com.clubz.data.remote.WebService
@@ -44,6 +46,7 @@ import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
+import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
 import com.squareup.picasso.Callback
@@ -376,14 +379,13 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 //{"status":"success","message":"Club added successfully"}
                 try {
                     val obj = JSONObject(data)
-                    if(obj.getString("status").equals("success")){
-                        var clubDetails=Gson().fromJson(data,ClubDetails::class.java)
-
-                        setResult(Activity.RESULT_OK)
-                        Toast.makeText(this@ClubCreationActivity,obj.getString("message"), Toast.LENGTH_LONG).show()
-                       finish()
-                    }else{
-                        Toast.makeText(this@ClubCreationActivity,obj.getString("message"), Toast.LENGTH_LONG).show()
+                    if (obj.getString("status").equals("success")) {
+                        var clubDetails = Gson().fromJson(data, ClubDetails::class.java)
+                        createClubInFairBase(clubDetails)
+                        Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
+                        finish()
+                    } else {
+                        Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
                 }catch ( e : java.lang.Exception){
                     e.printStackTrace()
@@ -441,7 +443,22 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         ClubZ.instance.addToRequestQueue(request)
     }
 
-    private fun getCategory(){
+    private fun createClubInFairBase(clubDetails: ClubDetails?) {
+        var clubBean = ClubBean()
+        clubBean.clubId = clubDetails?.getClubDetail()?.clubId
+        clubBean.clubImage = clubDetails?.getClubDetail()?.club_image
+        clubBean.clubName = clubDetails?.getClubDetail()?.club_name
+        clubBean.ownerId = clubDetails?.getClubDetail()?.user_id
+        FirebaseDatabase.getInstance()
+                .reference
+                .child(ChatUtil.ARG_CLUB)
+                .child(clubDetails?.getClubDetail()?.clubId)
+                .setValue(clubBean).addOnCompleteListener {
+                    setResult(Activity.RESULT_OK)
+                }
+    }
+
+    private fun getCategory() {
         val activity = this@ClubCreationActivity
         val dialog = CusDialogProg(this@ClubCreationActivity)
         dialog.show()
@@ -517,10 +534,6 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         }*/
         if(club_address.text.toString().isBlank()){
             Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_address)
-            return false
-        }
-        if(club_city.text.isBlank()){
-            Util.showSnake(this@ClubCreationActivity,clRootView!!,R.string.a_city)
             return false
         }
         if(club_address.text.toString().isBlank()){
