@@ -18,6 +18,8 @@ import android.view.Window
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.model.MemberBean
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Club_Potential_search
 import com.clubz.data.model.Clubs
@@ -33,6 +35,7 @@ import com.clubz.ui.core.ViewPagerAdapter
 import com.clubz.ui.cv.SimpleDividerItemDecoration
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.utils.VolleyGetPost
+import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_clubs.*
 import kotlinx.android.synthetic.main.club_more_menu.*
@@ -43,13 +46,13 @@ import java.util.ArrayList
 class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteraction,
         ViewPager.OnPageChangeListener {
 
-    lateinit var adapter : ViewPagerAdapter
-    private var searchListner    : SearchListner? = null
-    private var searchAdapter    : SearchClubName_Adapter? = null
-    private var searchList       : ArrayList<Club_Potential_search> = arrayListOf()
-    private var pageListner      : RecyclerViewScrollListener? = null
-    private var dialog : Dialog? = null
-    private var menuDialog : Dialog? = null
+    lateinit var adapter: ViewPagerAdapter
+    private var searchListner: SearchListner? = null
+    private var searchAdapter: SearchClubName_Adapter? = null
+    private var searchList: ArrayList<Club_Potential_search> = arrayListOf()
+    private var pageListner: RecyclerViewScrollListener? = null
+    private var dialog: Dialog? = null
+    private var menuDialog: Dialog? = null
 
     /*companion object {
         var isPrivate: Int = 0
@@ -60,7 +63,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         setContentView(R.layout.activity_clubs)
         headerTxt.text = resources.getString(R.string.t_manage_your_clubs)
         ivBack.setOnClickListener(this)
-       // addsymbol.setOnClickListener(this)
+        // addsymbol.setOnClickListener(this)
         bubble_menu.setOnClickListener(this)
         setViewPager(viewPager)
         tablayout.setupWithViewPager(viewPager)
@@ -99,7 +102,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         }
         searchView.setOnCloseListener(closeListner)
 
-        searchAdapter = object : SearchClubName_Adapter(this@ClubsActivity, searchList){
+        searchAdapter = object : SearchClubName_Adapter(this@ClubsActivity, searchList) {
             override fun onItemClick(serch_obj: Club_Potential_search) {
                 searchListner?.onTextChange(serch_obj.club_name)
                 search_layout.visibility = View.GONE
@@ -107,8 +110,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 onClubSelected(serch_obj.club_name)
             }
         }
-
-        val lm = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
+        val lm = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recycleView.itemAnimator = null
         recycleView.layoutManager = lm
         recycleView.setHasFixedSize(true)
@@ -129,15 +131,15 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
 
     private fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment( FragMyClubs(),resources.getString(R.string.t_my_clubs) , " This is First")
-        adapter.addFragment( FragNearClubs(),resources.getString(R.string.t_near_clubs) , " This is second")
-        adapter.addFragment( FragSearchClubs(),resources.getString(R.string.search) , " This is third")
+        adapter.addFragment(FragMyClubs(), resources.getString(R.string.t_my_clubs), " This is First")
+        adapter.addFragment(FragNearClubs(), resources.getString(R.string.t_near_clubs), " This is second")
+        adapter.addFragment(FragSearchClubs(), resources.getString(R.string.search), " This is third")
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 3
     }
 
 
-    fun onClubSelected(clubName : String){
+    fun onClubSelected(clubName: String) {
         val frag = adapter.getItem(2) as FragSearchClubs
         frag.onTextChange(clubName)
     }
@@ -145,36 +147,58 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
     override fun onJoinClub(club: Clubs) {
         val frag = adapter.getItem(0) as FragMyClubs
         frag.updateAdapter(club)
+        onUpdateFirebase(club,1)
     }
+
 
     override fun onLeaveClub(club: Clubs) {
         val frag = adapter.getItem(1) as FragNearClubs
         frag.updateAdapter(club)
+        onUpdateFirebase(club, 0)
+    }
+
+    override fun onUpdateFirebase(club: Clubs, status:Int) {
+        val memberBean = MemberBean()
+        memberBean.clubId = club.clubId
+        memberBean.userId = ClubZ.currentUser?.id
+        memberBean.isjoind = status
+
+        FirebaseDatabase.getInstance()
+                .reference
+                .child(ChatUtil.ARG_CLUB_MEMBER)
+                .child(club.clubId)
+                .child(memberBean.userId)
+                .setValue(memberBean).addOnCompleteListener {
+                }
     }
 
 
     override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.ivBack ->{ onBackPressed() }
-            R.id.bubble_menu ->{ showMenu() }
-            R.id.ll_menu1 ->{
+        when (v?.id) {
+            R.id.ivBack -> {
+                onBackPressed()
+            }
+            R.id.bubble_menu -> {
+                showMenu()
+            }
+            R.id.ll_menu1 -> {
                 menuDialog?.dismiss()
                 startActivityForResult(Intent(this@ClubsActivity, ClubCreationActivity::class.java), 1001)
             }
 
-            R.id.ll_menu2 ->{
+            R.id.ll_menu2 -> {
                 menuDialog?.dismiss()
                 showFilterDialog(0)
             }
 
             R.id.tv_private -> {
-                when(ClubZ.isPrivate){
-                    1->{
+                when (ClubZ.isPrivate) {
+                    1 -> {
                         ClubZ.isPrivate = 0; dialog!!.chk_priavte.isChecked = true
                         dialog!!.chk_public.isChecked = true
                         refreshNow()
                     }
-                    0,2->{
+                    0, 2 -> {
                         ClubZ.isPrivate = 1; dialog!!.chk_priavte.isChecked = false
                         dialog!!.chk_public.isChecked = true
                         refreshNow()
@@ -183,13 +207,13 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             }
 
             R.id.tv_public -> {
-                when(ClubZ.isPrivate){
-                    2->{
+                when (ClubZ.isPrivate) {
+                    2 -> {
                         ClubZ.isPrivate = 0; dialog!!.chk_priavte.isChecked = true
                         dialog!!.chk_public.isChecked = true
                         refreshNow()
                     }
-                    0,1->{
+                    0, 1 -> {
                         ClubZ.isPrivate = 2; dialog!!.chk_priavte.isChecked = true
                         dialog!!.chk_public.isChecked = false
                         refreshNow()
@@ -200,15 +224,16 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
     }
 
 
-    private fun refreshNow(){
-        val frag =  adapter.getItem(viewPager.currentItem)
-        if(frag is FragMyClubs){
+    private fun refreshNow() {
+        val frag = adapter.getItem(viewPager.currentItem)
+        if (frag is FragMyClubs) {
             frag.refreshList()
-        }else (frag as? FragNearClubs)?.refreshList()
+        } else (frag as? FragNearClubs)?.refreshList()
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==1001 && resultCode==Activity.RESULT_OK){
+        if (requestCode == 1001 && resultCode == Activity.RESULT_OK) {
             val frag = adapter.getItem(0) as FragMyClubs
             frag.refreshList()
         }
@@ -216,13 +241,13 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
 
 
     override fun onBackPressed() {
-        if(searchView.visibility==View.VISIBLE){
+        if (searchView.visibility == View.VISIBLE) {
             tablayout.getTabAt(0)?.select()
             searchList.clear()
             searchAdapter?.notifyDataSetChanged()
             search_layout.visibility = View.GONE
 
-        }else super.onBackPressed()
+        } else super.onBackPressed()
     }
 
     override fun onPageScrollStateChanged(state: Int) {
@@ -277,9 +302,9 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
 
 
     @SuppressLint("RtlHardcoded")
-    private fun showFilterDialog(position: Int){
+    private fun showFilterDialog(position: Int) {
 
-        if(dialog==null){
+        if (dialog == null) {
             dialog = Dialog(this)
             dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val dialogWindow = dialog?.window
@@ -289,18 +314,18 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             for (views in arrayOf(dialog?.tv_private, dialog?.tv_public)) views?.setOnClickListener(this)
 
             val lp = dialogWindow?.attributes
-            dialogWindow?.setGravity(Gravity.CENTER )
+            dialogWindow?.setGravity(Gravity.CENTER)
             lp?.y = -100
             dialogWindow?.attributes = lp
             dialog?.setCancelable(true)
         }
 
         if (position == 0) {
-            if(ClubZ.isPrivate ==0){
+            if (ClubZ.isPrivate == 0) {
                 dialog?.chk_priavte?.isChecked = true; dialog?.chk_public?.isChecked = true
             } else {
-                dialog?.chk_priavte?.isChecked = (ClubZ.isPrivate ==2)
-                dialog?.chk_public?.isChecked  = (ClubZ.isPrivate ==1)
+                dialog?.chk_priavte?.isChecked = (ClubZ.isPrivate == 2)
+                dialog?.chk_public?.isChecked = (ClubZ.isPrivate == 1)
             }
         }
 
@@ -308,8 +333,8 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
     }
 
     @SuppressLint("RtlHardcoded")
-    private fun showMenu(){
-        if(menuDialog==null){
+    private fun showMenu() {
+        if (menuDialog == null) {
             menuDialog = Dialog(this)
             menuDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val dialogWindow = menuDialog?.window
@@ -328,24 +353,24 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
     }
 
 
-    fun searchClubsName(searchTxt: String = "", offset:Int=0){
+    fun searchClubsName(searchTxt: String = "", offset: Int = 0) {
         search_layout.visibility = View.VISIBLE
         recycleView.visibility = View.VISIBLE
         ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
-        object  : VolleyGetPost(this@ClubsActivity , this@ClubsActivity,
-                    WebService.nearclub_names,
-                    false){
+        object : VolleyGetPost(this@ClubsActivity, this@ClubsActivity,
+                WebService.nearclub_names,
+                false) {
             override fun onVolleyResponse(response: String?) {
                 try {
 
                     val obj = JSONObject(response)
-                    if(obj.getString("status")=="success"){
+                    if (obj.getString("status") == "success") {
                         searchList.addAll(Gson().fromJson<ArrayList<Club_Potential_search>>(obj.getString("data"),
                                 Type_Token.potential_list))
                     }
                     //floating_search_view.swapSuggestions(searchList)
                     searchAdapter?.notifyDataSetChanged()
-                }catch (ex: Exception){
+                } catch (ex: Exception) {
                     ex.printStackTrace()
                 }
             }
@@ -361,14 +386,14 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 params["offset"] = offset.toString()
                 params["limit"] = "10"
                 params["clubType"] = ""
-                params["latitude" ] = if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString()
-                params["longitude"] = if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString()
-                return  params
+                params["latitude"] = if (ClubZ.latitude == 0.0 && ClubZ.longitude == 0.0) "" else ClubZ.latitude.toString()
+                params["longitude"] = if (ClubZ.latitude == 0.0 && ClubZ.longitude == 0.0) "" else ClubZ.longitude.toString()
+                return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["authToken"] = SessionManager.getObj().user.auth_token
-                return  params
+                return params
             }
         }.execute(ClubsActivity::class.java.name)
     }

@@ -7,8 +7,8 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.fragments.FragmentChat
 import com.clubz.data.model.Feed
-import com.clubz.ui.chat.ChatFragment
 import com.clubz.ui.core.ViewPagerAdapter
 import com.clubz.ui.newsfeed.fragment.FeedDetailFragment
 import kotlinx.android.synthetic.main.activity_club_detail.*
@@ -41,7 +41,7 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
    private fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment( FeedDetailFragment.newInstance(feed), resources.getString(R.string.t_content), "First")
-        adapter.addFragment( ChatFragment.newInstance(Bundle.EMPTY),resources.getString(R.string.t_chat) , "second")
+        adapter.addFragment( FragmentChat(),resources.getString(R.string.t_chat) , "second")
         viewPager.adapter = adapter
     }
 

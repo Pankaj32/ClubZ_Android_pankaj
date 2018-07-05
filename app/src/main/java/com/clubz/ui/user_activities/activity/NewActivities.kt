@@ -28,6 +28,8 @@ import com.android.volley.*
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.model.ActivityBean
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
@@ -35,6 +37,7 @@ import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.user_activities.model.GetLeaderResponce
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.user_activities.model.ActivityDetailsResponce
 import com.clubz.ui.user_activities.model.GetMyClubResponce
 import com.clubz.utils.Constants
 import com.clubz.utils.Util
@@ -44,6 +47,7 @@ import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
+import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
 import com.squareup.picasso.Picasso
@@ -89,9 +93,9 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         userImage = ClubZ.currentUser!!.profile_image
         if (userImage.isNotEmpty()) {
             Picasso.with(image_member2.context).load(userImage).into(image_member2)
-        }else {
-            val padding =  resources.getDimension(R.dimen._8sdp).toInt()
-            image_member2.setPadding(padding,padding,padding,padding)
+        } else {
+            val padding = resources.getDimension(R.dimen._8sdp).toInt()
+            image_member2.setPadding(padding, padding, padding, padding)
             image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
             image_member2.setImageResource(R.drawable.ic_user_shape)
         }
@@ -419,7 +423,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             Util.showSnake(this, mainLayout!!, R.string.a_actFeesType)
             return false
         }
-        if(!feesType.equals("Free")){
+        if (!feesType.equals("Free")) {
             if (fees.text.toString().isBlank()) {
                 Util.showSnake(this, mainLayout!!, R.string.a_actfee)
                 return false
@@ -548,9 +552,11 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 //{"status":"success","message":"Club added successfully"}
                 try {
                     val obj = JSONObject(data)
-                    if (obj.getString("status").equals("success")) {
+                    val status=obj.getString("status")
+                    if (status.equals("success")) {
                         Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
-                        finish()
+                        val activityDetails = Gson().fromJson(data, ActivityDetailsResponce::class.java);
+                        createFeedInFireBase(activityDetails)
                     } else {
                         Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
@@ -607,6 +613,22 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         }
         request.setRetryPolicy(DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
         ClubZ.instance.addToRequestQueue(request)
+    }
+
+    private fun createFeedInFireBase(activityDetails: ActivityDetailsResponce) {
+        val activityBean = ActivityBean()
+        activityBean.activityId = activityDetails?.getDetails()?.activityId
+        activityBean.activityTitle = activityDetails?.getDetails()?.name
+        activityBean.activityImage = activityDetails?.getDetails()?.image
+        activityBean.clubId = activityDetails?.getDetails()?.clubId
+        FirebaseDatabase.getInstance()
+                .reference
+                .child(ChatUtil.ARG_ACTIVITIES)
+                .child(activityDetails?.getDetails()?.clubId)
+                .child(activityDetails?.getDetails()?.activityId)
+                .setValue(activityBean).addOnCompleteListener {
+                    finish()
+                }
     }
 
 }
