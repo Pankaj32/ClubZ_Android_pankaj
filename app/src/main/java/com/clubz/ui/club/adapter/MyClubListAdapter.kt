@@ -166,6 +166,7 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
     }
 
     inner class Holder(itemView: View) : ClubMemberHolder(itemView, context) {
+
         override fun getProfile(): ClubMember {
             val club = list[adapterPosition]
             val member = ClubMember()
@@ -173,6 +174,10 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
             member.userId = club.user_id
             member.profile_image = club.profile_image
             return member
+        }
+
+        override fun showProfileDetail(member: ClubMember?) {
+
         }
 
         override fun notyfyData(pos: Int) {

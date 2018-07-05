@@ -137,7 +137,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
 
     private fun getVisibilityOption(position: Int):String{
        return when (position) {
-           0 -> return getString(R.string.hiddne)
+           0 -> return getString(R.string.hidden)
            1 -> return getString(R.string.Public)
            2 -> return getString(R.string.only_for_my_contact)
            3 -> return getString(R.string.only_for_club_member)
@@ -220,7 +220,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
     }
 
     private fun showVisibilityMenu(v:View){
-        val products =  arrayOf(getString(R.string.hiddne), getString(R.string.club_public),
+        val products =  arrayOf(getString(R.string.hidden), getString(R.string.club_public),
                 getString(R.string.only_for_my_contact), getString(R.string.only_for_club_member))
         val lpw =  ListPopupWindow(this@ProfileEditActivity)
         lpw.anchorView = v

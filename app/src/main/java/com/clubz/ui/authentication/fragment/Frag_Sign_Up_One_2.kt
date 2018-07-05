@@ -26,6 +26,7 @@ import com.clubz.helper.sms_reciver.OnSmsCatchListener
 import com.clubz.helper.sms_reciver.SmsVerifyCatcher
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.User
+import com.clubz.utils.LinearLayoutThatDetectsSoftKeyboard
 import com.google.gson.Gson
 import org.json.JSONObject
 import java.lang.Exception
@@ -34,7 +35,7 @@ import java.lang.Exception
 /**
  * Created by mindiii on 2/6/18.
  */
-class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
+class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener , LinearLayoutThatDetectsSoftKeyboard.Listener{
 
 
     lateinit var _otp : String
@@ -85,8 +86,24 @@ class Frag_Sign_Up_One_2 : Fragment()  , View.OnClickListener {
                 } else true
             }
         })
+
+        mainLayout.setListener(this)
     }
 
+    override fun onSoftKeyboardShown(isShowing: Boolean) {
+        if(isShowing){
+            scrollView.postDelayed(Runnable {
+                run {
+                    val lastChild = scrollView?.getChildAt(scrollView.childCount - 1) as View
+                    val bottom = lastChild.bottom + scrollView.paddingBottom
+                    val sy = scrollView.scrollY
+                    val sh = scrollView.height
+                    val delta = bottom - (sy + sh)
+                    scrollView.smoothScrollBy(0, delta)
+                }
+            }, 200)
+        }
+    }
 
     override fun onClick(p0: View?) {
         val activity = activity as Sign_up_Activity

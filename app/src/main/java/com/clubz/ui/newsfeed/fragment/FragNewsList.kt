@@ -3,6 +3,7 @@ package com.clubz.ui.newsfeed.fragment
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -157,6 +158,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         user.profile_image = feed.profile_image
         user.userId = feed.user_id
         user.full_name = feed.user_name
+        user.isLiked = feed.isLiked
 
         val dialog = object : UserProfileDialog(context, user, false) {
             override fun onProfileUpdate(name: String) {}
@@ -165,15 +167,18 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
             }
 
             override fun onCallClicked() {
-                showToast("call clicked!")
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "${user.country_code} ${user.contact_no}"))
+                startActivity(intent)
+                //showToast("call clicked!")
             }
 
             override fun onChatClicked() {
                 showToast("chat clicked!")
             }
 
-            override fun onLikeClicked() {
-                showToast("favorite clicked!")
+            override fun onLikeClicked(isLIked: Int) {
+                feed.isLiked = isLIked
+              // Already updated into server nothing you want to do
             }
 
             override fun onFlagClicked() {
