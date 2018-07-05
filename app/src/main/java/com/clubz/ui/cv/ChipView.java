@@ -51,6 +51,8 @@ public abstract class ChipView extends RelativeLayout implements View.OnClickLis
             label.setPadding(dimen,0, dimen,0);
         }
         delete_button.setOnClickListener(this);
+
+        if(view.findViewById(R.id.shadow_view)!=null)
         ((ShadowView) view.findViewById(R.id.shadow_view)).setShadowDy( context.getResources().getDimension(R.dimen._3sdp));
 
     }

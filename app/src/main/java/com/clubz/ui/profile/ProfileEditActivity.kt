@@ -151,7 +151,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
             for (tag in tagList) {
                 val chip = object : ChipView(this@ProfileEditActivity, chipHolder.childCount.toString(), true) {
                     override fun getLayout(): Int {
-                        return R.layout.z_cus_chip_view
+                        return R.layout.z_cus_chip_view_profile
                     }
 
                     override fun setDeleteListner(chipView: ChipView?) {
