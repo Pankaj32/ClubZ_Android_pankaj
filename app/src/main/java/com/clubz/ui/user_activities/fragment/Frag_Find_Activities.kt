@@ -406,12 +406,14 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
 
     override fun onItemClick(position: Int, type: String) {
         var activityId = ""
+        var clubId = ""
         var userId = ""
         var userName = ""
         var userProfileImg = ""
         when (type) {
             "today" -> {
                 activityId = todayList!![position].activityId!!
+               // clubId = todayList!![position].activityId!!
                 userId = todayList!![position].userId!!
                 userName = todayList!![position].full_name!!
                 userProfileImg = todayList!![position].profile_image!!

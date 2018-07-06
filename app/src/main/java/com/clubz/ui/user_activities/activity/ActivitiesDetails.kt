@@ -48,7 +48,7 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
             adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Second")
         } else {
             adapter.addFragment(FragActivitiesDetails.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")
-            adapter.addFragment(FragmentChat.newInstance(activityId,userId,userName,userProfileImg), resources.getString(R.string.a_activity_snd_tab), " This is second")
+            adapter.addFragment(FragmentChat.newInstanceActivityChat(activityId), resources.getString(R.string.a_activity_snd_tab), " This is second")
             adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Third")
         }
         viewPager.adapter = adapter

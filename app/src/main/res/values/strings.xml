@@ -537,6 +537,7 @@
     <string name="data_use">Data Use</string>
     <string name="allow_anyone_to_contact_me">Allow anyone to contact me</string>
     <string name="tap_to_add_new_tags">Tap to add new tags</string>
-
+    <string name="no_chat_found_yet">No chat found yet</string>
+    <string name="please_type">Please type a message</string>
 
 </resources>
