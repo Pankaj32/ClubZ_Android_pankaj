@@ -228,7 +228,9 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
     }
 
     override fun onChatClick(feed: Feed) {
-        Util.showToast(R.string.under_development, context)
+        if(feed.is_comment_allow==0){
+            Util.showToast(R.string.error_comment_disabled, context)
+        }else Util.showToast(R.string.under_development, context)
     }
 
     override fun onClick(v: View) {
