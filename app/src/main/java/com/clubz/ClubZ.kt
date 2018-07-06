@@ -13,6 +13,8 @@ import com.clubz.data.model.User
  */
 class ClubZ  : Application() {
 
+    /* lateinit var context: Context*/
+    val TAG = ClubZ::class.java.simpleName
 
     /**
      * @param isPrivate mantions if isPrivate = 0 it means it's showing Both option available for clubs.
@@ -42,9 +44,6 @@ class ClubZ  : Application() {
 
     var mRequestQueue: RequestQueue? = null
 
-    /* lateinit var context: Context*/
-    val TAG = ClubZ::class.java.simpleName
-
     override fun onCreate() {
         super.onCreate()
         instance = this@ClubZ
@@ -66,8 +65,6 @@ class ClubZ  : Application() {
             mRequestQueue = Volley.newRequestQueue(applicationContext)
         return mRequestQueue!!
     }
-
-
 
 
     fun <T> addToRequestQueue(req: Request<T>, tag: String) {

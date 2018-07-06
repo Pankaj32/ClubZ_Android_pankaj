@@ -12,7 +12,9 @@ import android.widget.Toast
 import com.clubz.ClubZ
 
 import com.clubz.R
+import com.clubz.chat.adapter.ChatRecyclerAdapter
 import com.clubz.chat.model.ChatBean
+import com.clubz.chat.model.FeedBean
 import com.clubz.chat.util.ChatUtil
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
@@ -53,12 +55,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
 
     private var mListener: OnFragmentInteractionListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chat, container, false)
@@ -199,7 +196,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                         if (feedsBean?.isCommentAllow.equals("1")) {
                             getMessageFromFirebaseUser()
                         }else{
-                            txtMsg.setFocusable(false)
+                            txtMsg.isFocusable = false
                             txtMsg.setText("Comment disable")
                         }
                     }
@@ -230,7 +227,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                                 }*/)
                                     chatRecycler.adapter = mChatRecyclerAdapter
                                 } else {
-                                    mChatRecyclerAdapter?.add(chatBean)
+                                    mChatRecyclerAdapter!!.add(chatBean)
                                 }
                                 try {
                                     chatRecycler.scrollToPosition(mChatRecyclerAdapter!!.itemCount - 1)

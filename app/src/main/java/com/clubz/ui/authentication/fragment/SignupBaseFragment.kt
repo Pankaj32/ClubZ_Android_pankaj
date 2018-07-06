@@ -19,7 +19,7 @@ abstract class SignupBaseFragment : BaseFragment(), LinearLayoutThatDetectsSoftK
 
     override fun onSoftKeyboardShown(isShowing: Boolean) {
         if(isShowing){
-            getScrollView().postDelayed(Runnable {
+            getScrollView().postDelayed({
                 run {
                     val lastChild = getScrollView().getChildAt(getScrollView().childCount - 1) as View
                     val bottom = lastChild.bottom + getScrollView().paddingBottom

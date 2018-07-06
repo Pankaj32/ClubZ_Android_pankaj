@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.ListPopupWindow
 import android.support.v7.widget.RecyclerView
@@ -37,12 +36,9 @@ import com.clubz.ui.newsfeed.adapter.NewsFeedAdapter
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
-import com.clubz.utils.decorator.VerticalSpaceItemDecoration
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_news.*
 import org.json.JSONObject
-import io.fabric.sdk.android.services.settings.IconRequest.build
-
 
 
 /**
@@ -160,7 +156,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         user.full_name = feed.user_name
         user.isLiked = feed.isLiked
 
-        val dialog = object : UserProfileDialog(context, user, false) {
+        val dialog = object : UserProfileDialog(context!!, user, false) {
             override fun onProfileUpdate(name: String) {}
             override fun showError(msg: String) {
                 showToast(msg)
@@ -229,8 +225,8 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
 
     override fun onChatClick(feed: Feed) {
         if(feed.is_comment_allow==0){
-            Util.showToast(R.string.error_comment_disabled, context)
-        }else Util.showToast(R.string.under_development, context)
+            Util.showToast(R.string.error_comment_disabled, context!!)
+        }else Util.showToast(R.string.under_development, context!!)
     }
 
     override fun onClick(v: View) {
@@ -317,7 +313,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
                         newsFeeds.removeAt(pos)
                         adapter?.notifyItemRemoved(pos)
                     }
-                } catch (ex: Exception) { Util.showToast(R.string.swr, context) }
+                } catch (ex: Exception) { Util.showToast(R.string.swr, context!!) }
             }
 
             override fun onVolleyError(error: VolleyError?) { dialog.dismiss() }
