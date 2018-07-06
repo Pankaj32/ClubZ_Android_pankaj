@@ -71,19 +71,6 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                 rv_members.visibility = View.VISIBLE
             }
         }
-
-        ll_expand2.setOnClickListener {
-
-            if(tv_expand2.text == getString(R.string.collapsed)){
-                tv_expand2.text = getString(R.string.expand)
-                rv_appcalints.visibility = View.GONE
-                setUpExpandAndCollapse(false, iv_expand2, cardViewApplicant)
-            }else{
-                tv_expand2.setText(R.string.collapsed)
-                rv_appcalints.visibility = View.VISIBLE
-                setUpExpandAndCollapse(true, iv_expand2, cardViewApplicant)
-            }
-        }
     }
 
     private fun setUpExpandAndCollapse(flag: Boolean, imageView: ImageView, cardView: CardView){
@@ -114,12 +101,33 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
             }
             rv_members.adapter = adapterOwnClubMember
 
-            rv_appcalints.layoutManager = LinearLayoutManager(context)
-            adapterApplicant = object : AdapterClubApplicant(context, this){
+            if(clubz.club_type=="1") {
+                cardViewApplicant.visibility = View.GONE
+
+            }else if(clubz.club_type=="2"){
+                cardViewApplicant.visibility = View.VISIBLE
+                rv_appcalints.layoutManager = LinearLayoutManager(context)
+                adapterApplicant = object : AdapterClubApplicant(context, this){ }
+                rv_appcalints.adapter = adapterApplicant
+
+                ll_expand2.setOnClickListener {
+
+                    if(tv_expand2.text == getString(R.string.collapsed)){
+                        tv_expand2.text = getString(R.string.expand)
+                        rv_appcalints.visibility = View.GONE
+                        setUpExpandAndCollapse(false, iv_expand2, cardViewApplicant)
+                    }else{
+                        tv_expand2.setText(R.string.collapsed)
+                        rv_appcalints.visibility = View.VISIBLE
+                        setUpExpandAndCollapse(true, iv_expand2, cardViewApplicant)
+                    }
+                }
+
+                getApplicants()
             }
-            rv_appcalints.adapter = adapterApplicant
+
             getOwnClubMembers()
-            getApplicants()
+
         }else{
 
             cardViewApplicant.visibility = View.GONE

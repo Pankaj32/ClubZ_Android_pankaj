@@ -1,18 +1,18 @@
 package com.clubz.ui.club.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
-
-import com.clubz.ClubZ;
 import com.clubz.data.model.ClubMember;
-import com.clubz.data.model.User;
+import com.clubz.data.model.Profile;
 import com.clubz.ui.dialogs.UserProfileDialog;
+import com.clubz.ui.profile.ProfileActivity;
 
 import org.jetbrains.annotations.NotNull;
 
-public abstract class ClubMemberHolder extends RecyclerView.ViewHolder{
+public abstract class ClubMemberHolder extends RecyclerView.ViewHolder {
 
     protected Context mContext;
 
@@ -36,7 +36,7 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder{
         }*/
 
 
-        UserProfileDialog dialog = new UserProfileDialog(mContext, member, canEditNickName()) {
+        final UserProfileDialog userProfileDialog = new UserProfileDialog(mContext, member, canEditNickName()) {
             @Override
             public void onProfileUpdate(String name) {
                 member.setUser_nickname(name);
@@ -59,22 +59,29 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder{
             }
 
             @Override
-            public void onLikeClicked() {
+            public void onLikeClicked(int isLIked) {
                 showToast("favorite clicked!");
             }
 
             @Override
             public void onFlagClicked() {
-                showToast("flag clicked!");
+                dismiss();
+                showProfileDetail(member);
+                Profile profile = new Profile();
+                profile.setUserId(member.getUserId());
+                profile.setFull_name(member.getFull_name());
+                profile.setProfile_image(member.getProfile_image());
+                mContext.startActivity(new Intent(mContext, ProfileActivity.class).putExtra("profile", profile));
             }
         };
-        dialog.setCancelable(true);
-        dialog.show();
+        userProfileDialog.setCancelable(true);
+        userProfileDialog.show();
     }
 
     protected abstract ClubMember getProfile();
     protected abstract void notyfyData(int pos);
     protected abstract boolean canEditNickName();
+    protected abstract void showProfileDetail(ClubMember member);
 
     private void showToast(String text){
         Toast.makeText(mContext,  text, Toast.LENGTH_SHORT).show();

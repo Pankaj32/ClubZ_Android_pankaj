@@ -95,5 +95,10 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
         protected boolean canEditNickName() {
             return false;
         }
+
+        @Override
+        protected void showProfileDetail(ClubMember member) {
+
+        }
     }
 }

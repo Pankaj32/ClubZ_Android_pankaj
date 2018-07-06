@@ -29,18 +29,19 @@ import com.clubz.utils.VolleyGetPost
 import org.json.JSONObject
 import com.clubz.helper.sms_reciver.OnSmsCatchListener
 import com.clubz.helper.sms_reciver.SmsVerifyCatcher
+import com.clubz.utils.LinearLayoutThatDetectsSoftKeyboard
 import com.clubz.utils.PhoneNumberTextWatcher
 
 
 /**
  * Created by mindiii on 2/6/18.
  */
-class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
+class Frag_Sign_Up_one : Fragment(), View.OnClickListener, LinearLayoutThatDetectsSoftKeyboard.Listener {
 
-    var isvalidate : Boolean = false;
+    var isvalidate : Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.frag_sign_up_one, null);
+        return inflater.inflate(R.layout.frag_sign_up_one, null)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,9 +56,9 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
         smsverify.onStart()
         for( view in arrayOf(next)) view.setOnClickListener(this)
         val list = Gson().fromJson<String>(Util.loadJSONFromAsset(context,"country_code.json"), Type_Token.country_list) as ArrayList<Country_Code>
-        country_code.adapter = Country_spinner_adapter(context, list, 0, R.layout.spinner_view);
+        country_code.adapter = Country_spinner_adapter(context, list, 0, R.layout.spinner_view)
         setCountryCode(list , country_code)
-        phone_no.addTextChangedListener(PhoneNumberTextWatcher(phone_no));
+        phone_no.addTextChangedListener(PhoneNumberTextWatcher(phone_no))
         country_code.setOnTouchListener(object : View.OnTouchListener{
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                 (activity as Sign_up_Activity).hideKeyBoard()
@@ -65,8 +66,34 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
             }
         })
 
+       /* phone_no.onFocusChangeListener = View.OnFocusChangeListener { view, b ->
+            if(b){
+                scrollView.postDelayed(Runnable {
+                    run {
+
+                    }
+                }, 200)
+            }
+        }*/
+
+        mainLayout.setListener(this)
+
     }
 
+    override fun onSoftKeyboardShown(isShowing: Boolean) {
+        if(isShowing){
+            scrollView.postDelayed(Runnable {
+                run {
+                    val lastChild = scrollView?.getChildAt(scrollView.childCount - 1) as View
+                    val bottom = lastChild.bottom + scrollView.paddingBottom
+                    val sy = scrollView.scrollY
+                    val sh = scrollView.height
+                    val delta = bottom - (sy + sh)
+                    scrollView.smoothScrollBy(0, delta)
+                }
+            }, 200)
+        }
+    }
 
     override fun onClick(p0: View?) {
         when(p0!!.id){
@@ -76,25 +103,23 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
 
 
     /***** Verfication ****/
-    fun verfiy() :Boolean{
+    private fun verfiy() :Boolean{
         (activity as Sign_up_Activity).hideKeyBoard()
         Util.e("phone",phone_no.text.toString())
         checkPhoneNumber((country_code.selectedItem as Country_Code).code)
         if(phone_no.text.isBlank()){
-            Util.showSnake(context,view!!,R.string.a_phone_no);
-            //Toast.makeText(context,R.string.a_phone_no,Toast.LENGTH_SHORT).show()
-            return false;
-        }
-        if(!isvalidate){
-            Util.showSnake(context,view!!,R.string.a_phone_no_valid);
-            //Toast.makeText(context,R.string.a_phone_no_valid,Toast.LENGTH_SHORT).show()
+            Util.showSnake(context,view!!,R.string.a_phone_no)
             return false
         }
-        return true;
+        if(!isvalidate){
+            Util.showSnake(context,view!!,R.string.a_phone_no_valid)
+            return false
+        }
+        return true
     }
 
     private fun checkPhoneNumber( countryCode : String) {
-        val contactNo = phone_no.getText().toString().replace("-","")
+        val contactNo = phone_no.text.toString().replace("-","")
         try {
             val phoneUtil = PhoneNumberUtil.createInstance(context)
             if (countryCode != null) {
@@ -110,34 +135,30 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
     fun setCountryCode(list : ArrayList<Country_Code> , spinner : Spinner){
         val tm = activity.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         var locale = tm.networkCountryIso
-        if(locale.equals("")) locale ="in_";
-        Util.e("phone no" , locale);
+        if(locale.equals("")) locale ="in_"
+        Util.e("phone no" , locale)
         for(i  in 0..list.size-1){
             if(list.get(i).code.equals(locale)){spinner.setSelection(i) ; return }
         }
     }
 
-    fun generateOtp(){
-        val activity = activity as Sign_up_Activity;
-        val dialog = CusDialogProg(context);
-        dialog.show();
+    private fun generateOtp(){
+        val activity = activity as Sign_up_Activity
+        val dialog = CusDialogProg(context)
+        dialog.show()
         object  : VolleyGetPost(activity,context, WebService.Generate_Otp,false) {
             override fun onVolleyResponse(response: String?) {
-                //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
-                //{"status":"fail","message":"This mobile number is already registered."}
-                //{"status":"success","message":"Registered successfully, Generate verify code successfully sent","otp":"3319","step":1}
-                //{status": "success", "message": "We have sent a PIN on given contact number. Please verify to continue", "otp": "5360", "step": 2, "isNewUser": "1"}
                 try{
                     val obj = JSONObject(response)
-                    if(obj.getString("status").equals("success")){
-                        (activity as Sign_up_Activity).replaceFragment(Frag_Sign_Up_One_2().setData(obj.getString("otp") ,  phone_no.text.toString().replace(PhoneNumberTextWatcher.replacer,"") , (country_code.selectedItem as Country_Code).phone_code ,obj.getString("isNewUser") ))
+                    if(obj.getString("status") == "success"){
+                        activity.replaceFragment(Frag_Sign_Up_One_2().setData(obj.getString("otp") ,  phone_no.text.toString().replace(PhoneNumberTextWatcher.replacer,"") , (country_code.selectedItem as Country_Code).phone_code ,obj.getString("isNewUser") ))
                     }else{
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
                 }catch (ex :Exception){
                     Toast.makeText(context,R.string.swr, Toast.LENGTH_LONG).show()
                 }
-                dialog.dismiss();
+                dialog.dismiss()
             }
 
             override fun onVolleyError(error: VolleyError?) {
@@ -146,20 +167,18 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener {
 
             override fun onNetError() {
                 dialog.dismiss()
-
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("country_code" , "+"+(country_code.selectedItem as Country_Code).phone_code);//country_code
-                params.put("contact_no" , phone_no.text.toString().replace(PhoneNumberTextWatcher.replacer,""));
+                params.put("country_code" , "+"+(country_code.selectedItem as Country_Code).phone_code)//country_code
+                params.put("contact_no" , phone_no.text.toString().replace(PhoneNumberTextWatcher.replacer,""))
                 Util.e("params" , params.toString())
-                return params;
+                return params
 
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put( "language", SessionManager.getObj().getLanguage());
-                Util.e("headers" , params.toString())
+                params.put( "language", SessionManager.getObj().language)
                 return params
             }
         }.execute()

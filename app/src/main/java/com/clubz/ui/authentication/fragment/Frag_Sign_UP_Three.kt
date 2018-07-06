@@ -16,6 +16,7 @@ import com.clubz.R
 import com.clubz.ui.authentication.Sign_up_Activity
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
+import com.clubz.utils.LinearLayoutThatDetectsSoftKeyboard
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import kotlinx.android.synthetic.main.frag_sign_up_three.*
@@ -27,7 +28,7 @@ import java.util.ArrayList
  */
 
 
-class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
+class Frag_Sign_UP_Three : Fragment(), View.OnClickListener, LinearLayoutThatDetectsSoftKeyboard.Listener {
     lateinit var _contact : String
     lateinit var _code : String
     lateinit var _authtoken : String
@@ -40,7 +41,23 @@ class Frag_Sign_UP_Three : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         for(view in arrayOf(plus ,done ))view.setOnClickListener(this)
-        affiliates.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        affiliates.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS)
+        mainLayout.setListener(this)
+    }
+
+    override fun onSoftKeyboardShown(isShowing: Boolean) {
+        if(isShowing){
+            scrollView.postDelayed(Runnable {
+                run {
+                    val lastChild = scrollView?.getChildAt(scrollView.childCount - 1) as View
+                    val bottom = lastChild.bottom + scrollView.paddingBottom
+                    val sy = scrollView.scrollY
+                    val sh = scrollView.height
+                    val delta = bottom - (sy + sh)
+                    scrollView.smoothScrollBy(0, delta)
+                }
+            }, 200)
+        }
     }
 
     override fun onClick(p0: View?) {
