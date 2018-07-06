@@ -41,7 +41,7 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
    private fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment( FeedDetailFragment.newInstance(feed), resources.getString(R.string.t_content), "First")
-        adapter.addFragment( FragmentChat(),resources.getString(R.string.t_chat) , "second")
+        adapter.addFragment( FragmentChat.newInstanceFeedsChat(""+feed.newsFeedId,feed.clubId),resources.getString(R.string.t_chat) , "second")
         viewPager.adapter = adapter
     }
 
@@ -55,7 +55,6 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id){
-
             R.id.backBtn ->{ onBackPressed() }
 
             R.id.bubble_menu ->{
