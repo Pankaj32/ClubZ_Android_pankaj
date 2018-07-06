@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.clubz.R
-import com.clubz.ui.authentication.Sign_up_Activity
+import com.clubz.ui.authentication.SignupActivity
 import kotlinx.android.synthetic.main.actvity_intro_screen.*
 
 /**
@@ -35,13 +35,13 @@ class Inro_Activity : AppCompatActivity(), View.OnClickListener  , ViewPager.OnP
                     view_pager.setCurrentItem( view_pager.currentItem+1,true)
                 }
                 else{
-                    val intent = Intent(this@Inro_Activity , Sign_up_Activity::class.java)
+                    val intent = Intent(this@Inro_Activity , SignupActivity::class.java)
                     startActivity(intent);
                     finish();
                 }
             }
             R.id.btn_skip ->{
-                val intent = Intent(this@Inro_Activity , Sign_up_Activity::class.java)
+                val intent = Intent(this@Inro_Activity , SignupActivity::class.java)
                 startActivity(intent);
                 finish();
             }

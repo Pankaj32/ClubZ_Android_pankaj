@@ -2,13 +2,12 @@ package com.clubz.ui.authentication.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.clubz.ui.authentication.adapter.Country_spinner_adapter
 import com.clubz.R
-import com.clubz.ui.authentication.Sign_up_Activity
+import com.clubz.ui.authentication.SignupActivity
 import com.clubz.helper.Type_Token
 import com.clubz.data.model.Country_Code
 import com.clubz.utils.Util
@@ -19,7 +18,7 @@ import kotlinx.android.synthetic.main.frag_sign_up_one.*
 import java.util.ArrayList
 import android.widget.Spinner
 import android.telephony.TelephonyManager
-import android.view.MotionEvent
+import android.widget.ScrollView
 import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.ui.cv.CusDialogProg
@@ -29,14 +28,13 @@ import com.clubz.utils.VolleyGetPost
 import org.json.JSONObject
 import com.clubz.helper.sms_reciver.OnSmsCatchListener
 import com.clubz.helper.sms_reciver.SmsVerifyCatcher
-import com.clubz.utils.LinearLayoutThatDetectsSoftKeyboard
 import com.clubz.utils.PhoneNumberTextWatcher
 
 
 /**
  * Created by mindiii on 2/6/18.
  */
-class Frag_Sign_Up_one : Fragment(), View.OnClickListener, LinearLayoutThatDetectsSoftKeyboard.Listener {
+class FragSignUp1 : SignupBaseFragment(), View.OnClickListener {
 
     var isvalidate : Boolean = false
 
@@ -47,52 +45,30 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener, LinearLayoutThatDetec
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val smsverify = SmsVerifyCatcher(activity as Sign_up_Activity, this,object : OnSmsCatchListener<String> {
+        val smsVerify = SmsVerifyCatcher(activity as SignupActivity, this,object : OnSmsCatchListener<String> {
             override fun onSmsCatch(message: String?) {
-                //Util.showToast(message!!,context);
+
             }
         })
 
-        smsverify.onStart()
-        for( view in arrayOf(next)) view.setOnClickListener(this)
-        val list = Gson().fromJson<String>(Util.loadJSONFromAsset(context,"country_code.json"), Type_Token.country_list) as ArrayList<Country_Code>
-        country_code.adapter = Country_spinner_adapter(context, list, 0, R.layout.spinner_view)
+        smsVerify.onStart()
+        next.setOnClickListener(this)
+
+        val list = Gson().fromJson<String>(Util.loadJSONFromAsset(context!!,"country_code.json"), Type_Token.country_list) as ArrayList<Country_Code>
+        country_code.adapter = Country_spinner_adapter(context!!, list, 0, R.layout.spinner_view)
         setCountryCode(list , country_code)
+
         phone_no.addTextChangedListener(PhoneNumberTextWatcher(phone_no))
-        country_code.setOnTouchListener(object : View.OnTouchListener{
-            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                (activity as Sign_up_Activity).hideKeyBoard()
-                return false
-            }
-        })
-
-       /* phone_no.onFocusChangeListener = View.OnFocusChangeListener { view, b ->
-            if(b){
-                scrollView.postDelayed(Runnable {
-                    run {
-
-                    }
-                }, 200)
-            }
-        }*/
+        country_code.setOnTouchListener { v, event ->
+            listner.hideKeyBoard()
+            false
+        }
 
         mainLayout.setListener(this)
-
     }
 
-    override fun onSoftKeyboardShown(isShowing: Boolean) {
-        if(isShowing){
-            scrollView.postDelayed(Runnable {
-                run {
-                    val lastChild = scrollView?.getChildAt(scrollView.childCount - 1) as View
-                    val bottom = lastChild.bottom + scrollView.paddingBottom
-                    val sy = scrollView.scrollY
-                    val sh = scrollView.height
-                    val delta = bottom - (sy + sh)
-                    scrollView.smoothScrollBy(0, delta)
-                }
-            }, 200)
-        }
+    override fun getScrollView(): ScrollView {
+        return scrollView
     }
 
     override fun onClick(p0: View?) {
@@ -104,7 +80,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener, LinearLayoutThatDetec
 
     /***** Verfication ****/
     private fun verfiy() :Boolean{
-        (activity as Sign_up_Activity).hideKeyBoard()
+        listner.hideKeyBoard()
         Util.e("phone",phone_no.text.toString())
         checkPhoneNumber((country_code.selectedItem as Country_Code).code)
         if(phone_no.text.isBlank()){
@@ -122,18 +98,16 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener, LinearLayoutThatDetec
         val contactNo = phone_no.text.toString().replace("-","")
         try {
             val phoneUtil = PhoneNumberUtil.createInstance(context)
-            if (countryCode != null) {
-                val code = countryCode.toUpperCase()
-                val swissNumberProto = phoneUtil.parse(contactNo, code)
-                isvalidate = phoneUtil.isValidNumber(swissNumberProto)
-            }
+            val code = countryCode.toUpperCase()
+            val swissNumberProto = phoneUtil.parse(contactNo, code)
+            isvalidate = phoneUtil.isValidNumber(swissNumberProto)
         } catch (e: NumberParseException) {
             System.err.println("NumberParseException was thrown: " + e.toString())
         }
     }
 
-    fun setCountryCode(list : ArrayList<Country_Code> , spinner : Spinner){
-        val tm = activity.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    private fun setCountryCode(list : ArrayList<Country_Code>, spinner : Spinner){
+        val tm = activity?.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         var locale = tm.networkCountryIso
         if(locale.equals("")) locale ="in_"
         Util.e("phone no" , locale)
@@ -143,7 +117,7 @@ class Frag_Sign_Up_one : Fragment(), View.OnClickListener, LinearLayoutThatDetec
     }
 
     private fun generateOtp(){
-        val activity = activity as Sign_up_Activity
+        val activity = activity as SignupActivity
         val dialog = CusDialogProg(context)
         dialog.show()
         object  : VolleyGetPost(activity,context, WebService.Generate_Otp,false) {

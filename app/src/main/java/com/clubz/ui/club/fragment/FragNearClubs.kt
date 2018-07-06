@@ -59,9 +59,9 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
     }
 
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MyClubListAdapter(clubList, context, this)
+        adapter = MyClubListAdapter(clubList, context!!, this)
         list_recycler.adapter = adapter
         swipeRefreshLayout.setOnRefreshListener(this)
         clubList.clear()
@@ -142,7 +142,7 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
                     adapter?.notifyDataSetChanged()
 
                 }catch (ex: Exception){
-                    Util.showToast(R.string.swr,context)
+                    Util.showToast(R.string.swr,context!!)
                 }
             }
 

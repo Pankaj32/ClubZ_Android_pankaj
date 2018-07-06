@@ -22,38 +22,22 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_activity_member.*
 import org.json.JSONObject
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [Frag_Activity_Member.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [Frag_Activity_Member.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Frag_Activity_Member : Fragment() {
 
-    // TODO: Rename and change types of parameters
-    private var mParam1: String? = null
-    private var mParam2: String? = null
     private var mContext: Context? = null
     private var activityId = ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.frag_activity_member, container, false)
+        return inflater.inflate(R.layout.frag_activity_member, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerActivityMember.layoutManager = LinearLayoutManager(mContext)
         if (arguments != null) {
-            activityId = arguments.getString(IDKEY)
+            activityId = arguments!!.getString(IDKEY)
             getActivityMembers()
         }
     }
@@ -86,7 +70,7 @@ class Frag_Activity_Member : Fragment() {
         }
     }
 
-    fun getActivityMembers() {
+    private fun getActivityMembers() {
         val dialogProgress = CusDialogProg(mContext!!)
         dialogProgress.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
@@ -100,7 +84,7 @@ class Frag_Activity_Member : Fragment() {
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
                         dialogProgress?.dismiss()
-                        var activityDetails = Gson().fromJson(response, GetActivityMembersResponce::class.java)
+                        val activityDetails = Gson().fromJson(response, GetActivityMembersResponce::class.java)
                         updateUi(activityDetails)
                     } else {
                         nodataLay.visibility = View.VISIBLE
@@ -132,8 +116,8 @@ class Frag_Activity_Member : Fragment() {
     }
 
     private fun updateUi(activityDetails: GetActivityMembersResponce) {
-        var activityMemberAdapter = ActivityMembersAdapter(mContext, activityDetails.getData())
-        activityMemberAdapter!!.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
+        val activityMemberAdapter = ActivityMembersAdapter(mContext, activityDetails.getData())
+        activityMemberAdapter?.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
                 val expandedMovieCategory = activityDetails.getData()!![position]
             }

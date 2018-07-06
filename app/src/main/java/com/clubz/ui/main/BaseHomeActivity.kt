@@ -2,66 +2,51 @@ package com.clubz.ui.main
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.ListPopupWindow
 import android.view.Gravity
 import android.view.View
 import android.view.Window
-import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
+import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.core.BaseFragment
 import kotlinx.android.synthetic.main.club_more_menu.*
 import kotlinx.android.synthetic.main.menu_club_selection.*
 import kotlinx.android.synthetic.main.menu_my_activity.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 
-
-
-abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentListner , View.OnClickListener{
+abstract class BaseHomeActivity : BaseActivity(),
+        BaseFragment.FragmentListner , View.OnClickListener{
 
     protected var dialog : Dialog? = null
     protected var menuDialog : Dialog? = null
     protected var newsFilterDialog : Dialog? = null
     protected var myActivityDailog: Dialog? = null
 
-    override fun hideKeyBoard() {
-        try {
-            val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-        } catch (e: Exception) {
-
-        }
-    }
-
-    override fun onFragBackPress() {
-        onBackPressed()
-    }
-
-
-    internal fun replaceFragment(fragmentHolder: Fragment) {
+    override fun replaceFragment(fragment: Fragment) {
+        super.replaceFragment(fragment)
         try {
             val fragmentManager = supportFragmentManager
             fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            val fragmentName = fragmentHolder.javaClass.name
+            val fragmentName = fragment.javaClass.name
             val fragmentTransaction = fragmentManager.beginTransaction()
             fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            fragmentTransaction.replace(R.id.frag_container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
+            fragmentTransaction.replace(R.id.frag_container, fragment, fragmentName).addToBackStack(fragmentName)
             fragmentTransaction.commit()
-            bottomtabHandler(fragmentHolder)
-            setActionbarMenu(fragmentHolder)
+            bottomtabHandler(fragment)
+            setActionbarMenu(fragment)
             hideKeyBoard()
         } catch (e: Exception) {
         }
     }
+
 
     @SuppressLint("RtlHardcoded")
     protected fun showLogoutPopup(v : View) {
@@ -192,8 +177,8 @@ abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentList
     abstract fun checkLocationUpdate()
     //abstract fun updateMyNewsFeed()
     abstract fun getActivity() : HomeActivity
-    abstract fun bottomtabHandler(fragmentHolder: Fragment)
-    abstract fun setActionbarMenu(fragmentHolder: Fragment)
+    abstract fun bottomtabHandler(fragment: Fragment)
+    abstract fun setActionbarMenu(fragment: Fragment)
 
 
     /*  private fun getAddress(latitude: Double, longitude: Double): Array<String> {

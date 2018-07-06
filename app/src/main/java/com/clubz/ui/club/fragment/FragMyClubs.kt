@@ -56,10 +56,10 @@ class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefr
         return inflater.inflate(R.layout.frag_my_clubs, null)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener(this)
-        adapter = MyClubListAdapter(clubList, context, this)
+        adapter = MyClubListAdapter(clubList, context!!, this)
         list_recycler.adapter = adapter
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)

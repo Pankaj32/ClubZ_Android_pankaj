@@ -1,77 +1,74 @@
 package com.clubz.ui.authentication
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import com.clubz.ui.cv.Checked_Step_ImageView
 import com.clubz.ui.cv.Checked_Step_TextView
 import com.clubz.ui.cv.Checked_Step_TextView_active
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.R
-import com.clubz.ui.authentication.fragment.Frag_Sign_UP_Three
-import com.clubz.ui.authentication.fragment.Frag_Sign_Up_One_2
-import com.clubz.ui.authentication.fragment.Frag_Sign_Up_Two
-import com.clubz.ui.authentication.fragment.Frag_Sign_Up_one
+import com.clubz.ui.authentication.fragment.*
+import com.clubz.ui.core.BaseActivity
 import com.clubz.utils.Util
 import com.facebook.FacebookSdk
 import com.facebook.LoggingBehavior
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.location.LocationCallback
 import kotlinx.android.synthetic.main.activity_signup.*
 
 /**
  * Created by mindiii on 2/5/18.
  */
+class SignupActivity : BaseActivity() , SignupBaseFragment.Listner{
 
-class Sign_up_Activity : AppCompatActivity() {
-
-    public var _satus  : String = ""
-    val mLocationCallback: LocationCallback? = null
     lateinit var mGoogleSignInClient : GoogleSignInClient
-    lateinit var dialog: CusDialogProg
+    var dialog: CusDialogProg? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         FacebookSdk.sdkInitialize(applicationContext)
         FacebookSdk.setIsDebugEnabled(true)
         FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS)
-        FacebookSdk.setApplicationId(getResources().getString(R.string.facebook_app_id));
+        FacebookSdk.setApplicationId(resources.getString(R.string.facebook_app_id))
         setContentView(R.layout.activity_signup)
-        overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom);
-        dialog = CusDialogProg(this);
+
+        overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom)
+
+        dialog = CusDialogProg(this)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         Util.checklaunage(this)
-        replaceFragment(Frag_Sign_Up_one())
-
-
+        replaceFragment(FragSignUp1())
     }
 
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
+    override fun showDialog() {
+        if(dialog==null){
+            dialog = CusDialogProg(this)
+        }
+        dialog?.show()
     }
 
-    internal fun replaceFragment(fragmentHolder: Fragment) {
+    override fun hideDialog() {
+        dialog?.dismiss()
+    }
+
+    override fun replaceFragment(fragment: Fragment) {
         hideKeyBoard()
         try {
             val fragmentManager = supportFragmentManager
             fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            val fragmentName = fragmentHolder.javaClass.simpleName
+            val fragmentName = fragment.javaClass.simpleName
             val fragmentTransaction = fragmentManager.beginTransaction()
             fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            fragmentTransaction.replace(R.id.container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
+            fragmentTransaction.replace(R.id.container, fragment, fragmentName).addToBackStack(fragmentName)
             fragmentTransaction.commit()
             setIndicator(fragmentName)
 
@@ -83,8 +80,8 @@ class Sign_up_Activity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
          try {
-            for (fragment in getSupportFragmentManager().getFragments()) {
-                fragment.onActivityResult(requestCode, resultCode, data);
+            for (fragment in supportFragmentManager.fragments) {
+                fragment.onActivityResult(requestCode, resultCode, data)
             }
         } catch (e :Exception) {
             e.printStackTrace()
@@ -95,7 +92,7 @@ class Sign_up_Activity : AppCompatActivity() {
 
 
     fun addFragment(fragmentHolder: Fragment, animationValue: Int): Fragment? {
-        try {
+        return try {
             val fragmentManager = supportFragmentManager
             val fragmentName = fragmentHolder.javaClass.simpleName
             val fragmentTransaction = fragmentManager.beginTransaction()
@@ -104,45 +101,35 @@ class Sign_up_Activity : AppCompatActivity() {
             fragmentTransaction.add(R.id.container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
             fragmentTransaction.commit()
             hideKeyBoard()
-            return fragmentHolder
+            fragmentHolder
         } catch (e: Exception) {
-            return null
-        }
-
-    }
-
-    fun hideKeyBoard() {
-        try {
-            val inputManager = getSystemService(
-                    Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken,
-                    InputMethodManager.HIDE_NOT_ALWAYS)
-        } catch (e: Exception) {
+            null
         }
     }
 
-    fun setIndicator(frag_name : String){
+
+    private fun setIndicator(frag_name : String){
         back.visibility = View.GONE
         when (frag_name){
-            Frag_Sign_Up_one::class.java.simpleName->indicator(0);
-            Frag_Sign_Up_One_2::class.java.simpleName->indicator(1);
-            Frag_Sign_Up_Two::class.java.simpleName->{
+            FragSignUp1::class.java.simpleName->indicator(0)
+            Frag_Sign_Up_One_2::class.java.simpleName->indicator(1)
+            FragSignUp2::class.java.simpleName->{
                 indicator(2)
                // back.visibility = View.VISIBLE
-            };
-            Frag_Sign_UP_Three::class.java.simpleName->indicator(3);
+            }
+            FragSignUp3::class.java.simpleName->indicator(3)
         }
     }
 
-    fun indicator( postition : Int){
+    private fun indicator(postition : Int){
         try {
-            val pager_indictor = findViewById<LinearLayout>(R.id.page_indicator)
-            pager_indictor.removeAllViews()
+            val pagerIndictor = findViewById<LinearLayout>(R.id.page_indicator)
+            pagerIndictor.removeAllViews()
                 for(i in 0..3){
-                if(postition>i)pager_indictor.addView(Checked_Step_ImageView(this));
-                if(postition==i)pager_indictor.addView(Checked_Step_TextView_active(this).setText(i+1));
-                if(postition<i)pager_indictor.addView(Checked_Step_TextView(this).setText(i+1));
-            }
+                if(postition>i)pagerIndictor.addView(Checked_Step_ImageView(this))
+                if(postition==i)pagerIndictor.addView(Checked_Step_TextView_active(this).setText(i+1))
+                    if(postition<i)pagerIndictor.addView(Checked_Step_TextView(this).setText(i+1))
+                }
         }catch (ex :Exception){
             ex.printStackTrace()
         }
@@ -152,7 +139,7 @@ class Sign_up_Activity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (supportFragmentManager.fragments != null) {
-            for ( fragment in getSupportFragmentManager().getFragments()) {
+            for ( fragment in supportFragmentManager.fragments) {
                 try {
                     fragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
                     break
@@ -164,38 +151,14 @@ class Sign_up_Activity : AppCompatActivity() {
     }
 
 
-
-
     override fun onBackPressed() {
         hideKeyBoard()
-        val handler = Handler()
-        var runnable: Runnable? = null
-
         if (supportFragmentManager.backStackEntryCount > 1) {
             /*if (getCurrentFragment() is BackPresslistner) {
                 if ((getCurrentFragment() as BackPresslistner).backPresses()) return; }*/
             super.onBackPressed()
         } else {
-            finish();
-            /* runnable = Runnable { doublebackpress = false }
-            handler.postDelayed(runnable, 1000.toLong())
-            if (doublebackpress) {
-                handler.removeCallbacks(runnable)
-                finish()
-            } else {
-                doublebackpress = true
-            }
-            */
-        }
-        fun getCurrentFragment(): Fragment? {
-            try {
-                val fragmentManager = supportFragmentManager
-                val fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.backStackEntryCount - 1).name
-                return fragmentManager.findFragmentByTag(fragmentTag)
-            } catch (e: IndexOutOfBoundsException) {
-                e.printStackTrace()
-                return null
-            }
+            finish()
         }
     }
 }

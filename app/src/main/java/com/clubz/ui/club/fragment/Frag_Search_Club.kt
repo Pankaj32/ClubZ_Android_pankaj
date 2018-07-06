@@ -66,7 +66,7 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
         checkLocation()
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         for(views in arrayOf(search_layout,view!!))views.setOnClickListener(this)
@@ -132,18 +132,18 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
                     if(obj.getString("status").equals("success")){
                         val list  = Gson().fromJson<ArrayList<Clubs>>(obj.getJSONArray("data").toString() , Type_Token.club_list)
                         if(list_recycler.adapter == null){
-                            list_recycler.adapter = Club_List_Adapter(list, context, activity)
+                            list_recycler.adapter = Club_List_Adapter(list, context!!, activity)
                         }else{
                             (list_recycler.adapter as Club_List_Adapter).list = list
                             list_recycler.adapter.notifyDataSetChanged()
                         }
                     }
                     else{
-                        list_recycler.adapter = Club_List_Adapter(ArrayList<Clubs>(), context, activity)
+                        list_recycler.adapter = Club_List_Adapter(ArrayList<Clubs>(), context!!, activity)
                         Util.showToast(obj.getString("message"),context)
                     }
                 }catch (ex: Exception){
-                    Util.showToast(R.string.swr,context)
+                    Util.showToast(R.string.swr,context!!)
                 }
             }
 
@@ -194,7 +194,7 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
         val permission = Permission(activity,context)
         if(!permission.checkLocationPermission()) return
         val activity = (activity as HomeActivity)
-                    if (ClubZ.latitude ==0.0 && ClubZ.longitude==0.0  && permission.askForGps()){ val al_dialog : Cus_dialog_material_design  = object : Cus_dialog_material_design(context){
+                    if (ClubZ.latitude ==0.0 && ClubZ.longitude==0.0  && permission.askForGps()){ val al_dialog : Cus_dialog_material_design  = object : Cus_dialog_material_design(context!!){
                         override fun onDisagree() {
                             this.dismiss()
                         }
@@ -282,18 +282,16 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
         }.execute()
     }
 
-
     fun setRecycleView(searchList : ArrayList<Clubs>){
         //adapter?.setList(searchList)
 
         if(list_recycler.adapter == null){
-            list_recycler.adapter = Club_List_Adapter(searchList, context, activity as HomeActivity)
+            list_recycler.adapter = Club_List_Adapter(searchList, context!!, activity as HomeActivity)
         }else{
             (list_recycler.adapter as Club_List_Adapter).list = searchList
             list_recycler.adapter.notifyDataSetChanged()
         }
     }
-
 
     fun getMyClubs(text : String = "", offset :String = "0"){  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
         val activity  = activity as HomeActivity

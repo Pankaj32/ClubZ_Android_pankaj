@@ -71,8 +71,8 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
         d.minutes=0
         d.seconds=0
         Util.e("Tag", "$d : ${p0!!.minDate} : $check")
-            year = p1 ; month = p2+1 ;day = p3;
-            tv_fondationdate.setText(Util.convertDate("$year-$month-$day"))
+            year = p1 ; month = p2+1 ;day = p3
+        tv_fondationdate.setText(Util.convertDate("$year-$month-$day"))
     }
 
 
@@ -84,7 +84,7 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
     lateinit var  autocompleteFragment1 :PlaceAutocompleteFragment
     var lat = 0.0
     var lng = 0.0
-    var isvalidate: Boolean = false;
+    var isvalidate: Boolean = false
 
 
     var day = -1
@@ -94,23 +94,23 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
     lateinit var titile_name :EditText //Because emoji not supported
     lateinit var etv_description:EditText  //Because emoji not supported
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.frag_create_club, null)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.frag_create_club, null)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view!!.setOnClickListener(this)
-        etv_description = view.findViewById<EditText>(R.id.etv_description);
-        titile_name = view.findViewById<EditText>(R.id.titile_name);
+        view.setOnClickListener(this)
+        etv_description = view.findViewById<EditText>(R.id.etv_description)
+        titile_name = view.findViewById<EditText>(R.id.titile_name)
         for(views in arrayOf(img_club ,tv_fondationdate , iv_like ,done ,back_f, all , arow ,image_icon))views.setOnClickListener(this)
          try{
-             autocompleteFragment1 = activity.fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
+             autocompleteFragment1 = activity?.fragmentManager?.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
             // var autocompleteFragment  =( activity as HomeActivity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment;
              autocompleteFragment1.setOnPlaceSelectedListener(object : PlaceSelectionListener{
             override fun onPlaceSelected(p0: Place?) {
-                club_location.setText(p0!!.name)
-                club_location.setSelected(true)
+                club_location.text = p0!!.name
+                club_location.isSelected = true
                 lat = p0.latLng.latitude
                 lng = p0.latLng.longitude
             }
@@ -123,10 +123,10 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
              ex.printStackTrace()
          }
 
-       val list = Arrays.asList(*context.resources.getStringArray(R.array.privacy_type))
-       spn_privacy.adapter = CreateClub_Spinner(context, list, Constants.CreateClub_Spinner_Type_privacy_type)
+       val list = Arrays.asList(*context!!.resources.getStringArray(R.array.privacy_type))
+       spn_privacy.adapter = CreateClub_Spinner(context!!, list, Constants.CreateClub_Spinner_Type_privacy_type)
        getCategory()
-       username.setText(SessionManager.getObj().user.full_name)
+        username.text = SessionManager.getObj().user.full_name
         try{
             Picasso.with(context).load(SessionManager.getObj().user.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).into(image_member2, object :Callback{
                 override fun onSuccess() {
@@ -156,7 +156,7 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
         super.onDestroyView()
         try {
             (activity as HomeActivity).showStatusBar()
-            if(activity!=null)activity.fragmentManager.beginTransaction().remove(autocompleteFragment1).commit()
+            if(activity!=null)activity?.fragmentManager?.beginTransaction()?.remove(autocompleteFragment1)?.commit()
         }catch (ex :Exception){
         }
 
@@ -174,7 +174,7 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
             }
             R.id.done-> if(validator())crateClub()
             R.id.back_f->{
-                activity.onBackPressed()
+                activity?.onBackPressed()
             }
             R.id.image_icon->{ isClubIcon = true;   permissionPopUp();            }
         }
@@ -203,10 +203,10 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
 
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
-                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data);
+                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data)
                 if (imageUri != null) {
-                   if(!isClubIcon) CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this)
-                    else CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(200,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context,this)
+                   if(!isClubIcon) CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context!!,this)
+                    else CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(200,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context!!,this)
                 } else {
                     Toast.makeText(context ,R.string.swr, Toast.LENGTH_SHORT).show()
                 }
@@ -214,18 +214,18 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    if(!isClubIcon) CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context,this)
-                    else CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(200,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context,this)
+                    if(!isClubIcon) CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 200).start(context!!,this)
+                    else CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(200,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context!!,this)
                 } else {
                     Toast.makeText(context ,R.string.swr , Toast.LENGTH_SHORT).show()
                 }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                var result : CropImage.ActivityResult = CropImage.getActivityResult(data)
+                val result : CropImage.ActivityResult = CropImage.getActivityResult(data)
                 try {
                     if (result != null)
                     if(isClubIcon){
-                        clubIcon = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri())
+                        clubIcon = MediaStore.Images.Media.getBitmap(context?.contentResolver, result.uri)
 
                         if (clubIcon != null) {
                             image_icon.setPadding(0,0,0,0)
@@ -233,7 +233,7 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
                         }
                     }
                     else
-                    {    clubImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri())
+                    {    clubImage = MediaStore.Images.Media.getBitmap(context?.contentResolver, result.uri)
 
 
                     if (clubImage != null) {
@@ -250,38 +250,34 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
     fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(activity, R.style.popstyle)
         val popupMenu = PopupMenu(wrapper, if(isClubIcon) image_icon else img_club, Gravity.CENTER)
-        popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())
-        popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem): Boolean {
-                isCameraSelected = true
-                when (item.getItemId()) {
-                    R.id.pop1 -> if (Build.VERSION.SDK_INT >= 23) {
-                        if (activity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            callIntent(Constants.INTENTREQUESTCAMERA)
-                        }
-                        else if (activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            callIntent(Constants.INTENTREQUESTREAD)
-                        }
-                        else {
-                            callIntent(Constants.INTENTCAMERA)
-                        }
+        popupMenu.menuInflater.inflate(R.menu.popupmenu, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { item ->
+            isCameraSelected = true
+            when (item.itemId) {
+                R.id.pop1 -> if (Build.VERSION.SDK_INT >= 23) {
+                    if (activity?.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        callIntent(Constants.INTENTREQUESTCAMERA)
+                    } else if (activity?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        callIntent(Constants.INTENTREQUESTREAD)
                     } else {
                         callIntent(Constants.INTENTCAMERA)
                     }
-                    R.id.pop2 -> if (Build.VERSION.SDK_INT >= 23) {
-                        isCameraSelected = false
-                        if (activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            callIntent(Constants.INTENTREQUESTREAD)
-                        } else {
-                            callIntent(Constants.INTENTGALLERY)
-                        }
+                } else {
+                    callIntent(Constants.INTENTCAMERA)
+                }
+                R.id.pop2 -> if (Build.VERSION.SDK_INT >= 23) {
+                    isCameraSelected = false
+                    if (activity?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        callIntent(Constants.INTENTREQUESTREAD)
                     } else {
                         callIntent(Constants.INTENTGALLERY)
                     }
+                } else {
+                    callIntent(Constants.INTENTGALLERY)
                 }
-                return false
             }
-        })
+            false
+        }
         popupMenu.show()
     }
     fun callIntent(caseid: Int) {
@@ -289,27 +285,27 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
         when (caseid) {
             Constants.INTENTCAMERA -> {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                var file  = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg");
+                val file  = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg")
                 imageUri =
                         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
-                            FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file)
+                            FileProvider.getUriForFile(context!!, BuildConfig.APPLICATION_ID + ".provider",file)
                         }else {
                             Uri.fromFile(file)}
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);//USE file code in_ this case
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri)//USE file code in_ this case
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-                ImagePicker.pickImage(this);
+                ImagePicker.pickImage(this)
             }
-            Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA,  Manifest.permission.WRITE_EXTERNAL_STORAGE ,Manifest.permission.READ_EXTERNAL_STORAGE),
+            Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA,  Manifest.permission.WRITE_EXTERNAL_STORAGE ,Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_CAMERA)
-            Constants.INTENTREQUESTREAD -> ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+            Constants.INTENTREQUESTREAD -> ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
             Constants.INTENTREQUESTWRITE -> {
             }
 
             Constants.INTENTREQUESTNET -> {
-                ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.INTERNET),
+                ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.INTERNET),
                         Constants.MY_PERMISSIONS_REQUEST_INTERNET)
             }
         }
@@ -391,7 +387,7 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
                 params.put("clubLocation",club_location.text.toString())
                 params.put("userRole",usrerole.text.toString()+"")
 
-                params.put("clubDescription",etv_description.getText().toString()+"") //*\\StringEscapeUtils.escapeJava(etv_description.getText().toString()).replace("\\uD83D"," \\uD83D")+"")*//*
+                params.put("clubDescription",etv_description.text.toString()+"") //*\\StringEscapeUtils.escapeJava(etv_description.getText().toString()).replace("\\uD83D"," \\uD83D")+"")*//*
                 Util.e("parms create", params.toString())
                 return params
             }
@@ -409,12 +405,12 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
 
             override fun getHeaders(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
-                params.put("language", SessionManager.getObj().getLanguage())
+                params.put("language", SessionManager.getObj().language)
                 params.put("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
         }
-        request.setRetryPolicy(DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+        request.retryPolicy = DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         ClubZ.instance.addToRequestQueue(request)
     }
 
@@ -431,14 +427,14 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
                        val json = JSONObject(response)
                      if(json.getString("status").equals("success")){
                          val list  = Gson().fromJson<ArrayList<Club_Category>>(json.getJSONArray("data").toString() , Type_Token.club_category)
-                         spn_club_category.adapter = CreateClub_Spinner(context, list, Constants.CreateClub_Spinner_Type_ClubCategory)
+                         spn_club_category.adapter = CreateClub_Spinner(context!!, list, Constants.CreateClub_Spinner_Type_ClubCategory)
                      }else{
 //TODO check all failure conditions //
                         Util.showToast(json.getString("message"),context)
                      }
                  }catch (ex :Exception){
                      Util.e("Error", ex.toString())
-                     Util.showToast(R.string.swr,context)
+                     Util.showToast(R.string.swr,context!!)
                  }
              }
 
@@ -531,7 +527,7 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
 
 
     private fun checkPhoneNumber( countryCode : String) {
-        val contactNo = club_phone.getText().toString()
+        val contactNo = club_phone.text.toString()
         try {
                 val phoneUtil = PhoneNumberUtil.createInstance(context)
                 val code = countryCode.toUpperCase()

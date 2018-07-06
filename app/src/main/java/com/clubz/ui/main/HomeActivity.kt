@@ -103,7 +103,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         val userLocation = sessionManager.lastKnownLocation
         if(userLocation==null) checkLocationUpdate()
         else {
-            ClubZ.latitude = userLocation.latitude;
+            ClubZ.latitude = userLocation.latitude
             ClubZ.longitude = userLocation.longitude
             ClubZ.city = userLocation.city
         }
@@ -248,11 +248,11 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     }*/
 
 
-    override fun setActionbarMenu(fragmentHolder: Fragment){
+    override fun setActionbarMenu(fragment : Fragment){
         for (views in arrayOf(title_tv, menu, search, addsymbol, back, bubble_menu))
             views.visibility = View.GONE
 
-        when (fragmentHolder::class.java.simpleName) {
+        when (fragment::class.java.simpleName) {
 
             FragNewsList::class.java.simpleName -> {
                 ClubZ.isPrivate = 0
@@ -559,9 +559,9 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         myActivityDailog = null
 
     }
-    override fun bottomtabHandler(fragmentHolder: Fragment){
+    override fun bottomtabHandler(fragment: Fragment){
         try{
-            when (fragmentHolder::class.java.simpleName) {
+            when (fragment::class.java.simpleName) {
                 Frag_Find_Activities::class.java.simpleName ->  tablayout.visibility = View.VISIBLE
                 AdsFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
                 ChatFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE

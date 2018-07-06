@@ -36,6 +36,10 @@ class ClubZ  : Application() {
         return currentUser
     }
 
+    fun setCurrentUser(user: User){
+         currentUser = user
+    }
+
     var mRequestQueue: RequestQueue? = null
 
     /* lateinit var context: Context*/

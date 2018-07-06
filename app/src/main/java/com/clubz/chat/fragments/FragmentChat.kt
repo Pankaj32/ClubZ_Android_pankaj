@@ -57,10 +57,9 @@ class FragmentChat : Fragment(), View.OnClickListener {
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_chat, container, false)
+        return inflater.inflate(R.layout.fragment_chat, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -68,17 +67,17 @@ class FragmentChat : Fragment(), View.OnClickListener {
         app = FirebaseApp.getInstance()
         mstorage = FirebaseStorage.getInstance(app!!)
         if (arguments != null) {
-            chatFor = arguments.getString(ARG_CHATFOR)
+            chatFor = arguments!!.getString(ARG_CHATFOR)
             when (chatFor) {
                 "feeds" -> {
-                    clubId = arguments.getString(ARG_CLUB_ID)
-                    feedsId = arguments.getString(ARG_FEED_ID)
+                    clubId = arguments!!.getString(ARG_CLUB_ID)
+                    feedsId = arguments!!.getString(ARG_FEED_ID)
                 }
                 "activities" -> {
-                    activityId = arguments.getString(ARG_ACTIVITYID)
-                    userId = arguments.getString(ARG_USERID)
-                    userName = arguments.getString(ARG_USERNAME)
-                    userProfileImg = arguments.getString(ARG_USERPROFILEIMG)
+                    activityId = arguments!!.getString(ARG_ACTIVITYID)
+                    userId = arguments!!.getString(ARG_USERID)
+                    userName = arguments!!.getString(ARG_USERNAME)
+                    userProfileImg = arguments!!.getString(ARG_USERPROFILEIMG)
                 }
             }
         }

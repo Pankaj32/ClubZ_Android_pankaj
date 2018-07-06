@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 
 import com.clubz.ClubZ;
 import com.clubz.data.model.UserLocation;
-import com.clubz.ui.authentication.Sign_up_Activity;
+import com.clubz.ui.authentication.SignupActivity;
 import com.clubz.data.model.User;
 import com.clubz.utils.Constants;
 import com.google.gson.Gson;
@@ -53,6 +53,7 @@ public class SessionManager {
         editor.putString(Constants._device_token, user.getDevice_token().trim());
         editor.putBoolean(IS_LOGED_IN, true);
         editor.apply();
+        //ClubZ.instance.setCurrentUser(user);
         return true;
     }
 
@@ -108,7 +109,7 @@ public class SessionManager {
     public void logout(Activity activity){
         editor.clear();
         editor.apply();
-        Intent intent = new Intent(activity , Sign_up_Activity.class);
+        Intent intent = new Intent(activity , SignupActivity.class);
         activity.startActivity(intent);
         activity.finish();
     }
@@ -116,7 +117,7 @@ public class SessionManager {
     public void logout(Context context){
         editor.clear();
         editor.apply();
-        Intent i = new Intent(context , Sign_up_Activity.class);
+        Intent i = new Intent(context , SignupActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(i);
     }
