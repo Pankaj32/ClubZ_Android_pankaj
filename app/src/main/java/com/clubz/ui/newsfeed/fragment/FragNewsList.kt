@@ -37,9 +37,13 @@ import com.clubz.ui.newsfeed.adapter.NewsFeedAdapter
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
+import com.clubz.utils.decorator.VerticalSpaceItemDecoration
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_news.*
 import org.json.JSONObject
+import io.fabric.sdk.android.services.settings.IconRequest.build
+
+
 
 /**
  * Created by Dharmraj Acharya on 3/12/18.
@@ -156,7 +160,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         user.full_name = feed.user_name
         user.isLiked = feed.isLiked
 
-        val dialog = object : UserProfileDialog(context!!, user, false) {
+        val dialog = object : UserProfileDialog(context, user, false) {
             override fun onProfileUpdate(name: String) {}
             override fun showError(msg: String) {
                 showToast(msg)
@@ -224,7 +228,9 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
     }
 
     override fun onChatClick(feed: Feed) {
-        Util.showToast(R.string.under_development, context!!)
+        if(feed.is_comment_allow==0){
+            Util.showToast(R.string.error_comment_disabled, context)
+        }else Util.showToast(R.string.under_development, context)
     }
 
     override fun onClick(v: View) {
@@ -311,7 +317,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
                         newsFeeds.removeAt(pos)
                         adapter?.notifyItemRemoved(pos)
                     }
-                } catch (ex: Exception) { Util.showToast(R.string.swr, context!!) }
+                } catch (ex: Exception) { Util.showToast(R.string.swr, context) }
             }
 
             override fun onVolleyError(error: VolleyError?) { dialog.dismiss() }

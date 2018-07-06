@@ -6,6 +6,7 @@ package com.clubz.chat.model
 class FeedBean {
     var feedId: String? = null
     var feedTitle: String? = null
+    var isCommentAllow: String? = null
     var feedImage: String? = null
     var clubId: String? = null
 }

@@ -243,7 +243,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
                 params["newsFeedTitle"] = feedTitle!!
                 params["newsFeedDescription"] = description!!
                 params["tagName"] = tagList.joinToString()
-                params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "Comment disabled") "0" else "1"
+                params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "comment disabled") "0" else "1"
                 params["userRole"] = if (userRole.isNullOrBlank()) getString(R.string.club_manager) else userRole!!
                 return params
             }
@@ -275,6 +275,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
         feedBean.feedTitle = feeDetails?.getFeedDetail()?.news_feed_title
         feedBean.feedImage = feeDetails?.getFeedDetail()?.news_feed_attachment
         feedBean.clubId = feeDetails?.getFeedDetail()?.clubId
+        feedBean.isCommentAllow = feeDetails?.getFeedDetail()?.is_comment_allow
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_NEWS_FEED)
@@ -324,7 +325,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
                 params["newsFeedTitle"] = feedTitle!!
                 params["newsFeedDescription"] = description!!
                 params["tagName"] = tagList.joinToString()
-                params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "Comment disabled") "0" else "1"
+                params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "comment disabled") "0" else "1"
                 params["userRole"] = if (userRole.isNullOrBlank()) getString(R.string.club_manager) else userRole!!
                 return params
             }
