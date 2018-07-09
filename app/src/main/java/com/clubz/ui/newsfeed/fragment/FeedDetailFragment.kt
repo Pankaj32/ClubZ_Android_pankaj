@@ -36,7 +36,7 @@ class FeedDetailFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_feed_detail, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
 

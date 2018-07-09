@@ -34,7 +34,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.mContext = mContext;
       //  this.chatAdapterClickListner = chatAdapterClickListner;
         this.mChatBeen = chatBeen;
-        this.mUid = ClubZ.instance.getCurrentUser().getId();
+        this.mUid = ClubZ.Companion.getCurrentUser().getId();
     }
 
     public void add(ChatBean chatBean) {

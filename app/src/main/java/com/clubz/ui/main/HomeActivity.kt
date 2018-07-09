@@ -72,8 +72,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     private var doublebackpress: Boolean = false
     private var lastDrawerGravity :Int= Gravity.START
 
-
-    var filterListner: FilterListner? = null
+    //var filterListner: FilterListner? = null
     //var textChnageListner: Textwatcher_Statusbar? = null
 
     private  var isGPSEnabled = false       // flag for GPS status
@@ -103,7 +102,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         val userLocation = sessionManager.lastKnownLocation
         if(userLocation==null) checkLocationUpdate()
         else {
-            ClubZ.latitude = userLocation.latitude;
+            ClubZ.latitude = userLocation.latitude
             ClubZ.longitude = userLocation.longitude
             ClubZ.city = userLocation.city
         }
@@ -235,6 +234,21 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         return super.onOptionsItemSelected(item)
     }
 
+    /*
+    * @Navigate Intent
+    * */
+
+    override fun navigateCreateNewsFeed() {
+        startActivity(Intent(this@HomeActivity, CreateNewsFeedActivity::class.java))
+    }
+
+    override fun navigateCreateActivity() {
+        startActivity(Intent(this@HomeActivity, NewActivities::class.java))
+    }
+
+    override fun navigateMyActivity() {
+        startActivity(Intent(this@HomeActivity, MyActivities::class.java))
+    }
 
    /* override fun updateMyNewsFeed(){
         if(ifNeedTocallApi){
@@ -248,11 +262,11 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     }*/
 
 
-    override fun setActionbarMenu(fragmentHolder: Fragment){
+    override fun setActionbarMenu(fragment : Fragment){
         for (views in arrayOf(title_tv, menu, search, addsymbol, back, bubble_menu))
             views.visibility = View.GONE
 
-        when (fragmentHolder::class.java.simpleName) {
+        when (fragment::class.java.simpleName) {
 
             FragNewsList::class.java.simpleName -> {
                 ClubZ.isPrivate = 0
@@ -328,6 +342,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         hideKeyBoard()
+        invalidateThreeDotMenu = true
         when (tab!!.position) {
             0 -> {
                 setTab(tab, R.drawable.ic_news_active, true)
@@ -376,13 +391,19 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                         FragNewsList::class.java.simpleName ->{
                             // showFilterDialog()
                             val list : ArrayList<DialogMenu> = arrayListOf()
-                            list.add(DialogMenu("Filter clubs", R.drawable.ic_filter_list))
-                            list.add(DialogMenu("Renew my location", R.drawable.ic_refresh))
+                            list.add(DialogMenu(getString(R.string.create_new_nwes), R.drawable.ic_add_24))
+                            list.add(DialogMenu(getString(R.string.filter_clubs), R.drawable.ic_filter_list))
+                            list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
                             showMenu(list)
                         }
 
                         Frag_Find_Activities::class.java.simpleName -> {
-                            showMyActivityDialog()
+                            //showMyActivityDialog()
+                            val list : ArrayList<DialogMenu> = arrayListOf()
+                            list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
+                            list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_nav_event))
+                            list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
+                            showMenu(list)
                         }
                     }
                 }
@@ -492,10 +513,10 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 updateNewsFeed()
             }
 
-            R.id.myActivity -> {
+            /*R.id.myActivity -> {
                 startActivity(Intent(this@HomeActivity, MyActivities::class.java))
                 myActivityDailog?.dismiss()
-            }
+            }*/
 
             R.id.ll_menu1 -> {
                 menuDialog?.dismiss()
@@ -556,12 +577,12 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         dialog = null
         menuDialog = null
         newsFilterDialog = null
-        myActivityDailog = null
-
+        //myActivityDailog = null
     }
-    override fun bottomtabHandler(fragmentHolder: Fragment){
+
+    override fun bottomtabHandler(fragment: Fragment){
         try{
-            when (fragmentHolder::class.java.simpleName) {
+            when (fragment::class.java.simpleName) {
                 Frag_Find_Activities::class.java.simpleName ->  tablayout.visibility = View.VISIBLE
                 AdsFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
                 ChatFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
@@ -632,7 +653,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     override fun checkLocationUpdate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-            if (Permission(this,this).checkLocationPermission()) {
+            if (Permission(this).checkLocationPermission()) {
                 buildGoogleApiClient()
                 mGoogleApiClient.connect()
             }
@@ -720,7 +741,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
         ClubZ.latitude = latitude
         ClubZ.longitude = longitude
-
         val userLocation = UserLocation()
         userLocation.city = ""
         userLocation.latitude = latitude

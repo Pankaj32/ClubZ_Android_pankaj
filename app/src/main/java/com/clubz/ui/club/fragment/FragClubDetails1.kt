@@ -35,13 +35,13 @@ class FragClubDetails1 : Fragment() {
         return inflater.inflate(R.layout.frag_club_details1,null)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setView()
         getClubDetails()
         view!!.setOnClickListener{}
 
-        tv_terms.setOnClickListener { object : TermsConditionDialog(context, resources.getString(R.string.terms_conditions), clubz.terms_conditions) {
+        tv_terms.setOnClickListener { object : TermsConditionDialog(context!!, resources.getString(R.string.terms_conditions), clubz.terms_conditions) {
                 override fun onCloseClicked() {
                     this.dismiss()
                 }
@@ -142,7 +142,7 @@ class FragClubDetails1 : Fragment() {
                         usrerole.text = clubz.user_role
                     }
                 }catch (ex :Exception){
-                    Util.showToast(R.string.swr,context)
+                    Util.showToast(R.string.swr,context!!)
                 }
             }
 

@@ -56,7 +56,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2" />
         <activity
-            android:name=".ui.authentication.Sign_up_Activity"
+            android:name=".ui.authentication.SignupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
@@ -129,6 +129,9 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="39a3f4bfccefb2b1c6bbe01ed20cbb11782caffa" />
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
 
         <!-- PlaceAutocompleteFragment -->
         <meta-data

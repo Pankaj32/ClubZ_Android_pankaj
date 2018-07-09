@@ -13,6 +13,8 @@ import com.clubz.data.model.User
  */
 class ClubZ  : Application() {
 
+    /* lateinit var context: Context*/
+    val TAG = ClubZ::class.java.simpleName
 
     /**
      * @param isPrivate mantions if isPrivate = 0 it means it's showing Both option available for clubs.
@@ -26,20 +28,30 @@ class ClubZ  : Application() {
         var currentUser: User? = null
         var isNeedToUpdateNewsFeed = false
         var isPrivate: Int = 0
+
+        fun clearVirtualSession(){
+            latitude = 0.toDouble()
+            longitude = 0.toDouble()
+            city = ""
+            currentUser = null
+            isNeedToUpdateNewsFeed = true
+            isPrivate = 0
+        }
     }
 
     fun getClubType() : Int{
         return isPrivate
     }
 
-    fun getCurrentUser(): User?{
+    /*fun getCurrentUser(): User?{
         return currentUser
     }
 
-    var mRequestQueue: RequestQueue? = null
+    fun setCurrentUser(user: User){
+         currentUser = user
+    }*/
 
-    /* lateinit var context: Context*/
-    val TAG = ClubZ::class.java.simpleName
+    var mRequestQueue: RequestQueue? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -62,8 +74,6 @@ class ClubZ  : Application() {
             mRequestQueue = Volley.newRequestQueue(applicationContext)
         return mRequestQueue!!
     }
-
-
 
 
     fun <T> addToRequestQueue(req: Request<T>, tag: String) {

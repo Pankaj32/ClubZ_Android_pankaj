@@ -43,25 +43,23 @@ import java.io.IOException
 class Frag_Create_News_Feed : Fragment(), View.OnClickListener {
 
     var newsFeedAttachment : Bitmap ? = null
-
     var isCameraSelected : Boolean = false
-
     var imageUri : Uri? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.frag_crate_feed, null)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.frag_crate_feed, null)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view!!.findViewById<View>(R.id.img_feed).setOnClickListener(this)
+        view.findViewById<View>(R.id.img_feed).setOnClickListener(this)
 
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.img_feed -> {
-                permissionPopUp();
+                permissionPopUp()
             }
         }
     }
@@ -69,16 +67,16 @@ class Frag_Create_News_Feed : Fragment(), View.OnClickListener {
     private fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(activity, R.style.popstyle)
         val popupMenu = PopupMenu(wrapper, img_feed, Gravity.CENTER)
-        popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())
+        popupMenu.menuInflater.inflate(R.menu.popupmenu, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem): Boolean {
                 isCameraSelected = true
-                when (item.getItemId()) {
+                when (item.itemId) {
                     R.id.pop1 -> if (Build.VERSION.SDK_INT >= 23) {
-                        if (activity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        if (activity?.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                             callIntent(Constants.INTENTREQUESTCAMERA)
                         }
-                        else if (activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        else if (activity?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                             callIntent(Constants.INTENTREQUESTREAD)
                         }
                         else {
@@ -89,7 +87,7 @@ class Frag_Create_News_Feed : Fragment(), View.OnClickListener {
                     }
                     R.id.pop2 -> if (Build.VERSION.SDK_INT >= 23) {
                         isCameraSelected = false
-                        if (activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        if (activity?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                             callIntent(Constants.INTENTREQUESTREAD)
                         } else {
                             callIntent(Constants.INTENTGALLERY)
@@ -108,27 +106,27 @@ class Frag_Create_News_Feed : Fragment(), View.OnClickListener {
         when (caseid) {
             Constants.INTENTCAMERA -> {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                var file  = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg");
+                var file  = File(Environment.getExternalStorageDirectory().toString()+ File.separator + "image.jpg")
                 imageUri =
                         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N){
-                            FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file)
+                            FileProvider.getUriForFile(context!!, BuildConfig.APPLICATION_ID + ".provider",file)
                         }else {
                             Uri.fromFile(file)}
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);//USE file code in_ this case
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri)//USE file code in_ this case
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-                ImagePicker.pickImage(this);
+                ImagePicker.pickImage(this)
             }
-            Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA,  Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.READ_EXTERNAL_STORAGE),
+            Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA,  Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_CAMERA)
-            Constants.INTENTREQUESTREAD -> ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+            Constants.INTENTREQUESTREAD -> ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
             Constants.INTENTREQUESTWRITE -> {
             }
 
             Constants.INTENTREQUESTNET -> {
-                ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.INTERNET),
+                ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.INTERNET),
                         Constants.MY_PERMISSIONS_REQUEST_INTERNET)
             }
         }
@@ -163,32 +161,29 @@ class Frag_Create_News_Feed : Fragment(), View.OnClickListener {
 
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
-                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data);
+                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(context, requestCode, resultCode, data)
                 if (imageUri != null) {
 
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(200,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context,this)
+                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(200,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context!!,this)
                 } else {
                     Toast.makeText(context ,R.string.swr, Toast.LENGTH_SHORT).show()
                 }
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
                 if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(200,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context,this)
+                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.OVAL).setMinCropResultSize(200,200).setMaxCropResultSize(4000,4000).setAspectRatio(300, 300).start(context!!,this)
                 } else {
                     Toast.makeText(context ,R.string.swr , Toast.LENGTH_SHORT).show()
                 }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                var result : CropImage.ActivityResult = CropImage.getActivityResult(data)
+                val result : CropImage.ActivityResult = CropImage.getActivityResult(data)
                 try {
-                    if (result != null)
+                    newsFeedAttachment = MediaStore.Images.Media.getBitmap(context?.getContentResolver(), result.uri)
+                    if (newsFeedAttachment != null) {
+                        img_feed.setImageBitmap(newsFeedAttachment)
+                    }
 
-                           newsFeedAttachment = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result.getUri())
-
-
-                            if (newsFeedAttachment != null) {
-                                img_feed.setImageBitmap(newsFeedAttachment)
-                            }
                 } catch ( e : IOException) {
                     e.printStackTrace()
                 }
@@ -247,12 +242,12 @@ class Frag_Create_News_Feed : Fragment(), View.OnClickListener {
 
             override fun getHeaders(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
-                params.put("language", SessionManager.getObj().getLanguage())
+                params.put("language", SessionManager.getObj().language)
                 params.put("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
         }
-        request.setRetryPolicy(DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+         request.retryPolicy = DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         ClubZ.instance.addToRequestQueue(request)
     }
 }

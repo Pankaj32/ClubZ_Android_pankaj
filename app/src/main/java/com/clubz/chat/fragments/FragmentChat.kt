@@ -1,6 +1,5 @@
 package com.clubz.chat.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -23,8 +22,6 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_chat.*
-
-import java.util.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -58,10 +55,10 @@ class FragmentChat : Fragment(), View.OnClickListener {
 
     private var mListener: OnFragmentInteractionListener? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_chat, container, false)
+        return inflater.inflate(R.layout.fragment_chat, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -69,20 +66,20 @@ class FragmentChat : Fragment(), View.OnClickListener {
         app = FirebaseApp.getInstance()
         mstorage = FirebaseStorage.getInstance(app!!)
         if (arguments != null) {
-            chatFor = arguments.getString(ARG_CHATFOR)
+            chatFor = arguments!!.getString(ARG_CHATFOR)
             when (chatFor) {
                 "feeds" -> {
-                    clubId = arguments.getString(ARG_CLUB_ID)
-                    feedsId = arguments.getString(ARG_FEED_ID)
+                    clubId = arguments!!.getString(ARG_CLUB_ID)
+                    feedsId = arguments!!.getString(ARG_FEED_ID)
                     chatRoom = clubId + "_" + feedsId + "_" + chatFor
                     getFeedStatus()
                     // getMessageFromFirebaseUser()
                 }
                 "activities" -> {
-                    activityId = arguments.getString(ARG_ACTIVITYID)
-                    userId = arguments.getString(ARG_USERID)
-                    userName = arguments.getString(ARG_USERNAME)
-                    userProfileImg = arguments.getString(ARG_USERPROFILEIMG)
+                    activityId = arguments!!.getString(ARG_ACTIVITYID)
+                    userId = arguments!!.getString(ARG_USERID)
+                    userName = arguments!!.getString(ARG_USERNAME)
+                    userProfileImg = arguments!!.getString(ARG_USERPROFILEIMG)
                 }
             }
         }
@@ -199,7 +196,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                         if (feedsBean?.isCommentAllow.equals("1")) {
                             getMessageFromFirebaseUser()
                         }else{
-                            txtMsg.setFocusable(false)
+                            txtMsg.isFocusable = false
                             txtMsg.setText("Comment disable")
                         }
                     }
@@ -230,7 +227,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                                 }*/)
                                     chatRecycler.adapter = mChatRecyclerAdapter
                                 } else {
-                                    mChatRecyclerAdapter?.add(chatBean)
+                                    mChatRecyclerAdapter!!.add(chatBean)
                                 }
                                 try {
                                     chatRecycler.scrollToPosition(mChatRecyclerAdapter!!.itemCount - 1)

@@ -17,5 +17,7 @@ class Type_Token {
 
         /*Feed related token for data parsing*/
         val feed_list  = object : TypeToken<List<Feed>>() {}.type
+
+        val clubNameList = object : TypeToken<List<ClubName>>() {}.type
     }
 }
