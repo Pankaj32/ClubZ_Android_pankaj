@@ -24,6 +24,7 @@ import com.android.volley.VolleyError
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
+import com.clubz.helper.Permission
 import com.clubz.utils.VolleyGetPost
 import org.json.JSONObject
 import com.clubz.helper.sms_reciver.OnSmsCatchListener
@@ -34,9 +35,16 @@ import com.clubz.utils.PhoneNumberTextWatcher
 /**
  * Created by mindiii on 2/6/18.
  */
-class FragSignUp1 : SignupBaseFragment(), View.OnClickListener {
+class FragSignUp1 : SignupBaseFragment(), View.OnClickListener, Permission.Listener {
 
     var isvalidate : Boolean = false
+    lateinit var otpReadPermission : Permission
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        otpReadPermission = Permission(activity, this)
+        otpReadPermission.setListener(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.frag_sign_up_one, null)
@@ -44,14 +52,6 @@ class FragSignUp1 : SignupBaseFragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val smsVerify = SmsVerifyCatcher(activity as SignupActivity, this,object : OnSmsCatchListener<String> {
-            override fun onSmsCatch(message: String?) {
-
-            }
-        })
-
-        smsVerify.onStart()
         next.setOnClickListener(this)
 
         val list = Gson().fromJson<String>(Util.loadJSONFromAsset(context!!,"country_code.json"), Type_Token.country_list) as ArrayList<Country_Code>
@@ -73,15 +73,23 @@ class FragSignUp1 : SignupBaseFragment(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when(p0!!.id){
-            R.id.next-> if(verfiy())generateOtp()
+            R.id.next->
+                if(verfiy()) {
+                    if (otpReadPermission.takeSmsReadPermission()) {
+                        generateOtp()
+                    }
+                }
         }
+    }
+
+    override fun onPermissResult(isGranted: Boolean?) {
+        generateOtp()
     }
 
 
     /***** Verfication ****/
     private fun verfiy() :Boolean{
         listner.hideKeyBoard()
-        Util.e("phone",phone_no.text.toString())
         checkPhoneNumber((country_code.selectedItem as Country_Code).code)
         if(phone_no.text.isBlank()){
             Util.showSnake(context,view!!,R.string.a_phone_no)
@@ -111,8 +119,8 @@ class FragSignUp1 : SignupBaseFragment(), View.OnClickListener {
         var locale = tm.networkCountryIso
         if(locale.equals("")) locale ="in_"
         Util.e("phone no" , locale)
-        for(i  in 0..list.size-1){
-            if(list.get(i).code.equals(locale)){spinner.setSelection(i) ; return }
+        for(i  in 0 until list.size){
+            if(list[i].code == locale){spinner.setSelection(i) ; return }
         }
     }
 
@@ -156,6 +164,11 @@ class FragSignUp1 : SignupBaseFragment(), View.OnClickListener {
                 return params
             }
         }.execute()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        otpReadPermission.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
 }

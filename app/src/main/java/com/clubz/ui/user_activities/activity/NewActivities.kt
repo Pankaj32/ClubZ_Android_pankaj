@@ -1,7 +1,6 @@
 package com.clubz.ui.user_activities.activity
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -19,7 +18,6 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.ContextThemeWrapper
 import android.view.Gravity
-import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -64,18 +62,19 @@ class NewActivities : BaseActivity(), View.OnClickListener {
     private var activityLeaderList: ArrayList<GetLeaderResponce.DataBean>? = null
     private var activityMyClubList: ArrayList<GetMyClubResponce.DataBean>? = null
     private var feestypeList: ArrayList<String>? = null
-    var isCameraSelected: Boolean = false
+    private var isCameraSelected: Boolean = false
     var activityLeader: String = ""
     var feesType: String = ""
     var clubId: String = ""
     var latitute: String = ""
     var longitute: String = ""
-    var imageUri: Uri? = null
+    private var imageUri: Uri? = null
     var activityImage: Bitmap? = null
+
     private var userId = ""
     private var userName = ""
     private var userImage = ""
-    lateinit var autocompleteFragment: PlaceAutocompleteFragment
+    private lateinit var autocompleteFragment: PlaceAutocompleteFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,13 +110,13 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         feestypeList!!.add("Free")
         feestypeList!!.add("Dynamic")
 
-        spinnActivityLeaderAdapter = ArrayAdapter<GetLeaderResponce.DataBean>(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityLeaderList)
-        spinnFeeTypeAdapter = ArrayAdapter<String>(this@NewActivities, R.layout.spinner_item, R.id.spinnText, feestypeList)
-        spinnActivityClubAdapter = ArrayAdapter<GetMyClubResponce.DataBean>(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityMyClubList)
+        spinnActivityLeaderAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityLeaderList)
+        spinnFeeTypeAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, feestypeList)
+        spinnActivityClubAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityMyClubList)
 
         spinnerClub.adapter = spinnActivityClubAdapter
         spinnerLeader.adapter = spinnActivityLeaderAdapter
-        spinnerFeesType.adapter = spinnFeeTypeAdapter
+        spinnerFeesType.adapter = this.spinnFeeTypeAdapter
 
 
         autocompleteFragment = fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
@@ -137,12 +136,12 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
         fees.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                val str = fees.getText().toString()
+                val str = fees.text.toString()
                 if (str.isEmpty()) return
-                val str2 = PerfectDecimal(str, 5, 2)
+                val str2 = perfectDecimal(str, 5, 2)
                 if (str2 != str) {
                     fees.setText(str2)
-                    val pos = fees.getText().length
+                    val pos = fees.text.length
                     fees.setSelection(pos)
                 }
             }
@@ -157,45 +156,45 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
         })
 
-        spinnerLeader.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        spinnerLeader.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (p2 == 0) {
-                    activityLeader = ""
-                } else {
-                    activityLeader = activityLeaderList!![p2].userId!!
-                }
+                activityLeader = if (p2 == 0) ""  else activityLeaderList!![p2].userId!!
             }
-        })
+        }
 
         spinnerFeesType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) =
-                    if (p2 == 0) {
-                        feesType = ""
-                        fees.isEnabled = true
-                        /*fees.setFocusable(true)
-                        fees.setClickable(true)*/
-                    } else if (p2 == 3) {
-                        /*fees.setFocusable(false)
-                        fees.setClickable(true)*/
-                        fees.isEnabled = false
-                        feesType = feestypeList!![p2]
-                        fees.setText("")
-                    } else {
-                        feesType = feestypeList!![p2]
-                        fees.isEnabled = true
-                        /*fees.setFocusable(true)
-                        fees.setClickable(true)*/
+                    when (p2) {
+                        0 -> {
+                            feesType = ""
+                            fees.isEnabled = true
+                            /*fees.setFocusable(true)
+                                    fees.setClickable(true)*/
+                        }
+                        3 -> {
+                            /*fees.setFocusable(false)
+                                    fees.setClickable(true)*/
+                            fees.isEnabled = false
+                            feesType = feestypeList!![p2]
+                            fees.setText("")
+                        }
+                        else -> {
+                            feesType = feestypeList!![p2]
+                            fees.isEnabled = true
+                            /*fees.setFocusable(true)
+                                    fees.setClickable(true)*/
+                        }
                     }
         }
-        spinnerClub.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        spinnerClub.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
@@ -206,10 +205,10 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                     spinnActivityLeaderAdapter!!.notifyDataSetChanged()
                 } else {
                     clubId = activityMyClubList!![p2].clubId!!
-                    getLeaders(clubId);
+                    getLeaders(clubId)
                 }
             }
-        })
+        }
         imageLay.setOnClickListener(this@NewActivities)
         back_f.setOnClickListener(this@NewActivities)
         done.setOnClickListener(this@NewActivities)
@@ -237,60 +236,56 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
     }
 
-    fun permissionPopUp() {
+    private fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(this, R.style.popstyle)
         val popupMenu = PopupMenu(wrapper, imgActivity, Gravity.CENTER)
-        popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())
-        popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem): Boolean {
-                isCameraSelected = true
-                when (item.getItemId()) {
-                    R.id.pop1 -> if (Build.VERSION.SDK_INT >= 23) {
-                        if (this@NewActivities.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            callIntent(Constants.INTENTREQUESTCAMERA)
-                        } else if (this@NewActivities.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            callIntent(Constants.INTENTREQUESTREAD)
-                        } else {
-                            callIntent(Constants.INTENTCAMERA)
-                        }
-                    } else {
-                        callIntent(Constants.INTENTCAMERA)
+        popupMenu.menuInflater.inflate(R.menu.popupmenu, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { item ->
+            isCameraSelected = true
+            when (item.itemId) {
+                R.id.pop1 -> if (Build.VERSION.SDK_INT >= 23) {
+                    when {
+                        this@NewActivities.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED -> callIntent(Constants.INTENTREQUESTCAMERA)
+                        this@NewActivities.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED -> callIntent(Constants.INTENTREQUESTREAD)
+                        else -> callIntent(Constants.INTENTCAMERA)
                     }
-                    R.id.pop2 -> if (Build.VERSION.SDK_INT >= 23) {
-                        isCameraSelected = false
-                        if (this@NewActivities.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            callIntent(Constants.INTENTREQUESTREAD)
-                        } else {
-                            callIntent(Constants.INTENTGALLERY)
-                        }
+                } else {
+                    callIntent(Constants.INTENTCAMERA)
+                }
+                R.id.pop2 -> if (Build.VERSION.SDK_INT >= 23) {
+                    isCameraSelected = false
+                    if (this@NewActivities.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        callIntent(Constants.INTENTREQUESTREAD)
                     } else {
                         callIntent(Constants.INTENTGALLERY)
                     }
+                } else {
+                    callIntent(Constants.INTENTGALLERY)
                 }
-                return false
             }
-        })
+            false
+        }
         popupMenu.show()
     }
 
 
-    fun callIntent(caseid: Int) {
+    private fun callIntent(caseid: Int) {
 
         when (caseid) {
             Constants.INTENTCAMERA -> {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                var file = File(Environment.getExternalStorageDirectory().toString() + File.separator + "image.jpg");
+                val file = File(Environment.getExternalStorageDirectory().toString() + File.separator + "image.jpg")
                 imageUri =
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             FileProvider.getUriForFile(this@NewActivities, BuildConfig.APPLICATION_ID + ".provider", file)
                         } else {
                             Uri.fromFile(file)
                         }
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//USE file code in_ this case
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)//USE file code in_ this case
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-                ImagePicker.pickImage(this@NewActivities);
+                ImagePicker.pickImage(this@NewActivities)
                 // com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
             }
             Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this@NewActivities, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -311,18 +306,18 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
         when (requestCode) {
             Constants.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (!isCameraSelected) callIntent(Constants.INTENTGALLERY)
                 } else {
                     Toast.makeText(this@NewActivities, R.string.a_permission_denied, Toast.LENGTH_LONG).show()
                 }
             }
-            Constants.MY_PERMISSIONS_REQUEST_CAMERA -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Constants.MY_PERMISSIONS_REQUEST_CAMERA -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (isCameraSelected) callIntent(Constants.INTENTCAMERA)
             } else {
                 Toast.makeText(this@NewActivities, R.string.a_camera_denied, Toast.LENGTH_LONG).show()
             }
-            Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (!isCameraSelected) callIntent(Constants.INTENTGALLERY) else callIntent(Constants.INTENTCAMERA)
             } else {
                 Toast.makeText(this@NewActivities, R.string.a_permission_read, Toast.LENGTH_LONG).show()
@@ -336,7 +331,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
-                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@NewActivities, requestCode, resultCode, data);
+                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@NewActivities, requestCode, resultCode, data)
                 if (imageUri != null) {
                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@NewActivities)
                 } else {
@@ -352,10 +347,10 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                var result: CropImage.ActivityResult = CropImage.getActivityResult(data)
+                val result: CropImage.ActivityResult = CropImage.getActivityResult(data)
                 try {
                     if (result != null)
-                        activityImage = MediaStore.Images.Media.getBitmap(this@NewActivities.getContentResolver(), result.getUri())
+                        activityImage = MediaStore.Images.Media.getBitmap(this@NewActivities.contentResolver, result.uri)
 
                     if (activityImage != null) {
                         imgActivity.setImageBitmap(activityImage)
@@ -368,7 +363,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         isCameraSelected = false
     }
 
-    fun PerfectDecimal(str: String, MAX_BEFORE_POINT: Int, MAX_DECIMAL: Int): String {
+    fun perfectDecimal(str: String, MAX_BEFORE_POINT: Int, MAX_DECIMAL: Int): String {
         var str = str
         if (str[0] == '.') str = "0" + str
         val max = str.length
@@ -381,7 +376,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         var t: Char
         while (i < max) {
             t = str[i]
-            if (t != '.' && after == false) {
+            if (t != '.' && !after) {
                 up++
                 //  if (up > MAX_BEFORE_POINT) return rFinal;
             } else if (t == '.') {
@@ -391,13 +386,13 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 if (decimal > MAX_DECIMAL)
                     return rFinal
             }
-            rFinal = rFinal + t
+            rFinal += t
             i++
         }
         return rFinal
     }
 
-    fun validator(): Boolean {
+    private fun validator(): Boolean {
 
         if (activityName.text.toString().isBlank()) {
             Util.showSnake(this, mainLayout!!, R.string.a_actnme)
@@ -423,7 +418,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             Util.showSnake(this, mainLayout!!, R.string.a_actFeesType)
             return false
         }
-        if (!feesType.equals("Free")) {
+        if (feesType != "Free") {
             if (fees.text.toString().isBlank()) {
                 Util.showSnake(this, mainLayout!!, R.string.a_actfee)
                 return false
@@ -452,144 +447,130 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         return true
     }
 
-    fun getClub() {
+    private fun getClub() {
         val dialog = CusDialogProg(this@NewActivities)
         dialog.show()
-        val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_my_club, object : Response.Listener<NetworkResponse> {
-            override fun onResponse(response: NetworkResponse) {
-                val data = String(response.data)
-                Util.e("data", data)
-                dialog.dismiss()
-                //{"status":"success","message":"Club added successfully"}
-                try {
-                    val obj = JSONObject(data)
-                    if (obj.getString("status").equals("success")) {
-                        /* Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
-                        var clubResponce: GetMyClubResponce = Gson().fromJson(data, GetMyClubResponce::class.java)
-                        for (dataBean in clubResponce.getData()!!) {
-                            activityMyClubList!!.add(dataBean)
-                        }
-                        spinnActivityLeaderAdapter!!.notifyDataSetChanged()
-                    } else {
-                        /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
+        val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_my_club, Response.Listener<NetworkResponse> { response ->
+            val data = String(response.data)
+            Util.e("data", data)
+            dialog.dismiss()
+            //{"status":"success","message":"Club added successfully"}
+            try {
+                val obj = JSONObject(data)
+                if (obj.getString("status") == "success") {
+                    val clubResponce: GetMyClubResponce = Gson().fromJson(data, GetMyClubResponce::class.java)
+                    for (dataBean in clubResponce.getData()!!) {
+                        activityMyClubList?.add(dataBean)
                     }
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                    Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()
+                    spinnActivityLeaderAdapter!!.notifyDataSetChanged()
+                } else {
+                    /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
                 }
-                dialog.dismiss()
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()
             }
-        }, object : Response.ErrorListener {
-            override fun onErrorResponse(error: VolleyError) {
-                dialog.dismiss()
-                Toast.makeText(this@NewActivities, "Something went wrong", Toast.LENGTH_LONG).show()
-            }
+            dialog.dismiss()
+        }, Response.ErrorListener {
+            dialog.dismiss()
+            Toast.makeText(this@NewActivities, "Something went wrong", Toast.LENGTH_LONG).show()
         }) {
 
             override fun getHeaders(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
-                //  params.put("language", SessionManager.getObj().getLanguage())
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["authToken"] = ClubZ.currentUser!!.auth_token
                 return params
             }
         }
-        request.setRetryPolicy(DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+        request.retryPolicy = DefaultRetryPolicy(10000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         ClubZ.instance.addToRequestQueue(request)
     }
 
     fun getLeaders(clubId: String) {
         val dialog = CusDialogProg(this@NewActivities)
         dialog.show()
-        val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_leaders + clubId + "&limit=&offset=", object : Response.Listener<NetworkResponse> {
-            override fun onResponse(response: NetworkResponse) {
-                val data = String(response.data)
-                Util.e("data", data)
-                dialog.dismiss()
-                try {
-                    val obj = JSONObject(data)
-                    if (obj.getString("status").equals("success")) {
-                        /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
-                        var leaderResponce: GetLeaderResponce = Gson().fromJson(data, GetLeaderResponce::class.java)
-                        for (dataBean in leaderResponce.getData()!!) {
-                            activityLeaderList!!.add(dataBean)
-                        }
-                        spinnActivityLeaderAdapter!!.notifyDataSetChanged()
-                    } else {
-                        /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
+        val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_leaders + clubId + "&limit=&offset=", Response.Listener<NetworkResponse> { response ->
+            val data = String(response.data)
+            Util.e("data", data)
+            dialog.dismiss()
+            try {
+                val obj = JSONObject(data)
+                if (obj.getString("status") == "success") {
+                    /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
+                    val leaderResponce: GetLeaderResponce = Gson().fromJson(data, GetLeaderResponce::class.java)
+                    for (dataBean in leaderResponce.getData()!!) {
+                        activityLeaderList!!.add(dataBean)
                     }
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                    Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()
+                    spinnActivityLeaderAdapter!!.notifyDataSetChanged()
+                } else {
+                    /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
                 }
-                dialog.dismiss()
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()
             }
-        }, object : Response.ErrorListener {
-            override fun onErrorResponse(error: VolleyError) {
-                dialog.dismiss()
-                Toast.makeText(this@NewActivities, "Something went wrong", Toast.LENGTH_LONG).show()
-            }
+            dialog.dismiss()
+        }, Response.ErrorListener {
+            dialog.dismiss()
+            Toast.makeText(this@NewActivities, "Something went wrong", Toast.LENGTH_LONG).show()
         }) {
 
             override fun getHeaders(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
                 //  params.put("language", SessionManager.getObj().getLanguage())
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }
         }
-        request.setRetryPolicy(DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+        request.retryPolicy = DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         ClubZ.instance.addToRequestQueue(request)
     }
 
-    fun createActivities() {
+    private fun createActivities() {
         val dialog = CusDialogProg(this@NewActivities)
         dialog.show()
-        val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.create_activity, object : Response.Listener<NetworkResponse> {
-            override fun onResponse(response: NetworkResponse) {
-                val data = String(response.data)
-                Util.e("data", data)
-                dialog.dismiss()
-                //{"status":"success","message":"Club added successfully"}
-                try {
-                    val obj = JSONObject(data)
-                    val status=obj.getString("status")
-                    if (status.equals("success")) {
-                        Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
-                        val activityDetails = Gson().fromJson(data, ActivityDetailsResponce::class.java);
-                        createFeedInFireBase(activityDetails)
-                    } else {
-                        Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
-                    }
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                    Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()
+        val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.create_activity, Response.Listener<NetworkResponse> { response ->
+            val data = String(response.data)
+            Util.e("data", data)
+            dialog.dismiss()
+            //{"status":"success","message":"Club added successfully"}
+            try {
+                val obj = JSONObject(data)
+                val status=obj.getString("status")
+                if (status == "success") {
+                    Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
+                    val activityDetails = Gson().fromJson(data, ActivityDetailsResponce::class.java)
+                    createFeedInFireBase(activityDetails)
+                } else {
+                    Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
                 }
-                dialog.dismiss()
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()
             }
-        }, object : Response.ErrorListener {
-            override fun onErrorResponse(error: VolleyError) {
-                dialog.dismiss()
-                Toast.makeText(this@NewActivities, "Something went wrong", Toast.LENGTH_LONG).show()
-            }
+            dialog.dismiss()
+        }, Response.ErrorListener {
+            dialog.dismiss()
+            Toast.makeText(this@NewActivities, "Something went wrong", Toast.LENGTH_LONG).show()
         }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
-                params.put("name", activityName.text.toString())
-                params.put("leaderId", activityLeader)
-                params.put("location", activityLocation.text.toString())
-                params.put("latitude", latitute)
-                params.put("longitude", longitute)
-                params.put("feeType", feesType)
-                params.put("fee", fees.text.toString())
-                params.put("minUsers", minUser.text.toString())
-                params.put("maxUsers", maxUser.text.toString())
-                params.put("description", genDescription.text.toString())
-                params.put("termsConditions", termNConditionTxt.text.toString())
-                params.put("clubId", clubId)
+                params["name"] = activityName.text.toString()
+                params["leaderId"] = activityLeader
+                params["location"] = activityLocation.text.toString()
+                params["latitude"] = latitute
+                params["longitude"] = longitute
+                params["feeType"] = feesType
+                params["fee"] = fees.text.toString()
+                params["minUsers"] = minUser.text.toString()
+                params["maxUsers"] = maxUser.text.toString()
+                params["description"] = genDescription.text.toString()
+                params["termsConditions"] = termNConditionTxt.text.toString()
+                params["clubId"] = clubId
                 if (TextUtils.isEmpty(usrerole.text.toString())) {
-                    params.put("userRole", "admin")
+                    params["userRole"] = "admin"
                 } else {
-                    params.put("userRole", usrerole.text.toString())
+                    params["userRole"] = usrerole.text.toString()
                 }
                 Util.e("parms create", params.toString())
                 return params
@@ -599,7 +580,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             override fun getByteData(): MutableMap<String, DataPart>? {
                 val params = java.util.HashMap<String, DataPart>()
                 if (activityImage != null) {
-                    params.put("image", DataPart("activity_image.jpg", AppHelper.getFileDataFromDrawable(activityImage), "image"))
+                    params["image"] = DataPart("activity_image.jpg", AppHelper.getFileDataFromDrawable(activityImage), "image")
                 }
                 return params
             }
@@ -607,25 +588,25 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             override fun getHeaders(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
                 //  params.put("language", SessionManager.getObj().getLanguage())
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }
         }
-        request.setRetryPolicy(DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+        request.retryPolicy = DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         ClubZ.instance.addToRequestQueue(request)
     }
 
     private fun createFeedInFireBase(activityDetails: ActivityDetailsResponce) {
         val activityBean = ActivityBean()
-        activityBean.activityId = activityDetails?.getDetails()?.activityId
-        activityBean.activityTitle = activityDetails?.getDetails()?.name
-        activityBean.activityImage = activityDetails?.getDetails()?.image
-        activityBean.clubId = activityDetails?.getDetails()?.clubId
+        activityBean.activityId = activityDetails.getDetails()?.activityId
+        activityBean.activityTitle = activityDetails.getDetails()?.name
+        activityBean.activityImage = activityDetails.getDetails()?.image
+        activityBean.clubId = activityDetails.getDetails()?.clubId
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_ACTIVITIES)
-                .child(activityDetails?.getDetails()?.clubId)
-                .child(activityDetails?.getDetails()?.activityId)
+                .child(activityDetails.getDetails()?.clubId)
+                .child(activityDetails.getDetails()?.activityId)
                 .setValue(activityBean).addOnCompleteListener {
                     finish()
                 }

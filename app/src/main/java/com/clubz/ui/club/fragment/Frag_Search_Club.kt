@@ -111,7 +111,7 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
     }*/
 
     override fun onDestroy() {
-        (activity as HomeActivity).filterListner = null
+        //(activity as HomeActivity).filterListner = null
         super.onDestroy()
     }
 
@@ -191,7 +191,7 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
     fun checkLocation(p0: String = ""){
         isMyClubs = false;
         text_top?.text = getString(R.string.near_club)
-        val permission = Permission(activity,context)
+        val permission = Permission(activity)
         if(!permission.checkLocationPermission()) return
         val activity = (activity as HomeActivity)
                     if (ClubZ.latitude ==0.0 && ClubZ.longitude==0.0  && permission.askForGps()){ val al_dialog : Cus_dialog_material_design  = object : Cus_dialog_material_design(context!!){

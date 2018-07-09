@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +17,6 @@ import com.clubz.utils.VolleyGetPost
 import kotlinx.android.synthetic.main.frag_sign_up_one_2.*
 import android.view.inputmethod.EditorInfo
 import android.widget.ScrollView
-import android.widget.TextView
-import android.widget.Toast
-import com.clubz.ClubZ
 import com.clubz.ui.main.HomeActivity
 import com.clubz.helper.sms_reciver.OnSmsCatchListener
 import com.clubz.helper.sms_reciver.SmsVerifyCatcher
@@ -29,17 +25,24 @@ import com.clubz.data.model.User
 import com.google.gson.Gson
 import org.json.JSONObject
 import java.lang.Exception
+import java.util.regex.Pattern
 
 /**
  * Created by mindiii on 2/6/18.
  */
-class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener {
+class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsCatchListener<String>{
 
     lateinit var _otp : String
     lateinit var _contact : String
     lateinit var _code : String
     var _isnewuser : Boolean = false
+    private lateinit var smsverify : SmsVerifyCatcher
     //ClubZ- Your PIN for registration is: 4567
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        smsverify = SmsVerifyCatcher(activity as SignupActivity, this, this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.frag_sign_up_one_2, null)
@@ -48,15 +51,6 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         confirm.setOnClickListener(this)
-
-        val smsverify = SmsVerifyCatcher(activity as SignupActivity, this,object :OnSmsCatchListener<String> {
-            override fun onSmsCatch(message: String?) {
-                if(message!!.contains(resources.getString(R.string.app_name))){
-                    confirmation_code.setText(message.replace(resources.getString(R.string.club_code_sms),"").trim())
-                }//Util.showToast(message!!,context);
-            }
-        })
-        smsverify.onStart()
         Util.showToast(_otp+" : This message is Temporary ", context)
 
        // confirmation_code.setText(_otp)
@@ -68,20 +62,44 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener {
             }
         })
 
-        confirmation_code.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                return if (p1 == EditorInfo.IME_ACTION_DONE) {
-                    confirm.callOnClick()
-                    true
-                } else true
-            }
-        })
+        confirmation_code.setOnEditorActionListener { p0, p1, p2 ->
+            if (p1 == EditorInfo.IME_ACTION_DONE) {
+                confirm.callOnClick()
+                true
+            } else true
+        }
 
         mainLayout.setListener(this)
     }
 
     override fun getScrollView(): ScrollView {
         return scrollView
+    }
+
+    override fun onSmsCatch(message: String?) {
+        if(!message.isNullOrBlank() && message!!.contains(resources.getString(R.string.app_name))){
+            val otpCode = parseCode(message)
+            if(otpCode.isNotEmpty()){
+                confirmation_code.setText(otpCode)
+                confirm.callOnClick()
+            }
+        }
+
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        smsverify.onRequestPermissionsResult(requestCode,permissions, grantResults)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        smsverify.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        smsverify.onStop()
     }
 
     override fun onClick(p0: View?) {
@@ -158,5 +176,19 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener {
         }.execute()
     }
 
-
+    /**
+     * Parse verification code
+     *
+     * @param message sms message
+     * @return only four numbers from massage string
+     */
+    private fun parseCode(message: String): String {
+        val p = Pattern.compile("\\b\\d{4}\\b")
+        val m = p.matcher(message)
+        var code = ""
+        while (m.find()) {
+            code = m.group(0)
+        }
+        return code
+    }
 }

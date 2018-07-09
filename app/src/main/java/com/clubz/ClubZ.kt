@@ -28,19 +28,28 @@ class ClubZ  : Application() {
         var currentUser: User? = null
         var isNeedToUpdateNewsFeed = false
         var isPrivate: Int = 0
+
+        fun clearVirtualSession(){
+            latitude = 0.toDouble()
+            longitude = 0.toDouble()
+            city = ""
+            currentUser = null
+            isNeedToUpdateNewsFeed = true
+            isPrivate = 0
+        }
     }
 
     fun getClubType() : Int{
         return isPrivate
     }
 
-    fun getCurrentUser(): User?{
+    /*fun getCurrentUser(): User?{
         return currentUser
     }
 
     fun setCurrentUser(user: User){
          currentUser = user
-    }
+    }*/
 
     var mRequestQueue: RequestQueue? = null
 

@@ -96,6 +96,8 @@ public class SessionManager {
 
     public void setLocation(UserLocation location){
         if(location!=null){
+            /*ClubZ.Companion.setLatitude(location.getLatitude());
+            ClubZ.Companion.setLongitude(location.getLongitude());*/
             Gson gson = new Gson();
             editor.putString(Constants._userLastLocation, gson.toJson(location));
             editor.apply();
@@ -109,14 +111,17 @@ public class SessionManager {
     public void logout(Activity activity){
         editor.clear();
         editor.apply();
-        Intent intent = new Intent(activity , SignupActivity.class);
-        activity.startActivity(intent);
+        ClubZ.Companion.clearVirtualSession();
+        Intent i = new Intent(activity , SignupActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activity.startActivity(i);
         activity.finish();
     }
 
     public void logout(Context context){
         editor.clear();
         editor.apply();
+        ClubZ.Companion.clearVirtualSession();
         Intent i = new Intent(context , SignupActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(i);
