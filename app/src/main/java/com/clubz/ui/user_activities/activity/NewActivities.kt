@@ -57,7 +57,7 @@ import java.io.IOException
 class NewActivities : BaseActivity(), View.OnClickListener {
 
     private var spinnActivityLeaderAdapter: ArrayAdapter<GetLeaderResponce.DataBean>? = null
-    private var spinnActivityClubAdapter: ArrayAdapter<GetMyClubResponce.DataBean>? = null
+    //private var spinnActivityClubAdapter: ArrayAdapter<GetMyClubResponce.DataBean>? = null
     private var spinnFeeTypeAdapter: ArrayAdapter<String>? = null
     private var activityLeaderList: ArrayList<GetLeaderResponce.DataBean>? = null
     private var activityMyClubList: ArrayList<GetMyClubResponce.DataBean>? = null
@@ -79,8 +79,14 @@ class NewActivities : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_activities)
+
+        let {
+            if(intent.hasExtra("clubId"))  clubId = intent.extras.getString("clubId")
+        }
+
         initializeView()
-        getClub()
+        //getClub()
+        getLeaders(clubId)
     }
 
     private fun initializeView() {
@@ -112,9 +118,9 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
         spinnActivityLeaderAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityLeaderList)
         spinnFeeTypeAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, feestypeList)
-        spinnActivityClubAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityMyClubList)
+        //spinnActivityClubAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityMyClubList)
 
-        spinnerClub.adapter = spinnActivityClubAdapter
+        //spinnerClub.adapter = spinnActivityClubAdapter
         spinnerLeader.adapter = spinnActivityLeaderAdapter
         spinnerFeesType.adapter = this.spinnFeeTypeAdapter
 
@@ -194,7 +200,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                         }
                     }
         }
-        spinnerClub.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        /*spinnerClub.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
@@ -208,7 +214,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                     getLeaders(clubId)
                 }
             }
-        }
+        }*/
         imageLay.setOnClickListener(this@NewActivities)
         back_f.setOnClickListener(this@NewActivities)
         done.setOnClickListener(this@NewActivities)
@@ -447,7 +453,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         return true
     }
 
-    private fun getClub() {
+   /* private fun getClub() {
         val dialog = CusDialogProg(this@NewActivities)
         dialog.show()
         val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_my_club, Response.Listener<NetworkResponse> { response ->
@@ -464,7 +470,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                     }
                     spinnActivityLeaderAdapter!!.notifyDataSetChanged()
                 } else {
-                    /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
+                    *//*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*//*
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
@@ -484,7 +490,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         }
         request.retryPolicy = DefaultRetryPolicy(10000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         ClubZ.instance.addToRequestQueue(request)
-    }
+    }*/
 
     fun getLeaders(clubId: String) {
         val dialog = CusDialogProg(this@NewActivities)

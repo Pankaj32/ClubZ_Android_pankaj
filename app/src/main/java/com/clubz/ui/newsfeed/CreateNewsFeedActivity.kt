@@ -14,12 +14,12 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.PopupMenu
 import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.android.volley.*
 import com.clubz.BuildConfig
@@ -32,7 +32,6 @@ import com.clubz.data.model.Feed
 import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
-import com.clubz.ui.core.ClubNameListActivity
 import com.clubz.ui.cv.ChipView
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.newsfeed.adapter.AdapterAutoTextView
@@ -51,7 +50,7 @@ import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 
-class CreateNewsFeedActivity : ClubNameListActivity(), View.OnClickListener, AdapterView.OnItemClickListener {
+class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemClickListener {
 
     private var userRole: String? = "Admin"
     private var feedTitle: String? = null
@@ -70,7 +69,7 @@ class CreateNewsFeedActivity : ClubNameListActivity(), View.OnClickListener, Ada
         setContentView(R.layout.activity_create_news_feed)
 
         run {
-            if (intent.extras != null) clubId = intent.extras.getString("clubId")
+            if (intent.hasExtra("clubId")) clubId = intent.extras.getString("clubId")
             if (intent.hasExtra("feed")) feed = intent.extras.getSerializable("feed") as Feed
         }
 
@@ -120,15 +119,14 @@ class CreateNewsFeedActivity : ClubNameListActivity(), View.OnClickListener, Ada
 
         if (feed != null){
             updateViewIntoEditableMode()
-
-        } else if(clubId.isNullOrBlank()) {
+        }/* else if(clubId.isNullOrBlank()) {
             divider_view.visibility = View.VISIBLE
             ll_clubList.visibility = View.VISIBLE
             getAllMyClubList()
-        }
+        }*/
     }
 
-    override fun refreshSpinner() {
+   /* override fun refreshSpinner() {
         // Create an ArrayAdapter using a simple spinner layout and languages array
         val aa = ArrayAdapter(this, R.layout.spinner_item, R.id.spinnText, clubList)
         // Set layout to use when the list of choices appear
@@ -139,10 +137,10 @@ class CreateNewsFeedActivity : ClubNameListActivity(), View.OnClickListener, Ada
         spn_clubList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(p0: AdapterView<*>?) { }
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                clubId = clubList[p2].clubId
+                clubId = clubList[p2].clubId.toString()
             }
         }
-    }
+    }*/
 
     private fun addTag(tag: String) {
         if (!TextUtils.isEmpty(tag)) {

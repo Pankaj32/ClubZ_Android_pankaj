@@ -26,20 +26,20 @@ import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.chat.model.UserBean
 import com.clubz.chat.util.ChatUtil
-import com.clubz.ui.core.FilterListner
+import com.clubz.data.local.db.repo.ClubNameRepo
 import com.clubz.ui.newsfeed.fragment.FragNewsList
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
-import com.clubz.data.model.Address
-import com.clubz.data.model.DialogMenu
-import com.clubz.data.model.Profile
-import com.clubz.data.model.UserLocation
+import com.clubz.data.model.*
+import com.clubz.data.remote.AppAsnycTask
 import com.clubz.data.remote.GioAddressTask
 import com.clubz.ui.ads.fragment.AdsFragment
 import com.clubz.ui.chat.ChatFragment
 import com.clubz.ui.club.ClubCreationActivity
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.club.fragment.FragMyClubs
+import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.dialogs.ClubSelectionDialog
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.profile.ContactListActivity
 import com.clubz.ui.profile.ProfileActivity
@@ -72,9 +72,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     private var doublebackpress: Boolean = false
     private var lastDrawerGravity :Int= Gravity.START
 
-    //var filterListner: FilterListner? = null
-    //var textChnageListner: Textwatcher_Statusbar? = null
-
     private  var isGPSEnabled = false       // flag for GPS status
     private  var isNetworkEnabled = false   // flag for network status
 
@@ -84,7 +81,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     private lateinit var mGoogleApiClient: GoogleApiClient
     private lateinit var sessionManager: SessionManager // user session
 
-    // filter for news feed page
+    // filter variables for news feed page
     private var like = false
     private var comment = false
     private var club = false
@@ -112,9 +109,8 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         initView()  // ui variables initialization and update
         updateFirebaseToken()
         replaceFragment(FragNewsList())
-
-        val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout, toolbar,// R.drawable.ic_menu_black_24dp
-                R.string.drawer_open, R.string.drawer_close) {
+        // setup navigation drawer
+        val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             override fun onDrawerClosed(view: View) {
                 isRightNavDrawerOpen = false
                 ClubZ.isPrivate = 0
@@ -132,6 +128,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             override fun onDrawerOpened(drawerView: View) {
                 invalidateOptionsMenu()
                 isRightNavDrawerOpen = true
+
                 if(drawerView.id== R.id.drawerView2){
                     val far = supportFragmentManager.findFragmentById(R.id.fragment2) as FragMyClubs
                     setActionbarMenu(far)
@@ -156,20 +153,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
         mDrawerLayout.addDrawerListener(mDrawerToggle)
         mDrawerLayout.setScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
-
-        /*search_text.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                if (textChnageListner != null) {
-                    textChnageListner!!.afterchangeText(p0)
-                    search_text.isCursorVisible = true
-                }
-            }
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                search_back_icon.visibility = if(p0!!.isNotEmpty()) View.GONE else View.VISIBLE
-            }
-        })*/
-
         DrawerMarginFixer.fixMinDrawerMargin(mDrawerLayout)
     }
 
@@ -237,13 +220,89 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     /*
     * @Navigate Intent
     * */
-
     override fun navigateCreateNewsFeed() {
-        startActivity(Intent(this@HomeActivity, CreateNewsFeedActivity::class.java))
+
+        if(SessionManager.getObj().update.needToUpdateMyClubs){
+            val dialog = CusDialogProg(this@HomeActivity )
+            dialog.show()
+            val task = AppAsnycTask()
+            task.listener = object : AppAsnycTask.Listener{
+                override fun onProgressCancel() {
+                    dialog.dismiss()
+                }
+
+                override fun onProgressDone() {
+                    dialog.dismiss()
+                    navigateCreateNewsFeed()
+                }
+            }
+            task.syncAppData()
+        }else {
+
+            val clubList = ClubNameRepo().getAllClubs()
+            when(clubList.size){
+                0-> { showToast("Please create your club first.") }
+                1-> { startActivity(Intent(this@HomeActivity, CreateNewsFeedActivity::class.java).putExtra("clubId", clubList[0].clubId.toString())) }
+                else -> {
+                    object : ClubSelectionDialog(this@HomeActivity, clubList) {
+                        override fun onClubSelect(clubName: ClubName) {
+                            startActivity(Intent(this@HomeActivity, CreateNewsFeedActivity::class.java)
+                                    .putExtra("clubId", clubName.clubId.toString()))
+                            dismiss()
+                        }
+                    }.show()
+                }
+            }
+
+
+         /*   if(clubList.size>0){
+                object : ClubSelectionDialog(this@HomeActivity, clubList) {
+                    override fun onClubSelect(clubName: ClubName) {
+                        startActivity(Intent(this@HomeActivity, CreateNewsFeedActivity::class.java)
+                                .putExtra("clubId", clubName.clubId.toString()))
+                        dismiss()
+                    }
+                }.show()
+            }else showToast("Please create your club first.")*/
+        }
     }
 
     override fun navigateCreateActivity() {
-        startActivity(Intent(this@HomeActivity, NewActivities::class.java))
+
+        if(SessionManager.getObj().update.needToUpdateMyClubs){
+            val dialog = CusDialogProg(this@HomeActivity )
+            dialog.show()
+            val task = AppAsnycTask()
+            task.listener = object : AppAsnycTask.Listener{
+                override fun onProgressCancel() {
+                    dialog.dismiss()
+                }
+
+                override fun onProgressDone() {
+                    dialog.dismiss()
+                    // self call for reload UI with updated database
+                    navigateCreateActivity()
+                }
+            }
+            task.syncAppData()
+        }else {
+            val clubList = ClubNameRepo().getAllClubs()
+
+            when(clubList.size){
+                0-> { showToast("Please create your club first.") }
+                1-> { startActivity(Intent(this@HomeActivity, NewActivities::class.java).putExtra("clubId", clubList[0].clubId.toString())) }
+                else -> {
+                    object : ClubSelectionDialog(this@HomeActivity, clubList) {
+                        override fun onClubSelect(clubName: ClubName) {
+                            startActivity(Intent(this@HomeActivity, NewActivities::class.java)
+                                    .putExtra("clubId", clubName.clubId.toString()))
+                            dismiss()
+                        }
+                    }.show()
+                }
+            }
+        }
+       // startActivity(Intent(this@HomeActivity, NewActivities::class.java))
     }
 
     override fun navigateMyActivity() {
@@ -638,7 +697,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     }
 
    private fun getCurrentFragment(): Fragment? {
-       val    fragments = supportFragmentManager.fragments
+        val fragments = supportFragmentManager.fragments
         return fragments[fragments.size - 1]
         //return supportFragmentManager.findFragmentById(R.id.frag_container)
     }

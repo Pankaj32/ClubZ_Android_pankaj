@@ -22,7 +22,7 @@
         />
     <TextView
         android:id="@+id/title_t"
-        android:layout_width="@dimen/_250sdp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:text="@string/a_internet_title"
@@ -31,7 +31,8 @@
         android:lineSpacingExtra="@dimen/_minus10sdp"
         android:layout_below="@+id/top_primary"
         android:layout_margin="@dimen/_24sdp"
-        android:fontFamily="@font/teko_semibold"/>
+        android:fontFamily="@font/teko_semibold"
+        android:layout_centerHorizontal="true"/>
 
 
 
@@ -47,6 +48,7 @@
         android:textSize="@dimen/_12sdp"
         android:fontFamily="@font/roboto_regular"
         android:lineSpacingExtra="@dimen/_5sdp"
+        android:layout_centerHorizontal="true"
         android:text="@string/a_internet_body"/>
 
     <View

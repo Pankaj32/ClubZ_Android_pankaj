@@ -2,8 +2,19 @@ package com.clubz.data.model
 
 class ClubName {
 
-    var clubId: String? = null
+    companion object {
+        val TAG = ClubName::class.java.simpleName
+        val TABLE = "MyClubs"
+
+        // Labels Table Columns names
+        val KEY_ClubID = "clubId"
+        val KEY_ClubName = "clubName"
+
+    }
+
+    var clubId: Int? = null
     var club_name: String? = null
+    var isSelected = false
 
     override fun toString(): String {
         return club_name.toString()

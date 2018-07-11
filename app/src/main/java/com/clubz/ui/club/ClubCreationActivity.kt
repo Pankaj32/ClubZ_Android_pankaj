@@ -27,7 +27,9 @@ import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.chat.model.ClubBean
 import com.clubz.chat.util.ChatUtil
+import com.clubz.data.local.db.repo.ClubNameRepo
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.ClubName
 import com.clubz.data.model.Club_Category
 import com.clubz.data.remote.WebService
 import com.clubz.helper.Type_Token
@@ -260,9 +262,8 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                                 image_icon.setImageBitmap(CircleTransform_NoRecycle().transform(clubIcon))
                             }
                         }
-                        else
-                        {    clubImage = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, result.uri)
-
+                        else {
+                            clubImage = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, result.uri)
 
                             if (clubImage != null) {
                                 img_club.setImageBitmap(clubImage)
@@ -312,6 +313,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         })
         popupMenu.show()
     }
+
     fun callIntent(caseid: Int) {
 
         when (caseid) {
@@ -368,7 +370,6 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
     }
 
     private fun crateClub() {
-        val activity = this@ClubCreationActivity
         val dialog = CusDialogProg(this@ClubCreationActivity)
         dialog.show()
         val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.crate_club,object : Response.Listener<NetworkResponse> {
@@ -380,9 +381,22 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 try {
                     val obj = JSONObject(data)
                     if (obj.getString("status").equals("success")) {
-                        var clubDetails = Gson().fromJson(data, ClubDetails::class.java)
+
+                        //set tag for database sync
+                       /* val updateAsync = SessionManager.getObj().update
+                        updateAsync.needToUpdateMyClubs = true
+                        SessionManager.getObj().setUpdateAppData(updateAsync)*/
+
+                        val clubDetails = Gson().fromJson(data, ClubDetails::class.java)
+
+                        //insert club into local db
+                        val tmp  = ClubName()
+                        tmp.clubId = clubDetails?.getClubDetail()?.clubId?.toInt()
+                        tmp.club_name = clubDetails?.getClubDetail()?.club_name
+                        ClubNameRepo().insert(tmp)
+                        setResult(Activity.RESULT_OK)
                         createClubInFairBase(clubDetails)
-                        Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
+                        //Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
                         finish()
                     } else {
                         Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
@@ -393,11 +407,9 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 }
                 dialog.dismiss()
             }
-        }, object : Response.ErrorListener {
-            override fun onErrorResponse(error: VolleyError) {
-                dialog.dismiss()
-                Toast.makeText(this@ClubCreationActivity, "Something went wrong", Toast.LENGTH_LONG).show()
-            }
+        }, Response.ErrorListener {
+            dialog.dismiss()
+            Toast.makeText(this@ClubCreationActivity, "Something went wrong", Toast.LENGTH_LONG).show()
         }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
@@ -444,7 +456,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
     }
 
     private fun createClubInFairBase(clubDetails: ClubDetails?) {
-        var clubBean = ClubBean()
+        val clubBean = ClubBean()
         clubBean.clubId = clubDetails?.getClubDetail()?.clubId
         clubBean.clubImage = clubDetails?.getClubDetail()?.club_image
         clubBean.clubName = clubDetails?.getClubDetail()?.club_name
@@ -453,9 +465,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 .reference
                 .child(ChatUtil.ARG_CLUB)
                 .child(clubDetails?.getClubDetail()?.clubId)
-                .setValue(clubBean).addOnCompleteListener {
-                    setResult(Activity.RESULT_OK)
-                }
+                .setValue(clubBean).addOnCompleteListener {}
     }
 
     private fun getCategory() {

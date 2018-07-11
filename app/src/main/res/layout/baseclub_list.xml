@@ -109,13 +109,13 @@
                 </LinearLayout>
 
 
-                <Switch
+               <!-- <Switch
                     android:id="@+id/switch1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:theme="@style/SCBSwitch"
-                    android:visibility="visible"/>
+                    android:visibility="visible"/>-->
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/ivExpandBtn"
@@ -129,17 +129,22 @@
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/black_trans80" />
+
             <LinearLayout
                 android:id="@+id/ll_bodyContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_3sdp"
+                android:visibility="gone"
                 android:orientation="vertical">
 
-                <View
+              <!--  <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/black_trans80" />
+                    android:background="@color/black_trans80" />-->
 
                 <TextView
                     android:id="@+id/body_des"
@@ -152,7 +157,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:background="@color/black_trans80" />
 
                 <RelativeLayout
@@ -229,6 +234,14 @@
 
             </LinearLayout>
 
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/_10sdp"
+                android:theme="@style/SCBSwitch"
+                android:visibility="visible"/>
 
         </LinearLayout>
 

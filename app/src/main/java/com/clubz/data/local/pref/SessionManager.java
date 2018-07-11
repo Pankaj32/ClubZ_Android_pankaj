@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.clubz.ClubZ;
+import com.clubz.data.local.db.repo.ClubNameRepo;
+import com.clubz.data.model.ClubName;
+import com.clubz.data.model.UpdateAsync;
 import com.clubz.data.model.UserLocation;
 import com.clubz.ui.authentication.SignupActivity;
 import com.clubz.data.model.User;
@@ -81,6 +85,24 @@ public class SessionManager {
         }
     }
 
+
+    public void setUpdateAppData(UpdateAsync update){
+        if(update!=null){
+            String str = new Gson().toJson(update);
+            if(!TextUtils.isEmpty(str)){
+                editor.putString("updatePref", str);
+                editor.apply();
+            }
+        }
+    }
+
+    public UpdateAsync getUpdate(){
+        String str = mypref.getString("updatePref", null);
+        if(str==null)
+            return new UpdateAsync();
+        else return new Gson().fromJson(str, UpdateAsync.class);
+    }
+
     public String getLanguage(){
         return mypref.getString(Constants._userLanguage, "en");
     }
@@ -111,6 +133,7 @@ public class SessionManager {
     public void logout(Activity activity){
         editor.clear();
         editor.apply();
+        new ClubNameRepo().deleteTable();
         ClubZ.Companion.clearVirtualSession();
         Intent i = new Intent(activity , SignupActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -121,6 +144,7 @@ public class SessionManager {
     public void logout(Context context){
         editor.clear();
         editor.apply();
+        new ClubNameRepo().deleteTable();
         ClubZ.Companion.clearVirtualSession();
         Intent i = new Intent(context , SignupActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

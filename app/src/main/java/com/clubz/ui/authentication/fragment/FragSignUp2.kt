@@ -30,7 +30,6 @@ import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.helper.vollyemultipart.VolleySingleton
 import com.clubz.data.model.User
-import com.clubz.ui.authentication.SignupActivity
 import com.clubz.utils.*
 import com.facebook.*
 import com.facebook.login.LoginManager

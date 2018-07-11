@@ -7,6 +7,11 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.User
+import com.clubz.data.local.db.DBHelper
+import com.clubz.data.local.db.DatabaseManager
+import com.clubz.data.local.db.repo.ClubNameRepo
+import com.clubz.data.remote.AppAsnycTask
+
 
 /**
  * Created by mindiii on 2/12/18.
@@ -28,6 +33,7 @@ class ClubZ  : Application() {
         var currentUser: User? = null
         var isNeedToUpdateNewsFeed = false
         var isPrivate: Int = 0
+        private var dbHelper: DBHelper? = null
 
         fun clearVirtualSession(){
             latitude = 0.toDouble()
@@ -62,10 +68,17 @@ class ClubZ  : Application() {
         currentUser = sessionManager.user
         val userLocation = sessionManager.lastKnownLocation
 
+        dbHelper = DBHelper()
+        DatabaseManager.initializeInstance(dbHelper)
+
         if(userLocation!=null){
             ClubZ.latitude = userLocation.latitude;
             ClubZ.longitude = userLocation.longitude
         }
+
+        if(currentUser!=null && currentUser?.auth_token!!.isNotBlank())
+             AppAsnycTask().syncAppData()
+        else ClubNameRepo().deleteTable()
     }
 
 

@@ -35,7 +35,7 @@ abstract class ClubNameListActivity : AppCompatActivity() {
                     clubList.clear()
                     val firstItem = ClubName()
                     firstItem.club_name = getString(R.string.prompt_select_club)
-                    firstItem.clubId = "-1"
+                    firstItem.clubId = -1
                     clubList.add(firstItem)
                     clubList.addAll(Gson().fromJson<ArrayList<ClubName>>(obj.getJSONArray("data").toString() ,
                             Type_Token.clubNameList))

@@ -124,7 +124,7 @@
                     app:srcCompat="@drawable/ic_new_img"
                     android:background="#00A8D1"/>
 
-                <LinearLayout
+               <!-- <LinearLayout
                     android:id="@+id/ll_clubList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -141,10 +141,10 @@
                         android:padding="@dimen/_4sdp"
                         app:srcCompat="@drawable/ic_nav_clubs" />
 
-                   <!-- <android.support.v4.widget.Space
+                   &lt;!&ndash; <android.support.v4.widget.Space
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".5"/>-->
+                        android:layout_weight=".5"/>&ndash;&gt;
 
                     <Spinner
                         android:id="@+id/spn_clubList"
@@ -156,7 +156,7 @@
                         android:textColor="#626262"
                         android:prompt="@string/prompt_select_club" />
 
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <View
                     android:id="@+id/divider_view"

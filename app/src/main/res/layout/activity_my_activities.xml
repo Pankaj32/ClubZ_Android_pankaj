@@ -36,7 +36,8 @@
             android:layout_height="match_parent"
             android:padding="@dimen/_3sdp"
             android:background="?selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+            app:srcCompat="@drawable/ic_more_vert_black_24dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
