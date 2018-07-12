@@ -20,12 +20,8 @@ class AppAsnycTask {
 
     interface Listener{
         fun onProgressDone()
-        fun onProgressCancel()
+        fun onProgressCancel(status : String?)
     }
-
-    /*fun setListener(listener : Listener){
-        this.listener = listener
-    }*/
 
     fun syncAppData(){
         val update = SessionManager.getObj().update
@@ -38,7 +34,6 @@ class AppAsnycTask {
 
     private inner class FatchMyClubs : AsyncTask<Void, Void, Boolean>() {
 
-        var success = false
         override fun doInBackground(vararg params: Void?): Boolean {
 
             val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_my_club, Response.Listener<NetworkResponse> { response ->
@@ -53,15 +48,16 @@ class AppAsnycTask {
                         val update = SessionManager.getObj().update
                         update.needToUpdateMyClubs = false
                         SessionManager.getObj().setUpdateAppData(update)
-                        success = true
                         listener?.onProgressDone()
+                    }else {
+                        listener?.onProgressCancel(obj.getString("status"))
                     }
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
-                    listener?.onProgressCancel()
+                    listener?.onProgressCancel("")
                 }
             }, Response.ErrorListener {
-                listener?.onProgressCancel()
+                listener?.onProgressCancel("")
             }) {
                 override fun getHeaders(): MutableMap<String, String> {
                     val param = java.util.HashMap<String, String>()
@@ -73,10 +69,5 @@ class AppAsnycTask {
             ClubZ.instance.addToRequestQueue(request)
             return true
         }
-
-       /* override fun onPostExecute(result: Boolean?) {
-            super.onPostExecute(result)
-            if(success) listener?.onProgressDone() else listener?.onProgressCancel()
-        }*/
     }
 }

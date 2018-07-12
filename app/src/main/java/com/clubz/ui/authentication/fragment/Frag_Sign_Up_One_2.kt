@@ -17,6 +17,7 @@ import com.clubz.utils.VolleyGetPost
 import kotlinx.android.synthetic.main.frag_sign_up_one_2.*
 import android.view.inputmethod.EditorInfo
 import android.widget.ScrollView
+import android.widget.Toast
 import com.clubz.ui.main.HomeActivity
 import com.clubz.helper.sms_reciver.OnSmsCatchListener
 import com.clubz.helper.sms_reciver.SmsVerifyCatcher
@@ -51,6 +52,7 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         confirm.setOnClickListener(this)
+        resend.setOnClickListener(this)
         Util.showToast(_otp+" : This message is Temporary ", context)
 
        // confirmation_code.setText(_otp)
@@ -114,6 +116,8 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsC
                         verify_otp()
                     }
             }
+
+            R.id.resend -> { reSendOtp()}
         }
     }
 
@@ -190,5 +194,49 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsC
             code = m.group(0)
         }
         return code
+    }
+
+
+    private fun reSendOtp(){
+        val activity = activity as SignupActivity
+        val dialog = CusDialogProg(context)
+        dialog.show()
+        object  : VolleyGetPost(activity,context, WebService.Generate_Otp,false) {
+            override fun onVolleyResponse(response: String?) {
+                try{
+                    val obj = JSONObject(response)
+                    if(obj.getString("status") == "success"){
+                        _otp = obj.getString("otp")
+                        Toast.makeText(context,_otp , Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
+                    }
+                }catch (ex :Exception){
+                    Toast.makeText(context,R.string.swr, Toast.LENGTH_LONG).show()
+                }
+                dialog.dismiss()
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+                dialog.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["country_code"] = "+$_code"
+                params["contact_no"] = _contact
+                Util.e("params" , params.toString())
+                return params
+
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["language"] = SessionManager.getObj().language
+                return params
+            }
+        }.execute()
     }
 }
