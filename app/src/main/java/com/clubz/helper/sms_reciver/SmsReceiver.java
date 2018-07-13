@@ -31,22 +31,24 @@ public class SmsReceiver extends BroadcastReceiver {
         try {
             if (bundle != null) {
                 final Object[] pdusObj = (Object[]) bundle.get("pdus");
-                for (int i = 0; i < pdusObj.length; i++) {
-                    SmsMessage currentMessage = getIncomingMessage(pdusObj[i], bundle);
-                    String phoneNumber = currentMessage.getDisplayOriginatingAddress();
+                if(pdusObj!=null){
+                    for (Object aPdusObj : pdusObj) {
+                        SmsMessage currentMessage = getIncomingMessage(aPdusObj, bundle);
+                        String phoneNumber = currentMessage.getDisplayOriginatingAddress();
 
-                    if (phoneNumberFilter != null && !phoneNumber.equals(phoneNumberFilter)) {
-                        return;
-                    }
-                    String message = currentMessage.getDisplayMessageBody();
-                    if (filter != null && !message.matches(filter)) {
-                        return;
-                    }
+                        if (phoneNumberFilter != null && !phoneNumber.equals(phoneNumberFilter)) {
+                            return;
+                        }
+                        String message = currentMessage.getDisplayMessageBody();
+                        if (filter != null && !message.matches(filter)) {
+                            return;
+                        }
 
-                    if (callback != null) {
-                        callback.onSmsCatch(message);
-                    }
-                } // end for loop
+                        if (callback != null) {
+                            callback.onSmsCatch(message);
+                        }
+                    } // end for loop
+                }
             } // bundle is null
 
         } catch (Exception e) {

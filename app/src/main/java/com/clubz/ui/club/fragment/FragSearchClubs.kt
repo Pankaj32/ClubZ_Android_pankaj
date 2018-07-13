@@ -53,11 +53,11 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
         return inflater.inflate(R.layout.frag_my_clubs, null)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         noFeedMsgUI.visibility = View.GONE
         swipeRefreshLayout.setOnRefreshListener(this)
-        adapter = MyClubListAdapter(clubList, context, this)
+        adapter = MyClubListAdapter(clubList, context!!, this)
         list_recycler.adapter = adapter
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
@@ -122,7 +122,7 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
 
                     adapter?.notifyDataSetChanged()
                 }catch (ex: Exception){
-                    Util.showToast(R.string.swr,context)
+                    Util.showToast(R.string.swr,context!!)
                 }
             }
 

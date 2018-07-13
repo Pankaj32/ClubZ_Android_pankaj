@@ -30,7 +30,7 @@ abstract class LeaveClubDialog (internal val context: Context) : Dialog(context)
     }
 
 
-    fun setViews(view :View){
+    private fun setViews(view :View){
         mTitle      = view.findViewById(R.id.mTitle)
         mDesc       = view.findViewById(R.id.mDesc)
         mCancel     = view.findViewById(R.id.mCancel)

@@ -41,17 +41,9 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.frag_find_activities.*
 import org.json.JSONObject
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [Frag_Find_Activities.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [Frag_Find_Activities.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickListioner, ChildViewClickListioner {
 
-    // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
     private var mContext: Context? = null
@@ -73,21 +65,22 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
     private var userId: String = ""
     private var userName: String = ""
     private var userImage: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mParam1 = arguments.getString(ARG_PARAM1)
-            mParam2 = arguments.getString(ARG_PARAM2)
+            mParam1 = arguments!!.getString(ARG_PARAM1)
+            mParam2 = arguments!!.getString(ARG_PARAM2)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.frag_find_activities, container, false)
+        return inflater.inflate(R.layout.frag_find_activities, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerViewToday.layoutManager = LinearLayoutManager(mContext)
@@ -101,8 +94,8 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
         tomorrowLay.setOnClickListener(this@Frag_Find_Activities)
         soonLay.setOnClickListener(this@Frag_Find_Activities)
         othersLay.setOnClickListener(this@Frag_Find_Activities)
-        val display = activity.windowManager.defaultDisplay
-        width = display.width
+        val display = activity?.windowManager?.defaultDisplay
+        width = display!!.width
         height = display.height
     }
 

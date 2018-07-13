@@ -80,7 +80,8 @@
     <!--<string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>-->
 
     <string name="t_find_activities"> Find activities </string>
-    <string name="t_new_activity"> New Activity </string>
+    <string name="t_new_activity"> New activity </string>
+    <string name="my_activity"> My activity </string>
     <string name="t_content"> Content </string>
     <string name="t_chat"> Chat </string>
     <string name="t_ads"> Ads </string>
@@ -360,13 +361,17 @@
     <string name="by">By</string>
 
     <string name="prompt_comment_disabled">Comment disabled</string>
+    <string name="prompt_select_club">Select a club</string>
+
     <string name="tab_to_add_filter_tags">tab to add filter tags</string>
     <string name="create_news_feed">Create news feed</string>
     <string name="article_s_content">Article\'s content</string>
     <string name="new_article">Create new article</string>
+    <string name="create_new_nwes">Create new news</string>
     <string name="update_article">Edit Article</string>
     <string name="error_article_name">Please enert article name.</string>
     <string name="error_article_desc">Please enert article description.</string>
+    <string name="error_article_club_id">Please select club first.</string>
     <string name="error_comment_disabled">Comment is disabled by club manager</string>
     <string name="under_development">Under Development</string>
     <string name="club_s_name">Club\'s name</string>
@@ -516,6 +521,7 @@
     <string name="no_tag_available">no Tag available</string>
     <string name="create_new_club">Create new club</string>
     <string name="filter_clubs">Filter clubs</string>
+    <string name="renew_my_location">Renew my location</string>
 
     <!--Setting page-->
     <string name="notifications">Notifications</string>
@@ -540,5 +546,6 @@
     <string name="tap_to_add_new_tags">Tap to add new tags</string>
     <string name="no_chat_found_yet">No chat found yet</string>
     <string name="please_type">Please type a message</string>
+    <string name="select_the_club_to_post">Select the club to post</string>
 
 </resources>

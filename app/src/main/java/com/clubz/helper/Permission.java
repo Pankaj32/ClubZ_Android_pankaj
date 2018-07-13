@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import com.clubz.ui.cv.Cus_dialog_material_design;
@@ -20,14 +22,28 @@ import com.clubz.utils.Constants;
 
 public class Permission {
 
-    Activity activity;
-    Context context;
+    private final static int PERMISSION_REQUEST_CODE = 12;
 
-    public Permission(Activity activity, Context context) {
-        this.activity = activity;
-        this.context = context;
+    private Activity activity;
+    private Fragment fragment;
+    private Listener listener;
+
+    public interface Listener{
+        void onPermissResult(Boolean isGranted);
     }
 
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public Permission(Activity activity) {
+        this.activity = activity;
+    }
+
+    public Permission(Activity activity, Fragment fragment) {
+        this(activity);
+        this.fragment = fragment;
+    }
 
     public boolean askForGps() {
         final LocationManager manager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
@@ -87,4 +103,44 @@ public class Permission {
             return true;
         }
     }
+
+    public boolean takeSmsReadPermission(){
+        return isSmsPermisssion(activity, fragment);
+    }
+
+    //For fragments
+    private boolean isSmsPermisssion(Activity activity, Fragment fragment) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.RECEIVE_SMS)
+                    == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_SMS)
+                            == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                if (fragment == null) {
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{Manifest.permission.RECEIVE_SMS,
+                                    Manifest.permission.READ_SMS}, PERMISSION_REQUEST_CODE);
+                } else {
+                    fragment.requestPermissions(
+                            new String[]{Manifest.permission.RECEIVE_SMS,
+                                    Manifest.permission.READ_SMS}, PERMISSION_REQUEST_CODE);
+                }
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                if(listener!=null) listener.onPermissResult(true);
+            } else if(listener!=null) listener.onPermissResult(false);
+        }
+    }
+
 }

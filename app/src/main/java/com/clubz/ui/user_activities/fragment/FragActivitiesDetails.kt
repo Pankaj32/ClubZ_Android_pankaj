@@ -46,21 +46,21 @@ class FragActivitiesDetails : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_frag_activities_details, container, false)
+        return inflater.inflate(R.layout.fragment_frag_activities_details, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
-            activityId = arguments.getString(IDKEY)
+            activityId = arguments!!.getString(IDKEY)
             Log.e("ActivityId:  ", activityId)
             getActivityDetails()
         }
         termsNCondition.setOnClickListener {
-            object : TermsConditionDialog(context, resources.getString(R.string.terms_conditions), activityDetails?.getData()?.terms_conditions!!) {
+            object : TermsConditionDialog(context!!, resources.getString(R.string.terms_conditions), activityDetails?.getData()?.terms_conditions!!) {
                 override fun onCloseClicked() {
                     this.dismiss()
                 }
@@ -95,7 +95,7 @@ class FragActivitiesDetails : Fragment() {
         }
     }
 
-    fun getActivityDetails() {
+    private fun getActivityDetails() {
         val dialogProgress = CusDialogProg(mContext!!)
         dialogProgress.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
@@ -195,7 +195,7 @@ class FragActivitiesDetails : Fragment() {
         } else {
             val padding = resources.getDimension(R.dimen._8sdp).toInt()
             image_member2.setPadding(padding, padding, padding, padding)
-            image_member2.background = ContextCompat.getDrawable(mContext, R.drawable.bg_circle_blue)
+            image_member2.background = ContextCompat.getDrawable(mContext!!, R.drawable.bg_circle_blue)
             image_member2.setImageResource(R.drawable.ic_user_shape)
         }
         //  usrerole.text = activityDetails.getData()?.user_role

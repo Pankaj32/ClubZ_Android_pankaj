@@ -7,12 +7,19 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.User
+import com.clubz.data.local.db.DBHelper
+import com.clubz.data.local.db.DatabaseManager
+import com.clubz.data.local.db.repo.ClubNameRepo
+import com.clubz.data.remote.AppAsnycTask
+
 
 /**
  * Created by mindiii on 2/12/18.
  */
 class ClubZ  : Application() {
 
+    /* lateinit var context: Context*/
+    val TAG = ClubZ::class.java.simpleName
 
     /**
      * @param isPrivate mantions if isPrivate = 0 it means it's showing Both option available for clubs.
@@ -26,20 +33,31 @@ class ClubZ  : Application() {
         var currentUser: User? = null
         var isNeedToUpdateNewsFeed = false
         var isPrivate: Int = 0
+        private var dbHelper: DBHelper? = null
+
+        fun clearVirtualSession(){
+            latitude = 0.toDouble()
+            longitude = 0.toDouble()
+            city = ""
+            currentUser = null
+            isNeedToUpdateNewsFeed = true
+            isPrivate = 0
+        }
     }
 
     fun getClubType() : Int{
         return isPrivate
     }
 
-    fun getCurrentUser(): User?{
+    /*fun getCurrentUser(): User?{
         return currentUser
     }
 
-    var mRequestQueue: RequestQueue? = null
+    fun setCurrentUser(user: User){
+         currentUser = user
+    }*/
 
-    /* lateinit var context: Context*/
-    val TAG = ClubZ::class.java.simpleName
+    var mRequestQueue: RequestQueue? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -50,10 +68,17 @@ class ClubZ  : Application() {
         currentUser = sessionManager.user
         val userLocation = sessionManager.lastKnownLocation
 
+        dbHelper = DBHelper()
+        DatabaseManager.initializeInstance(dbHelper)
+
         if(userLocation!=null){
             ClubZ.latitude = userLocation.latitude;
             ClubZ.longitude = userLocation.longitude
         }
+
+        if(currentUser!=null && currentUser?.auth_token!!.isNotBlank())
+             AppAsnycTask().syncAppData()
+        else ClubNameRepo().deleteTable()
     }
 
 
@@ -62,8 +87,6 @@ class ClubZ  : Application() {
             mRequestQueue = Volley.newRequestQueue(applicationContext)
         return mRequestQueue!!
     }
-
-
 
 
     fun <T> addToRequestQueue(req: Request<T>, tag: String) {

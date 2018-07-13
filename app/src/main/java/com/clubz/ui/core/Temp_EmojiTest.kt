@@ -16,7 +16,7 @@ class Temp_EmojiTest : Fragment() {
         return inflater.inflate(R.layout.frag_test_emoji,null)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         send__emoji.setOnClickListener(View.OnClickListener {
             sendEmoji()

@@ -18,12 +18,11 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.helper.Type_Token
 import com.clubz.data.remote.WebService
 import com.clubz.data.model.Clubs
-import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.club.`interface`.MyClubInteraction
+import com.clubz.ui.club.adapter.ClubFilterAdapter
 import com.clubz.ui.club.adapter.MyClub
 import com.clubz.ui.club.adapter.MyClubListAdapter
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
-import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_my_clubs.*
@@ -31,16 +30,16 @@ import kotlinx.android.synthetic.main.no_contant_layout.*
 import org.json.JSONObject
 import java.util.ArrayList
 
-class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, MyClub {
-    override fun onSilenceClub(club: Clubs, position: Int) {
-    }
 
-    var adapter  : MyClubListAdapter? = null
-    var clubList : ArrayList<Clubs> = arrayListOf()
-    var listner  : MyClubInteraction? = null
-    var pageListner : RecyclerViewScrollListener? = null
+class ClubFilterFragment : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, MyClub {
+
+    private var adapter  : ClubFilterAdapter? = null
+    private var clubList : ArrayList<Clubs> = arrayListOf()
+    private var listner  : MyClubInteraction? = null
+    private var pageListner : RecyclerViewScrollListener? = null
 
     override fun onClick(v: View?) {
+
     }
 
     override fun onAttach(context: Context?) {
@@ -58,49 +57,55 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
         return inflater.inflate(R.layout.frag_my_clubs, null)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MyClubListAdapter(clubList, context!!, this)
-        list_recycler.adapter = adapter
         swipeRefreshLayout.setOnRefreshListener(this)
-        clubList.clear()
+        adapter = ClubFilterAdapter(clubList, context!!, this)
+        list_recycler.adapter = adapter
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         list_recycler.itemAnimator = null
         list_recycler.layoutManager = lm
-        //list_recycler.setHasFixedSize(true)
+        list_recycler.setHasFixedSize(true)
+
         pageListner = object : RecyclerViewScrollListener(lm) {
             override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) { }
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                getNearByClubs("",false, page*10)
+                getMyClubs("",page*10,false)
             }
         }
+
         list_recycler.addOnScrollListener(pageListner)
-        getNearByClubs()
+        clubList.clear()
+        getMyClubs()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        clubList.clear()
+        adapter = null
+        listner = null
+        pageListner = null
+    }
+
+    fun refreshList(){
+        pageListner?.resetState()
+        clubList.clear()
+        getMyClubs()
+    }
 
     override fun onJoinedClub(club: Clubs) {
         listner?.onJoinClub(club)
     }
 
     override fun onLeavedClub(club: Clubs) {
-        listner?.onJoinClub(club)
+        listner?.onLeaveClub(club)
     }
-
 
     override fun onRefresh() {
         clubList.clear()
-        pageListner?.resetState()
-        getNearByClubs()
+        getMyClubs("", 0, true)
         swipeRefreshLayout.isRefreshing = false
-    }
-
-    fun refreshList(){
-        clubList.clear()
-        pageListner?.resetState()
-        getNearByClubs()
     }
 
     fun updateAdapter(club : Clubs){
@@ -115,21 +120,17 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
         adapter?.notifyDataSetChanged()
     }
 
-    /**
-     *@clubtype 1 means public , 2 means private , 0 means all
-     */
-    private fun getNearByClubs(text : String = "", showProgres : Boolean = false, offset : Int = 0){
+    fun getMyClubs(text : String = "", offset :Int = 0, showProgress : Boolean = false){  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
         val dialog = CusDialogProg(activity )
-        if(text.isBlank() || showProgres)dialog.show()
-        object  : VolleyGetPost(activity , activity , WebService.club_search,false){
+        if(showProgress)dialog.show()
+
+        object : VolleyGetPost(activity , activity, WebService.club_my_clubs, false){
             override fun onVolleyResponse(response: String?) {
-                dialog.dismiss()
-                //{"status":"success","message":"found","data":[{"clubId":"20","user_id":"52","club_name":"Mindiii","club_description":"this is a mindiii company","club_image":"http:\/\/clubz.co\/dev\/uploads\/club_image\/32e494d9cb36f6a0d73d792bebee8e6e.jpg","club_foundation_date":"2018-03-15","club_email":"pankaj.mindiii@gmail.com","club_contact_no":"9630612281","club_country_code":"+91","club_website":"www.google.com","club_location":"Indore Jn.","club_address":"140 square","club_latitude":"22.7170909","club_longitude":"75.8684423","club_type":"1","club_category_id":"2","terms_conditions":"indore company","comment_count":"0","status":"1","crd":"2018-03-16 11:32:09","upd":"2018-03-16 11:32:09","club_category_name":"Sports","full_name":"Pankaj","club_user_status":"","distance":""}]}
-                try{
-                     val obj = JSONObject(response)
-                    if(obj.getString("status")=="success"){
-                        //val list  = Gson().fromJson<ArrayList<Clubs>>(obj.getJSONArray("data").toString() , Type_Token.club_list)
-                        clubList.addAll(Gson().fromJson<ArrayList<Clubs>>(obj.getJSONArray("data").toString() , Type_Token.club_list))
+                try {
+                    dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if(obj.getString("status") == "success"){
+                        clubList.addAll(Gson().fromJson<ArrayList<Clubs>>(obj.getString("data"), Type_Token.club_list))
                     }
 
                     if(clubList.size>0){
@@ -140,9 +141,8 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
                         swipeRefreshLayout.visibility = View.GONE
                     }
                     adapter?.notifyDataSetChanged()
-
                 }catch (ex: Exception){
-                    Util.showToast(R.string.swr,context!!)
+                    ex.printStackTrace()
                 }
             }
 
@@ -151,22 +151,55 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
             override fun onNetError() { dialog.dismiss() }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params["city"] = ClubZ.city
-                params["latitude"] = (if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString() )+""
-                params["longitude"] = (if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString() )+""
-                params["clubCategoryId"] = ""
                 params["searchText"] = text
                 params["offset"] = offset.toString()
-                params["limit"] = "10"
+                params["limit"]= "10"
                 params["clubType"] = ClubZ.isPrivate.toString()
                 return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params["language"] = SessionManager.getObj().language
                 params["authToken"] = SessionManager.getObj().user.auth_token
+                params["language"] = SessionManager.getObj().language
+                return  params
+            }
+        }.execute()
+    }
+
+
+    override fun onSilenceClub(club: Clubs, position : Int) {
+        val dialog = CusDialogProg(context)
+        dialog.show()
+        object : VolleyGetPost(activity, WebService.club_silence, false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if (obj.getString("status") == "success") {
+
+                    }
+                } catch (ex: Exception) { }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+                dialog.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["clubUserId"] = club.clubUserId
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()
     }
+
 }

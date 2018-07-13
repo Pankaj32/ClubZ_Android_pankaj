@@ -202,7 +202,7 @@ class MyActivities : AppCompatActivity(), ParentViewClickListioner, ChildViewCli
             }
             R.id.menuCreateNewsFeed->{
                 addActivityDialog?.dismiss()
-                startActivity(Intent(this@MyActivities, NewActivities::class.java))
+               // startActivity(Intent(this@MyActivities, NewActivities::class.java))
             }
         }
     }

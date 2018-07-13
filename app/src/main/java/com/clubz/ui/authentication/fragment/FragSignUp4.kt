@@ -1,7 +1,6 @@
 package com.clubz.ui.authentication.fragment
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -9,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.clubz.ui.cv.ChipView
 import com.clubz.R
-import com.clubz.ui.authentication.Sign_up_Activity
+import com.clubz.ui.core.BaseFragment
 import com.clubz.utils.Util
 import kotlinx.android.synthetic.main.frag_sign_up_four.*
 import java.util.ArrayList
@@ -18,41 +17,32 @@ import java.util.ArrayList
  * Created by mindiii on 2/7/18.
  */
 
+class FragSignUp4 : BaseFragment(), View.OnClickListener {
 
-class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
-
-    var list1 : ArrayList<String> = ArrayList();
-    var list2 : ArrayList<String> = ArrayList();
-    var canCallApi : Boolean = true;
+    var list1 : ArrayList<String> = ArrayList()
+    var list2 : ArrayList<String> = ArrayList()
+    var canCallApi : Boolean = true
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.frag_sign_up_four ,null);
+        return inflater.inflate(R.layout.frag_sign_up_four ,null)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for(view in arrayOf(plus1   , plus2 ,next2 ,skip))view.setOnClickListener(this)
+
+        for(v in arrayOf(plus1, plus2 ,next2 ,skip)) v.setOnClickListener(this)
+
         intrest.addTextChangedListener(object :TextWatcher{
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
+            override fun afterTextChanged(p0: Editable?) { }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 //getSearchs("1",p0.toString())
             }
         })
+
         skill_set.addTextChangedListener(object :TextWatcher{
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
+            override fun afterTextChanged(p0: Editable?) { }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     //getSearchs("2",p0.toString())
             }
@@ -61,19 +51,19 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when(p0!!.id){
-            R.id.plus1->if(canaddIntrest())addIntrest();
-            R.id.plus2->if(canaddSkill())addSkill();
+            R.id.plus1->if(canaddIntrest())addIntrest()
+            R.id.plus2->if(canaddSkill())addSkill()
             R.id.skip->Util.showSnake(context,view!!,R.string.temp_sucess)// TODO temp
             R.id.next2-> Util.showSnake(context,view!!,R.string.temp_sucess)// TODO temp
         }
     }
 
 
-    fun canaddIntrest(): Boolean{
-        (activity as Sign_up_Activity).hideKeyBoard()
+    private fun canaddIntrest(): Boolean{
+        listner.hideKeyBoard()
         if(intrest.text.isBlank()){
             Util.showSnake(context,view!!,R.string.a_addintres)
-            return false;
+            return false
         }
         for (s  in list1){
             if(s.trim().toLowerCase().equals(intrest.text.toString().trim().toLowerCase())){
@@ -81,14 +71,14 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
                 return false
             }
         }
-        return true;
+        return true
     }
 
-    fun canaddSkill(): Boolean{
-        (activity as Sign_up_Activity).hideKeyBoard()
+    private fun canaddSkill(): Boolean{
+        listner.hideKeyBoard()
         if(skill_set.text.isBlank()){
             Util.showSnake(context,view!!,R.string.a_addskill)
-            return false;
+            return false
         }
         for (s  in list2){
             if(s.trim().toLowerCase().equals(skill_set.text.toString().trim().toLowerCase())){
@@ -96,7 +86,7 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
                 return false
             }
         }
-        return true;
+        return true
     }
 
     fun addIntrest(){
@@ -108,10 +98,10 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
             override fun setDeleteListner(chipView: ChipView?) {
             }
         }
-        chip.setText(intrest.text.toString()+"")
+        chip.text = intrest.text.toString()+""
         list1.add(intrest.text.toString().trim())
-        chip_grid.addView(chip);
-        intrest.setText("");
+        chip_grid.addView(chip)
+        intrest.setText("")
 
     }
     fun addSkill(){
@@ -122,10 +112,10 @@ class Frag_Sign_UP_Four : Fragment(), View.OnClickListener {
             override fun setDeleteListner(chipView: ChipView?) {
             }
         }
-        chip.setText(skill_set.text.toString()+"")
+        chip.text = skill_set.text.toString()+""
         list2.add(skill_set.text.toString().trim())
-        chip_grid2.addView(chip);
-        skill_set.setText("");
+        chip_grid2.addView(chip)
+        skill_set.setText("")
     }
 
    /* fun getSearchs(searchType :String , searchText : String){

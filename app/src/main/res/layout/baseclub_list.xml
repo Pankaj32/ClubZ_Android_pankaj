@@ -109,13 +109,13 @@
                 </LinearLayout>
 
 
-                <Switch
+               <!-- <Switch
                     android:id="@+id/switch1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:theme="@style/SCBSwitch"
-                    android:visibility="visible"/>
+                    android:visibility="visible"/>-->
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/ivExpandBtn"
@@ -129,16 +129,21 @@
 
             </RelativeLayout>
 
+            <!--<View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/black_trans80" />-->
+
             <LinearLayout
                 android:id="@+id/ll_bodyContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_3sdp"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:background="@color/black_trans80" />
 
                 <TextView
@@ -150,10 +155,10 @@
                     android:textSize="@dimen/_10sdp"
                     android:fontFamily="@font/roboto_regular"/>
 
-                <View
+               <!-- <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/black_trans80" />
+                    android:layout_height="0.5dp"
+                    android:background="@color/black_trans80" />-->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -220,7 +225,6 @@
                             app:siBorderColor="@color/transparent"
                             android:src="@drawable/ic_user_white"/>
 
-
                     </LinearLayout>
 
 
@@ -228,7 +232,6 @@
 
 
             </LinearLayout>
-
 
         </LinearLayout>
 
