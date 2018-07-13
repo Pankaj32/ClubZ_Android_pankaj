@@ -1,6 +1,7 @@
 package com.clubz.ui.authentication.fragment
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -57,11 +58,12 @@ class FragSignUp2 : SignupBaseFragment()  , View.OnClickListener {
     private var isCameraSelected :Boolean=false
     private var faebookLogin :Boolean=false
     private var imageUri : Uri? = null
-    var profileImage :Bitmap? = null
+    private var profileImage :Bitmap? = null
     lateinit var contact : String
     lateinit var code : String
     private var callbackManager: CallbackManager? = null
 
+    @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.frag_sign_up_two, null)
     }
@@ -263,7 +265,7 @@ class FragSignUp2 : SignupBaseFragment()  , View.OnClickListener {
                 } else Toast.makeText(context ,R.string.swr , Toast.LENGTH_SHORT).show()
             }
              if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                val result : CropImage.ActivityResult = CropImage.getActivityResult(data)
+                val result  = CropImage.getActivityResult(data)
                 try {
                     if (result != null)
                         profileImage = MediaStore.Images.Media.getBitmap(context?.contentResolver, result.uri)
@@ -386,7 +388,7 @@ class FragSignUp2 : SignupBaseFragment()  , View.OnClickListener {
                             loginResult.accessToken
                     ) { `object`, response ->
                         Util.e(this.javaClass.name, "login result" + `object`.toString() + response.toString())
-                        var fbEmail = ""
+                        val fbEmail: String
                         try {
 
                             fbEmail = try {
@@ -395,19 +397,19 @@ class FragSignUp2 : SignupBaseFragment()  , View.OnClickListener {
                                 `object`.getString("id") + ClubZ::class.java.simpleName + "@fb.com"
                             }
 
-                            val FBid = `object`.getString("id")
-                            val FBname = `object`.getString("name")
+                            val fbId = `object`.getString("id")
+                            val fbName = `object`.getString("name")
                             //val FBgender = `object`.getString("gender")
                             //val age = `object`.getJSONObject("age_range")
-                            val fbImageurl = "https://graph.facebook.com/$FBid/picture?type=large"
+                            val fbImageurl = "https://graph.facebook.com/$fbId/picture?type=large"
 
                             val token = AccessToken.getCurrentAccessToken()
                             Util.e("access only Token is", (token.token).toString())
                             Util.e("image", fbImageurl)
                             Util.e("response", response.toString())
                             Util.e("Email", fbEmail)
-                            Util.e("ID", FBid)
-                            Util.e("Name", FBname)
+                            Util.e("ID", fbId)
+                            Util.e("Name", fbName)
                             Util.e("Fb Image", fbImageurl)
                             try {
                                 Util.e("Fb BirthDay", `object`.getString("birthday"))
@@ -415,7 +417,7 @@ class FragSignUp2 : SignupBaseFragment()  , View.OnClickListener {
 
                             }
                             progressDialog.dismiss()
-                            registration(null, arrayOf(FBid, FBname , fbImageurl , fbEmail))
+                            registration(null, arrayOf(fbId, fbName , fbImageurl , fbEmail))
 
                         } catch (e: JSONException) {
                             Toast.makeText(context, "Facebooklogin :something went wrong", Toast.LENGTH_SHORT).show()
@@ -434,7 +436,7 @@ class FragSignUp2 : SignupBaseFragment()  , View.OnClickListener {
 
                 override fun onError(error: FacebookException) {
                     //if(dialogProg != null) dialogProg.dismiss()
-                    Log.e("Facebook", "Error" + error)
+                    Log.e("Facebook", "Error$error")
                     Toast.makeText(context, "Facebooklogin :something went wrong", Toast.LENGTH_SHORT).show()
                 }
             })

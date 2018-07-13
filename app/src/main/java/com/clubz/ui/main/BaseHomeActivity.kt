@@ -11,21 +11,18 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.ArrayAdapter
-import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.core.BaseFragment
 import kotlinx.android.synthetic.main.club_more_menu.*
-import kotlinx.android.synthetic.main.menu_club_selection.*
-import kotlinx.android.synthetic.main.menu_my_activity.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 
 abstract class BaseHomeActivity : BaseActivity(),
         BaseFragment.FragmentListner , View.OnClickListener{
 
-    protected var dialog : Dialog? = null
+    //protected var dialog : Dialog? = null
     protected var menuDialog : Dialog? = null
     protected var newsFilterDialog : Dialog? = null
     protected var invalidateThreeDotMenu : Boolean = false
@@ -65,7 +62,7 @@ abstract class BaseHomeActivity : BaseActivity(),
         lpw.show()
     }
 
-    @SuppressLint("RtlHardcoded")
+  /*  @SuppressLint("RtlHardcoded")
     protected fun clubSelectionMenu(position: Int){
         if(dialog==null){
             dialog = Dialog(this)
@@ -91,10 +88,10 @@ abstract class BaseHomeActivity : BaseActivity(),
         }
 
         dialog?.show()
-    }
+    }*/
 
     @SuppressLint("RtlHardcoded")
-    protected fun showFilterDialog(){
+    private fun showFilterDialog(){
         if(newsFilterDialog==null){
             newsFilterDialog = Dialog(this)
             newsFilterDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)

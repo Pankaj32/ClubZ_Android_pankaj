@@ -13,13 +13,10 @@ import android.os.Handler
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
 import android.support.v4.app.*
-
-import android.support.v4.widget.DrawerLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.app.ActionBarDrawerToggle
-
 import android.view.*
 import android.widget.*
 import com.clubz.ClubZ
@@ -35,7 +32,6 @@ import com.clubz.data.remote.AppAsnycTask
 import com.clubz.data.remote.GioAddressTask
 import com.clubz.ui.ads.fragment.AdsFragment
 import com.clubz.ui.chat.ChatFragment
-import com.clubz.ui.club.ClubCreationActivity
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.club.fragment.FragMyClubs
 import com.clubz.ui.cv.CusDialogProg
@@ -59,7 +55,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
-import kotlinx.android.synthetic.main.menu_club_selection.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
@@ -70,7 +65,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     private var isOpenMyClub: Boolean = false
     private var isRightNavDrawerOpen: Boolean = false
     private var doublebackpress: Boolean = false
-    private var lastDrawerGravity :Int= Gravity.START
+    private var lastDrawerGravity :Int = Gravity.START
 
     private  var isGPSEnabled = false       // flag for GPS status
     private  var isNetworkEnabled = false   // flag for network status
@@ -109,39 +104,19 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         initView()  // ui variables initialization and update
         updateFirebaseToken()
         replaceFragment(FragNewsList())
+
         // setup navigation drawer
         val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             override fun onDrawerClosed(view: View) {
-                isRightNavDrawerOpen = false
-                ClubZ.isPrivate = 0
-
-                if(view.id == R.id.navigationView){ }
-                else{
-                    val cFragment =  getCurrentFragment()
-                    setActionbarMenu(cFragment!!)
-                    bottomtabHandler(cFragment)
-                    invalidateOptionsMenu()
-                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END)
-                }
+                if(view.id == R.id.navigationView) isRightNavDrawerOpen = false
             }
 
             override fun onDrawerOpened(drawerView: View) {
-                invalidateOptionsMenu()
-                isRightNavDrawerOpen = true
-
-                if(drawerView.id== R.id.drawerView2){
-                    val far = supportFragmentManager.findFragmentById(R.id.fragment2) as FragMyClubs
-                    setActionbarMenu(far)
-                    bottomtabHandler(far)
-                    lastDrawerGravity = Gravity.END
-                    far.refreshList()
-
-                    if(isOpenMyClub){
-                        isOpenMyClub = false
-                    }else{
-                        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, GravityCompat.END)
-                    }
-                } else lastDrawerGravity = Gravity.START
+                //invalidateOptionsMenu()
+                lastDrawerGravity =  if(drawerView.id== R.id.rightNavigationView){
+                    isRightNavDrawerOpen = true
+                    Gravity.END
+                }  else Gravity.END
             }
 
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
@@ -152,7 +127,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         }
 
         mDrawerLayout.addDrawerListener(mDrawerToggle)
-        mDrawerLayout.setScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
+       // mDrawerLayout.setScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
         DrawerMarginFixer.fixMinDrawerMargin(mDrawerLayout)
     }
 
@@ -227,8 +202,9 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             dialog.show()
             val task = AppAsnycTask()
             task.listener = object : AppAsnycTask.Listener{
-                override fun onProgressCancel() {
+                override fun onProgressCancel(status: String?) {
                     dialog.dismiss()
+                    if(status=="fail") showToast("Please create your club first.")
                 }
 
                 override fun onProgressDone() {
@@ -253,17 +229,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                     }.show()
                 }
             }
-
-
-         /*   if(clubList.size>0){
-                object : ClubSelectionDialog(this@HomeActivity, clubList) {
-                    override fun onClubSelect(clubName: ClubName) {
-                        startActivity(Intent(this@HomeActivity, CreateNewsFeedActivity::class.java)
-                                .putExtra("clubId", clubName.clubId.toString()))
-                        dismiss()
-                    }
-                }.show()
-            }else showToast("Please create your club first.")*/
         }
     }
 
@@ -274,10 +239,10 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             dialog.show()
             val task = AppAsnycTask()
             task.listener = object : AppAsnycTask.Listener{
-                override fun onProgressCancel() {
+                override fun onProgressCancel(status: String?) {
                     dialog.dismiss()
+                    if(status=="fail") showToast("Please create your club first.")
                 }
-
                 override fun onProgressDone() {
                     dialog.dismiss()
                     // self call for reload UI with updated database
@@ -302,7 +267,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 }
             }
         }
-       // startActivity(Intent(this@HomeActivity, NewActivities::class.java))
     }
 
     override fun navigateMyActivity() {
@@ -433,70 +397,52 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     override fun onClick(p0: View?) {
         when (p0!!.id) {
 
-            R.id.search -> {}//{addFragment(Frag_Search_Club(), 0);}
-          /*  R.id.cancel -> {
-                search_text.setText("")
-                hideKeyBoard()
-            }*/
-
+            R.id.search -> {}
             R.id.bubble_menu -> {
+                val frag = getCurrentFragment()
+                when(frag!!::class.java.simpleName){
+                    FragNewsList::class.java.simpleName ->{
+                        // showFilterDialog()
+                        val list : ArrayList<DialogMenu> = arrayListOf()
+                        list.add(DialogMenu(getString(R.string.create_new_nwes), R.drawable.ic_add_24))
+                        list.add(DialogMenu(getString(R.string.filter_clubs), R.drawable.ic_filter_list))
+                        list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
+                        showMenu(list)
+                    }
 
-                if(isRightNavDrawerOpen){
-                    clubSelectionMenu(0)
-                    //clubOptions(0)
-                }else{
-                    val frag = getCurrentFragment()
-                    when(frag!!::class.java.simpleName){
-                        FragNewsList::class.java.simpleName ->{
-                            // showFilterDialog()
-                            val list : ArrayList<DialogMenu> = arrayListOf()
-                            list.add(DialogMenu(getString(R.string.create_new_nwes), R.drawable.ic_add_24))
-                            list.add(DialogMenu(getString(R.string.filter_clubs), R.drawable.ic_filter_list))
-                            list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
-                            showMenu(list)
-                        }
-
-                        Frag_Find_Activities::class.java.simpleName -> {
-                            //showMyActivityDialog()
-                            val list : ArrayList<DialogMenu> = arrayListOf()
-                            list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
-                            list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_nav_event))
-                            list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
-                            showMenu(list)
-                        }
+                    Frag_Find_Activities::class.java.simpleName -> {
+                        //showMyActivityDialog()
+                        val list : ArrayList<DialogMenu> = arrayListOf()
+                        list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
+                        list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_nav_event))
+                        list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
+                        showMenu(list)
                     }
                 }
             }
 
-            R.id.menu -> { draweHandler(Gravity.START) }
+            R.id.menu -> {
+                if(mDrawerLayout.isDrawerOpen(Gravity.START))
+                    mDrawerLayout.closeDrawer(Gravity.START)
+                else mDrawerLayout.openDrawer(Gravity.START)
+            }
 
             R.id.addsymbol -> {
 
-                if(isRightNavDrawerOpen){
-                    draweHandler(lastDrawerGravity)
-                    startActivity(Intent(this@HomeActivity, ClubCreationActivity::class.java))
-                    /* addFragment(Frag_Create_club(),0)
-                       object : Purchase_membership_dialog(this) {
-                         override fun viewplansListner() {
-                             this.dismiss();
-                         }
-                     }.show()*/
-                }else{
-                    val fragemet = getCurrentFragment()!!
-                    when (fragemet::class.java.simpleName) {
-                        Frag_Find_Activities::class.java.simpleName->{
-                            startActivity(Intent(this@HomeActivity, NewActivities::class.java))
-                        }
+                val fragemet = getCurrentFragment()!!
+                when (fragemet::class.java.simpleName) {
+                    Frag_Find_Activities::class.java.simpleName->{
+                        startActivity(Intent(this@HomeActivity, NewActivities::class.java))
+                    }
 
-                        FragNewsList::class.java.simpleName->{
-                            startActivity(Intent(this@HomeActivity,
-                                    CreateNewsFeedActivity::class.java).putExtra("clubId", ""))
-                        }
+                    FragNewsList::class.java.simpleName->{
+                        startActivity(Intent(this@HomeActivity,
+                                CreateNewsFeedActivity::class.java).putExtra("clubId", ""))
                     }
                 }
             }
 
-            R.id.tv_private -> {
+          /*  R.id.tv_private -> {
                 when(ClubZ.isPrivate){
                     1->{
                         ClubZ.isPrivate = 0
@@ -514,24 +460,22 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                     }
                 }
             }
-
             R.id.tv_public -> {
                 when(ClubZ.isPrivate){
                     2->{
                         ClubZ.isPrivate = 0
                         dialog!!.chk_priavte.isChecked = true
                         dialog!!.chk_public.isChecked = true
-                        getMyClubFragment()?.refreshList() //if (getMyClubFragment() != null) filterListner!!.onFilterChnge()
+                        getMyClubFragment()?.refreshList()
                     }
                     0,1->{
                         ClubZ.isPrivate = 2
                         dialog!!.chk_priavte.isChecked = true
                         dialog!!.chk_public.isChecked = false
                         getMyClubFragment()?.refreshList()
-                        //if(filterListner != null) filterListner!!.onFilterChnge()
                     }
                 }
-            }
+            }*/
 
             R.id.back -> onBackPressed()
 
@@ -572,26 +516,11 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 updateNewsFeed()
             }
 
-            /*R.id.myActivity -> {
-                startActivity(Intent(this@HomeActivity, MyActivities::class.java))
-                myActivityDailog?.dismiss()
-            }*/
-
             R.id.ll_menu1 -> {
                 menuDialog?.dismiss()
             }
             R.id.ll_menu2 -> {
                 menuDialog?.dismiss()
-                if(isRightNavDrawerOpen){
-
-                }else{
-                    val fragment = getCurrentFragment()!!
-                    when (fragment::class.java.simpleName) {
-                        FragNewsList::class.java.simpleName->{
-                            showFilterDialog()
-                        }
-                    }
-                }
             }
         }
     }
@@ -601,22 +530,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 .firstOrNull { it::class.java.simpleName==FragNewsList::class.java.simpleName }
                 ?.let { it as FragNewsList }
         newsFeedFragment?.setFilter(showMyNewsfeedOnly, club, like, comment)
-    }
-
-    /**
-     * Open the specified drawer by animating it out of view.
-     *
-     * @param gravity Gravity.LEFT to move the left drawer or Gravity.RIGHT for the right.
-     *                GravityCompat.START or GravityCompat.END may also be used.
-     */
-    private fun draweHandler(gravity :Int = lastDrawerGravity){
-        isRightNavDrawerOpen = if (!isRightNavDrawerOpen) {
-            mDrawerLayout.openDrawer(gravity)
-            true
-        } else {
-            mDrawerLayout.closeDrawer(gravity)
-            false
-        }
     }
 
 
@@ -633,7 +546,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     override fun onLowMemory() {
         super.onLowMemory()
-        dialog = null
+        //dialog = null
         menuDialog = null
         newsFilterDialog = null
         //myActivityDailog = null
@@ -666,32 +579,33 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     override fun onBackPressed() {
         hideKeyBoard()
-        if(isRightNavDrawerOpen) {
-            draweHandler()
-            return
-        }
+        when {
+            mDrawerLayout.isDrawerOpen(navigationView) -> mDrawerLayout.closeDrawer(Gravity.START)
+            mDrawerLayout.isDrawerOpen(rightNavigationView) -> mDrawerLayout.closeDrawer(Gravity.END)
+            else -> {
 
-        val handler = Handler()
-        val runnable: Runnable?
-        if (supportFragmentManager.backStackEntryCount > 1) {
-            super.onBackPressed()
-            try {
-                Util.e("Current Fragment", getCurrentFragment()!!::class.java.simpleName.toString())
-                val fragemet = getCurrentFragment()
-                bottomtabHandler(fragemet!!)
-                setActionbarMenu(fragemet)
-                //stausBarHandler(fragemet!!)
-            } catch (ex: Exception) {
-            }
-        }
-        else{
-            runnable = Runnable { doublebackpress = false }
-            handler.postDelayed(runnable, 1000.toLong())
-            if (doublebackpress) {
-                handler.removeCallbacks(runnable)
-                finish()
-            } else {
-                doublebackpress = true
+                val handler = Handler()
+                val runnable: Runnable?
+                if (supportFragmentManager.backStackEntryCount > 1) {
+                    super.onBackPressed()
+                    try {
+                        Util.e("Current Fragment", getCurrentFragment()!!::class.java.simpleName.toString())
+                        val fragemet = getCurrentFragment()
+                        bottomtabHandler(fragemet!!)
+                        setActionbarMenu(fragemet)
+                    } catch (ex: Exception) {
+                    }
+                }
+                else{
+                    runnable = Runnable { doublebackpress = false }
+                    handler.postDelayed(runnable, 1000.toLong())
+                    if (doublebackpress) {
+                        handler.removeCallbacks(runnable)
+                        finish()
+                    } else {
+                        doublebackpress = true
+                    }
+                }
             }
         }
     }
@@ -700,11 +614,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         val fragments = supportFragmentManager.fragments
         return fragments[fragments.size - 1]
         //return supportFragmentManager.findFragmentById(R.id.frag_container)
-    }
-
-
-    private fun getMyClubFragment(): FragMyClubs? {
-        return supportFragmentManager.findFragmentById(R.id.fragment2) as FragMyClubs
     }
 
 

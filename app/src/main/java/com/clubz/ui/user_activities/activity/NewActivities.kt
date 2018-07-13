@@ -353,7 +353,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                val result: CropImage.ActivityResult = CropImage.getActivityResult(data)
+                val result = CropImage.getActivityResult(data) // : CropImage.ActivityResult
                 try {
                     if (result != null)
                         activityImage = MediaStore.Images.Media.getBitmap(this@NewActivities.contentResolver, result.uri)
@@ -369,9 +369,9 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         isCameraSelected = false
     }
 
-    fun perfectDecimal(str: String, MAX_BEFORE_POINT: Int, MAX_DECIMAL: Int): String {
-        var str = str
-        if (str[0] == '.') str = "0" + str
+    fun perfectDecimal(str1: String, MAX_BEFORE_POINT: Int, MAX_DECIMAL: Int): String {
+        var str = str1
+        if (str[0] == '.') str = "0$str"
         val max = str.length
 
         var rFinal = ""
@@ -492,7 +492,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         ClubZ.instance.addToRequestQueue(request)
     }*/
 
-    fun getLeaders(clubId: String) {
+    private fun getLeaders(clubId: String) {
         val dialog = CusDialogProg(this@NewActivities)
         dialog.show()
         val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_leaders + clubId + "&limit=&offset=", Response.Listener<NetworkResponse> { response ->

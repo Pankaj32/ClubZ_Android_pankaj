@@ -133,7 +133,7 @@ class FragSignUp1 : SignupBaseFragment(), View.OnClickListener, Permission.Liste
                 try{
                     val obj = JSONObject(response)
                     if(obj.getString("status") == "success"){
-                        activity.replaceFragment(Frag_Sign_Up_One_2().setData(obj.getString("otp") ,  phone_no.text.toString().replace(PhoneNumberTextWatcher.replacer,"") , (country_code.selectedItem as Country_Code).phone_code ,obj.getString("isNewUser") ))
+                        listner.replaceFragment(Frag_Sign_Up_One_2().setData(obj.getString("otp") ,  phone_no.text.toString().replace(PhoneNumberTextWatcher.replacer,"") , (country_code.selectedItem as Country_Code).phone_code ,obj.getString("isNewUser") ))
                     }else{
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
@@ -152,15 +152,15 @@ class FragSignUp1 : SignupBaseFragment(), View.OnClickListener, Permission.Liste
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("country_code" , "+"+(country_code.selectedItem as Country_Code).phone_code)//country_code
-                params.put("contact_no" , phone_no.text.toString().replace(PhoneNumberTextWatcher.replacer,""))
+                params["country_code"] = "+"+(country_code.selectedItem as Country_Code).phone_code//country_code
+                params["contact_no"] = phone_no.text.toString().replace(PhoneNumberTextWatcher.replacer,"")
                 Util.e("params" , params.toString())
                 return params
 
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put( "language", SessionManager.getObj().language)
+                params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()
