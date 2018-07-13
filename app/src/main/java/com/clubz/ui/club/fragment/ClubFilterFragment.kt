@@ -18,10 +18,8 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.helper.Type_Token
 import com.clubz.data.remote.WebService
 import com.clubz.data.model.Clubs
-import com.clubz.ui.club.`interface`.MyClubInteraction
 import com.clubz.ui.club.adapter.ClubFilterAdapter
 import com.clubz.ui.club.adapter.MyClub
-import com.clubz.ui.club.adapter.MyClubListAdapter
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
@@ -31,25 +29,26 @@ import org.json.JSONObject
 import java.util.ArrayList
 
 
-class ClubFilterFragment : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, MyClub {
+class ClubFilterFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, MyClub {
 
     private var adapter  : ClubFilterAdapter? = null
     private var clubList : ArrayList<Clubs> = arrayListOf()
-    private var listner  : MyClubInteraction? = null
+    private var mListener: Listener? = null
     private var pageListner : RecyclerViewScrollListener? = null
 
-    override fun onClick(v: View?) {
-
+    interface Listener {
+        fun onRightNavigationItemChange()
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is MyClubInteraction) listner = context
+        val parent = parentFragment
+        mListener = if (parent != null) parent as Listener else context as Listener
     }
 
     override fun onDetach() {
+        mListener = null
         super.onDetach()
-        listner = null
     }
 
     @SuppressLint("InflateParams")
@@ -84,7 +83,6 @@ class ClubFilterFragment : Fragment() , View.OnClickListener, SwipeRefreshLayout
         super.onDestroy()
         clubList.clear()
         adapter = null
-        listner = null
         pageListner = null
     }
 
@@ -92,14 +90,6 @@ class ClubFilterFragment : Fragment() , View.OnClickListener, SwipeRefreshLayout
         pageListner?.resetState()
         clubList.clear()
         getMyClubs()
-    }
-
-    override fun onJoinedClub(club: Clubs) {
-        listner?.onJoinClub(club)
-    }
-
-    override fun onLeavedClub(club: Clubs) {
-        listner?.onLeaveClub(club)
     }
 
     override fun onRefresh() {
@@ -120,7 +110,51 @@ class ClubFilterFragment : Fragment() , View.OnClickListener, SwipeRefreshLayout
         adapter?.notifyDataSetChanged()
     }
 
-    fun getMyClubs(text : String = "", offset :Int = 0, showProgress : Boolean = false){  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
+    override fun onJoinedClub(club: Clubs) {
+       // listner?.onJoinClub(club)
+    }
+
+    override fun onLeavedClub(club: Clubs) {
+       // listner?.onLeaveClub(club)
+    }
+
+    override fun onSilenceClub(club: Clubs, position : Int) {
+        val dialog = CusDialogProg(context)
+        dialog.show()
+        object : VolleyGetPost(activity, WebService.club_silence, false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if (obj.getString("status") == "success") {
+                        mListener?.onRightNavigationItemChange()
+                    }
+                } catch (ex: Exception) { }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+                dialog.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["clubUserId"] = club.clubUserId
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
+                return params
+            }
+        }.execute()
+    }
+
+
+    private fun getMyClubs(text : String = "", offset :Int = 0, showProgress : Boolean = false){  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
         val dialog = CusDialogProg(activity )
         if(showProgress)dialog.show()
 
@@ -162,42 +196,6 @@ class ClubFilterFragment : Fragment() , View.OnClickListener, SwipeRefreshLayout
                 params["authToken"] = SessionManager.getObj().user.auth_token
                 params["language"] = SessionManager.getObj().language
                 return  params
-            }
-        }.execute()
-    }
-
-
-    override fun onSilenceClub(club: Clubs, position : Int) {
-        val dialog = CusDialogProg(context)
-        dialog.show()
-        object : VolleyGetPost(activity, WebService.club_silence, false) {
-            override fun onVolleyResponse(response: String?) {
-                try {
-                    dialog.dismiss()
-                    val obj = JSONObject(response)
-                    if (obj.getString("status") == "success") {
-
-                    }
-                } catch (ex: Exception) { }
-            }
-
-            override fun onVolleyError(error: VolleyError?) {
-                dialog.dismiss()
-            }
-
-            override fun onNetError() {
-                dialog.dismiss()
-            }
-
-            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params["clubUserId"] = club.clubUserId
-                return params
-            }
-
-            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params["authToken"] = ClubZ.currentUser!!.auth_token
-                params["language"] = SessionManager.getObj().language
-                return params
             }
         }.execute()
     }

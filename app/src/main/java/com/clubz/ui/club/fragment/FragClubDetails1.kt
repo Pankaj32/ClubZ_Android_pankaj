@@ -3,7 +3,6 @@ package com.clubz.ui.club.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +38,7 @@ class FragClubDetails1 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setView()
         getClubDetails()
-        view!!.setOnClickListener{}
+        view.setOnClickListener{}
 
         tv_terms.setOnClickListener { object : TermsConditionDialog(context!!, resources.getString(R.string.terms_conditions), clubz.terms_conditions) {
                 override fun onCloseClicked() {
