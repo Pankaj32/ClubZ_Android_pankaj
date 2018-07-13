@@ -33,6 +33,7 @@ import com.clubz.data.remote.GioAddressTask
 import com.clubz.ui.ads.fragment.AdsFragment
 import com.clubz.ui.chat.ChatFragment
 import com.clubz.ui.club.ClubsActivity
+import com.clubz.ui.club.fragment.ClubFilterFragment
 import com.clubz.ui.club.fragment.FragMyClubs
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.dialogs.ClubSelectionDialog
@@ -59,9 +60,10 @@ import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
 class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener{
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener,
+        ClubFilterFragment.Listener {
 
-   // private lateinit var mDrawerLayout: DrawerLayout
+    // private lateinit var mDrawerLayout: DrawerLayout
     private var isOpenMyClub: Boolean = false
     private var isRightNavDrawerOpen: Boolean = false
     private var doublebackpress: Boolean = false
@@ -273,7 +275,14 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         startActivity(Intent(this@HomeActivity, MyActivities::class.java))
     }
 
-   /* override fun updateMyNewsFeed(){
+    override fun onRightNavigationItemChange() {
+        val newsFeedFragment : FragNewsList?= supportFragmentManager.fragments
+                .firstOrNull { it::class.java.simpleName==FragNewsList::class.java.simpleName }
+                ?.let { it as FragNewsList }
+        newsFeedFragment?.setFilter(club, like, comment)
+    }
+
+   /* private fun updateMyNewsFeed(){
         if(ifNeedTocallApi){
             ifNeedTocallApi = false
             val fragemet : List<Fragment> = supportFragmentManager.fragments
