@@ -216,7 +216,8 @@
                 android:fontFamily="@font/teko_semibold"
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginRight="@dimen/_20sdp"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:visibility="gone"/>
 
 
             <RelativeLayout
@@ -226,7 +227,8 @@
                 android:background="@drawable/bg_white"
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginRight="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_10sdp">
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:visibility="gone">
 
 
 

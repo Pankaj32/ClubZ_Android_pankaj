@@ -34,14 +34,22 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
         title_tv.text = feed.news_feed_title
         for (views in arrayOf(backBtn, bubble_menu)) views.setOnClickListener(this)
         setViewPager(view_pager_cd)
-        tablayout_cd.setupWithViewPager(view_pager_cd)
-        bubble_menu.visibility = if(feed.user_id.equals(ClubZ.currentUser?.id)) View.VISIBLE else View.GONE
+        //tablayout_cd.setupWithViewPager(view_pager_cd)
+        bubble_menu.visibility = if(feed.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE
     }
 
    private fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment( FeedDetailFragment.newInstance(feed), resources.getString(R.string.t_content), "First")
-        adapter.addFragment( FragmentChat(),resources.getString(R.string.t_chat) , "second")
+       adapter.addFragment( FeedDetailFragment.newInstance(feed), resources.getString(R.string.t_content), "First")
+       if(feed.is_comment_allow==1){
+           adapter.addFragment( FragmentChat.newInstanceFeedsChat(""+feed.newsFeedId,feed.clubId),resources.getString(R.string.t_chat) , "second")
+           tablayout_cd.setupWithViewPager(view_pager_cd)
+       }
+       else if(feed.is_comment_allow==0){
+           tablayout_cd.setSelectedTabIndicatorHeight(0)
+           tablayout_cd.visibility = View.GONE
+       }
+
         viewPager.adapter = adapter
     }
 
@@ -55,7 +63,6 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id){
-
             R.id.backBtn ->{ onBackPressed() }
 
             R.id.bubble_menu ->{

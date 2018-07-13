@@ -2,66 +2,49 @@ package com.clubz.ui.main
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.ListPopupWindow
 import android.view.Gravity
 import android.view.View
 import android.view.Window
-import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
+import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.core.BaseFragment
 import kotlinx.android.synthetic.main.club_more_menu.*
-import kotlinx.android.synthetic.main.menu_club_selection.*
-import kotlinx.android.synthetic.main.menu_my_activity.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 
+abstract class BaseHomeActivity : BaseActivity(),
+        BaseFragment.FragmentListner , View.OnClickListener{
 
-
-abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentListner , View.OnClickListener{
-
-    protected var dialog : Dialog? = null
+    //protected var dialog : Dialog? = null
     protected var menuDialog : Dialog? = null
     protected var newsFilterDialog : Dialog? = null
-    protected var myActivityDailog: Dialog? = null
+    protected var invalidateThreeDotMenu : Boolean = false
+   // protected var myActivityDailog: Dialog? = null
 
-    override fun hideKeyBoard() {
-        try {
-            val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-        } catch (e: Exception) {
-
-        }
-    }
-
-    override fun onFragBackPress() {
-        onBackPressed()
-    }
-
-
-    internal fun replaceFragment(fragmentHolder: Fragment) {
+    override fun replaceFragment(fragment: Fragment) {
+        super.replaceFragment(fragment)
         try {
             val fragmentManager = supportFragmentManager
             fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            val fragmentName = fragmentHolder.javaClass.name
+            val fragmentName = fragment.javaClass.name
             val fragmentTransaction = fragmentManager.beginTransaction()
             fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-            fragmentTransaction.replace(R.id.frag_container, fragmentHolder, fragmentName).addToBackStack(fragmentName)
+            fragmentTransaction.replace(R.id.frag_container, fragment, fragmentName).addToBackStack(fragmentName)
             fragmentTransaction.commit()
-            bottomtabHandler(fragmentHolder)
-            setActionbarMenu(fragmentHolder)
+            bottomtabHandler(fragment)
+            setActionbarMenu(fragment)
             hideKeyBoard()
         } catch (e: Exception) {
         }
     }
+
 
     @SuppressLint("RtlHardcoded")
     protected fun showLogoutPopup(v : View) {
@@ -79,7 +62,7 @@ abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentList
         lpw.show()
     }
 
-    @SuppressLint("RtlHardcoded")
+  /*  @SuppressLint("RtlHardcoded")
     protected fun clubSelectionMenu(position: Int){
         if(dialog==null){
             dialog = Dialog(this)
@@ -105,10 +88,10 @@ abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentList
         }
 
         dialog?.show()
-    }
+    }*/
 
     @SuppressLint("RtlHardcoded")
-    protected fun showFilterDialog(){
+    private fun showFilterDialog(){
         if(newsFilterDialog==null){
             newsFilterDialog = Dialog(this)
             newsFilterDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -127,7 +110,7 @@ abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentList
        // newsFilterDialog?.setOnDismissListener { updateMyNewsFeed() }
     }
 
-    @SuppressLint("RtlHardcoded")
+   /* @SuppressLint("RtlHardcoded")
     protected fun showMyActivityDialog() {
         if (myActivityDailog == null) {
             myActivityDailog = Dialog(this)
@@ -143,11 +126,14 @@ abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentList
             myActivityDailog?.show()
         }
         myActivityDailog?.show()
-    }
+    }*/
 
 
     @SuppressLint("RtlHardcoded")
     protected fun showMenu(list : ArrayList<DialogMenu>?){
+
+        if(invalidateThreeDotMenu) menuDialog = null
+
         if(menuDialog==null){
             menuDialog = Dialog(this)
             menuDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -156,22 +142,33 @@ abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentList
             menuDialog?.setContentView(R.layout.club_more_menu)
 
             if(list!=null){
-                menuDialog?.menu_iv1?.setImageResource(list[0].id)
-                menuDialog?.menu_iv2?.setImageResource(list[1].id)
-                menuDialog?.menu_tv1?.text = list[0].title
-                menuDialog?.menu_tv2?.text = list[1].title
+                menuDialog?.ll_menu0?.visibility = View.VISIBLE
+                menuDialog?.menu_iv0?.setImageResource(list[0].id)
+                menuDialog?.menu_iv1?.setImageResource(list[1].id)
+                menuDialog?.menu_tv0?.text = list[0].title
+                menuDialog?.menu_tv1?.text = list[1].title
+
+                if(list.size>2){
+                    menuDialog?.ll_menu2?.visibility = View.VISIBLE
+                    menuDialog?.menu_iv2?.setImageResource(list[2].id)
+                    menuDialog?.menu_tv2?.text = list[2].title
+                }
             }
 
-            menuDialog?.ll_menu1?.setOnClickListener(View.OnClickListener {
-               handleMenuClick(list!![0])
-            })
+            menuDialog?.ll_menu0?.setOnClickListener {
+                handleMenuClick(list!![0])
+            }
 
-            menuDialog?.ll_menu2?.setOnClickListener(View.OnClickListener {
+            menuDialog?.ll_menu1?.setOnClickListener {
                 handleMenuClick(list!![1])
-            })
+            }
+
+            menuDialog?.ll_menu2?.setOnClickListener {
+                handleMenuClick(list!![2])
+            }
 
 
-           // for (views in arrayOf(menuDialog?.ll_menu1, menuDialog?.ll_menu2)) views?.setOnClickListener(this)
+            // for (views in arrayOf(menuDialog?.ll_menu1, menuDialog?.ll_menu2)) views?.setOnClickListener(this)
             val lp = dialogWindow?.attributes
             dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
             lp?.y = -100
@@ -184,16 +181,22 @@ abstract class BaseHomeActivity : AppCompatActivity(), BaseFragment.FragmentList
     private fun handleMenuClick(menu: DialogMenu){
         menuDialog?.dismiss()
         when(menu.title){
-            "Filter clubs" ->{ showFilterDialog() }
-            "Renew my location" -> { checkLocationUpdate() }
+            getString(R.string.create_new_nwes) -> { navigateCreateNewsFeed() }
+            getString(R.string.filter_clubs) -> { showFilterDialog() }
+            getString(R.string.renew_my_location) -> { checkLocationUpdate() }
+            getString(R.string.t_new_activity) -> { navigateCreateActivity() }
+            getString(R.string.my_activity) -> { navigateMyActivity() }
         }
     }
 
+    abstract fun navigateCreateActivity()
+    abstract fun navigateCreateNewsFeed()
+    abstract fun navigateMyActivity()
     abstract fun checkLocationUpdate()
     //abstract fun updateMyNewsFeed()
     abstract fun getActivity() : HomeActivity
-    abstract fun bottomtabHandler(fragmentHolder: Fragment)
-    abstract fun setActionbarMenu(fragmentHolder: Fragment)
+    abstract fun bottomtabHandler(fragment: Fragment)
+    abstract fun setActionbarMenu(fragment: Fragment)
 
 
     /*  private fun getAddress(latitude: Double, longitude: Double): Array<String> {

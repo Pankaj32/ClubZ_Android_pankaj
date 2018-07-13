@@ -3,9 +3,9 @@
     android:padding="10dp"
     android:shape="rectangle">
     <!-- you can use any color you want I used here gray color-->
-    <solid android:color="@color/shadow_view_default_shadow_color" />
+    <solid android:color="@color/white" />
     <stroke android:color="@color/black"
-        android:width="1dp"/>
+        android:width=".5dp"/>
     <corners
         android:topLeftRadius="5dp"
         android:topRightRadius="5dp"

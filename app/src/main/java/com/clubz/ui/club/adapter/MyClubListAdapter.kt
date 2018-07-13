@@ -88,7 +88,7 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
 
 
             if(obj.user_id == ClubZ.currentUser?.id){
-                holder.switch1.visibility = View.GONE
+               // holder.switch1.visibility = View.GONE
                 holder.btnJoinClub.visibility = View.GONE
                 if(!ClubZ.currentUser!!.profile_image.isEmpty()){
                     Picasso.with(holder.ivClubManager.context)
@@ -102,8 +102,8 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
                 holder.btnJoinClub.visibility = View.VISIBLE
                 //holder.switch1.isActivated = obj.is_allow_feeds == "1"
                 // holder.switch1.isEnabled = obj.club_user_status.equals("1")
-                holder.switch1.isChecked = obj.is_allow_feeds == "1"
-                holder.switch1.visibility = if(obj.club_user_status == "1") View.VISIBLE else View.GONE
+                //holder.switch1.isChecked = obj.is_allow_feeds == "1"
+                //holder.switch1.visibility = if(obj.club_user_status == "1") View.VISIBLE else View.GONE
                 // emtpty means no action performed yet, 0 = pending for approvial by Club admin , 1 = Joined club
                 // obj.club_type 1 = public club and 2 = private club
                 if(obj.club_type == "1" && obj.club_user_status.isBlank()){
@@ -197,7 +197,7 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
         var imageClub   = itemView.findViewById<ImageView>(R.id.image_club)!!
         var ivClubManager = itemView.findViewById<ImageView>(R.id.ivClubManager)!!
         var btnJoinClub    = itemView.findViewById<Button>(R.id.btn_join)!!
-        var switch1     = itemView.findViewById<Switch>(R.id.switch1)!!
+       // var switch1     = itemView.findViewById<Switch>(R.id.switch1)!!
         var llProfile   = itemView.findViewById<LinearLayout>(R.id.ll_profile)!!
         var llBodyContent   = itemView.findViewById<LinearLayout>(R.id.ll_bodyContent)!!
         var ivExpandBtn   = itemView.findViewById<ImageView>(R.id.ivExpandBtn)!!
@@ -224,10 +224,10 @@ class MyClubListAdapter(internal var list : ArrayList<Clubs>, internal var conte
             }
         }
 
-        holder.switch1.setOnClickListener {
+       /* holder.switch1.setOnClickListener {
             val pos = holder.adapterPosition
             listner.onSilenceClub(list[pos], pos)
-        }
+        }*/
 
         holder.llProfile.setOnClickListener {
             holder.showProfile()

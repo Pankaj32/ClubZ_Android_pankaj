@@ -52,7 +52,7 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
         return inflater.inflate(R.layout.frag_club_details2,null)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setView()
         //text_top.visibility = View.GONE
@@ -160,7 +160,7 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
 
                     }
                 }catch (ex :Exception){
-                    Util.showToast(R.string.swr,context)
+                    Util.showToast(R.string.swr,context!!)
                 }
             }
 
@@ -304,7 +304,7 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
 
                     }
                 } catch (ex: Exception) {
-                     Util.showToast(R.string.swr, context)
+                     Util.showToast(R.string.swr, context!!)
                 }
             }
 
@@ -346,7 +346,7 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                         Util.showToast(obj.getString("message"), context)
                     }
                 } catch (ex: Exception) {
-                     Util.showToast(R.string.swr, context)
+                     Util.showToast(R.string.swr, context!!)
                 }
             }
 

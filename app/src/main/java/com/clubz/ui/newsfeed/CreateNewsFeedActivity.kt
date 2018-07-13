@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -15,6 +14,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.PopupMenu
 import android.text.TextUtils
 import android.view.*
@@ -69,7 +69,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
         setContentView(R.layout.activity_create_news_feed)
 
         run {
-            if (intent.extras != null) clubId = intent.extras.getString("clubId")
+            if (intent.hasExtra("clubId")) clubId = intent.extras.getString("clubId")
             if (intent.hasExtra("feed")) feed = intent.extras.getSerializable("feed") as Feed
         }
 
@@ -88,7 +88,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
 
         for (views in arrayOf(img_newsFeed, backBtn, ivDone)) views.setOnClickListener(this)
 
-        edFilterTag.setOnEditorActionListener { v, actionId, event ->
+        edFilterTag.setOnEditorActionListener { _, actionId, event ->
             if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
                 val tag = edFilterTag.text.toString().trim { it <= ' ' }
                 addTag(tag)
@@ -104,9 +104,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
                 } else ivComment.setImageResource(R.drawable.ic_comment_enable)
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
+            override fun onNothingSelected(p0: AdapterView<*>?) { }
         }
 
         adapter = object : AdapterAutoTextView(this, tagFilter) {
@@ -118,9 +116,31 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
         edFilterTag.onItemClickListener = this  // 'this' is Activity instance
         edFilterTag.threshold = 1
         edFilterTag.setAdapter(adapter)
-        if (feed != null) updateViewIntoEditableMode()
 
+        if (feed != null){
+            updateViewIntoEditableMode()
+        }/* else if(clubId.isNullOrBlank()) {
+            divider_view.visibility = View.VISIBLE
+            ll_clubList.visibility = View.VISIBLE
+            getAllMyClubList()
+        }*/
     }
+
+   /* override fun refreshSpinner() {
+        // Create an ArrayAdapter using a simple spinner layout and languages array
+        val aa = ArrayAdapter(this, R.layout.spinner_item, R.id.spinnText, clubList)
+        // Set layout to use when the list of choices appear
+        aa.setDropDownViewResource(R.layout.spinner_item)
+        // Set Adapter to Spinner
+        spn_clubList?.adapter = aa
+
+        spn_clubList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) { }
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                clubId = clubList[p2].clubId.toString()
+            }
+        }
+    }*/
 
     private fun addTag(tag: String) {
         if (!TextUtils.isEmpty(tag)) {
@@ -191,16 +211,29 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
         userRole = usrerole.editableText.toString()
         description = etv_description.editableText.toString()
 
-        if (feedTitle!!.isEmpty()) {
-            titile_name.requestFocus()
-            showSneckBar(getString(R.string.error_article_name))
-            return false
-        } else if (description!!.isEmpty()) {
-            etv_description.requestFocus()
-            showSneckBar(getString(R.string.error_article_desc))
-            return false
+        when {
+            feedTitle!!.isEmpty() -> {
+                titile_name.requestFocus()
+                showSneckBar(getString(R.string.error_article_name))
+                return false
+            }
+            clubId.isNullOrBlank() -> {
+                showSneckBar(getString(R.string.error_article_club_id))
+                return false
+            }
+
+            clubId == "-1" -> {
+                showSneckBar(getString(R.string.error_article_club_id))
+                return false
+            }
+
+            description!!.isEmpty() -> {
+                etv_description.requestFocus()
+                showSneckBar(getString(R.string.error_article_desc))
+                return false
+            }
+            else -> return true
         }
-        return true
     }
 
     private fun showSneckBar(text: String) {
@@ -215,20 +248,20 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
                 WebService.create_newsFeed,
                 Response.Listener<NetworkResponse> { response ->
                     val data = String(response.data)
-                    Util.e("data", data)
-                    dialog.dismiss()
                     //{"status":"success","message":"Club added successfully"}
                     try {
                         val obj = JSONObject(data)
                         if (obj.getString("status") == "success") {
                             Toast.makeText(this@CreateNewsFeedActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
-                            val feeDetails = Gson().fromJson(data, NewsFeedDetails::class.java);
+                            val feeDetails = Gson().fromJson(data, NewsFeedDetails::class.java)
                             createFeedInFireBase(feeDetails, "new")
+
                         } else {
                             Toast.makeText(this@CreateNewsFeedActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
                         }
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
+                        dialog.dismiss()
                         Toast.makeText(this@CreateNewsFeedActivity, R.string.swr, Toast.LENGTH_LONG).show()
                     }
                     dialog.dismiss()
@@ -243,7 +276,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
                 params["newsFeedTitle"] = feedTitle!!
                 params["newsFeedDescription"] = description!!
                 params["tagName"] = tagList.joinToString()
-                params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "Comment disabled") "0" else "1"
+                params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "comment disabled") "0" else "1"
                 params["userRole"] = if (userRole.isNullOrBlank()) getString(R.string.club_manager) else userRole!!
                 return params
             }
@@ -275,13 +308,14 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
         feedBean.feedTitle = feeDetails?.getFeedDetail()?.news_feed_title
         feedBean.feedImage = feeDetails?.getFeedDetail()?.news_feed_attachment
         feedBean.clubId = feeDetails?.getFeedDetail()?.clubId
+        feedBean.isCommentAllow = feeDetails?.getFeedDetail()?.is_comment_allow
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_NEWS_FEED)
                 .child(feeDetails?.getFeedDetail()?.clubId)
                 .child(feeDetails?.getFeedDetail()?.newsFeedId)
                 .setValue(feedBean).addOnCompleteListener {
-                    if (status.equals("update")) {
+                    if (status == "update") {
                         setResult(Activity.RESULT_OK, intent)
                     }
                     finish()
@@ -302,7 +336,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
                         val obj = JSONObject(data)
                         if (obj.getString("status") == "success") {
                             Toast.makeText(this@CreateNewsFeedActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
-                            val feeDetails = Gson().fromJson(data, NewsFeedDetails::class.java);
+                            val feeDetails = Gson().fromJson(data, NewsFeedDetails::class.java)
                             createFeedInFireBase(feeDetails, "update")
                         } else {
                             Toast.makeText(this@CreateNewsFeedActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
@@ -324,7 +358,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
                 params["newsFeedTitle"] = feedTitle!!
                 params["newsFeedDescription"] = description!!
                 params["tagName"] = tagList.joinToString()
-                params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "Comment disabled") "0" else "1"
+                params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "comment disabled") "0" else "1"
                 params["userRole"] = if (userRole.isNullOrBlank()) getString(R.string.club_manager) else userRole!!
                 return params
             }

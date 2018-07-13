@@ -8,8 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import com.clubz.ClubZ
 
@@ -20,11 +18,10 @@ import com.clubz.chat.model.FeedBean
 import com.clubz.chat.util.ChatUtil
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_chat.*
-
-import java.util.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -54,47 +51,42 @@ class FragmentChat : Fragment(), View.OnClickListener {
     private var chatRoom = ""
     private val databaseReference = FirebaseDatabase.getInstance().reference
     private var mChatRecyclerAdapter: ChatRecyclerAdapter? = null
-    private var noDataTxtMsg:TextView? = null
-    private var progressbar:ProgressBar? = null
 
 
     private var mListener: OnFragmentInteractionListener? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val v = inflater!!.inflate(R.layout.fragment_chat, container, false)
-        noDataTxtMsg = v.findViewById<TextView>(R.id.noDataTxtMsg)
-        progressbar = v.findViewById<ProgressBar>(R.id.progressbar)
-        return v
+        return inflater.inflate(R.layout.fragment_chat, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         app = FirebaseApp.getInstance()
         mstorage = FirebaseStorage.getInstance(app!!)
-
-        arguments?.let {
-            chatFor = arguments.getString(ARG_CHATFOR)
+        if (arguments != null) {
+            chatFor = arguments!!.getString(ARG_CHATFOR)
             when (chatFor) {
                 "feeds" -> {
-                    clubId = arguments.getString(ARG_CLUB_ID)
-                    feedsId = arguments.getString(ARG_FEED_ID)
+                    clubId = arguments!!.getString(ARG_CLUB_ID)
+                    feedsId = arguments!!.getString(ARG_FEED_ID)
                     chatRoom = clubId + "_" + feedsId + "_" + chatFor
                     getFeedStatus()
                     // getMessageFromFirebaseUser()
                 }
                 "activities" -> {
-                    activityId = arguments.getString(ARG_ACTIVITYID)
-                    userId = arguments.getString(ARG_USERID)
-                    userName = arguments.getString(ARG_USERNAME)
-                    userProfileImg = arguments.getString(ARG_USERPROFILEIMG)
+                    activityId = arguments!!.getString(ARG_ACTIVITYID)
+                    userId = arguments!!.getString(ARG_USERID)
+                    userName = arguments!!.getString(ARG_USERNAME)
+                    userProfileImg = arguments!!.getString(ARG_USERPROFILEIMG)
                 }
             }
         }
-
         sentButton.setOnClickListener(this)
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         if (mListener != null) {
             mListener!!.onFragmentInteraction(uri)
@@ -204,7 +196,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                         if (feedsBean?.isCommentAllow.equals("1")) {
                             getMessageFromFirebaseUser()
                         }else{
-                            txtMsg.setFocusable(false)
+                            txtMsg.isFocusable = false
                             txtMsg.setText("Comment disable")
                         }
                     }
@@ -235,15 +227,15 @@ class FragmentChat : Fragment(), View.OnClickListener {
                                 }*/)
                                     chatRecycler.adapter = mChatRecyclerAdapter
                                 } else {
-                                    mChatRecyclerAdapter?.add(chatBean)
+                                    mChatRecyclerAdapter!!.add(chatBean)
                                 }
                                 try {
                                     chatRecycler.scrollToPosition(mChatRecyclerAdapter!!.itemCount - 1)
                                 } catch (e: Exception) {
 
                                 }
-                                noDataTxtMsg?.visibility = View.GONE
-                                progressbar?.visibility = View.GONE
+                                noDataTxt.visibility = View.GONE
+                                progressbar.visibility = View.GONE
                             }
 
                             override fun onChildChanged(dataSnapshot: DataSnapshot, s: String) {
@@ -259,7 +251,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                             }
 
                             override fun onCancelled(databaseError: DatabaseError) {
-                                progressbar?.visibility = View.GONE
+                                progressbar.visibility = View.GONE
                             }
                         })
             }

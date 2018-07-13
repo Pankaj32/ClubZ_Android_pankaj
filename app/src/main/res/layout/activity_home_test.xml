@@ -77,51 +77,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"/>
 
-
-                        <!--<RelativeLayout
-                            android:id="@+id/serch_box"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:visibility="gone">
-
-                            <android.support.v7.widget.AppCompatImageView
-                                android:id="@+id/search_back_icon"
-                                android:layout_width="@dimen/_30sdp"
-                                android:layout_height="match_parent"
-                                android:padding="@dimen/_3sdp"
-                                app:srcCompat="@drawable/ic_search_white" />
-
-                            <EditText
-                                android:id="@+id/search_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_centerVertical="true"
-                                android:background="@null"
-                                android:singleLine="true"
-                                android:maxLines="1"
-                                android:inputType="text"
-                                android:imeOptions="actionSearch"
-                                android:textSize="14sp"
-                                android:theme="@style/whitetheme"
-                                android:visibility="gone" />
-
-                            <android.support.v7.widget.AppCompatImageView
-                                android:id="@+id/cancel"
-                                android:layout_width="@dimen/_30sdp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginRight="@dimen/_15sdp"
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:padding="@dimen/_7sdp"
-                                android:rotation="45"
-                                android:tint="@color/white"
-                                app:srcCompat="@drawable/ic_plus_symbol" />
-
-                        </RelativeLayout>-->
-
-
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/search"
                             android:layout_width="@dimen/_30sdp"
@@ -228,6 +183,7 @@
         style="@style/Widget.Design.NavigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:layout_gravity="start"
         android:background="@color/white"
         android:theme="@style/NavigationView"
@@ -236,43 +192,55 @@
         app:itemIconTint="@color/nav_gray"
         android:padding="0dp"
         app:menu="@menu/drawer"
-        android:visibility="visible">
+        android:visibility="visible"/>
 
-       <!-- <Button
-            android:id="@+id/logout"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_gravity="bottom"
-            android:layout_margin="@dimen/_16sdp"
-            android:background="@drawable/bg_btn_green"
-            android:fontFamily="@font/roboto_regular"
-            android:text="@string/logout"
-            android:textAllCaps="true"
-            android:textSize="16sp" />-->
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/rightNavigationView"
+        style="@style/Widget.Design.NavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        android:background="@color/white"
+        android:theme="@style/NavigationView"
+        app:itemTextColor="@color/nav_gray"
+        app:itemIconTint="@color/nav_gray"
+        android:padding="0dp" >
+
+        <RelativeLayout
+            android:id="@+id/drawerView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minWidth="@dimen/_300sdp"
+            android:layout_marginTop="22dp"
+            android:background="@color/transparent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:text="Club filter"
+                android:gravity="start|center_vertical"
+                android:paddingStart="@dimen/_8sdp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sdp"
+                android:paddingTop="@dimen/_3sdp"
+                android:fontFamily="@font/teko_semibold"
+                android:background="@color/primaryColor"/>
+
+            <fragment
+                android:id="@+id/fragment2"
+                android:name="com.clubz.ui.club.fragment.ClubFilterFragment"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:tag="navigation"
+                android:layout_marginTop="?actionBarSize"/>
+
+        </RelativeLayout>
 
     </android.support.design.widget.NavigationView>
 
-    <RelativeLayout
-        android:id="@+id/drawerView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:minWidth="@dimen/_300sdp"
-        android:layout_gravity="end"
-        android:background="@color/transparent"
-        android:layout_marginTop="@dimen/_50sdp">
 
-        <fragment
-            android:id="@+id/fragment2"
-            android:name="com.clubz.ui.club.fragment.FragMyClubs"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="@dimen/_50sdp"
-            />
-
-    </RelativeLayout>
-
-
-<!--
 
     <FrameLayout
         android:id="@+id/filter_list"
@@ -290,7 +258,6 @@
             android:visibility="visible" />
 
     </FrameLayout>
--->
 
 
 </android.support.v4.widget.DrawerLayout>

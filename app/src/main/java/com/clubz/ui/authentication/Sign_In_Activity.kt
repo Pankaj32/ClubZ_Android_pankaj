@@ -88,7 +88,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0!!.id){
-            R.id.sign_up ->startActivity(Intent(this@Sign_In_Activity, Sign_up_Activity::class.java))
+            R.id.sign_up ->startActivity(Intent(this@Sign_In_Activity, SignupActivity::class.java))
             R.id.next -> if(verify()) login()
             R.id.google_lnr ->   googleSignin()
             R.id.facebook_lnr -> try {
@@ -252,7 +252,7 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
                 if (obj.getString("status").equals("success") ) {
                     //{"status":"success","step":1}
                  if(obj.has("step") && obj.getInt("step")==1){
-                     var intent = Intent(this@Sign_In_Activity, Sign_up_Activity::class.java)
+                     var intent = Intent(this@Sign_In_Activity, SignupActivity::class.java)
                         if(account!=null){
                             intent.putExtra(Constants._first_name,account.displayName)
                             intent.putExtra(Constants._email,account.email.toString())
