@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:emojicon="http://schemas.android.com/tools"
     android:padding="@dimen/_5sdp">
 
     <TextView
@@ -26,7 +26,7 @@
         android:background="@drawable/chat_mine_bg"
         android:orientation="vertical">
 
-        <TextView
+        <!--<TextView
             android:id="@+id/text_view_chat_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,7 +35,19 @@
             android:paddingRight="@dimen/_8sdp"
             android:text=""
             android:textColor="@color/black"
-            android:visibility="visible" />
+            android:visibility="visible" />-->
+        <hani.momanii.supernova_emoji_library.Helper.EmojiconTextView
+            android:id="@+id/text_view_chat_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingRight="@dimen/_8sdp"
+            android:text=""
+            android:textColor="@color/black"
+            android:visibility="visible"
+            emojicon:emojiconSize="28sp"
+            emojicon:emojiconUseSystemDefault="true" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

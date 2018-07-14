@@ -18,6 +18,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
+
 /**
  * Created by chiranjib on 6/06/18.
  */
@@ -141,8 +143,9 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private class MyChatViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtChatMessage, dateTime,userTxt;
+        private TextView  dateTime,userTxt;
         private ImageView chatImageview;
+        private EmojiconTextView txtChatMessage;
         private ProgressBar smlProgress;
         ///private ShadowView myside;
 
@@ -161,8 +164,9 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private class OtherChatViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtChatMessage, dateTime,userTxt;
+        private TextView dateTime,userTxt;
         private ImageView chatImageview;
+        private EmojiconTextView txtChatMessage;
         private ProgressBar smlProgress;
         //  private ShadowView myside;
 

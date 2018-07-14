@@ -38,6 +38,7 @@ import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.mvc.imagepicker.ImagePicker
+import hani.momanii.supernova_emoji_library.Actions.EmojIconActions
 import kotlinx.android.synthetic.main.fragment_chat.*
 import java.io.File
 import java.io.IOException
@@ -77,7 +78,9 @@ class FragmentChat : Fragment(), View.OnClickListener {
 
     private var mListener: OnFragmentInteractionListener? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    private var emojIcon:EmojIconActions?=null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater!!.inflate(R.layout.fragment_chat, container, false)
@@ -88,25 +91,40 @@ class FragmentChat : Fragment(), View.OnClickListener {
         app = FirebaseApp.getInstance()
         mstorage = FirebaseStorage.getInstance(app!!)
         if (arguments != null) {
-            chatFor = arguments.getString(ARG_CHATFOR)
+            chatFor = arguments!!.getString(ARG_CHATFOR)
             when (chatFor) {
                 "feeds" -> {
-                    clubId = arguments.getString(ARG_CLUB_ID)
-                    feedsId = arguments.getString(ARG_FEED_ID)
+                    clubId = arguments!!.getString(ARG_CLUB_ID)
+                    feedsId = arguments!!.getString(ARG_FEED_ID)
                     chatRoom = clubId + "_" + feedsId + "_" + chatFor
                     getFeedStatus()
                     // getMessageFromFirebaseUser()
                 }
                 "activities" -> {
-                    activityId = arguments.getString(ARG_ACTIVITYID)
-                    userId = arguments.getString(ARG_USERID)
-                    userName = arguments.getString(ARG_USERNAME)
-                    userProfileImg = arguments.getString(ARG_USERPROFILEIMG)
+                    activityId = arguments!!.getString(ARG_ACTIVITYID)
+                    userId = arguments!!.getString(ARG_USERID)
+                    userName = arguments!!.getString(ARG_USERNAME)
+                    userProfileImg = arguments!!.getString(ARG_USERPROFILEIMG)
                 }
             }
         }
         sentButton.setOnClickListener(this)
         sendPicBtn.setOnClickListener(this)
+        emojIcon = EmojIconActions(mContext, rootView, txtMsg, emoji)
+        emojIcon?.ShowEmojIcon()
+        emojIcon?.setIconsIds(R.drawable.ic_action_keyboard, R.drawable.ic_smilely_ico)
+
+        emojIcon?.setUseSystemEmoji(false)
+
+        emojIcon?.setKeyboardListener(object : EmojIconActions.KeyboardListener {
+            override fun onKeyboardOpen() {
+                Log.e("TAG", "Keyboard opened!")
+            }
+
+            override fun onKeyboardClose() {
+                Log.e("TAG", "Keyboard closed")
+            }
+        })
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -376,7 +394,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 var file = File(Environment.getExternalStorageDirectory().toString() + File.separator + "image.jpg");
                 imageUri =
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".provider", file)
+                            FileProvider.getUriForFile(mContext!!, BuildConfig.APPLICATION_ID + ".provider", file)
                         } else {
                             Uri.fromFile(file)
                         }
@@ -384,18 +402,18 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-                ImagePicker.pickImage(this);
+                ImagePicker.pickImage(this)
                 // com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
             }
-            Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+            Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_CAMERA)
-            Constants.INTENTREQUESTREAD -> ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+            Constants.INTENTREQUESTREAD -> ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
             Constants.INTENTREQUESTWRITE -> {
             }
 
             Constants.INTENTREQUESTNET -> {
-                ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.INTERNET),
+                ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.INTERNET),
                         Constants.MY_PERMISSIONS_REQUEST_INTERNET)
             }
         }
