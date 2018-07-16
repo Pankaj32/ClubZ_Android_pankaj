@@ -757,7 +757,7 @@
                             android:fontFamily="@font/roboto_light"
                             android:textColor="@color/text_gray"
                             android:textSize="@dimen/_12sdp"
-                            android:text="@string/club_manager"
+                            android:text="@string/manager"
                             android:layout_marginLeft="@dimen/_16sdp"
                             android:layout_below="@+id/leadby"
                             android:singleLine="true"

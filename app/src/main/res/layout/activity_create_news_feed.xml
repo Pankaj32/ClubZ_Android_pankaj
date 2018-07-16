@@ -406,7 +406,7 @@
                             android:textColorHint="#666666"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12sdp"
-                            android:hint="@string/club_manager"
+                            android:hint="@string/manager"
                             android:layout_marginLeft="@dimen/_16sdp"
                             android:layout_below="@+id/leadby"
                             android:inputType="textCapSentences"

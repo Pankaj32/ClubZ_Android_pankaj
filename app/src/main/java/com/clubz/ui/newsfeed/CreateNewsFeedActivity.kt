@@ -176,9 +176,10 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
         tv_header.text = getString(R.string.update_article)
         leadby.text = ClubZ.currentUser?.full_name
         titile_name.setText(feed!!.news_feed_title)
-        usrerole.setText(getString(R.string.club_manager))
+        usrerole.setText(getString(R.string.manager))
         etv_description.setText(feed!!.news_feed_description)
         spn_commentStatus.setSelection(feed!!.is_comment_allow)
+        clubId = feed?.clubId
         if (!feed?.news_feed_attachment.isNullOrEmpty())
             Picasso.with(img_newsFeed.context).load(feed!!.news_feed_attachment).fit().into(img_newsFeed)
         val tags = feed?.tagName?.split(",")?.map { it.trim() }
@@ -277,7 +278,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
                 params["newsFeedDescription"] = description!!
                 params["tagName"] = tagList.joinToString()
                 params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "comment disabled") "0" else "1"
-                params["userRole"] = if (userRole.isNullOrBlank()) getString(R.string.club_manager) else userRole!!
+                params["userRole"] = if (userRole.isNullOrBlank()) getString(R.string.manager) else userRole!!
                 return params
             }
 
@@ -359,7 +360,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
                 params["newsFeedDescription"] = description!!
                 params["tagName"] = tagList.joinToString()
                 params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "comment disabled") "0" else "1"
-                params["userRole"] = if (userRole.isNullOrBlank()) getString(R.string.club_manager) else userRole!!
+                params["userRole"] = if (userRole.isNullOrBlank()) getString(R.string.manager) else userRole!!
                 return params
             }
 

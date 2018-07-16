@@ -55,14 +55,14 @@ class FeedDetailFragment : Fragment() {
         tvClubname.text = feed!!.club_name
         tvUsername.text = feed!!.user_name
         tvTitle.text = feed!!.news_feed_title
-        tvUsreRole.text = getString(R.string.club_manager)
+        tvUsreRole.text = getString(R.string.manager)
         tvDescription.text = feed!!.news_feed_description
         tvLikeCount.text = String.format(getString(R.string.likes_count), feed!!.likes)
-        tvCommentCount.text = String.format(getString(R.string.comments_count), feed!!.comments)
+        //tvCommentCount.text = String.format(getString(R.string.comments_count), feed!!.comments)
         tvCreateTime.text = feed?.getFormatedDate()
         likeIcon.isChecked = feed?.isLiked==1
 
-        ivChat.setImageResource(if(feed!!.comments>0) R.drawable.chat_icon else R.drawable.ic_chat_outline)
+        //ivChat.setImageResource(if(feed!!.comments>0) R.drawable.chat_icon else R.drawable.ic_chat_outline)
         if(feed?.news_feed_attachment.isNullOrEmpty()) ivBanner.visibility = View.GONE
         else Picasso.with(ivBanner.context).load(feed?.news_feed_attachment).fit().into(ivBanner)
 
