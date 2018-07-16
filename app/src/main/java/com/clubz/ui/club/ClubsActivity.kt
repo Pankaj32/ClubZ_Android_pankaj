@@ -161,8 +161,10 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         val memberBean = MemberBean()
         memberBean.clubId = club.clubId
         memberBean.userId = ClubZ.currentUser?.id
-        memberBean.isjoind = status
-        memberBean.isSilent = "0"
+        memberBean.joind = status
+        memberBean.silent = "1"
+
+
 
         FirebaseDatabase.getInstance()
                 .reference

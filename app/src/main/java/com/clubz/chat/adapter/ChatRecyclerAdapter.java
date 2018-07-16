@@ -44,6 +44,10 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyDataSetChanged();
         notifyItemInserted(mChatBeen.size());
     }
+    public void clear() {
+        mChatBeen.clear();
+        notifyDataSetChanged();
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

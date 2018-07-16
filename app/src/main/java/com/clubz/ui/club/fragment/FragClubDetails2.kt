@@ -342,7 +342,7 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                 .child(ChatUtil.ARG_CLUB_MEMBER)
                 .child(clubz.clubId)
                 .child(member?.userId)
-                .child("isSilent").setValue(member?.member_status)
+                .child("silent").setValue(member?.member_status)
     }
 
     override fun onTagAdd(tag: String?, member: ClubMember?, pos: Int) {

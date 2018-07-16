@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.*
 import android.widget.EditText
@@ -81,8 +82,10 @@ class FragmentChat : Fragment(), View.OnClickListener {
     private var isCameraSelected: Boolean = false
     private var imageUri: Uri? = null
     private var noDataTxt: TextView? = null
+    private var silentTxt: TextView? = null
     private var progressbar: ProgressBar? = null
-    private var txtMsg: EmojiconEditText?=null
+    private var txtMsg: EmojiconEditText? = null
+    private var chatRecycler: RecyclerView? = null
 
 
     private var mListener: OnFragmentInteractionListener? = null
@@ -94,8 +97,10 @@ class FragmentChat : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         var view = inflater!!.inflate(R.layout.fragment_chat, container, false)
         noDataTxt = view.findViewById<EditText>(R.id.noDataTxt)
+        silentTxt = view.findViewById<EditText>(R.id.silentTxt)
         progressbar = view.findViewById<ProgressBar>(R.id.progressbar)
         txtMsg = view.findViewById<EmojiconEditText>(R.id.txtMsg)
+        chatRecycler = view.findViewById<RecyclerView>(R.id.chatRecycler)
         return view
     }
 
@@ -273,15 +278,19 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 .child(ClubZ.currentUser?.id).addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
                         val memberBean = dataSnapshot?.getValue(MemberBean::class.java)
-                        if(memberBean!=null) {
-                            if (memberBean?.isSilent == "1") {
-                                txtMsg?.setFocusable(true)
-                                txtMsg?.setText("")
+                        if (memberBean != null) {
+                            if (memberBean?.silent == "1") {
+                                silentTxt?.visibility = View.GONE
+                                silentTxt?.isClickable = true
+                                chatRecycler?.visibility = View.VISIBLE
+                                noDataTxt?.visibility = View.GONE
+                                if (mChatRecyclerAdapter == null) getMessageFromFirebaseUser()
                             } else {
-                                txtMsg?.setFocusable(false)
-                                txtMsg?.setText("You are Silent by the club manager")
+                                silentTxt?.visibility = View.VISIBLE
+                                chatRecycler?.visibility = View.GONE
+                                noDataTxt?.visibility = View.VISIBLE
                             }
-                        }else{
+                        } else {
                             getMessageFromFirebaseUser()
                         }
                     }
@@ -309,12 +318,12 @@ class FragmentChat : Fragment(), View.OnClickListener {
                                         showZoomImage(url)
                                     }
                                 }*/)
-                                    chatRecycler.adapter = mChatRecyclerAdapter
+                                    chatRecycler?.adapter = mChatRecyclerAdapter
                                 } else {
                                     mChatRecyclerAdapter?.add(chatBean)
                                 }
                                 try {
-                                    chatRecycler.scrollToPosition(mChatRecyclerAdapter!!.itemCount - 1)
+                                    chatRecycler?.scrollToPosition(mChatRecyclerAdapter!!.itemCount - 1)
                                 } catch (e: Exception) {
 
                                 }

@@ -547,5 +547,6 @@
     <string name="no_chat_found_yet">No chat found yet</string>
     <string name="please_type">Please type a message</string>
     <string name="select_the_club_to_post">Select the club to post</string>
+    <string name="you_are_silent_by_the_club_manager">You are Silent by the club manager</string>
 
 </resources>
