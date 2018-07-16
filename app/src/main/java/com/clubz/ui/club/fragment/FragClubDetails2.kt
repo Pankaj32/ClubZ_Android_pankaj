@@ -28,6 +28,9 @@ import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import org.json.JSONObject
 import android.widget.ImageView
+import com.clubz.chat.model.MemberBean
+import com.clubz.chat.util.ChatUtil
+import com.google.firebase.database.FirebaseDatabase
 
 /**
  * Created by Dhrmraj Acharya on २१/३/१८.
@@ -260,6 +263,7 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
                         member?.member_status = obj.getString("member_status")
+                        updateClubMemberInFireBase(member)
                         adapterOwnClubMember?.updateMember(member, pos)
                     } else {
                         Util.showToast(obj.getString("message") , context)
@@ -329,6 +333,16 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                 return params
             }
         }.execute()
+    }
+
+    private fun updateClubMemberInFireBase(member: ClubMember?) {
+
+        FirebaseDatabase.getInstance()
+                .reference
+                .child(ChatUtil.ARG_CLUB_MEMBER)
+                .child(clubz.clubId)
+                .child(member?.userId)
+                .child("isSilent").setValue(member?.member_status)
     }
 
     override fun onTagAdd(tag: String?, member: ClubMember?, pos: Int) {

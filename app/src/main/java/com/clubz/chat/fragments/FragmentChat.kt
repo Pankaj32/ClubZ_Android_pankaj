@@ -16,6 +16,9 @@ import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.util.Log
 import android.view.*
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
@@ -24,6 +27,7 @@ import com.clubz.R
 import com.clubz.chat.adapter.ChatRecyclerAdapter
 import com.clubz.chat.model.ChatBean
 import com.clubz.chat.model.FeedBean
+import com.clubz.chat.model.MemberBean
 import com.clubz.chat.util.ChatUtil
 import com.clubz.utils.Constants
 import com.clubz.utils.cropper.CropImage
@@ -39,6 +43,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.mvc.imagepicker.ImagePicker
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
 import kotlinx.android.synthetic.main.fragment_chat.*
 import java.io.File
 import java.io.IOException
@@ -75,19 +80,28 @@ class FragmentChat : Fragment(), View.OnClickListener {
     private var mChatRecyclerAdapter: ChatRecyclerAdapter? = null
     private var isCameraSelected: Boolean = false
     private var imageUri: Uri? = null
+    private var noDataTxt: TextView? = null
+    private var progressbar: ProgressBar? = null
+    private var txtMsg: EmojiconEditText?=null
+
 
     private var mListener: OnFragmentInteractionListener? = null
 
-    private var emojIcon:EmojIconActions?=null
+    private var emojIcon: EmojIconActions? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_chat, container, false)
+        var view = inflater!!.inflate(R.layout.fragment_chat, container, false)
+        noDataTxt = view.findViewById<EditText>(R.id.noDataTxt)
+        progressbar = view.findViewById<ProgressBar>(R.id.progressbar)
+        txtMsg = view.findViewById<EmojiconEditText>(R.id.txtMsg)
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         app = FirebaseApp.getInstance()
         mstorage = FirebaseStorage.getInstance(app!!)
         if (arguments != null) {
@@ -97,7 +111,8 @@ class FragmentChat : Fragment(), View.OnClickListener {
                     clubId = arguments!!.getString(ARG_CLUB_ID)
                     feedsId = arguments!!.getString(ARG_FEED_ID)
                     chatRoom = clubId + "_" + feedsId + "_" + chatFor
-                    getFeedStatus()
+                    //getFeedStatus()
+                    getUserStatus()
                     // getMessageFromFirebaseUser()
                 }
                 "activities" -> {
@@ -110,19 +125,17 @@ class FragmentChat : Fragment(), View.OnClickListener {
         }
         sentButton.setOnClickListener(this)
         sendPicBtn.setOnClickListener(this)
+        emojIcon?.setUseSystemEmoji(false)
         emojIcon = EmojIconActions(mContext, rootView, txtMsg, emoji)
         emojIcon?.ShowEmojIcon()
-        emojIcon?.setIconsIds(R.drawable.ic_action_keyboard, R.drawable.ic_smilely_ico)
-
-        emojIcon?.setUseSystemEmoji(false)
-
+        emojIcon?.setIconsIds(R.drawable.keyboard_ico, R.drawable.ic_smilely_ico)
         emojIcon?.setKeyboardListener(object : EmojIconActions.KeyboardListener {
             override fun onKeyboardOpen() {
-                Log.e("TAG", "Keyboard opened!")
+
             }
 
             override fun onKeyboardClose() {
-                Log.e("TAG", "Keyboard closed")
+
             }
         })
     }
@@ -154,8 +167,8 @@ class FragmentChat : Fragment(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.sentButton -> {
-                if (txtMsg.text.toString().isNotEmpty()) {
-                    sendMessage(txtMsg.text.toString(), "text", chatFor)
+                if (txtMsg?.text.toString().isNotEmpty()) {
+                    sendMessage(txtMsg?.text.toString(), "text", chatFor)
                 } else {
                     Toast.makeText(mContext, R.string.please_type, Toast.LENGTH_LONG).show()
                 }
@@ -169,7 +182,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
     private fun sendMessage(message: String, msgType: String, chatType: String) {
         if (message != "") {
             var msg = ""
-            txtMsg.setText("")
+            txtMsg?.setText("")
             //   Constant.hideSoftKeyboard(ChatActivity.this);
             val chatBean = ChatBean()
             chatBean.deleteby = ""
@@ -228,12 +241,12 @@ class FragmentChat : Fragment(), View.OnClickListener {
         }
     }
 
-    fun getFeedStatus() {
+    /*fun getFeedStatus() {
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_NEWS_FEED)
                 .child(clubId)
-                .child(feedsId).addListenerForSingleValueEvent(object : ValueEventListener {
+                .child(feedsId).addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
                         val feedsBean = dataSnapshot?.getValue(FeedBean::class.java)
                         if (feedsBean?.isCommentAllow.equals("1")) {
@@ -250,6 +263,34 @@ class FragmentChat : Fragment(), View.OnClickListener {
 
                 })
 
+    }*/
+
+    private fun getUserStatus() {
+        FirebaseDatabase.getInstance()
+                .reference
+                .child(ChatUtil.ARG_CLUB_MEMBER)
+                .child(clubId)
+                .child(ClubZ.currentUser?.id).addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        val memberBean = dataSnapshot?.getValue(MemberBean::class.java)
+                        if(memberBean!=null) {
+                            if (memberBean?.isSilent == "1") {
+                                txtMsg?.setFocusable(true)
+                                txtMsg?.setText("")
+                            } else {
+                                txtMsg?.setFocusable(false)
+                                txtMsg?.setText("You are Silent by the club manager")
+                            }
+                        }else{
+                            getMessageFromFirebaseUser()
+                        }
+                    }
+
+                    override fun onCancelled(p0: DatabaseError?) {
+
+                    }
+
+                })
     }
 
     fun getMessageFromFirebaseUser() {
@@ -277,8 +318,8 @@ class FragmentChat : Fragment(), View.OnClickListener {
                                 } catch (e: Exception) {
 
                                 }
-                                noDataTxt.visibility = View.GONE
-                                progressbar.visibility = View.GONE
+                                noDataTxt?.visibility = View.GONE
+                                progressbar?.visibility = View.GONE
                             }
 
                             override fun onChildChanged(dataSnapshot: DataSnapshot, s: String) {
@@ -294,7 +335,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                             }
 
                             override fun onCancelled(databaseError: DatabaseError) {
-                                progressbar.visibility = View.GONE
+                                progressbar?.visibility = View.GONE
                             }
                         })
             }
@@ -477,17 +518,17 @@ class FragmentChat : Fragment(), View.OnClickListener {
     }
 
     private fun sendFileFireBase(selectedImageUri: Uri) {
-        progressbar.visibility = View.VISIBLE
+        progressbar?.visibility = View.VISIBLE
         storageRef = mstorage?.getReference("chat_photos_" + getString(R.string.app_name))
         val photoRef = storageRef?.child(selectedImageUri.lastPathSegment)
         photoRef?.putFile(selectedImageUri)?.addOnSuccessListener { taskSnapshot ->
             val fireBaseUri = taskSnapshot.downloadUrl
             Log.e("TAG", "onSuccess: ")
-            progressbar.visibility = View.GONE
+            progressbar?.visibility = View.GONE
             sendMessage(fireBaseUri!!.toString(), "image", chatFor)
         }
                 ?.addOnFailureListener { e ->
-                    progressbar.visibility = View.GONE
+                    progressbar?.visibility = View.GONE
                     Log.e("TAG", "onFailure: " + e.message)
                     Toast.makeText(mContext, "Failed " + e.message, Toast.LENGTH_SHORT).show()
                 }

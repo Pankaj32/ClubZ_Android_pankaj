@@ -179,6 +179,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener, Adapte
         usrerole.setText(getString(R.string.club_manager))
         etv_description.setText(feed!!.news_feed_description)
         spn_commentStatus.setSelection(feed!!.is_comment_allow)
+        clubId = feed?.clubId
         if (!feed?.news_feed_attachment.isNullOrEmpty())
             Picasso.with(img_newsFeed.context).load(feed!!.news_feed_attachment).fit().into(img_newsFeed)
         val tags = feed?.tagName?.split(",")?.map { it.trim() }
