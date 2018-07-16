@@ -1,6 +1,8 @@
 package com.clubz.data.model
 
-class DialogMenu (val title: String="", val id : Int=-1){
+import java.io.Serializable
+
+class DialogMenu (val title: String="", val id : Int=-1) : Serializable {
    /* val title = ""
     val id :Int = -1*/
 }

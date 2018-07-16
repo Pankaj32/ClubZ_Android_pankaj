@@ -22,10 +22,12 @@ import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.ClubMember
+import com.clubz.data.model.DialogMenu
 import com.clubz.data.model.Feed
 import com.clubz.data.model.Profile
 import com.clubz.data.remote.WebService
 import com.clubz.helper.Type_Token
+import com.clubz.ui.activities.fragment.ItemListDialogFragment
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.dialogs.DeleteNewsFeedDialog
@@ -141,11 +143,17 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
 
 
     override fun onItemClick(feed: Feed, pos : Int) {
-        startActivityForResult(Intent(context,
+        /*val list : ArrayList<DialogMenu> =  arrayListOf()
+        list.add(DialogMenu(getString(R.string.add_date), R.drawable.ic_add_24))
+        list.add(DialogMenu(getString(R.string.remove_activity), R.drawable.ic_delete_icon))
+        list.add(DialogMenu(getString(R.string.hide_activity), R.drawable.ic_visibility_off))
+        ItemListDialogFragment.newInstance(list).show(fragmentManager, "draj")*/
+
+        /*startActivityForResult(Intent(context,
                 NewsFeedDetailActivity::class.java)
                 .putExtra("feed",feed)
                 .putExtra("pos",pos),
-                1001)
+                1001)*/
     }
 
     override fun onProfileClick(feed: Feed) {
@@ -199,7 +207,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         lpw.height = ListPopupWindow.WRAP_CONTENT
         lpw.width = 200
         lpw.setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, products)) // list_item is your textView with gravity.
-        lpw.setOnItemClickListener { parent, view, position, id ->
+        lpw.setOnItemClickListener { parent, v, position, id ->
             lpw.dismiss()
             if(position==0){
                 startActivityForResult(Intent(context,

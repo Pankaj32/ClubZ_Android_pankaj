@@ -216,7 +216,7 @@
 
     <string name="a_internet_title"> No internet connection</string>
     <string name="a_internet_body"> An internet connection is required to sign in, sign up and search clubs. Once you have registered this device, you can access your content offline. </string>
-    <string name="a_enterprise"> Upgrade to an Enterprise plan.</string>
+    <string name="a_enterprise"> Upgrade to an enterprise plan</string>
     <string name="a_enterprise_body"> Some features like this one requires a higher membership plan. \nRead our plans to see what features do you need.</string>
     <!--Create club validation-->
     <string name="a_clubnme">Please enter club name</string>
@@ -272,7 +272,7 @@
     <string name="leave">Leave</string>
     <string name="dismiss">Dismiss</string>
     <string name="leave_the_club">LEAVE THE CLUB</string>
-    <string name="leave_club_desc">Instead you could silence the club.\nBy silencing a club you wan\'t receive more information till you enable it again.</string>
+    <string name="leave_club_desc">Instead you could silence the club.\nBy silencing a club you will not receive more information until you enable it again.</string>
     <string name="title_leave_club_conformation">Are you sure you want to leave?</string>
     <string name="title_delete_feed_conformation">Are you sure you want to delete?</string>
     <string name="delete_feed_desc">delete this news feed</string>
