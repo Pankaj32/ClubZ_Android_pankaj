@@ -55,6 +55,7 @@
     <string name="Terms_and_1"><u>Terms And Conditions</u></string>
     <string name="Terms_and_2">Terms and Conditions text</string>
 
+    <string name="club">Club</string>
     <string name="club_info">Club info</string>
     <string name="foundation_date">Foundation date</string>
     <string name="club_email">Club email</string>
@@ -360,14 +361,14 @@
     <string name="error_nickname">Enter nickname first.</string>
     <string name="by">By</string>
 
-    <string name="prompt_comment_disabled">Comment disabled</string>
+    <string name="prompt_disabled">Disabled</string>
     <string name="prompt_select_club">Select a club</string>
 
     <string name="tab_to_add_filter_tags">tab to add filter tags</string>
     <string name="create_news_feed">Create news feed</string>
     <string name="article_s_content">Article\'s content</string>
-    <string name="new_article">Create new article</string>
-    <string name="create_new_nwes">Create new news</string>
+    <string name="create_new_nwes">Create a new news</string>
+    <string name="new_article">New Article</string>
     <string name="update_article">Edit Article</string>
     <string name="error_article_name">Please enert article name.</string>
     <string name="error_article_desc">Please enert article description.</string>
@@ -379,7 +380,8 @@
     <string name="there_is_no_news_stil_here">There is no news stil here</string>
     <string name="there_is_no_activity_stil_here">There is no activity stil here</string>
     <string name="there_is_no_member_stil_here">There is no member stil here</string>
-    <string name="no_feed_content_body">The news feed will be available once the club manager create it.</string>
+    <string name="no_feed_content_body">Here will appear news from the clubs you belong. Club managers have not published anything yet.
+        \n\nYou can also verify that your clubs are not muted, swipe the screen from the right side and enable them.</string>
     <string name="no_activity_content_body">The activity will be available once the club manager create it.</string>
     <string name="no_member_content_body">The member will be available once the club manager create it.</string>
     <string name="t_date_title">Date title</string>
@@ -547,5 +549,9 @@
     <string name="no_chat_found_yet">No chat found yet</string>
     <string name="please_type">Please type a message</string>
     <string name="select_the_club_to_post">Select the club to post</string>
+    <string name="content">Content</string>
+    <string name="title">Title</string>
+    <string name="general_information">General information</string>
+    <string name="category">Category</string>
 
 </resources>

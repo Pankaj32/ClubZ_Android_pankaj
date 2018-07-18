@@ -42,11 +42,7 @@ import com.clubz.ui.cv.Purchase_membership_dialog
 import com.clubz.utils.*
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
-import com.google.android.gms.common.api.Status
-import com.google.android.gms.location.places.Place
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlacePicker
-import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
@@ -69,18 +65,17 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
 
     var clubImage : Bitmap? = null
     var clubIcon : Bitmap? = null
-    var isCameraSelected : Boolean = false
-    var isClubIcon : Boolean = false
-    var imageUri : Uri? = null
-  //  lateinit var  autocompleteFragment1 : PlaceAutocompleteFragment
+    private var isCameraSelected : Boolean = false
+    private var isClubIcon : Boolean = false
+    private var imageUri : Uri? = null
     var lat = 0.0
     var lng = 0.0
-    var isvalidate: Boolean = false
+    private var isvalidate: Boolean = false
 
 
-    var day = -1
-    var month = -1
-    var year = -1
+    private var day = -1
+    private var month = -1
+    private var year = -1
 
     //lateinit var titile_name : EditText //Because emoji not supported
     //lateinit var etv_description: EditText //Because emoji not supported
@@ -90,7 +85,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_club_creation)
 
-        for(views in arrayOf(img_club ,ed_foundation_date  ,done ,back_f, all ,image_icon, club_address))views.setOnClickListener(this)
+        for(views in arrayOf(img_club ,ed_foundation_date  ,done ,back_f ,image_icon, club_address))views.setOnClickListener(this)
         /*try{
             autocompleteFragment1 = fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
             // var autocompleteFragment  =( activity as HomeActivity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment;
@@ -113,7 +108,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         val list = Arrays.asList(*resources.getStringArray(R.array.privacy_type))
         spn_privacy.adapter = CreateClub_Spinner(this, list, Constants.CreateClub_Spinner_Type_privacy_type)
         getCategory()
-        username.text = SessionManager.getObj().user.full_name
+        tvLeadby.text = SessionManager.getObj().user.full_name
         try{
 
             if(ClubZ.currentUser!!.profile_image.isNotBlank()){
@@ -133,14 +128,14 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         }catch (ex : NullPointerException){
             ex.printStackTrace()
         }
-        club_phone.setOnEditorActionListener { p0, p1, p2 ->
+        club_phone.setOnEditorActionListener { _, p1, _ ->
             if (p1 == EditorInfo.IME_ACTION_NEXT) {
                 club_address.requestFocus()               }
             false
         }
         for(spinner in arrayOf(spn_privacy,spn_club_category))spinner.setOnTouchListener(this)
 
-        Handler().postDelayed(Runnable {
+        Handler().postDelayed({
             object : Purchase_membership_dialog(this) {
                 override fun viewplansListner() {
                     this.dismiss()
@@ -173,7 +168,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         }
     }
 */
-    internal fun datePicker(i1: Int, i2: Int, i3: Int) {
+    private fun datePicker(i1: Int, i2: Int, i3: Int) {
         val calendar = GregorianCalendar.getInstance()
         var year = calendar.get(Calendar.YEAR)
         var month = calendar.get(Calendar.MONTH)
@@ -250,7 +245,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                val result : CropImage.ActivityResult = CropImage.getActivityResult(data)
+                val result = CropImage.getActivityResult(data)
                 try {
                     if (result != null)
                         if(isClubIcon){
@@ -279,41 +274,35 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         val wrapper = ContextThemeWrapper(this@ClubCreationActivity, R.style.popstyle)
         val popupMenu = PopupMenu(wrapper, if(isClubIcon) image_icon else img_club, Gravity.CENTER)
         popupMenu.menuInflater.inflate(R.menu.popupmenu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem): Boolean {
-                isCameraSelected = true
-                when (item.itemId) {
-                    R.id.pop1 -> if (Build.VERSION.SDK_INT >= 23) {
-                        if (this@ClubCreationActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            callIntent(Constants.INTENTREQUESTCAMERA)
-                        }
-                        else if (this@ClubCreationActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            callIntent(Constants.INTENTREQUESTREAD)
-                        }
-                        else {
-                            callIntent(Constants.INTENTCAMERA)
-                        }
-                    } else {
-                        callIntent(Constants.INTENTCAMERA)
+        popupMenu.setOnMenuItemClickListener { item ->
+            isCameraSelected = true
+            when (item.itemId) {
+                R.id.pop1 -> if (Build.VERSION.SDK_INT >= 23) {
+                    when {
+                        this@ClubCreationActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED -> callIntent(Constants.INTENTREQUESTCAMERA)
+                        this@ClubCreationActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED -> callIntent(Constants.INTENTREQUESTREAD)
+                        else -> callIntent(Constants.INTENTCAMERA)
                     }
-                    R.id.pop2 -> if (Build.VERSION.SDK_INT >= 23) {
-                        isCameraSelected = false
-                        if (this@ClubCreationActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            callIntent(Constants.INTENTREQUESTREAD)
-                        } else {
-                            callIntent(Constants.INTENTGALLERY)
-                        }
+                } else {
+                    callIntent(Constants.INTENTCAMERA)
+                }
+                R.id.pop2 -> if (Build.VERSION.SDK_INT >= 23) {
+                    isCameraSelected = false
+                    if (this@ClubCreationActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        callIntent(Constants.INTENTREQUESTREAD)
                     } else {
                         callIntent(Constants.INTENTGALLERY)
                     }
+                } else {
+                    callIntent(Constants.INTENTGALLERY)
                 }
-                return false
             }
-        })
-        popupMenu.show()
+            false
+        }
+       popupMenu.show()
     }
 
-    fun callIntent(caseid: Int) {
+    private fun callIntent(caseid: Int) {
 
         when (caseid) {
             Constants.INTENTCAMERA -> {
@@ -348,18 +337,18 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
 
         when (requestCode) {
             Constants.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (!isCameraSelected) callIntent(Constants.INTENTGALLERY)
                 } else {
                     Toast.makeText(this@ClubCreationActivity, R.string.a_permission_denied, Toast.LENGTH_LONG).show()
                 }
             }
-            Constants.MY_PERMISSIONS_REQUEST_CAMERA -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Constants.MY_PERMISSIONS_REQUEST_CAMERA -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (isCameraSelected) callIntent(Constants.INTENTCAMERA)
             } else {
                 Toast.makeText(this@ClubCreationActivity, R.string.a_camera_denied, Toast.LENGTH_LONG).show()
             }
-            Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (!isCameraSelected) callIntent(Constants.INTENTGALLERY) else callIntent(Constants.INTENTCAMERA)
             } else {
                 Toast.makeText(this@ClubCreationActivity, R.string.a_permission_read, Toast.LENGTH_LONG).show()
@@ -371,41 +360,39 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
     private fun crateClub() {
         val dialog = CusDialogProg(this@ClubCreationActivity)
         dialog.show()
-        val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.crate_club,object : Response.Listener<NetworkResponse> {
-            override fun onResponse(response: NetworkResponse) {
-                val data = String(response.data)
-                Util.e("data",data)
-                dialog.dismiss()
-                //{"status":"success","message":"Club added successfully"}
-                try {
-                    val obj = JSONObject(data)
-                    if (obj.getString("status").equals("success")) {
+        val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.crate_club, Response.Listener<NetworkResponse> { response ->
+            val data = String(response.data)
+            Util.e("data",data)
+            dialog.dismiss()
+            //{"status":"success","message":"Club added successfully"}
+            try {
+                val obj = JSONObject(data)
+                if (obj.getString("status") == "success") {
 
-                        //set tag for database sync
-                       /* val updateAsync = SessionManager.getObj().update
+                    //set tag for database sync
+                    /* val updateAsync = SessionManager.getObj().update
                         updateAsync.needToUpdateMyClubs = true
                         SessionManager.getObj().setUpdateAppData(updateAsync)*/
 
-                        val clubDetails = Gson().fromJson(data, ClubDetails::class.java)
+                    val clubDetails = Gson().fromJson(data, ClubDetails::class.java)
 
-                        //insert club into local db
-                        val tmp  = ClubName()
-                        tmp.clubId = clubDetails?.getClubDetail()?.clubId?.toInt()
-                        tmp.club_name = clubDetails?.getClubDetail()?.club_name
-                        ClubNameRepo().insert(tmp)
-                        setResult(Activity.RESULT_OK)
-                        createClubInFairBase(clubDetails)
-                        //Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
-                        finish()
-                    } else {
-                        Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
-                    }
-                }catch ( e : java.lang.Exception){
-                    e.printStackTrace()
-                    Toast.makeText(this@ClubCreationActivity,R.string.swr, Toast.LENGTH_LONG).show()
+                    //insert club into local db
+                    val tmp  = ClubName()
+                    tmp.clubId = clubDetails?.getClubDetail()?.clubId?.toInt()
+                    tmp.club_name = clubDetails?.getClubDetail()?.club_name
+                    ClubNameRepo().insert(tmp)
+                    setResult(Activity.RESULT_OK)
+                    createClubInFairBase(clubDetails)
+                    //Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
+                    finish()
+                } else {
+                    Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
                 }
-                dialog.dismiss()
+            }catch ( e : java.lang.Exception){
+                e.printStackTrace()
+                Toast.makeText(this@ClubCreationActivity,R.string.swr, Toast.LENGTH_LONG).show()
             }
+            dialog.dismiss()
         }, Response.ErrorListener {
             dialog.dismiss()
             Toast.makeText(this@ClubCreationActivity, "Something went wrong", Toast.LENGTH_LONG).show()
@@ -414,7 +401,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 val params = java.util.HashMap<String, String>()
                 params["city"] = club_city.text.toString().trim()
                 params["clubName"] = titile_name.text.toString()
-                params["clubType"] = if(spn_privacy.selectedItem.toString().toLowerCase().equals("public"))"1" else "2" // 1 public 2 private
+                params["clubType"] = if(spn_privacy.selectedItem.toString().toLowerCase() == "public")"1" else "2" // 1 public 2 private
                 params["clubCategoryId"] = (spn_club_category.selectedItem as Club_Category).clubCategoryId
                 params["clubEmail"] = club_email.text.toString()
                 params["clubContactNo"] = club_phone.text.toString()
@@ -476,11 +463,10 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 dialog.dismiss()
                 try {
                     val json = JSONObject(response)
-                    if(json.getString("status").equals("success")){
+                    if(json.getString("status") == "success"){
                         val list  = Gson().fromJson<ArrayList<Club_Category>>(json.getJSONArray("data").toString() , Type_Token.club_category)
                         spn_club_category.adapter = CreateClub_Spinner(this@ClubCreationActivity, list, Constants.CreateClub_Spinner_Type_ClubCategory)
                     }else{
-//TODO check all failure conditions //
                         Util.showToast(json.getString("message"),this@ClubCreationActivity)
                     }
                 }catch (ex :Exception){
@@ -504,7 +490,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }
         }.execute()

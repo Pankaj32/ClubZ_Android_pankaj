@@ -24,6 +24,15 @@
     <color name="icon_tint">#4d4d4d</color>
     <color name="under_line">#a6a6a6</color>
 
+    <color name="disabled_color">#44000000</color>
+    <color name="error_color">#E7492E</color>
+
+    <!-- The default color of the widget (label and bottom line). -->
+    <color name="widget_labelled_spinner_default">#6D6D6D</color>
+
+    <!-- The color of the divider and error text when enabled. -->
+    <color name="widget_labelled_spinner_error">#FFDD2C00</color>
+
     <color name="background">#F2F2F2</color>
     <color name="active_tab">#009688</color>
     <color name="inactive_tab">#626262</color>

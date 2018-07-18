@@ -30,20 +30,6 @@
                     android:src="@drawable/img_gallery"
                     android:scaleType="fitCenter"/>
 
-                <TextView
-                    android:id="@+id/tvCreateTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextView.SingleLine.Gray"
-                    android:fontFamily="@font/roboto_light"
-                    android:background="@color/transprent_text"
-                    android:layout_alignParentBottom="true"
-                    android:padding="@dimen/list_item_spacing_half"
-                    android:textColor="@color/white"
-                    android:gravity="end"
-                    android:textSize="12sp"
-                    android:text="# Hours ago"/>
-
             </RelativeLayout>
 
 
@@ -71,11 +57,15 @@
                     android:gravity="center_vertical">
 
                     <TextView
-                        android:id="@+id/tvClubname"
+                        android:id="@+id/tvCreateTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/TextView.SingleLine.Gray"
-                        android:text="@string/club_s_name"/>
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="end"
+                        android:textSize="12sp"
+                        android:text="# Hours ago"/>
+
 
                     <android.support.v4.widget.Space
                         android:layout_width="0dp"
@@ -190,12 +180,12 @@
 
 
 
-                <com.clubz.ui.cv.FlowLayout
+               <!-- <com.clubz.ui.cv.FlowLayout
                     android:id="@+id/chip_grid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:visibility="gone"/>
+                    android:visibility="gone"/>-->
 
                 <TextView
                     android:id="@+id/tvDescription"

@@ -2,7 +2,6 @@ package com.clubz.ui.newsfeed.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Feed
 import com.clubz.data.remote.WebService
-import com.clubz.ui.cv.ChipView
 import com.clubz.ui.newsfeed.NewsFeedDetailActivity
 import com.clubz.utils.VolleyGetPost
 import com.squareup.picasso.Picasso
@@ -52,7 +50,7 @@ class FeedDetailFragment : Fragment() {
     }
 
     private fun initView(){
-        tvClubname.text = feed!!.club_name
+        //tvClubname.text = feed!!.club_name
         tvUsername.text = feed!!.user_name
         tvTitle.text = feed!!.news_feed_title
         tvUsreRole.text = getString(R.string.manager)
@@ -71,13 +69,13 @@ class FeedDetailFragment : Fragment() {
         else
             Picasso.with(ivBanner.context).load(feed?.profile_image).fit().into(image_member)
 
-        val result: List<String> = feed!!.tagName.split(",").map { it.trim() }
+       /* val result: List<String> = feed!!.tagName.split(",").map { it.trim() }
         chip_grid.visibility = if(result.size>0) View.VISIBLE else View.GONE
-        for(t in result)  if(t.isNotEmpty()) addTag(t)
+        for(t in result)  if(t.isNotEmpty()) addTag(t)*/
     }
 
 
-    private fun addTag(tag : String){
+   /* private fun addTag(tag : String){
         if (!TextUtils.isEmpty(tag)){
             val chip = object : ChipView(context, chip_grid.childCount.toString(), false){
                 override fun getLayout(): Int { return R.layout.z_cus_chip_view_newsfeed }
@@ -87,7 +85,7 @@ class FeedDetailFragment : Fragment() {
             chip.text = tag.trim()
             chip_grid.addView(chip)
         }
-    }
+    }*/
 
     companion object {
         /**
