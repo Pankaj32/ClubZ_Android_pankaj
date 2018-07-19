@@ -68,6 +68,22 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 
+    <style name="TextLimitStyle" parent="TextAppearance.AppCompat.Small">
+    <item name="android:textColor">@color/text_color_gray</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextLimitError" parent="TextAppearance.AppCompat.Small">
+    <item name="android:textColor">@color/error_color</item>
+    </style>
+
+    <style name="CounterText" parent="TextAppearance.Design.Counter">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_color_gray</item>
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+
     <style name="EditText">
         <item name="android:textColor">@color/icon_tint</item>
         <item name="android:textColorHint">@color/hint_color</item>
