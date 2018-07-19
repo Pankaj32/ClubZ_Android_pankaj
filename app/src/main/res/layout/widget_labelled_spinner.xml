@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:textSize="12sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.Light" />
+    <View
+        android:gravity="start|center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <TextView
+        android:textSize="12sp"
+        android:textColor="@color/widget_labelled_spinner_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</merge>

@@ -19,7 +19,8 @@
         android:background="@drawable/bg_circle_white"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_30sdp"
-        app:srcCompat="@drawable/ic_gavel"
+        app:srcCompat="@drawable/ic_gavel_black_24dp"
+        android:tint="@color/primaryColor"
         android:padding="@dimen/_10sdp" />
 
     <ScrollView

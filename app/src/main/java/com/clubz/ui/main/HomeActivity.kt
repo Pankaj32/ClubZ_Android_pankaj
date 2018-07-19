@@ -220,12 +220,19 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             val clubList = ClubNameRepo().getAllClubs()
             when(clubList.size){
                 0-> { showToast("Please create your club first.") }
-                1-> { startActivity(Intent(this@HomeActivity, CreateNewsFeedActivity::class.java).putExtra("clubId", clubList[0].clubId.toString())) }
+                1-> {
+                    startActivity(Intent(this@HomeActivity, CreateNewsFeedActivity::class.java)
+                        .putExtra("clubId", clubList[0].clubId.toString())
+                        .putExtra("clubName", clubList[0].club_name)
+                    )
+                }
                 else -> {
                     object : ClubSelectionDialog(this@HomeActivity, clubList) {
-                        override fun onClubSelect(clubName: ClubName) {
+                        override fun onClubSelect(club : ClubName) {
                             startActivity(Intent(this@HomeActivity, CreateNewsFeedActivity::class.java)
-                                    .putExtra("clubId", clubName.clubId.toString()))
+                                    .putExtra("clubId", club.clubId.toString())
+                                    .putExtra("clubName", club.club_name)
+                            )
                             dismiss()
                         }
                     }.show()

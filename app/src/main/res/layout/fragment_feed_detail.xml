@@ -19,6 +19,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/ivBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:src="@drawable/img_gallery"
+                    android:scaleType="fitCenter"/>
+
+            </RelativeLayout>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,29 +50,54 @@
                     android:ellipsize="end"
                     android:text="@string/dharmraj_acharya_bhurtel"/>
 
-                <TextView
-                    android:id="@+id/tvClubname"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/TextView.SingleLine.Gray"
-                    android:textColor="@color/black"
-                    android:text="@string/club_s_name"/>
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tvCreateTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextView.SingleLine.Gray"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="end"
+                        android:textSize="12sp"
+                        android:text="# Hours ago"/>
+
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/tvLikeCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextView.SingleLine.Gray"
+                        android:text="50 Likes"/>
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/likeIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_check_favorite"
+                        android:button="@null"
+                        android:checked="false"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:stateListAnimator="@animator/scale"
+                        tools:ignore="UnusedAttribute" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/ivBanner"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:src="@drawable/img_gallery"
-                android:scaleType="fitCenter"/>
-
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.7dp"
                 android:background="@color/gray_transprent"/>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,7 +108,7 @@
                 android:paddingBottom="10dp"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:id="@+id/ll2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,11 +141,11 @@
                         android:layout_marginRight="5dp"
                         android:stateListAnimator="@animator/scale"
                         tools:ignore="UnusedAttribute" />
-                   <!-- <android.support.v7.widget.AppCompatImageView
+                   &lt;!&ndash; <android.support.v7.widget.AppCompatImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:padding="5dp"
-                        app:srcCompat="@drawable/active_heart_ico"/>-->
+                        app:srcCompat="@drawable/active_heart_ico"/>&ndash;&gt;
 
                     <TextView
                         android:id="@+id/tvLikeCount"
@@ -137,70 +176,53 @@
                         android:textSize="12sp"
                         android:text="150 Comments"/>
 
-                </LinearLayout>
+                </LinearLayout>-->
 
-                <include layout="@layout/divider_start_view"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
 
-                <com.clubz.ui.cv.FlowLayout
+
+               <!-- <com.clubz.ui.cv.FlowLayout
                     android:id="@+id/chip_grid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:visibility="gone"/>
+                    android:visibility="gone"/>-->
 
                 <TextView
                     android:id="@+id/tvDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/text_color_gray" />
 
                 <LinearLayout
                     android:layout_width="@dimen/_150sdp"
                     android:layout_height="@dimen/_16sdp"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:background="@color/white"
-                    android:orientation="vertical">
-
-                    <View
-                        android:layout_width="@dimen/_2sdp"
-                        android:layout_height="@dimen/_2sdp"
-                        android:layout_gravity="right"
-                        android:background="@color/black"/>
+                    android:layout_gravity="end"
+                    android:orientation="horizontal">
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_1sdp"
-                        android:background="@color/black" />
+                        android:layout_height="0.7dp"
+                        android:background="@color/black_trans80" />
 
                 </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/rtv_leadby"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image_member"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"
                         android:background="@drawable/bg_circle_blue"
+                        android:layout_alignParentEnd="true"
                         app:srcCompat="@drawable/ic_user_shape" />
 
-                    <TextView
-                        android:id="@+id/leadby"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/teko_light"
-                        android:background="@null"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14sdp"
-                        android:text="@string/by"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        android:layout_alignTop="@id/image_member"
-                        android:layout_toRightOf="@id/image_member"/>
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tvUsername"
@@ -209,22 +231,22 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sdp"
                         android:fontFamily="@font/teko_semibold"
-                        android:layout_marginLeft="@dimen/_4sdp"
-                        android:layout_toRightOf="@id/leadby"
+                        android:layout_alignTop="@id/image_member"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_toStartOf="@id/image_member"
                         android:text="@string/dharmraj_acharya_bhurtel"/>
 
                     <TextView
                         android:id="@+id/tvUsreRole"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_light"
-                        android:textColorHint="#666666"
-                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/text_color_gray"
                         android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        android:layout_toRightOf="@id/image_member"
-                        android:layout_below="@+id/leadby"
-                        android:text="@string/admin"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_toStartOf="@id/image_member"
+                        android:layout_below="@+id/tvUsername"
+                        android:text="@string/manager"
                         />
 
                 </RelativeLayout>

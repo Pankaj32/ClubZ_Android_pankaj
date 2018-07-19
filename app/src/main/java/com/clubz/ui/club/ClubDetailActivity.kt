@@ -83,7 +83,10 @@ class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
             R.id.menuCreateNewsFeed ->{
                 dialog?.dismiss()
                 startActivity(Intent(this@ClubDetailActivity,
-                        CreateNewsFeedActivity::class.java).putExtra("clubId", clubz.clubId))
+                        CreateNewsFeedActivity::class.java)
+                        .putExtra("clubId", clubz.clubId)
+                        .putExtra("clubName", clubz.club_name)
+                )
             }
 
             R.id.menuEditNewsFeed ->{ }
