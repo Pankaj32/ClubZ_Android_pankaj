@@ -70,6 +70,7 @@
 
     <style name="MySpinner" parent="Base.Widget.AppCompat.Spinner">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:textColor">@color/nav_gray</item>
     </style>
 
 

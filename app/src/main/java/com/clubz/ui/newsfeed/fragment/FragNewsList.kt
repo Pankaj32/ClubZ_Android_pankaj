@@ -149,11 +149,11 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         list.add(DialogMenu(getString(R.string.hide_activity), R.drawable.ic_visibility_off))
         ItemListDialogFragment.newInstance(list).show(fragmentManager, "draj")*/
 
-        /*startActivityForResult(Intent(context,
+        startActivityForResult(Intent(context,
                 NewsFeedDetailActivity::class.java)
                 .putExtra("feed",feed)
                 .putExtra("pos",pos),
-                1001)*/
+                1001)
     }
 
     override fun onProfileClick(feed: Feed) {

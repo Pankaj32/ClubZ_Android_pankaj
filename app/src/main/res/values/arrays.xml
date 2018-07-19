@@ -21,8 +21,8 @@
     </string-array>
 
     <string-array name="comment_type">
-        <item>Comment disabled</item>
-        <item>Comment enable</item>
+        <item>Disabled</item>
+        <item>Enable</item>
     </string-array>
     <!--<item>@font/josefin_sans_regular</item>
     <item>@font/josefin_sans_italic</item>

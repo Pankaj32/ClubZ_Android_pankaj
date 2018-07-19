@@ -211,7 +211,7 @@
                                 android:layout_height="match_parent"
                                 style="@style/TextView.SingleLine.Gray"
                                 android:fontFamily="@font/roboto_light"
-                                android:text="@string/club_manager"
+                                android:text="@string/manager"
                                 android:textSize="@dimen/_12sdp" />
 
                         </LinearLayout>
