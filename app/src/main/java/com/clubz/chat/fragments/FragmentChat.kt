@@ -94,7 +94,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+
         var view = inflater!!.inflate(R.layout.fragment_chat, container, false)
         noDataTxt = view.findViewById<EditText>(R.id.noDataTxt)
         silentTxt = view.findViewById<EditText>(R.id.silentTxt)
