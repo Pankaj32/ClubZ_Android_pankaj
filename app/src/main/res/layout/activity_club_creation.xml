@@ -60,7 +60,6 @@
     </android.support.design.widget.AppBarLayout>
 
 
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -191,7 +190,7 @@
                             android:layout_marginTop="@dimen/_3sdp"
                             android:tint="@color/nav_gray"
                             android:layout_below="@+id/tv_categoryHint"
-                            app:srcCompat="@drawable/ic_comment_disable" />
+                            app:srcCompat="@drawable/ic_shap_24_black" />
 
                         <Spinner
                             android:id="@+id/spn_club_category"
@@ -578,9 +577,10 @@
                                 android:enabled="false"
                                 android:background="@null"
                                 android:textColorHint="@color/nav_gray"
-                                android:textColor="@color/black"
+                                android:textColor="@color/nav_gray"
                                 android:textSize="@dimen/_12sdp"
                                 android:hint="@string/manager"
+                                android:text="@string/manager"
                                 android:inputType="textCapSentences"
                                 android:maxLength="38"
                                 android:singleLine="true"
