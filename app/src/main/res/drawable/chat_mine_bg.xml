@@ -3,7 +3,7 @@
     android:padding="10dp"
     android:shape="rectangle">
     <!-- you can use any color you want I used here gray color-->
-    <solid android:color="@color/chat_my_bg" />
+    <solid android:color="@color/white" />
     <stroke android:color="@color/black"
         android:width=".5dp"/>
     <corners

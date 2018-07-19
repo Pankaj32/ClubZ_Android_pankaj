@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.clubz.chat.model.MemberBean;
 import com.clubz.ui.cv.chipview.TagView;
 import com.clubz.R;
 import com.clubz.data.model.ClubMember;
@@ -100,5 +101,6 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
         protected void showProfileDetail(ClubMember member) {
 
         }
+
     }
 }

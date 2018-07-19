@@ -5,6 +5,7 @@ package com.clubz.chat.model
  */
 class MemberBean {
     var userId: String? = null
+    var joind: Int? = null
+    var silent: String? = null
     var clubId: String? = null
-    var isjoind: Int? = null
 }
