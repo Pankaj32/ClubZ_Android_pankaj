@@ -11,379 +11,548 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_5sdp"
-        app:cardUseCompatPadding="true">
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="@dimen/_16sdp">
 
-        <RelativeLayout
-            android:id="@+id/all"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/image_icon"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-                app:siBorderColor="@color/text_gray"
-                app:siBorderWidth="@dimen/_1sdp"
-                android:padding="@dimen/_8sdp"
-                android:layout_margin="@dimen/_16sdp"
-                android:background="@drawable/bg_circle_blue"
-                app:srcCompat="@drawable/ic_shield_outline"
-                />
-
-            <TextView
-                android:id="@+id/titile_name"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_23sdp"
-                android:fontFamily="@font/teko_semibold"
-                android:background="@null"
-                android:text="Title"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_18sdp"
-                android:inputType="textCapSentences"
-                android:layout_alignTop="@id/image_icon"
-                android:layout_toEndOf="@id/image_icon"/>
-            <TextView
-                android:id="@+id/club_category"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_light"
-                android:background="@null"
-                android:text="Title"
-                android:layout_alignStart="@+id/titile_name"
-                android:layout_below="@+id/titile_name"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp"
-                />
+                android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/img_privacy"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/privacy_status"
-                android:layout_alignBottom="@+id/privacy_status"
-                android:layout_toStartOf="@+id/privacy_status"
-                android:padding="@dimen/_2sdp"
-                android:tint="@color/primaryColor"
-                app:srcCompat="@drawable/ic_locked_padlock"/>
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/image_icon"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    app:siBorderColor="@color/text_gray"
+                    app:siBorderWidth="@dimen/_1sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:background="@drawable/bg_circle_blue"
+                    app:srcCompat="@drawable/ic_camera_white" />
 
-            <TextView
-                android:id="@+id/privacy_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_light"
-                android:background="@null"
-                android:text="Private"
-                android:layout_marginEnd="@dimen/_16sdp"
-                android:layout_alignEnd="@+id/titile_name"
-                android:layout_below="@+id/titile_name"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp"
-                />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_articleTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:theme="@style/tvStyle"
+                    app:counterEnabled="false"
+                    app:counterMaxLength="50"
+                    app:counterTextAppearance="@style/CounterText"
+                    app:counterOverflowTextAppearance="@style/TextLimitError">
 
+                    <EditText
+                        android:id="@+id/titile_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/EditText.ClubDetail"
+                        android:textColorHint="#666666"
+                        android:textColor="@color/black"
+                        android:inputType="textCapSentences"
+                        android:hint="@string/club_s_name"
+                        android:singleLine="true"
+                        android:maxLines="1" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/img_club"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_200sdp"
-                android:layout_below="@id/image_icon"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/ic_new_img"
                 android:background="#00A8D1"/>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/img_club"
-                android:layout_marginTop="@dimen/_15sdp"
-                style="@style/TextView.Header"
-                android:textColor="@color/black"
-                android:text="@string/club_info"
-                android:layout_marginStart="@dimen/_16sdp" />
+                android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_below="@+id/img_club"
-                android:layout_toStartOf="@+id/members"
-                android:paddingTop="@dimen/_15sdp"
-                android:paddingBottom="@dimen/_15sdp"
-                app:srcCompat="@drawable/ic_user_shape2" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="@string/general_information"
+                    android:enabled="false"
+                    android:fontFamily="@font/roboto_regular"/>
 
-            <TextView
-                android:id="@+id/members"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_50sdp"
-                android:fontFamily="@font/roboto_light"
-                android:layout_below="@+id/img_club"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10sdp"
-                android:gravity="center_vertical"
-                android:layout_alignParentEnd="true"
-                android:padding="@dimen/_6sdp"
-                android:layout_marginEnd="@dimen/_16sdp" />
+                <android.support.v4.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    app:srcCompat="@drawable/ic_user_shape2" />
+
+                <TextView
+                    android:id="@+id/members"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_50sdp"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/_10sdp"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/_6sdp" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:background="@color/black_trans80"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_below="@+id/img_club"
-                android:layout_marginTop="@dimen/_50sdp"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_categoryHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Gray"
+                    android:layout_toEndOf="@+id/ivComment"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:textSize="12sp"
+                    android:text="@string/category"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/ivComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:tint="@color/nav_gray"
+                    android:layout_below="@+id/tv_categoryHint"
+                    app:srcCompat="@drawable/ic_shap_24_black" />
+
+                <TextView
+                    android:id="@+id/club_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:text="Title"
+                    android:textColor="@color/icon_tint"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/ivComment"
+                    android:layout_below="@+id/tv_categoryHint"
+                    />
+
+                <!--<Spinner
+                    android:id="@+id/spn_club_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ivComment"
+                    android:layout_below="@+id/tv_categoryHint"
+                    android:theme="@style/AppTheme.Light"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="#626262"
+                    android:prompt="@string/category"
+                    android:entries="@array/comment_type"/>-->
+
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
-                    android:background="@color/text_gray"/>
+                    android:layout_height="1dp"
+                    android:background="@color/gray_transprent"
+                    android:layout_toEndOf="@+id/ivComment"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_alignParentBottom="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_privacyHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Gray"
+                    android:layout_toEndOf="@+id/img_privacy"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:textSize="12sp"
+                    android:text="@string/category"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/img_privacy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:tint="@color/nav_gray"
+                    android:layout_below="@+id/tv_privacyHint"
+                    app:srcCompat="@drawable/ic_lock_black_24dp" />
+
+                <TextView
+                    android:id="@+id/tv_privacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:text="Title"
+                    android:textColor="@color/icon_tint"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/img_privacy"
+                    android:layout_below="@+id/tv_privacyHint"
+                    />
+
+              <!--  <Spinner
+                    android:id="@+id/spn_privacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/img_privacy"
+                    android:layout_below="@+id/tv_privacyHint"
+                    android:theme="@style/AppTheme.Light"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="#626262"
+                    android:prompt="@string/privacy"
+                    android:entries="@array/privacy_type"/>-->
+
                 <View
-                    android:layout_width="@dimen/_2sdp"
-                    android:layout_height="@dimen/_2sdp"
-                    android:layout_marginTop="@dimen/_1sdp"
-                    android:background="@color/text_gray"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_transprent"
+                    android:layout_toEndOf="@+id/img_privacy"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_alignParentBottom="true"/>
+
             </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/ll_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_55sdp"
-                android:layout_below="@+id/img_club"
-                android:orientation="vertical"
-                android:padding="@dimen/_16sdp">
+                android:layout_marginTop="@dimen/_8sdp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_cake_p"
+                    android:tint="@color/icon_tint" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:focusable="false"
+                    android:theme="@style/tvStyle">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_cake_p"
-                        android:tint="@color/icon_tint" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_password"
+                    <EditText
+                        android:id="@+id/foundation_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_16sdp"
+                        style="@style/EditText.ClubDetail"
+                        android:textColor="@color/text_gray"
+                        android:enabled="false"
                         android:focusable="false"
-                        android:theme="@style/tvStyle">
+                        android:hint="@string/foundation_date"
+                        android:text="@string/dharmraj_acharya_bhurtel"/>
 
-                        <EditText
-                            android:id="@+id/foundation_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            style="@style/EditText.ClubDetail"
-                            android:textColor="@color/text_gray"
-                            android:enabled="false"
-                            android:focusable="false"
-                            android:hint="@string/foundation_date"
-                            android:text="@string/dharmraj_acharya_bhurtel"/>
+                </android.support.design.widget.TextInputLayout>
 
-                    </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_mail_outline"
+                    android:tint="@color/icon_tint" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_clubEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:theme="@style/tvStyle">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_mail_outline"
-                        android:tint="@color/icon_tint" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_clubEmail"
+                    <EditText
+                        android:id="@+id/club_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        android:theme="@style/tvStyle">
+                        style="@style/EditText.ClubDetail"
+                        android:hint="@string/club_email"
+                        android:text="Dharmrajacharya@gmail.com"/>
 
-                        <EditText
-                            android:id="@+id/club_email"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            style="@style/EditText.ClubDetail"
-                            android:hint="@string/club_email"
-                            android:text="Dharmrajacharya@gmail.com"/>
+                </android.support.design.widget.TextInputLayout>
 
-                    </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_call"
+                    android:tint="@color/icon_tint" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_contact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:theme="@style/tvStyle">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_call"
-                        android:tint="@color/icon_tint" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_contact"
+                    <EditText
+                        android:id="@+id/club_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        android:theme="@style/tvStyle">
+                        style="@style/EditText.ClubDetail"
+                        android:hint="@string/club_phone_no"
+                        android:text="+91 9977141811"/>
 
-                        <EditText
-                            android:id="@+id/club_phone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            style="@style/EditText.ClubDetail"
-                            android:hint="@string/club_phone_no"
-                            android:text="+91 9977141811"/>
+                </android.support.design.widget.TextInputLayout>
 
-                    </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_my_location"
+                    android:tint="@color/icon_tint" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:theme="@style/tvStyle">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_my_location"
-                        android:tint="@color/icon_tint" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_city"
+                    <EditText
+                        android:id="@+id/club_city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        android:theme="@style/tvStyle">
+                        style="@style/EditText.ClubDetail"
+                        android:hint="@string/club_city"
+                        android:text="Indore"/>
 
-                        <EditText
-                            android:id="@+id/club_city"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            style="@style/EditText.ClubDetail"
-                            android:hint="@string/club_city"
-                            android:text="Indore"/>
+                </android.support.design.widget.TextInputLayout>
 
-                    </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_place_black_24dp"
+                    android:tint="@color/icon_tint" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:theme="@style/tvStyle">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_place_black_24dp"
-                        android:tint="@color/icon_tint" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_address"
+                    <EditText
+                        android:id="@+id/club_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        android:theme="@style/tvStyle">
+                        style="@style/EditText.ClubDetail"
+                        android:hint="@string/club_address"
+                        android:text="Mindiii System Pvt. Ltd."/>
 
-                        <EditText
-                            android:id="@+id/club_address"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            style="@style/EditText.ClubDetail"
-                            android:hint="@string/club_address"
-                            android:text="Mindiii System Pvt. Ltd."/>
+                </android.support.design.widget.TextInputLayout>
 
-                    </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_glob"
+                    android:tint="@color/icon_tint" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_web"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:theme="@style/tvStyle">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_glob"
-                        android:tint="@color/icon_tint" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_web"
+                    <EditText
+                        android:id="@+id/club_web"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_16sdp"
-                        android:theme="@style/tvStyle">
+                        style="@style/EditText.ClubDetail"
+                        android:hint="@string/club_web_site"
+                        android:text="www.mindiii.com"/>
 
-                        <EditText
-                            android:id="@+id/club_web"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            style="@style/EditText.ClubDetail"
-                            android:hint="@string/club_web_site"
-                            android:text="www.mindiii.com"/>
-
-                    </android.support.design.widget.TextInputLayout>
-
-                </LinearLayout>
+                </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tv_descrip"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_info"
-                android:textColor="@color/black"
-                style="@style/TextView.Header"
-                android:layout_marginEnd="@dimen/_16sdp"
-                android:layout_marginStart="@dimen/_16sdp"
-                android:text="@string/club_description" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_descrip_detials"
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:srcCompat="@drawable/ic_file_document" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/tvStyle"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    app:counterEnabled="false"
+                    app:counterMaxLength="300"
+                    app:counterTextAppearance="@style/CounterText"
+                    app:counterOverflowTextAppearance="@style/TextLimitError">
+
+                    <EditText
+                        android:id="@+id/etv_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/EditText.ClubDetail"
+                        android:hint="@string/hint_club_des"
+                        android:inputType="textCapSentences|textMultiLine" />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_descrip"
-                style="@style/EditText"
-                android:text="@string/dharmraj_acharya_bhurtel"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:layout_marginEnd="@dimen/_16sdp"
-                android:layout_marginStart="@dimen/_16sdp" />
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_gavel_black_24dp" />
+
+                <TextView
+                    android:id="@+id/tv_terms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryColor"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/Terms_and_1" />
+
+            </LinearLayout>
+
+
 
             <RelativeLayout
-                android:layout_width="@dimen/_150sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_16sdp"
+                android:id="@+id/rtv_leadby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_below="@+id/tv_descrip_detials">
-                <View
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
-                    android:background="@color/text_gray"/>
-                <View
-                    android:layout_width="@dimen/_2sdp"
-                    android:layout_height="@dimen/_2sdp"
+                android:paddingTop="@dimen/_8sdp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_member2"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    app:siBorderColor="@color/text_gray"
+                    app:siBorderWidth="@dimen/_1sdp"
+                    android:background="@drawable/bg_circle_blue"
                     android:layout_alignParentEnd="true"
-                    android:background="@color/text_gray"/>
+                    app:srcCompat="@drawable/ic_user_shape" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="end"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_centerInParent="true"
+                    android:layout_toStartOf="@+id/image_member2">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvLeadby"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp"
+                        android:fontFamily="@font/teko_semibold"
+                        android:text="@string/dharmraj_acharya_bhurtel"/>
+
+                    <EditText
+                        android:id="@+id/usrerole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:enabled="false"
+                        android:background="@null"
+                        android:textColorHint="@color/nav_gray"
+                        android:textColor="@color/nav_gray"
+                        android:textSize="@dimen/_12sdp"
+                        android:hint="@string/manager"
+                        android:text="@string/manager"
+                        android:inputType="textCapSentences"
+                        android:maxLength="38"
+                        android:singleLine="true"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " />
+
+                </LinearLayout>
+
             </RelativeLayout>
 
-            <RelativeLayout
+           <!-- <RelativeLayout
                 android:id="@+id/rtv_leadby"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -394,6 +563,8 @@
                 android:layout_below="@+id/tv_descrip_detials"
                 android:layout_marginTop="@dimen/_20sdp">
 
+
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_member2"
                     android:layout_width="@dimen/_40sdp"
@@ -401,7 +572,7 @@
                     android:background="@drawable/bg_circle_blue"
                     android:src="@drawable/ic_user_white" />
 
-                <!--<android.support.v7.widget.AppCompatImageView
+                &lt;!&ndash;<android.support.v7.widget.AppCompatImageView
                     android:id="@+id/image_member2"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
@@ -409,7 +580,7 @@
                     app:siBorderWidth="@dimen/_1sdp"
                     android:padding="@dimen/_8sdp"
                     android:background="@drawable/bg_circle_blue"
-                    app:srcCompat="@drawable/ic_user_shape" />-->
+                    app:srcCompat="@drawable/ic_user_shape" />&ndash;&gt;
 
 
                 <android.support.v7.widget.AppCompatTextView
@@ -437,21 +608,10 @@
                     android:layout_toRightOf="@id/image_member2"/>
 
 
-                <TextView
-                    android:id="@+id/tv_terms"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primaryColor"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/Terms_and_1"
-                    android:layout_alignBottom="@+id/usrerole"
-                    android:layout_alignParentRight="true" />
 
-            </RelativeLayout>
+            </RelativeLayout>-->
 
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 
