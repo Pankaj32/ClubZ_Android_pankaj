@@ -49,7 +49,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_new_activities.*
+import kotlinx.android.synthetic.main.activity_new_activities_copy.*
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
@@ -74,22 +74,26 @@ class NewActivities : BaseActivity(), View.OnClickListener {
     private var userId = ""
     private var userName = ""
     private var userImage = ""
+    private var clubName = ""
     private lateinit var autocompleteFragment: PlaceAutocompleteFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_activities)
+        setContentView(R.layout.activity_new_activities_copy)
 
         let {
-            if(intent.hasExtra("clubId"))  clubId = intent.extras.getString("clubId")
+            if (intent.hasExtra("clubId")) clubId = intent.extras.getString("clubId")
+            if (intent.hasExtra("clubName")) clubName = intent.extras.getString("clubName")
         }
 
         initializeView()
         //getClub()
+        clubNameTxt.text = clubName
         getLeaders(clubId)
     }
 
     private fun initializeView() {
+        val padding = resources.getDimension(R.dimen._8sdp).toInt()
         activityLeaderList = ArrayList()
         activityMyClubList = ArrayList()
         feestypeList = ArrayList()
@@ -99,18 +103,23 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         if (userImage.isNotEmpty()) {
             Picasso.with(image_member2.context).load(userImage).into(image_member2)
         } else {
-            val padding = resources.getDimension(R.dimen._8sdp).toInt()
+
             image_member2.setPadding(padding, padding, padding, padding)
             image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
             image_member2.setImageResource(R.drawable.ic_user_shape)
         }
+
+        imgActivity.setPadding(padding, padding, padding, padding)
+        imgActivity.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
+        imgActivity.setImageResource(R.drawable.ic_camera_white)
+
         username.text = userName
-        addLeader()
+        //addLeader()
 
         val clubListBean = GetMyClubResponce.DataBean()
         clubListBean.club_name = "Activity Club"
         activityMyClubList!!.add(clubListBean)
-        feestypeList!!.add("Fees type")
+        //feestypeList!!.add("Fees type")
         feestypeList!!.add("Fixed")
         feestypeList!!.add("Voluntary")
         feestypeList!!.add("Free")
@@ -129,9 +138,9 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(p0: Place?) {
-                activityLocation.text = p0!!.address
-                latitute = p0.latLng.latitude.toString()
-                longitute = p0.latLng.longitude.toString()
+                activityLocation.setText(p0!!.address)
+                latitute = p0!!.latLng.latitude.toString()
+                longitute = p0!!.latLng.longitude.toString()
             }
 
             override fun onError(p0: Status?) {
@@ -169,7 +178,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                activityLeader = if (p2 == 0) ""  else activityLeaderList!![p2].userId!!
+                /*activityLeader = if (p2 == 0) "" else */activityLeaderList!![p2].userId!!
             }
         }
 
@@ -179,13 +188,13 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) =
                     when (p2) {
-                        0 -> {
+                        /*0 -> {
                             feesType = ""
                             fees.isEnabled = true
-                            /*fees.setFocusable(true)
-                                    fees.setClickable(true)*/
-                        }
-                        3 -> {
+                            *//*fees.setFocusable(true)
+                                    fees.setClickable(true)*//*
+                        }*/
+                        2 -> {
                             /*fees.setFocusable(false)
                                     fees.setClickable(true)*/
                             fees.isEnabled = false
@@ -215,7 +224,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 }
             }
         }*/
-        imageLay.setOnClickListener(this@NewActivities)
+        imgActivity.setOnClickListener(this@NewActivities)
         back_f.setOnClickListener(this@NewActivities)
         done.setOnClickListener(this@NewActivities)
     }
@@ -229,7 +238,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
     override fun onClick(view: View?) {
         when (view!!.id) {
-            R.id.imageLay -> {
+            R.id.imgActivity -> {
                 permissionPopUp()
             }
             R.id.back_f -> {
@@ -359,6 +368,8 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                         activityImage = MediaStore.Images.Media.getBitmap(this@NewActivities.contentResolver, result.uri)
 
                     if (activityImage != null) {
+                        val padding = 0
+                        imgActivity.setPadding(padding, padding, padding, padding)
                         imgActivity.setImageBitmap(activityImage)
                     }
                 } catch (e: IOException) {
@@ -453,24 +464,24 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         return true
     }
 
-   /* private fun getClub() {
-        val dialog = CusDialogProg(this@NewActivities)
-        dialog.show()
-        val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_my_club, Response.Listener<NetworkResponse> { response ->
-            val data = String(response.data)
-            Util.e("data", data)
-            dialog.dismiss()
-            //{"status":"success","message":"Club added successfully"}
-            try {
-                val obj = JSONObject(data)
-                if (obj.getString("status") == "success") {
-                    val clubResponce: GetMyClubResponce = Gson().fromJson(data, GetMyClubResponce::class.java)
-                    for (dataBean in clubResponce.getData()!!) {
-                        activityMyClubList?.add(dataBean)
-                    }
-                    spinnActivityLeaderAdapter!!.notifyDataSetChanged()
-                } else {
-                    *//*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*//*
+    /* private fun getClub() {
+         val dialog = CusDialogProg(this@NewActivities)
+         dialog.show()
+         val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_my_club, Response.Listener<NetworkResponse> { response ->
+             val data = String(response.data)
+             Util.e("data", data)
+             dialog.dismiss()
+             //{"status":"success","message":"Club added successfully"}
+             try {
+                 val obj = JSONObject(data)
+                 if (obj.getString("status") == "success") {
+                     val clubResponce: GetMyClubResponce = Gson().fromJson(data, GetMyClubResponce::class.java)
+                     for (dataBean in clubResponce.getData()!!) {
+                         activityMyClubList?.add(dataBean)
+                     }
+                     spinnActivityLeaderAdapter!!.notifyDataSetChanged()
+                 } else {
+                     *//*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*//*
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
@@ -542,7 +553,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             //{"status":"success","message":"Club added successfully"}
             try {
                 val obj = JSONObject(data)
-                val status=obj.getString("status")
+                val status = obj.getString("status")
                 if (status == "success") {
                     Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
                     val activityDetails = Gson().fromJson(data, ActivityDetailsResponce::class.java)

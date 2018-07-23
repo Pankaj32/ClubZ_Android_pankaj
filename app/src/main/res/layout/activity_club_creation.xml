@@ -115,7 +115,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 style="@style/EditText.ClubCreation"
-                                android:textColorHint="#666666"
+                                android:textColorHint="@color/nav_gray"
                                 android:textColor="@color/black"
                                 android:inputType="textCapSentences"
                                 android:maxLength="50"

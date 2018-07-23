@@ -147,10 +147,10 @@
     <string name="hint_activity_name"> Activity Name* </string>
     <string name="prompt_spinner_active_leader"> Activity Leader </string>
     <string name="fees_type"> Fees type</string>
-    <string name="hint_activity_location"> Activity location </string>
+    <string name="hint_activity_location"> Main location </string>
     <string name="hint_fees"> Fee </string>
-    <string name="hint_max_user"> Maximum User </string>
-    <string name="hint_min_user"> Minimum User </string>
+    <string name="hint_max_user">Confirmed maximum users </string>
+    <string name="hint_min_user">Confirmed minimum users </string>
 
     <!--Constants-->
     <string name="admin_by"> Administrator by </string>
@@ -300,7 +300,7 @@
 
     <!--New Activity-->
     <string name="general_description">General Description</string>
-    <string name="hint_activity_des"> Activity\'s description </string>
+    <string name="hint_activity_des"> Description </string>
     <string name="terms_n_condition"> Terms and Condition </string>
     <string name="user_role_txt">Club Manager</string>
     <string name="add_activity">Add new activity</string>
@@ -334,6 +334,7 @@
     <string name="a_actdes">Please enter description</string>
     <string name="a_actClub">Please select activity Club</string>
     <string name="a_actLeader">Please select activity Leader</string>
+    <string name="a_actLeaderHint">Leader</string>
 
     <!--Activities List-->
     <string name="h_Today">Today</string>

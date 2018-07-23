@@ -264,7 +264,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
             when(clubList.size){
                 0-> { showToast("Please create your club first.") }
-                1-> { startActivity(Intent(this@HomeActivity, NewActivities::class.java).putExtra("clubId", clubList[0].clubId.toString())) }
+                1-> { startActivity(Intent(this@HomeActivity, NewActivities::class.java).putExtra("clubId", clubList[0].clubId.toString()).putExtra("clubName",clubList[0].club_name)) }
                 else -> {
                     object : ClubSelectionDialog(this@HomeActivity, clubList) {
                         override fun onClubSelect(clubName: ClubName) {
@@ -422,8 +422,8 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                         val list : ArrayList<DialogMenu> = arrayListOf()
                         list.add(DialogMenu(getString(R.string.create_new_nwes), R.drawable.ic_add_24))
                         list.add(DialogMenu(getString(R.string.filter_clubs), R.drawable.ic_filter_list))
-                        list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
-                        showMenu(list)
+                      //  list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
+                        showMenu(list,frag)
                     }
 
                     Frag_Find_Activities::class.java.simpleName -> {
@@ -432,7 +432,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                         list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
                         list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_nav_event))
                         list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
-                        showMenu(list)
+                        showMenu(list,frag)
                     }
                 }
             }

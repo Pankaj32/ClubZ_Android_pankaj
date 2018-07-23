@@ -87,8 +87,6 @@
                         android:layout_width="@dimen/_2sdp"
                         android:layout_height="@dimen/_2sdp"
                         android:background="@color/text_gray" />
-
-
                     <RelativeLayout
                         android:id="@+id/imageLay"
                         android:layout_width="match_parent"
@@ -488,7 +486,6 @@
                             android:id="@+id/rtv_leadby"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/etv_description"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:paddingBottom="@dimen/_8sdp"
                             android:paddingTop="@dimen/_8sdp">
@@ -500,15 +497,15 @@
                                 android:background="@drawable/bg_circle_blue"
                                 app:siBorderColor="@color/text_gray"
                                 app:siBorderWidth="@dimen/_1sdp"
-                                android:src="@drawable/ic_user_shape" />
+                                app:srcCompat="@drawable/ic_user_shape" />
 
                             <LinearLayout
                                 android:id="@+id/leadLay"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignTop="@id/image_member2"
-                                android:layout_marginLeft="@dimen/_16sdp"
-                                android:layout_toRightOf="@id/image_member2"
+                                android:layout_marginStart="@dimen/_16sdp"
+                                android:layout_toEndOf="@id/image_member2"
                                 android:gravity="center_vertical">
 
                                 <TextView
@@ -534,7 +531,7 @@
                                 android:fontFamily="@font/teko_semibold"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_14sdp"
-                                android:text=""/>
+                                />
 
                             <TextView
                                 android:id="@+id/usrerole"

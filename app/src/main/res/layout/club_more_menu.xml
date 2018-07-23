@@ -46,7 +46,7 @@
                     android:textSize="@dimen/_14sdp"
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:text="@string/create_new_club"
-                    android:textColor="@color/nav_gray"/>
+                    android:textColor="@color/icon_tint"/>
 
             </LinearLayout>
 
@@ -74,7 +74,7 @@
                     android:textSize="@dimen/_14sdp"
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:text="@string/create_new_club"
-                    android:textColor="@color/nav_gray"/>
+                    android:textColor="@color/icon_tint"/>
 
             </LinearLayout>
 

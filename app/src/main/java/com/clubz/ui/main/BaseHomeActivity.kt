@@ -16,17 +16,18 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.core.BaseFragment
+import com.clubz.ui.newsfeed.fragment.FragNewsList
 import kotlinx.android.synthetic.main.club_more_menu.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 
 abstract class BaseHomeActivity : BaseActivity(),
-        BaseFragment.FragmentListner , View.OnClickListener{
+        BaseFragment.FragmentListner, View.OnClickListener {
 
     //protected var dialog : Dialog? = null
-    protected var menuDialog : Dialog? = null
-    protected var newsFilterDialog : Dialog? = null
-    protected var invalidateThreeDotMenu : Boolean = false
-   // protected var myActivityDailog: Dialog? = null
+    protected var menuDialog: Dialog? = null
+    protected var newsFilterDialog: Dialog? = null
+    protected var invalidateThreeDotMenu: Boolean = false
+    // protected var myActivityDailog: Dialog? = null
 
     override fun replaceFragment(fragment: Fragment) {
         super.replaceFragment(fragment)
@@ -47,14 +48,14 @@ abstract class BaseHomeActivity : BaseActivity(),
 
 
     @SuppressLint("RtlHardcoded")
-    protected fun showLogoutPopup(v : View) {
-        val products =  arrayOf(getString(R.string.logout))
-        val lpw =  ListPopupWindow(this)
+    protected fun showLogoutPopup(v: View) {
+        val products = arrayOf(getString(R.string.logout))
+        val lpw = ListPopupWindow(this)
         lpw.anchorView = v
         lpw.setDropDownGravity(Gravity.RIGHT)
         lpw.height = ListPopupWindow.WRAP_CONTENT
         lpw.width = 300
-        lpw.setAdapter( ArrayAdapter(this, android.R.layout.simple_list_item_1, products)) // list_item is your textView with gravity.
+        lpw.setAdapter(ArrayAdapter(this, android.R.layout.simple_list_item_1, products)) // list_item is your textView with gravity.
         lpw.setOnItemClickListener { _, _, _, _ ->
             lpw.dismiss()
             SessionManager.getObj().logout(this)
@@ -62,37 +63,37 @@ abstract class BaseHomeActivity : BaseActivity(),
         lpw.show()
     }
 
-  /*  @SuppressLint("RtlHardcoded")
-    protected fun clubSelectionMenu(position: Int){
-        if(dialog==null){
-            dialog = Dialog(this)
-            dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            val dialogWindow = dialog?.window
-            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog?.setContentView(R.layout.menu_club_selection)
-            for (views in arrayOf(dialog?.tv_private, dialog?.tv_public)) views?.setOnClickListener(getActivity())
-            val lp = dialogWindow?.attributes
-            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
-            lp?.y = -100
-            dialogWindow?.attributes = lp
-            dialog?.setCancelable(true)
-        }
+    /*  @SuppressLint("RtlHardcoded")
+      protected fun clubSelectionMenu(position: Int){
+          if(dialog==null){
+              dialog = Dialog(this)
+              dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+              val dialogWindow = dialog?.window
+              dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+              dialog?.setContentView(R.layout.menu_club_selection)
+              for (views in arrayOf(dialog?.tv_private, dialog?.tv_public)) views?.setOnClickListener(getActivity())
+              val lp = dialogWindow?.attributes
+              dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+              lp?.y = -100
+              dialogWindow?.attributes = lp
+              dialog?.setCancelable(true)
+          }
 
-        if (position == 0) {
-            if(ClubZ.isPrivate ==0){
-                dialog?.chk_priavte?.isChecked = true; dialog?.chk_public?.isChecked = true
-            } else {
-                dialog?.chk_priavte?.isChecked = (ClubZ.isPrivate ==2)
-                dialog?.chk_public?.isChecked  = (ClubZ.isPrivate ==1)
-            }
-        }
+          if (position == 0) {
+              if(ClubZ.isPrivate ==0){
+                  dialog?.chk_priavte?.isChecked = true; dialog?.chk_public?.isChecked = true
+              } else {
+                  dialog?.chk_priavte?.isChecked = (ClubZ.isPrivate ==2)
+                  dialog?.chk_public?.isChecked  = (ClubZ.isPrivate ==1)
+              }
+          }
 
-        dialog?.show()
-    }*/
+          dialog?.show()
+      }*/
 
     @SuppressLint("RtlHardcoded")
-    private fun showFilterDialog(){
-        if(newsFilterDialog==null){
+    private fun showFilterDialog() {
+        if (newsFilterDialog == null) {
             newsFilterDialog = Dialog(this)
             newsFilterDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val dialogWindow = newsFilterDialog?.window
@@ -107,52 +108,55 @@ abstract class BaseHomeActivity : BaseActivity(),
                 views?.setOnClickListener(getActivity())
         }
         newsFilterDialog?.show()
-       // newsFilterDialog?.setOnDismissListener { updateMyNewsFeed() }
+        // newsFilterDialog?.setOnDismissListener { updateMyNewsFeed() }
     }
 
-   /* @SuppressLint("RtlHardcoded")
-    protected fun showMyActivityDialog() {
-        if (myActivityDailog == null) {
-            myActivityDailog = Dialog(this)
-            myActivityDailog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            val dialogWindow = myActivityDailog?.window
-            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            myActivityDailog?.setContentView(R.layout.menu_my_activity)
-            val lp = dialogWindow?.attributes
-            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
-            lp?.y = -100
-            dialogWindow?.attributes = lp
-            myActivityDailog?.myActivity?.setOnClickListener(this)
-            myActivityDailog?.show()
-        }
-        myActivityDailog?.show()
-    }*/
+    /* @SuppressLint("RtlHardcoded")
+     protected fun showMyActivityDialog() {
+         if (myActivityDailog == null) {
+             myActivityDailog = Dialog(this)
+             myActivityDailog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+             val dialogWindow = myActivityDailog?.window
+             dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+             myActivityDailog?.setContentView(R.layout.menu_my_activity)
+             val lp = dialogWindow?.attributes
+             dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+             lp?.y = -100
+             dialogWindow?.attributes = lp
+             myActivityDailog?.myActivity?.setOnClickListener(this)
+             myActivityDailog?.show()
+         }
+         myActivityDailog?.show()
+     }*/
 
 
     @SuppressLint("RtlHardcoded")
-    protected fun showMenu(list : ArrayList<DialogMenu>?){
+    protected fun showMenu(list: ArrayList<DialogMenu>?, frag: Fragment) {
 
-        if(invalidateThreeDotMenu) menuDialog = null
+        if (invalidateThreeDotMenu) menuDialog = null
 
-        if(menuDialog==null){
+        if (menuDialog == null) {
             menuDialog = Dialog(this)
             menuDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val dialogWindow = menuDialog?.window
             dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             menuDialog?.setContentView(R.layout.club_more_menu)
 
-            if(list!=null){
+            if (list != null) {
                 menuDialog?.ll_menu0?.visibility = View.VISIBLE
                 menuDialog?.menu_iv0?.setImageResource(list[0].id)
                 menuDialog?.menu_iv1?.setImageResource(list[1].id)
                 menuDialog?.menu_tv0?.text = list[0].title
                 menuDialog?.menu_tv1?.text = list[1].title
 
-                if(list.size>2){
+                if (list.size > 2) {
                     menuDialog?.ll_menu2?.visibility = View.VISIBLE
                     menuDialog?.menu_iv2?.setImageResource(list[2].id)
                     menuDialog?.menu_tv2?.text = list[2].title
                 }
+            }
+            if (frag::class.java.simpleName == FragNewsList::class.java.simpleName) {
+                menuDialog?.ll_menu2?.visibility = View.GONE
             }
 
             menuDialog?.ll_menu0?.setOnClickListener {
@@ -178,14 +182,24 @@ abstract class BaseHomeActivity : BaseActivity(),
         menuDialog?.show()
     }
 
-    private fun handleMenuClick(menu: DialogMenu){
+    private fun handleMenuClick(menu: DialogMenu) {
         menuDialog?.dismiss()
-        when(menu.title){
-            getString(R.string.create_new_nwes) -> { navigateCreateNewsFeed() }
-            getString(R.string.filter_clubs) -> { showFilterDialog() }
-            getString(R.string.renew_my_location) -> { checkLocationUpdate() }
-            getString(R.string.t_new_activity) -> { navigateCreateActivity() }
-            getString(R.string.my_activity) -> { navigateMyActivity() }
+        when (menu.title) {
+            getString(R.string.create_new_nwes) -> {
+                navigateCreateNewsFeed()
+            }
+            getString(R.string.filter_clubs) -> {
+                showFilterDialog()
+            }
+            getString(R.string.renew_my_location) -> {
+                checkLocationUpdate()
+            }
+            getString(R.string.t_new_activity) -> {
+                navigateCreateActivity()
+            }
+            getString(R.string.my_activity) -> {
+                navigateMyActivity()
+            }
         }
     }
 
@@ -194,7 +208,8 @@ abstract class BaseHomeActivity : BaseActivity(),
     abstract fun navigateMyActivity()
     abstract fun checkLocationUpdate()
     //abstract fun updateMyNewsFeed()
-    abstract fun getActivity() : HomeActivity
+    abstract fun getActivity(): HomeActivity
+
     abstract fun bottomtabHandler(fragment: Fragment)
     abstract fun setActionbarMenu(fragment: Fragment)
 
