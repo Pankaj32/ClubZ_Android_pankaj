@@ -1,5 +1,7 @@
 package com.clubz.ui.profile
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
@@ -14,14 +16,17 @@ import android.support.v7.widget.Toolbar
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.view.View.inflate
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Profile
 import com.clubz.data.remote.WebService
+import com.clubz.ui.cv.ChipEditText
 import com.clubz.ui.cv.ChipView
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.FlowLayout
@@ -31,10 +36,11 @@ import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_profile_edit.*
 import org.json.JSONObject
+import kotlin.math.log
 
-class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLayout.OnOffsetChangedListener  {
+class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
 
-    lateinit var profile : Profile
+    lateinit var profile: Profile
 
     val fullName = ""
     val aboutMe = ""
@@ -73,6 +79,18 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         }
         toolbar_image.layoutParams.height = diametric.widthPixels
         initView()
+        // typeAffliates.imeOptions=EditorInfo.IME_ACTION_DONE
+        /*typeAffliates.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(p0: TextView?, actionId: Int, p2: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    addhorizontalview(cheepContainer, typeAffliates.text.toString().trim())
+                    typeAffliates.setText("")
+                    return true
+                }
+                return false
+            }
+
+        })*/
     }
 
     private fun initView() {
@@ -93,6 +111,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         tvAffilitesVisibility.setOnClickListener(this)
         tvMySkillVisibility.setOnClickListener(this)
         tvMyInterestVisibility.setOnClickListener(this)
+//        plus.setOnClickListener(this)
         appbar_layout!!.addOnOffsetChangedListener(this)
 
         tvAboutMe.setText(profile.about_me)
@@ -116,38 +135,72 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
 
         let {
             addChip(affilitesChip, profile.affiliates)
+//            addhorizontalview(cheepContainer, profile.affiliates)
             addChip(skillsChip, profile.skills)
             addChip(interestChip, profile.interests)
         }
     }
 
     override fun onClick(v: View?) {
-        when(v!!.id){
-            R.id.tvAboutMeVisibility ->{ showVisibilityMenu(tvAboutMeVisibility)}
-            R.id.tvDobVisibility ->{ showVisibilityMenu(tvDobVisibility)}
-            R.id.tvLandLineVisibility ->{ showVisibilityMenu(tvLandLineVisibility)}
-            R.id.tvMobileVisibility ->{ showVisibilityMenu(tvMobileVisibility)}
-            R.id.tvEmailVisibility ->{ showVisibilityMenu(tvEmailVisibility)}
-            R.id.tvAffilitesVisibility ->{ showVisibilityMenu(tvAffilitesVisibility)}
-            R.id.tvMySkillVisibility ->{ showVisibilityMenu(tvMySkillVisibility)}
-            R.id.tvMyInterestVisibility ->{ showVisibilityMenu(tvMyInterestVisibility)}
+        when (v!!.id) {
+            R.id.tvAboutMeVisibility -> {
+                showVisibilityMenu(tvAboutMeVisibility)
+            }
+            R.id.tvDobVisibility -> {
+                showVisibilityMenu(tvDobVisibility)
+            }
+            R.id.tvLandLineVisibility -> {
+                showVisibilityMenu(tvLandLineVisibility)
+            }
+            R.id.tvMobileVisibility -> {
+                showVisibilityMenu(tvMobileVisibility)
+            }
+            R.id.tvEmailVisibility -> {
+                showVisibilityMenu(tvEmailVisibility)
+            }
+            R.id.tvAffilitesVisibility -> {
+                showVisibilityMenu(tvAffilitesVisibility)
+            }
+            R.id.tvMySkillVisibility -> {
+                showVisibilityMenu(tvMySkillVisibility)
+            }
+            R.id.tvMyInterestVisibility -> {
+                showVisibilityMenu(tvMyInterestVisibility)
+            }
+        /* R.id.plus -> {
+             if (canAdd()) addChip(affilitesChip, affiliates.text.toString())
+             affiliates.setText("")
+         }*/
         }
     }
 
 
-    private fun getVisibilityOption(position: Int):String{
-       return when (position) {
-           0 -> return getString(R.string.hidden)
-           1 -> return getString(R.string.Public)
-           2 -> return getString(R.string.only_for_my_contact)
-           3 -> return getString(R.string.only_for_club_member)
-           else -> getString(R.string.Public)
-       }
+    private fun getVisibilityOption(position: Int): String {
+        return when (position) {
+            0 -> return getString(R.string.hidden)
+            1 -> return getString(R.string.Public)
+            2 -> return getString(R.string.only_for_my_contact)
+            3 -> return getString(R.string.only_for_club_member)
+            else -> getString(R.string.Public)
+        }
     }
 
+    /*private fun canAdd(): Boolean {
+        //  Util.hideKeyBoard()
+        if (affiliates.text.isBlank()) {
+            Util.showSnake(this, cordinator_layout, R.string.a_addaffil)
+            return false
+        }
+        return true
+    }
+*/
     private fun addChip(chipHolder: FlowLayout, str: String) {
         if (str.isNotBlank()) {
             val tagList = str.split(",").map { it.trim() }
+            Log.e("ChildCount: ", "" + chipHolder.childCount)
+            if (chipHolder.childCount != 0) {
+                chipHolder.removeViewAt(chipHolder.childCount - 1)
+            }
             for (tag in tagList) {
                 val chip = object : ChipView(this@ProfileEditActivity, chipHolder.childCount.toString(), true) {
                     override fun getLayout(): Int {
@@ -160,8 +213,17 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                 chip.text = tag
                 chipHolder.addView(chip)
             }
+            val chipEditText = object : ChipEditText(this@ProfileEditActivity) {
+                override fun setDone(text: String?) {
+                    addChip(affilitesChip, text!!)
+                    hideSoftKeyboard()
+                }
+
+            }
+            chipHolder.addView(chipEditText)
         }
     }
+
 
     private fun setPlated() {
         //val bitmap = BitmapFactory.decodeResource(resources, R.drawable.dharmrja)
@@ -204,6 +266,15 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         return super.onPrepareOptionsMenu(menu)
     }
 
+    fun hideSoftKeyboard() {
+        try {
+            val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -219,10 +290,10 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showVisibilityMenu(v:View){
-        val products =  arrayOf(getString(R.string.hidden), getString(R.string.club_public),
+    private fun showVisibilityMenu(v: View) {
+        val products = arrayOf(getString(R.string.hidden), getString(R.string.club_public),
                 getString(R.string.only_for_my_contact), getString(R.string.only_for_club_member))
-        val lpw =  ListPopupWindow(this@ProfileEditActivity)
+        val lpw = ListPopupWindow(this@ProfileEditActivity)
         lpw.anchorView = v
         lpw.setDropDownGravity(Gravity.RIGHT)
         lpw.height = ListPopupWindow.WRAP_CONTENT
@@ -231,30 +302,46 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         lpw.setOnItemClickListener { parent, view, position, id ->
             lpw.dismiss()
 
-            when(v.id){
-                R.id.tvAboutMeVisibility -> { aboutMeVisibility = position
-                    tvAboutMeVisibility.text = getVisibilityOption(position)}
+            when (v.id) {
+                R.id.tvAboutMeVisibility -> {
+                    aboutMeVisibility = position
+                    tvAboutMeVisibility.text = getVisibilityOption(position)
+                }
 
-                R.id.tvDobVisibility ->{ dobVisibility = position
-                    tvDobVisibility.text = getVisibilityOption(position)}
+                R.id.tvDobVisibility -> {
+                    dobVisibility = position
+                    tvDobVisibility.text = getVisibilityOption(position)
+                }
 
-                R.id.tvLandLineVisibility ->{ contactNoVisibility = position
-                    tvLandLineVisibility.text = getVisibilityOption(position)}
+                R.id.tvLandLineVisibility -> {
+                    contactNoVisibility = position
+                    tvLandLineVisibility.text = getVisibilityOption(position)
+                }
 
-                R.id.tvMobileVisibility ->{ aboutMeVisibility = position
-                    tvMobileVisibility.text = getVisibilityOption(position)}
+                R.id.tvMobileVisibility -> {
+                    aboutMeVisibility = position
+                    tvMobileVisibility.text = getVisibilityOption(position)
+                }
 
-                R.id.tvEmailVisibility ->{ emailVisibility = position
-                    tvEmailVisibility.text = getVisibilityOption(position)}
+                R.id.tvEmailVisibility -> {
+                    emailVisibility = position
+                    tvEmailVisibility.text = getVisibilityOption(position)
+                }
 
-                R.id.tvAffilitesVisibility ->{ affiliatesVisibility = position
-                    tvAffilitesVisibility.text = getVisibilityOption(position)}
+                R.id.tvAffilitesVisibility -> {
+                    affiliatesVisibility = position
+                    tvAffilitesVisibility.text = getVisibilityOption(position)
+                }
 
-                R.id.tvMySkillVisibility ->{ affiliatesVisibility = position
-                    tvMySkillVisibility.text = getVisibilityOption(position)}
+                R.id.tvMySkillVisibility -> {
+                    affiliatesVisibility = position
+                    tvMySkillVisibility.text = getVisibilityOption(position)
+                }
 
-                R.id.tvMyInterestVisibility ->{ interestVisibility = position
-                    tvMyInterestVisibility.text = getVisibilityOption(position)}
+                R.id.tvMyInterestVisibility -> {
+                    interestVisibility = position
+                    tvMyInterestVisibility.text = getVisibilityOption(position)
+                }
             }
         }
         lpw.show()

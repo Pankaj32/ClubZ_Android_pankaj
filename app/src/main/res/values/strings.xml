@@ -149,8 +149,8 @@
     <string name="fees_type"> Fees type</string>
     <string name="hint_activity_location"> Main location </string>
     <string name="hint_fees"> Fee </string>
-    <string name="hint_max_user">Confirmed maximum users </string>
-    <string name="hint_min_user">Confirmed minimum users </string>
+    <string name="hint_max_user">Maximum users </string>
+    <string name="hint_min_user">Minimum users </string>
 
     <!--Constants-->
     <string name="admin_by"> Administrator by </string>
@@ -376,7 +376,7 @@
     <string name="error_article_club_id">Please select club first.</string>
     <string name="error_comment_disabled">Comment is disabled by club manager</string>
     <string name="under_development">Under Development</string>
-    <string name="club_s_name">Club\'s name</string>
+    <string name="club_s_name">Club name</string>
     <string name="admin">Admin</string>
     <string name="there_is_no_news_stil_here">There is no news stil here</string>
     <string name="there_is_no_activity_stil_here">There is no activity stil here</string>

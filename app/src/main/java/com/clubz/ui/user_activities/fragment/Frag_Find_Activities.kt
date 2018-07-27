@@ -436,6 +436,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ParentViewClickLi
                 .putExtra("userId", userId)
                 .putExtra("userName", userName)
                 .putExtra("userProfileImg", userProfileImg)
+               // .putExtra("clubId", userProfileImg)
         )
     }
 

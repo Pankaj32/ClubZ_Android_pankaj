@@ -28,10 +28,10 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
             from = bundle.getString("From")
         }
 
-        if (from.equals("OthersActivity")){
-            userId= bundle.getString("userId")
-            userName=bundle.getString("userName")
-            userProfileImg=bundle.getString("userProfileImg")
+        if (from.equals("OthersActivity")) {
+            userId = bundle.getString("userId")
+            userName = bundle.getString("userName")
+            userProfileImg = bundle.getString("userProfileImg")
         }
         // headerTxt.text = resources.getString(R.string.hint_activity_name)
         headerTxt.text = "Activity Name"

@@ -35,7 +35,6 @@
     <dimen name="right_left_spinner_padding">8dp</dimen>
 
     <dimen name="label_text_size">12sp</dimen>
-
     <dimen name="min_content_height">20dp</dimen>
-
+    <dimen name="drawerWidth">300dp</dimen>
 </resources>

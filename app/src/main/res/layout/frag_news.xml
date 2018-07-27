@@ -40,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="16sp"
                     android:fontFamily="@font/teko_semibold"
                     android:text="@string/there_is_no_news_stil_here" />
 
@@ -49,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_color_gray"
-                    android:textSize="@dimen/_10sdp"
+                    android:textSize="13sp"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/no_feed_content_body"
                     android:layout_marginTop="@dimen/_25sdp"

@@ -122,9 +122,12 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 }
                 "activities" -> {
                     activityId = arguments!!.getString(ARG_ACTIVITYID)
-                    userId = arguments!!.getString(ARG_USERID)
+                    /*userId = arguments!!.getString(ARG_USERID)
                     userName = arguments!!.getString(ARG_USERNAME)
-                    userProfileImg = arguments!!.getString(ARG_USERPROFILEIMG)
+                    userProfileImg = arguments!!.getString(ARG_USERPROFILEIMG)*/
+                    silentTxt?.visibility = View.VISIBLE
+                    silentTxt?.isClickable = true
+                    silentTxt?.text="Activity Chat is On Development Mode"
                 }
             }
         }
@@ -378,7 +381,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
          * @return A new instance of fragment FragmentChat.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstanceActivityChat(activityId: String): FragmentChat {
+        fun newInstanceActivityChat(activityId: String/*, clubId: String*/): FragmentChat {
             val fragment = FragmentChat()
             val args = Bundle()
             args.putString(ARG_CHATFOR, "activities")

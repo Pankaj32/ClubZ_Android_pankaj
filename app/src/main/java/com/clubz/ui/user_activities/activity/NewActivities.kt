@@ -49,7 +49,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_new_activities_copy.*
+import kotlinx.android.synthetic.main.activity_new_activities.*
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
@@ -79,13 +79,12 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_activities_copy)
+        setContentView(R.layout.activity_new_activities)
 
         let {
             if (intent.hasExtra("clubId")) clubId = intent.extras.getString("clubId")
             if (intent.hasExtra("clubName")) clubName = intent.extras.getString("clubName")
         }
-
         initializeView()
         //getClub()
         clubNameTxt.text = clubName

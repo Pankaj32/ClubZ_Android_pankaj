@@ -194,7 +194,7 @@
                     android:layout_toEndOf="@+id/img_privacy"
                     android:layout_marginStart="@dimen/_16sdp"
                     android:textSize="12sp"
-                    android:text="@string/category"/>
+                    android:text="@string/privacy"/>
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/img_privacy"
