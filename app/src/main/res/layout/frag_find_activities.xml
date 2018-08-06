@@ -1,17 +1,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/snakLay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:padding="@dimen/_5sdp"
-    android:id="@+id/snakLay"
     tools:context="com.clubz.ui.user_activities.fragment.Frag_Find_Activities">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="true">
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,9 +21,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:animateLayoutChanges="true"
-                android:background="@color/background">
+                android:background="@color/background"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/todayLay"
@@ -33,71 +33,121 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/teko_semibold"
+                        android:fontFamily="@font/roboto_regular"
                         android:paddingBottom="@dimen/_3sdp"
                         android:paddingTop="@dimen/_3sdp"
                         android:text="@string/h_Today"
                         android:textColor="@color/nav_gray"
-                        android:textSize="@dimen/_16sdp" />
+                        android:textSize="@dimen/_15sdp" />
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/arowToday"
-                        android:layout_width="@dimen/_10sdp"
-                        android:layout_height="@dimen/_10sdp"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_5sdp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_down_arrow"
-                        android:layout_marginRight="@dimen/_5sdp"/>
+                        app:srcCompat="@drawable/ic_event_down_arrow" />
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/todayExCol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_toLeftOf="@id/arowToday"
-                        android:fontFamily="@font/teko_light"
+                        android:fontFamily="@font/roboto_italic"
                         android:text="@string/collapsed"
-                        android:textColor="@color/text_gray"
-                        android:textSize="@dimen/_10sdp" />
+                        android:textColor="@color/nav_gray"
+                        android:textSize="@dimen/_10sdp" />-->
                 </RelativeLayout>
 
-                <View
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_2sdp"
-                    android:background="@color/gray_transprent" />
+                    android:layout_height="wrap_content"
+                    >
 
-
-                <android.support.v7.widget.RecyclerView
+                    <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerViewToday"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="gone"
-                        android:nestedScrollingEnabled="true" />
+                        android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/todayNoDataTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_toLeftOf="@id/arowToday"
-                    android:fontFamily="@font/poppins_italic"
-                    android:text="@string/no_activites"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/_10sdp"
-                    android:visibility="gone"/>
+                    <LinearLayout
+                        android:id="@+id/todayHeaderLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_6sdp"
+                        android:background="@drawable/bg_activity">
+
+                        <TextView
+                            android:id="@+id/todayActivityCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/activities_count_txt"
+                            android:textColor="@color/nav_gray"
+                            android:textSize="13sp" />
+
+                        <!--<View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:background="@color/nav_gray" />
+
+                        <TextView
+                            android:id="@+id/todaySheduleCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/dates_scheduled_txt"
+                            android:textColor="@color/nav_gray"
+                            android:textSize="13sp" />-->
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:background="@color/nav_gray" />
+
+                        <TextView
+                            android:id="@+id/todayConfirmCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/date_confirmed_txt"
+                            android:textColor="@color/primaryColor"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/todayNoDataTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/poppins_italic"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/no_activites"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
+                        android:visibility="gone"
+                        android:background="@drawable/bg_activity"
+                        android:textAlignment="center"/>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:animateLayoutChanges="true"
-                android:background="@color/background">
+                android:background="@color/background"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/tomorrowLay"
@@ -107,70 +157,122 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/teko_semibold"
+                        android:fontFamily="@font/roboto_regular"
                         android:paddingBottom="@dimen/_3sdp"
                         android:paddingTop="@dimen/_3sdp"
                         android:text="@string/h_Tomorrow"
                         android:textColor="@color/nav_gray"
-                        android:textSize="@dimen/_16sdp" />
+                        android:textSize="@dimen/_15sdp" />
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/arowTomorrow"
-                        android:layout_width="@dimen/_10sdp"
-                        android:layout_height="@dimen/_10sdp"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_5sdp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_down_arrow"
-                        android:layout_marginRight="@dimen/_5sdp"/>
+                        app:srcCompat="@drawable/ic_event_down_arrow" />
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/tomorrowExCol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:layout_toLeftOf="@id/arowTomorrow"
-                        android:fontFamily="@font/teko_light"
+                        android:fontFamily="@font/roboto_italic"
                         android:text="@string/collapsed"
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/_10sdp" />
+                        android:textSize="@dimen/_10sdp" />-->
 
                 </RelativeLayout>
 
-                <View
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_2sdp"
-                    android:background="@color/gray_transprent" />
+                    android:layout_height="wrap_content"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/tomorrowHeaderLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_6sdp"
+                        android:background="@drawable/bg_activity">
+
+                        <TextView
+                            android:id="@+id/tomorrowActivityCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/activities_count_txt"
+                            android:textColor="@color/nav_gray"
+                            android:textSize="13sp" />
+
+                        <!--<View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:background="@color/nav_gray" />
+
+                        <TextView
+                            android:id="@+id/tomorrowSheduleCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/dates_scheduled_txt"
+                            android:textColor="@color/nav_gray"
+                            android:textSize="13sp" />-->
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:background="@color/nav_gray" />
+
+                        <TextView
+                            android:id="@+id/tomorrowConfirmCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/date_confirmed_txt"
+                            android:textColor="@color/primaryColor"
+                            android:textSize="13sp" />
+                    </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerViewTomorrow"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tomorrowNoDataTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/poppins_italic"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/no_activites"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
                         android:visibility="gone"
-                        android:nestedScrollingEnabled="true"/>
-                <TextView
-                    android:id="@+id/tomorrowNoDataTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_toLeftOf="@id/arowToday"
-                    android:fontFamily="@font/poppins_italic"
-                    android:text="@string/no_activites"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/_10sdp"
-                    android:visibility="gone"/>
+                        android:background="@drawable/bg_activity"
+                        android:textAlignment="center"/>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:animateLayoutChanges="true"
-                android:background="@color/background">
+                android:background="@color/background"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/soonLay"
@@ -180,70 +282,119 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/teko_semibold"
+                        android:fontFamily="@font/roboto_regular"
                         android:paddingBottom="@dimen/_3sdp"
                         android:paddingTop="@dimen/_3sdp"
                         android:text="@string/h_coming_soon"
                         android:textColor="@color/nav_gray"
-                        android:textSize="@dimen/_16sdp" />
+                        android:textSize="@dimen/_15sdp" />
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/arowSoon"
-                        android:layout_width="@dimen/_10sdp"
-                        android:layout_height="@dimen/_10sdp"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_5sdp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_down_arrow"
-                        android:layout_marginRight="@dimen/_5sdp"/>
+                        app:srcCompat="@drawable/ic_event_down_arrow" />
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/soonExCol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:layout_toLeftOf="@id/arowSoon"
-                        android:fontFamily="@font/teko_light"
+                        android:fontFamily="@font/roboto_italic"
                         android:text="@string/collapsed"
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/_10sdp" />
+                        android:textSize="@dimen/_10sdp" />-->
 
                 </RelativeLayout>
 
-                <View
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_2sdp"
-                    android:background="@color/gray_transprent" />
+                    android:layout_height="wrap_content">
 
-                <android.support.v7.widget.RecyclerView
+                    <LinearLayout
+                        android:id="@+id/soonHeaderLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_6sdp"
+                        android:background="@drawable/bg_activity">
+
+                        <TextView
+                            android:id="@+id/soonActivityCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/activities_count_txt"
+                            android:textColor="@color/nav_gray"
+                            android:textSize="13sp" />
+
+                        <!--<View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:background="@color/nav_gray" />
+
+                        <TextView
+                            android:id="@+id/soonSheduleCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/dates_scheduled_txt"
+                            android:textColor="@color/nav_gray"
+                            android:textSize="13sp" />-->
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:background="@color/nav_gray" />
+
+                        <TextView
+                            android:id="@+id/soonConfirmCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/date_confirmed_txt"
+                            android:textColor="@color/primaryColor"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerViewSoon"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="gone"
-                        android:nestedScrollingEnabled="true"/>
-                <TextView
-                    android:id="@+id/soonNoDataTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_toLeftOf="@id/arowToday"
-                    android:fontFamily="@font/poppins_italic"
-                    android:text="@string/no_activites"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/_10sdp"
-                    android:visibility="gone"/>
+                        android:visibility="gone" />
 
+                    <TextView
+                        android:id="@+id/soonNoDataTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/poppins_italic"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/no_activites"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
+                        android:visibility="gone"
+                        android:background="@drawable/bg_activity"
+                        android:textAlignment="center"/>
+                </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:animateLayoutChanges="true"
-                android:background="@color/background">
+                android:background="@color/background"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/othersLay"
@@ -253,63 +404,112 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/teko_semibold"
+                        android:fontFamily="@font/roboto_regular"
                         android:paddingBottom="@dimen/_3sdp"
                         android:paddingTop="@dimen/_3sdp"
                         android:text="@string/h_others"
                         android:textColor="@color/nav_gray"
-                        android:textSize="@dimen/_16sdp" />
+                        android:textSize="@dimen/_15sdp" />
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/arowOthers"
-                        android:layout_width="@dimen/_10sdp"
-                        android:layout_height="@dimen/_10sdp"
-                        android:layout_alignParentRight="true"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_5sdp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_down_arrow"
-                        android:layout_marginRight="@dimen/_5sdp"/>
+                        app:srcCompat="@drawable/ic_event_down_arrow" />
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/othersExCol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:layout_toLeftOf="@id/arowOthers"
-                        android:fontFamily="@font/teko_light"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_toStartOf="@id/arowOthers"
+                        android:fontFamily="@font/roboto_italic"
                         android:text="@string/collapsed"
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/_10sdp" />
+                        android:textSize="@dimen/_10sdp" />-->
 
                 </RelativeLayout>
 
-                <View
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_2sdp"
-                    android:background="@color/gray_transprent" />
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/otherHeaderLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_6sdp"
+                        android:background="@drawable/bg_activity">
+
+                        <TextView
+                            android:id="@+id/otherActivityCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/activities_count_txt"
+                            android:textColor="@color/nav_gray"
+                            android:textSize="13sp" />
+
+                        <!--<View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:background="@color/nav_gray" />
+
+                        <TextView
+                            android:id="@+id/otherSheduleCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/dates_scheduled_txt"
+                            android:textColor="@color/nav_gray"
+                            android:textSize="13sp" />-->
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:background="@color/nav_gray" />
+
+                        <TextView
+                            android:id="@+id/otherConfirmCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/date_confirmed_txt"
+                            android:textColor="@color/primaryColor"
+                            android:textSize="13sp" />
+                    </LinearLayout>
 
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerViewOthers"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/othersNoDataTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/poppins_italic"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/no_activites"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
                         android:visibility="gone"
-                        android:nestedScrollingEnabled="true"/>
-                <TextView
-                    android:id="@+id/othersNoDataTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_toLeftOf="@id/arowToday"
-                    android:fontFamily="@font/poppins_italic"
-                    android:text="@string/no_activites"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/_10sdp"
-                    android:visibility="gone"/>
+                        android:background="@drawable/bg_activity"
+                        android:textAlignment="center"/>
+                </RelativeLayout>
             </LinearLayout>
 
         </LinearLayout>

@@ -89,15 +89,17 @@
             android:name=".ui.club.ClubDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            />
         <activity
             android:name=".ui.club.ClubCreationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppThmeLight"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ui.user_activities.activity.NewActivities"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppThmeLight"
             android:windowSoftInputMode="stateHidden" />
 
         <!-- Service -->
@@ -172,7 +174,8 @@
         <activity
             android:name=".ui.user_activities.activity.MyActivities"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThmeLight" />
+            android:theme="@style/AppThmeLight"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:label="@string/title_activity_profile"

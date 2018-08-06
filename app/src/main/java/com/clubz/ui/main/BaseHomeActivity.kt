@@ -200,12 +200,16 @@ abstract class BaseHomeActivity : BaseActivity(),
             getString(R.string.my_activity) -> {
                 navigateMyActivity()
             }
+            getString(R.string.others_activity) -> {
+                navigateOthersActivity()
+            }
         }
     }
 
     abstract fun navigateCreateActivity()
     abstract fun navigateCreateNewsFeed()
     abstract fun navigateMyActivity()
+    abstract fun navigateOthersActivity()
     abstract fun checkLocationUpdate()
     //abstract fun updateMyNewsFeed()
     abstract fun getActivity(): HomeActivity

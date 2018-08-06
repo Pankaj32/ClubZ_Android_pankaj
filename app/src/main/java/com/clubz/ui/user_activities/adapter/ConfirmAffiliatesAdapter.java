@@ -2,9 +2,11 @@ package com.clubz.ui.user_activities.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,9 +44,11 @@ public class ConfirmAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.
         GetConfirmAffiliates.DataBean.AffiliatesBean affiliatesBean = affiliatesBeans.get(position);
         h.itemUserName.setText(affiliatesBean.getAffiliate_name());
         if (affiliatesBean.isConfirmed().equals("1")) {
-            h.itemJoin.setImageResource(R.drawable.hand_ico);
+           // h.itemJoin.setImageResource(R.drawable.hand_ico);
+            h.itemJoin.setChecked(true);
         } else {
-            h.itemJoin.setImageResource(R.drawable.ic_inactive_hand_ico);
+         //   h.itemJoin.setImageResource(R.drawable.ic_inactive_hand_ico);
+            h.itemJoin.setChecked(false);
         }
     }
 
@@ -55,8 +59,9 @@ public class ConfirmAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView itemJoin, item_image;
+        private ImageView  item_image;
         private TextView itemUserName;
+        private CheckBox itemJoin;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -67,6 +72,7 @@ public class ConfirmAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    try {
                     GetConfirmAffiliates.DataBean.AffiliatesBean affiliatesBean = affiliatesBeans.get(getAdapterPosition());
                     if (affiliatesBean.isConfirmed().equals("1")) {
                         affiliatesBean.setConfirmed("0");
@@ -74,6 +80,9 @@ public class ConfirmAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.
                         affiliatesBean.setConfirmed("1");
                     }
                     notifyDataSetChanged();
+                }catch (Exception e){
+                    Log.e("onClick:",e.getMessage());
+                }
                 }
             });
         }

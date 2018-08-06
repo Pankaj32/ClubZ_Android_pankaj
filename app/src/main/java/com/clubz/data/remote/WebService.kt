@@ -65,7 +65,6 @@ class WebService {
 
         val updateContact= base_Url +"service/user/updateContact"
         val contactList= base_Url +"service/user/contactList"
-
     }
 
 

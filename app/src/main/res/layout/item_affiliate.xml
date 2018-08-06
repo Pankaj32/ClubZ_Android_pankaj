@@ -27,13 +27,21 @@
         android:textColor="@color/black"
         android:textSize="14sp" />
 
-    <android.support.v7.widget.AppCompatImageView
+    <!--<android.support.v7.widget.AppCompatImageView
         android:id="@+id/itemJoin"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
 
-        app:srcCompat="@drawable/inactive_heart_ico" />
+        app:srcCompat="@drawable/inactive_heart_ico" />-->
+    <CheckBox
+        android:id="@+id/itemJoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:buttonTint="@color/primaryDarkColor"
+        android:clickable="false" />
 
 </RelativeLayout>

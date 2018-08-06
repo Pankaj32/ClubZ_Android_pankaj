@@ -54,6 +54,7 @@
             android:textColor="@color/nav_gray"
             android:textSize="@dimen/_14sdp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_60sdp"
@@ -117,10 +118,12 @@
 
                 <ImageView
                     android:id="@+id/iv_arrow_expand"
-                    android:layout_width="@dimen/_27sdp"
-                    android:layout_height="@dimen/_27sdp"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
                                         app:srcCompat="@drawable/ic_event_down_arrow"
-                    android:padding="@dimen/_8sdp"/>
+
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginRight="3dp"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

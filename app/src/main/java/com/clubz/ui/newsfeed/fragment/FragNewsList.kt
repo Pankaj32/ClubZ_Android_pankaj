@@ -143,8 +143,8 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
 
 
     override fun onItemClick(feed: Feed, pos : Int) {
-        /*val list : ArrayList<DialogMenu> =  arrayListOf()
-        list.add(DialogMenu(getString(R.string.add_date), R.drawable.ic_add_24))
+        val list : ArrayList<DialogMenu> =  arrayListOf()
+        /*list.add(DialogMenu(getString(R.string.add_date), R.drawable.ic_add_24))
         list.add(DialogMenu(getString(R.string.remove_activity), R.drawable.ic_delete_icon))
         list.add(DialogMenu(getString(R.string.hide_activity), R.drawable.ic_visibility_off))
         ItemListDialogFragment.newInstance(list).show(fragmentManager, "draj")*/

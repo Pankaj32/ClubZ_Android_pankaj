@@ -2,9 +2,11 @@ package com.clubz.ui.user_activities.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,9 +43,11 @@ public class JoinAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         GetJoinAffliates.DataBean.AffiliatesBean affiliatesBean = affiliatesBeans.get(position);
         h.itemUserName.setText(affiliatesBean.getAffiliate_name());
         if (affiliatesBean.isJoined().equals("1")) {
-            h.itemJoin.setImageResource(R.drawable.active_heart_ico);
+            // h.itemJoin.setImageResource(R.drawable.active_heart_ico);
+            h.itemJoin.setChecked(true);
         } else {
-            h.itemJoin.setImageResource(R.drawable.inactive_heart_ico);
+            //   h.itemJoin.setImageResource(R.drawable.inactive_heart_ico);
+            h.itemJoin.setChecked(false);
         }
     }
 
@@ -54,8 +58,9 @@ public class JoinAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView itemJoin, item_image;
+        private ImageView item_image;
         private TextView itemUserName;
+        private CheckBox itemJoin;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -66,13 +71,17 @@ public class JoinAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    GetJoinAffliates.DataBean.AffiliatesBean affiliatesBean = affiliatesBeans.get(getAdapterPosition());
-                    if (affiliatesBean.isJoined().equals("1")) {
-                        affiliatesBean.setJoined("0");
-                    } else {
-                        affiliatesBean.setJoined("1");
+                    try {
+                        GetJoinAffliates.DataBean.AffiliatesBean affiliatesBean = affiliatesBeans.get(getAdapterPosition());
+                        if (affiliatesBean.isJoined().equals("1")) {
+                            affiliatesBean.setJoined("0");
+                        } else {
+                            affiliatesBean.setJoined("1");
+                        }
+                        notifyDataSetChanged();
+                    }catch (Exception e){
+                        Log.e("onClick:",e.getMessage());
                     }
-                    notifyDataSetChanged();
                 }
             });
         }

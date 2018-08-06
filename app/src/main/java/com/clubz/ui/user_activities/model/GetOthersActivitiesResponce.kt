@@ -82,6 +82,7 @@ class GetOthersActivitiesResponce {
             var profile_image: String? = null
             var is_like: String? = null
             var is_Confirm: Boolean? = false
+            var visible=false
             var events: List<EventsBean>? = null
 
             class EventsBean {
@@ -190,6 +191,7 @@ class GetOthersActivitiesResponce {
             var profile_image: String? = null
             var is_like: String? = null
             var is_Confirm: Boolean? = false
+            var visible=false
             var events: List<EventsBeanX>? = null
 
             class EventsBeanX {
@@ -295,6 +297,7 @@ class GetOthersActivitiesResponce {
             var profile_image: String? = null
             var is_like: String? = null
             var is_Confirm: Boolean? = false
+            var visible=false
             var events: List<EventsBeanXX>? = null
 
             class EventsBeanXX {
@@ -400,6 +403,7 @@ class GetOthersActivitiesResponce {
             var profile_image: String? = null
             var is_like: String? = null
             var is_Confirm: Boolean? = false
+            var visible=false
             var events = null //: List<EventsBeanXXX>? =
 
             class EventsBeanXXX {

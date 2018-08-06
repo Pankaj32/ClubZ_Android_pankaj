@@ -62,10 +62,10 @@
         <item name="android:colorBackground">@color/white</item>
         <item name="android:textColor">@color/text_color_gray</item>
         <item name="android:popupMenuStyle">@android:style/Widget.Holo.Light.PopupMenu</item>
-        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+        <item name="android:dropDownListViewStyle">
+            @android:style/Widget.Holo.Light.ListView.DropDown
+        </item>
     </style>
-
-
 
 
     <style name="MySpinner" parent="Base.Widget.AppCompat.Spinner">
@@ -74,7 +74,7 @@
     </style>
 
 
-    <style name="tabtext" >
+    <style name="tabtext">
         <item name="tabTextAppearance">@style/NavigationTabTextAppeareance</item>
     </style>
 
@@ -98,16 +98,17 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="lightcolor" >
+    <style name="lightcolor">
         <!-- Customize your theme here. -->
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="white_et" >
+    <style name="white_et">
         <!-- Customize your theme here. -->
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="grayet" >
+
+    <style name="grayet">
         <!-- Customize your theme here. -->
         <item name="colorAccent">#626262</item>
     </style>
@@ -167,21 +168,20 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 
-    <style name="lighttheme" >
+    <style name="lighttheme">
         <!-- Customize your theme here. -->
         <item name="android:theme">@style/lightcolor</item>
     </style>
 
-    <style name="whitetheme" >
+    <style name="whitetheme">
         <!-- Customize your theme here. -->
         <item name="android:theme">@style/white_et</item>
     </style>
 
-    <style name="graytheme" >
+    <style name="graytheme">
         <!-- Customize your theme here. -->
         <item name="android:theme">@style/grayet</item>
     </style>
-
 
 
     <style name="SCBSwitch" parent="@style/Theme.AppCompat.Light">
@@ -255,4 +255,5 @@
         <item name="android:popupBackground">@android:color/white</item>
         <item name="android:textColor">@color/text_color_gray</item>
     </style>
+
 </resources>

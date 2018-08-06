@@ -1,6 +1,7 @@
 package com.clubz.ui.user_activities.activity
 
 import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -241,7 +242,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 permissionPopUp()
             }
             R.id.back_f -> {
-                finish()
+                showBackConfirmationDialog()
             }
             R.id.done -> {
                 if (validator()) createActivities()
@@ -414,7 +415,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             Util.showSnake(this, mainLayout!!, R.string.a_actnme)
             return false
         }
-        if (activityImage == null) {
+        /*if (activityImage == null) {
             Util.showSnake(this, mainLayout!!, R.string.a_actImg)
             return false
         }
@@ -422,10 +423,10 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             Util.showSnake(this, mainLayout!!, R.string.a_actClub)
             return false
         }
-        /* if (TextUtils.isEmpty(activityLeader)) {
+        *//* if (TextUtils.isEmpty(activityLeader)) {
              Util.showSnake(this, mainLayout!!, R.string.a_actLeader)
              return false
-         }*/
+         }*//*
         if (activityLocation.text.toString().isBlank()) {
             Util.showSnake(this, mainLayout!!, R.string.a_actLoc)
             return false
@@ -459,7 +460,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         if (termNConditionTxt.text.toString().isBlank()) {
             Util.showSnake(this, mainLayout!!, R.string.a_foundation)
             return false
-        }
+        }*/
         return true
     }
 
@@ -627,5 +628,25 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                     finish()
                 }
     }
+    override fun onBackPressed() {
+        showBackConfirmationDialog()
+    }
+    fun showBackConfirmationDialog() {
+        val builder1 = android.app.AlertDialog.Builder(this@NewActivities)
+        builder1.setTitle("Alert !!")
+        builder1.setMessage("Are you sure you want to leave ?")
+        builder1.setCancelable(true)
+        builder1.setPositiveButton("Ok"
+        ) { dialog, id ->
+            super.onBackPressed()
+        }
+        builder1.setNegativeButton("Cancel", object : DialogInterface.OnClickListener {
+            override fun onClick(dialogInterface: DialogInterface, id: Int) {
+                dialogInterface.cancel()
+            }
+        })
 
+        val alert11 = builder1.create()
+        alert11.show()
+    }
 }

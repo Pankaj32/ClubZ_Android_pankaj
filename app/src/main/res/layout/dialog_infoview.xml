@@ -37,7 +37,7 @@
                 android:id="@+id/mTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/text_header_color"
                 android:text="@string/a_internet_title"
                 android:layout_marginTop="@dimen/_65sdp"
                 android:textSize="@dimen/_18sdp"

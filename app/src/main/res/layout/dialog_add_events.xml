@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/containerLay"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_white_internet"
-    android:orientation="vertical"
-    android:id="@+id/containerLay">
+    android:orientation="vertical">
 
 
     <View
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top_primary"
-        android:layout_margin="24dp"
+        android:layout_margin="15dp"
         android:orientation="vertical">
 
         <TextView
@@ -44,17 +44,47 @@
             android:textColor="@color/inactive_tab"
             android:textSize="16sp" />
 
-        <View
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:background="@color/gray_transprent" />
+            android:background="@color/gray_transprent" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp">
+            android:layout_height="wrap_content">
 
-            <EditText
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/titleImage"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:padding="@dimen/_3sdp"
+                android:tint="@color/nav_gray"
+                app:srcCompat="@drawable/ic_baseline_title" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/titleImage"
+                android:theme="@style/tvStyle"
+                app:counterEnabled="true"
+                app:counterMaxLength="50"
+                app:counterOverflowTextAppearance="@style/TextLimitError"
+                app:counterTextAppearance="@style/CounterText">
+
+                <EditText
+                    android:id="@+id/eventNameTxt"
+                    style="@style/EditText.ClubCreation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/h_eventTitle"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/nav_gray" />
+
+            </android.support.design.widget.TextInputLayout>
+            <!--<EditText
                 android:id="@+id/eventNameTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,43 +96,46 @@
                 android:hint="@string/h_eventTitle"
                 android:textColor="@color/black"
                 android:textColorHint="@color/nav_gray"
-                android:textSize="14sp"/>
+                android:textSize="14sp"/>-->
         </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@color/gray_transprent" />
-
         <RelativeLayout
             android:id="@+id/datelay"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp">
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/dateIcon"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_3sdp"
                 android:tint="@color/nav_gray"
                 app:srcCompat="@drawable/ic_nav_event" />
+
+            <TextView
+                android:id="@+id/tv_categoryHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Gray"
+                android:layout_toEndOf="@+id/dateIcon"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:textSize="12sp"
+                android:text="@string/h_select_date"/>
 
             <TextView
                 android:id="@+id/addDateTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/_7sdp"
-                android:layout_toRightOf="@id/dateIcon"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_toEndOf="@id/dateIcon"
+                android:layout_below="@id/tv_categoryHint"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/h_select_date"
                 android:textColor="@color/black"
                 android:textColorHint="@color/nav_gray"
-                android:textSize="16sp" />
-
+                android:textSize="14sp" />
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/like"
                 android:layout_width="@dimen/_12sdp"
@@ -112,17 +145,138 @@
                 android:tint="@color/black"
                 app:srcCompat="@drawable/ic_down_arrow"
                 app:tint="@color/nav_gray" />
-        </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_transprent" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/nav_gray"
+                android:layout_toEndOf="@+id/dateIcon"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_below="@id/addDateTxt"
+                android:layout_marginTop="@dimen/_3sdp"/>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/timeLay"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/timeIcon"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:tint="@color/nav_gray"
+                app:srcCompat="@drawable/ic_clock" />
+
+            <TextView
+                android:id="@+id/tv_timeHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Gray"
+                android:layout_toEndOf="@+id/timeIcon"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:textSize="12sp"
+                android:text="@string/h_select_time"/>
+            <TextView
+                android:id="@+id/addTimeTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_toEndOf="@id/timeIcon"
+                android:layout_below="@id/tv_timeHint"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/h_select_time"
+                android:textColor="@color/black"
+                android:textColorHint="@color/nav_gray"
+                android:textSize="14sp" />
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:tint="@color/black"
+                app:srcCompat="@drawable/ic_down_arrow"
+                app:tint="@color/nav_gray" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/nav_gray"
+                android:layout_toEndOf="@+id/timeIcon"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_below="@id/addTimeTxt"
+                android:layout_marginTop="@dimen/_3sdp"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/loctionLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/locationIcon"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:tint="@color/nav_gray"
+                android:padding="@dimen/_3sdp"
+                app:srcCompat="@drawable/ic_map_placeholder" />
+
+            <TextView
+                android:id="@+id/tv_locationHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Gray"
+                android:layout_toEndOf="@+id/locationIcon"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:textSize="12sp"
+                android:text="@string/location"/>
+            <TextView
+                android:id="@+id/locationTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_toEndOf="@id/locationIcon"
+                android:layout_below="@id/tv_locationHint"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/location"
+                android:textColor="@color/black"
+                android:textColorHint="@color/nav_gray"
+                android:textSize="14sp" />
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:tint="@color/black"
+                app:srcCompat="@drawable/ic_down_arrow"
+                app:tint="@color/nav_gray" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/nav_gray"
+                android:layout_toEndOf="@+id/locationIcon"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_below="@id/locationTxt"
+                android:layout_marginTop="@dimen/_3sdp"/>
+
+        </RelativeLayout>
+
+        <!--<RelativeLayout
+            android:id="@+id/timeLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/timeIcon"
@@ -130,31 +284,47 @@
                 android:layout_height="@dimen/_25sdp"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:padding="@dimen/_3sdp"
                 android:tint="@color/nav_gray"
                 app:srcCompat="@drawable/ic_clock" />
 
-            <TextView
-                android:id="@+id/addTimeTxt"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/_7sdp"
-                android:layout_toRightOf="@id/timeIcon"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="@string/h_select_time"
-                android:textColor="@color/black"
-                android:textColorHint="@color/nav_gray"
-                android:textSize="14sp" />
+                android:layout_toEndOf="@id/timeIcon"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:theme="@style/tvStyle"
+                app:counterOverflowTextAppearance="@style/TextLimitError"
+                app:counterTextAppearance="@style/CounterText">
 
-        </RelativeLayout>
+                <EditText
+                    android:id="@+id/addTimeTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/h_select_time"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/nav_gray"
+                    android:textSize="14sp"
+                    android:clickable="false"
+                    android:focusable="false"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_transprent" />
+            </android.support.design.widget.TextInputLayout>
 
-        <RelativeLayout
+
+        </RelativeLayout>-->
+
+        <!-- <View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:background="@color/gray_transprent" />-->
+
+        <!--<RelativeLayout
             android:id="@+id/loctionLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -167,9 +337,38 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:tint="@color/nav_gray"
+                android:padding="@dimen/_3sdp"
                 app:srcCompat="@drawable/ic_map_placeholder" />
 
-            <TextView
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_toEndOf="@id/locationIcon"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:theme="@style/tvStyle"
+                app:counterOverflowTextAppearance="@style/TextLimitError"
+                app:counterTextAppearance="@style/CounterText">
+
+                <EditText
+                    android:id="@+id/locationTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/location"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/nav_gray"
+                    android:textSize="14sp"
+                    android:clickable="false"
+                    android:focusable="false"/>
+
+            </android.support.design.widget.TextInputLayout>
+            &lt;!&ndash;<TextView
                 android:id="@+id/locationTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -184,48 +383,78 @@
                 android:hint="Location"
                 android:textColor="@color/black"
                 android:textColorHint="@color/nav_gray"
-                android:textSize="16sp" />
+                android:textSize="16sp" />&ndash;&gt;
 
-        </RelativeLayout>
+        </RelativeLayout>-->
 
-        <View
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_transprent" />
+            android:background="@color/gray_transprent" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp">
+            android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/descTxt"
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/descImage"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:padding="@dimen/_3sdp"
+                android:tint="@color/nav_gray"
+                app:srcCompat="@drawable/ic_file_document" />
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/_7sdp"
-                android:background="@null"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="@string/h_activity_desc"
-                android:textColor="@color/black"
-                android:textColorHint="@color/nav_gray"
-                android:textSize="14sp" />
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_toEndOf="@id/descImage"
+                android:theme="@style/tvStyle"
+                app:counterEnabled="true"
+                app:counterMaxLength="150"
+                app:counterOverflowTextAppearance="@style/TextLimitError"
+                app:counterTextAppearance="@style/CounterText">
+
+                <EditText
+                    android:id="@+id/descTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/h_activity_desc"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/nav_gray"
+                    android:textSize="14sp" />
+                <!--<EditText
+                    android:id="@+id/eventNameTxt"
+                    style="@style/EditText.ClubCreation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/h_eventTitle"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/nav_gray" />
+-->
+            </android.support.design.widget.TextInputLayout>
+
 
         </RelativeLayout>
 
-        <View
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_transprent" />
+            android:background="@color/gray_transprent" />-->
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_below="@+id/rl_content"
         android:layout_gravity="right"
-        android:layout_margin="8dp">
+        android:layout_margin="2dp">
 
         <TextView
             android:id="@+id/mCancel"

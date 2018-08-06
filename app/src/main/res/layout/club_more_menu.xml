@@ -86,7 +86,7 @@
                 android:padding="@dimen/_5sdp"
                 android:background="?android:attr/selectableItemBackground"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/menu_iv2"

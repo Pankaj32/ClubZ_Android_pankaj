@@ -83,6 +83,7 @@
     <string name="t_find_activities"> Find activities </string>
     <string name="t_new_activity"> New activity </string>
     <string name="my_activity"> My activity </string>
+    <string name="others_activity"> Others activity </string>
     <string name="t_content"> Content </string>
     <string name="t_chat"> Chat </string>
     <string name="t_ads"> Ads </string>
@@ -147,7 +148,7 @@
     <string name="hint_activity_name"> Activity Name* </string>
     <string name="prompt_spinner_active_leader"> Activity Leader </string>
     <string name="fees_type"> Fees type</string>
-    <string name="hint_activity_location"> Main location </string>
+    <string name="hint_activity_location"> Select location </string>
     <string name="hint_fees"> Fee </string>
     <string name="hint_max_user">Maximum users </string>
     <string name="hint_min_user">Minimum users </string>
@@ -346,10 +347,10 @@
     <string name="confirmTitle">Select who confirms the activity</string>
     <string name="joinBtnText">JOIN</string>
     <string name="addDateBtnText">ADD DATE</string>
-    <string name="h_activity_desc">Activity description optional</string>
-    <string name="h_eventTitle">Event title</string>
-    <string name="h_select_date">Select date</string>
-    <string name="h_select_time">Select Time</string>
+    <string name="h_activity_desc">Description</string>
+    <string name="h_eventTitle">Title</string>
+    <string name="h_select_date">Date</string>
+    <string name="h_select_time">Time</string>
 
     <!--Activity Details-->
     <string name="termsnCondition"><u>Terms and Condition</u></string>
@@ -378,9 +379,9 @@
     <string name="under_development">Under Development</string>
     <string name="club_s_name">Club name</string>
     <string name="admin">Admin</string>
-    <string name="there_is_no_news_stil_here">There is no news stil here</string>
-    <string name="there_is_no_activity_stil_here">There is no activity stil here</string>
-    <string name="there_is_no_member_stil_here">There is no member stil here</string>
+    <string name="there_is_no_news_stil_here">There is no news still here</string>
+    <string name="there_is_no_activity_stil_here">There is no activity still here</string>
+    <string name="there_is_no_member_stil_here">There is no member still here</string>
     <string name="no_feed_content_body">Here will appear news from the clubs you belong. Club managers have not published anything yet.
         \n\nYou can also verify that your clubs are not muted, swipe the screen from the right side and enable them.</string>
     <string name="no_activity_content_body">The activity will be available once the club manager create it.</string>
@@ -394,6 +395,7 @@
     <string name="add_date">Add a new date</string>
     <string name="remove_activity">Remove this activity</string>
     <string name="hide_activity">Hide this activity</string>
+    <string name="un_hide_activity">Unhide this activity</string>
     <string name="disable_notification">Disable Notification</string>
 
     <string name="menu_my_newsfeed">Show my feed</string>
@@ -555,5 +557,9 @@
     <string name="general_information">General information</string>
     <string name="category">Category</string>
     <string name="you_are_silent_by_the_club_manager">You are Silent by the club manager</string>
+    <string name="activities_count_txt">  activities</string>
+    <string name="dates_scheduled_txt">  dates scheduled</string>
+    <string name="date_confirmed_txt">  date confirmed</string>
+    <string name="location">Location</string>
 
 </resources>

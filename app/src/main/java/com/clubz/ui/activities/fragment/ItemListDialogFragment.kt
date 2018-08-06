@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.clubz.R
 import com.clubz.data.model.DialogMenu
+import com.clubz.ui.user_activities.fragment.Frag_My_Activity
 import kotlinx.android.synthetic.main.fragment_item_list_dialog.*
 import kotlinx.android.synthetic.main.fragment_item_list_dialog_item.view.*
 
@@ -29,8 +30,11 @@ const val ARG_DIALOG_MENU_ITEM = "item_dialogMenu"
  *
  * You activity (or fragment) needs to implement [ItemListDialogFragment.Listener].
  */
-class ItemListDialogFragment : BottomSheetDialogFragment() {
+ class ItemListDialogFragment : BottomSheetDialogFragment(){
     private var mListener: Listener? = null
+private var instance : Frag_My_Activity?=null
+   private var menuList=ArrayList<DialogMenu>()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_item_list_dialog, container, false)
@@ -38,23 +42,27 @@ class ItemListDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         list.layoutManager = LinearLayoutManager(context)
-        list.adapter = ItemAdapter(arguments!!.getSerializable(ARG_DIALOG_MENU_ITEM) as ArrayList<DialogMenu>)
+       // list.adapter = ItemAdapter(arguments!!.getSerializable(ARG_DIALOG_MENU_ITEM) as ArrayList<DialogMenu>)
+        list.adapter = ItemAdapter(menuList)
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val parent = parentFragment
+
+        /* val parent = parentFragment
         mListener = if (parent != null) {
             parent as Listener
         } else {
             context as Listener
-        }
+        }*/
     }
 
     override fun onDetach() {
         mListener = null
         super.onDetach()
     }
+
+
 
     interface Listener {
         fun onItemClicked(position: Int)
@@ -72,11 +80,12 @@ class ItemListDialogFragment : BottomSheetDialogFragment() {
                     it.onItemClicked(adapterPosition)
                     dismiss()
                 }
+
             }
         }
     }
 
-    private inner class ItemAdapter internal constructor(private val menuList : ArrayList<DialogMenu>) : RecyclerView.Adapter<ViewHolder>() {
+    private inner class ItemAdapter internal constructor(private val menuList: ArrayList<DialogMenu>) : RecyclerView.Adapter<ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context), parent)
@@ -85,6 +94,12 @@ class ItemListDialogFragment : BottomSheetDialogFragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.text.text = menuList[position].title
             holder.imageView.setImageResource(menuList[position].id)
+            /*holder.text.setOnClickListener(object: View.OnClickListener{
+                override fun onClick(p0: View?) {
+                    mListener?.onItemClicked(position)
+                }
+
+            })*/
         }
 
         override fun getItemCount(): Int {
@@ -92,10 +107,16 @@ class ItemListDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
+    fun setInstance(instance:Frag_My_Activity,menuList: ArrayList<DialogMenu>){
+        this.instance=instance
+        this.menuList=menuList
+        mListener =instance
+    }
+
     companion object {
 
         // TODO: Customize parameters
-        fun newInstance(menuList : ArrayList<DialogMenu>): ItemListDialogFragment =
+        fun newInstance(menuList: ArrayList<DialogMenu>): ItemListDialogFragment =
                 ItemListDialogFragment().apply {
                     arguments = Bundle().apply {
                         putSerializable(ARG_DIALOG_MENU_ITEM, menuList)
@@ -103,4 +124,5 @@ class ItemListDialogFragment : BottomSheetDialogFragment() {
                 }
 
     }
+
 }

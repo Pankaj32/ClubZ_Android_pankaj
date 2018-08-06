@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +9,7 @@
     android:id="@+id/clRootView"
     tools:context=".ui.club.ClubCreationActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <!--<android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -20,7 +20,7 @@
             app:titleTextColor="@color/white"
             app:contentInsetStart="0dp"
             app:titleTextAppearance="@style/TextAppearanceExpand"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -54,21 +54,19 @@
 
             </LinearLayout>
 
-        </android.support.v7.widget.Toolbar>
+        <!--</android.support.v7.widget.Toolbar>
 
 
-    </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.AppBarLayout>-->
 
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -595,10 +593,11 @@
 
             </android.support.v7.widget.CardView>
 
-        </LinearLayout>
+
+</FrameLayout>
+    </ScrollView>
+
+    <!--</android.support.v4.widget.NestedScrollView>-->
 
 
-    </android.support.v4.widget.NestedScrollView>
-
-
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

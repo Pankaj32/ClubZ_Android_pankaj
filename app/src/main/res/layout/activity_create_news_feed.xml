@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     android:orientation="vertical"
-    android:id="@+id/clRootView"
     tools:context=".ui.newsfeed.CreateNewsFeedActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
-        android:orientation="horizontal"
-        android:background="@color/primaryColor">
+        android:background="@color/primaryColor"
+        android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/backBtn"
@@ -24,35 +24,33 @@
             app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
         <LinearLayout
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_header"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="@string/new_article"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/teko_semibold"
                 android:gravity="center_vertical"
-                android:textSize="@dimen/_18sdp"
-                android:textColor="@color/white"/>
+                android:text="@string/new_article"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sdp" />
 
             <TextView
                 android:id="@+id/tv_clubName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/create_new_nwes"
-                android:fontFamily="@font/roboto_regular"
-                android:visibility="gone"
                 android:layout_marginTop="-5dp"
-                android:textSize="12sp"
-                android:textColor="@color/white"/>
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/create_new_nwes"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
         </LinearLayout>
-
 
 
         <android.support.v7.widget.AppCompatImageView
@@ -60,305 +58,306 @@
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
             android:padding="@dimen/_12sdp"
-            app:srcCompat="@drawable/ic_check_white_24dp"
-            />
+            app:srcCompat="@drawable/ic_check_white_24dp" />
 
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="none">
 
-        <android.support.v7.widget.CardView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            app:cardElevation="@dimen/_5sdp"
-            app:cardBackgroundColor="@color/white"
-            app:cardUseCompatPadding="true">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/img_newsFeed"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_200sdp"
-                        android:scaleType="fitXY"
-                        app:srcCompat="@drawable/ic_new_img"
-                        android:visibility="visible"
-                        android:background="#00A8D1"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_camera"
-                        android:padding="@dimen/_8sdp"
-                        android:tint="#FFB8E5F1"
-                        android:layout_gravity="end|bottom" />
-
-                </FrameLayout>
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="@dimen/_5sdp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="@dimen/_16sdp"
-                    android:layout_marginRight="@dimen/_16sdp"
-                    android:layout_marginTop="@dimen/_16sdp">
+                    android:orientation="vertical">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/tv_commentHint"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextView.Gray"
-                            android:layout_toEndOf="@+id/ivComment"
-                            android:layout_marginStart="@dimen/_16sdp"
-                            android:textSize="12sp"
-                            android:text="@string/club"/>
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
                         <android.support.v7.widget.AppCompatImageView
-                            android:id="@+id/ivComment"
+                            android:id="@+id/img_newsFeed"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_200sdp"
+                            android:background="#00A8D1"
+                            android:scaleType="fitXY"
+                            android:visibility="visible"
+                            app:srcCompat="@drawable/ic_new_img" />
+
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginTop="@dimen/_3sdp"
-                            android:padding="@dimen/_3sdp"
-                            android:tint="@color/nav_gray"
-                            android:layout_below="@+id/tv_commentHint"
-                            app:srcCompat="@drawable/ic_comment_disable" />
+                            android:layout_gravity="end|bottom"
+                            android:padding="@dimen/_8sdp"
+                            android:tint="#FFB8E5F1"
+                            app:srcCompat="@drawable/ic_camera" />
 
-                        <Spinner
-                            android:id="@+id/spn_commentStatus"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/ivComment"
-                            android:layout_below="@+id/tv_commentHint"
-                            android:theme="@style/AppTheme.Light"
-                            android:layout_marginStart="@dimen/_14sdp"
-                            android:textSize="@dimen/_12sdp"
-                            android:textColor="#626262"
-                            android:prompt="@string/prompt_disabled"
-                            android:entries="@array/comment_type"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/gray_transprent"
-                            android:layout_toEndOf="@+id/ivComment"
-                            android:layout_marginStart="@dimen/_16sdp"
-                            android:layout_alignParentBottom="true"/>
-
-                    </RelativeLayout>
+                    </FrameLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="@dimen/_16sdp">
-
-                        <android.support.v7.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/_3sdp"
-                            android:layout_marginTop="@dimen/_8sdp"
-                            app:srcCompat="@drawable/ic_title_black_24dp" />
-
-
-                        <android.support.design.widget.TextInputLayout
-                            android:id="@+id/input_layout_articleTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_16sdp"
-                            android:theme="@style/tvStyle"
-                            app:counterEnabled="true"
-                            app:counterMaxLength="50"
-                            app:counterTextAppearance="@style/CounterText"
-                            app:counterOverflowTextAppearance="@style/TextLimitError">
-
-                            <EditText
-                                android:id="@+id/titile_name"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                style="@style/EditText.ClubCreation"
-                                android:textColorHint="#666666"
-                                android:textColor="@color/black"
-                                android:inputType="textCapSentences"
-                                android:maxLength="50"
-                                android:hint="@string/title"
-                                android:singleLine="true"
-                                android:maxLines="1" />
-
-                        </android.support.design.widget.TextInputLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <android.support.v7.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/_3sdp"
-                            android:layout_marginTop="@dimen/_8sdp"
-                            app:srcCompat="@drawable/ic_file_document" />
+                        android:layout_marginLeft="@dimen/_16sdp"
+                        android:layout_marginRight="@dimen/_16sdp"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:orientation="vertical">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_16sdp">
-
-                            <android.support.design.widget.TextInputLayout
-                                android:id="@+id/input_layout_password"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:theme="@style/tvStyle"
-                                app:counterEnabled="true"
-                                app:counterMaxLength="1000"
-                                app:counterTextAppearance="@style/CounterText"
-                                app:counterOverflowTextAppearance="@style/TextLimitError">
-
-                                <EditText
-                                    android:id="@+id/ed_description"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    style="@style/EditText.ClubCreation"
-                                    android:hint="@string/content"
-                                    android:textColorHint="#666666"
-                                    android:textColor="@color/black"
-                                    android:inputType="textCapSentences|textMultiLine"
-                                    android:maxLength="1000"/>
-
-                            </android.support.design.widget.TextInputLayout>
-
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="20dp"
-                                android:background="@color/transprent_text"
-                                android:layout_marginStart="@dimen/_28sdp"
-                                android:layout_below="@+id/input_layout_password"
-                                android:layout_marginTop="@dimen/_16sdp"
-                                android:layout_above="@+id/markView"/>
-
-                            <android.support.v7.widget.AppCompatImageView
-                                android:id="@+id/markView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/_3sdp"
-                                android:layout_gravity="bottom"
-                                android:layout_marginStart="@dimen/_10sdp"
-                                android:layout_alignParentBottom="true"
-                                app:srcCompat="@drawable/ic_info_black_24dp" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/tvMarkView"
+                                android:id="@+id/tv_commentHint"
+                                style="@style/TextView.Gray"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@+id/markView"
-                                android:layout_alignParentBottom="true"
-                                android:paddingBottom="6dp"
-                                android:textColor="@color/primaryColor"
-                                android:fontFamily="@font/roboto_light"
-                                android:layout_marginStart="@dimen/_3sdp"
-                                android:gravity="top"
-                                android:text="CommonMark"/>
+                                android:layout_marginStart="@dimen/_16sdp"
+                                android:layout_toEndOf="@+id/ivComment"
+                                android:text="@string/club"
+                                android:textSize="12sp" />
 
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/ivComment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_commentHint"
+                                android:layout_centerVertical="true"
+                                android:layout_marginTop="@dimen/_3sdp"
+                                android:padding="@dimen/_3sdp"
+                                android:tint="@color/nav_gray"
+                                app:srcCompat="@drawable/ic_comment_disable" />
+
+                            <Spinner
+                                android:id="@+id/spn_commentStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_commentHint"
+                                android:layout_marginStart="@dimen/_14sdp"
+                                android:layout_toEndOf="@+id/ivComment"
+                                android:entries="@array/comment_type"
+                                android:prompt="@string/prompt_disabled"
+                                android:textColor="#626262"
+                                android:textSize="@dimen/_12sdp"
+                                android:theme="@style/AppTheme.Light" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginStart="@dimen/_16sdp"
+                                android:layout_toEndOf="@+id/ivComment"
+                                android:background="@color/gray_transprent" />
 
                         </RelativeLayout>
 
-
-                    </LinearLayout>
-
-                    <!--<com.clubz.ui.cv.FlowLayout
-                        android:id="@+id/chip_grid"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:layout_marginBottom="@dimen/_16sdp" />-->
-
-                    <RelativeLayout
-                        android:id="@+id/rtv_leadby"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_8sdp">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/image_member2"
-                            android:layout_width="@dimen/_40sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            app:siBorderColor="@color/text_gray"
-                            app:siBorderWidth="@dimen/_1sdp"
-                            android:background="@drawable/bg_circle_blue"
-                            android:layout_alignParentEnd="true"
-                            app:srcCompat="@drawable/ic_user_shape" />
-
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="end"
-                            android:layout_marginEnd="@dimen/_8sdp"
-                            android:layout_centerInParent="true"
-                            android:layout_toStartOf="@+id/image_member2">
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:orientation="horizontal">
 
-                            <android.support.v7.widget.AppCompatTextView
-                                android:id="@+id/tvLeadby"
+                            <android.support.v7.widget.AppCompatImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14sdp"
-                                android:fontFamily="@font/teko_semibold"
-                                android:text="@string/dharmraj_acharya_bhurtel"/>
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:padding="@dimen/_3sdp"
+                                app:srcCompat="@drawable/ic_title_black_24dp" />
 
-                            <EditText
-                                android:id="@+id/usrerole"
-                                android:layout_width="wrap_content"
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/input_layout_articleTitle"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_light"
-                                android:enabled="false"
-                                android:background="@null"
-                                android:textColorHint="@color/nav_gray"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_12sdp"
-                                android:hint="@string/manager"
-                                android:inputType="textCapSentences"
-                                android:maxLength="38"
-                                android:singleLine="true"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " />
+                                android:layout_marginStart="@dimen/_16sdp"
+                                android:theme="@style/tvStyle"
+                                app:counterEnabled="true"
+                                app:counterMaxLength="50"
+                                app:counterOverflowTextAppearance="@style/TextLimitError"
+                                app:counterTextAppearance="@style/CounterText">
+
+                                <EditText
+                                    android:id="@+id/titile_name"
+                                    style="@style/EditText.ClubCreation"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/title"
+                                    android:inputType="textCapSentences"
+                                    android:maxLength="50"
+                                    android:maxLines="1"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="#666666" />
+
+                            </android.support.design.widget.TextInputLayout>
 
                         </LinearLayout>
 
-                    </RelativeLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:padding="@dimen/_3sdp"
+                                app:srcCompat="@drawable/ic_file_document" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_16sdp">
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:id="@+id/input_layout_password"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:theme="@style/tvStyle"
+                                    app:counterEnabled="true"
+                                    app:counterMaxLength="1000"
+                                    app:counterOverflowTextAppearance="@style/TextLimitError"
+                                    app:counterTextAppearance="@style/CounterText">
+
+                                    <EditText
+                                        android:id="@+id/ed_description"
+                                        style="@style/EditText.ClubCreation"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/content"
+                                        android:inputType="textCapSentences|textMultiLine"
+                                        android:maxLength="1000"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="#666666" />
+
+                                </android.support.design.widget.TextInputLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="20dp"
+                                    android:layout_above="@+id/markView"
+                                    android:layout_below="@+id/input_layout_password"
+                                    android:layout_marginStart="@dimen/_28sdp"
+                                    android:layout_marginTop="@dimen/_16sdp"
+                                    android:background="@color/transprent_text" />
+
+                                <android.support.v7.widget.AppCompatImageView
+                                    android:id="@+id/markView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_gravity="bottom"
+                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:padding="@dimen/_3sdp"
+                                    app:srcCompat="@drawable/ic_info_black_24dp" />
+
+                                <TextView
+                                    android:id="@+id/tvMarkView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginStart="@dimen/_3sdp"
+                                    android:layout_toEndOf="@+id/markView"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="top"
+                                    android:paddingBottom="6dp"
+                                    android:text="CommonMark"
+                                    android:textColor="@color/primaryColor" />
+
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+                        <!--<com.clubz.ui.cv.FlowLayout
+                            android:id="@+id/chip_grid"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:layout_marginBottom="@dimen/_16sdp" />-->
+
+                        <RelativeLayout
+                            android:id="@+id/rtv_leadby"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:paddingTop="@dimen/_8sdp">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/image_member2"
+                                android:layout_width="@dimen/_40sdp"
+                                android:layout_height="@dimen/_40sdp"
+                                android:layout_alignParentEnd="true"
+                                android:background="@drawable/bg_circle_blue"
+                                app:siBorderColor="@color/text_gray"
+                                app:siBorderWidth="@dimen/_1sdp"
+                                app:srcCompat="@drawable/ic_user_shape" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginEnd="@dimen/_8sdp"
+                                android:layout_toStartOf="@+id/image_member2"
+                                android:gravity="end"
+                                android:orientation="vertical">
+
+                                <android.support.v7.widget.AppCompatTextView
+                                    android:id="@+id/tvLeadby"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/teko_semibold"
+                                    android:text="@string/dharmraj_acharya_bhurtel"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_14sdp" />
+
+                                <EditText
+                                    android:id="@+id/usrerole"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@null"
+                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                                    android:enabled="false"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:hint="@string/manager"
+                                    android:inputType="textCapSentences"
+                                    android:maxLength="38"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/nav_gray"
+                                    android:textSize="@dimen/_12sdp" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_8sdp" />
 
                 </LinearLayout>
-
-                <android.support.v4.widget.Space
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_8sdp" />
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
+            </android.support.v7.widget.CardView>
+        </FrameLayout>
     </ScrollView>
-
 </LinearLayout>
