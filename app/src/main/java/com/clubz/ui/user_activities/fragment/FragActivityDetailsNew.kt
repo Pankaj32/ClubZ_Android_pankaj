@@ -1,5 +1,6 @@
 package com.clubz.ui.user_activities.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -21,31 +22,20 @@ import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_frag_activities_details.*
+import kotlinx.android.synthetic.main.dialog_add_events.*
+import kotlinx.android.synthetic.main.frag_activity_details_new.*
 import org.json.JSONObject
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [FragActivitiesDetails.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [FragActivitiesDetails.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FragActivitiesDetails : Fragment() {
-
-    // TODO: Rename and change types of parameters
-
+class FragActivityDetailsNew : Fragment() {
     private var mContext: Context? = null
     private var activityId = ""
     var activityDetails: GetActivityDetailsResponce? = null
 
-    private var mListener: OnFragmentInteractionListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_frag_activities_details, container, false)
+        return inflater.inflate(R.layout.frag_activity_details_new, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,7 +46,7 @@ class FragActivitiesDetails : Fragment() {
             getActivityDetails()
         }
         termsNCondition.setOnClickListener {
-            object : TermsConditionDialog(context!!, resources.getString(R.string.terms_conditions), activityDetails?.getData()?.terms_conditions!!) {
+            object : TermsConditionDialog(mContext!!, resources.getString(R.string.terms_conditions), activityDetails?.getData()?.terms_conditions!!) {
                 override fun onCloseClicked() {
                     this.dismiss()
                 }
@@ -64,14 +54,9 @@ class FragActivitiesDetails : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mListener = null
     }
 
 
@@ -82,8 +67,8 @@ class FragActivitiesDetails : Fragment() {
 
     companion object {
         val IDKEY = "activityId"
-        fun newInstance(activityId: String): FragActivitiesDetails {
-            val fragment = FragActivitiesDetails()
+        fun newInstance(activityId: String): FragActivityDetailsNew {
+            val fragment = FragActivityDetailsNew()
             val args = Bundle()
             args.putString(IDKEY, activityId)
             fragment.arguments = args
@@ -143,6 +128,7 @@ class FragActivitiesDetails : Fragment() {
         }.execute(FragActivitiesDetails::class.java.name)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateUi() {
         activityName.text = activityDetails?.getData()?.name
         clubName.text = activityDetails?.getData()?.club_name
@@ -152,24 +138,30 @@ class FragActivitiesDetails : Fragment() {
             likeImg.setImageResource(R.drawable.active_heart_ico)
         }*/
         if (activityDetails?.getData()?.image?.isNotEmpty()!!) {
-            Picasso.with(imgActivity.context).load(activityDetails?.getData()?.image).into(imgActivity)
+            Picasso.with(imgActivity.context).load(activityDetails?.getData()?.image).fit().into(imgActivity)
         }
         if (activityDetails?.getData()?.leader_name?.isNotEmpty()!!) {
             activityLeader.text = activityDetails?.getData()?.leader_name
-            leader.text = "Leader"
+            // leader.text = "Leader"
         } else {
-            leaderLay.visibility = View.GONE
+            // leaderLay.visibility = View.GONE
         }
         activityLocation.text = activityDetails?.getData()?.location
         fee.text = activityDetails?.getData()?.fee
         feeType.text = activityDetails?.getData()?.fee_type
         if (activityDetails?.getData()?.fee_type.equals("Free")) {
             fee.visibility = View.GONE
-            feeView.visibility = View.GONE
+            //feeView.visibility = View.GONE
         }
-        maxMinUser.text = String().format(getString(R.string.max_min_text),
-                activityDetails?.getData()?.max_users, activityDetails?.getData()?.min_users)
-        if (activityDetails?.getData()?.next_event == null) {
+        /*maxMinUser.text = String().format(getString(R.string.max_min_text),
+                activityDetails?.getData()?.max_users, activityDetails?.getData()?.min_users)*/
+        maxUser.text = activityDetails?.getData()?.max_users
+        minUser.text = activityDetails?.getData()?.min_users
+        userLikeCount.text=activityDetails?.getData()?.totalUser+" "+getString(R.string.users)
+        if (activityDetails?.getData()?.totalUser?.toInt()!! >0){
+            imgLike.setImageResource(R.drawable.active_heart_ico)
+        }
+        /*if (activityDetails?.getData()?.next_event == null) {
             nextLay.visibility = View.GONE
             noNextTxt.visibility = View.VISIBLE
         } else {
@@ -183,8 +175,8 @@ class FragActivitiesDetails : Fragment() {
                 eventDesc.text = "not available"
             }
 
-        }
-        genDescription.text = activityDetails?.getData()?.description
+        }*/
+        activityDesc.text = activityDetails?.getData()?.description
         username.text = activityDetails?.getData()?.creator_name
         if (activityDetails?.getData()?.creator_profile_image?.isNotEmpty()!!) {
             Picasso.with(image_member2.context).load(activityDetails?.getData()?.creator_profile_image).into(image_member2)
@@ -196,4 +188,4 @@ class FragActivitiesDetails : Fragment() {
         }
         //  usrerole.text = activityDetails.getData()?.user_role
     }
-}// Required empty public constructor
+}

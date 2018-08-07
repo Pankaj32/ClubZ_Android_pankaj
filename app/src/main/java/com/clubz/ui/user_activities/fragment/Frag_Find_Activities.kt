@@ -494,7 +494,6 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
         }
     }
 
-
     internal fun popUpJoin(activityId: String, getJoinAffliates: GetJoinAffliates) {
         //    var isLike: Boolean = false;
         val dialog = Dialog(mContext)

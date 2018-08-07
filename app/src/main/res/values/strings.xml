@@ -81,9 +81,9 @@
     <!--<string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>-->
 
     <string name="t_find_activities"> Find activities </string>
-    <string name="t_new_activity"> New activity </string>
-    <string name="my_activity"> My activity </string>
-    <string name="others_activity"> Others activity </string>
+    <string name="t_new_activity"> New Activity </string>
+    <string name="my_activity"> My activities </string>
+    <string name="others_activity"> Others activities </string>
     <string name="t_content"> Content </string>
     <string name="t_chat"> Chat </string>
     <string name="t_ads"> Ads </string>
@@ -145,13 +145,13 @@
     <string name="feedtitile"> Title </string>
     <string name="feeddescription"> Description </string>
 
-    <string name="hint_activity_name"> Activity Name* </string>
+    <string name="hint_activity_name"> Activity name</string>
     <string name="prompt_spinner_active_leader"> Activity Leader </string>
-    <string name="fees_type"> Fees type</string>
+    <string name="fees_type"> Fee type</string>
     <string name="hint_activity_location"> Select location </string>
     <string name="hint_fees"> Fee </string>
-    <string name="hint_max_user">Maximum users </string>
-    <string name="hint_min_user">Minimum users </string>
+    <string name="hint_max_user">Max. users </string>
+    <string name="hint_min_user">Min. users </string>
 
     <!--Constants-->
     <string name="admin_by"> Administrator by </string>
@@ -261,7 +261,7 @@
     <string name="ok">OK</string>
     <string name="t_gps_msg"> Your location is required to show feeds near you</string>
     <string name="t_er_loc_msg"> Your location is required to show feeds near you </string>
-    <string name="terms_conditions">Terms and conditions</string>
+    <string name="terms_conditions">Terms and Conditions</string>
     <string name="collapsed">Collapsed</string>
     <string name="expanded">Expanded</string>
     <string name="dharmraj_acharya_bhurtel">Dharmraj Acharya Bhurtel</string>
@@ -305,6 +305,7 @@
     <string name="terms_n_condition"> Terms and Condition </string>
     <string name="user_role_txt">Club Manager</string>
     <string name="add_activity">Add new activity</string>
+    <string name="users">users</string>
 
     <!--<string name="emoji1" > &#x1f60b; </string>-->
     <!--<string name="emoji1" > U+1F60B </string>-->
@@ -353,7 +354,7 @@
     <string name="h_select_time">Time</string>
 
     <!--Activity Details-->
-    <string name="termsnCondition"><u>Terms and Condition</u></string>
+    <string name="termsnCondition"><u>Terms And Conditions</u></string>
     <string name="a_activity_first_tab">Details</string>
     <string name="a_activity_snd_tab">Chat</string>
     <string name="a_activity_rd_tab">Members</string>
@@ -560,6 +561,7 @@
     <string name="activities_count_txt">  activities</string>
     <string name="dates_scheduled_txt">  dates scheduled</string>
     <string name="date_confirmed_txt">  date confirmed</string>
-    <string name="location">Location</string>
+    <string name="location">Main location</string>
+    <string name="confirmed_max_user">Confirmed max. user</string>
 
 </resources>

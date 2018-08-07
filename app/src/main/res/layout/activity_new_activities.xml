@@ -78,24 +78,37 @@
                     android:orientation="vertical"
                     android:padding="@dimen/_10sdp">
 
-                    <LinearLayout
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imgActivity"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_circle_blue"
+                        android:padding="@dimen/_8sdp"
+                        app:srcCompat="@drawable/ic_camera_white"
+                        android:tint="#b1ddf0"/>
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:gravity="center_vertical">
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/imgActivity"
-                            android:layout_width="@dimen/_40sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            android:background="@drawable/bg_circle_blue"
-                            android:padding="@dimen/_8sdp"
-                            app:srcCompat="@drawable/ic_camera_white" />
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/titleImage"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:padding="@dimen/_3sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:tint="@color/nav_gray"
+                            app:srcCompat="@drawable/ic_title_black_24dp" />
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/input_layout_articleTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_16sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_toEndOf="@id/titleImage"
                             android:theme="@style/tvStyle"
                             app:counterEnabled="true"
                             app:counterMaxLength="50"
@@ -112,30 +125,32 @@
                                 android:maxLength="50"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/nav_gray" />
-                        </android.support.design.widget.TextInputLayout>
+                                android:textColor="@color/nav_gray"
+                                android:textColorHint="@color/nav_gray"
+                                android:fontFamily="@font/roboto_regular"/>
 
-                    </LinearLayout>
+                        </android.support.design.widget.TextInputLayout>
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="-5dp">
 
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/leaderImg"
-                            android:layout_width="32dp"
+                            android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:padding="@dimen/_6sdp"
+                            android:layout_gravity="center_vertical"
+                            android:padding="@dimen/_5sdp"
                             android:tint="@color/nav_gray"
-                            app:srcCompat="@drawable/ic_user_shape" />
+                            app:srcCompat="@drawable/ic_user_shape"
+                            android:layout_marginEnd="@dimen/_5sdp"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5sdp"
                             android:layout_toEndOf="@id/leaderImg">
 
                             <TextView
@@ -143,24 +158,29 @@
                                 style="@style/TextView.Gray"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_5sdp"
                                 android:text="@string/a_actLeaderHint"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:textColor="@color/hint_color_gray"
+                                android:fontFamily="@font/roboto_regular"/>
 
                             <Spinner
                                 android:id="@+id/spinnerLeader"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_30sdp"
+                                android:layout_height="41dp"
                                 android:layout_below="@id/tv_leaderHint"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:layout_marginRight="@dimen/_10sdp"
-                                android:prompt="@string/prompt_spinner_active_leader" />
+                                android:layout_marginEnd="@dimen/_18sdp"
+                                android:layout_marginTop="-5dp"
+                                android:overlapAnchor="false"
+                                android:prompt="@string/prompt_spinner_active_leader"
+                                android:background="@null"
+                                />
 
                             <android.support.v7.widget.AppCompatImageView
                                 android:id="@+id/arow"
                                 android:layout_width="@dimen/_12sdp"
                                 android:layout_height="@dimen/_12sdp"
                                 android:layout_alignParentRight="true"
+                                android:layout_marginEnd="@dimen/_5sdp"
                                 android:layout_centerVertical="true"
                                 android:scaleType="fitCenter"
                                 android:tint="@color/nav_gray"
@@ -171,7 +191,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_1sdp"
                                 android:layout_below="@id/spinnerLeader"
-                                android:layout_marginLeft="@dimen/_5sdp"
+
                                 android:background="@color/nav_gray" />
                         </RelativeLayout>
 
@@ -186,15 +206,16 @@
                             android:id="@+id/dolrImg"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_centerVertical="true"
                             android:padding="@dimen/_5sdp"
                             android:tint="@color/nav_gray"
-                            app:srcCompat="@drawable/ic_dollar_symbol" />
+                            app:srcCompat="@drawable/ic_dollar_symbol"
+                            android:layout_marginEnd="@dimen/_5sdp"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_6sdp"
                             android:layout_toEndOf="@id/dolrImg"
                             android:weightSum="1">
 
@@ -205,22 +226,21 @@
 
                                 <TextView
                                     android:id="@+id/tv_feeTypeHint"
-                                    style="@style/TextView.Gray"
+                                    android:textColor="@color/hint_color_gray"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/_5sdp"
                                     android:text="@string/fees_type"
                                     android:textSize="12sp" />
 
                                 <Spinner
                                     android:id="@+id/spinnerFeesType"
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_30sdp"
+                                    android:layout_height="@dimen/_25sdp"
                                     android:layout_below="@id/tv_feeTypeHint"
-                                    android:layout_marginLeft="@dimen/_5sdp"
-                                    android:layout_marginRight="@dimen/_10sdp"
+                                    android:layout_marginEnd="@dimen/_15sdp"
                                     android:background="@null"
                                     android:overlapAnchor="false"
+                                    android:paddingStart="@dimen/_2sdp"
                                     android:prompt="@string/fees_type"
                                     android:textColor="@color/nav_gray" />
 
@@ -229,7 +249,7 @@
                                     android:layout_height="@dimen/_12sdp"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
-                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:layout_marginRight="@dimen/_5sdp"
                                     android:scaleType="fitCenter"
                                     android:tint="@color/nav_gray"
                                     app:srcCompat="@drawable/ic_down_arrow" />
@@ -239,7 +259,7 @@
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_below="@id/spinnerFeesType"
                                     android:layout_marginBottom="@dimen/_8sdp"
-                                    android:layout_marginLeft="@dimen/_5sdp"
+
                                     android:background="@color/nav_gray" />
                             </RelativeLayout>
 
@@ -271,8 +291,9 @@
                                             android:inputType="numberDecimal"
                                             android:maxLines="1"
                                             android:singleLine="true"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/nav_gray" />
+                                            android:textColor="@color/nav_gray"
+                                            android:textColorHint="@color/nav_gray"
+                                            android:fontFamily="@font/roboto_regular"/>
 
                                     </android.support.design.widget.TextInputLayout>
 
@@ -352,17 +373,18 @@
                             android:layout_marginTop="@dimen/_3sdp"
                             android:padding="@dimen/_5sdp"
                             android:tint="@color/nav_gray"
-                            app:srcCompat="@drawable/ic_map_placeholder" />
+                            app:srcCompat="@drawable/ic_map_placeholder"
+                            android:layout_marginEnd="@dimen/_5sdp"/>
 
                         <TextView
                             android:id="@+id/tv_categoryHint"
-                            style="@style/TextView.Gray"
+                            android:textColor="@color/hint_color_gray"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5sdp"
                             android:layout_toEndOf="@+id/locationImage"
                             android:text="@string/location"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:fontFamily="@font/roboto_regular"/>
 
                         <fragment
                             android:id="@+id/autocomplete_fragment"
@@ -370,7 +392,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_below="@id/tv_categoryHint"
-                            android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_3sdp"
                             android:layout_toEndOf="@id/locationImage"
                             android:clickable="true"
@@ -381,21 +402,21 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_categoryHint"
-                            android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_3sdp"
                             android:layout_toEndOf="@id/locationImage"
                             android:background="@color/white"
                             android:clickable="false"
                             android:hint="@string/hint_activity_location"
                             android:minHeight="@dimen/_25sdp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/nav_gray" />
+                            android:paddingStart="@dimen/_2sdp"
+                            android:textColor="@color/nav_gray"
+                            android:textColorHint="@color/nav_gray"
+                            android:fontFamily="@font/roboto_regular"/>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_alignParentBottom="true"
-                            android:layout_marginStart="@dimen/_5sdp"
                             android:layout_toEndOf="@+id/locationImage"
                             android:background="@color/nav_gray" />
 
@@ -404,16 +425,18 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_7sdp">
 
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/userImg"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_centerVertical="true"
                             android:padding="@dimen/_5sdp"
                             android:tint="@color/nav_gray"
-                            app:srcCompat="@drawable/ic_users_social_symbol" />
+                            app:srcCompat="@drawable/ic_users_social_symbol"
+                            android:layout_marginEnd="@dimen/_5sdp"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -441,9 +464,10 @@
                                         android:layout_height="@dimen/_30sdp"
                                         android:hint="@string/hint_min_user"
                                         android:inputType="number"
-                                        android:textColor="@color/black"
+                                        android:textColor="@color/nav_gray"
                                         android:textColorHint="@color/nav_gray"
-                                        android:textSize="10sp" />
+                                        android:textSize="14sp"
+                                        android:fontFamily="@font/roboto_regular"/>
 
                                 </android.support.design.widget.TextInputLayout>
 
@@ -472,9 +496,10 @@
                                             android:layout_height="@dimen/_30sdp"
                                             android:hint="@string/hint_max_user"
                                             android:inputType="number"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/text_gray"
-                                            android:textSize="10sp" />
+                                            android:textColor="@color/nav_gray"
+                                            android:textColorHint="@color/nav_gray"
+                                            android:textSize="14sp"
+                                            android:fontFamily="@font/roboto_regular"/>
 
                                     </android.support.design.widget.TextInputLayout>
 
@@ -489,17 +514,17 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_3sdp"
                         android:gravity="center_vertical">
 
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/descImage"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
                             android:padding="@dimen/_6sdp"
                             android:tint="@color/nav_gray"
-                            app:srcCompat="@drawable/ic_file_document" />
+                            app:srcCompat="@drawable/ic_file_document"
+                            android:layout_marginEnd="@dimen/_5sdp"/>
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
@@ -519,8 +544,11 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/hint_activity_des"
                                 android:inputType="textCapSentences|textMultiLine"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/nav_gray" />
+                                android:textColor="@color/nav_gray"
+                                android:textColorHint="@color/nav_gray"
+                                android:fontFamily="@font/roboto_regular"
+                                android:maxLength="300"
+                                />
 
                         </android.support.design.widget.TextInputLayout>
                     </RelativeLayout>
@@ -528,16 +556,18 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="-15dp">
 
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/trmConImage"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
                             android:padding="@dimen/_6sdp"
                             android:tint="@color/nav_gray"
-                            app:srcCompat="@drawable/ic_gavel_black_24dp" />
+                            app:srcCompat="@drawable/ic_gavel_black_24dp"
+                            android:layout_marginEnd="@dimen/_5sdp"/>
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
@@ -557,8 +587,10 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/terms_conditions"
                                 android:inputType="textCapSentences|textMultiLine"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/nav_gray" />
+                                android:textColor="@color/nav_gray"
+                                android:textColorHint="@color/nav_gray"
+                                android:fontFamily="@font/roboto_regular"
+                                android:maxLength="300"/>
 
                         </android.support.design.widget.TextInputLayout>
                     </RelativeLayout>
@@ -586,7 +618,7 @@
                             android:layout_centerInParent="true"
                             android:layout_marginEnd="@dimen/_8sdp"
                             android:layout_toStartOf="@+id/image_member2"
-                            android:gravity="end"
+                            android:gravity="end|center"
                             android:orientation="vertical">
 
                             <android.support.v7.widget.AppCompatTextView
@@ -620,7 +652,9 @@
                     </RelativeLayout>
 
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
+
         </FrameLayout>
     </ScrollView>
 </LinearLayout>

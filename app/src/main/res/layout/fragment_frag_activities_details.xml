@@ -434,7 +434,7 @@
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:background="@drawable/bg_circle_blue"
-                                    android:src="@drawable/ic_user_shape"
+                                    app:srcCompat="@drawable/ic_user_shape"
                                     app:siBorderColor="@color/text_gray"
                                     app:siBorderWidth="@dimen/_1sdp" />
 

@@ -27,6 +27,7 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
     private TextView tv_FullName, noTagTxt;
     private ImageView iv_profileImage;
     private TagView tagView;
+   // private View viewTop;
     private Context mContext;
 
 
@@ -37,6 +38,7 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
         tv_FullName = itemView.findViewById(R.id.tv_FullName);
         tagView = itemView.findViewById(R.id.tagView);
         noTagTxt = itemView.findViewById(R.id.noTagTxt);
+      //  viewTop = itemView.findViewById(R.id.viewTop);
     }
 
     public void bind(Context context, GetActivityMembersResponce.DataBean dataBean, final int position) {
@@ -44,8 +46,9 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
         if (!dataBean.getProfile_image().isEmpty()) {
             Picasso.with(iv_profileImage.getContext()).load(dataBean.getProfile_image()).into(iv_profileImage);
         }
+      //  if (position == 0) viewTop.setVisibility(View.GONE);
         tv_FullName.setText(dataBean.getFull_name());
-        addChip(dataBean.getTag_name(), noTagTxt);
+        if (!dataBean.getTag_name().isEmpty()) addChip(dataBean.getTag_name(), noTagTxt);
     }
 
     @Override

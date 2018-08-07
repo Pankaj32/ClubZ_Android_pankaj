@@ -18,7 +18,7 @@ class CusDialogProg(internal var context: Context?, Layout: Int = R.layout.custo
     }
 
     fun setColor() {
-        this.window!!.setBackgroundDrawableResource(R.color.black50p)
+        this.window!!.setBackgroundDrawableResource(R.color.transparent)
     }
 
     fun setColor(colorcode: Int) {

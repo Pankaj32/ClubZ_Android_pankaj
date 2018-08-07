@@ -608,7 +608,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
     fun showBackConfirmationDialog() {
         val builder1 = android.app.AlertDialog.Builder(this@ClubCreationActivity)
         builder1.setTitle("Alert !!")
-        builder1.setMessage("Are you sure you want to leave ?")
+        builder1.setMessage("Are you sure you want to discard this new Club?")
         builder1.setCancelable(true)
         builder1.setPositiveButton("Ok"
         ) { dialog, id ->

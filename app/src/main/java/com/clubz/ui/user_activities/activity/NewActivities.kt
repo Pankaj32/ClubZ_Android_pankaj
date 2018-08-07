@@ -348,7 +348,13 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@NewActivities, requestCode, resultCode, data)
                 if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@NewActivities)
+                    /*CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@NewActivities)*/
+                    CropImage.activity(imageUri)
+                            .setCropShape(CropImageView.CropShape.OVAL)
+                            .setMinCropResultSize(200, 200)
+                            .setMaxCropResultSize(4000, 4000)
+                            .setAspectRatio(300, 300).start(this@NewActivities)
+
                 } else {
                     Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_SHORT).show()
                 }
@@ -356,7 +362,12 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@NewActivities)
+                    /*CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@NewActivities)*/
+                    CropImage.activity(imageUri)
+                            .setCropShape(CropImageView.CropShape.OVAL)
+                            .setMinCropResultSize(200, 200)
+                            .setMaxCropResultSize(4000, 4000)
+                            .setAspectRatio(300, 300).start(this@NewActivities)
                 } else {
                     Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_SHORT).show()
                 }
@@ -631,16 +642,17 @@ class NewActivities : BaseActivity(), View.OnClickListener {
     override fun onBackPressed() {
         showBackConfirmationDialog()
     }
+
     fun showBackConfirmationDialog() {
         val builder1 = android.app.AlertDialog.Builder(this@NewActivities)
-        builder1.setTitle("Alert !!")
-        builder1.setMessage("Are you sure you want to leave ?")
+        builder1.setTitle("Be careful !!")
+        builder1.setMessage("Are you sure you want to discard this new activity?")
         builder1.setCancelable(true)
-        builder1.setPositiveButton("Ok"
+        builder1.setPositiveButton("DISCARD"
         ) { dialog, id ->
             super.onBackPressed()
         }
-        builder1.setNegativeButton("Cancel", object : DialogInterface.OnClickListener {
+        builder1.setNegativeButton("CANCEL", object : DialogInterface.OnClickListener {
             override fun onClick(dialogInterface: DialogInterface, id: Int) {
                 dialogInterface.cancel()
             }

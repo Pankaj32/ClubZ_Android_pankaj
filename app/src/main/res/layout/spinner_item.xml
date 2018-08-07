@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@color/white"
-    android:padding="@dimen/_4sdp">
+    android:paddingRight="@dimen/_4sdp"
+    android:paddingTop="@dimen/_4sdp">
 
     <TextView
         android:id="@+id/spinnText"
