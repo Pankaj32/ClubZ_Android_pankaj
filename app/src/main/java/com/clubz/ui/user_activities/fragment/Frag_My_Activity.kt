@@ -188,7 +188,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
     }
 
     override fun onItemClick(type: String, activityPosition: Int) {
-        startActivity(Intent(mContext, ActivitiesDetails::class.java).putExtra("activityId", todayList!![activityPosition].activityId)
+        startActivity(Intent(mContext, ActivitiesDetails::class.java).putExtra("activityId", todayList!![activityPosition].activityId).putExtra("activityName", todayList!![activityPosition].activityName).putExtra("clubName", todayList!![activityPosition].club_name)
                 .putExtra("From", "MyActivities"))
     }
 
@@ -245,7 +245,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
             // var latitute: String = ""
             // var longitute: String = ""
             mTitle.text = activities.activityName
-
+            mTitle.visibility = View.GONE
             dialog!!.setCancelable(false)
             mCancel.setOnClickListener({ dialog!!.dismiss() })
             mAdd.setOnClickListener({

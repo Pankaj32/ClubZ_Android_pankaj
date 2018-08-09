@@ -70,6 +70,11 @@ public class MyActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                // activityItemClickListioner.onConfirm("", position, eventPosition);
             }
         }));
+        if (activity.getEvents()==null){
+            h.iv_arrow_expand.setVisibility(View.GONE);
+        }else {
+            if (activity.getEvents().size()==0)h.iv_arrow_expand.setVisibility(View.GONE);
+        }
     }
 
     @Override

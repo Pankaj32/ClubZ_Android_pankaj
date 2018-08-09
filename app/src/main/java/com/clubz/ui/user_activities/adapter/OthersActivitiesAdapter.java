@@ -50,6 +50,9 @@ public class OthersActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.V
         h.activityName.setText(othersBean.getActivityName());
         h.clubName.setText(othersBean.getClub_name());
         h.itemLike.setImageResource(R.drawable.inactive_heart_ico);
+        if (othersBean.getEvents()==null){
+            h.iv_arrow_expand.setVisibility(View.GONE);
+        }
     }
 
     @Override

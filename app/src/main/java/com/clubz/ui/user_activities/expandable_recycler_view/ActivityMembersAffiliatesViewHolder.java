@@ -14,14 +14,21 @@ public class ActivityMembersAffiliatesViewHolder extends ChildViewHolder {
 
     private TextView tv_FullName;
     private ImageView iv_profileImage;
+    private View bellowView;
 
     public ActivityMembersAffiliatesViewHolder(View itemView) {
         super(itemView);
         iv_profileImage = itemView.findViewById(R.id.iv_profileImage);
         tv_FullName = itemView.findViewById(R.id.tv_FullName);
+        bellowView = itemView.findViewById(R.id.bellowView);
     }
 
     public void bind(final GetActivityMembersResponce.DataBean.AffiliatesBean affiliatesBean, final int childPos) {
         tv_FullName.setText(affiliatesBean.getAffiliate_name());
+        if (affiliatesBean.getPosition() == affiliatesBean.getSize()) {
+            bellowView.setVisibility(View.VISIBLE);
+        } else {
+            bellowView.setVisibility(View.GONE);
+        }
     }
 }

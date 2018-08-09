@@ -74,6 +74,11 @@ public class TodaysActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.V
         } else {
             h.itemLike.setImageResource(R.drawable.inactive_heart_ico);
         }
+        if (todayBean.getEvents()==null){
+            h.iv_arrow_expand.setVisibility(View.GONE);
+        }else {
+            if (todayBean.getEvents().size()==0)h.iv_arrow_expand.setVisibility(View.GONE);
+        }
     }
 
     @Override

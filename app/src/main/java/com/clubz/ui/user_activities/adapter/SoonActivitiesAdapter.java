@@ -71,6 +71,11 @@ public class SoonActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         } else {
             h.itemLike.setImageResource(R.drawable.inactive_heart_ico);
         }
+        if (soonBean.getEvents()==null){
+            h.iv_arrow_expand.setVisibility(View.GONE);
+        }else {
+            if (soonBean.getEvents().size()==0)h.iv_arrow_expand.setVisibility(View.GONE);
+        }
     }
 
     @Override

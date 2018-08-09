@@ -18,8 +18,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_profileImage"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:layout_margin="@dimen/_3sdp"
                 android:background="@drawable/bg_circle_blue"
                 android:src="@drawable/ic_user_white" />
@@ -55,6 +55,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:background="@color/pager_line" />
+            android:background="@color/pager_line"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

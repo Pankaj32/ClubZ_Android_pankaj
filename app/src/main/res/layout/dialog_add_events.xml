@@ -34,6 +34,15 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_a_new_date"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/teko_bold"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+        <TextView
             android:id="@+id/mTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +67,7 @@
                 android:id="@+id/titleImage"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:padding="@dimen/_3sdp"
                 android:tint="@color/nav_gray"
                 app:srcCompat="@drawable/ic_baseline_title" />
@@ -66,6 +75,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_9sdp"
                 android:layout_toEndOf="@id/titleImage"
                 android:theme="@style/tvStyle"
                 app:counterEnabled="true"
@@ -98,10 +108,12 @@
                 android:textColorHint="@color/nav_gray"
                 android:textSize="14sp"/>-->
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/datelay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-5dp">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/dateIcon"
@@ -114,28 +126,29 @@
 
             <TextView
                 android:id="@+id/tv_categoryHint"
+                style="@style/TextView.Gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextView.Gray"
-                android:layout_toEndOf="@+id/dateIcon"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:textSize="12sp"
-                android:text="@string/h_select_date"/>
+                android:layout_toEndOf="@+id/dateIcon"
+                android:text="@string/h_select_date"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/addDateTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tv_categoryHint"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_toEndOf="@id/dateIcon"
-                android:layout_below="@id/tv_categoryHint"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/h_select_date"
                 android:textColor="@color/black"
                 android:textColorHint="@color/nav_gray"
                 android:textSize="14sp" />
+
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/like"
                 android:layout_width="@dimen/_12sdp"
@@ -149,11 +162,11 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/nav_gray"
-                android:layout_toEndOf="@+id/dateIcon"
-                android:layout_marginStart="@dimen/_14sdp"
                 android:layout_below="@id/addDateTxt"
-                android:layout_marginTop="@dimen/_3sdp"/>
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_toEndOf="@+id/dateIcon"
+                android:background="@color/nav_gray" />
 
         </RelativeLayout>
 
@@ -161,7 +174,7 @@
             android:id="@+id/timeLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp">
+            android:layout_marginTop="@dimen/_10sdp">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/timeIcon"
@@ -174,27 +187,29 @@
 
             <TextView
                 android:id="@+id/tv_timeHint"
+                style="@style/TextView.Gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextView.Gray"
-                android:layout_toEndOf="@+id/timeIcon"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:textSize="12sp"
-                android:text="@string/h_select_time"/>
+                android:layout_toEndOf="@+id/timeIcon"
+                android:text="@string/h_select_time"
+                android:textSize="12sp" />
+
             <TextView
                 android:id="@+id/addTimeTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tv_timeHint"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_toEndOf="@id/timeIcon"
-                android:layout_below="@id/tv_timeHint"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/h_select_time"
                 android:textColor="@color/black"
                 android:textColorHint="@color/nav_gray"
                 android:textSize="14sp" />
+
             <android.support.v7.widget.AppCompatImageView
                 android:layout_width="@dimen/_12sdp"
                 android:layout_height="@dimen/_12sdp"
@@ -207,18 +222,19 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/nav_gray"
-                android:layout_toEndOf="@+id/timeIcon"
-                android:layout_marginStart="@dimen/_14sdp"
                 android:layout_below="@id/addTimeTxt"
-                android:layout_marginTop="@dimen/_3sdp"/>
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_toEndOf="@+id/timeIcon"
+                android:background="@color/nav_gray" />
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/loctionLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_6sdp">
+            android:layout_marginTop="@dimen/_10sdp">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/locationIcon"
@@ -226,33 +242,35 @@
                 android:layout_height="@dimen/_25sdp"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:tint="@color/nav_gray"
                 android:padding="@dimen/_3sdp"
+                android:tint="@color/nav_gray"
                 app:srcCompat="@drawable/ic_map_placeholder" />
 
             <TextView
                 android:id="@+id/tv_locationHint"
+                style="@style/TextView.Gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextView.Gray"
-                android:layout_toEndOf="@+id/locationIcon"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:textSize="12sp"
-                android:text="@string/location"/>
+                android:layout_toEndOf="@+id/locationIcon"
+                android:text="@string/location_pop_up"
+                android:textSize="12sp" />
+
             <TextView
                 android:id="@+id/locationTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tv_locationHint"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_toEndOf="@id/locationIcon"
-                android:layout_below="@id/tv_locationHint"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/location"
                 android:textColor="@color/black"
                 android:textColorHint="@color/nav_gray"
                 android:textSize="14sp" />
+
             <android.support.v7.widget.AppCompatImageView
                 android:layout_width="@dimen/_12sdp"
                 android:layout_height="@dimen/_12sdp"
@@ -265,11 +283,11 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/nav_gray"
-                android:layout_toEndOf="@+id/locationIcon"
-                android:layout_marginStart="@dimen/_14sdp"
                 android:layout_below="@id/locationTxt"
-                android:layout_marginTop="@dimen/_3sdp"/>
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_toEndOf="@+id/locationIcon"
+                android:background="@color/nav_gray" />
 
         </RelativeLayout>
 
@@ -400,7 +418,7 @@
                 android:id="@+id/descImage"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:padding="@dimen/_3sdp"
                 android:tint="@color/nav_gray"
                 app:srcCompat="@drawable/ic_file_document" />
@@ -408,6 +426,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_toEndOf="@id/descImage"
                 android:theme="@style/tvStyle"

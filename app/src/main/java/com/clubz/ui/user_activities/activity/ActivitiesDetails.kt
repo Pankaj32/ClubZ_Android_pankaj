@@ -20,12 +20,16 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
     private var userId = ""
     private var userName = ""
     private var userProfileImg = ""
+    private var activityName = ""
+    private var clubName = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activities_details)
         val bundle = intent.extras
         if (bundle != null) {
             activityId = bundle.getString("activityId")
+            activityName = bundle.getString("activityName")
+            clubName = bundle.getString("clubName")
             from = bundle.getString("From")
         }
 
@@ -35,7 +39,8 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
             userProfileImg = bundle.getString("userProfileImg")
         }
         // headerTxt.text = resources.getString(R.string.hint_activity_name)
-        headerTxt.text = "Activity Name"
+        headerTxt.text = activityName
+        clubNameTxt.text = clubName
         ivBack.setOnClickListener(this)
         setViewPager(viewPager)
         tablayout.setupWithViewPager(viewPager)
@@ -49,7 +54,7 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
             adapter.addFragment(FragActivityDetailsNew.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")
             adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Second")
         } else {
-         //   adapter.addFragment(FragActivitiesDetails.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")
+            //   adapter.addFragment(FragActivitiesDetails.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")
             adapter.addFragment(FragActivityDetailsNew.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")
             adapter.addFragment(FragmentChat.newInstanceActivityChat(activityId), resources.getString(R.string.a_activity_snd_tab), " This is second")
             adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Third")

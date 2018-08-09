@@ -178,7 +178,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                /*activityLeader = if (p2 == 0) "" else */activityLeaderList!![p2].userId!!
+                activityLeader = /*if (p2 == 0) "" else */activityLeaderList!![p2].userId!!
             }
         }
 

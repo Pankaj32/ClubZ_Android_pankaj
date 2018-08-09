@@ -91,6 +91,12 @@
         <item name="android:fontFamily">@font/teko_semibold</item>
     </style>
 
+    <style name="ActivityTab" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/teko_semibold</item>
+    </style>
+
     <!-- For date and time picker-->
     <style name="DialogTheme2" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/primaryColor</item>

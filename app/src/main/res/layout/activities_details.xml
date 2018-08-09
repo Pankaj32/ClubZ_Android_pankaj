@@ -20,7 +20,7 @@
             <LinearLayout
                 android:id="@+id/cus_status"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
+                android:layout_height="wrap_content"
                 android:background="@color/primaryColor"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -32,17 +32,32 @@
                     android:padding="@dimen/_3sdp"
                     app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
-                <TextView
-                    android:id="@+id/headerTxt"
-                    style="@style/TextView.Header"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_50sdp"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:paddingTop="@dimen/_3sdp"
-                    android:text="@string/app_name"
-                    android:textSize="@dimen/_18sdp" />
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/headerTxt"
+                        style="@style/TextView.Header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/app_name"
+                        android:textSize="@dimen/_18sdp" />
+                    <TextView
+                        android:id="@+id/clubNameTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-8dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/hint_club_name"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <!--<android.support.v7.widget.AppCompatImageView
                     android:id="@+id/bubble_menu"
@@ -58,13 +73,14 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tablayout"
-            style="@style/tabtext"
+
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
             android:background="@color/primaryColor"
             app:tabIndicatorColor="@color/white"
-            app:tabTextColor="@color/white"
-            app:tabSelectedTextColor="@color/white"/>
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/ActivityTab"
+            app:tabTextColor="@color/white" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"

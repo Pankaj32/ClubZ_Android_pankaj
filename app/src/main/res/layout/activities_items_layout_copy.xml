@@ -19,7 +19,7 @@
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp">
 
-            <com.github.siyamed.shapeimageview.RoundedImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/activityImge"
                 android:layout_width="@dimen/_45sdp"
                 android:layout_height="@dimen/_45sdp"

@@ -337,6 +337,7 @@
     <string name="a_actClub">Please select activity Club</string>
     <string name="a_actLeader">Please select activity Leader</string>
     <string name="a_actLeaderHint">Leader</string>
+    <string name="a_notAvailable">Not Available</string>
 
     <!--Activities List-->
     <string name="h_Today">Today</string>
@@ -345,7 +346,7 @@
     <string name="h_others">Others</string>
     <string name="Collapse">collapse</string>
     <string name="joinTitle">Select who joins the activity</string>
-    <string name="confirmTitle">Select who confirms the activity</string>
+    <string name="confirmTitle">Select who confirms the date</string>
     <string name="joinBtnText">JOIN</string>
     <string name="addDateBtnText">ADD DATE</string>
     <string name="h_activity_desc">Description</string>
@@ -355,9 +356,9 @@
 
     <!--Activity Details-->
     <string name="termsnCondition"><u>Terms And Conditions</u></string>
-    <string name="a_activity_first_tab">Details</string>
+    <string name="a_activity_first_tab">Detail</string>
     <string name="a_activity_snd_tab">Chat</string>
-    <string name="a_activity_rd_tab">Members</string>
+    <string name="a_activity_rd_tab">Users</string>
 
     <string name="likes"> Likes </string>
     <string name="comments"> Comments </string>
@@ -382,7 +383,7 @@
     <string name="admin">Admin</string>
     <string name="there_is_no_news_stil_here">There is no news still here</string>
     <string name="there_is_no_activity_stil_here">There is no activity still here</string>
-    <string name="there_is_no_member_stil_here">There is no member still here</string>
+    <string name="there_is_no_member_stil_here">There is no members still here</string>
     <string name="no_feed_content_body">Here will appear news from the clubs you belong. Club managers have not published anything yet.
         \n\nYou can also verify that your clubs are not muted, swipe the screen from the right side and enable them.</string>
     <string name="no_activity_content_body">The activity will be available once the club manager create it.</string>
@@ -563,5 +564,7 @@
     <string name="date_confirmed_txt">  date confirmed</string>
     <string name="location">Main location</string>
     <string name="confirmed_max_user">Confirmed max. user</string>
+    <string name="add_a_new_date">Add a new date</string>
+    <string name="location_pop_up">Location</string>
 
 </resources>

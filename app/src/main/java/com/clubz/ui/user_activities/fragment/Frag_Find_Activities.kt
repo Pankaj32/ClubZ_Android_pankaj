@@ -25,7 +25,6 @@ import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
-import com.clubz.ui.activities.fragment.ItemListDialogFragment
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.user_activities.activity.ActivitiesDetails
 import com.clubz.ui.user_activities.adapter.*
@@ -70,6 +69,10 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
     private var tomorrowEventCount: Int = 0
     private var soonEventCount: Int = 0
     private var otherEventCount: Int = 0
+    private var todayDateConfirmedCount = 0
+    private var tomorrowDateConfirmedCount = 0
+    private var soonDateConfirmedCount = 0
+    private var otherDateConfirmedCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,7 +146,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                 Util.setRotation(arowToday, isTodayOpen)
                 if (isTodayOpen) {
                     isTodayOpen = false
-                  //  todayExCol.setText(R.string.collapsed)
+                    //  todayExCol.setText(R.string.collapsed)
                     arowToday.setImageResource(R.drawable.ic_event_down_arrow)
                     todayHeaderLay.visibility = View.VISIBLE
                     if (todayList != null && todayList!!.size > 0) {
@@ -153,7 +156,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                     }
                 } else {
                     isTodayOpen = true
-               //     todayExCol.setText(R.string.expanded)
+                    //     todayExCol.setText(R.string.expanded)
                     arowToday.setImageResource(R.drawable.ic_event_up_arrow)
                     todayHeaderLay.visibility = View.GONE
                     if (todayList != null && todayList!!.size > 0) {
@@ -168,7 +171,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                 Util.setRotation(arowTomorrow, isTomorrowOpen)
                 if (isTomorrowOpen) {
                     isTomorrowOpen = false
-              //      tomorrowExCol.setText(R.string.collapsed)
+                    //      tomorrowExCol.setText(R.string.collapsed)
                     arowTomorrow.setImageResource(R.drawable.ic_event_down_arrow)
                     tomorrowHeaderLay.visibility = View.VISIBLE
                     if (tomorrowList != null && tomorrowList!!.size > 0) {
@@ -178,7 +181,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                     }
                 } else {
                     isTomorrowOpen = true
-                 //   tomorrowExCol.setText(R.string.expanded)
+                    //   tomorrowExCol.setText(R.string.expanded)
                     arowTomorrow.setImageResource(R.drawable.ic_event_up_arrow)
                     tomorrowHeaderLay.visibility = View.GONE
                     if (tomorrowList != null && tomorrowList!!.size > 0) {
@@ -192,7 +195,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                 Util.setRotation(arowSoon, isSoonOpen)
                 if (isSoonOpen) {
                     isSoonOpen = false
-                 //   soonExCol.setText(R.string.collapsed)
+                    //   soonExCol.setText(R.string.collapsed)
                     arowSoon.setImageResource(R.drawable.ic_event_down_arrow)
                     soonHeaderLay.visibility = View.VISIBLE
                     if (soonList != null && soonList!!.size > 0) {
@@ -202,7 +205,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                     }
                 } else {
                     isSoonOpen = true
-                   // soonExCol.setText(R.string.expanded)
+                    // soonExCol.setText(R.string.expanded)
                     recyclerViewSoon.visibility = View.VISIBLE
                     arowSoon.setImageResource(R.drawable.ic_event_up_arrow)
                     soonHeaderLay.visibility = View.GONE
@@ -217,7 +220,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                 Util.setRotation(arowOthers, isOthersOpen)
                 if (isOthersOpen) {
                     isOthersOpen = false
-               //     othersExCol.setText(R.string.collapsed)
+                    //     othersExCol.setText(R.string.collapsed)
                     arowOthers.setImageResource(R.drawable.ic_event_down_arrow)
                     otherHeaderLay.visibility = View.VISIBLE
                     if (othersList != null && othersList!!.size > 0) {
@@ -227,7 +230,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                     }
                 } else {
                     isOthersOpen = true
-                 //   othersExCol.setText(R.string.expanded)
+                    //   othersExCol.setText(R.string.expanded)
                     recyclerViewOthers.visibility = View.VISIBLE
                     arowOthers.setImageResource(R.drawable.ic_event_up_arrow)
                     otherHeaderLay.visibility = View.GONE
@@ -298,6 +301,12 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
         tomorrowEventCount = 0
         soonEventCount = 0
         otherEventCount = 0
+        //
+        todayDateConfirmedCount = 0
+        tomorrowDateConfirmedCount = 0
+        soonDateConfirmedCount = 0
+        otherDateConfirmedCount = 0
+
         for (i in 0..othersActivitiesResponce.getData()!!.today!!.size - 1) {
             val todayData = othersActivitiesResponce.getData()!!.today!!.get(i)
             todayEventCount = todayEventCount + (todayData.events?.size ?: 0)
@@ -305,7 +314,10 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                 val eventData = todayData.events!!.get(j)
                 /*eventData.childIndex = j
                 eventData.parentIndex = i*/
-                if (eventData.is_confirm.equals("1")) todayData.is_Confirm = true
+                if (eventData.is_confirm.equals("1")) {
+                    todayData.is_Confirm = true
+                    todayDateConfirmedCount = todayDateConfirmedCount + 1
+                }
             }
         }
         todayList = othersActivitiesResponce.getData()!!.today
@@ -317,7 +329,10 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                 val eventData = tomorrowData.events!!.get(j)
                 /*eventData.childIndex = j
                 eventData.parentIndex = i*/
-                if (eventData.is_confirm.equals("1")) tomorrowData.is_Confirm = true
+                if (eventData.is_confirm.equals("1")) {
+                    tomorrowData.is_Confirm = true
+                    tomorrowDateConfirmedCount = tomorrowDateConfirmedCount + 1
+                }
             }
         }
         tomorrowList = othersActivitiesResponce.getData()!!.tomorrow
@@ -329,7 +344,10 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                 val eventData = soonData.events!!.get(j)
                 /*eventData.childIndex = j
                 eventData.parentIndex = i*/
-                if (eventData.is_confirm.equals("1")) soonData.is_Confirm = true
+                if (eventData.is_confirm.equals("1")) {
+                    soonData.is_Confirm = true
+                    soonDateConfirmedCount = soonDateConfirmedCount + 1
+                }
             }
         }
         soonList = othersActivitiesResponce.getData()!!.soon
@@ -346,7 +364,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
 
         Util.setRotation(arowToday, isTodayOpen)
         isTodayOpen = true
-     //   todayExCol.setText(R.string.expanded)
+        //   todayExCol.setText(R.string.expanded)
         arowToday.setImageResource(R.drawable.ic_event_up_arrow)
 
         tomorrowAdapter = TomorrowActivitiesAdapter(mContext, tomorrowList, this)
@@ -361,10 +379,15 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
         soonActivityCount.text = "" + soonList?.size + " " + getString(R.string.activities_count_txt)
         otherActivityCount.text = "" + othersList?.size + " " + getString(R.string.activities_count_txt)
 
-       // todaySheduleCount.text = "" + todayEventCount + " " + getString(R.string.dates_scheduled_txt)
-       // tomorrowSheduleCount.text = "" + tomorrowEventCount + " " + getString(R.string.dates_scheduled_txt)
-       // soonSheduleCount.text = "" + soonEventCount + " " + getString(R.string.dates_scheduled_txt)
-       // otherSheduleCount.text = "" + otherEventCount + " " + getString(R.string.dates_scheduled_txt)
+        // todaySheduleCount.text = "" + todayEventCount + " " + getString(R.string.dates_scheduled_txt)
+        // tomorrowSheduleCount.text = "" + tomorrowEventCount + " " + getString(R.string.dates_scheduled_txt)
+        // soonSheduleCount.text = "" + soonEventCount + " " + getString(R.string.dates_scheduled_txt)
+        // otherSheduleCount.text = "" + otherEventCount + " " + getString(R.string.dates_scheduled_txt)
+
+        todayConfirmCount.text = "" + todayDateConfirmedCount + " " + getString(R.string.date_confirmed_txt)
+        tomorrowConfirmCount.text = "" + tomorrowDateConfirmedCount + " " + getString(R.string.date_confirmed_txt)
+        soonConfirmCount.text = "" + soonDateConfirmedCount + " " + getString(R.string.date_confirmed_txt)
+        otherConfirmCount.text = "" + otherDateConfirmedCount + " " + getString(R.string.date_confirmed_txt)
     }
 
     override fun onResume() {
@@ -378,6 +401,8 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
 
     override fun onItemClick(type: String, activityPosition: Int) {
         var activityId = ""
+        var activityName = ""
+        var clubName = ""
         var clubId = ""
         var userId = ""
         var userName = ""
@@ -389,24 +414,32 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                 userId = todayList!![activityPosition].userId!!
                 userName = todayList!![activityPosition].full_name!!
                 userProfileImg = todayList!![activityPosition].profile_image!!
+                activityName = todayList!![activityPosition].activityName!!
+                clubName = todayList!![activityPosition].club_name!!
             }
             "tomorrow" -> {
                 activityId = tomorrowList!![activityPosition].activityId!!
                 userId = tomorrowList!![activityPosition].userId!!
                 userName = tomorrowList!![activityPosition].full_name!!
                 userProfileImg = tomorrowList!![activityPosition].profile_image!!
+                activityName = tomorrowList!![activityPosition].activityName!!
+                clubName = tomorrowList!![activityPosition].club_name!!
             }
             "soon" -> {
                 activityId = soonList!![activityPosition].activityId!!
                 userId = soonList!![activityPosition].userId!!
                 userName = soonList!![activityPosition].full_name!!
                 userProfileImg = soonList!![activityPosition].profile_image!!
+                activityName = soonList!![activityPosition].activityName!!
+                clubName = soonList!![activityPosition].club_name!!
             }
             "others" -> {
                 activityId = othersList!![activityPosition].activityId!!
                 userId = othersList!![activityPosition].userId!!
                 userName = othersList!![activityPosition].full_name!!
                 userProfileImg = othersList!![activityPosition].profile_image!!
+                activityName = othersList!![activityPosition].activityName!!
+                clubName = othersList!![activityPosition].club_name!!
             }
         }
         startActivity(Intent(mContext, ActivitiesDetails::class.java)
@@ -415,6 +448,8 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
                 .putExtra("userId", userId)
                 .putExtra("userName", userName)
                 .putExtra("userProfileImg", userProfileImg)
+                .putExtra("activityName", activityName)
+                .putExtra("clubName", clubName)
                 // .putExtra("clubId", userProfileImg)
         )
     }
@@ -588,6 +623,7 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
         val mTitle = dialog.findViewById<View>(R.id.mTitle) as TextView
         val mCancel = dialog.findViewById<View>(R.id.mCancel) as TextView
         val mJoin = dialog.findViewById<View>(R.id.mJoin) as TextView
+        mJoin.setText("Confirm")
         if (confirmAffiliates.getData()!!.isConfirmed != null) {
             if (confirmAffiliates.getData()!!.isConfirmed.equals("1")) {
                 //   like.setImageResource(R.drawable.hand_ico)

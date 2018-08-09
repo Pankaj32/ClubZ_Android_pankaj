@@ -70,6 +70,8 @@ class GetActivityMembersResponce {
 
             var userAffiliateId: String? = null
             var affiliate_name: String? = null
+            var position: Int? = null
+            var size: Int? = null
         }
     }
 }

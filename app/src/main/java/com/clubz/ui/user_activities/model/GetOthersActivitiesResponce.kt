@@ -148,14 +148,14 @@ class GetOthersActivitiesResponce {
                     val format: String
                     if (hour == 0) {
                         hour += 12
-                        format = "A.M."
+                        format = "a.m."
                     } else if (hour == 12) {
-                        format = "P.M."
+                        format = "p.m."
                     } else if (hour > 12) {
                         hour -= 12
-                        format = "P.M."
+                        format = "p.m."
                     } else {
-                        format = "A.M."
+                        format = "a.m."
                     }
                     formatedTime = "$hour:$minute $format"
                     return formatedTime
@@ -254,14 +254,14 @@ class GetOthersActivitiesResponce {
                     val format: String
                     if (hour == 0) {
                         hour += 12
-                        format = "A.M."
+                        format = "a.m."
                     } else if (hour == 12) {
-                        format = "P.M."
+                        format = "p.m."
                     } else if (hour > 12) {
                         hour -= 12
-                        format = "P.M."
+                        format = "p.m."
                     } else {
-                        format = "A.M."
+                        format = "a.m."
                     }
                     formatedTime = "$hour:$minute $format"
                     return formatedTime
@@ -360,14 +360,14 @@ class GetOthersActivitiesResponce {
                     val format: String
                     if (hour == 0) {
                         hour += 12
-                        format = "A.M."
+                        format = "a.m.."
                     } else if (hour == 12) {
-                        format = "P.M."
+                        format = "p.m."
                     } else if (hour > 12) {
                         hour -= 12
-                        format = "P.M."
+                        format = "p.m."
                     } else {
-                        format = "A.M."
+                        format = "a.m."
                     }
                     formatedTime = "$hour:$minute $format"
                     return formatedTime
@@ -466,14 +466,14 @@ class GetOthersActivitiesResponce {
                     val format: String
                     if (hour == 0) {
                         hour += 12
-                        format = "A.M."
+                        format = "a.m"
                     } else if (hour == 12) {
-                        format = "P.M."
+                        format = "p.m."
                     } else if (hour > 12) {
                         hour -= 12
-                        format = "P.M."
+                        format = "p.m."
                     } else {
-                        format = "A.M."
+                        format = "a.m."
                     }
                     formatedTime = "$hour:$minute $format"
                     return formatedTime

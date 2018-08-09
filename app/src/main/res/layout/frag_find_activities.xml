@@ -65,8 +65,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
+                    android:layout_height="wrap_content">
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerViewToday"
@@ -78,9 +77,9 @@
                         android:id="@+id/todayHeaderLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_activity"
                         android:gravity="center_vertical"
-                        android:padding="@dimen/_6sdp"
-                        android:background="@drawable/bg_activity">
+                        android:padding="@dimen/_6sdp">
 
                         <TextView
                             android:id="@+id/todayActivityCount"
@@ -110,7 +109,8 @@
                         <View
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/_2sdp"
+                            android:layout_marginEnd="@dimen/_2sdp"
+                            android:layout_marginStart="@dimen/_4sdp"
                             android:background="@color/nav_gray" />
 
                         <TextView
@@ -131,14 +131,14 @@
                         android:layout_centerInParent="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center"
+                        android:background="@drawable/bg_activity"
                         android:fontFamily="@font/poppins_italic"
                         android:padding="@dimen/_10sdp"
                         android:text="@string/no_activites"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp"
-                        android:visibility="gone"
-                        android:background="@drawable/bg_activity"
-                        android:textAlignment="center"/>
+                        android:visibility="gone" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -190,16 +190,15 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/tomorrowHeaderLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_activity"
                         android:gravity="center_vertical"
-                        android:padding="@dimen/_6sdp"
-                        android:background="@drawable/bg_activity">
+                        android:padding="@dimen/_6sdp">
 
                         <TextView
                             android:id="@+id/tomorrowActivityCount"
@@ -229,7 +228,8 @@
                         <View
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/_2sdp"
+                            android:layout_marginEnd="@dimen/_2sdp"
+                            android:layout_marginStart="@dimen/_4sdp"
                             android:background="@color/nav_gray" />
 
                         <TextView
@@ -256,14 +256,14 @@
                         android:layout_centerInParent="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center"
+                        android:background="@drawable/bg_activity"
                         android:fontFamily="@font/poppins_italic"
                         android:padding="@dimen/_10sdp"
                         android:text="@string/no_activites"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp"
-                        android:visibility="gone"
-                        android:background="@drawable/bg_activity"
-                        android:textAlignment="center"/>
+                        android:visibility="gone" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -321,9 +321,9 @@
                         android:id="@+id/soonHeaderLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_activity"
                         android:gravity="center_vertical"
-                        android:padding="@dimen/_6sdp"
-                        android:background="@drawable/bg_activity">
+                        android:padding="@dimen/_6sdp">
 
                         <TextView
                             android:id="@+id/soonActivityCount"
@@ -353,7 +353,8 @@
                         <View
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/_2sdp"
+                            android:layout_marginEnd="@dimen/_2sdp"
+                            android:layout_marginStart="@dimen/_4sdp"
                             android:background="@color/nav_gray" />
 
                         <TextView
@@ -378,14 +379,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
+                        android:background="@drawable/bg_activity"
                         android:fontFamily="@font/poppins_italic"
                         android:padding="@dimen/_10sdp"
                         android:text="@string/no_activites"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp"
-                        android:visibility="gone"
-                        android:background="@drawable/bg_activity"
-                        android:textAlignment="center"/>
+                        android:visibility="gone" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -443,9 +444,9 @@
                         android:id="@+id/otherHeaderLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_activity"
                         android:gravity="center_vertical"
-                        android:padding="@dimen/_6sdp"
-                        android:background="@drawable/bg_activity">
+                        android:padding="@dimen/_6sdp">
 
                         <TextView
                             android:id="@+id/otherActivityCount"
@@ -475,7 +476,8 @@
                         <View
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/_2sdp"
+                            android:layout_marginEnd="@dimen/_2sdp"
+                            android:layout_marginStart="@dimen/_4sdp"
                             android:background="@color/nav_gray" />
 
                         <TextView
@@ -501,14 +503,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
+                        android:background="@drawable/bg_activity"
                         android:fontFamily="@font/poppins_italic"
                         android:padding="@dimen/_10sdp"
                         android:text="@string/no_activites"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp"
-                        android:visibility="gone"
-                        android:background="@drawable/bg_activity"
-                        android:textAlignment="center"/>
+                        android:visibility="gone" />
                 </RelativeLayout>
             </LinearLayout>
 

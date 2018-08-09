@@ -146,7 +146,11 @@ class FragActivityDetailsNew : Fragment() {
         } else {
             // leaderLay.visibility = View.GONE
         }
-        activityLocation.text = activityDetails?.getData()?.location
+        if (activityDetails?.getData()?.location.isNullOrEmpty()){
+            activityLocation.text = "Not Available"
+        }else{
+            activityLocation.text = activityDetails?.getData()?.location
+        }
         fee.text = activityDetails?.getData()?.fee
         feeType.text = activityDetails?.getData()?.fee_type
         if (activityDetails?.getData()?.fee_type.equals("Free")) {
@@ -157,7 +161,7 @@ class FragActivityDetailsNew : Fragment() {
                 activityDetails?.getData()?.max_users, activityDetails?.getData()?.min_users)*/
         maxUser.text = activityDetails?.getData()?.max_users
         minUser.text = activityDetails?.getData()?.min_users
-        userLikeCount.text=activityDetails?.getData()?.totalUser+" "+getString(R.string.users)
+       // userLikeCount.text=activityDetails?.getData()?.totalUser+" "+getString(R.string.users)
         if (activityDetails?.getData()?.totalUser?.toInt()!! >0){
             imgLike.setImageResource(R.drawable.active_heart_ico)
         }

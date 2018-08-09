@@ -72,6 +72,11 @@ public class TomorrowActivitiesAdapter extends RecyclerView.Adapter<RecyclerView
         } else {
             h.itemLike.setImageResource(R.drawable.inactive_heart_ico);
         }
+        if (tomorrowBean.getEvents()==null){
+            h.iv_arrow_expand.setVisibility(View.GONE);
+        }else {
+            if (tomorrowBean.getEvents().size()==0)h.iv_arrow_expand.setVisibility(View.GONE);
+        }
     }
 
     @Override

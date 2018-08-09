@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:layout_marginBottom="@dimen/_1sdp"
     android:layout_marginLeft="@dimen/_1sdp"
     android:layout_marginRight="@dimen/_1sdp"
-    android:layout_marginTop="@dimen/_5sdp">
+    android:layout_marginTop="@dimen/_5sdp"
+    android:background="@color/white">
 
 
     <LinearLayout
@@ -63,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:maxLines="1"
-                android:text="Confirm"
-                android:textColor="@color/red_favroit"
+                android:text="Confirmed"
+                android:textColor="@color/primaryColor"
                 android:textSize="13sp" />
         </LinearLayout>
 
@@ -86,7 +86,6 @@
             android:layout_below="@id/content"
             android:layout_marginTop="@dimen/_7sdp"
             android:background="@color/color_Light_Green"
-            android:progress="80"
             android:progressTint="@color/primaryColor" />
     </RelativeLayout>
 
