@@ -301,13 +301,23 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     }
 
     override fun navigateMyActivity() {
-        setTab(tab!!, R.drawable.ic_activity_active, true)
-        replaceFragment(Frag_My_Activity())
+        title_tv.setText(R.string.my_activity)
+        var fragment=getCurrentFragment()
+        fragment as Frag_My_Activity
+        fragment.isMyState=true
+        fragment.onResume()
+        /*setTab(tab!!, R.drawable.ic_activity_active, true)
+        replaceFragment(Frag_My_Activity())*/
         // startActivity(Intent(this@HomeActivity, MyActivities::class.java))
     }
     override fun navigateOthersActivity() {
-        setTab(tab!!, R.drawable.ic_activity_active, true)
-        replaceFragment(Frag_Find_Activities())
+        title_tv.setText(R.string.t_find_activities)
+        var fragment=getCurrentFragment()
+        fragment as Frag_My_Activity
+        fragment.isMyState=false
+        fragment.onResume()
+        /*setTab(tab!!, R.drawable.ic_activity_active, true)
+        replaceFragment(Frag_Find_Activities())*/
     }
     override fun onRightNavigationItemChange() {
         val newsFeedFragment: FragNewsList? = supportFragmentManager.fragments
@@ -369,7 +379,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 for (view in arrayOf(menu, title_tv, bubble_menu)) view.visibility = View.VISIBLE
             }
             Frag_My_Activity::class.java.simpleName -> {
-                title_tv.setText(R.string.my_activity)
+                title_tv.setText(R.string.t_find_activities)
                 //for (view in arrayOf(search)) view.visibility = View.GONE
                 for (view in arrayOf(menu, title_tv, bubble_menu)) view.visibility = View.VISIBLE
             }
@@ -434,7 +444,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             1 -> {
                 this.tab = tab
                 setTab(tab, R.drawable.ic_activity_active, true)
-                replaceFragment(Frag_Find_Activities())
+                replaceFragment(Frag_My_Activity())
             }
             2 -> {
                 setTab(tab, R.drawable.ic_chat_bubble_active, true)
@@ -481,10 +491,20 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                         showMenu(list, frag)
                     }
                     Frag_My_Activity::class.java.simpleName -> {
-                        //showMyActivityDialog()
+                        frag as Frag_My_Activity
                         val list: ArrayList<DialogMenu> = arrayListOf()
-                        list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
-                        list.add(DialogMenu(getString(R.string.others_activity), R.drawable.ic_nav_event))
+                        if (frag.isMyState){
+                            frag.isMyState=false
+                            list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
+                            list.add(DialogMenu(getString(R.string.others_activity), R.drawable.ic_nav_event))
+                        }else{
+                            frag.isMyState=true
+                            list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
+                            list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_nav_event))
+                        }
+                        //showMyActivityDialog()
+
+
                       //++  list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
                         showMenu(list, frag)
                     }

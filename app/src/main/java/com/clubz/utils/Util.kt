@@ -186,6 +186,39 @@ class Util {
             return String(Character.toChars(unicode))
         }
 
+        fun toSentenceCase(inputString: String): String {
+            var result = ""
+            if (inputString.length == 0) {
+                return result
+            }
+            val firstChar = inputString[0]
+            val firstCharToUpperCase = Character.toUpperCase(firstChar)
+            result = result + firstCharToUpperCase
+            var terminalCharacterEncountered = false
+            val terminalCharacters = charArrayOf('.', '?', '!')
+            for (i in 1 until inputString.length) {
+                val currentChar = inputString[i]
+                if (terminalCharacterEncountered) {
+                    if (currentChar == ' ') {
+                        result = result + currentChar
+                    } else {
+                        val currentCharToUpperCase = Character.toUpperCase(currentChar)
+                        result = result + currentCharToUpperCase
+                        terminalCharacterEncountered = false
+                    }
+                } else {
+                    val currentCharToLowerCase = Character.toLowerCase(currentChar)
+                    result = result + currentCharToLowerCase
+                }
+                for (j in terminalCharacters.indices) {
+                    if (currentChar == terminalCharacters[j]) {
+                        terminalCharacterEncountered = true
+                        break
+                    }
+                }
+            }
+            return result
+        }
         val imageResources = intArrayOf(
         R.drawable.af,
         R.drawable.al,

@@ -387,7 +387,7 @@
     <string name="no_feed_content_body">Here will appear news from the clubs you belong. Club managers have not published anything yet.
         \n\nYou can also verify that your clubs are not muted, swipe the screen from the right side and enable them.</string>
     <string name="no_activity_content_body">The activity will be available once the club manager create it.</string>
-    <string name="no_member_content_body">The member will be available once the club manager create it.</string>
+    <string name="no_member_content_body">The members will be available once the club manager create it.</string>
     <string name="t_date_title">Date title</string>
     <string name="t_next_date">Next date</string>
     <string name="t_general_desc">General Description</string>
@@ -399,6 +399,7 @@
     <string name="hide_activity">Hide this activity</string>
     <string name="un_hide_activity">Unhide this activity</string>
     <string name="disable_notification">Disable Notification</string>
+    <string name="join_activity">Join to the activity</string>
 
     <string name="menu_my_newsfeed">Show my feed</string>
     <string name="menu_filter_by_clubs">Filter by clubs</string>

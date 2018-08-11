@@ -395,7 +395,6 @@ class Frag_Find_Activities : Fragment(), View.OnClickListener, ActivityItemClick
         getActivitiesList()
     }
 
-
     override fun onLongPress(type: String, activityPosition: Int) {
     }
 
