@@ -302,23 +302,25 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     override fun navigateMyActivity() {
         title_tv.setText(R.string.my_activity)
-        var fragment=getCurrentFragment()
+        var fragment = getCurrentFragment()
         fragment as Frag_My_Activity
-        fragment.isMyState=true
+        fragment.isMyState = true
         fragment.onResume()
         /*setTab(tab!!, R.drawable.ic_activity_active, true)
         replaceFragment(Frag_My_Activity())*/
         // startActivity(Intent(this@HomeActivity, MyActivities::class.java))
     }
+
     override fun navigateOthersActivity() {
         title_tv.setText(R.string.t_find_activities)
-        var fragment=getCurrentFragment()
+        var fragment = getCurrentFragment()
         fragment as Frag_My_Activity
-        fragment.isMyState=false
+        fragment.isMyState = false
         fragment.onResume()
         /*setTab(tab!!, R.drawable.ic_activity_active, true)
         replaceFragment(Frag_Find_Activities())*/
     }
+
     override fun onRightNavigationItemChange() {
         val newsFeedFragment: FragNewsList? = supportFragmentManager.fragments
                 .firstOrNull { it::class.java.simpleName == FragNewsList::class.java.simpleName }
@@ -482,7 +484,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                         showMenu(list, frag)
                     }
 
-                    Frag_Find_Activities::class.java.simpleName-> {
+                    Frag_Find_Activities::class.java.simpleName -> {
                         //showMyActivityDialog()
                         val list: ArrayList<DialogMenu> = arrayListOf()
                         list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
@@ -493,19 +495,18 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                     Frag_My_Activity::class.java.simpleName -> {
                         frag as Frag_My_Activity
                         val list: ArrayList<DialogMenu> = arrayListOf()
-                        if (frag.isMyState){
-                            frag.isMyState=false
+                        if (frag.isMyState) {
                             list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
                             list.add(DialogMenu(getString(R.string.others_activity), R.drawable.ic_nav_event))
-                        }else{
-                            frag.isMyState=true
+                         //   list.add(DialogMenu(getString(R.string.set_notification), R.drawable.bell))
+                        } else {
                             list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
                             list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_nav_event))
                         }
                         //showMyActivityDialog()
 
 
-                      //++  list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
+                        //++  list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
                         showMenu(list, frag)
                     }
                 }
@@ -673,7 +674,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             mDrawerLayout.isDrawerOpen(navigationView) -> mDrawerLayout.closeDrawer(Gravity.START)
             mDrawerLayout.isDrawerOpen(rightNavigationView) -> mDrawerLayout.closeDrawer(Gravity.END)
             else -> {
-
                 val handler = Handler()
                 val runnable: Runnable?
                 if (supportFragmentManager.backStackEntryCount > 1) {

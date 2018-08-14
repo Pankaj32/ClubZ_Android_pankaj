@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.frag_sign_up_one_2.*
 import android.view.inputmethod.EditorInfo
 import android.widget.ScrollView
 import android.widget.Toast
+import com.clubz.ClubZ
 import com.clubz.ui.main.HomeActivity
 import com.clubz.helper.sms_reciver.OnSmsCatchListener
 import com.clubz.helper.sms_reciver.SmsVerifyCatcher
@@ -31,13 +32,13 @@ import java.util.regex.Pattern
 /**
  * Created by mindiii on 2/6/18.
  */
-class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsCatchListener<String>{
+class Frag_Sign_Up_One_2 : SignupBaseFragment(), View.OnClickListener, OnSmsCatchListener<String> {
 
-    lateinit var _otp : String
-    lateinit var _contact : String
-    lateinit var _code : String
-    var _isnewuser : Boolean = false
-    private lateinit var smsverify : SmsVerifyCatcher
+    lateinit var _otp: String
+    lateinit var _contact: String
+    lateinit var _code: String
+    var _isnewuser: Boolean = false
+    private lateinit var smsverify: SmsVerifyCatcher
     //ClubZ- Your PIN for registration is: 4567
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,14 +54,16 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsC
         super.onViewCreated(view, savedInstanceState)
         confirm.setOnClickListener(this)
         resend.setOnClickListener(this)
-        Util.showToast(_otp+" : This message is Temporary ", context)
+        Util.showToast(_otp + " : This message is Temporary ", context)
 
-       // confirmation_code.setText(_otp)
-        confirmation_code.addTextChangedListener(object : TextWatcher{
-            override fun afterTextChanged(p0: Editable?) { }
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+        // confirmation_code.setText(_otp)
+        confirmation_code.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(p0!!.length==4){ confirm.callOnClick() }
+                if (p0!!.length == 4) {
+                    confirm.callOnClick()
+                }
             }
         })
 
@@ -79,9 +82,9 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsC
     }
 
     override fun onSmsCatch(message: String?) {
-        if(!message.isNullOrBlank() && message!!.contains(resources.getString(R.string.app_name))){
+        if (!message.isNullOrBlank() && message!!.contains(resources.getString(R.string.app_name))) {
             val otpCode = parseCode(message)
-            if(otpCode.isNotEmpty()){
+            if (otpCode.isNotEmpty()) {
                 confirmation_code.setText(otpCode)
                 confirm.callOnClick()
             }
@@ -91,7 +94,7 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsC
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        smsverify.onRequestPermissionsResult(requestCode,permissions, grantResults)
+        smsverify.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onStart() {
@@ -105,23 +108,25 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsC
     }
 
     override fun onClick(p0: View?) {
-        when(p0!!.id){
+        when (p0!!.id) {
 
             R.id.confirm -> {
                 listner.hideKeyBoard()
-                if(verfiy())
-                    if(_isnewuser)
-                        listner.replaceFragment(FragSignUp2().setData(_contact,_code))
-                    else{
+                if (verfiy())
+                    if (_isnewuser)
+                        listner.replaceFragment(FragSignUp2().setData(_contact, _code))
+                    else {
                         verify_otp()
                     }
             }
 
-            R.id.resend -> { reSendOtp()}
+            R.id.resend -> {
+                reSendOtp()
+            }
         }
     }
 
-    fun setData(otp : String , contact : String , code : String ,isnewuser :String) : Frag_Sign_Up_One_2 {
+    fun setData(otp: String, contact: String, code: String, isnewuser: String): Frag_Sign_Up_One_2 {
         _otp = otp
         _contact = contact
         _code = code
@@ -129,42 +134,49 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsC
         return this
     }
 
-    fun verfiy() :Boolean{
+    fun verfiy(): Boolean {
 
-        if(confirmation_code.text.isBlank()){
-            Util.showSnake(context,view!! ,R.string.a_confirmation_code )
+        if (confirmation_code.text.isBlank()) {
+            Util.showSnake(context, view!!, R.string.a_confirmation_code)
             return false
         }
-        if(!confirmation_code.text.toString().trim().equals(_otp)){
-            Util.showSnake(context,view!! ,R.string.a_confirmation_code2 )
+        if (!confirmation_code.text.toString().trim().equals(_otp)) {
+            Util.showSnake(context, view!!, R.string.a_confirmation_code2)
             return false
         }
         return true
     }
 
-    private fun verify_otp(){
+    private fun verify_otp() {
         val dialog = CusDialogProg(context)
         dialog.show()
-        object  : VolleyGetPost(activity,activity, WebService.Login,false) {
+        object : VolleyGetPost(activity, activity, WebService.Login, false) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     val obj = JSONObject(response)
-                    if(obj.getString("status")=="success"){
+                    if (obj.getString("status") == "success") {
                         SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
+                        ClubZ.currentUser = SessionManager.getObj().user
                         startActivity(Intent(activity, HomeActivity::class.java))
                         signupActivity.finish()
-                    }
-                    else{
+                    } else {
                         listner.showToast(obj.getString("message"))
                     }
-                }catch (ex: Exception){
-                    listner.showToast(getString(R.string.swr))
+
+                } catch (ex: Exception) {
+                    if (context != null) listner.showToast(getString(R.string.swr))
                 }
+
+                if (context != null) dialog.dismiss()
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
                 dialog.dismiss()
             }
 
-            override fun onVolleyError(error: VolleyError?) { dialog.dismiss() }
-            override fun onNetError() { dialog.dismiss() }
+            override fun onNetError() {
+                dialog.dismiss()
+            }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["country_code"] = "+$_code"
@@ -197,22 +209,22 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsC
     }
 
 
-    private fun reSendOtp(){
+    private fun reSendOtp() {
         val activity = activity as SignupActivity
         val dialog = CusDialogProg(context)
         dialog.show()
-        object  : VolleyGetPost(activity,context, WebService.Generate_Otp,false) {
+        object : VolleyGetPost(activity, context, WebService.Generate_Otp, false) {
             override fun onVolleyResponse(response: String?) {
-                try{
+                try {
                     val obj = JSONObject(response)
-                    if(obj.getString("status") == "success"){
+                    if (obj.getString("status") == "success") {
                         _otp = obj.getString("otp")
-                        Toast.makeText(context,_otp , Toast.LENGTH_SHORT).show()
-                    }else{
-                        Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, _otp, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
-                }catch (ex :Exception){
-                    Toast.makeText(context,R.string.swr, Toast.LENGTH_LONG).show()
+                } catch (ex: Exception) {
+                    Toast.makeText(context, R.string.swr, Toast.LENGTH_LONG).show()
                 }
                 dialog.dismiss()
             }
@@ -228,7 +240,7 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment()  , View.OnClickListener , OnSmsC
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["country_code"] = "+$_code"
                 params["contact_no"] = _contact
-                Util.e("params" , params.toString())
+                Util.e("params", params.toString())
                 return params
 
             }

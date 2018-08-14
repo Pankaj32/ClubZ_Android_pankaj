@@ -78,11 +78,12 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchListner!!.onTextChange(query!!)
+                // I chiru Comment
+                /*searchListner!!.onTextChange(query!!)
                 //searchAdapter?.filter?.filter(query)
                 searchList.clear()
                 searchClubsName(query)
-                searchAdapter?.setCurrentText(query)
+                searchAdapter?.setCurrentText(query)*/
                 return false
             }
 

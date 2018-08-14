@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:id="@+id/snakLay"
     tools:context=".ui.user_activities.fragment.FragActivityDetailsNew">
 
     <ScrollView
@@ -45,7 +46,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_17sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:gravity="center_vertical"
@@ -60,7 +61,7 @@
                             android:fontFamily="@font/teko_semibold"
                             android:text="FootBall Class"
                             android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="25sp" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -311,8 +312,11 @@
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:layout_marginEnd="@dimen/_8sdp"
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:padding="@dimen/_5sdp"
+                            android:layout_below="@id/hintLocation"
+                            android:paddingTop="@dimen/_2sdp"
+                            android:paddingEnd="@dimen/_5sdp"
+                            android:paddingStart="@dimen/_5sdp"
+                            android:paddingBottom="@dimen/_5sdp"
                             android:tint="@color/nav_gray"
                             app:srcCompat="@drawable/ic_map_placeholder" />
 
@@ -506,42 +510,42 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginStart="@dimen/_10sdp">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/trmConImage"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_alignParentBottom="true"
+                            android:padding="@dimen/_6sdp"
+                            android:tint="@color/nav_gray"
+                            app:srcCompat="@drawable/ic_gavel_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/termsNCondition"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/trmConImage"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/termsnCondition"
+                            android:textColor="@color/primaryColor"
+                            android:layout_alignParentBottom="true"
+                            android:paddingBottom="@dimen/_6sdp"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:id="@+id/rtv_leadby"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_8sdp">
-
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:gravity="center_vertical">
-
-                            <android.support.v7.widget.AppCompatImageView
-                                android:id="@+id/trmConImage"
-                                android:layout_width="@dimen/_30sdp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_marginEnd="@dimen/_5sdp"
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_marginTop="@dimen/_3sdp"
-                                android:padding="@dimen/_6sdp"
-                                android:tint="@color/nav_gray"
-                                app:srcCompat="@drawable/ic_gavel_black_24dp" />
-
-                            <TextView
-                                android:id="@+id/termsNCondition"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_11sdp"
-                                android:layout_toRightOf="@id/trmConImage"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@string/termsnCondition"
-                                android:textColor="@color/primaryColor"
-                                android:textSize="12sp" />
-                        </RelativeLayout>
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_8sdp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/image_member2"

@@ -193,7 +193,8 @@ class ClubFilterFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, My
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params["authToken"] = SessionManager.getObj().user.auth_token
+//                params["authToken"] = SessionManager.getObj().user.auth_token
+                params["authToken"] = ClubZ.currentUser!!.auth_token
                 params["language"] = SessionManager.getObj().language
                 return  params
             }

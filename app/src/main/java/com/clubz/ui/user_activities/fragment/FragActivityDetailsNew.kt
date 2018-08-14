@@ -1,23 +1,34 @@
 package com.clubz.ui.user_activities.fragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.RecyclerView
+import android.util.DisplayMetrics
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
 import com.android.volley.VolleyError
+import com.clubz.ClubZ
 
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.TermsConditionDialog
+import com.clubz.ui.user_activities.adapter.JoinAffiliatesAdapter
 import com.clubz.ui.user_activities.model.GetActivityDetailsResponce
+import com.clubz.ui.user_activities.model.GetJoinAffliates
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
@@ -29,8 +40,15 @@ import org.json.JSONObject
 class FragActivityDetailsNew : Fragment() {
     private var mContext: Context? = null
     private var activityId = ""
+    private var type = ""
+    private var hasAffliates = 0
     var activityDetails: GetActivityDetailsResponce? = null
+    private var height: Int = 0
+    private var width: Int = 0
 
+    private var userId: String = ""
+    private var userName: String = ""
+    private var userImage: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -40,11 +58,8 @@ class FragActivityDetailsNew : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (arguments != null) {
-            activityId = arguments!!.getString(IDKEY)
-            Log.e("ActivityId:  ", activityId)
-            getActivityDetails()
-        }
+        initializeView()
+
         termsNCondition.setOnClickListener {
             object : TermsConditionDialog(mContext!!, resources.getString(R.string.terms_conditions), activityDetails?.getData()?.terms_conditions!!) {
                 override fun onCloseClicked() {
@@ -52,6 +67,38 @@ class FragActivityDetailsNew : Fragment() {
                 }
             }.show()
         }
+        imgLike.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                if (type != "my" && type != "others") {
+                    if (hasAffliates == 1) {
+                        getUserJoinAfiliatesList(activityId)
+                    } else {
+                        Util.showSnake(mContext!!, snakLay!!, R.string.d_no_affiliates)
+                    }
+                }
+            }
+
+        })
+    }
+
+    private fun initializeView() {
+        val diametric = DisplayMetrics()
+        activity?.windowManager?.defaultDisplay?.getMetrics(diametric)
+        width = diametric.widthPixels
+        height = diametric.heightPixels
+
+        userId = ClubZ.currentUser!!.id
+        userName = ClubZ.currentUser!!.full_name
+        userImage = ClubZ.currentUser!!.profile_image
+
+        if (arguments != null) {
+            activityId = arguments!!.getString(IDKEY)
+            type = arguments!!.getString(TYPEKEY)
+            hasAffliates = arguments!!.getInt(HSAFFLKEY)
+            Log.e("ActivityId:  ", activityId)
+            getActivityDetails()
+        }
+
     }
 
     override fun onAttach(context: Context) {
@@ -67,10 +114,14 @@ class FragActivityDetailsNew : Fragment() {
 
     companion object {
         val IDKEY = "activityId"
-        fun newInstance(activityId: String): FragActivityDetailsNew {
+        val TYPEKEY = "type"
+        val HSAFFLKEY = "hasAffliates"
+        fun newInstance(activityId: String, type: String, hasAffliates: Int): FragActivityDetailsNew {
             val fragment = FragActivityDetailsNew()
             val args = Bundle()
             args.putString(IDKEY, activityId)
+            args.putString(TYPEKEY, type)
+            args.putInt(HSAFFLKEY, hasAffliates)
             fragment.arguments = args
             return fragment
         }
@@ -146,9 +197,9 @@ class FragActivityDetailsNew : Fragment() {
         } else {
             // leaderLay.visibility = View.GONE
         }
-        if (activityDetails?.getData()?.location.isNullOrEmpty()){
+        if (activityDetails?.getData()?.location.isNullOrEmpty()) {
             activityLocation.text = "Not Available"
-        }else{
+        } else {
             activityLocation.text = activityDetails?.getData()?.location
         }
         fee.text = activityDetails?.getData()?.fee
@@ -161,8 +212,8 @@ class FragActivityDetailsNew : Fragment() {
                 activityDetails?.getData()?.max_users, activityDetails?.getData()?.min_users)*/
         maxUser.text = activityDetails?.getData()?.max_users
         minUser.text = activityDetails?.getData()?.min_users
-       // userLikeCount.text=activityDetails?.getData()?.totalUser+" "+getString(R.string.users)
-        if (activityDetails?.getData()?.totalUser?.toInt()!! >0){
+        // userLikeCount.text=activityDetails?.getData()?.totalUser+" "+getString(R.string.users)
+        if (activityDetails?.getData()?.totalUser?.toInt()!! > 0) {
             imgLike.setImageResource(R.drawable.active_heart_ico)
         }
         /*if (activityDetails?.getData()?.next_event == null) {
@@ -191,5 +242,175 @@ class FragActivityDetailsNew : Fragment() {
             image_member2.setImageResource(R.drawable.ic_user_shape)
         }
         //  usrerole.text = activityDetails.getData()?.user_role
+    }
+
+    private fun getUserJoinAfiliatesList(activityId: String) {
+        val dialog = CusDialogProg(mContext!!)
+        dialog.show()
+        //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
+        object : VolleyGetPost(mContext as Activity?, mContext,
+                "${WebService.getuserJoinAffiliates}?userId=${userId}&activityId=${activityId}",/*userId=74&activityId=7*/
+                true) {
+            override fun onVolleyResponse(response: String?) {
+                dialog.dismiss()
+                try {
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+                        //  popUpJoin(type)
+                        var getJoinAffliates: GetJoinAffliates = Gson().fromJson(response, GetJoinAffliates::class.java)
+                        popUpJoin(activityId, getJoinAffliates)
+                    }
+
+
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                /* params.put("searchText", searchTxt)
+                 params.put("offset", offset.toString())
+                 params.put("limit","10")
+                 params.put("clubType", "")
+                 params.put("latitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString() )+"")
+                 params.put("longitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString() )+"")*/
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("authToken", SessionManager.getObj().user.auth_token)
+                Log.e("authToken", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }.execute(Frag_Find_Activities::class.java.name)
+    }
+
+    internal fun popUpJoin(activityId: String, getJoinAffliates: GetJoinAffliates) {
+        //    var isLike: Boolean = false;
+        val dialog = Dialog(mContext)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.dialog_join_events)
+        dialog.window!!.setLayout(width * 10 / 11, WindowManager.LayoutParams.WRAP_CONTENT)
+        //    dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        val likeLay = dialog.findViewById<View>(R.id.likeLay) as RelativeLayout
+        val profileImage = dialog.findViewById<View>(R.id.profileImage) as ImageView
+        val topIcon = dialog.findViewById<View>(R.id.topIcon) as ImageView
+        // val like = dialog.findViewById<View>(R.id.like) as ImageView
+        val likeCkeck = dialog.findViewById<View>(R.id.likeCkeck) as CheckBox
+        val dialogRecycler = dialog.findViewById<View>(R.id.dialogRecycler) as RecyclerView
+        val adapter = JoinAffiliatesAdapter(mContext, getJoinAffliates.getData()!!.affiliates)
+        dialogRecycler.adapter = adapter
+        val activityUserName = dialog.findViewById<View>(R.id.activityUserName) as TextView
+        val mTitle = dialog.findViewById<View>(R.id.mTitle) as TextView
+        val mCancel = dialog.findViewById<View>(R.id.mCancel) as TextView
+        val mJoin = dialog.findViewById<View>(R.id.mJoin) as TextView
+
+
+        if (getJoinAffliates.getData()!!.isJoined.equals("1")) {
+            //    like.setImageResource(R.drawable.active_heart_ico)
+            likeCkeck.isChecked = true
+        } else {
+            //  like.setImageResource(R.drawable.inactive_heart_ico)
+            likeCkeck.isChecked = false
+        }
+        topIcon.setImageResource(R.drawable.active_heart_ico)
+        mTitle.setText(R.string.joinTitle)
+        activityUserName.text = userName
+        if (!userImage.equals("")) {
+            Picasso.with(profileImage.context).load(userImage).fit().into(profileImage)
+        }
+        //}
+        dialog.setCancelable(true)
+        dialog.show()
+        likeLay.setOnClickListener(View.OnClickListener {
+            if (getJoinAffliates.getData()!!.isJoined.equals("1")) {
+                getJoinAffliates.getData()!!.isJoined = "0"
+                // like.setImageResource(R.drawable.inactive_heart_ico)
+                likeCkeck.isChecked = false
+            } else {
+                getJoinAffliates.getData()!!.isJoined = "1"
+                //    like.setImageResource(R.drawable.active_heart_ico)
+                likeCkeck.isChecked = true
+            }
+        })
+        mCancel.setOnClickListener(View.OnClickListener { dialog.dismiss() })
+        mJoin.setOnClickListener(View.OnClickListener {
+            var mUserId: String = ""
+            var affiliateId: String = ""
+            if (getJoinAffliates.getData()!!.isJoined.equals("1")) {
+                mUserId = userId
+            }
+            getJoinAffliates.getData()!!.affiliates!!
+                    .asSequence()
+                    .filter { it.isJoined.equals("1") }
+                    .forEach {
+                        affiliateId = if (affiliateId.equals("")) {
+                            it.userAffiliateId!!
+                        } else {
+                            affiliateId + "," + it.userAffiliateId
+                        }
+                    }
+            joinActivity(activityId, affiliateId, mUserId, dialog)
+        })
+    }
+
+    fun joinActivity(activityId: String,
+                     affiliateId: String,
+                     userId: String,
+                     dialog1: Dialog) {
+        val dialog = CusDialogProg(mContext!!)
+        dialog.show()
+        //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
+        object : VolleyGetPost(mContext as Activity?, mContext,
+                "${WebService.joinActivity}",
+                //WebService.get_activity_list + listType + "&limit=&offset=",
+                false) {
+            override fun onVolleyResponse(response: String?) {
+                dialog.dismiss()
+                try {
+
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+                        dialog1.dismiss()
+                        getActivityDetails()
+                    } else {
+                        // nodataLay.visibility = View.VISIBLE
+                    }
+                    // searchAdapter?.notifyDataSetChanged()
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["activityId"] = activityId
+                params["affiliateId"] = affiliateId
+                params["userId"] = userId
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("authToken", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }.execute(Frag_Find_Activities::class.java.name)
     }
 }

@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -53,7 +54,14 @@ import kotlin.collections.ArrayList
 // TODO: Rename parameter arguments, choose names that match
 
 
-class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogFragment.Listener {
+class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogFragment.Listener, SwipeRefreshLayout.OnRefreshListener {
+    override fun onRefresh() {
+        if (isMyState) {
+            getActivitiesList()
+        } else {
+            getOthersActivitiesList()
+        }
+    }
 
     // TODO: Rename and change types of parameters
 
@@ -106,6 +114,8 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         userId = ClubZ.currentUser!!.id
         userName = ClubZ.currentUser!!.full_name
         userImage = ClubZ.currentUser!!.profile_image
+        swiperefresh.setOnRefreshListener(this)
+
     }
 
     override fun onResume() {
@@ -128,13 +138,14 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
 
     fun getActivitiesList(listType: String = "", limit: String = "", offset: String = "") {
         val dialog = CusDialogProg(mContext)
-        dialog.show()
+        if (!swiperefresh.isRefreshing) dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(mContext,
                 "${WebService.get_my_activity_list}?listType=${listType}&offset=${offset}&limit=${limit}",
                 //WebService.get_activity_list + listType + "&limit=&offset=",
                 true) {
             override fun onVolleyResponse(response: String?) {
+                if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
                 dialog.dismiss()
                 try {
 
@@ -179,15 +190,17 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
     fun getOthersActivitiesList(listType: String = "", limit: String = "", offset: String = "") {
 
         val dialog = CusDialogProg(mContext!!)
-        dialog.show()
+        if (!swiperefresh.isRefreshing) dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(mContext as Activity?, mContext,
                 "${WebService.get_activity_list}?listType=${listType}&offset=${offset}&limit=${limit}",
                 //WebService.get_activity_list + listType + "&limit=&offset=",
                 true) {
             override fun onVolleyResponse(response: String?) {
+
                 dialog.dismiss()
                 try {
+                    if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
                         var othersActivitiesResponce: GetOthersActivitiesResponce = Gson().fromJson(response, GetOthersActivitiesResponce::class.java)
@@ -265,8 +278,8 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                 /*eventBean.hasJoined = eventData.hasJoined
                 eventBean.hasAffiliatesJoined = eventData.hasAffiliatesJoined*/
                 eventBean.is_confirm = eventData.is_confirm
-              /*  eventData.childIndex = j
-                eventData.parentIndex = i*/
+                /*  eventData.childIndex = j
+                  eventData.parentIndex = i*/
                 if (eventData.is_confirm == "1") {
                     todayData.is_Confirm = true
                     activitiesBean.is_Confirm = true
@@ -455,28 +468,30 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
     }
 
     override fun onLongPress(type: String, activityPosition: Int) {
+
         actionPosition = activityPosition
         val activity = allActivityList[actionPosition!!]
-        val list: ArrayList<DialogMenu> = arrayListOf()
-
-        if (activity.type.equals("my")) {
-            list.add(DialogMenu(getString(R.string.add_date), R.drawable.ic_add_24))
-            list.add(DialogMenu(getString(R.string.remove_activity), R.drawable.ic_delete_icon))
-            if (activity.is_hide.equals("0")) {
-                list.add(DialogMenu(getString(R.string.hide_activity), R.drawable.ic_visibility_off))
-                hideUnhide = "hide"
+        if (!activity.type.equals("others")) {
+            val list: ArrayList<DialogMenu> = arrayListOf()
+            if (activity.type.equals("my")) {
+                list.add(DialogMenu(getString(R.string.add_date), R.drawable.ic_add_24))
+                list.add(DialogMenu(getString(R.string.remove_activity), R.drawable.ic_delete_icon))
+                if (activity.is_hide.equals("0")) {
+                    list.add(DialogMenu(getString(R.string.hide_activity), R.drawable.ic_visibility_off))
+                    hideUnhide = "hide"
+                } else {
+                    list.add(DialogMenu(getString(R.string.un_hide_activity), R.drawable.ic_visibility))
+                    hideUnhide = "unhide"
+                }
             } else {
-                list.add(DialogMenu(getString(R.string.un_hide_activity), R.drawable.ic_visibility))
-                hideUnhide = "unhide"
+                list.add(DialogMenu(getString(R.string.join_activity), R.drawable.ic_cards_heart))
             }
-        } else {
-            list.add(DialogMenu(getString(R.string.join_activity), R.drawable.ic_cards_heart))
-        }
 
-        val a = ItemListDialogFragment()
-        a.setInstance(this, list)
-        a.show(fragmentManager, "draj")
-        //ItemListDialogFragment.newInstance(list).show(fragmentManager, "draj")
+            val a = ItemListDialogFragment()
+            a.setInstance(this, list)
+            a.show(fragmentManager, "draj")
+            //ItemListDialogFragment.newInstance(list).show(fragmentManager, "draj")
+        }
     }
 
     override fun onItemClick(type: String, activityPosition: Int) {
@@ -500,7 +515,10 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                     .putExtra("activityId", activityId)
                     .putExtra("activityName", activityName)
                     .putExtra("clubName", clubName)
-                    .putExtra("From", "MyActivities"))
+                    .putExtra("From", "MyActivities")
+                    .putExtra("type", activitiesBean.type)
+                    .putExtra("hasAffliates", hasAffliates)
+            )
         } else {
             userId = activitiesBean.userId!!
             userName = activitiesBean.full_name!!
@@ -512,7 +530,10 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                     .putExtra("userName", userName)
                     .putExtra("userProfileImg", userProfileImg)
                     .putExtra("activityName", activityName)
-                    .putExtra("clubName", clubName))
+                    .putExtra("clubName", clubName)
+                    .putExtra("type", activitiesBean.type)
+                    .putExtra("hasAffliates", hasAffliates)
+            )
         }
     }
 
@@ -537,9 +558,9 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         when (position) {
             0 -> {
                 val activities = allActivityList[actionPosition!!]
-                if(activities.type.equals("my")){
+                if (activities.type.equals("my")) {
                     popUpAddEvents(activities)
-                }else{
+                } else {
                     if (hasAffliates == 1) {
                         getUserJoinAfiliatesList(activities.activityId!!)
                     } else {
@@ -1206,7 +1227,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
                         dialog1.dismiss()
-                        getActivitiesList()
+                        getOthersActivitiesList()
                     } else {
                         // nodataLay.visibility = View.VISIBLE
                     }

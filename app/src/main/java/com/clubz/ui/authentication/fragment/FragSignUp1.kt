@@ -42,7 +42,7 @@ class FragSignUp1 : SignupBaseFragment(), View.OnClickListener, Permission.Liste
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        otpReadPermission = Permission(activity, this)
+        otpReadPermission = Permission(activity!!, this)
         otpReadPermission.setListener(this)
     }
 
@@ -137,8 +137,9 @@ class FragSignUp1 : SignupBaseFragment(), View.OnClickListener, Permission.Liste
                     }else{
                         Toast.makeText(context,obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
+
                 }catch (ex :Exception){
-                    Toast.makeText(context,R.string.swr, Toast.LENGTH_LONG).show()
+if (context!=null)Toast.makeText(context,R.string.swr, Toast.LENGTH_LONG).show()
                 }
                 dialog.dismiss()
             }

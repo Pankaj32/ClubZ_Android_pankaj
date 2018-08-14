@@ -74,12 +74,17 @@ public class AllActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (dataBean.getType().equals("my")) {
             h.likeLay.setVisibility(View.GONE);
             h.activityType.setVisibility(View.GONE);
+        } else if (dataBean.getType().equals("others")) {
+            h.likeLay.setVisibility(View.GONE);
+            h.activityType.setVisibility(View.VISIBLE);
+            h.activityType.setText("Not scheduled");
         } else {
             h.activityType.setText(Util.Companion.toSentenceCase(dataBean.getType()));
             if (dataBean.is_like().equals("1")) {
-                h.itemLike.setImageResource(R.drawable.active_heart_ico);
+                h.likeLay.setVisibility(View.VISIBLE);
+                h.itemLike.setImageResource(R.drawable.ic_cards_heart_active);
             } else {
-                h.itemLike.setImageResource(R.drawable.inactive_heart_ico);
+                h.likeLay.setVisibility(View.GONE);
             }
         }
         if (dataBean.getEvents() == null) {
@@ -91,7 +96,7 @@ public class AllActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 h.iv_arrow_expand.setVisibility(View.VISIBLE);
             }
         }
-        h.activityType.setText(Util.Companion.toSentenceCase(dataBean.getType()));
+     //   h.activityType.setText(Util.Companion.toSentenceCase(dataBean.getType()));
     }
 
     @Override

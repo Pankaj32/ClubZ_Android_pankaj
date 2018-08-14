@@ -43,7 +43,6 @@ public class SmsReceiver extends BroadcastReceiver {
                         if (filter != null && !message.matches(filter)) {
                             return;
                         }
-
                         if (callback != null) {
                             callback.onSmsCatch(message);
                         }

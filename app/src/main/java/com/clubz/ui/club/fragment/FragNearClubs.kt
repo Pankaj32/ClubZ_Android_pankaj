@@ -64,6 +64,7 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
         adapter = MyClubListAdapter(clubList, context!!, this)
         list_recycler.adapter = adapter
         swipeRefreshLayout.setOnRefreshListener(this)
+      //  list_recycler.getRecycledViewPool().clear();
         clubList.clear()
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
@@ -91,6 +92,7 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
 
 
     override fun onRefresh() {
+       // list_recycler.getRecycledViewPool().clear();
         clubList.clear()
         pageListner?.resetState()
         getNearByClubs()
@@ -98,6 +100,7 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
     }
 
     fun refreshList(){
+        //list_recycler.getRecycledViewPool().clear();
         clubList.clear()
         pageListner?.resetState()
         getNearByClubs()

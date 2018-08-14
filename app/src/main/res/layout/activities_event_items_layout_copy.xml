@@ -21,6 +21,8 @@
             android:id="@+id/eventDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingTop="@dimen/_5sdp"
             android:text="APR 25"
             android:textColor="@color/nav_gray"
             android:textSize="13sp" />
@@ -29,6 +31,9 @@
             android:id="@+id/eventTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingBottom="@dimen/_5sdp"
+            android:paddingTop="@dimen/_2sdp"
             android:text="10:30 am"
             android:textColor="@color/hint_color_gray"
             android:textSize="11sp" />
@@ -36,7 +41,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical">
 
         <LinearLayout
@@ -63,9 +68,12 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:maxLines="1"
+                android:paddingBottom="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
                 android:text="Confirmed"
                 android:textColor="@color/primaryColor"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:visibility="visible" />
         </LinearLayout>
 
         <ImageView

@@ -17,11 +17,13 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
     lateinit var adapter: ViewPagerAdapter
     private var activityId = ""
     private var from = ""
+    private var type = ""
     private var userId = ""
     private var userName = ""
     private var userProfileImg = ""
     private var activityName = ""
     private var clubName = ""
+    private var hasAffliates = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activities_details)
@@ -31,6 +33,8 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
             activityName = bundle.getString("activityName")
             clubName = bundle.getString("clubName")
             from = bundle.getString("From")
+            type = bundle.getString("type")
+            hasAffliates = bundle.getInt("hasAffliates")
         }
 
         if (from.equals("OthersActivity")) {
@@ -51,11 +55,11 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
         adapter = ViewPagerAdapter(supportFragmentManager)
         if (from.equals("MyActivities")) {
             /*adapter.addFragment(FragActivitiesDetails.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")*/
-            adapter.addFragment(FragActivityDetailsNew.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")
+            adapter.addFragment(FragActivityDetailsNew.newInstance(activityId, type,hasAffliates), resources.getString(R.string.a_activity_first_tab), " This is First")
             adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Second")
         } else {
             //   adapter.addFragment(FragActivitiesDetails.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")
-            adapter.addFragment(FragActivityDetailsNew.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")
+            adapter.addFragment(FragActivityDetailsNew.newInstance(activityId, type,hasAffliates), resources.getString(R.string.a_activity_first_tab), " This is First")
             adapter.addFragment(FragmentChat.newInstanceActivityChat(activityId), resources.getString(R.string.a_activity_snd_tab), " This is second")
             adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Third")
         }

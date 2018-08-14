@@ -30,12 +30,12 @@ import org.json.JSONObject
 import java.util.ArrayList
 
 
-class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, MyClub {
+class FragMyClubs : Fragment(), View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, MyClub {
 
-    private var adapter  : MyClubListAdapter? = null
-    private var clubList : ArrayList<Clubs> = arrayListOf()
-    private var listner  : MyClubInteraction? = null
-    private var pageListner : RecyclerViewScrollListener? = null
+    private var adapter: MyClubListAdapter? = null
+    private var clubList: ArrayList<Clubs> = arrayListOf()
+    private var listner: MyClubInteraction? = null
+    private var pageListner: RecyclerViewScrollListener? = null
 
     override fun onClick(v: View?) {
 
@@ -62,15 +62,15 @@ class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefr
         adapter = MyClubListAdapter(clubList, context!!, this)
         list_recycler.adapter = adapter
 
-        val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         list_recycler.itemAnimator = null
         list_recycler.layoutManager = lm
         list_recycler.setHasFixedSize(true)
 
         pageListner = object : RecyclerViewScrollListener(lm) {
-            override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) { }
+            override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) {}
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                getMyClubs("",page*10,false)
+                getMyClubs("", page * 10, false)
             }
         }
 
@@ -87,7 +87,7 @@ class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefr
         pageListner = null
     }
 
-    fun refreshList(){
+    fun refreshList() {
         pageListner?.resetState()
         clubList.clear()
         getMyClubs()
@@ -107,66 +107,70 @@ class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefr
         swipeRefreshLayout.isRefreshing = false
     }
 
-    fun updateAdapter(club : Clubs){
+    fun updateAdapter(club: Clubs) {
         clubList.add(club)
-        if(clubList.size>0){
+        if (clubList.size > 0) {
             noFeedMsgUI.visibility = View.GONE
             swipeRefreshLayout.visibility = View.VISIBLE
-        }else {
+        } else {
             noFeedMsgUI.visibility = View.VISIBLE
             swipeRefreshLayout.visibility = View.GONE
         }
         adapter?.notifyDataSetChanged()
     }
 
-    fun getMyClubs(text : String = "", offset :Int = 0, showProgress : Boolean = true){  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
-        val dialog = CusDialogProg(activity )
-        if(showProgress)dialog.show()
+    fun getMyClubs(text: String = "", offset: Int = 0, showProgress: Boolean = true) {  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
+        val dialog = CusDialogProg(activity)
+        if (showProgress) dialog.show()
 
-        object : VolleyGetPost(activity , activity, WebService.club_my_clubs, false){
+        object : VolleyGetPost(activity, activity, WebService.club_my_clubs, false) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
                     val obj = JSONObject(response)
-                    if(obj.getString("status") == "success"){
+                    if (obj.getString("status") == "success") {
                         clubList.addAll(Gson().fromJson<ArrayList<Clubs>>(obj.getString("data"), Type_Token.club_list))
                     }
 
-                    if(clubList.size>0){
+                    if (clubList.size > 0) {
                         noFeedMsgUI.visibility = View.GONE
                         swipeRefreshLayout.visibility = View.VISIBLE
-                    }else {
+                    } else {
                         noFeedMsgUI.visibility = View.VISIBLE
                         swipeRefreshLayout.visibility = View.GONE
                     }
                     adapter?.notifyDataSetChanged()
-                }catch (ex: Exception){
+                } catch (ex: Exception) {
                     ex.printStackTrace()
                 }
             }
 
-            override fun onVolleyError(error: VolleyError?) { dialog.dismiss() }
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
 
-            override fun onNetError() { dialog.dismiss() }
+            override fun onNetError() {
+                dialog.dismiss()
+            }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["searchText"] = text
                 params["offset"] = offset.toString()
-                params["limit"]= "10"
+                params["limit"] = "10"
                 params["clubType"] = ClubZ.isPrivate.toString()
                 return params
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params["authToken"] = SessionManager.getObj().user.auth_token
+                params["authToken"] = ClubZ.currentUser!!.auth_token
                 params["language"] = SessionManager.getObj().language
-                return  params
+                return params
             }
         }.execute()
     }
 
 
-    override fun onSilenceClub(club: Clubs, position : Int) {
+    override fun onSilenceClub(club: Clubs, position: Int) {
         val dialog = CusDialogProg(context)
         dialog.show()
         object : VolleyGetPost(activity, WebService.club_silence, false) {
@@ -177,7 +181,8 @@ class FragMyClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefr
                     if (obj.getString("status") == "success") {
 
                     }
-                } catch (ex: Exception) { }
+                } catch (ex: Exception) {
+                }
             }
 
             override fun onVolleyError(error: VolleyError?) {

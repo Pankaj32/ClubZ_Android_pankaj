@@ -334,7 +334,7 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
             }
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("authToken", SessionManager.getObj().user.auth_token)
+                params.put("authToken", ClubZ.currentUser!!.auth_token)
                 return  params
             }
         }.execute()
