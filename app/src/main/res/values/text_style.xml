@@ -59,12 +59,12 @@
 
 
     <style name="tvStyle" parent="Widget.Design.TextInputLayout">
-        <item name="android:textColor">@color/icon_tint</item>
+        <item name="android:textColor">@color/sixty_black</item>
         <item name="android:textColorHint">@color/hint_color</item>
         <item name="colorAccent">@color/hint_color</item>
-        <item name="colorControlNormal">@color/icon_tint</item>
+        <item name="colorControlNormal">@color/hint_color</item>
         <item name="colorControlActivated">@color/hint_color</item>
-        <item name="colorControlHighlight">@color/icon_tint</item>
+        <item name="colorControlHighlight">@color/hint_color</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 

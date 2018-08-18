@@ -62,10 +62,12 @@ public class AllActivitiesEventsAdapter extends RecyclerView.Adapter<RecyclerVie
         }
         if (eventsBean.is_confirm().equals("0")) {
             h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.nav_gray));
-            h.confirmTxt.setVisibility(View.GONE);
+            //h.confirmTxt.setVisibility(View.GONE);
+            h.confirmTxt.setText("");
         } else if (eventsBean.is_confirm().equals("1")) {
             h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.primaryColor));
-            h.confirmTxt.setVisibility(View.VISIBLE);
+           // h.confirmTxt.setVisibility(View.VISIBLE);
+            h.confirmTxt.setText("Confirmed");
         }
     }
 

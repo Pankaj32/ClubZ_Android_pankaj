@@ -14,34 +14,40 @@
         android:layout_width="@dimen/_60sdp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/eventDate"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_regular"
-            android:paddingTop="@dimen/_5sdp"
-            android:text="APR 25"
-            android:textColor="@color/nav_gray"
-            android:textSize="13sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/eventTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_regular"
-            android:paddingBottom="@dimen/_5sdp"
-            android:paddingTop="@dimen/_2sdp"
-            android:text="10:30 am"
-            android:textColor="@color/hint_color_gray"
-            android:textSize="11sp" />
+            <TextView
+                android:id="@+id/eventDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+
+                android:text="APR 25"
+                android:textColor="@color/nav_gray"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/eventTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingBottom="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:text="10:30 am"
+                android:textColor="@color/hint_color_gray"
+                android:textSize="11sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical">
 
         <LinearLayout
@@ -70,7 +76,7 @@
                 android:maxLines="1"
                 android:paddingBottom="@dimen/_5sdp"
                 android:paddingTop="@dimen/_2sdp"
-                android:text="Confirmed"
+                android:text=""
                 android:textColor="@color/primaryColor"
                 android:textSize="13sp"
                 android:visibility="visible" />
@@ -79,10 +85,10 @@
         <ImageView
             android:id="@+id/imgCheck"
             android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_18sdp"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
             android:tint="@color/primaryColor"
             app:srcCompat="@drawable/ic_checkbox" />
 
@@ -91,8 +97,7 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_below="@id/content"
-            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_alignParentBottom="true"
             android:background="@color/color_Light_Green"
             android:progressTint="@color/primaryColor" />
     </RelativeLayout>

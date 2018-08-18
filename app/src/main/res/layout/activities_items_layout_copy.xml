@@ -60,51 +60,64 @@
 
                 <LinearLayout
                     android:id="@+id/nameLay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_toRightOf="@id/imgLay"
+                    android:gravity="center_vertical"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/activityName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/teko_semibold"
-                        android:text="FootBall Class"
-                        android:textColor="@color/nav_gray"
-                        android:textSize="@dimen/_16sdp" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/clubName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/teko_regular"
-                        android:text="Club's name"
-                        android:textColor="@color/nav_gray"
-                        android:textSize="@dimen/_14sdp" />
+                        <TextView
+                            android:id="@+id/activityName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/teko_semibold"
+                            android:text="FootBall Class"
+                            android:textColor="@color/eighty_black"
+                            android:textSize="@dimen/_16sdp" />
+
+                        <TextView
+                            android:id="@+id/activityType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="bfsdfhhfgd"
+                            android:textColor="@color/primaryColor"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/clubName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Club's name"
+                            android:textColor="@color/nav_gray"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <ImageView
+                            android:id="@+id/iv_arrow_expand"
+                            android:layout_width="@dimen/_22sdp"
+                            android:layout_height="@dimen/_22sdp"
+                            android:layout_alignParentRight="true"
+
+                            android:layout_marginRight="@dimen/_10sdp"
+                            app:srcCompat="@drawable/ic_event_down_arrow" />
+                    </RelativeLayout>
+
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/activityType"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/nav_gray"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/iv_arrow_expand"
-                    android:layout_width="@dimen/_25sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    app:srcCompat="@drawable/ic_event_down_arrow" />
             </RelativeLayout>
 
             <View

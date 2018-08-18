@@ -69,11 +69,12 @@ class FragActivityDetailsNew : Fragment() {
         }
         imgLike.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                if (type != "my" && type != "others") {
+//                if (type != "my" && type != "others") {
+                if (type.equals("others")) {
                     if (hasAffliates == 1) {
                         getUserJoinAfiliatesList(activityId)
                     } else {
-                        Util.showSnake(mContext!!, snakLay!!, R.string.d_no_affiliates)
+                        joinActivity(activityId, "", userId)
                     }
                 }
             }
@@ -193,9 +194,6 @@ class FragActivityDetailsNew : Fragment() {
         }
         if (activityDetails?.getData()?.leader_name?.isNotEmpty()!!) {
             activityLeader.text = activityDetails?.getData()?.leader_name
-            // leader.text = "Leader"
-        } else {
-            // leaderLay.visibility = View.GONE
         }
         if (activityDetails?.getData()?.location.isNullOrEmpty()) {
             activityLocation.text = "Not Available"
@@ -206,31 +204,17 @@ class FragActivityDetailsNew : Fragment() {
         feeType.text = activityDetails?.getData()?.fee_type
         if (activityDetails?.getData()?.fee_type.equals("Free")) {
             fee.visibility = View.GONE
-            //feeView.visibility = View.GONE
         }
-        /*maxMinUser.text = String().format(getString(R.string.max_min_text),
-                activityDetails?.getData()?.max_users, activityDetails?.getData()?.min_users)*/
+
         maxUser.text = activityDetails?.getData()?.max_users
         minUser.text = activityDetails?.getData()?.min_users
-        // userLikeCount.text=activityDetails?.getData()?.totalUser+" "+getString(R.string.users)
-        if (activityDetails?.getData()?.totalUser?.toInt()!! > 0) {
+        if (type.equals("my")) {
             imgLike.setImageResource(R.drawable.active_heart_ico)
-        }
-        /*if (activityDetails?.getData()?.next_event == null) {
-            nextLay.visibility = View.GONE
-            noNextTxt.visibility = View.VISIBLE
         } else {
-            eventTitle.text = activityDetails?.getData()?.next_event?.event_title
-            eventDate.text = activityDetails?.getData()?.next_event?.event_date
-            eventLocation.text = activityDetails?.getData()?.next_event?.location
-            eventTime.text = Util.setTimeFormat(activityDetails?.getData()?.next_event?.event_time!!)
-            if (activityDetails?.getData()?.next_event?.description?.isNotEmpty()!!) {
-                eventDesc.text = activityDetails?.getData()?.next_event?.description
-            } else {
-                eventDesc.text = "not available"
+            if (activityDetails?.getData()?.totalUser?.toInt()!! > 0) {
+                imgLike.setImageResource(R.drawable.active_heart_ico)
             }
-
-        }*/
+        }
         activityDesc.text = activityDetails?.getData()?.description
         username.text = activityDetails?.getData()?.creator_name
         if (activityDetails?.getData()?.creator_profile_image?.isNotEmpty()!!) {
@@ -241,7 +225,6 @@ class FragActivityDetailsNew : Fragment() {
             image_member2.background = ContextCompat.getDrawable(mContext!!, R.drawable.bg_circle_blue)
             image_member2.setImageResource(R.drawable.ic_user_shape)
         }
-        //  usrerole.text = activityDetails.getData()?.user_role
     }
 
     private fun getUserJoinAfiliatesList(activityId: String) {
@@ -367,7 +350,7 @@ class FragActivityDetailsNew : Fragment() {
     fun joinActivity(activityId: String,
                      affiliateId: String,
                      userId: String,
-                     dialog1: Dialog) {
+                     dialog1: Dialog? = null) {
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
@@ -381,7 +364,7 @@ class FragActivityDetailsNew : Fragment() {
 
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
-                        dialog1.dismiss()
+                        dialog1?.dismiss()
                         getActivityDetails()
                     } else {
                         // nodataLay.visibility = View.VISIBLE

@@ -82,6 +82,7 @@
 
     <string name="t_find_activities"> Find activities </string>
     <string name="t_new_activity"> New Activity </string>
+    <string name="t_set_notification"> Set Notification </string>
     <string name="my_activity"> My activities </string>
     <string name="others_activity"> Others activities </string>
     <string name="t_content"> Content </string>

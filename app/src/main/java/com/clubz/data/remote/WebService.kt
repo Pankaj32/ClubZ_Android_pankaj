@@ -44,6 +44,7 @@ class WebService {
         val get_my_club= base_Url+"service/club/myCreatedClubsName"
         val create_activity= base_Url+"service/activity/createActivity"
         val get_my_activity_list= base_Url+"service/activity/myActivityList"
+        val get_all_activity_list= base_Url+"service/activity/activityListNew"
         val get_activity_list= base_Url+"service/activity/activityList"
         val deleteMyActivity= base_Url+"service/activity/deleteActivity"
         val hideMyActivity= base_Url+"service/activity/hideActivity"

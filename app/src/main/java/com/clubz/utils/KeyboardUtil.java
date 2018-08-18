@@ -97,6 +97,6 @@ public class KeyboardUtil {
         if (act != null && act.getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) act.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(act.getCurrentFocus().getWindowToken(), 0);
-        }
+            }
     }
 }

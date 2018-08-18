@@ -53,16 +53,14 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
 
     fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
-        if (from.equals("MyActivities")) {
-            /*adapter.addFragment(FragActivitiesDetails.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")*/
+       /* if (from.equals("MyActivities")) {
             adapter.addFragment(FragActivityDetailsNew.newInstance(activityId, type,hasAffliates), resources.getString(R.string.a_activity_first_tab), " This is First")
             adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Second")
-        } else {
-            //   adapter.addFragment(FragActivitiesDetails.newInstance(activityId), resources.getString(R.string.a_activity_first_tab), " This is First")
+        } else {*/
             adapter.addFragment(FragActivityDetailsNew.newInstance(activityId, type,hasAffliates), resources.getString(R.string.a_activity_first_tab), " This is First")
             adapter.addFragment(FragmentChat.newInstanceActivityChat(activityId), resources.getString(R.string.a_activity_snd_tab), " This is second")
             adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Third")
-        }
+      //  }
         viewPager.adapter = adapter
         //Chiranjib
     }

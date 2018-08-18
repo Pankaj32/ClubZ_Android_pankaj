@@ -126,8 +126,7 @@
                                 android:maxLength="50"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                android:textColor="@color/nav_gray"
-                                android:textColorHint="@color/nav_gray" />
+                                />
 
                         </android.support.design.widget.TextInputLayout>
                     </RelativeLayout>
@@ -190,9 +189,9 @@
 
                             <View
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_1sdp"
+                                android:layout_height=".9dp"
                                 android:layout_below="@id/spinnerLeader"
-                                android:background="@color/nav_gray" />
+                                android:background="@color/hint_color" />
                         </RelativeLayout>
 
                     </LinearLayout>
@@ -216,17 +215,20 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="@dimen/_6sdp"
                             android:layout_toEndOf="@id/dolrImg"
                             android:weightSum="1">
-
+<RelativeLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight=".5"
+    android:paddingLeft="@dimen/_2sdp">
                             <RelativeLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".5"
                                 android:paddingLeft="@dimen/_2sdp"
-                                android:paddingEnd="3dp">
+                                android:layout_alignParentBottom="true">
 
                                 <TextView
                                     android:id="@+id/tv_feeTypeHint"
@@ -259,19 +261,19 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_1sdp"
+                                    android:layout_height=".9dp"
                                     android:layout_below="@id/spinnerFeesType"
                                     android:layout_marginBottom="@dimen/_8sdp"
-
-                                    android:background="@color/nav_gray" />
+                                    android:background="@color/hint_color" />
                             </RelativeLayout>
-
+</RelativeLayout>
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight=".5"
                                 android:gravity="bottom"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:paddingBottom="1dp">
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -302,10 +304,6 @@
 
                                 </RelativeLayout>
 
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_1sdp"
-                                    android:layout_marginLeft="@dimen/_6sdp" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -418,17 +416,17 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
+                            android:layout_height=".9dp"
                             android:layout_below="@id/activityLocation"
                             android:layout_toEndOf="@+id/locationImage"
-                            android:background="@color/nav_gray" />
+                            android:background="@color/hint_color" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
                         android:gravity="center_vertical">
 
                         <android.support.v7.widget.AppCompatImageView
@@ -444,8 +442,6 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
-                            android:layout_marginTop="@dimen/_5sdp"
                             android:layout_toEndOf="@id/userImg"
                             android:weightSum="1">
 
@@ -464,7 +460,7 @@
                                     <EditText
                                         android:id="@+id/minUser"
                                         android:layout_width="match_parent"
-                                        android:layout_height="@dimen/_30sdp"
+                                        android:layout_height="wrap_content"
                                         style="@style/EditText.ClubCreation"
                                         android:fontFamily="@font/roboto_regular"
                                         android:hint="@string/hint_min_user"
@@ -498,7 +494,7 @@
                                         <EditText
                                             android:id="@+id/maxUser"
                                             android:layout_width="match_parent"
-                                            android:layout_height="@dimen/_30sdp"
+                                            android:layout_height="wrap_content"
                                             style="@style/EditText.ClubCreation"
                                             android:fontFamily="@font/roboto_regular"
                                             android:hint="@string/hint_max_user"
@@ -603,16 +599,17 @@
 
                     <RelativeLayout
                         android:id="@+id/rtv_leadby"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_8sdp">
+                        >
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/image_member2"
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="@dimen/_40sdp"
                             android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
                             android:background="@drawable/bg_circle_blue"
                             app:siBorderColor="@color/text_gray"
                             app:siBorderWidth="@dimen/_1sdp"
@@ -622,9 +619,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/_8sdp"
                             android:layout_toStartOf="@+id/image_member2"
-                            android:gravity="end|center"
+
                             android:orientation="vertical">
 
                             <android.support.v7.widget.AppCompatTextView
@@ -638,9 +636,10 @@
 
                             <EditText
                                 android:id="@+id/usrerole"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@null"
+                                android:gravity="end"
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:enabled="false"
                                 android:fontFamily="@font/roboto_light"

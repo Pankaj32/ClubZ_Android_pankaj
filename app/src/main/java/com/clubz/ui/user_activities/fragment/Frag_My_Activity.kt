@@ -20,6 +20,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
@@ -30,13 +31,12 @@ import com.clubz.data.model.DialogMenu
 import com.clubz.data.remote.WebService
 import com.clubz.ui.activities.fragment.ItemListDialogFragment
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.user_activities.activity.ActivitiesDetails
-import com.clubz.ui.user_activities.adapter.AllActivitiesAdapter
-import com.clubz.ui.user_activities.adapter.ConfirmAffiliatesAdapter
-import com.clubz.ui.user_activities.adapter.JoinAffiliatesAdapter
-import com.clubz.ui.user_activities.adapter.MyActivitiesAdapter
+import com.clubz.ui.user_activities.adapter.*
 import com.clubz.ui.user_activities.listioner.ActivityItemClickListioner
 import com.clubz.ui.user_activities.model.*
+import com.clubz.utils.KeyboardUtil
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.android.gms.common.GoogleApiAvailability
@@ -51,24 +51,24 @@ import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 
-// TODO: Rename parameter arguments, choose names that match
-
 
 class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogFragment.Listener, SwipeRefreshLayout.OnRefreshListener {
     override fun onRefresh() {
-        if (isMyState) {
+        /*if (isMyState) {
             getActivitiesList()
         } else {
             getOthersActivitiesList()
-        }
+        }*/
+        pageListner?.resetState()
+        getAllActivitiesList(isPull = true)
     }
 
-    // TODO: Rename and change types of parameters
-
-    private var todayAdapter: MyActivitiesAdapter? = null
+    private var pageListner: RecyclerViewScrollListener? = null
     private var allActivitiesAdapter: AllActivitiesAdapter? = null
-    private var todayList: List<GetMyactivitiesResponce.DataBean>? = null
+    private var activitiesAdapter: ActivitiesAdapter? = null
     private val allActivityList = ArrayList<AllActivitiesBean.DataBean>()
+    private var tempuraryActivityList = ArrayList<ActivitiesBean.DataBean>()
+    private var activityList = ArrayList<ActivitiesBean.DataBean>()
     private var actionPosition: Int? = null
     private var hideUnhide: String? = null
     private var height: Int = 0
@@ -87,8 +87,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
     private var userId: String = ""
     private var userName: String = ""
     private var userImage: String = ""
-
-    public var isMyState = false
+    var isMyActivity: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,15 +115,23 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         userImage = ClubZ.currentUser!!.profile_image
         swiperefresh.setOnRefreshListener(this)
 
-    }
+        val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerViewMyActivities.itemAnimator = null
+        recyclerViewMyActivities.layoutManager = lm
+        recyclerViewMyActivities.setHasFixedSize(true)
 
-    override fun onResume() {
-        super.onResume()
-        if (isMyState) {
-            getActivitiesList()
-        } else {
-            getOthersActivitiesList()
+        nodataLay.visibility = if (activityList.isEmpty()) View.VISIBLE else View.GONE
+        activitiesAdapter = ActivitiesAdapter(mContext, activityList, this)
+        recyclerViewMyActivities.adapter = activitiesAdapter
+
+        pageListner = object : RecyclerViewScrollListener(lm) {
+            override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) {}
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                getAllActivitiesList(offset = page * 10)
+            }
         }
+        recyclerViewMyActivities.addOnScrollListener(pageListner)
+        getAllActivitiesList()
     }
 
     override fun onAttach(context: Context) {
@@ -186,6 +193,58 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
             }
         }.execute(Frag_My_Activity::class.java.name)
     }
+
+
+    fun getAllActivitiesList(listType: String = "", limit: String = "10", offset: Int = 0, isPull: Boolean? = false) {
+        val dialog = CusDialogProg(mContext)
+        if (!swiperefresh.isRefreshing) dialog.show()
+        //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
+        object : VolleyGetPost(mContext,
+                "${WebService.get_all_activity_list}?listType=${listType}&offset=${offset}&limit=${limit}", true)
+        //WebService.get_activity_list + listType + "&limit=&offset=",
+        {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
+                    dialog.dismiss()
+
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+                        val activityBean: ActivitiesBean = Gson().fromJson(response, ActivitiesBean::class.java)
+                        hasAffliates = activityBean.hasAffiliates!!
+                        updateAllUiOthers(activityBean, isPull)
+                    } else {
+                        nodataLay.visibility = View.VISIBLE
+                    }
+                    // searchAdapter?.notifyDataSetChanged()
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                /*params.put("listType", listType)
+                params.put("offset", offset.toString())
+                params.put("limit", limit)*/
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                Log.e("Auth:", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }.execute(Frag_My_Activity::class.java.name)
+    }
+
 
     fun getOthersActivitiesList(listType: String = "", limit: String = "", offset: String = "") {
 
@@ -467,31 +526,57 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
 
     }
 
+
+    private fun updateAllUiOthers(activityBean: ActivitiesBean, pull: Boolean?) {
+        activityList.clear()
+        if (pull!!) {
+            tempuraryActivityList.clear()
+            activitiesAdapter?.notifyDataSetChanged()
+        }
+        for (dataBean in activityBean.data!!) {
+            if (dataBean.is_my_activity.equals("0")) {
+                if (dataBean.is_hide.equals("0")) tempuraryActivityList.add(dataBean)
+            } else {
+                tempuraryActivityList.add(dataBean)
+            }
+        }
+        if (isMyActivity) {
+            for (dataBean in tempuraryActivityList) {
+                if (dataBean.is_my_activity.equals("1")) activityList.add(dataBean)
+            }
+        } else {
+            activityList.addAll(tempuraryActivityList)
+        }
+        nodataLay.visibility = if (activityList.isEmpty()) View.VISIBLE else View.GONE
+        activitiesAdapter?.notifyDataSetChanged()
+    }
+
+
     override fun onLongPress(type: String, activityPosition: Int) {
 
         actionPosition = activityPosition
-        val activity = allActivityList[actionPosition!!]
-        if (!activity.type.equals("others")) {
-            val list: ArrayList<DialogMenu> = arrayListOf()
-            if (activity.type.equals("my")) {
-                list.add(DialogMenu(getString(R.string.add_date), R.drawable.ic_add_24))
-                list.add(DialogMenu(getString(R.string.remove_activity), R.drawable.ic_delete_icon))
-                if (activity.is_hide.equals("0")) {
-                    list.add(DialogMenu(getString(R.string.hide_activity), R.drawable.ic_visibility_off))
-                    hideUnhide = "hide"
-                } else {
-                    list.add(DialogMenu(getString(R.string.un_hide_activity), R.drawable.ic_visibility))
-                    hideUnhide = "unhide"
-                }
-            } else {
-                list.add(DialogMenu(getString(R.string.join_activity), R.drawable.ic_cards_heart))
-            }
+        val activity = activityList[actionPosition!!]
 
-            val a = ItemListDialogFragment()
-            a.setInstance(this, list)
-            a.show(fragmentManager, "draj")
-            //ItemListDialogFragment.newInstance(list).show(fragmentManager, "draj")
+        val list: ArrayList<DialogMenu> = arrayListOf()
+        if (activity.is_my_activity.equals("1")) {
+            list.add(DialogMenu(getString(R.string.add_date), R.drawable.ic_add_24))
+            list.add(DialogMenu(getString(R.string.remove_activity), R.drawable.ic_delete_icon))
+            if (activity.is_hide.equals("0")) {
+                list.add(DialogMenu(getString(R.string.hide_activity), R.drawable.ic_visibility_off))
+                hideUnhide = "hide"
+            } else {
+                list.add(DialogMenu(getString(R.string.un_hide_activity), R.drawable.ic_visibility))
+                hideUnhide = "unhide"
+            }
+        } else {
+            list.add(DialogMenu(getString(R.string.join_activity), R.drawable.ic_cards_heart))
         }
+
+        val a = ItemListDialogFragment()
+        a.setInstance(this, list)
+        a.show(fragmentManager, "draj")
+        //ItemListDialogFragment.newInstance(list).show(fragmentManager, "draj")
+
     }
 
     override fun onItemClick(type: String, activityPosition: Int) {
@@ -503,20 +588,20 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         var userId = ""
         var userName = ""
         var userProfileImg = ""
-        val activitiesBean = allActivityList.get(activityPosition);
+        val activitiesBean = activityList.get(activityPosition);
 
         activityId = activitiesBean.activityId!!
         activityName = activitiesBean.activityName!!
         clubName = activitiesBean.club_name!!
         //other
 
-        if (activitiesBean.type.equals("my")) {
+        if (activitiesBean.is_my_activity.equals("1")) {
             startActivity(Intent(mContext, ActivitiesDetails::class.java)
                     .putExtra("activityId", activityId)
                     .putExtra("activityName", activityName)
                     .putExtra("clubName", clubName)
                     .putExtra("From", "MyActivities")
-                    .putExtra("type", activitiesBean.type)
+                    .putExtra("type", "my")
                     .putExtra("hasAffliates", hasAffliates)
             )
         } else {
@@ -531,7 +616,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                     .putExtra("userProfileImg", userProfileImg)
                     .putExtra("activityName", activityName)
                     .putExtra("clubName", clubName)
-                    .putExtra("type", activitiesBean.type)
+                    .putExtra("type", "others")
                     .putExtra("hasAffliates", hasAffliates)
             )
         }
@@ -542,11 +627,11 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
     }
 
     override fun onConfirm(type: String, activityPosition: Int, eventPosition: Int) {
-        val activitiesBean = allActivityList.get(activityPosition)
-        val eventBean = activitiesBean.events.get(eventPosition)
-        if (!activitiesBean.type!!.equals("my")) {
-            if (eventBean.hasJoined.equals("1")) {
-                getUserConfirmAfiliatesList(activitiesBean.activityId!!, eventBean.activityEventId!!)
+        val activitiesBean = activityList.get(activityPosition)
+        val eventBean = activitiesBean.events?.get(eventPosition)
+        if (!activitiesBean.is_my_activity!!.equals("1")) {
+            if (eventBean?.hasJoined.equals("1")) {
+                getUserConfirmAfiliatesList(activitiesBean.activityId!!, eventBean?.activityEventId!!)
             } else {
                 Util.showSnake(mContext!!, snakLay!!, R.string.d_cant_join)
             }
@@ -557,14 +642,14 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
     override fun onItemClicked(position: Int) {
         when (position) {
             0 -> {
-                val activities = allActivityList[actionPosition!!]
-                if (activities.type.equals("my")) {
+                val activities = activityList[actionPosition!!]
+                if (activities.is_my_activity.equals("1")) {
                     popUpAddEvents(activities)
                 } else {
                     if (hasAffliates == 1) {
                         getUserJoinAfiliatesList(activities.activityId!!)
                     } else {
-                        Util.showSnake(mContext!!, snakLay!!, R.string.d_no_affiliates)
+                        joinActivity(activities.activityId!!, "", userId)
                     }
                 }
             }
@@ -581,7 +666,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
     }
 
     var dialog: Dialog? = null
-    private fun popUpAddEvents(activities: AllActivitiesBean.DataBean) {
+    private fun popUpAddEvents(activities: ActivitiesBean.DataBean) {
         if (dialog == null) {
             dialog = Dialog(mContext)
             dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -615,15 +700,29 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                 val dese = descTxt.text.toString().trim()
                 if (isvaildDataToSend(eventNameTxt, addDateTxt, addTimeTxt, locationTxt, containerLay)) addEvent(eventTitle, eventDate, eventTime, location, activities.activityId!!, dese)
             })
-            datelay.setOnClickListener { datePicker(day, month, year, addDateTxt) }
-            timeLay.setOnClickListener { timePicker(addTimeTxt) }
-            loctionLay.setOnClickListener { openAutocompleteActivity() }
+            datelay.setOnClickListener {
+                hideDialogKeyBoard()
+                datePicker(day, month, year, addDateTxt)
+            }
+            timeLay.setOnClickListener {
+                hideDialogKeyBoard()
+                timePicker(addTimeTxt)
+            }
+            loctionLay.setOnClickListener {
+                hideDialogKeyBoard()
+                openAutocompleteActivity()
+            }
 
             dialog!!.setOnDismissListener { dialogInterface ->
                 dialog = null
             }
         }
         dialog?.show()
+    }
+
+    private fun hideDialogKeyBoard() {
+        val inputManager = dialog!!.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(dialog!!.currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
     private fun showConfirmationDialog(action: String) {
@@ -635,11 +734,11 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
             builder1.setPositiveButton("Ok", { dialog, id ->
                 when (action) {
                     "remove" -> {
-                        deleteMyActivity(todayList!![actionPosition!!].activityId!!)
+                        deleteMyActivity(activityList[actionPosition!!].activityId!!)
                     }
                     "hide",
                     "unhide" -> {
-                        hideMyActivity(todayList!![actionPosition!!].activityId!!)
+                        hideMyActivity(activityList[actionPosition!!].activityId!!)
                     }
                 }
             })
@@ -670,7 +769,8 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
 
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
-                        getActivitiesList()
+                        pageListner?.resetState()
+                        getAllActivitiesList(isPull = true)
                     }
                     // searchAdapter?.notifyDataSetChanged()
                 } catch (ex: Exception) {
@@ -712,7 +812,8 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
 
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
-                        getActivitiesList()
+                        pageListner?.resetState()
+                        getAllActivitiesList(isPull = true)
                     }
                     // searchAdapter?.notifyDataSetChanged()
                 } catch (ex: Exception) {
@@ -861,7 +962,8 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
                         dialog?.dismiss()
-                        getActivitiesList()
+                        pageListner?.resetState()
+                        getAllActivitiesList(isPull = true)
                     } else {
                         nodataLay.visibility = View.VISIBLE
                     }
@@ -1151,12 +1253,12 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         })
     }
 
-    fun confirmActivity(activityId: String,
-                        affiliateId: String,
-                        activityEventId: String,
-                        userId: String,
-                        dialog1: Dialog,
-                        showSnack: RelativeLayout) {
+    private fun confirmActivity(activityId: String,
+                                affiliateId: String,
+                                activityEventId: String,
+                                userId: String,
+                                dialog1: Dialog,
+                                showSnack: RelativeLayout) {
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
@@ -1172,8 +1274,8 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                     var msg = obj.getString("message")
                     if (obj.getString("status").equals("success")) {
                         dialog1.dismiss()
-                        //getActivitiesList()
-                        getOthersActivitiesList()
+                        pageListner?.resetState()
+                        getAllActivitiesList(isPull = true)
                     } else {
                         Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show()
                         //   Snackbar.make(showSnack, msg, Snackbar.LENGTH_LONG).show()
@@ -1209,10 +1311,10 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         }.execute(Frag_Find_Activities::class.java.name)
     }
 
-    fun joinActivity(activityId: String,
-                     affiliateId: String,
-                     userId: String,
-                     dialog1: Dialog) {
+    private fun joinActivity(activityId: String,
+                             affiliateId: String,
+                             userId: String,
+                             dialog1: Dialog? = null) {
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
@@ -1226,8 +1328,9 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
 
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
-                        dialog1.dismiss()
-                        getOthersActivitiesList()
+                        dialog1?.dismiss()
+                        pageListner?.resetState()
+                        getAllActivitiesList(isPull = true)
                     } else {
                         // nodataLay.visibility = View.VISIBLE
                     }
@@ -1259,8 +1362,23 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         }.execute(Frag_Find_Activities::class.java.name)
     }
 
-    companion object {
+    fun doFilter() {
+        activityList.clear()
+        activitiesAdapter?.notifyDataSetChanged()
+        if (isMyActivity) {
+            isMyActivity = false
+            activityList.addAll(tempuraryActivityList)
+        } else {
+            isMyActivity = true
+            for (dataBean in tempuraryActivityList) {
+                if (dataBean.is_my_activity.equals("1")) activityList.add(dataBean)
+            }
+        }
+        nodataLay.visibility = if (activityList.isEmpty()) View.VISIBLE else View.GONE
+        activitiesAdapter?.notifyDataSetChanged()
+    }
 
+    companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
                 Frag_My_Activity().apply {
@@ -1270,6 +1388,5 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                     }
                 }
     }
-
 
 }

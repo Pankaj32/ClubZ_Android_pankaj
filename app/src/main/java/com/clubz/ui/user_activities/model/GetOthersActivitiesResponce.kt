@@ -131,7 +131,7 @@ class GetOthersActivitiesResponce {
                     //  val outputFormat = SimpleDateFormat("E, MMM dd, yyyy")
                     val outputFormat = SimpleDateFormat("MMM dd")
                     try {
-                        return outputFormat.format(inputFormat.parse(event_date))
+                        return outputFormat.format(inputFormat.parse(event_date)).toUpperCase()
                     } catch (e: ParseException) {
                         e.printStackTrace()
                     }
@@ -148,14 +148,14 @@ class GetOthersActivitiesResponce {
                     val format: String
                     if (hour == 0) {
                         hour += 12
-                        format = "a.m."
+                        format = "A.M."
                     } else if (hour == 12) {
-                        format = "p.m."
+                        format = "P.M."
                     } else if (hour > 12) {
                         hour -= 12
-                        format = "p.m."
+                        format = "P.M."
                     } else {
-                        format = "a.m."
+                        format = "A.M."
                     }
                     formatedTime = "$hour:$minute $format"
                     return formatedTime
@@ -237,7 +237,7 @@ class GetOthersActivitiesResponce {
                     //  val outputFormat = SimpleDateFormat("E, MMM dd, yyyy")
                     val outputFormat = SimpleDateFormat("MMM dd")
                     try {
-                        return outputFormat.format(inputFormat.parse(event_date))
+                        return outputFormat.format(inputFormat.parse(event_date)).toUpperCase()
                     } catch (e: ParseException) {
                         e.printStackTrace()
                     }
@@ -254,14 +254,14 @@ class GetOthersActivitiesResponce {
                     val format: String
                     if (hour == 0) {
                         hour += 12
-                        format = "a.m."
+                        format = "A.M."
                     } else if (hour == 12) {
-                        format = "p.m."
+                        format = "P.M"
                     } else if (hour > 12) {
                         hour -= 12
-                        format = "p.m."
+                        format = "P.M."
                     } else {
-                        format = "a.m."
+                        format = "A.M."
                     }
                     formatedTime = "$hour:$minute $format"
                     return formatedTime
@@ -343,7 +343,7 @@ class GetOthersActivitiesResponce {
                   //  val outputFormat = SimpleDateFormat("E, MMM dd, yyyy")
                     val outputFormat = SimpleDateFormat("MMM dd")
                     try {
-                        return outputFormat.format(inputFormat.parse(event_date))
+                        return outputFormat.format(inputFormat.parse(event_date)).toUpperCase()
                     } catch (e: ParseException) {
                         e.printStackTrace()
                     }
@@ -360,14 +360,14 @@ class GetOthersActivitiesResponce {
                     val format: String
                     if (hour == 0) {
                         hour += 12
-                        format = "a.m.."
+                        format = "A.M."
                     } else if (hour == 12) {
-                        format = "p.m."
+                        format = "P.M."
                     } else if (hour > 12) {
                         hour -= 12
-                        format = "p.m."
+                        format = "P.M."
                     } else {
-                        format = "a.m."
+                        format = "A.M."
                     }
                     formatedTime = "$hour:$minute $format"
                     return formatedTime
@@ -449,7 +449,7 @@ class GetOthersActivitiesResponce {
                   //  val outputFormat = SimpleDateFormat("E, MMM dd, yyyy")
                     val outputFormat = SimpleDateFormat("MMM dd")
                     try {
-                        return outputFormat.format(inputFormat.parse(event_date))
+                        return outputFormat.format(inputFormat.parse(event_date)).toUpperCase()
                     } catch (e: ParseException) {
                         e.printStackTrace()
                     }
@@ -466,14 +466,14 @@ class GetOthersActivitiesResponce {
                     val format: String
                     if (hour == 0) {
                         hour += 12
-                        format = "a.m"
+                        format = "A.M"
                     } else if (hour == 12) {
-                        format = "p.m."
+                        format = "P.M."
                     } else if (hour > 12) {
                         hour -= 12
-                        format = "p.m."
+                        format = "P.M."
                     } else {
-                        format = "a.m."
+                        format = "A.M."
                     }
                     formatedTime = "$hour:$minute $format"
                     return formatedTime

@@ -60,7 +60,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:fontFamily="@font/teko_semibold"
                             android:text="FootBall Class"
-                            android:textColor="@color/black"
+                            android:textColor="@color/eighty_black"
                             android:textSize="25sp" />
 
                         <RelativeLayout
@@ -116,7 +116,7 @@
                                 android:fontFamily="@font/roboto_regular"
                                 android:singleLine="true"
                                 android:text="Clubs Name"
-                                android:textColor="@color/nav_gray"
+                                android:textColor="@color/sixty_black"
                                 android:textSize="16sp" />
 
                         </RelativeLayout>
@@ -125,9 +125,9 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height=".8dp"
                         android:layout_marginTop="@dimen/_8sdp"
-                        android:background="@color/pager_line" />
+                        android:background="@color/hint_color" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -156,7 +156,7 @@
                             android:layout_toEndOf="@+id/leaderImage"
                             android:fontFamily="@font/roboto_regular"
                             android:text="@string/a_actLeaderHint"
-                            android:textColor="@color/hint_color_gray"
+                            android:textColor="@color/hint_color"
                             android:textSize="14sp" />
 
 
@@ -176,11 +176,11 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
+                            android:layout_height=".9dp"
                             android:layout_below="@id/activityLeader"
                             android:layout_marginTop="@dimen/_2sdp"
                             android:layout_toEndOf="@+id/leaderImage"
-                            android:background="@color/nav_gray" />
+                            android:background="@color/hint_color" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -231,16 +231,16 @@
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="@string/a_notAvailable"
                                     android:textColor="@color/nav_gray"
-                                    android:textColorHint="@color/nav_gray"
+                                    android:textColorHint="@color/sixty_black"
                                     android:textSize="16sp" />
 
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
+                                    android:layout_height=".9dp"
                                     android:layout_below="@id/feeType"
                                     android:layout_marginTop="@dimen/_2sdp"
-                                    android:background="@color/nav_gray" />
+                                    android:background="@color/hint_color" />
                             </RelativeLayout>
 
 
@@ -255,7 +255,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/hint_fees"
-                                    android:textColor="@color/hint_color_gray"
+                                    android:textColor="@color/hint_color"
                                     android:textSize="14sp" />
 
                                 <android.support.v7.widget.AppCompatImageView
@@ -281,16 +281,16 @@
                                     android:hint="@string/a_notAvailable"
                                     android:text=""
                                     android:textColor="@color/nav_gray"
-                                    android:textColorHint="@color/nav_gray"
+                                    android:textColorHint="@color/sixty_black"
                                     android:textSize="16sp" />
 
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
+                                    android:layout_height=".9dp"
                                     android:layout_below="@id/fee"
                                     android:layout_marginTop="@dimen/_3sdp"
-                                    android:background="@color/nav_gray" />
+                                    android:background="@color/hint_color" />
                             </RelativeLayout>
 
 
@@ -327,7 +327,7 @@
                             android:layout_toEndOf="@+id/locationImage"
                             android:fontFamily="@font/roboto_regular"
                             android:text="@string/location"
-                            android:textColor="@color/hint_color_gray"
+                            android:textColor="@color/hint_color"
                             android:textSize="14sp" />
 
 
@@ -341,17 +341,17 @@
                             android:clickable="false"
                             android:fontFamily="@font/roboto_regular"
                             android:text="@string/a_notAvailable"
-                            android:textColor="@color/nav_gray"
+                            android:textColor="@color/sixty_black"
                             android:textColorHint="@color/nav_gray"
                             android:textSize="16sp" />
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
+                            android:layout_height=".9dp"
                             android:layout_below="@id/activityLocation"
                             android:layout_marginTop="@dimen/_2sdp"
                             android:layout_toEndOf="@+id/locationImage"
-                            android:background="@color/nav_gray" />
+                            android:background="@color/hint_color" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -389,7 +389,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/hint_min_user"
-                                    android:textColor="@color/hint_color_gray"
+                                    android:textColor="@color/hint_color"
                                     android:textSize="14sp" />
 
                                 <TextView
@@ -408,10 +408,10 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
+                                    android:layout_height=".9dp"
                                     android:layout_below="@id/minUser"
                                     android:layout_marginTop="@dimen/_2sdp"
-                                    android:background="@color/nav_gray" />
+                                    android:background="@color/hint_color" />
                             </RelativeLayout>
 
 
@@ -426,7 +426,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/hint_max_user"
-                                    android:textColor="@color/hint_color_gray"
+                                    android:textColor="@color/hint_color"
                                     android:textSize="14sp" />
 
                                 <TextView
@@ -438,17 +438,17 @@
                                     android:clickable="false"
                                     android:fontFamily="@font/roboto_regular"
                                     android:hint="@string/a_notAvailable"
-                                    android:textColor="@color/nav_gray"
+                                    android:textColor="@color/sixty_black"
                                     android:textColorHint="@color/nav_gray"
                                     android:textSize="16sp" />
 
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"
+                                    android:layout_height=".9dp"
                                     android:layout_below="@id/maxUser"
                                     android:layout_marginTop="@dimen/_3sdp"
-                                    android:background="@color/nav_gray" />
+                                    android:background="@color/hint_color" />
                             </RelativeLayout>
 
 
@@ -482,7 +482,7 @@
                             android:layout_toEndOf="@+id/descImage"
                             android:fontFamily="@font/roboto_regular"
                             android:text="@string/hint_activity_des"
-                            android:textColor="@color/hint_color_gray"
+                            android:textColor="@color/hint_color"
                             android:textSize="14sp" />
 
 
@@ -502,11 +502,11 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
+                            android:layout_height=".9dp"
                             android:layout_below="@id/activityDesc"
                             android:layout_marginTop="@dimen/_2sdp"
                             android:layout_toEndOf="@+id/descImage"
-                            android:background="@color/nav_gray" />
+                            android:background="@color/hint_color" />
                     </RelativeLayout>
 
                     <RelativeLayout

@@ -41,7 +41,6 @@ import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.profile.ContactListActivity
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.ui.setting.SettingActivity
-import com.clubz.ui.user_activities.activity.MyActivities
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
 import com.clubz.ui.user_activities.fragment.Frag_My_Activity
@@ -301,25 +300,20 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     }
 
     override fun navigateMyActivity() {
-        title_tv.setText(R.string.my_activity)
-        var fragment = getCurrentFragment()
+        val fragment = getCurrentFragment()
         fragment as Frag_My_Activity
-        fragment.isMyState = true
-        fragment.onResume()
-        /*setTab(tab!!, R.drawable.ic_activity_active, true)
-        replaceFragment(Frag_My_Activity())*/
-        // startActivity(Intent(this@HomeActivity, MyActivities::class.java))
+        fragment.doFilter()
     }
-
+/*
     override fun navigateOthersActivity() {
         title_tv.setText(R.string.t_find_activities)
         var fragment = getCurrentFragment()
         fragment as Frag_My_Activity
         fragment.isMyState = false
         fragment.onResume()
-        /*setTab(tab!!, R.drawable.ic_activity_active, true)
-        replaceFragment(Frag_Find_Activities())*/
-    }
+        *//*setTab(tab!!, R.drawable.ic_activity_active, true)
+        replaceFragment(Frag_Find_Activities())*//*
+    }*/
 
     override fun onRightNavigationItemChange() {
         val newsFeedFragment: FragNewsList? = supportFragmentManager.fragments
@@ -495,18 +489,13 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                     Frag_My_Activity::class.java.simpleName -> {
                         frag as Frag_My_Activity
                         val list: ArrayList<DialogMenu> = arrayListOf()
-                        if (frag.isMyState) {
-                            list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
-                            list.add(DialogMenu(getString(R.string.others_activity), R.drawable.ic_nav_event))
-                         //   list.add(DialogMenu(getString(R.string.set_notification), R.drawable.bell))
+                        list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
+                        if (frag.isMyActivity) {
+                            list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_checked_menu))
                         } else {
-                            list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
-                            list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_nav_event))
+                            list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_uncheck_menu))
                         }
-                        //showMyActivityDialog()
-
-
-                        //++  list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
+                        list.add(DialogMenu(getString(R.string.set_notification), R.drawable.ic_bell))
                         showMenu(list, frag)
                     }
                 }
