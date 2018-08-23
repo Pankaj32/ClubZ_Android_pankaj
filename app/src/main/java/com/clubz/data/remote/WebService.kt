@@ -58,10 +58,13 @@ class WebService {
         val addEvents            = base_Url +"service/activity/addActivityEvent"
         val joinActivity         = base_Url +"service/activity/joinActivity"
         val confirmActivity      = base_Url +"service/activity/confirmActivity"
+        val confirmMyActivity      = base_Url +"service/activity/confirmMyActivity"
         val getuserJoinAffiliates= base_Url +"service/activity/userJoinAffiliates"
         val getuserConfirmAffiliates= base_Url +"service/activity/userConfirmAffiliates"
         val getActivityDetails= base_Url +"service/activity/activityDetail"
         val getActivitymembers= base_Url +"service/activity/activityMembersList"
+        val createAd= base_Url +"service/ads/createAd"
+        val getAdsList= base_Url +"service/ads/adsListNew"
 
 
         val updateContact= base_Url +"service/user/updateContact"

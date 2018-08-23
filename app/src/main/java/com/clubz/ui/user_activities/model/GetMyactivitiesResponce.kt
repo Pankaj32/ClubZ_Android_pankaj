@@ -96,6 +96,7 @@ class GetMyactivitiesResponce {
             var longitude: String? = null
             var fee: String? = null
             var fee_type: String? = null
+            var min_users: String? = null
             var max_users: String? = null
             var is_confirm: String? = null
             var total_users: String? = null

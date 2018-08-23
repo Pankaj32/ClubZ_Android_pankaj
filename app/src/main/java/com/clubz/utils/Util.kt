@@ -17,6 +17,7 @@ import com.clubz.R
 import java.math.BigDecimal
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by mindiii on 2/6/18.
@@ -218,6 +219,24 @@ class Util {
                 }
             }
             return result
+        }
+
+        fun getCurrentDate(): String {
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+            val month1 = month + 1
+            return ""+year + "-" + month1 + "-" + day
+        }
+
+        fun getCurrentTime(): String {
+            val c = Calendar.getInstance()
+            val hour = c.get(Calendar.HOUR_OF_DAY)
+            val munite = c.get(Calendar.MINUTE)
+            val sec = c.get(Calendar.SECOND)
+            return ""+hour + ":" + munite + ":" + sec
+
         }
         val imageResources = intArrayOf(
         R.drawable.af,

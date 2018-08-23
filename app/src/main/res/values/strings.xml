@@ -87,7 +87,7 @@
     <string name="others_activity"> Others activities </string>
     <string name="t_content"> Content </string>
     <string name="t_chat"> Chat </string>
-    <string name="t_ads"> Ads </string>
+    <string name="t_ads"> Promote your stuff </string>
 
     <!--Bottom menu-->
     <string name="item_1">News</string>
@@ -384,10 +384,11 @@
     <string name="admin">Admin</string>
     <string name="there_is_no_news_stil_here">There is no news still here</string>
     <string name="there_is_no_activity_stil_here">There is no activity still here</string>
+    <string name="there_is_no_ad_stil_here">There are no ads still here</string>
     <string name="there_is_no_member_stil_here">There is no members still here</string>
     <string name="no_feed_content_body">Here will appear news from the clubs you belong. Club managers have not published anything yet.
         \n\nYou can also verify that your clubs are not muted, swipe the screen from the right side and enable them.</string>
-    <string name="no_activity_content_body">The activity will be available once the club manager create it.</string>
+    <string name="no_activity_content_body">The ads will be available once the club manager create it.</string>
     <string name="no_member_content_body">Members will appear here when users join to the activity</string>
     <string name="t_date_title">Date title</string>
     <string name="t_next_date">Next date</string>
@@ -402,6 +403,7 @@
     <string name="disable_notification">Disable Notification</string>
     <string name="set_notification">Set Notification</string>
     <string name="join_activity">Join to the activity</string>
+    <string name="leave_activity">Leave the activity</string>
 
     <string name="menu_my_newsfeed">Show my feed</string>
     <string name="menu_filter_by_clubs">Filter by clubs</string>
@@ -570,4 +572,15 @@
     <string name="add_a_new_date">Add a new date</string>
     <string name="location_pop_up">Location</string>
 
+
+    <!--ads-->
+    <string name="create_new_ad">Create new Ad</string>
+    <string name="value">Value</string>
+    <string name="description">Description</string>
+    <string name="new_ad">New Ad</string>
+    <!--Create Add validation-->
+    <string name="a_addTitle">Please enter ad title</string>
+    <string name="left_to_confirm">user left to confirm</string>
+    <string name="new_txt">New</string>
+    <string name="favorit_txt">Favorite</string>
 </resources>

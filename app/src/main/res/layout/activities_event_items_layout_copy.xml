@@ -3,103 +3,111 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/_1sdp"
     android:layout_marginLeft="@dimen/_1sdp"
     android:layout_marginRight="@dimen/_1sdp"
     android:layout_marginTop="@dimen/_5sdp"
-    android:background="@color/white">
-
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="@dimen/_60sdp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_60sdp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/eventDate"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="vertical">
 
-                android:text="APR 25"
-                android:textColor="@color/nav_gray"
-                android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/eventDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
 
-            <TextView
-                android:id="@+id/eventTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:paddingBottom="@dimen/_5sdp"
-                android:paddingTop="@dimen/_2sdp"
-                android:text="10:30 am"
-                android:textColor="@color/hint_color_gray"
-                android:textSize="11sp" />
+                    android:text="APR 25"
+                    android:textColor="@color/nav_gray"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/eventTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:text="10:30 am"
+                    android:textColor="@color/hint_color_gray"
+                    android:textSize="13sp" />
+            </LinearLayout>
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+
+            <LinearLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/eventDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="1"
+                    android:text="Lesson title. Lorem ipsum dolor et sit amet."
+                    android:textColor="@color/nav_gray"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/confirmTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:maxLines="1"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:text="yikyyhbdbbab"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imgCheck"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:tint="@color/primaryColor"
+                app:srcCompat="@drawable/ic_checkbox" />
+
+
+        </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/eventPogress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical">
-
-        <LinearLayout
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/_30sdp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/eventDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:maxLines="1"
-                android:text="Lesson title. Lorem ipsum dolor et sit amet."
-                android:textColor="@color/nav_gray"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/confirmTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:maxLines="1"
-                android:paddingBottom="@dimen/_5sdp"
-                android:paddingTop="@dimen/_2sdp"
-                android:text=""
-                android:textColor="@color/primaryColor"
-                android:textSize="13sp"
-                android:visibility="visible" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imgCheck"
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/_12sdp"
-            android:tint="@color/primaryColor"
-            app:srcCompat="@drawable/ic_checkbox" />
-
-        <android.support.v4.widget.ContentLoadingProgressBar
-            android:id="@+id/eventPogress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/color_Light_Green"
-            android:progressTint="@color/primaryColor" />
-    </RelativeLayout>
-
+        android:layout_height="2dp"
+        android:layout_marginStart="@dimen/_60sdp"
+        android:background="@color/color_Light_Green"
+        android:progressTint="@color/primaryColor"
+        android:layout_marginTop="2dp"/>
 </LinearLayout>

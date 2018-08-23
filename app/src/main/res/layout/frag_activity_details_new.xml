@@ -572,7 +572,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/teko_semibold"
                                 android:text="@string/dharmraj_acharya_bhurtel"
-                                android:textColor="@color/black"
+                                android:textColor="@color/primaryColor"
                                 android:textSize="@dimen/_14sdp" />
 
                             <EditText

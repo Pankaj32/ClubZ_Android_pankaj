@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
+import com.clubz.ui.ads.fragment.AdsFragment
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.core.BaseFragment
 import com.clubz.ui.newsfeed.fragment.FragNewsList
@@ -145,10 +146,11 @@ abstract class BaseHomeActivity : BaseActivity(),
             if (list != null) {
                 menuDialog?.ll_menu0?.visibility = View.VISIBLE
                 menuDialog?.menu_iv0?.setImageResource(list[0].id)
-                menuDialog?.menu_iv1?.setImageResource(list[1].id)
                 menuDialog?.menu_tv0?.text = list[0].title
-                menuDialog?.menu_tv1?.text = list[1].title
-
+                if (list.size > 1) {
+                    menuDialog?.menu_iv1?.setImageResource(list[1].id)
+                    menuDialog?.menu_tv1?.text = list[1].title
+                }
                 if (list.size > 2) {
                     menuDialog?.ll_menu2?.visibility = View.VISIBLE
                     menuDialog?.menu_iv2?.setImageResource(list[2].id)
@@ -158,7 +160,9 @@ abstract class BaseHomeActivity : BaseActivity(),
             if (frag::class.java.simpleName == FragNewsList::class.java.simpleName) {
                 menuDialog?.ll_menu2?.visibility = View.GONE
             }
-
+            if (frag::class.java.simpleName == AdsFragment::class.java.simpleName) {
+                menuDialog?.ll_menu1?.visibility = View.GONE
+            }
             menuDialog?.ll_menu0?.setOnClickListener {
                 handleMenuClick(list!![0])
             }
@@ -200,17 +204,22 @@ abstract class BaseHomeActivity : BaseActivity(),
             getString(R.string.my_activity) -> {
                 navigateMyActivity()
             }
-            /*getString(R.string.others_activity) -> {
-                navigateOthersActivity()
-            }*/
+            getString(R.string.create_new_ad) -> {
+                navigateCreateAAd()
+            }
+        /*getString(R.string.others_activity) -> {
+            navigateOthersActivity()
+        }*/
         }
     }
 
     abstract fun navigateCreateActivity()
+    abstract fun navigateCreateAAd()
     abstract fun navigateCreateNewsFeed()
     abstract fun navigateMyActivity()
     //abstract fun navigateOthersActivity()
     abstract fun checkLocationUpdate()
+
     //abstract fun updateMyNewsFeed()
     abstract fun getActivity(): HomeActivity
 

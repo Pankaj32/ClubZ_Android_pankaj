@@ -55,6 +55,7 @@ public class  MyEventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             h.eventDesc.setText(eventsBean.getEvent_title());
         }
 
+
     }
 
     @Override

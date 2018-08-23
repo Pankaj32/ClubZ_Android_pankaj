@@ -211,8 +211,10 @@ class FragActivityDetailsNew : Fragment() {
         if (type.equals("my")) {
             imgLike.setImageResource(R.drawable.active_heart_ico)
         } else {
-            if (activityDetails?.getData()?.totalUser?.toInt()!! > 0) {
+            if (activityDetails?.getData()?.is_like.equals("1")) {
                 imgLike.setImageResource(R.drawable.active_heart_ico)
+            }else{
+                imgLike.setImageResource(R.drawable.inactive_heart_ico)
             }
         }
         activityDesc.text = activityDetails?.getData()?.description
@@ -243,8 +245,6 @@ class FragActivityDetailsNew : Fragment() {
                         var getJoinAffliates: GetJoinAffliates = Gson().fromJson(response, GetJoinAffliates::class.java)
                         popUpJoin(activityId, getJoinAffliates)
                     }
-
-
                 } catch (ex: Exception) {
                     ex.printStackTrace()
                 }

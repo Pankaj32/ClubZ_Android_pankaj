@@ -1,5 +1,6 @@
 package com.clubz.ui.user_activities.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +31,7 @@ public class ActivitiesEventsAdapter extends RecyclerView.Adapter<RecyclerView.V
     private List<ActivitiesBean.DataBean.EventsBean> eventsBeans;
     private EventItemClickListioner eventItemClickListioner;
 
-    public ActivitiesEventsAdapter(Context context,List<ActivitiesBean.DataBean.EventsBean> eventsBeans, EventItemClickListioner eventItemClickListioner) {
+    public ActivitiesEventsAdapter(Context context, List<ActivitiesBean.DataBean.EventsBean> eventsBeans, EventItemClickListioner eventItemClickListioner) {
         this.context = context;
         // this.mType = type;
         this.eventsBeans = eventsBeans;
@@ -44,6 +45,7 @@ public class ActivitiesEventsAdapter extends RecyclerView.Adapter<RecyclerView.V
         return new MyViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ActivitiesEventsAdapter.MyViewHolder h = (ActivitiesEventsAdapter.MyViewHolder) holder;
@@ -56,11 +58,19 @@ public class ActivitiesEventsAdapter extends RecyclerView.Adapter<RecyclerView.V
             h.eventDesc.setText(eventsBean.getEvent_title());
         }
         try {
-            h.eventPogress.setProgress(Math.round(Integer.parseInt(eventsBean.getJoined_users()) * 100 / Integer.parseInt(eventsBean.getTotal_users())));
+            h.eventPogress.setProgress(Math.round(Integer.parseInt(eventsBean.getJoined_users()) * 100 / Integer.parseInt(eventsBean.getMin_users())));
         } catch (ArithmeticException e) {
             Log.e("onBindViewHolder: ", e.getMessage());
         }
-        if (eventsBean.is_confirm().equals("0")) {
+        int userCount = Integer.parseInt(eventsBean.getMin_users()) - Integer.parseInt(eventsBean.getJoined_users());
+        if (userCount <= 0) {
+            h.confirmTxt.setText("Confirmed");
+            h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.nav_gray));
+        } else {
+            h.confirmTxt.setText((userCount+1) + " "+context.getString(R.string.left_to_confirm));
+            h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.primaryColor));
+        }
+        /*if (eventsBean.is_confirm().equals("0")) {
             h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.nav_gray));
             //h.confirmTxt.setVisibility(View.GONE);
             h.confirmTxt.setText("");
@@ -68,7 +78,7 @@ public class ActivitiesEventsAdapter extends RecyclerView.Adapter<RecyclerView.V
             h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.primaryColor));
            // h.confirmTxt.setVisibility(View.VISIBLE);
             h.confirmTxt.setText("Confirmed");
-        }
+        }*/
     }
 
     @Override

@@ -53,6 +53,8 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (!TextUtils.isEmpty(dataBean.getImage())) {
             Picasso.with(h.activityImge.getContext()).load(dataBean.getImage()).fit().placeholder(R.drawable.new_app_icon).into(h.activityImge);
+        }else {
+            h.activityImge.setImageResource(R.drawable.new_app_icon);
         }
         h.activityName.setText(dataBean.getActivityName());
         h.clubName.setText(dataBean.getClub_name());
@@ -132,6 +134,19 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             activityType = itemView.findViewById(R.id.activityType);
             likeLay = itemView.findViewById(R.id.likeLay);
             iv_arrow_expand.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ActivitiesBean.DataBean dataBean = activityBeans.get(getAdapterPosition());
+                    if (dataBean.getVisible()) {
+                        dataBean.setVisible(false);
+                    } else {
+                        dataBean.setVisible(true);
+                    }
+                    Util.Companion.setRotation(iv_arrow_expand, dataBean.getVisible());
+                    notifyItemChanged(getAdapterPosition());
+                }
+            });
+            activityType.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ActivitiesBean.DataBean dataBean = activityBeans.get(getAdapterPosition());

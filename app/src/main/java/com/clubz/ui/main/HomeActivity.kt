@@ -30,6 +30,7 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.*
 import com.clubz.data.remote.AppAsnycTask
 import com.clubz.data.remote.GioAddressTask
+import com.clubz.ui.ads.CreateAdActivity
 import com.clubz.ui.ads.fragment.AdsFragment
 import com.clubz.ui.chat.ChatFragment
 import com.clubz.ui.club.ClubsActivity
@@ -304,6 +305,47 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         fragment as Frag_My_Activity
         fragment.doFilter()
     }
+
+    override fun navigateCreateAAd() {
+        if (SessionManager.getObj().update.needToUpdateMyClubs) {
+            val dialog = CusDialogProg(this@HomeActivity)
+            dialog.show()
+            val task = AppAsnycTask()
+            task.listener = object : AppAsnycTask.Listener {
+                override fun onProgressCancel(status: String?) {
+                    dialog.dismiss()
+                    if (status == "fail") showToast("Please create your club first.")
+                }
+
+                override fun onProgressDone() {
+                    dialog.dismiss()
+                    // self call for reload UI with updated database
+                    navigateCreateActivity()
+                }
+            }
+            task.syncAppData()
+        } else {
+            val clubList = ClubNameRepo().getAllClubs()
+
+            when (clubList.size) {
+                0 -> {
+                    showToast("Please create your club first.")
+                }
+                1 -> {
+                    startActivity(Intent(this@HomeActivity, CreateAdActivity::class.java).putExtra("clubId", clubList[0].clubId.toString()).putExtra("clubName", clubList[0].club_name))
+                }
+                else -> {
+                    object : ClubSelectionDialog(this@HomeActivity, clubList) {
+                        override fun onClubSelect(clubName: ClubName) {
+                            startActivity(Intent(this@HomeActivity, CreateAdActivity::class.java)
+                                    .putExtra("clubId", clubName.clubId.toString()).putExtra("clubName", clubName.club_name))
+                            dismiss()
+                        }
+                    }.show()
+                }
+            }
+        }
+    }
 /*
     override fun navigateOthersActivity() {
         title_tv.setText(R.string.t_find_activities)
@@ -387,7 +429,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
             AdsFragment::class.java.simpleName -> {
                 title_tv.setText(R.string.t_ads)
-                for (view in arrayOf(menu, title_tv)) view.visibility = View.VISIBLE
+                for (view in arrayOf(menu, title_tv, bubble_menu)) view.visibility = View.VISIBLE
             }
         /*Frag_ClubDetails::class.java.simpleName -> {
             for (i in 0..cus_status.childCount - 1) cus_status.getChildAt(i).visibility = View.GONE
@@ -486,6 +528,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                         //list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
                         showMenu(list, frag)
                     }
+
                     Frag_My_Activity::class.java.simpleName -> {
                         frag as Frag_My_Activity
                         val list: ArrayList<DialogMenu> = arrayListOf()
@@ -496,6 +539,12 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                             list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_uncheck_menu))
                         }
                         list.add(DialogMenu(getString(R.string.set_notification), R.drawable.ic_bell))
+                        showMenu(list, frag)
+                    }
+
+                    AdsFragment::class.java.simpleName -> {
+                        val list: ArrayList<DialogMenu> = arrayListOf()
+                        list.add(DialogMenu(getString(R.string.create_new_ad), R.drawable.ic_add_24))
                         showMenu(list, frag)
                     }
                 }
