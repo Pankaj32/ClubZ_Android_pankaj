@@ -4,6 +4,7 @@
     <color name="primaryLightColor">#52c7b8</color>
     <color name="primaryDarkColor">#00675b</color>
     <color name="primaryTextColor">#000000</color>
+    <color name="thirtyGreen">#59009688</color>
     <color name="colorAccent">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="seventyFiveTrncwhite">#BFFFFFFF</color>
@@ -55,6 +56,7 @@
     <color name="text_btn">#efe9f1</color>
     <color name="icon_tint_gray">#80333333</color>
     <color name="gray_transprent">#80A2A2A2</color>
+    <color name="gray_transprent_nnty">#ececec</color>
     <color name="transprent_text">#80000000</color>
     <color name="black_trans80">#33000000</color>
     <color name="activity_details_icon">#626262</color>

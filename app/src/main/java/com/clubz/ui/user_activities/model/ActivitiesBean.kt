@@ -2,6 +2,7 @@ package com.clubz.ui.user_activities.model
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.*
 
 class ActivitiesBean {
 
@@ -15,6 +16,7 @@ class ActivitiesBean {
     var status: String? = null
     var message: String? = null
     var hasAffiliates: Int? = null
+    var dateTime: String? = null
     var data: List<DataBean>? = null
 
     class DataBean {
@@ -84,15 +86,19 @@ class ActivitiesBean {
             var max_users: String? = null
             var total_users: String? = null
             var joined_users: String? = null
+            var confirm_users: String? = null
+            var confirm_userlist: String? = null
             var is_confirm: String? = null
             var hasJoined: String? = null
             var hasAffiliatesJoined: String? = null
+            var is_cancel: String? = null
 
             fun getDate(): String {
                 // String input = "2014-04-25 17:03:13";
                 val inputFormat = SimpleDateFormat("yyyy-MM-dd")
                 //  val outputFormat = SimpleDateFormat("E, MMM dd, yyyy")
-                val outputFormat = SimpleDateFormat("MMM'.' dd")
+             //   val outputFormat = SimpleDateFormat("MMM'.' dd")
+                val outputFormat = SimpleDateFormat("MMM dd")
                 try {
                     return outputFormat.format(inputFormat.parse(event_date)).toUpperCase()
                 } catch (e: ParseException) {
@@ -124,4 +130,5 @@ class ActivitiesBean {
             }
         }
     }
+
 }

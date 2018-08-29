@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -57,18 +58,36 @@ public class ActivitiesEventsAdapter extends RecyclerView.Adapter<RecyclerView.V
         } else {
             h.eventDesc.setText(eventsBean.getEvent_title());
         }
-        try {
+        /*try {
             h.eventPogress.setProgress(Math.round(Integer.parseInt(eventsBean.getJoined_users()) * 100 / Integer.parseInt(eventsBean.getMin_users())));
         } catch (ArithmeticException e) {
             Log.e("onBindViewHolder: ", e.getMessage());
-        }
-        int userCount = Integer.parseInt(eventsBean.getMin_users()) - Integer.parseInt(eventsBean.getJoined_users());
+        }*/
+        int userCount = Integer.parseInt(eventsBean.getMin_users()) - Integer.parseInt(eventsBean.getConfirm_users());
         if (userCount <= 0) {
-            h.confirmTxt.setText("Confirmed");
-            h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.nav_gray));
-        } else {
-            h.confirmTxt.setText((userCount+1) + " "+context.getString(R.string.left_to_confirm));
+            h.imgCheck.setVisibility(View.VISIBLE);
+            h.confirmBtnTxt.setVisibility(View.GONE);
+            h.confirmTxt.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
+            h.confirmTxt.setText("CONFIRMED");
             h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.primaryColor));
+        } else {
+            h.confirmTxt.setText((userCount /*- 1*/) + " " + context.getString(R.string.left_to_confirm));
+            h.confirmTxt.setTextColor(ContextCompat.getColor(context, R.color.hint_color_gray));
+            h.imgCheck.setVisibility(View.GONE);
+            if (eventsBean.is_confirm().equals("1")){
+                h.confirmBtnTxt.setText("UNCONFIRM");
+            }else {
+                h.confirmBtnTxt.setText("CONFIRM");
+            }
+            h.confirmBtnTxt.setVisibility(View.VISIBLE);
+            h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.primaryColor));
+        }
+        if (eventsBean.is_cancel().equals("1")){
+            h.imgCheck.setVisibility(View.VISIBLE);
+            h.confirmBtnTxt.setVisibility(View.GONE);
+            h.confirmTxt.setTextColor(ContextCompat.getColor(context, R.color.red_favroit));
+            h.confirmTxt.setText("CANCELLED");
+            h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.nav_gray));
         }
         /*if (eventsBean.is_confirm().equals("0")) {
             h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.nav_gray));
@@ -89,8 +108,9 @@ public class ActivitiesEventsAdapter extends RecyclerView.Adapter<RecyclerView.V
     private class MyViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imgCheck;
-        private TextView eventDate, eventTime, eventDesc, confirmTxt;
-        private ProgressBar eventPogress;
+        private TextView eventDate, eventTime, eventDesc, confirmTxt, confirmBtnTxt;
+        private LinearLayout datelay;
+        //   private ProgressBar eventPogress;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -99,11 +119,33 @@ public class ActivitiesEventsAdapter extends RecyclerView.Adapter<RecyclerView.V
             eventTime = itemView.findViewById(R.id.eventTime);
             eventDesc = itemView.findViewById(R.id.eventDesc);
             confirmTxt = itemView.findViewById(R.id.confirmTxt);
-            eventPogress = itemView.findViewById(R.id.eventPogress);
+            confirmBtnTxt = itemView.findViewById(R.id.confirmBtnTxt);
+            datelay = itemView.findViewById(R.id.datelay);
+            // eventPogress = itemView.findViewById(R.id.eventPogress);
             imgCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    eventItemClickListioner.onConfirm(getAdapterPosition());
+                    ActivitiesBean.DataBean.EventsBean eventsBean = eventsBeans.get(getAdapterPosition());
+                    if (eventsBean.is_cancel().equals("0"))eventItemClickListioner.onConfirm(getAdapterPosition());
+                }
+            });
+            confirmBtnTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ActivitiesBean.DataBean.EventsBean eventsBean = eventsBeans.get(getAdapterPosition());
+                    if (eventsBean.is_cancel().equals("0"))eventItemClickListioner.onConfirm(getAdapterPosition());
+                }
+            });
+            datelay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    eventItemClickListioner.onDateClick(getAdapterPosition());
+                }
+            });
+            eventDesc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    eventItemClickListioner.onDateClick(getAdapterPosition());
                 }
             });
         }

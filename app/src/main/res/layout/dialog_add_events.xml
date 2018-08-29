@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_white_internet_bottom"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
 
@@ -25,365 +26,409 @@
         android:tint="@color/primaryColor"
         app:srcCompat="@drawable/ic_nav_event" />
 
-    <LinearLayout
-        android:id="@+id/rl_content"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/top_primary"
-        android:layout_margin="15dp"
-        android:orientation="vertical">
+        android:layout_below="@id/topIcon">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_a_new_date"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:fontFamily="@font/teko_bold"
-            android:textColor="@color/eighty_black"
-            android:textSize="18sp"/>
-
-        <TextView
-            android:id="@+id/mTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:fontFamily="@font/teko_regular"
-            android:text=""
-            android:textColor="@color/inactive_tab"
-            android:textSize="16sp" />
-
-        <!--<View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@color/gray_transprent" />-->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/titleImage"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:tint="@color/nav_gray"
-                app:srcCompat="@drawable/ic_baseline_title" />
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_9sdp"
-                android:layout_toEndOf="@id/titleImage"
-                android:theme="@style/tvStyle"
-                app:counterEnabled="true"
-                app:counterMaxLength="50"
-                app:counterOverflowTextAppearance="@style/TextLimitError"
-                app:counterTextAppearance="@style/CounterText">
-
-                <EditText
-                    android:id="@+id/eventNameTxt"
-                    style="@style/EditText.ClubCreation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/h_eventTitle"
-                    android:inputType="textCapSentences|textMultiLine"
-                     />
-
-            </android.support.design.widget.TextInputLayout>
-            <!--<EditText
-                android:id="@+id/eventNameTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/_7sdp"
-                android:background="@null"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="@string/h_eventTitle"
-                android:textColor="@color/black"
-                android:textColorHint="@color/nav_gray"
-                android:textSize="14sp"/>-->
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/datelay"
+        <LinearLayout
+            android:id="@+id/rl_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-5dp">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/dateIcon"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:tint="@color/nav_gray"
-                app:srcCompat="@drawable/ic_nav_event" />
+            android:layout_below="@+id/top_primary"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_categoryHint"
-                style="@style/TextView.Gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_toEndOf="@+id/dateIcon"
-                android:text="@string/h_select_date"
-                android:textSize="12sp"
-                android:textColor="@color/hint_color"/>
-
-            <TextView
-                android:id="@+id/addDateTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_categoryHint"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:layout_toEndOf="@id/dateIcon"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="@string/h_select_date"
-                android:textColor="@color/sixty_black"
-                android:textColorHint="@color/sixty_black"
-                android:textSize="14sp" />
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/like"
-                android:layout_width="@dimen/_12sdp"
-                android:layout_height="@dimen/_12sdp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:tint="@color/black"
-                app:srcCompat="@drawable/ic_down_arrow"
-                app:tint="@color/nav_gray" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height=".9dp"
-                android:layout_below="@id/addDateTxt"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:layout_toEndOf="@+id/dateIcon"
-                android:background="@color/hint_color" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/timeLay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/timeIcon"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:tint="@color/nav_gray"
-                app:srcCompat="@drawable/ic_clock" />
+                android:fontFamily="@font/teko_bold"
+                android:text="@string/add_a_new_date"
+                android:textColor="@color/eighty_black"
+                android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tv_timeHint"
-                style="@style/TextView.Gray"
+                android:id="@+id/mTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_toEndOf="@+id/timeIcon"
-                android:text="@string/h_select_time"
-                android:textSize="12sp"
-                android:textColor="@color/hint_color"/>
-
-            <TextView
-                android:id="@+id/addTimeTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_timeHint"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:layout_toEndOf="@id/timeIcon"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="@string/h_select_time"
-                android:textColor="@color/sixty_black"
-                android:textColorHint="@color/sixty_black"
-                android:textSize="14sp" />
+                android:fontFamily="@font/teko_regular"
+                android:text=""
+                android:textColor="@color/inactive_tab"
+                android:textSize="16sp" />
 
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="@dimen/_12sdp"
-                android:layout_height="@dimen/_12sdp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:tint="@color/black"
-                app:srcCompat="@drawable/ic_down_arrow"
-                app:tint="@color/nav_gray" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height=".9dp"
-                android:layout_below="@id/addTimeTxt"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:layout_toEndOf="@+id/timeIcon"
-                android:background="@color/hint_color" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/loctionLay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/locationIcon"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:tint="@color/nav_gray"
-                app:srcCompat="@drawable/ic_map_placeholder" />
-
-            <TextView
-                android:id="@+id/tv_locationHint"
-                style="@style/TextView.Gray"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_toEndOf="@+id/locationIcon"
-                android:text="@string/location_pop_up"
-                android:textSize="12sp"
-                android:textColor="@color/hint_color"/>
-
-            <TextView
-                android:id="@+id/locationTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_locationHint"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_toEndOf="@id/locationIcon"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="@string/location"
-                android:textColor="@color/sixty_black"
-                android:textColorHint="@color/sixty_black"
-                android:textSize="14sp" />
-
-            <!--<android.support.v7.widget.AppCompatImageView
-                android:layout_width="@dimen/_12sdp"
-                android:layout_height="@dimen/_12sdp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:tint="@color/black"
-                app:srcCompat="@drawable/ic_down_arrow"
-                app:tint="@color/nav_gray" />-->
-
-            <View
+            <!--<View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@id/locationTxt"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_3sdp"
-                android:layout_toEndOf="@+id/locationIcon"
-                android:background="@color/hint_color" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/descImage"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:padding="@dimen/_3sdp"
-                android:tint="@color/nav_gray"
-                app:srcCompat="@drawable/ic_file_document" />
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_9sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:layout_toEndOf="@id/descImage"
-                android:theme="@style/tvStyle"
-                app:counterEnabled="true"
-                app:counterMaxLength="150"
-                app:counterOverflowTextAppearance="@style/TextLimitError"
-                app:counterTextAppearance="@style/CounterText">
+                android:background="@color/gray_transprent" />-->
 
-                <EditText
-                    android:id="@+id/descTxt"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/titleImage"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_baseline_title" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_9sdp"
+                    android:layout_toEndOf="@id/titleImage"
+                    android:theme="@style/tvStyle"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="50"
+                    app:counterOverflowTextAppearance="@style/TextLimitError"
+                    app:counterTextAppearance="@style/CounterText">
+
+                    <EditText
+                        android:id="@+id/eventNameTxt"
+                        style="@style/EditText.ClubCreation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/h_eventTitle"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:maxLength="50"
+                        android:textColor="@color/sixty_black"
+                        android:textColorHint="@color/sixty_black"
+                        android:textSize="14sp" />
+
+                </android.support.design.widget.TextInputLayout>
+                <!--<EditText
+                    android:id="@+id/eventNameTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:background="@null"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="@string/h_activity_desc"
+                    android:hint="@string/h_eventTitle"
                     android:textColor="@color/black"
                     android:textColorHint="@color/nav_gray"
-                    android:textSize="14sp" />
-                <!--<EditText
-                    android:id="@+id/eventNameTxt"
-                    style="@style/EditText.ClubCreation"
+                    android:textSize="14sp"/>-->
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/datelay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_marginTop="-5dp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/dateIcon"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_calendar_blank" />
+
+                <TextView
+                    android:id="@+id/tv_categoryHint"
+                    style="@style/TextView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/dateIcon"
+                    android:text="@string/h_select_date"
+                    android:textColor="@color/hint_color"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/addDateTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/h_eventTitle"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/nav_gray" />
--->
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_below="@id/tv_categoryHint"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/dateIcon"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/h_select_date"
+                    android:textColor="@color/sixty_black"
+                    android:textColorHint="@color/sixty_black"
+                    android:textSize="14sp" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/like"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:tint="@color/black"
+                    app:srcCompat="@drawable/ic_down_arrow"
+                    app:tint="@color/nav_gray" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".9dp"
+                    android:layout_below="@id/addDateTxt"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toEndOf="@+id/dateIcon"
+                    android:background="@color/hint_color" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/timeLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_marginTop="@dimen/_20sdp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/timeIcon"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_clock" />
+
+                <TextView
+                    android:id="@+id/tv_timeHint"
+                    style="@style/TextView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/timeIcon"
+                    android:text="@string/h_select_time"
+                    android:textColor="@color/hint_color"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/addTimeTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_timeHint"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/timeIcon"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/h_select_time"
+                    android:textColor="@color/sixty_black"
+                    android:textColorHint="@color/sixty_black"
+                    android:textSize="14sp" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:tint="@color/black"
+                    app:srcCompat="@drawable/ic_down_arrow"
+                    app:tint="@color/nav_gray" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".9dp"
+                    android:layout_below="@id/addTimeTxt"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toEndOf="@+id/timeIcon"
+                    android:background="@color/hint_color" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/loctionLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/locationIcon"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_map_placeholder" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_9sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/locationIcon"
+                    android:theme="@style/tvStyle"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="50"
+                    app:counterOverflowTextAppearance="@style/TextLimitError"
+                    app:counterTextAppearance="@style/CounterText">
+
+                    <EditText
+                        android:id="@+id/locationTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/hint_location"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapSentences"
+                        android:maxLength="50"
+                        android:singleLine="true"
+                        android:textColor="@color/sixty_black"
+                        android:textColorHint="@color/sixty_black"
+                        android:textSize="14sp" />
+
+                </android.support.design.widget.TextInputLayout>
+                <!--<TextView
+                    android:id="@+id/tv_locationHint"
+                    style="@style/TextView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/locationIcon"
+                    android:text="@string/location_pop_up"
+                    android:textSize="12sp"
+                    android:textColor="@color/hint_color"/>
+
+                <TextView
+                    android:id="@+id/locationTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_locationHint"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/locationIcon"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/location"
+                    android:textColor="@color/sixty_black"
+                    android:textColorHint="@color/sixty_black"
+                    android:textSize="14sp" />
+
+                &lt;!&ndash;<android.support.v7.widget.AppCompatImageView
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:tint="@color/black"
+                    app:srcCompat="@drawable/ic_down_arrow"
+                    app:tint="@color/nav_gray" />&ndash;&gt;
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/locationTxt"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toEndOf="@+id/locationIcon"
+                    android:background="@color/hint_color" />
+    -->
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/descImage"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_file_document" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_9sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/descImage"
+                    android:theme="@style/tvStyle"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="150"
+                    app:counterOverflowTextAppearance="@style/TextLimitError"
+                    app:counterTextAppearance="@style/CounterText">
+
+                    <EditText
+                        android:id="@+id/descTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/h_activity_desc"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapSentences|textImeMultiLine"
+                        android:maxLength="150"
+                        android:textColor="@color/sixty_black"
+                        android:textColorHint="@color/sixty_black"
+                        android:textSize="14sp" />
+                    <!--<EditText
+                        android:id="@+id/eventNameTxt"
+                        style="@style/EditText.ClubCreation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/h_eventTitle"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/nav_gray" />
+    -->
+                </android.support.design.widget.TextInputLayout>
 
 
-        </RelativeLayout>
+            </RelativeLayout>
 
-        <!--<View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_transprent" />-->
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="5dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/rl_content"
-        android:layout_gravity="right"
-        android:layout_margin="2dp">
+                <TextView
+                    android:id="@+id/mCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/cancel"
+                    android:textAllCaps="true"
+                    android:textColor="@color/nav_gray"
+                    android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/mCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/button_size"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="@string/cancel"
-            android:textAllCaps="true"
-            android:textColor="@color/primaryColor"
-            android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/mAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/addDateBtnText"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <!--<View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_transprent" />-->
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/mAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/button_size"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="@string/addDateBtnText"
-            android:textAllCaps="true"
-            android:textColor="@color/primaryColor"
-            android:textSize="14sp" />
 
-    </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

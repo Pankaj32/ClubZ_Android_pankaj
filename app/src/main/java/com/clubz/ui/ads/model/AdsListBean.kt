@@ -123,7 +123,7 @@ class AdsListBean {
                         returnDay = elapsedHours.toString() + " hours ago"
                     }
                 } else if (elapsedDays == 1L) {
-                    returnDay =/* elapsedDays + */ " yesterday"
+                    returnDay =/* elapsedDays + */ " Yesterday"
                 } else {
                     returnDay = elapsedDays.toString() + " days ago"
                 }

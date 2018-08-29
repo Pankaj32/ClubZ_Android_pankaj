@@ -141,7 +141,7 @@ class FragActivityDetailsNew : Fragment() {
 
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
-                        dialogProgress?.dismiss()
+                        dialogProgress.dismiss()
                         activityDetails = Gson().fromJson(response, GetActivityDetailsResponce::class.java)
                         updateUi()
                     } else {
@@ -273,7 +273,7 @@ class FragActivityDetailsNew : Fragment() {
                 Log.e("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
-        }.execute(Frag_Find_Activities::class.java.name)
+        }.execute(FragActivityDetailsNew::class.java.name)
     }
 
     internal fun popUpJoin(activityId: String, getJoinAffliates: GetJoinAffliates) {
@@ -394,6 +394,6 @@ class FragActivityDetailsNew : Fragment() {
                 params.put("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
-        }.execute(Frag_Find_Activities::class.java.name)
+        }.execute(FragActivityDetailsNew::class.java.name)
     }
 }

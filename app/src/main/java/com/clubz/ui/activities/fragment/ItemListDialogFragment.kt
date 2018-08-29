@@ -30,10 +30,10 @@ const val ARG_DIALOG_MENU_ITEM = "item_dialogMenu"
  *
  * You activity (or fragment) needs to implement [ItemListDialogFragment.Listener].
  */
- class ItemListDialogFragment : BottomSheetDialogFragment(){
+class ItemListDialogFragment : BottomSheetDialogFragment() {
     private var mListener: Listener? = null
-private var instance : Frag_My_Activity?=null
-   private var menuList=ArrayList<DialogMenu>()
+    private var instance: Frag_My_Activity? = null
+    private var menuList = ArrayList<DialogMenu>()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,7 +42,7 @@ private var instance : Frag_My_Activity?=null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         list.layoutManager = LinearLayoutManager(context)
-       // list.adapter = ItemAdapter(arguments!!.getSerializable(ARG_DIALOG_MENU_ITEM) as ArrayList<DialogMenu>)
+        // list.adapter = ItemAdapter(arguments!!.getSerializable(ARG_DIALOG_MENU_ITEM) as ArrayList<DialogMenu>)
         list.adapter = ItemAdapter(menuList)
     }
 
@@ -61,7 +61,6 @@ private var instance : Frag_My_Activity?=null
         mListener = null
         super.onDetach()
     }
-
 
 
     interface Listener {
@@ -92,8 +91,11 @@ private var instance : Frag_My_Activity?=null
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.text.text = menuList[position].title
-            holder.imageView.setImageResource(menuList[position].id)
+            val data = menuList[position]
+            holder.text.text = data.title
+            holder.imageView.setImageResource(data.id)
+            holder.imageView.visibility = if (data.title.equals(getString(R.string.leave_activity))) View.GONE else View.VISIBLE
+
             /*holder.text.setOnClickListener(object: View.OnClickListener{
                 override fun onClick(p0: View?) {
                     mListener?.onItemClicked(position)
@@ -107,10 +109,10 @@ private var instance : Frag_My_Activity?=null
         }
     }
 
-    fun setInstance(instance:Frag_My_Activity,menuList: ArrayList<DialogMenu>){
-        this.instance=instance
-        this.menuList=menuList
-        mListener =instance
+    fun setInstance(instance: Frag_My_Activity, menuList: ArrayList<DialogMenu>) {
+        this.instance = instance
+        this.menuList = menuList
+        mListener = instance
     }
 
     companion object {

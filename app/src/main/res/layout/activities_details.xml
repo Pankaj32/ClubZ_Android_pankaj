@@ -36,9 +36,9 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_50sdp"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/headerTxt"
@@ -46,14 +46,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:singleLine="true"
                         android:text="@string/app_name"
                         android:textSize="@dimen/_18sdp" />
+
                     <TextView
                         android:id="@+id/clubNameTxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-8dp"
                         android:fontFamily="@font/roboto_regular"
+                        android:singleLine="true"
                         android:text="@string/hint_club_name"
                         android:textColor="@color/white"
                         android:textSize="12sp" />

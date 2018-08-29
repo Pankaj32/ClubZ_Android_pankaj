@@ -30,7 +30,7 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.*
 import com.clubz.data.remote.AppAsnycTask
 import com.clubz.data.remote.GioAddressTask
-import com.clubz.ui.ads.CreateAdActivity
+import com.clubz.ui.ads.activity.CreateAdActivity
 import com.clubz.ui.ads.fragment.AdsFragment
 import com.clubz.ui.chat.ChatFragment
 import com.clubz.ui.club.ClubsActivity
@@ -43,7 +43,6 @@ import com.clubz.ui.profile.ContactListActivity
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.ui.setting.SettingActivity
 import com.clubz.ui.user_activities.activity.NewActivities
-import com.clubz.ui.user_activities.fragment.Frag_Find_Activities
 import com.clubz.ui.user_activities.fragment.Frag_My_Activity
 import com.clubz.utils.DrawerMarginFixer
 import com.clubz.utils.Util
@@ -411,11 +410,11 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
              search_text.setText("")
          }*/
 
-            Frag_Find_Activities::class.java.simpleName -> {
+            /*Frag_Find_Activities::class.java.simpleName -> {
                 title_tv.setText(R.string.t_find_activities)
                 //for (view in arrayOf(search)) view.visibility = View.GONE
                 for (view in arrayOf(menu, title_tv, bubble_menu)) view.visibility = View.VISIBLE
-            }
+            }*/
             Frag_My_Activity::class.java.simpleName -> {
                 title_tv.setText(R.string.t_find_activities)
                 //for (view in arrayOf(search)) view.visibility = View.GONE
@@ -520,14 +519,14 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                         showMenu(list, frag)
                     }
 
-                    Frag_Find_Activities::class.java.simpleName -> {
+                  /*  Frag_Find_Activities::class.java.simpleName -> {
                         //showMyActivityDialog()
                         val list: ArrayList<DialogMenu> = arrayListOf()
                         list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
                         list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_nav_event))
                         //list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
                         showMenu(list, frag)
-                    }
+                    }*/
 
                     Frag_My_Activity::class.java.simpleName -> {
                         frag as Frag_My_Activity
@@ -559,9 +558,9 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             R.id.addsymbol -> {
                 val fragemet = getCurrentFragment()!!
                 when (fragemet::class.java.simpleName) {
-                    Frag_Find_Activities::class.java.simpleName -> {
+                   /* Frag_Find_Activities::class.java.simpleName -> {
                         startActivity(Intent(this@HomeActivity, NewActivities::class.java))
-                    }
+                    }*/
 
                     FragNewsList::class.java.simpleName -> {
                         startActivity(Intent(this@HomeActivity,
@@ -683,7 +682,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     override fun bottomtabHandler(fragment: Fragment) {
         try {
             when (fragment::class.java.simpleName) {
-                Frag_Find_Activities::class.java.simpleName -> tablayout.visibility = View.VISIBLE
+                //Frag_Find_Activities::class.java.simpleName -> tablayout.visibility = View.VISIBLE
                 Frag_My_Activity::class.java.simpleName -> tablayout.visibility = View.VISIBLE
                 AdsFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
                 ChatFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE

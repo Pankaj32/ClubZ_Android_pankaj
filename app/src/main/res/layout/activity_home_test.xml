@@ -80,7 +80,7 @@
                             android:paddingTop="@dimen/_3sdp"
                             android:text="@string/t_stay_up"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_18sdp" />
+                            android:textSize="26sp" />
 
                         <android.support.v4.widget.Space
                             android:layout_width="0dp"

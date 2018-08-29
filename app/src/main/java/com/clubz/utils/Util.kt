@@ -165,7 +165,8 @@ class Util {
             } else {
                 format = "A.M."
             }
-            formatedTime = "$hour:$minute $format"
+           val  hr= if (hour < 10) "0$hour" else "$hour"
+            formatedTime = "$hr:$minute $format"
             return formatedTime
         }
         fun getDistanceMile(LL: Array<Double>): Double {
@@ -220,6 +221,13 @@ class Util {
             }
             return result
         }
+        private fun stringToDate(string: String) : Date {
+            // yyyy-mm-dd hh:mm:ss
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
+            val myDate = simpleDateFormat.parse(string)
+            return myDate
+        }
 
         fun getCurrentDate(): String {
             val c = Calendar.getInstance()
@@ -236,8 +244,8 @@ class Util {
             val munite = c.get(Calendar.MINUTE)
             val sec = c.get(Calendar.SECOND)
             return ""+hour + ":" + munite + ":" + sec
-
         }
+
         val imageResources = intArrayOf(
         R.drawable.af,
         R.drawable.al,

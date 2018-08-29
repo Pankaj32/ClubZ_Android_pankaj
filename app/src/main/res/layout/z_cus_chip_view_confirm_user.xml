@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_2sdp"
+    android:layout_marginRight="@dimen/_4sdp">
+
+
+        <!-- content -->
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_22sdp"
+            android:clickable="true"
+            android:background="@drawable/bg_chip_view_confirm_user"
+            android:orientation="horizontal">
+
+            <!-- label -->
+            <TextView
+                android:id="@+id/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black"
+                android:paddingLeft="@dimen/_6sdp"
+                android:paddingRight="@dimen/_2sdp"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="@dimen/_12sdp"
+                android:text="@string/dharmraj_acharya_bhurtel"/>
+
+            <!-- remove button -->
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/delete_button"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_2sdp"
+                android:visibility="visible"
+                android:tint="@color/white"
+                android:rotation="45"
+                android:background="@drawable/bg_circle_gray"
+                app:srcCompat="@drawable/ic_plus_symbol" />
+
+        </LinearLayout>
+
+   <!-- <com.loopeer.shadow.ShadowView
+        android:id="@+id/shadow_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cornerRadius="@dimen/_12sdp"
+        app:shadowRadius="1dp"
+        app:shadowMarginRight="1px"
+        app:shadowMarginBottom="1dp"
+        app:shadowMarginLeft="1px"
+        app:shadowColor="#999999">
+
+    </com.loopeer.shadow.ShadowView>-->
+
+</RelativeLayout>

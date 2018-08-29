@@ -104,9 +104,9 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             Picasso.with(image_member2.context).load(userImage).into(image_member2)
         } else {
 
-            image_member2.setPadding(padding, padding, padding, padding)
-            image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
-            image_member2.setImageResource(R.drawable.ic_user_shape)
+            // image_member2.setPadding(padding, padding, padding, padding)
+            //  image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
+            image_member2.setImageResource(R.drawable.user_place_holder)
         }
 
         imgActivity.setPadding(padding, padding, padding, padding)
@@ -639,6 +639,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                     finish()
                 }
     }
+
     override fun onBackPressed() {
         showBackConfirmationDialog()
     }

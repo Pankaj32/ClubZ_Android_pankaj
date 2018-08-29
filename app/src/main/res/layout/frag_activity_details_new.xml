@@ -150,7 +150,7 @@
                             app:srcCompat="@drawable/ic_user_shape" />
 
                         <TextView
-                            android:id="@+id/tv_categoryHint"
+                            android:id="@+id/tv_titleHint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@+id/leaderImage"
@@ -164,7 +164,7 @@
                             android:id="@+id/activityLeader"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_categoryHint"
+                            android:layout_below="@id/tv_titleHint"
                             android:layout_marginTop="@dimen/_3sdp"
                             android:layout_toEndOf="@id/leaderImage"
                             android:clickable="false"

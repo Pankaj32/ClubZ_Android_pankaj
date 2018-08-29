@@ -57,6 +57,7 @@ class WebService {
 
         val addEvents            = base_Url +"service/activity/addActivityEvent"
         val joinActivity         = base_Url +"service/activity/joinActivity"
+        val cancelActivityDate         = base_Url +"service/activity/cancelActivityDate"
         val confirmActivity      = base_Url +"service/activity/confirmActivity"
         val confirmMyActivity      = base_Url +"service/activity/confirmMyActivity"
         val getuserJoinAffiliates= base_Url +"service/activity/userJoinAffiliates"

@@ -14,17 +14,18 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="@dimen/_60sdp"
+            android:layout_width="@dimen/_80sdp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/datelay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="vertical">
 
                 <TextView
@@ -46,7 +47,7 @@
                     android:paddingTop="@dimen/_3sdp"
                     android:text="10:30 am"
                     android:textColor="@color/hint_color_gray"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -60,31 +61,51 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/_30sdp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/eventDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_30sdp"
                     android:fontFamily="@font/roboto_regular"
                     android:maxLines="1"
-                    android:text="Lesson title. Lorem ipsum dolor et sit amet."
+                    android:singleLine="true"
+                    android:text="Lesson title.gfdg fdgfdgfdgfdgfdgfdgfd Lorem ipsum dolor et sit amet."
                     android:textColor="@color/nav_gray"
                     android:textSize="13sp" />
 
-                <TextView
-                    android:id="@+id/confirmTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:maxLines="1"
-                    android:paddingBottom="@dimen/_5sdp"
-                    android:paddingTop="@dimen/_3sdp"
-                    android:text="yikyyhbdbbab"
-                    android:textColor="@color/primaryColor"
-                    android:textSize="13sp"
-                    android:visibility="visible" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/confirmTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:maxLines="1"
+                        android:paddingBottom="@dimen/_5sdp"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:text="yikyyhbdbbab"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="12sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/confirmBtnTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:text="@string/confirm_date"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="13sp"
+                        android:visibility="visible" />
+                </RelativeLayout>
+
             </LinearLayout>
 
             <ImageView
@@ -97,11 +118,10 @@
                 android:tint="@color/primaryColor"
                 app:srcCompat="@drawable/ic_checkbox" />
 
-
         </RelativeLayout>
     </LinearLayout>
 
-    <android.support.v4.widget.ContentLoadingProgressBar
+    <!--<android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/eventPogress"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
@@ -109,5 +129,10 @@
         android:layout_marginStart="@dimen/_60sdp"
         android:background="@color/color_Light_Green"
         android:progressTint="@color/primaryColor"
-        android:layout_marginTop="2dp"/>
+        android:layout_marginTop="2dp"/>-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/gray_transprent_nnty" />
 </LinearLayout>

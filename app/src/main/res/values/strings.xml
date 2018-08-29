@@ -87,7 +87,7 @@
     <string name="others_activity"> Others activities </string>
     <string name="t_content"> Content </string>
     <string name="t_chat"> Chat </string>
-    <string name="t_ads"> Promote your stuff </string>
+    <string name="t_ads"> Promote your stuffs </string>
 
     <!--Bottom menu-->
     <string name="item_1">News</string>
@@ -150,6 +150,7 @@
     <string name="prompt_spinner_active_leader"> Activity Leader </string>
     <string name="fees_type"> Fee type</string>
     <string name="hint_activity_location"> Select location </string>
+    <string name="hint_location"> Location </string>
     <string name="hint_fees"> Fee </string>
     <string name="hint_max_user">Max. users </string>
     <string name="hint_min_user">Min. users </string>
@@ -296,6 +297,7 @@
     <string name="my_clubs">My clubs</string>
     <string name="my_status">My status</string>
     <string name="manager">Manager</string>
+    <string name="advertiser">Advertiser</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -388,7 +390,8 @@
     <string name="there_is_no_member_stil_here">There is no members still here</string>
     <string name="no_feed_content_body">Here will appear news from the clubs you belong. Club managers have not published anything yet.
         \n\nYou can also verify that your clubs are not muted, swipe the screen from the right side and enable them.</string>
-    <string name="no_activity_content_body">The ads will be available once the club manager create it.</string>
+    <string name="no_activity_content_body">The activities will be available once the club manager create it.</string>
+    <string name="no_ads_content_body">Be the first to creating one!</string>
     <string name="no_member_content_body">Members will appear here when users join to the activity</string>
     <string name="t_date_title">Date title</string>
     <string name="t_next_date">Next date</string>
@@ -403,7 +406,7 @@
     <string name="disable_notification">Disable Notification</string>
     <string name="set_notification">Set Notification</string>
     <string name="join_activity">Join to the activity</string>
-    <string name="leave_activity">Leave the activity</string>
+    <string name="leave_activity">Leave the activity group</string>
 
     <string name="menu_my_newsfeed">Show my feed</string>
     <string name="menu_filter_by_clubs">Filter by clubs</string>
@@ -443,6 +446,7 @@
     <string name="date_util_prefix_over">over</string>
     <string name="date_util_prefix_almost">almost</string>
     <string name="date_util_suffix">ago</string>
+    <string name="date_left_to_confirm">left to confirm the date</string>
 
     <string name="likes_count">%d Likes</string>
     <string name="comments_count">%d Comments</string>
@@ -569,6 +573,7 @@
     <string name="date_confirmed_txt">  date confirmed</string>
     <string name="location">Main location</string>
     <string name="confirmed_max_user">Confirmed max. user</string>
+    <string name="confirmed_user">Confirmed users</string>
     <string name="add_a_new_date">Add a new date</string>
     <string name="location_pop_up">Location</string>
 
@@ -583,4 +588,7 @@
     <string name="left_to_confirm">user left to confirm</string>
     <string name="new_txt">New</string>
     <string name="favorit_txt">Favorite</string>
+    <string name="confirm_date">CONFIRM</string>
+    <string name="cancel_date"> Cancel Date </string>
+    <string name="status"> Status </string>
 </resources>

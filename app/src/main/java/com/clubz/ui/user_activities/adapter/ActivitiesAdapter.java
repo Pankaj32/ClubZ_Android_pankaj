@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.clubz.R;
@@ -53,7 +54,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (!TextUtils.isEmpty(dataBean.getImage())) {
             Picasso.with(h.activityImge.getContext()).load(dataBean.getImage()).fit().placeholder(R.drawable.new_app_icon).into(h.activityImge);
-        }else {
+        } else {
             h.activityImge.setImageResource(R.drawable.new_app_icon);
         }
         h.activityName.setText(dataBean.getActivityName());
@@ -103,6 +104,11 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (dataBean.getEvents() != null) {
             h.eventRecycler.setAdapter(new ActivitiesEventsAdapter(context, dataBean.getEvents(), new EventItemClickListioner() {
                 @Override
+                public void onDateClick(int eventPosition) {
+                    activityItemClickListioner.onEventDateClick(h.getAdapterPosition(), eventPosition);
+                }
+
+                @Override
                 public void onConfirm(int eventPosition) {
                     activityItemClickListioner.onConfirm("today", h.getAdapterPosition(), eventPosition);
                 }
@@ -120,6 +126,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private ImageView iv_arrow_expand, itemLike, activityImge;
         private View lineView;
         private FrameLayout likeLay;
+        private RelativeLayout arrowLay;
         private TextView activityName, clubName, activityType;
 
         public MyViewHolder(View itemView) {
@@ -133,20 +140,9 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             clubName = itemView.findViewById(R.id.clubName);
             activityType = itemView.findViewById(R.id.activityType);
             likeLay = itemView.findViewById(R.id.likeLay);
-            iv_arrow_expand.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ActivitiesBean.DataBean dataBean = activityBeans.get(getAdapterPosition());
-                    if (dataBean.getVisible()) {
-                        dataBean.setVisible(false);
-                    } else {
-                        dataBean.setVisible(true);
-                    }
-                    Util.Companion.setRotation(iv_arrow_expand, dataBean.getVisible());
-                    notifyItemChanged(getAdapterPosition());
-                }
-            });
-            activityType.setOnClickListener(new View.OnClickListener() {
+            arrowLay = itemView.findViewById(R.id.arrowLay);
+
+            arrowLay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ActivitiesBean.DataBean dataBean = activityBeans.get(getAdapterPosition());

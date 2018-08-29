@@ -40,6 +40,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private var userImage: String = ""
     private var adList = ArrayList<AdsListBean.DataBean>()
     private var adsAdapter: AdsAdapter? = null
+    private var isResume = false
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -89,9 +90,19 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         getAdsList(isPull = true)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isResume) {
+            getAdsList(isPull = true)
+        } else {
+            getAdsList()
+            isResume = true
+        }
+    }
+
     fun getAdsList(listType: String = "", limit: String = "10", offset: Int = 0, isPull: Boolean? = false) {
         val dialog = CusDialogProg(mContext)
-        if (!swiperefresh.isRefreshing) dialog.show()
+        if (!swiperefresh.isRefreshing||!isResume) dialog.show()
         object : VolleyGetPost(mContext,
                 "${WebService.getAdsList}?limit=${limit}&offset=${offset}&listType=${listType}", true) {
             override fun onVolleyResponse(response: String?) {

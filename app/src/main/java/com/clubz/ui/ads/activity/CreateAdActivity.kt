@@ -1,4 +1,4 @@
-package com.clubz.ui.ads
+package com.clubz.ui.ads.activity
 
 import android.Manifest
 import android.content.DialogInterface
@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.text.Editable
@@ -76,9 +75,9 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
         if (userImage!!.isNotEmpty()) {
             Picasso.with(image_member2.context).load(userImage).into(image_member2)
         } else {
-            image_member2.setPadding(padding, padding, padding, padding)
-            image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
-            image_member2.setImageResource(R.drawable.ic_user_shape)
+            //image_member2.setPadding(padding, padding, padding, padding)
+           // image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
+            image_member2.setImageResource(R.drawable.user_place_holder)
         }
         username.text = userName
         captureImgBtn.setOnClickListener(this@CreateAdActivity)

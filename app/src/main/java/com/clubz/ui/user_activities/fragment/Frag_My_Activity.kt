@@ -1,6 +1,5 @@
 package com.clubz.ui.user_activities.fragment
 
-import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.DialogInterface
@@ -10,6 +9,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.opengl.Visibility
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
@@ -17,6 +17,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
@@ -30,12 +31,16 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
 import com.clubz.data.remote.WebService
 import com.clubz.ui.activities.fragment.ItemListDialogFragment
+import com.clubz.ui.cv.ChipView
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.cv.FlowLayout
+import com.clubz.ui.cv.chipview.TagView
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.user_activities.activity.ActivitiesDetails
 import com.clubz.ui.user_activities.adapter.*
 import com.clubz.ui.user_activities.listioner.ActivityItemClickListioner
 import com.clubz.ui.user_activities.model.*
+import com.clubz.utils.DateTimeUtil
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.android.gms.common.GoogleApiAvailability
@@ -47,11 +52,13 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.dialog_add_events.*
 import kotlinx.android.synthetic.main.frag_my_activity.*
 import org.json.JSONObject
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogFragment.Listener, SwipeRefreshLayout.OnRefreshListener {
+
     override fun onRefresh() {
         /*if (isMyState) {
             getActivitiesList()
@@ -62,10 +69,9 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         getAllActivitiesList(isPull = true)
     }
 
+
     private var pageListner: RecyclerViewScrollListener? = null
-    private var allActivitiesAdapter: AllActivitiesAdapter? = null
     private var activitiesAdapter: ActivitiesAdapter? = null
-    private val allActivityList = ArrayList<AllActivitiesBean.DataBean>()
     private var tempuraryActivityList = ArrayList<ActivitiesBean.DataBean>()
     private var activityList = ArrayList<ActivitiesBean.DataBean>()
     private var actionPosition: Int? = null
@@ -88,6 +94,8 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
     private var userImage: String = ""
     private var confirmStatus: String = ""
     var isMyActivity: Boolean = false
+    private var now: String = ""
+    private var isResume: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,7 +139,16 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
             }
         }
         recyclerViewMyActivities.addOnScrollListener(pageListner)
-        getAllActivitiesList()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(isResume){
+            getAllActivitiesList(isPull = true)
+        }else{
+            getAllActivitiesList()
+            isResume =true
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -146,7 +163,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
 
     fun getAllActivitiesList(listType: String = "", limit: String = "10", offset: Int = 0, isPull: Boolean? = false) {
         val dialog = CusDialogProg(mContext)
-        if (!swiperefresh.isRefreshing) dialog.show()
+        if (!swiperefresh.isRefreshing||!isResume) dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(mContext,
                 "${WebService.get_all_activity_list}?listType=${listType}&offset=${offset}&limit=${limit}" +
@@ -161,6 +178,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
                         val activityBean: ActivitiesBean = Gson().fromJson(response, ActivitiesBean::class.java)
+                        now = activityBean.dateTime!!
                         hasAffliates = activityBean.hasAffiliates!!
                         updateAllUiOthers(activityBean, isPull)
                     } else {
@@ -313,7 +331,14 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                 }
             }
         }
+    }
 
+    override fun onEventDateClick(activityPosition: Int, eventPosition: Int) {
+        val activitiesBean = activityList.get(activityPosition)
+        val eventBean = activitiesBean.events?.get(eventPosition)
+        if (activitiesBean.is_my_activity.equals("1")) {
+            popUpDateDetails(activitiesBean, eventBean)
+        }
     }
 
     //bottomsheet
@@ -343,61 +368,6 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         }
     }
 
-    var dialog: Dialog? = null
-    private fun popUpAddEvents(activities: ActivitiesBean.DataBean) {
-        if (dialog == null) {
-            dialog = Dialog(mContext)
-            dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog!!.setContentView(R.layout.dialog_add_events)
-            dialog!!.window!!.setLayout(width * 10 / 11, WindowManager.LayoutParams.WRAP_CONTENT)
-            //    dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-            // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-            val mCancel = dialog!!.findViewById<View>(R.id.mCancel) as TextView
-            val mAdd = dialog!!.findViewById<View>(R.id.mAdd) as TextView
-            val mTitle = dialog!!.findViewById<View>(R.id.mTitle) as TextView
-            val addDateTxt = dialog!!.findViewById<View>(R.id.addDateTxt) as TextView
-            val addTimeTxt = dialog!!.findViewById<View>(R.id.addTimeTxt) as TextView
-            val locationTxt = dialog!!.findViewById<View>(R.id.locationTxt) as TextView
-            val descTxt = dialog!!.findViewById<View>(R.id.descTxt) as EditText
-            val eventNameTxt = dialog!!.findViewById<View>(R.id.eventNameTxt) as EditText
-            val datelay = dialog!!.findViewById<View>(R.id.datelay) as RelativeLayout
-            val timeLay = dialog!!.findViewById<View>(R.id.timeLay) as RelativeLayout
-            val loctionLay = dialog!!.findViewById<View>(R.id.loctionLay) as RelativeLayout
-            val containerLay = dialog!!.findViewById<View>(R.id.containerLay) as RelativeLayout
-
-            // var latitute: String = ""
-            // var longitute: String = ""
-            mTitle.text = activities.activityName
-            mTitle.visibility = View.GONE
-            dialog!!.setCancelable(false)
-            mCancel.setOnClickListener({ dialog!!.dismiss() })
-            mAdd.setOnClickListener({
-                val eventTitle = eventNameTxt.text.toString().trim()
-                val location = locationTxt.text.toString().trim()
-                val dese = descTxt.text.toString().trim()
-                if (isvaildDataToSend(eventNameTxt, addDateTxt, addTimeTxt, locationTxt, containerLay)) addEvent(eventTitle, eventDate, eventTime, location, activities.activityId!!, dese)
-            })
-            datelay.setOnClickListener {
-                hideDialogKeyBoard()
-                datePicker(day, month, year, addDateTxt)
-            }
-            timeLay.setOnClickListener {
-                hideDialogKeyBoard()
-                timePicker(addTimeTxt)
-            }
-            loctionLay.setOnClickListener {
-                hideDialogKeyBoard()
-                openAutocompleteActivity()
-            }
-
-            dialog!!.setOnDismissListener { dialogInterface ->
-                dialog = null
-            }
-        }
-        dialog?.show()
-    }
-
     private fun hideDialogKeyBoard() {
         val inputManager = dialog!!.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(dialog!!.currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
@@ -408,7 +378,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
             val builder1 = AlertDialog.Builder(mContext)
             builder1.setTitle("Alert")
             if (action.equals("confirm")) {
-                var status = if (confirmStatus.equals("1")) "confirm" else "deny"
+                var status = if (confirmStatus.equals("1")) "confirm" else "unconfirm"
                 builder1.setMessage("Are you sure you want to $status this Date?")
             } else {
                 builder1.setMessage("Are you sure you want to $action this activity?")
@@ -561,8 +531,10 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         val minute = mcurrentTime.get(Calendar.MINUTE)
         val mTimePicker = TimePickerDialog(mContext, R.style.DialogTheme2, object : TimePickerDialog.OnTimeSetListener {
             override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
+               val hr= if (p1 < 10) "0$p1" else "$p1"
+               val min= if (p2 < 10) "0$p2" else "$p2"
                 //val onTimeSet: Unit
-                eventTime = "$p1:$p2"
+                eventTime = "$hr:$min"
                 addTimeTxt.text = Util.setTimeFormat(eventTime)
             }
         }, hour, minute, false)
@@ -733,7 +705,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                 Log.e("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
-        }.execute(Frag_Find_Activities::class.java.name)
+        }.execute(Frag_My_Activity::class.java.name)
     }
 
     private fun getUserJoinAfiliatesList(activityId: String) {
@@ -782,7 +754,62 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                 Log.e("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
-        }.execute(Frag_Find_Activities::class.java.name)
+        }.execute(Frag_My_Activity::class.java.name)
+    }
+
+    var dialog: Dialog? = null
+    private fun popUpAddEvents(activities: ActivitiesBean.DataBean) {
+        if (dialog == null) {
+            dialog = Dialog(mContext)
+            dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog!!.setContentView(R.layout.dialog_add_events)
+            dialog!!.window!!.setLayout(width * 10 / 11, WindowManager.LayoutParams.WRAP_CONTENT)
+            //    dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+            // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+            val mCancel = dialog!!.findViewById<View>(R.id.mCancel) as TextView
+            val mAdd = dialog!!.findViewById<View>(R.id.mAdd) as TextView
+            val mTitle = dialog!!.findViewById<View>(R.id.mTitle) as TextView
+            val addDateTxt = dialog!!.findViewById<View>(R.id.addDateTxt) as TextView
+            val addTimeTxt = dialog!!.findViewById<View>(R.id.addTimeTxt) as TextView
+            val locationTxt = dialog!!.findViewById<View>(R.id.locationTxt) as EditText
+            val descTxt = dialog!!.findViewById<View>(R.id.descTxt) as EditText
+            val eventNameTxt = dialog!!.findViewById<View>(R.id.eventNameTxt) as EditText
+            val datelay = dialog!!.findViewById<View>(R.id.datelay) as RelativeLayout
+            val timeLay = dialog!!.findViewById<View>(R.id.timeLay) as RelativeLayout
+            val loctionLay = dialog!!.findViewById<View>(R.id.loctionLay) as RelativeLayout
+            val containerLay = dialog!!.findViewById<View>(R.id.containerLay) as RelativeLayout
+
+            // var latitute: String = ""
+            // var longitute: String = ""
+            mTitle.text = activities.activityName
+            mTitle.visibility = View.GONE
+            dialog!!.setCancelable(false)
+            mCancel.setOnClickListener({ dialog!!.dismiss() })
+            mAdd.setOnClickListener({
+                val eventTitle = eventNameTxt.text.toString().trim()
+                val location = locationTxt.text.toString().trim()
+                val dese = descTxt.text.toString().trim()
+                if (isvaildDataToSend(eventNameTxt, addDateTxt, addTimeTxt, locationTxt, containerLay)) addEvent(eventTitle, eventDate, eventTime, location, activities.activityId!!, dese)
+            })
+            datelay.setOnClickListener {
+                hideDialogKeyBoard()
+                datePicker(day, month, year, addDateTxt)
+            }
+            timeLay.setOnClickListener {
+                hideDialogKeyBoard()
+                timePicker(addTimeTxt)
+            }
+            /* loctionLay.setOnClickListener {
+                 hideDialogKeyBoard()
+                 openAutocompleteActivity()
+             }*/
+
+            dialog!!.setOnDismissListener { dialogInterface ->
+                dialog = null
+            }
+        }
+        dialog?.show()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -937,6 +964,52 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         })
     }
 
+
+    internal fun popUpDateDetails(activitiesBean: ActivitiesBean.DataBean, eventBean: ActivitiesBean.DataBean.EventsBean?) {
+        //    var isLike: Boolean = false;
+        val dialog = Dialog(mContext)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.dialog_date_details)
+        dialog.window!!.setLayout(width * 10 / 11, WindowManager.LayoutParams.WRAP_CONTENT)
+        //    dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+
+        val activityTitle = dialog.findViewById<View>(R.id.activityTitle) as TextView
+        val titleTxt = dialog.findViewById<View>(R.id.titleTxt) as TextView
+        val timeTxt = dialog.findViewById<View>(R.id.timeTxt) as TextView
+        val dateTxt = dialog.findViewById<View>(R.id.dateTxt) as TextView
+        val locatonTxt = dialog.findViewById<View>(R.id.locatonTxt) as TextView
+        val descTxt = dialog.findViewById<View>(R.id.descTxt) as TextView
+        val affilitesChip = dialog.findViewById<View>(R.id.affilitesChip) as FlowLayout
+        val statusTxt = dialog.findViewById<View>(R.id.statusTxt) as TextView
+        val mCancel = dialog.findViewById<View>(R.id.mCancel) as TextView
+        val mClose = dialog.findViewById<View>(R.id.mClose) as TextView
+
+
+        activityTitle.text = activitiesBean.activityName
+        if (!eventBean?.event_title.isNullOrEmpty()) titleTxt.text = eventBean?.event_title
+        if (!eventBean?.getTime().isNullOrEmpty()) timeTxt.text = eventBean?.getTime()
+        if (!eventBean?.location.isNullOrEmpty()) locatonTxt.text = eventBean?.location
+        if (!eventBean?.description.isNullOrEmpty()) descTxt.text = eventBean?.description
+        if (!eventBean?.event_date.isNullOrEmpty()) dateTxt.text = eventBean?.event_date
+        statusTxt.text = DateTimeUtil.getTimeAgo(stringToDate(now).time, stringToDate(eventBean?.event_date + " " + eventBean?.event_time).time, mContext)
+
+        if (TextUtils.isEmpty(eventBean?.confirm_userlist)) {
+            addChip(affilitesChip, getString(R.string.a_notAvailable))
+        } else {
+            addChip(affilitesChip, eventBean?.confirm_userlist!!)
+        }
+        if (eventBean?.is_cancel.equals("1")) mCancel.visibility = View.GONE
+        mCancel.setOnClickListener(View.OnClickListener {
+            cancelDate(activitiesBean.activityId!!,
+                    eventBean?.activityEventId!!, dialog)
+        })
+        mClose.setOnClickListener(View.OnClickListener { dialog.dismiss() })
+        dialog.setCancelable(true)
+        dialog.show()
+    }
+
     private fun confirmActivity(activityId: String,
                                 affiliateId: String,
                                 activityEventId: String,
@@ -992,7 +1065,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                 params.put("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
-        }.execute(Frag_Find_Activities::class.java.name)
+        }.execute(Frag_My_Activity::class.java.name)
     }
 
     private fun confirmMyActivity(activityId: String,
@@ -1050,7 +1123,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                 params.put("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
-        }.execute(Frag_Find_Activities::class.java.name)
+        }.execute(Frag_My_Activity::class.java.name)
     }
 
     private fun joinActivity(activityId: String,
@@ -1101,7 +1174,73 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                 params.put("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
-        }.execute(Frag_Find_Activities::class.java.name)
+        }.execute(Frag_My_Activity::class.java.name)
+    }
+
+    private fun cancelDate(activityId: String = "", activityEventId: String = "",
+                           dialog1: Dialog? = null) {
+        val dialog = CusDialogProg(mContext!!)
+        dialog.show()
+        //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
+        object : VolleyGetPost(mContext as Activity?, mContext,
+                "${WebService.cancelActivityDate}",
+                //WebService.get_activity_list + listType + "&limit=&offset=",
+                false) {
+            override fun onVolleyResponse(response: String?) {
+                dialog.dismiss()
+                try {
+
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+                        dialog1?.dismiss()
+                        pageListner?.resetState()
+                        getAllActivitiesList(isPull = true)
+                    } else {
+                        // nodataLay.visibility = View.VISIBLE
+                    }
+                    // searchAdapter?.notifyDataSetChanged()
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["activityId"] = activityId
+                params["activityEventId"] = activityEventId
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("authToken", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }.execute(Frag_My_Activity::class.java.name)
+    }
+
+    private fun addChip(chipHolder: FlowLayout, str: String) {
+        if (str.isNotBlank()) {
+            val tagList = str.split(",").map { it.trim() }
+            for (tag in tagList) {
+                val chip = object : ChipView(mContext, chipHolder.childCount.toString(), false) {
+                    override fun getLayout(): Int {
+                        return R.layout.z_cus_chip_view_confirm_user
+                    }
+
+                    override fun setDeleteListner(chipView: ChipView?) {
+                    }
+                }
+                chip.text = tag
+                chipHolder.addView(chip)
+            }
+        }
     }
 
     fun doFilter() {
@@ -1131,4 +1270,11 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                 }
     }
 
+    private fun stringToDate(string: String): Date {
+        // yyyy-mm-dd hh:mm:ss
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
+        val myDate = simpleDateFormat.parse(string)
+        return myDate
+    }
 }

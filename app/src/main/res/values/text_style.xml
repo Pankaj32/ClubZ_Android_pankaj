@@ -64,7 +64,7 @@
         <item name="colorAccent">@color/hint_color</item>
         <item name="colorControlNormal">@color/hint_color</item>
         <item name="colorControlActivated">@color/hint_color</item>
-        <item name="colorControlHighlight">@color/hint_color</item>
+        <item name="colorControlHighlight">@color/gray_transprent</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 

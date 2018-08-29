@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/_9sdp"
@@ -11,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_4sdp"
-        android:elevation="@dimen/_4sdp">
+        android:elevation="@dimen/_4sdp"
+        tools:ignore="UnusedAttribute">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,24 +42,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="@dimen/_15sdp"
                             android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_15sdp"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="Favourite"
                             android:textColor="@color/primaryColor"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:text="sdfdfsdfsd"/>
 
                         <TextView
                             android:id="@+id/adTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
                             android:layout_toStartOf="@id/adType"
                             android:fontFamily="@font/teko_semibold"
                             android:singleLine="true"
-                            android:text="fdgsdsdfsdf"
+                            android:text="sdfsdfsdf"
                             android:textColor="@color/eighty_black"
-                            android:textSize="@dimen/_16sdp" />
+                            android:textSize="16sp" />
 
 
                     </RelativeLayout>
@@ -71,28 +73,29 @@
                             android:id="@+id/adValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="3dp"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="$ 50"
                             android:textColor="@color/primaryColor"
                             android:textSize="@dimen/_14sdp" />
 
                         <ImageView
                             android:id="@+id/iv_arrow_expand"
-                            android:layout_width="@dimen/_30sdp"
-                            android:layout_height="@dimen/_30sdp"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
                             android:layout_alignParentEnd="true"
                             android:layout_marginEnd="@dimen/_7sdp"
-                            android:padding="@dimen/_2sdp"
-                            app:srcCompat="@drawable/ic_event_down_arrow" />
+                            app:srcCompat="@drawable/ic_event_down_arrow"
+                            tools:ignore="ContentDescription" />
 
                         <ImageView
                             android:id="@+id/iv_like"
-                            android:layout_width="@dimen/_25sdp"
-                            android:layout_height="@dimen/_25sdp"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_marginEnd="@dimen/_7sdp"
+                            android:layout_marginTop="3dp"
                             android:layout_toStartOf="@id/iv_arrow_expand"
-                            android:padding="@dimen/_5sdp"
+                            android:padding="@dimen/_2sdp"
                             app:srcCompat="@drawable/inactive_heart_ico" />
                     </RelativeLayout>
 
@@ -104,24 +107,26 @@
                 android:id="@+id/lineView"
                 android:layout_width="match_parent"
                 android:layout_height=".9dp"
-                android:background="@color/under_line"
+                android:background="@color/gray_transprent"
                 android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/belloLay"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_90sdp"
-                android:visibility="gone">
+                android:layout_height="@dimen/_80sdp"
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/adImg"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_70sdp"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/new_app_icon" />
+                    android:src="@drawable/new_app_icon"
+                    android:contentDescription="TODO" />
 
                 <TextView
                     android:id="@+id/adTime"
@@ -129,9 +134,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="3 days ago"
                     android:textColor="@color/nav_gray"
                     android:textSize="12sp" />
 
@@ -141,8 +145,8 @@
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_15sdp"
                     android:src="@drawable/user_place_holder" />
 
@@ -151,10 +155,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="@dimen/_12sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_toLeftOf="@+id/userImg"
-                    android:orientation="vertical">
+                    android:layout_toStartOf="@+id/userImg"
+                    android:orientation="vertical"
+                    tools:ignore="RelativeOverlap">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/username"
@@ -178,10 +183,10 @@
                         android:inputType="textCapSentences"
                         android:maxLength="38"
                         android:singleLine="true"
-                        android:text="@string/manager"
+                        android:text="@string/advertiser"
                         android:textColor="@color/nav_gray"
                         android:textColorHint="@color/nav_gray"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 

@@ -16,9 +16,9 @@ import com.clubz.R
 import com.clubz.data.model.ClubName
 import kotlinx.android.synthetic.main.dialog_club_selection.*
 
-abstract class ClubSelectionDialog(internal val context: Context, val clubList : ArrayList<ClubName>) : Dialog(context), View.OnClickListener {
+abstract class ClubSelectionDialog(internal val context: Context, val clubList: ArrayList<ClubName>) : Dialog(context), View.OnClickListener {
 
-    var selectedClub : ClubName? = null
+    var selectedClub: ClubName? = null
 
     override fun onClick(p0: View?) {
 
@@ -26,7 +26,7 @@ abstract class ClubSelectionDialog(internal val context: Context, val clubList :
 
     init {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        val view : View = LayoutInflater.from(context).inflate(R.layout.dialog_club_selection,null);
+        val view: View = LayoutInflater.from(context).inflate(R.layout.dialog_club_selection, null);
         this.setContentView(view)
     }
 
@@ -41,7 +41,7 @@ abstract class ClubSelectionDialog(internal val context: Context, val clubList :
         })
 
         mDone.setOnClickListener(View.OnClickListener {
-            if(selectedClub!=null)
+            if (selectedClub != null)
                 onClubSelect(selectedClub!!)
             else Toast.makeText(context, "Select club first", Toast.LENGTH_SHORT).show()
         })
@@ -51,7 +51,7 @@ abstract class ClubSelectionDialog(internal val context: Context, val clubList :
     abstract fun onClubSelect(clubName: ClubName)
 
 
-    inner class Adapter : RecyclerView.Adapter<Adapter.Holder>(){
+    inner class Adapter : RecyclerView.Adapter<Adapter.Holder>() {
 
         var lasetSelectedPosition = -1
 
@@ -63,7 +63,7 @@ abstract class ClubSelectionDialog(internal val context: Context, val clubList :
 
         override fun onBindViewHolder(holder: Holder?, position: Int) {
             val club = clubList.get(position)
-            holder?.tvClubName?.text =  club.club_name
+            holder?.tvClubName?.text = club.club_name
             holder?.radioBtn?.isChecked = club.isSelected
             /*if(lasetSelectedPosition==position){
                 holder?.radioBtn?.isChecked = true
@@ -71,7 +71,7 @@ abstract class ClubSelectionDialog(internal val context: Context, val clubList :
         }
 
 
-        inner class Holder(view: View) : RecyclerView.ViewHolder(view){
+        inner class Holder(view: View) : RecyclerView.ViewHolder(view) {
 
             val tvClubName = view.findViewById<TextView>(R.id.tvClubName)
             val image_icon = view.findViewById<ImageView>(R.id.image_icon)
@@ -79,17 +79,26 @@ abstract class ClubSelectionDialog(internal val context: Context, val clubList :
 
             init {
                 view.setOnClickListener({
-                    for (t in clubList) t.isSelected = false
-                    clubList[adapterPosition].isSelected = true
-                    selectedClub = clubList[adapterPosition]
-                    notifyDataSetChanged()
+                    try {
+                        for (t in clubList) t.isSelected = false
+                        clubList[adapterPosition].isSelected = true
+                        selectedClub = clubList[adapterPosition]
+                        notifyDataSetChanged()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
                 })
 
                 radioBtn.setOnClickListener({
-                    for (t in clubList) t.isSelected = false
-                    clubList[adapterPosition].isSelected = true
-                    selectedClub = clubList[adapterPosition]
-                    notifyDataSetChanged()
+                    try {
+                        for (t in clubList) t.isSelected = false
+                        clubList[adapterPosition].isSelected = true
+                        selectedClub = clubList[adapterPosition]
+                        notifyDataSetChanged()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 })
             }
         }
