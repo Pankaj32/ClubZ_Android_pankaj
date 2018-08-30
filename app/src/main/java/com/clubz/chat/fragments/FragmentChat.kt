@@ -129,6 +129,15 @@ class FragmentChat : Fragment(), View.OnClickListener {
                     silentTxt?.isClickable = true
                     silentTxt?.text="Activity Chat is On Development Mode"
                 }
+                "ads" -> {
+                    activityId = arguments!!.getString(ARG_AD_ID)
+                    /*userId = arguments!!.getString(ARG_USERID)
+                    userName = arguments!!.getString(ARG_USERNAME)
+                    userProfileImg = arguments!!.getString(ARG_USERPROFILEIMG)*/
+                    silentTxt?.visibility = View.VISIBLE
+                    silentTxt?.isClickable = true
+                    silentTxt?.text="Ads Chat is On Development Mode"
+                }
             }
         }
         sentButton.setOnClickListener(this)
@@ -371,6 +380,8 @@ class FragmentChat : Fragment(), View.OnClickListener {
         private val ARG_USERPROFILEIMG = "userProfileImg"
         //feeds
         private val ARG_FEED_ID = "feedId"
+        //ads
+        private val ARG_AD_ID = "adId"
 
         /**
          * Use this factory method to create a new instance of
@@ -386,6 +397,14 @@ class FragmentChat : Fragment(), View.OnClickListener {
             val args = Bundle()
             args.putString(ARG_CHATFOR, "activities")
             args.putString(ARG_ACTIVITYID, activityId)
+            fragment.arguments = args
+            return fragment
+        }
+        fun newInstanceAdChat(adId: String/*, clubId: String*/): FragmentChat {
+            val fragment = FragmentChat()
+            val args = Bundle()
+            args.putString(ARG_CHATFOR, "ads")
+            args.putString(ARG_AD_ID, adId)
             fragment.arguments = args
             return fragment
         }

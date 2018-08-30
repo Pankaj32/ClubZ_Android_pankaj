@@ -68,7 +68,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp">
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/titleImage"

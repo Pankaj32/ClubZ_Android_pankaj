@@ -125,8 +125,7 @@
                                 android:inputType="textCapSentences"
                                 android:maxLength="50"
                                 android:maxLines="1"
-                                android:singleLine="true"
-                                />
+                                android:singleLine="true" />
 
                         </android.support.design.widget.TextInputLayout>
                     </RelativeLayout>
@@ -134,8 +133,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="-15dp"
                         android:layout_marginEnd="3dp"
+                        android:layout_marginTop="-15dp"
                         android:orientation="horizontal">
 
                         <android.support.v7.widget.AppCompatImageView
@@ -151,8 +150,7 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/leaderImg"
-                            android:paddingLeft="3dp">
+                            android:paddingStart="3dp">
 
                             <TextView
                                 android:id="@+id/tv_leaderHint"
@@ -180,8 +178,8 @@
                                 android:layout_width="@dimen/_12sdp"
                                 android:layout_height="@dimen/_12sdp"
                                 android:layout_alignParentRight="true"
-                                android:layout_marginTop="@dimen/_18sdp"
                                 android:layout_marginEnd="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_18sdp"
                                 android:scaleType="fitCenter"
                                 android:tint="@color/nav_gray"
                                 app:srcCompat="@drawable/ic_down_arrow" />
@@ -199,9 +197,9 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="1dp"
                         android:layout_marginTop="@dimen/_15sdp"
-                        android:gravity="center_vertical"
-                        android:layout_marginEnd="1dp">
+                        android:gravity="center_vertical">
 
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/dolrImg"
@@ -219,54 +217,57 @@
                             android:layout_marginTop="@dimen/_6sdp"
                             android:layout_toEndOf="@id/dolrImg"
                             android:weightSum="1">
-<RelativeLayout
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_weight=".5"
-    android:paddingLeft="@dimen/_2sdp">
+
                             <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="@dimen/_2sdp"
-                                android:layout_alignParentBottom="true">
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight=".5"
+                                android:paddingLeft="@dimen/_2sdp">
 
-                                <TextView
-                                    android:id="@+id/tv_feeTypeHint"
-                                    android:layout_width="wrap_content"
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/fees_type"
-                                    android:textColor="@color/hint_color_gray"
-                                    android:textSize="12sp" />
+                                    android:layout_alignParentBottom="true"
+                                    android:paddingLeft="@dimen/_2sdp">
 
-                                <Spinner
-                                    android:id="@+id/spinnerFeesType"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_25sdp"
-                                    android:layout_below="@id/tv_feeTypeHint"
-                                    android:layout_marginEnd="@dimen/_15sdp"
-                                    android:background="@null"
-                                    android:overlapAnchor="false"
-                                    android:prompt="@string/fees_type"
-                                    android:textColor="@color/nav_gray" />
+                                    <TextView
+                                        android:id="@+id/tv_feeTypeHint"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/fees_type"
+                                        android:textColor="@color/hint_color_gray"
+                                        android:textSize="12sp" />
 
-                                <android.support.v7.widget.AppCompatImageView
-                                    android:layout_width="@dimen/_12sdp"
-                                    android:layout_height="@dimen/_12sdp"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_marginTop="@dimen/_23sdp"
-                                    android:layout_marginRight="@dimen/_5sdp"
-                                    android:scaleType="fitCenter"
-                                    android:tint="@color/nav_gray"
-                                    app:srcCompat="@drawable/ic_down_arrow" />
+                                    <Spinner
+                                        android:id="@+id/spinnerFeesType"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_below="@id/tv_feeTypeHint"
+                                        android:layout_marginEnd="@dimen/_15sdp"
+                                        android:background="@null"
+                                        android:overlapAnchor="false"
+                                        android:prompt="@string/fees_type"
+                                        android:textColor="@color/nav_gray" />
 
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height=".9dp"
-                                    android:layout_below="@id/spinnerFeesType"
-                                    android:layout_marginBottom="@dimen/_8sdp"
-                                    android:background="@color/hint_color" />
+                                    <android.support.v7.widget.AppCompatImageView
+                                        android:layout_width="@dimen/_12sdp"
+                                        android:layout_height="@dimen/_12sdp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_marginRight="@dimen/_5sdp"
+                                        android:layout_marginTop="@dimen/_23sdp"
+                                        android:scaleType="fitCenter"
+                                        android:tint="@color/nav_gray"
+                                        app:srcCompat="@drawable/ic_down_arrow" />
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height=".9dp"
+                                        android:layout_below="@id/spinnerFeesType"
+                                        android:layout_marginBottom="@dimen/_8sdp"
+                                        android:background="@color/hint_color" />
+                                </RelativeLayout>
                             </RelativeLayout>
-</RelativeLayout>
+
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -309,61 +310,13 @@
                         </LinearLayout>
                     </RelativeLayout>
 
-                    <!--<RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:gravity="center_vertical">
-
-                        <android.support.v7.widget.AppCompatImageView
-                            android:id="@+id/locationImage"
-                            android:layout_width="@dimen/_30sdp"
-                            android:layout_height="@dimen/_30sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:padding="@dimen/_6sdp"
-                            android:tint="@color/nav_gray"
-                            app:srcCompat="@drawable/ic_map_placeholder" />
-
-                        <fragment
-                            android:id="@+id/autocomplete_fragment"
-                            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/_7sdp"
-                            android:layout_toEndOf="@id/locationImage"
-                            android:clickable="true"
-                            android:focusable="true" />
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/_7sdp"
-                            android:layout_toEndOf="@id/locationImage"
-                            android:background="@color/white"
-                            android:theme="@style/tvStyle"
-                            app:counterOverflowTextAppearance="@style/TextLimitError"
-                            app:counterTextAppearance="@style/CounterText">
-
-                            <EditText
-                                android:id="@+id/activityLocation"
-                                style="@style/EditText.ClubCreation"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:clickable="false"
-                                android:focusable="false"
-                                android:hint="@string/hint_activity_location"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/nav_gray" />
-                        </android.support.design.widget.TextInputLayout>
-
-                    </RelativeLayout>-->
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="3dp"
                         android:layout_marginTop="@dimen/_12sdp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:layout_marginEnd="3dp">
+                        android:orientation="horizontal">
 
 
                         <android.support.v7.widget.AppCompatImageView
@@ -459,15 +412,14 @@
 
                                     <EditText
                                         android:id="@+id/minUser"
+                                        style="@style/EditText.ClubCreation"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        style="@style/EditText.ClubCreation"
                                         android:fontFamily="@font/roboto_regular"
                                         android:hint="@string/hint_min_user"
                                         android:inputType="number"
                                         android:textColor="@color/nav_gray"
-                                        android:textColorHint="@color/nav_gray"
-                                        />
+                                        android:textColorHint="@color/nav_gray" />
 
                                 </android.support.design.widget.TextInputLayout>
 
@@ -493,15 +445,14 @@
 
                                         <EditText
                                             android:id="@+id/maxUser"
+                                            style="@style/EditText.ClubCreation"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            style="@style/EditText.ClubCreation"
                                             android:fontFamily="@font/roboto_regular"
                                             android:hint="@string/hint_max_user"
                                             android:inputType="number"
                                             android:textColor="@color/nav_gray"
-                                            android:textColorHint="@color/nav_gray"
-                                            />
+                                            android:textColorHint="@color/nav_gray" />
 
                                     </android.support.design.widget.TextInputLayout>
 
@@ -601,8 +552,7 @@
                         android:id="@+id/rtv_leadby"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        >
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/image_member2"
@@ -626,6 +576,7 @@
                                 android:id="@+id/username"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="end"
                                 android:fontFamily="@font/teko_semibold"
                                 android:text="@string/dharmraj_acharya_bhurtel"
                                 android:textColor="@color/black"
@@ -633,10 +584,10 @@
 
                             <EditText
                                 android:id="@+id/usrerole"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="end"
                                 android:background="@null"
-                                android:gravity="end"
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:enabled="false"
                                 android:fontFamily="@font/roboto_light"

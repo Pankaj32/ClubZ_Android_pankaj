@@ -275,7 +275,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
     fun showBackConfirmationDialog() {
         val builder1 = android.app.AlertDialog.Builder(this@CreateAdActivity)
         builder1.setTitle("Be careful !!")
-        builder1.setMessage("Are you sure you want to discard this new ad?")
+        builder1.setMessage("Are you sure you want to discard this ad?")
         builder1.setCancelable(true)
         builder1.setPositiveButton("DISCARD"
         ) { dialog, id ->

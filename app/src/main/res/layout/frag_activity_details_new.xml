@@ -2,10 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/snakLay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:id="@+id/snakLay"
     tools:context=".ui.user_activities.fragment.FragActivityDetailsNew">
 
     <ScrollView
@@ -46,8 +46,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_17sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_17sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
@@ -72,38 +72,13 @@
                                 android:id="@+id/iconLay"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true">
-
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="@dimen/_5sdp">
                                 <ImageView
                                     android:id="@+id/imgLike"
                                     android:layout_width="@dimen/_22sdp"
                                     android:layout_height="@dimen/_22sdp"
-
                                     android:src="@drawable/inactive_heart_ico" />
-
-
-                                <!--<ImageView
-                                    android:id="@+id/itemChat"
-                                    android:layout_width="@dimen/_27sdp"
-                                    android:layout_height="@dimen/_27sdp"
-                                    android:padding="@dimen/_5sdp"
-                                    android:src="@drawable/chat_icon" />
-
-                                <ImageView
-                                    android:id="@+id/item_menu"
-                                    android:layout_width="@dimen/_27sdp"
-                                    android:layout_height="@dimen/_27sdp"
-                                    android:padding="@dimen/_5sdp"
-                                    app:srcCompat="@drawable/ic_user_shape2" />
-
-                                <TextView
-                                    android:id="@+id/userLikeCount"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:text="15 user"
-                                    android:textColor="@color/nav_gray" />-->
                             </LinearLayout>
 
                             <TextView
@@ -132,7 +107,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:gravity="center_vertical"
@@ -186,7 +161,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:gravity="center_vertical">
@@ -292,15 +267,13 @@
                                     android:layout_marginTop="@dimen/_3sdp"
                                     android:background="@color/hint_color" />
                             </RelativeLayout>
-
-
                         </LinearLayout>
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:gravity="center_vertical"
@@ -311,12 +284,12 @@
                             android:id="@+id/locationImage"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:layout_marginEnd="@dimen/_8sdp"
                             android:layout_below="@id/hintLocation"
-                            android:paddingTop="@dimen/_2sdp"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:paddingBottom="@dimen/_5sdp"
                             android:paddingEnd="@dimen/_5sdp"
                             android:paddingStart="@dimen/_5sdp"
-                            android:paddingBottom="@dimen/_5sdp"
+                            android:paddingTop="@dimen/_2sdp"
                             android:tint="@color/nav_gray"
                             app:srcCompat="@drawable/ic_map_placeholder" />
 
@@ -329,7 +302,6 @@
                             android:text="@string/location"
                             android:textColor="@color/hint_color"
                             android:textSize="14sp" />
-
 
                         <TextView
                             android:id="@+id/activityLocation"
@@ -357,7 +329,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:gravity="center_vertical">
@@ -458,7 +430,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:gravity="center_vertical"
@@ -512,15 +484,15 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginStart="@dimen/_10sdp">
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp">
 
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/trmConImage"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:layout_marginEnd="@dimen/_5sdp"
                             android:layout_alignParentBottom="true"
+                            android:layout_marginEnd="@dimen/_8sdp"
                             android:padding="@dimen/_6sdp"
                             android:tint="@color/nav_gray"
                             app:srcCompat="@drawable/ic_gavel_black_24dp" />
@@ -529,12 +501,12 @@
                             android:id="@+id/termsNCondition"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
                             android:layout_toRightOf="@id/trmConImage"
                             android:fontFamily="@font/roboto_regular"
+                            android:paddingBottom="@dimen/_6sdp"
                             android:text="@string/termsnCondition"
                             android:textColor="@color/primaryColor"
-                            android:layout_alignParentBottom="true"
-                            android:paddingBottom="@dimen/_6sdp"
                             android:textSize="12sp" />
                     </RelativeLayout>
 
@@ -542,10 +514,10 @@
                         android:id="@+id/rtv_leadby"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_8sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_marginBottom="@dimen/_8sdp">
+                        android:layout_marginTop="@dimen/_5sdp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/image_member2"
@@ -553,9 +525,8 @@
                             android:layout_height="@dimen/_40sdp"
                             android:layout_alignParentEnd="true"
                             android:background="@drawable/bg_circle_blue"
-                            app:siBorderColor="@color/text_gray"
-                            app:siBorderWidth="@dimen/_1sdp"
-                            app:srcCompat="@drawable/ic_user_shape" />
+                            app:srcCompat="@drawable/ic_user_shape"
+                            android:layout_marginEnd="@dimen/_5sdp"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"

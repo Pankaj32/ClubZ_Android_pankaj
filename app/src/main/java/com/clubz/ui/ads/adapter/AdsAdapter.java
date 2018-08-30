@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.clubz.R;
+import com.clubz.ui.ads.listioner.AdsClickListioner;
 import com.clubz.ui.ads.model.AdsListBean;
 import com.clubz.utils.Util;
 import com.squareup.picasso.Picasso;
@@ -28,11 +29,13 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private String mType;
     private List<AdsListBean.DataBean> adBeans;
+    private AdsClickListioner adsClickListioner;
 
-    public AdsAdapter(Context context, List<AdsListBean.DataBean> adBeans) {
+    public AdsAdapter(Context context, List<AdsListBean.DataBean> adBeans, AdsClickListioner adsClickListioner) {
         this.context = context;
         // this.mType = type;
         this.adBeans = adBeans;
+        this.adsClickListioner=adsClickListioner;
     }
     //This is comment ot cjec'
 
@@ -134,6 +137,19 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                     Util.Companion.setRotation(iv_arrow_expand, dataBean.getVisible());
                     notifyItemChanged(getAdapterPosition());
+                }
+            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    adsClickListioner.onItemClick(getAdapterPosition());
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    adsClickListioner.onLongPress(getAdapterPosition());
+                    return false;
                 }
             });
         }

@@ -562,7 +562,7 @@
     <string name="tap_to_add_new_tags">Tap to add new tags</string>
     <string name="no_chat_found_yet">No chat found yet</string>
     <string name="please_type">Please type a message</string>
-    <string name="select_the_club_to_post">Select the club to post</string>
+    <string name="select_a_club_to_post">Select a club to post</string>
     <string name="content">Content</string>
     <string name="title">Title</string>
     <string name="general_information">General information</string>
@@ -591,4 +591,10 @@
     <string name="confirm_date">CONFIRM</string>
     <string name="cancel_date"> Cancel Date </string>
     <string name="status"> Status </string>
+    <!--Ad Bottom sheet menu-->
+    <string name="remove_ad_fav"> Remove the ad from favorites </string>
+    <string name="private_chat_with_advertiser"> Private chat with the advertiser </string>
+    <string name="delete_ad"> Delete the ad from my feed </string>
+    <string name="my_ads"> My Ads </string>
+    <string name="commonmark">CommonMark</string>
 </resources>

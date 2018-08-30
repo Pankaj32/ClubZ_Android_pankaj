@@ -222,10 +222,10 @@ class FragActivityDetailsNew : Fragment() {
         if (activityDetails?.getData()?.creator_profile_image?.isNotEmpty()!!) {
             Picasso.with(image_member2.context).load(activityDetails?.getData()?.creator_profile_image).into(image_member2)
         } else {
-            val padding = resources.getDimension(R.dimen._8sdp).toInt()
-            image_member2.setPadding(padding, padding, padding, padding)
-            image_member2.background = ContextCompat.getDrawable(mContext!!, R.drawable.bg_circle_blue)
-            image_member2.setImageResource(R.drawable.ic_user_shape)
+           // val padding = resources.getDimension(R.dimen._8sdp).toInt()
+           // image_member2.setPadding(padding, padding, padding, padding)
+           // image_member2.background = ContextCompat.getDrawable(mContext!!, R.drawable.bg_circle_blue)
+            image_member2.setImageResource(R.drawable.user_place_holder)
         }
     }
 

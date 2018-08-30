@@ -66,7 +66,7 @@ class WebService {
         val getActivitymembers= base_Url +"service/activity/activityMembersList"
         val createAd= base_Url +"service/ads/createAd"
         val getAdsList= base_Url +"service/ads/adsListNew"
-
+        val getAdsDetails= base_Url +"service/ads/adsDetail"
 
         val updateContact= base_Url +"service/user/updateContact"
         val contactList= base_Url +"service/user/contactList"

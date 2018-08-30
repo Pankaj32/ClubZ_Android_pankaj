@@ -13,8 +13,8 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
         android:tint="@color/nav_gray"
         android:focusable="false"
         app:srcCompat="@drawable/ic_add_24"/>

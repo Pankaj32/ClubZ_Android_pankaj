@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:fontFamily="@font/teko_bold"
-            android:text="@string/select_the_club_to_post"
+            android:text="@string/select_a_club_to_post"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -98,7 +98,7 @@
             android:paddingRight="8dp"
             android:text="@string/cancel"
             android:textAllCaps="true"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/nav_gray"
             android:textSize="16sp" />
 
         <TextView

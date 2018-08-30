@@ -301,7 +301,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             }
             Constants.INTENTGALLERY -> {
                 ImagePicker.pickImage(this@NewActivities)
-                // com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
+              //   com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
             }
             Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this@NewActivities, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_CAMERA)

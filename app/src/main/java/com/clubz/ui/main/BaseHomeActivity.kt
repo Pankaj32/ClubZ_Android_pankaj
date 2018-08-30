@@ -160,9 +160,6 @@ abstract class BaseHomeActivity : BaseActivity(),
             if (frag::class.java.simpleName == FragNewsList::class.java.simpleName) {
                 menuDialog?.ll_menu2?.visibility = View.GONE
             }
-            if (frag::class.java.simpleName == AdsFragment::class.java.simpleName) {
-                menuDialog?.ll_menu1?.visibility = View.GONE
-            }
             menuDialog?.ll_menu0?.setOnClickListener {
                 handleMenuClick(list!![0])
             }
@@ -204,17 +201,21 @@ abstract class BaseHomeActivity : BaseActivity(),
             getString(R.string.my_activity) -> {
                 navigateMyActivity()
             }
+            getString(R.string.my_ads) -> {
+                navigateMyAds()
+            }
             getString(R.string.create_new_ad) -> {
                 navigateCreateAAd()
             }
-        /*getString(R.string.others_activity) -> {
-            navigateOthersActivity()
-        }*/
+            /*getString(R.string.others_activity) -> {
+                navigateOthersActivity()
+            }*/
         }
     }
 
     abstract fun navigateCreateActivity()
     abstract fun navigateCreateAAd()
+    abstract fun navigateMyAds()
     abstract fun navigateCreateNewsFeed()
     abstract fun navigateMyActivity()
     //abstract fun navigateOthersActivity()

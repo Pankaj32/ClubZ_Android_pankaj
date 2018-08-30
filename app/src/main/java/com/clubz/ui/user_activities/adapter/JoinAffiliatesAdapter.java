@@ -49,6 +49,7 @@ public class JoinAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             //   h.itemJoin.setImageResource(R.drawable.inactive_heart_ico);
             h.itemJoin.setChecked(false);
         }
+        if (position == 0) h.lineView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -61,6 +62,7 @@ public class JoinAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private ImageView item_image;
         private TextView itemUserName;
         private CheckBox itemJoin;
+        private View lineView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -68,6 +70,7 @@ public class JoinAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             item_image = itemView.findViewById(R.id.item_image);
             itemUserName = itemView.findViewById(R.id.itemUserName);
             item_image = itemView.findViewById(R.id.item_image);
+            lineView = itemView.findViewById(R.id.lineView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -79,8 +82,8 @@ public class JoinAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             affiliatesBean.setJoined("1");
                         }
                         notifyDataSetChanged();
-                    }catch (Exception e){
-                        Log.e("onClick:",e.getMessage());
+                    } catch (Exception e) {
+                        Log.e("onClick:", e.getMessage());
                     }
                 }
             });

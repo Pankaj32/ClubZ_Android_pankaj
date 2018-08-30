@@ -62,7 +62,6 @@ import kotlinx.android.synthetic.main.nav_header.view.*
 class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener,
         ClubFilterFragment.Listener {
-
     // private lateinit var mDrawerLayout: DrawerLayout
     private var isOpenMyClub: Boolean = false
     private var isRightNavDrawerOpen: Boolean = false
@@ -305,6 +304,12 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         fragment.doFilter()
     }
 
+    override fun navigateMyAds() {
+        val fragment = getCurrentFragment()
+        fragment as AdsFragment
+        fragment.doFilter()
+    }
+
     override fun navigateCreateAAd() {
         if (SessionManager.getObj().update.needToUpdateMyClubs) {
             val dialog = CusDialogProg(this@HomeActivity)
@@ -319,7 +324,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 override fun onProgressDone() {
                     dialog.dismiss()
                     // self call for reload UI with updated database
-                    navigateCreateActivity()
+                    navigateCreateAAd()
                 }
             }
             task.syncAppData()
@@ -403,12 +408,12 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                   search_text.setText("")*/
             }
 
-        /* Frag_Search_Club::class.java.simpleName -> {
-             for (view in arrayOf(search_text, back, addsymbol, serch_box, bubble_menu)) view.visibility = View.VISIBLE
-             filterListner = (fragemet as Frag_Search_Club)
-             textChnageListner = fragemet
-             search_text.setText("")
-         }*/
+            /* Frag_Search_Club::class.java.simpleName -> {
+                 for (view in arrayOf(search_text, back, addsymbol, serch_box, bubble_menu)) view.visibility = View.VISIBLE
+                 filterListner = (fragemet as Frag_Search_Club)
+                 textChnageListner = fragemet
+                 search_text.setText("")
+             }*/
 
             /*Frag_Find_Activities::class.java.simpleName -> {
                 title_tv.setText(R.string.t_find_activities)
@@ -430,11 +435,11 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 title_tv.setText(R.string.t_ads)
                 for (view in arrayOf(menu, title_tv, bubble_menu)) view.visibility = View.VISIBLE
             }
-        /*Frag_ClubDetails::class.java.simpleName -> {
-            for (i in 0..cus_status.childCount - 1) cus_status.getChildAt(i).visibility = View.GONE
-            for (view in arrayOf(back, title_tv, bubble_menu)) view.visibility = View.VISIBLE
-            title_tv.setText(" "+(fragemet as Frag_ClubDetails).clubz.club_name)
-        }*/
+            /*Frag_ClubDetails::class.java.simpleName -> {
+                for (i in 0..cus_status.childCount - 1) cus_status.getChildAt(i).visibility = View.GONE
+                for (view in arrayOf(back, title_tv, bubble_menu)) view.visibility = View.VISIBLE
+                title_tv.setText(" "+(fragemet as Frag_ClubDetails).clubz.club_name)
+            }*/
         }
     }
 
@@ -519,14 +524,14 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                         showMenu(list, frag)
                     }
 
-                  /*  Frag_Find_Activities::class.java.simpleName -> {
-                        //showMyActivityDialog()
-                        val list: ArrayList<DialogMenu> = arrayListOf()
-                        list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
-                        list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_nav_event))
-                        //list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
-                        showMenu(list, frag)
-                    }*/
+                    /*  Frag_Find_Activities::class.java.simpleName -> {
+                          //showMyActivityDialog()
+                          val list: ArrayList<DialogMenu> = arrayListOf()
+                          list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
+                          list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_nav_event))
+                          //list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
+                          showMenu(list, frag)
+                      }*/
 
                     Frag_My_Activity::class.java.simpleName -> {
                         frag as Frag_My_Activity
@@ -542,8 +547,14 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                     }
 
                     AdsFragment::class.java.simpleName -> {
+                        frag as AdsFragment
                         val list: ArrayList<DialogMenu> = arrayListOf()
                         list.add(DialogMenu(getString(R.string.create_new_ad), R.drawable.ic_add_24))
+                        if (frag.isMyAds) {
+                            list.add(DialogMenu(getString(R.string.my_ads), R.drawable.ic_checked_menu))
+                        } else {
+                            list.add(DialogMenu(getString(R.string.my_ads), R.drawable.ic_uncheck_menu))
+                        }
                         showMenu(list, frag)
                     }
                 }
@@ -558,9 +569,9 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             R.id.addsymbol -> {
                 val fragemet = getCurrentFragment()!!
                 when (fragemet::class.java.simpleName) {
-                   /* Frag_Find_Activities::class.java.simpleName -> {
-                        startActivity(Intent(this@HomeActivity, NewActivities::class.java))
-                    }*/
+                    /* Frag_Find_Activities::class.java.simpleName -> {
+                         startActivity(Intent(this@HomeActivity, NewActivities::class.java))
+                     }*/
 
                     FragNewsList::class.java.simpleName -> {
                         startActivity(Intent(this@HomeActivity,
@@ -569,40 +580,40 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 }
             }
 
-        /*  R.id.tv_private -> {
-              when(ClubZ.isPrivate){
-                  1->{
-                      ClubZ.isPrivate = 0
-                      dialog!!.chk_priavte.isChecked = true
-                      dialog!!.chk_public.isChecked = true
-                      getMyClubFragment()?.refreshList()
-                      //if (filterListner != null) filterListner!!.onFilterChnge()
-                  }
-                  0,2->{
-                      ClubZ.isPrivate = 1
-                      dialog!!.chk_priavte.isChecked = false
-                      dialog!!.chk_public.isChecked = true
-                      getMyClubFragment()?.refreshList()
-                      //if (filterListner != null) filterListner!!.onFilterChnge()
-                  }
-              }
-          }
-          R.id.tv_public -> {
-              when(ClubZ.isPrivate){
-                  2->{
-                      ClubZ.isPrivate = 0
-                      dialog!!.chk_priavte.isChecked = true
-                      dialog!!.chk_public.isChecked = true
-                      getMyClubFragment()?.refreshList()
-                  }
-                  0,1->{
-                      ClubZ.isPrivate = 2
-                      dialog!!.chk_priavte.isChecked = true
-                      dialog!!.chk_public.isChecked = false
-                      getMyClubFragment()?.refreshList()
+            /*  R.id.tv_private -> {
+                  when(ClubZ.isPrivate){
+                      1->{
+                          ClubZ.isPrivate = 0
+                          dialog!!.chk_priavte.isChecked = true
+                          dialog!!.chk_public.isChecked = true
+                          getMyClubFragment()?.refreshList()
+                          //if (filterListner != null) filterListner!!.onFilterChnge()
+                      }
+                      0,2->{
+                          ClubZ.isPrivate = 1
+                          dialog!!.chk_priavte.isChecked = false
+                          dialog!!.chk_public.isChecked = true
+                          getMyClubFragment()?.refreshList()
+                          //if (filterListner != null) filterListner!!.onFilterChnge()
+                      }
                   }
               }
-          }*/
+              R.id.tv_public -> {
+                  when(ClubZ.isPrivate){
+                      2->{
+                          ClubZ.isPrivate = 0
+                          dialog!!.chk_priavte.isChecked = true
+                          dialog!!.chk_public.isChecked = true
+                          getMyClubFragment()?.refreshList()
+                      }
+                      0,1->{
+                          ClubZ.isPrivate = 2
+                          dialog!!.chk_priavte.isChecked = true
+                          dialog!!.chk_public.isChecked = false
+                          getMyClubFragment()?.refreshList()
+                      }
+                  }
+              }*/
 
             R.id.back -> onBackPressed()
 

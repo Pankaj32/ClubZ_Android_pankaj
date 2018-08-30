@@ -200,10 +200,16 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".ui.ads.activity.CreateAdActivity"
+        <activity
+            android:name=".ui.ads.activity.CreateAdActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight"
             android:windowSoftInputMode="stateHidden" />
+
+        <activity android:name=".ui.ads.activity.AdDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThmeLight"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
     </application>
 
 </manifest>

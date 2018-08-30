@@ -62,7 +62,6 @@
         </attr>
     </declare-styleable>
 
-
     <!--For Status or my story Timer-->
     <declare-styleable name="LinearTimerView">
         <attr name="radius" format="dimension" />
@@ -121,5 +120,14 @@
     </declare-styleable>
 
     <color name="widget_labelled_spinner">#6D6D6D</color>
+
+    <declare-styleable name="AspectRatioImageView">
+        <attr format="enum" name="ari_aspect">
+            <enum name="width" value="0"/>
+            <enum name="height" value="1"/>
+            <enum name="auto" value="2"/>
+        </attr>
+        <attr format="float" name="ari_ratio"/>
+    </declare-styleable>
 
 </resources>

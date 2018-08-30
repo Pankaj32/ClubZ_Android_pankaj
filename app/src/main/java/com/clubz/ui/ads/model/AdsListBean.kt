@@ -10,33 +10,10 @@ class AdsListBean {
      * data : [{"adId":"2","title":"Testing ads","fee":"100","is_renew":"1","description":"This is testing ads","club_id":"4","user_id":"5","user_role":"Manager","crd":"2018-08-19 09:36:29","image":"","club_name":"Friend Zone","full_name":"Chiru Ganguly","isFav":"0","currentDatetime":"2018-08-22 10:08:54","is_my_ads":"1","is_New":"0"},{"adId":"1","title":"My First Ad","fee":"25.8","is_renew":"1","description":"Hello friends ........","club_id":"4","user_id":"5","user_role":"Manager","crd":"2018-08-21 08:44:54","image":"http://clubz.co/dev/uploads/ad_image/6e3f49e0e8d68a491759184c6206cbeb.jpg","club_name":"Friend Zone","full_name":"Chiru Ganguly","isFav":"0","currentDatetime":"2018-08-22 10:08:54","is_my_ads":"1","is_New":"1"}]
      */
 
-    private var status: String? = null
-    private var message: String? = null
-    private var data: List<DataBean>? = null
+     var status: String? = null
+     var message: String? = null
+     var data: List<DataBean>? = null
 
-    fun getStatus(): String? {
-        return status
-    }
-
-    fun setStatus(status: String) {
-        this.status = status
-    }
-
-    fun getMessage(): String? {
-        return message
-    }
-
-    fun setMessage(message: String) {
-        this.message = message
-    }
-
-    fun getData(): List<DataBean>? {
-        return data
-    }
-
-    fun setData(data: List<DataBean>) {
-        this.data = data
-    }
 
     class DataBean {
         /**

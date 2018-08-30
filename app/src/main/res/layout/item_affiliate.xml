@@ -2,9 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/_42sdp"
     android:background="@color/white"
-    android:padding="@dimen/_5sdp">
+    android:paddingLeft="@dimen/_5sdp"
+    >
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -12,7 +13,9 @@
         android:layout_width="@dimen/_35sdp"
         android:layout_height="@dimen/_35sdp"
         android:background="@drawable/bg_circle_blue"
-        android:src="@drawable/ic_user_white" />
+        android:src="@drawable/ic_user_white"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"/>
 
     <TextView
         android:id="@+id/itemUserName"
@@ -43,5 +46,17 @@
         android:layout_centerVertical="true"
         android:buttonTint="@color/primaryDarkColor"
         android:clickable="false" />
+
+    <View
+        android:id="@+id/lineView"
+        android:layout_width="match_parent"
+        android:layout_height=".9dp"
+        android:background="@color/gray_transprent"
+        android:visibility="gone"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height=".9dp"
+        android:background="@color/gray_transprent"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

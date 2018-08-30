@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.clubz.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -90,7 +92,7 @@ public class DateTimeUtil {
     }
 
 
-    public static String getTimeAgo(long startTime,long endTime, Context ctx) {
+    public static String getTimeAgo(long startTime,long endTime, Context ctx,String msg) {
 
         Date curDate = currentDate();
         long now = curDate.getTime();
@@ -128,12 +130,69 @@ public class DateTimeUtil {
             timeAgo = /*ctx.getResources().getString(R.string.date_util_prefix_about) + " " +*/ (Math.round(dim / 525600)) + " " + ctx.getResources().getString(R.string.date_util_unit_years);
         }
 
-        return timeAgo + " " + ctx.getResources().getString(R.string.date_left_to_confirm);
+        return timeAgo + " " + msg;
     }
 
     private static int getTimeDistanceInMinutes(long time) {
         long timeDistance = currentDate().getTime() - time;
         return Math.round((Math.abs(timeDistance) / 1000) / 60);
+    }
+
+    public static String getDayDifference(String departDateTime, String returnDateTime) {
+        boolean isgrater = false;
+        String returnDay = "";
+        SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+
+            Date startDate = simpleDateFormat.parse(departDateTime);
+            Date endDate = simpleDateFormat.parse(returnDateTime);
+
+            //milliseconds
+            long different = endDate.getTime() - startDate.getTime();
+
+            System.out.println("startDate : " + startDate);
+            System.out.println("endDate : " + endDate);
+            System.out.println("different : " + different);
+
+            long secondsInMilli = 1000;
+            long minutesInMilli = secondsInMilli * 60;
+            long hoursInMilli = minutesInMilli * 60;
+            long daysInMilli = hoursInMilli * 24;
+
+            long elapsedDays = different / daysInMilli;
+            different = different % daysInMilli;
+
+            long elapsedHours = different / hoursInMilli;
+            different = different % hoursInMilli;
+
+            long elapsedMinutes = different / minutesInMilli;
+            different = different % minutesInMilli;
+
+            long elapsedSeconds = different / secondsInMilli;
+
+            if (elapsedDays == 0) {
+                if (elapsedHours == 0) {
+                    if (elapsedMinutes == 0) {
+                        returnDay = /*elapsedSeconds +*/ " Just now";
+                    } else {
+                        returnDay = elapsedMinutes + " minutes ago";
+                    }
+                } else if (elapsedHours == 1) {
+                    returnDay = elapsedHours + " hour ago";
+                } else {
+                    returnDay = elapsedHours + " hours ago";
+                }
+            } else if (elapsedDays == 1) {
+                returnDay = /*elapsedDays +*/ " yesterday";
+            } else {
+                returnDay = elapsedDays + " days ago";
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return returnDay;
     }
 
 }

@@ -50,6 +50,7 @@ public class ConfirmAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.
          //   h.itemJoin.setImageResource(R.drawable.ic_inactive_hand_ico);
             h.itemJoin.setChecked(false);
         }
+        if (position == 0) h.lineView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -62,6 +63,7 @@ public class ConfirmAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.
         private ImageView  item_image;
         private TextView itemUserName;
         private CheckBox itemJoin;
+        private View lineView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -69,6 +71,7 @@ public class ConfirmAffiliatesAdapter extends RecyclerView.Adapter<RecyclerView.
             item_image = itemView.findViewById(R.id.item_image);
             itemUserName = itemView.findViewById(R.id.itemUserName);
             item_image = itemView.findViewById(R.id.item_image);
+            lineView = itemView.findViewById(R.id.lineView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

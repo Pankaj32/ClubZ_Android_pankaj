@@ -123,7 +123,7 @@
             android:paddingRight="8dp"
             android:text="@string/cancel"
             android:textAllCaps="true"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/nav_gray"
             android:textSize="16sp" />
 
         <TextView
@@ -133,7 +133,7 @@
             android:fontFamily="@font/roboto_medium"
             android:gravity="center"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:paddingRight="23dp"
             android:text="@string/joinBtnText"
             android:textAllCaps="true"
             android:textColor="@color/primaryColor"

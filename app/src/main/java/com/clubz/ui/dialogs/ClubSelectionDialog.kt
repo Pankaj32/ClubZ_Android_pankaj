@@ -2,6 +2,8 @@ package com.clubz.ui.dialogs
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -28,6 +30,7 @@ abstract class ClubSelectionDialog(internal val context: Context, val clubList: 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val view: View = LayoutInflater.from(context).inflate(R.layout.dialog_club_selection, null);
         this.setContentView(view)
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

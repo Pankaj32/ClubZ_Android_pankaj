@@ -1,6 +1,7 @@
 package com.clubz.ui.ads.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -10,12 +11,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.DialogMenu
 import com.clubz.data.remote.WebService
+import com.clubz.ui.activities.fragment.ItemListDialogFragment
+import com.clubz.ui.ads.activity.AdDetailsActivity
+import com.clubz.ui.ads.activity.CreateAdActivity
 import com.clubz.ui.ads.adapter.AdsAdapter
+import com.clubz.ui.ads.listioner.AdsClickListioner
 import com.clubz.ui.ads.model.AdsListBean
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
@@ -25,7 +32,8 @@ import kotlinx.android.synthetic.main.fragment_ads.*
 import org.json.JSONObject
 
 
-class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickListioner, ItemListDialogFragment.Listener {
+
     override fun onRefresh() {
         pageListner?.resetState()
         getAdsList(isPull = true)
@@ -39,8 +47,10 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private var userName: String = ""
     private var userImage: String = ""
     private var adList = ArrayList<AdsListBean.DataBean>()
+    private var tempAdList = ArrayList<AdsListBean.DataBean>()
     private var adsAdapter: AdsAdapter? = null
     private var isResume = false
+    var isMyAds: Boolean = false
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -77,7 +87,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         recyclerViewAds.setHasFixedSize(true)
 
         nodataLay.visibility = if (adList.isEmpty()) View.VISIBLE else View.GONE
-        adsAdapter = AdsAdapter(mContext, adList)
+        adsAdapter = AdsAdapter(mContext, adList, this)
         recyclerViewAds.adapter = adsAdapter
 
         pageListner = object : RecyclerViewScrollListener(lm) {
@@ -102,7 +112,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     fun getAdsList(listType: String = "", limit: String = "10", offset: Int = 0, isPull: Boolean? = false) {
         val dialog = CusDialogProg(mContext)
-        if (!swiperefresh.isRefreshing||!isResume) dialog.show()
+        if (!swiperefresh.isRefreshing || !isResume) dialog.show()
         object : VolleyGetPost(mContext,
                 "${WebService.getAdsList}?limit=${limit}&offset=${offset}&listType=${listType}", true) {
             override fun onVolleyResponse(response: String?) {
@@ -146,9 +156,82 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun updateUi(adsBean: AdsListBean, pull: Boolean?) {
-        if (pull!!) adList.clear()
-        adList.addAll(adsBean.getData()!!)
+        adList.clear()
+        if (pull!!) {
+            tempAdList.clear()
+            adsAdapter?.notifyDataSetChanged()
+        }
+        tempAdList.addAll(adsBean.data!!)
+
+        if (pull) adList.clear()
+        if (isMyAds) {
+            for (dataBean in tempAdList) {
+                if (dataBean.is_my_ads.equals("1")) adList.add(dataBean)
+            }
+        } else {
+            adList.addAll(tempAdList)
+        }
+        adList.addAll(adsBean.data!!)
         adsAdapter?.notifyDataSetChanged()
         nodataLay.visibility = if (adList.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    override fun onItemClick(position: Int) {
+        val adaBean = adList[position]
+        startActivity(Intent(mContext, AdDetailsActivity::class.java)
+                .putExtra("adId", adaBean.adId)
+                .putExtra("adTitle", adaBean.title)
+                .putExtra("clubId", adaBean.club_id)
+                .putExtra("clubName", adaBean.club_name)
+                .putExtra("adType", "")
+
+        )
+    }
+
+    override fun onFabClick(position: Int) {
+
+    }
+
+    override fun onLongPress(position: Int) {
+        val adBean = adList[position]
+        val list: ArrayList<DialogMenu> = arrayListOf()
+        list.add(DialogMenu(getString(R.string.remove_ad_fav), R.drawable.ic_favorite_fill))
+        list.add(DialogMenu(getString(R.string.private_chat_with_advertiser), R.drawable.ic_chat_bt_sht))
+        list.add(DialogMenu(getString(R.string.delete_ad), R.drawable.ic_delete_forever))
+
+        val a = ItemListDialogFragment()
+        a.setInstanceMyAd(this, list)
+        a.show(fragmentManager, "draj")
+    }
+
+    //bottom sheet click
+    override fun onItemClicked(position: Int) {
+        when (position) {
+            0 -> {
+                Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show()
+            }
+            1 -> {
+                Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show()
+            }
+            2 -> {
+                Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun doFilter() {
+        adList.clear()
+        adsAdapter?.notifyDataSetChanged()
+        if (isMyAds) {
+            isMyAds = false
+            adList.addAll(tempAdList)
+        } else {
+            isMyAds = true
+            for (dataBean in tempAdList) {
+                if (dataBean.is_my_ads.equals("1")) adList.add(dataBean)
+            }
+        }
+        nodataLay.visibility = if (adList.isEmpty()) View.VISIBLE else View.GONE
+        adsAdapter?.notifyDataSetChanged()
     }
 }

@@ -9,7 +9,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.opengl.Visibility
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
@@ -34,7 +33,6 @@ import com.clubz.ui.activities.fragment.ItemListDialogFragment
 import com.clubz.ui.cv.ChipView
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.FlowLayout
-import com.clubz.ui.cv.chipview.TagView
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.user_activities.activity.ActivitiesDetails
 import com.clubz.ui.user_activities.adapter.*
@@ -263,7 +261,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         }
 
         val a = ItemListDialogFragment()
-        a.setInstance(this, list)
+        a.setInstanceMyActivity(this, list)
         a.show(fragmentManager, "draj")
         //ItemListDialogFragment.newInstance(list).show(fragmentManager, "draj")
 
@@ -993,7 +991,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         if (!eventBean?.location.isNullOrEmpty()) locatonTxt.text = eventBean?.location
         if (!eventBean?.description.isNullOrEmpty()) descTxt.text = eventBean?.description
         if (!eventBean?.event_date.isNullOrEmpty()) dateTxt.text = eventBean?.event_date
-        statusTxt.text = DateTimeUtil.getTimeAgo(stringToDate(now).time, stringToDate(eventBean?.event_date + " " + eventBean?.event_time).time, mContext)
+        statusTxt.text = DateTimeUtil.getTimeAgo(stringToDate(now).time, stringToDate(eventBean?.event_date + " " + eventBean?.event_time).time, mContext,getResources().getString(R.string.date_left_to_confirm))
 
         if (TextUtils.isEmpty(eventBean?.confirm_userlist)) {
             addChip(affilitesChip, getString(R.string.a_notAvailable))
