@@ -87,6 +87,7 @@
     <string name="others_activity"> Others activities </string>
     <string name="t_content"> Content </string>
     <string name="t_chat"> Chat </string>
+    <string name="title_chat"> Keep in Touch </string>
     <string name="t_ads"> Promote your stuffs </string>
 
     <!--Bottom menu-->
@@ -386,6 +387,7 @@
     <string name="admin">Admin</string>
     <string name="there_is_no_news_stil_here">There is no news still here</string>
     <string name="there_is_no_activity_stil_here">There is no activity still here</string>
+    <string name="there_is_no_chat_stil_here">There is no chat still here</string>
     <string name="there_is_no_ad_stil_here">There are no ads still here</string>
     <string name="there_is_no_member_stil_here">There is no members still here</string>
     <string name="no_feed_content_body">Here will appear news from the clubs you belong. Club managers have not published anything yet.
@@ -597,4 +599,5 @@
     <string name="delete_ad"> Delete the ad from my feed </string>
     <string name="my_ads"> My Ads </string>
     <string name="commonmark">CommonMark</string>
+    <string name="type_a_message">Type a message</string>
 </resources>

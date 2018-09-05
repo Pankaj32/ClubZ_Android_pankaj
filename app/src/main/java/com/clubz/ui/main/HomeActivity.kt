@@ -21,6 +21,7 @@ import android.view.*
 import android.widget.*
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.fragments.FragmentChatHistory
 import com.clubz.chat.model.UserBean
 import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.db.repo.ClubNameRepo
@@ -431,6 +432,10 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 for (view in arrayOf(menu, title_tv)) view.visibility = View.VISIBLE
             }
 
+            FragmentChatHistory::class.java.simpleName -> {
+                title_tv.setText(R.string.title_chat)
+                for (view in arrayOf(menu, title_tv,bubble_menu)) view.visibility = View.VISIBLE
+            }
             AdsFragment::class.java.simpleName -> {
                 title_tv.setText(R.string.t_ads)
                 for (view in arrayOf(menu, title_tv, bubble_menu)) view.visibility = View.VISIBLE
@@ -490,7 +495,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             }
             2 -> {
                 setTab(tab, R.drawable.ic_chat_bubble_active, true)
-                replaceFragment(AdsFragment())
+                replaceFragment(FragmentChatHistory())
             }
             3 -> {
                 setTab(tab, R.drawable.ic_ads_active, true)
@@ -696,7 +701,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 //Frag_Find_Activities::class.java.simpleName -> tablayout.visibility = View.VISIBLE
                 Frag_My_Activity::class.java.simpleName -> tablayout.visibility = View.VISIBLE
                 AdsFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
-                ChatFragment::class.java.simpleName -> tablayout.visibility = View.VISIBLE
+                FragmentChatHistory::class.java.simpleName -> tablayout.visibility = View.VISIBLE
                 FragNewsList::class.java.simpleName -> tablayout.visibility = View.VISIBLE
                 else -> tablayout.visibility = View.GONE
             }

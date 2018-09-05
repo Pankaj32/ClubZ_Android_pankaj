@@ -156,8 +156,7 @@
         <activity
             android:name=".ui.user_activities.activity.ActivitiesDetails"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThmeLight"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.newsfeed.CreateNewsFeedActivity"
             android:screenOrientation="portrait"
@@ -205,11 +204,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight"
             android:windowSoftInputMode="stateHidden" />
-
-        <activity android:name=".ui.ads.activity.AdDetailsActivity"
+        <activity
+            android:name=".ui.ads.activity.AdDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThmeLight"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".chat.AllChatActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
     </application>
 
 </manifest>

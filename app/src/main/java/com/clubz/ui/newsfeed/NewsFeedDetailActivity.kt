@@ -11,9 +11,10 @@ import com.clubz.chat.fragments.FragmentChat
 import com.clubz.data.model.Feed
 import com.clubz.ui.core.ViewPagerAdapter
 import com.clubz.ui.newsfeed.fragment.FeedDetailFragment
+import com.clubz.utils.KeyboardUtil
 import kotlinx.android.synthetic.main.activity_club_detail.*
 
-class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
+class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener, ViewPager.OnPageChangeListener {
 
     var pos = 0
     lateinit var feed: Feed
@@ -34,6 +35,7 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
         title_tv.text = feed.news_feed_title
         for (views in arrayOf(backBtn, bubble_menu)) views.setOnClickListener(this)
         setViewPager(view_pager_cd)
+        view_pager_cd.addOnPageChangeListener(this)
         //tablayout_cd.setupWithViewPager(view_pager_cd)
         bubble_menu.visibility = if(feed.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE
     }
@@ -42,7 +44,7 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
         adapter = ViewPagerAdapter(supportFragmentManager)
        adapter.addFragment( FeedDetailFragment.newInstance(feed), resources.getString(R.string.t_content), "First")
        if(feed.is_comment_allow==1){
-           adapter.addFragment( FragmentChat.newInstanceFeedsChat(""+feed.newsFeedId,feed.clubId),resources.getString(R.string.t_chat) , "second")
+           adapter.addFragment( FragmentChat.newInstanceFeedsChat(""+feed.newsFeedId,feed.clubId,feed.news_feed_title),resources.getString(R.string.t_chat) , "second")
            tablayout_cd.setupWithViewPager(view_pager_cd)
        }
        else if(feed.is_comment_allow==0){
@@ -51,6 +53,7 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
        }
 
         viewPager.adapter = adapter
+
     }
 
 
@@ -68,5 +71,16 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener {
             R.id.bubble_menu ->{
             }
         }
+    }
+    override fun onPageScrollStateChanged(state: Int) {
+
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+    }
+
+    override fun onPageSelected(position: Int) {
+        KeyboardUtil.hideKeyboard(this)
     }
 }

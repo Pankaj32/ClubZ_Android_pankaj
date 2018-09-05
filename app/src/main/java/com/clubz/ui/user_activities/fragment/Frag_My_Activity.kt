@@ -165,7 +165,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(mContext,
                 "${WebService.get_all_activity_list}?listType=${listType}&offset=${offset}&limit=${limit}" +
-                        "&date=${Util.getCurrentDate()}&time=${Util.getCurrentTime()}", true)
+                        "&date=${DateTimeUtil.getCurrentDate()}&time=${DateTimeUtil.getCurrentTime()}", true)
         //WebService.get_activity_list + listType + "&limit=&offset=",
         {
             override fun onVolleyResponse(response: String?) {
@@ -281,12 +281,14 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         activityId = activitiesBean.activityId!!
         activityName = activitiesBean.activityName!!
         clubName = activitiesBean.club_name!!
+        clubId = activitiesBean.clubId!!
         //other
 
         if (activitiesBean.is_my_activity.equals("1")) {
             startActivity(Intent(mContext, ActivitiesDetails::class.java)
                     .putExtra("activityId", activityId)
                     .putExtra("activityName", activityName)
+                    .putExtra("clubId", clubId)
                     .putExtra("clubName", clubName)
                     .putExtra("From", "MyActivities")
                     .putExtra("type", "my")
@@ -303,6 +305,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                     .putExtra("userName", userName)
                     .putExtra("userProfileImg", userProfileImg)
                     .putExtra("activityName", activityName)
+                    .putExtra("clubId", clubId)
                     .putExtra("clubName", clubName)
                     .putExtra("type", "others")
                     .putExtra("hasAffliates", hasAffliates)

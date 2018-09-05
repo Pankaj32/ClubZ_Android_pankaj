@@ -17,6 +17,7 @@ import com.clubz.ui.core.ViewPagerAdapter
 import com.clubz.ui.user_activities.fragment.FragActivitiesDetails
 import com.clubz.ui.user_activities.fragment.FragActivityDetailsNew
 import com.clubz.ui.user_activities.fragment.Frag_Activity_Member
+import com.clubz.utils.KeyboardUtil
 import kotlinx.android.synthetic.main.activities_details.*
 import kotlinx.android.synthetic.main.club_more_menu.*
 
@@ -31,6 +32,7 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
     private var userProfileImg = ""
     private var activityName = ""
     private var clubName = ""
+    private var clubId = ""
     private var hasAffliates = 0
     protected var menuDialog: Dialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,7 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
             activityId = bundle.getString("activityId")
             activityName = bundle.getString("activityName")
             clubName = bundle.getString("clubName")
+            clubId = bundle.getString("clubId")
             from = bundle.getString("From")
             type = bundle.getString("type")
             hasAffliates = bundle.getInt("hasAffliates")
@@ -49,9 +52,9 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
         if (from.equals("OthersActivity")) {
             userId = bundle.getString("userId")
             userName = bundle.getString("userName")
-            activityId = bundle.getString("activityId")
-            activityName = bundle.getString("activityName")
-            clubName = bundle.getString("clubName")
+            /* activityId = bundle.getString("activityId")
+             activityName = bundle.getString("activityName")
+             clubName = bundle.getString("clubName")*/
             userProfileImg = bundle.getString("userProfileImg")
             bubble_menu.visibility = View.GONE
         }
@@ -72,7 +75,7 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
              adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Second")
          } else {*/
         adapter.addFragment(FragActivityDetailsNew.newInstance(activityId, type, hasAffliates), resources.getString(R.string.a_activity_first_tab), " This is First")
-        adapter.addFragment(FragmentChat.newInstanceActivityChat(activityId), resources.getString(R.string.a_activity_snd_tab), " This is second")
+        adapter.addFragment(FragmentChat.newInstanceActivityChat(activityId, clubId, activityName), resources.getString(R.string.a_activity_snd_tab), " This is second")
         adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Third")
         //  }
         viewPager.adapter = adapter
@@ -90,6 +93,7 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
         /*headerTxt.text = if (position == 0)
             "Activity Name"
         else "Activity Name"*/
+        KeyboardUtil.hideKeyboard(this)
         bubble_menu.visibility = if (position == 0) View.VISIBLE else View.GONE
     }
 

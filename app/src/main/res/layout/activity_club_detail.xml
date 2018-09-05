@@ -56,11 +56,11 @@
             android:id="@+id/tablayout_cd"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            style="@style/tabtext"
-            app:tabMode="fixed"
-            app:tabGravity="fill"
             android:background="@color/primaryColor"
-            app:tabBackground="@color/primaryColor"
+            app:tabIndicatorColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/ActivityTab"
+            app:tabTextColor="@color/white"
            />
 
         <android.support.v4.view.ViewPager

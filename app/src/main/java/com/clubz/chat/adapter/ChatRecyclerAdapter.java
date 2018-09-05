@@ -14,6 +14,7 @@ import com.clubz.ClubZ;
 import com.clubz.R;
 import com.clubz.chat.model.ChatBean;
 import com.clubz.chat.util.ChatUtil;
+import com.clubz.utils.DateTimeUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -103,7 +104,9 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
         //   chatBean.timeForDelete
-        myChatViewHolder.dateTime.setText(ChatUtil.Companion.ConvertMilliSecondsToFormattedDateToTime(String.valueOf(chatBean.getTimestamp())));
+        /*myChatViewHolder.dateTime.setText(DateTimeUtil.getDayDifference(DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(chatBean.getTimestamp())),
+                DateTimeUtil.getCurrentDate() + " " + DateTimeUtil.getCurrentTime()));*/
+        myChatViewHolder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(chatBean.getTimestamp())));
         myChatViewHolder.chatImageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +124,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         otherChatViewHolder.smlProgress.setVisibility(View.VISIBLE);
         if (position==0) {
             otherChatViewHolder.userTxt.setText(chatBean.getSenderName());
+            otherChatViewHolder.userTxt.setVisibility(View.VISIBLE);
         }else {
             if (mChatBeen.get(position - 1).getSenderName().equals(chatBean.getSenderName())) {
                 otherChatViewHolder.userTxt.setVisibility(View.GONE);
@@ -137,7 +141,9 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             otherChatViewHolder.smlProgress.setVisibility(View.GONE);
             otherChatViewHolder.txtChatMessage.setText(message);
         }
-        otherChatViewHolder.dateTime.setText(ChatUtil.Companion.ConvertMilliSecondsToFormattedDateToTime(String.valueOf(chatBean.getTimestamp())));
+        /*otherChatViewHolder.dateTime.setText(DateTimeUtil.getDayDifference(DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(chatBean.getTimestamp())),
+                DateTimeUtil.getCurrentDate() + " " + DateTimeUtil.getCurrentTime()));*/
+        otherChatViewHolder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(chatBean.getTimestamp())));
         otherChatViewHolder.chatImageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,7 +175,6 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private ImageView chatImageview;
         private EmojiconTextView txtChatMessage;
         private ProgressBar smlProgress;
-        ///private ShadowView myside;
 
 
         MyChatViewHolder(View itemView) {
@@ -179,9 +184,6 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             dateTime = itemView.findViewById(R.id.dateTime);
             chatImageview = itemView.findViewById(R.id.chat_imageview);
             smlProgress = itemView.findViewById(R.id.smlProgress);
-            /*myside = itemView.findViewById(R.id.myside);
-            myside.setShadowDx(mContext.getResources().getDimension(R.dimen._5sdp));
-            myside.setShadowDy(mContext.getResources().getDimension(R.dimen._5sdp));*/
         }
     }
 
@@ -190,7 +192,6 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private ImageView chatImageview;
         private EmojiconTextView txtChatMessage;
         private ProgressBar smlProgress;
-        //  private ShadowView myside;
 
         OtherChatViewHolder(View itemView) {
             super(itemView);
@@ -199,9 +200,6 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             dateTime = itemView.findViewById(R.id.dateTime);
             chatImageview = itemView.findViewById(R.id.chat_imageview);
             smlProgress = itemView.findViewById(R.id.smlProgress);
-           /* myside = itemView.findViewById(R.id.myside);
-            myside.setShadowDx(mContext.getResources().getDimension(R.dimen._minus5sdp));
-            myside.setShadowDy(mContext.getResources().getDimension(R.dimen._5sdp));*/
         }
     }
 }

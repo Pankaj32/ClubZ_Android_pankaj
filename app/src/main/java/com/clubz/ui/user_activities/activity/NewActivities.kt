@@ -283,7 +283,6 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         popupMenu.show()
     }
 
-
     private fun callIntent(caseid: Int) {
 
         when (caseid) {

@@ -42,6 +42,7 @@ class ActivitiesBean {
         var activityName: String? = null
         var activityId: String? = null
         var club_name: String? = null
+        var clubId: String? = null
         var is_like: String? = null
         var userId: String? = null
         var full_name: String? = null

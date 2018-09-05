@@ -28,15 +28,20 @@ import com.android.volley.Response
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.model.AdBean
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
+import com.clubz.ui.ads.model.AdDetailsCreated
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.utils.Constants
 import com.clubz.utils.Util
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
+import com.google.firebase.database.FirebaseDatabase
+import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_create_ad.*
@@ -76,7 +81,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
             Picasso.with(image_member2.context).load(userImage).into(image_member2)
         } else {
             //image_member2.setPadding(padding, padding, padding, padding)
-           // image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
+            // image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
             image_member2.setImageResource(R.drawable.user_place_holder)
         }
         username.text = userName
@@ -115,7 +120,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                 showBackConfirmationDialog()
             }
             R.id.done -> {
-                   if (validator()) createAd()
+                if (validator()) createAd()
             }
         }
     }
@@ -327,15 +332,12 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
             val data = String(response.data)
             Util.e("data", data)
             dialog.dismiss()
-            //{"status":"success","message":"Club added successfully"}
             try {
                 val obj = JSONObject(data)
                 val status = obj.getString("status")
                 if (status == "success") {
-                    Toast.makeText(this@CreateAdActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
-                    finish()
-                    /*val activityDetails = Gson().fromJson(data, ActivityDetailsResponce::class.java)
-                    createFeedInFireBase(activityDetails)*/
+                    val adDetails = Gson().fromJson(data, AdDetailsCreated::class.java)
+                    createAdInFireBase(adDetails)
                 } else {
                     Toast.makeText(this@CreateAdActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
                 }
@@ -382,5 +384,22 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
         }
         request.retryPolicy = DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         ClubZ.instance.addToRequestQueue(request)
+    }
+
+    private fun createAdInFireBase(adDetails: AdDetailsCreated) {
+        val activityBean = AdBean()
+        activityBean.adId = adDetails.adDetail.adId
+        activityBean.adTitle = adDetails.adDetail.title
+        activityBean.adImage = adDetails.adDetail.image
+        activityBean.clubId = adDetails.adDetail.clubId
+        FirebaseDatabase.getInstance()
+                .reference
+                .child(ChatUtil.ARG_ADS)
+                .child(adDetails.adDetail.clubId)
+                .child(adDetails.adDetail.adId)
+                .setValue(activityBean).addOnCompleteListener {
+                    Toast.makeText(this@CreateAdActivity, adDetails.message, Toast.LENGTH_LONG).show()
+                    finish()
+                }
     }
 }

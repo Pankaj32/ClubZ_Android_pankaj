@@ -8,7 +8,9 @@ import com.clubz.R
 import com.clubz.chat.fragments.FragmentChat
 import com.clubz.ui.ads.fragment.FragAdsDetails
 import com.clubz.ui.core.ViewPagerAdapter
+import com.clubz.utils.KeyboardUtil
 import kotlinx.android.synthetic.main.activity_add_details.*
+import okhttp3.internal.Util
 
 class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.OnPageChangeListener {
 
@@ -38,12 +40,13 @@ class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.O
         setViewPager(viewPager)
         tablayout.setupWithViewPager(viewPager)
         viewPager.addOnPageChangeListener(this)
+        KeyboardUtil.hideKeyboard(this)
     }
 
     fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(FragAdsDetails.newInstance(adId, adType), resources.getString(R.string.a_activity_first_tab), " This is First")
-        adapter.addFragment(FragmentChat.newInstanceAdChat(adId), resources.getString(R.string.a_activity_snd_tab), " This is second")
+        adapter.addFragment(FragmentChat.newInstanceAdChat(adId, clubId, adTitle), resources.getString(R.string.a_activity_snd_tab), " This is second")
 
         viewPager.adapter = adapter
         //Chiranjib
@@ -57,7 +60,7 @@ class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.O
     }
 
     override fun onPageSelected(position: Int) {
-       // bubble_menu.visibility = if (position == 0) View.VISIBLE else View.GONE
+        KeyboardUtil.hideKeyboard(this)
     }
 
     override fun onClick(p0: View?) {

@@ -1,29 +1,30 @@
-package com.clubz.chat.fragments
+package com.clubz.chat
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.*
+import android.view.ContextThemeWrapper
+import android.view.Gravity
+import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
-
 import com.clubz.R
 import com.clubz.chat.adapter.ChatRecyclerAdapter
 import com.clubz.chat.model.ChatBean
@@ -41,33 +42,47 @@ import com.google.firebase.storage.StorageReference
 import com.mvc.imagepicker.ImagePicker
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
-import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.z_user_profile_dialog.*
+import kotlinx.android.synthetic.main.activity_all_chat.*
 import java.io.File
 import java.io.IOException
-
 import java.util.ArrayList
 
+class AllChatActivity : AppCompatActivity(), View.OnClickListener {
 
-class FragmentChat : Fragment(), View.OnClickListener {
+    private val ARG_CHATFOR = "chatFor"
+    private val ARG_CLUB_ID = "clubId"
+    //activities
+    private val ARG_ACTIVITY_ID = "activityId"
+    private val ARG_ACTIVITY_NAME = "activityName"
+    private val ARG_USERID = "userId"
+    private val ARG_USERNAME = "userName"
+    private val ARG_USERPROFILEIMG = "userProfileImg"
+    //feeds
+    private val ARG_FEED_ID = "feedId"
+    private val ARG_FEED_NAME = "feedName"
+    //ads
+    private val ARG_AD_ID = "adId"
+    private val ARG_AD_NAME = "adName"
+    //
+    private val ARG_HISTORY_ID = "historyId"
+    private val ARG_HISTORY_NAME = "historyName"
 
-    private var mContext: Context? = null
     private var chatFor = ""
 
     private var clubId = ""
     private var clubOwnerId = ""
-    private var userId = ""
-    private var userName = ""
-    private var userProfileImg = ""
+    /*  private var userId = ""
+      private var userName = ""
+      private var userProfileImg = ""
 
-    private var activityId = ""
-    private var activityName = ""
+      private var activityId = ""
+      private var activityName = ""
 
-    private var feedId = ""
-    private var feedName = ""
+      private var feedId = ""
+      private var feedName = ""
 
-    private var adId = ""
-    private var adName = ""
+      private var adId = ""
+      private var adName = ""*/
 
     private var historyId = ""
     private var historyName = ""
@@ -88,36 +103,32 @@ class FragmentChat : Fragment(), View.OnClickListener {
     private var chatRecycler: RecyclerView? = null
     private var memberList = ArrayList<MemberBean>()
 
-
     private var emojIcon: EmojIconActions? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_all_chat)
 
-        val view = inflater.inflate(R.layout.fragment_chat, container, false)
-        noDataTxt = view.findViewById<EditText>(R.id.noDataTxt)
-        silentTxt = view.findViewById<TextView>(R.id.silentTxt)
-        progressbar = view.findViewById<ProgressBar>(R.id.progressbar)
-        txtMsg = view.findViewById<EmojiconEditText>(R.id.txtMsg)
-        chatRecycler = view.findViewById<RecyclerView>(R.id.chatRecycler)
-        return view
-    }
+        noDataTxt = findViewById<EditText>(R.id.noDataTxt)
+        silentTxt = findViewById<TextView>(R.id.silentTxt)
+        progressbar = findViewById<ProgressBar>(R.id.progressbar)
+        txtMsg = findViewById<EmojiconEditText>(R.id.txtMsg)
+        chatRecycler = findViewById<RecyclerView>(R.id.chatRecycler)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         app = FirebaseApp.getInstance()
         mstorage = FirebaseStorage.getInstance(app!!)
+
+        val arguments = intent.extras
         if (arguments != null) {
-            chatFor = arguments!!.getString(ARG_CHATFOR)
+            chatFor = arguments.getString(ARG_CHATFOR)
             when (chatFor) {
                 ChatUtil.ARG_NEWS_FEED -> {
-                    clubId = arguments!!.getString(ARG_CLUB_ID)
-                    feedId = arguments!!.getString(ARG_FEED_ID)
-                    feedName = arguments!!.getString(ARG_FEED_NAME)
-                    chatRoom = clubId + "_" + feedId + "_" + chatFor
-                    chatHistoryRoom = clubId + "_" + feedId + "_" + chatFor + "_" + feedName
-                    historyId = feedId
-                    historyName = feedName
+                    clubId = arguments.getString(ARG_CLUB_ID)
+                    historyId = arguments.getString(ARG_HISTORY_ID)
+                    historyName = arguments.getString(ARG_HISTORY_NAME)
+                    chatRoom = clubId + "_" + historyId + "_" + chatFor
+                    chatHistoryRoom = clubId + "_" + historyId + "_" + chatFor + "_" + historyName
+
                     //getFeedStatus()
                     getUserStatus()
                     getClubMembers()
@@ -125,13 +136,11 @@ class FragmentChat : Fragment(), View.OnClickListener {
                     // getMessageFromFirebaseUser()
                 }
                 ChatUtil.ARG_ACTIVITIES -> {
-                    clubId = arguments!!.getString(ARG_CLUB_ID)
-                    activityId = arguments!!.getString(ARG_ACTIVITY_ID)
-                    activityName = arguments!!.getString(ARG_ACTIVITY_NAME)
-                    chatRoom = clubId + "_" + activityId + "_" + chatFor
-                    chatHistoryRoom = clubId + "_" + activityId + "_" + chatFor + "_" + activityName
-                    historyId = activityId
-                    historyName = activityName
+                    clubId = arguments.getString(ARG_CLUB_ID)
+                    historyId = arguments.getString(ARG_HISTORY_ID)
+                    historyName = arguments.getString(ARG_HISTORY_NAME)
+                    chatRoom = clubId + "_" + historyId + "_" + chatFor
+                    chatHistoryRoom = clubId + "_" + historyId + "_" + chatFor + "_" + historyName
                     getUserStatus()
                     getClubMembers()
                     getClubOwner()
@@ -140,13 +149,11 @@ class FragmentChat : Fragment(), View.OnClickListener {
                     silentTxt?.text="Activity Chat is On Development Mode"*/
                 }
                 ChatUtil.ARG_ADS -> {
-                    clubId = arguments!!.getString(ARG_CLUB_ID)
-                    adId = arguments!!.getString(ARG_AD_ID)
-                    adName = arguments!!.getString(ARG_AD_NAME)
-                    chatRoom = clubId + "_" + adId + "_" + chatFor
-                    chatHistoryRoom = clubId + "_" + adId + "_" + chatFor + "_" + adName
-                    historyId = adId
-                    historyName = adName
+                    clubId = arguments.getString(ARG_CLUB_ID)
+                    historyId = arguments.getString(ARG_HISTORY_ID)
+                    historyName = arguments.getString(ARG_HISTORY_NAME)
+                    chatRoom = clubId + "_" + historyId + "_" + chatFor
+                    chatHistoryRoom = clubId + "_" + historyId + "_" + chatFor + "_" + historyName
                     getUserStatus()
                     getClubMembers()
                     getClubOwner()
@@ -156,10 +163,12 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 }
             }
         }
+        titleTxt.text = historyName
         sentButton.setOnClickListener(this)
         sendPicBtn.setOnClickListener(this)
+        backBtn.setOnClickListener(this)
         emojIcon?.setUseSystemEmoji(false)
-        emojIcon = EmojIconActions(mContext, rootView, txtMsg, emoji)
+        emojIcon = EmojIconActions(this, rootView, txtMsg, emoji)
         emojIcon?.ShowEmojIcon()
         emojIcon?.setIconsIds(R.drawable.keyboard_ico, R.drawable.ic_smilely_ico)
         emojIcon?.setKeyboardListener(object : EmojIconActions.KeyboardListener {
@@ -173,12 +182,22 @@ class FragmentChat : Fragment(), View.OnClickListener {
         })
     }
 
+    private fun getClubOwner() {
+        FirebaseDatabase.getInstance()
+                .reference
+                .child(ChatUtil.ARG_CLUB)
+                .child(clubId).addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError?) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        this.mContext = context
-
+                    override fun onDataChange(p0: DataSnapshot?) {
+                        val club = p0?.getValue(ClubBean::class.java)
+                        clubOwnerId = club?.ownerId!!
+                    }
+                })
     }
+
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
@@ -186,11 +205,14 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 if (txtMsg?.text.toString().trim().isNotEmpty()) {
                     sendMessage(txtMsg?.text.toString(), "text", chatFor)
                 } else {
-                 //   Toast.makeText(mContext, R.string.please_type, Toast.LENGTH_LONG).show()
+                 //   Toast.makeText(this, R.string.please_type, Toast.LENGTH_LONG).show()
                 }
             }
             R.id.sendPicBtn -> {
                 permissionPopUp()
+            }
+            R.id.backBtn -> {
+                finish()
             }
         }
     }
@@ -240,17 +262,6 @@ class FragmentChat : Fragment(), View.OnClickListener {
                         sendToChatHistory(member, chatBean, databaseReference)
                     }
                     sendToOwnerChatHistory(chatBean, databaseReference)
-                    /*sendmyChatHistory(chatBean, databaseReference, msgType)
-                    sendOppChatHistory(chatBean, databaseReference, msgType)
-                    sendPushNotificationToReceiver(chatBean.name, chatBean.name,
-                            finalMsg,
-                            chatBean.uid,
-                            FirebaseInstanceId.getInstance().token,
-                            chatRoom,
-                            requestId,
-                            requestType,
-                            rcvPrflImg,
-                            rcvFbTkn)*/
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -329,7 +340,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                                 if (mChatRecyclerAdapter == null) {
                                     val chatbeans = ArrayList<ChatBean>()
                                     chatbeans.add(chatBean!!)
-                                    mChatRecyclerAdapter = ChatRecyclerAdapter(mContext, chatbeans/*, object : ChatAdapterClickListner() {
+                                    mChatRecyclerAdapter = ChatRecyclerAdapter(this@AllChatActivity, chatbeans/*, object : ChatAdapterClickListner() {
                                     fun clickedItemPosition(url: String) {
                                         showZoomImage(url)
                                     }
@@ -371,7 +382,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
     }
 
     fun permissionPopUp() {
-        val wrapper = ContextThemeWrapper(mContext, R.style.popstyle)
+        val wrapper = ContextThemeWrapper(this@AllChatActivity, R.style.popstyle)
         val popupMenu = PopupMenu(wrapper, sendPicBtn, Gravity.CENTER)
         popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())
         popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
@@ -379,9 +390,9 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 isCameraSelected = true
                 when (item.getItemId()) {
                     R.id.pop1 -> if (Build.VERSION.SDK_INT >= 23) {
-                        if (mContext?.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        if (this@AllChatActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                             callIntent(Constants.INTENTREQUESTCAMERA)
-                        } else if (mContext?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        } else if (this@AllChatActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                             callIntent(Constants.INTENTREQUESTREAD)
                         } else {
                             callIntent(Constants.INTENTCAMERA)
@@ -391,7 +402,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                     }
                     R.id.pop2 -> if (Build.VERSION.SDK_INT >= 23) {
                         isCameraSelected = false
-                        if (mContext?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        if (this@AllChatActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                             callIntent(Constants.INTENTREQUESTREAD)
                         } else {
                             callIntent(Constants.INTENTGALLERY)
@@ -414,7 +425,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 var file = File(Environment.getExternalStorageDirectory().toString() + File.separator + "image.jpg");
                 imageUri =
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            FileProvider.getUriForFile(mContext!!, BuildConfig.APPLICATION_ID + ".provider", file)
+                            FileProvider.getUriForFile(this@AllChatActivity, BuildConfig.APPLICATION_ID + ".provider", file)
                         } else {
                             Uri.fromFile(file)
                         }
@@ -425,15 +436,15 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 ImagePicker.pickImage(this)
                 // com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
             }
-            Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+            Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this@AllChatActivity, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_CAMERA)
-            Constants.INTENTREQUESTREAD -> ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+            Constants.INTENTREQUESTREAD -> ActivityCompat.requestPermissions(this@AllChatActivity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
             Constants.INTENTREQUESTWRITE -> {
             }
 
             Constants.INTENTREQUESTNET -> {
-                ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.INTERNET),
+                ActivityCompat.requestPermissions(this@AllChatActivity, arrayOf(Manifest.permission.INTERNET),
                         Constants.MY_PERMISSIONS_REQUEST_INTERNET)
             }
         }
@@ -446,18 +457,18 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (!isCameraSelected) callIntent(Constants.INTENTGALLERY)
                 } else {
-                    Toast.makeText(mContext, R.string.a_permission_denied, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@AllChatActivity, R.string.a_permission_denied, Toast.LENGTH_LONG).show()
                 }
             }
             Constants.MY_PERMISSIONS_REQUEST_CAMERA -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (isCameraSelected) callIntent(Constants.INTENTCAMERA)
             } else {
-                Toast.makeText(mContext, R.string.a_camera_denied, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@AllChatActivity, R.string.a_camera_denied, Toast.LENGTH_LONG).show()
             }
             Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (!isCameraSelected) callIntent(Constants.INTENTGALLERY) else callIntent(Constants.INTENTCAMERA)
             } else {
-                Toast.makeText(mContext, R.string.a_permission_read, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@AllChatActivity, R.string.a_permission_read, Toast.LENGTH_LONG).show()
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -468,19 +479,19 @@ class FragmentChat : Fragment(), View.OnClickListener {
 
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
-                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(mContext, requestCode, resultCode, data);
+                imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@AllChatActivity, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(mContext!!, this)
+                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this)
                 } else {
-                    Toast.makeText(activity, R.string.swr, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AllChatActivity, R.string.swr, Toast.LENGTH_SHORT).show()
                 }
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(mContext!!, this)
+                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this)
                 } else {
-                    Toast.makeText(mContext, R.string.swr, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AllChatActivity, R.string.swr, Toast.LENGTH_SHORT).show()
                 }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -509,7 +520,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 ?.addOnFailureListener { e ->
                     progressbar?.visibility = View.GONE
                     Log.e("TAG", "onFailure: " + e.message)
-                    Toast.makeText(mContext, "Failed " + e.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AllChatActivity, "Failed " + e.message, Toast.LENGTH_SHORT).show()
                 }
                 ?.addOnProgressListener { taskSnapshot ->
                     val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
@@ -592,74 +603,4 @@ class FragmentChat : Fragment(), View.OnClickListener {
         chatHistory.timestamp = chatBean.timestamp
         databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(clubOwnerId).child(chatHistoryRoom).setValue(chatHistory)
     }
-
-    private fun getClubOwner() {
-        FirebaseDatabase.getInstance()
-                .reference
-                .child(ChatUtil.ARG_CLUB)
-                .child(clubId).addValueEventListener(object : ValueEventListener {
-                    override fun onCancelled(p0: DatabaseError?) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun onDataChange(p0: DataSnapshot?) {
-                        val club = p0?.getValue(ClubBean::class.java)
-                        clubOwnerId = club?.ownerId!!
-                    }
-                })
-    }
-
-    companion object {
-        // TODO: Rename parameter arguments, choose names that match
-        // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-        private val ARG_CHATFOR = "chatFor"
-        private val ARG_CLUB_ID = "clubId"
-        //activities
-        private val ARG_ACTIVITY_ID = "activityId"
-        private val ARG_ACTIVITY_NAME = "activityName"
-        private val ARG_USERID = "userId"
-        private val ARG_USERNAME = "userName"
-        private val ARG_USERPROFILEIMG = "userProfileImg"
-        //feeds
-        private val ARG_FEED_ID = "feedId"
-        private val ARG_FEED_NAME = "feedName"
-        //ads
-        private val ARG_AD_ID = "adId"
-        private val ARG_AD_NAME = "adName"
-
-        fun newInstanceActivityChat(activityId: String, clubId: String, activityName: String): FragmentChat {
-            val fragment = FragmentChat()
-            val args = Bundle()
-            args.putString(ARG_CHATFOR, ChatUtil.ARG_ACTIVITIES)
-            args.putString(ARG_CLUB_ID, clubId)
-            args.putString(ARG_ACTIVITY_ID, activityId)
-            args.putString(ARG_ACTIVITY_NAME, activityName)
-            fragment.arguments = args
-            return fragment
-        }
-
-        fun newInstanceAdChat(adId: String, clubId: String, adName: String): FragmentChat {
-            val fragment = FragmentChat()
-            val args = Bundle()
-            args.putString(ARG_CHATFOR, ChatUtil.ARG_ADS)
-            args.putString(ARG_CLUB_ID, clubId)
-            args.putString(ARG_AD_ID, adId)
-            args.putString(ARG_AD_NAME, adName)
-            fragment.arguments = args
-            return fragment
-        }
-
-        // TODO: Rename and change types and number of parameters
-        fun newInstanceFeedsChat(feedsId: String, clubId: String, feedName: String): FragmentChat {
-            val fragment = FragmentChat()
-            val args = Bundle()
-            args.putString(ARG_CHATFOR, ChatUtil.ARG_NEWS_FEED)
-            args.putString(ARG_CLUB_ID, clubId)
-            args.putString(ARG_FEED_ID, feedsId)
-            args.putString(ARG_FEED_NAME, feedName)
-            fragment.arguments = args
-            return fragment
-        }
-    }
-}// Required empty public constructor
+}

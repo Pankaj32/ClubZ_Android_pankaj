@@ -19,9 +19,9 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_chat_bt_sht" />
+                            <entry key="outputName" value="ic_image_area" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/../../Design/clubZ/message-text.svg" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../../Design/clubZ/image-area.svg" />
                           </map>
                         </option>
                       </PersistentState>
