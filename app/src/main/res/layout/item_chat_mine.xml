@@ -2,9 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:emojicon="http://schemas.android.com/tools"
-    android:paddingLeft="@dimen/_5sdp"
-    android:paddingRight="@dimen/_5sdp"
+    xmlns:emojicon="http://schemas.android.com/apk/res-auto"
     android:paddingTop="@dimen/_3sdp"
     android:paddingBottom="@dimen/_3sdp">
 
@@ -23,40 +21,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+
         android:layout_below="@+id/userTxt"
-        android:layout_marginLeft="@dimen/_120sdp"
-        android:layout_marginRight="@dimen/_5sdp"
-        android:background="@drawable/chat_mine_bg"
-        android:orientation="vertical">
+        android:layout_marginStart="@dimen/_80sdp"
+        android:orientation="vertical"
+        android:gravity="end">
 
         <!--<TextView
             android:id="@+id/text_view_chat_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:paddingLeft="@dimen/_8sdp"
-            android:paddingRight="@dimen/_8sdp"
-            android:text=""
-            android:textColor="@color/black"
-            android:visibility="visible" />-->
-        <hani.momanii.supernova_emoji_library.Helper.EmojiconTextView
-            android:id="@+id/text_view_chat_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:paddingLeft="@dimen/_8sdp"
-            android:paddingRight="@dimen/_8sdp"
+            android:padding="@dimen/_8sdp"
             android:textColor="@color/eighty_black"
             android:visibility="visible"
             android:fontFamily="@font/roboto_regular"
-            android:textSize="12sp"
-            emojicon:emojiconSize="28sp"
-            emojicon:emojiconUseSystemDefault="true" />
+            android:minWidth="@dimen/_70sdp"
+            android:background="@drawable/chat_mine_bg"/>-->
+        <com.vanniktech.emoji.EmojiTextView
+            android:id="@+id/text_view_chat_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_8sdp"
+            android:textColor="@color/eighty_black"
+            android:visibility="visible"
+            android:fontFamily="@font/roboto_regular"
+            android:text="fd"
+            android:minWidth="@dimen/_70sdp"
+            android:background="@drawable/chat_mine_bg"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/chat_mine_bg">
 
             <ProgressBar
                 android:id="@+id/smlProgress"

@@ -36,6 +36,7 @@ import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.user_activities.model.GetLeaderResponce
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.user_activities.model.ActivitiesBean
 import com.clubz.ui.user_activities.model.ActivityDetailsResponce
 import com.clubz.ui.user_activities.model.GetMyClubResponce
 import com.clubz.utils.Constants
@@ -61,8 +62,8 @@ class NewActivities : BaseActivity(), View.OnClickListener {
     //private var spinnActivityClubAdapter: ArrayAdapter<GetMyClubResponce.DataBean>? = null
     private var spinnFeeTypeAdapter: ArrayAdapter<String>? = null
     private var activityLeaderList: ArrayList<GetLeaderResponce.DataBean>? = null
-    private var activityMyClubList: ArrayList<GetMyClubResponce.DataBean>? = null
-    private var feestypeList: ArrayList<String>? = null
+    /*private var activityMyClubList: ArrayList<GetMyClubResponce.DataBean>? = null*/
+    private var feestypeList = ArrayList<String>()
     private var isCameraSelected: Boolean = false
     var activityLeader: String = ""
     var feesType: String = ""
@@ -76,6 +77,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
     private var userName = ""
     private var userImage = ""
     private var clubName = ""
+    private var activityBean: ActivitiesBean.DataBean? = null
     private lateinit var autocompleteFragment: PlaceAutocompleteFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,8 +87,12 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         let {
             if (intent.hasExtra("clubId")) clubId = intent.extras.getString("clubId")
             if (intent.hasExtra("clubName")) clubName = intent.extras.getString("clubName")
+            if (intent.hasExtra("activityBean")) activityBean = intent.getParcelableExtra("activityBean")
         }
         initializeView()
+        if (activityBean != null) {
+            updateUiForEdit()
+        }
         //getClub()
         clubNameTxt.text = clubName
         getLeaders(clubId)
@@ -95,17 +101,13 @@ class NewActivities : BaseActivity(), View.OnClickListener {
     private fun initializeView() {
         val padding = resources.getDimension(R.dimen._8sdp).toInt()
         activityLeaderList = ArrayList()
-        activityMyClubList = ArrayList()
         feestypeList = ArrayList()
         userId = ClubZ.currentUser!!.id
         userName = ClubZ.currentUser!!.full_name
         userImage = ClubZ.currentUser!!.profile_image
         if (userImage.isNotEmpty()) {
-            Picasso.with(image_member2.context).load(userImage).into(image_member2)
+            Picasso.with(image_member2.context).load(userImage).fit().into(image_member2)
         } else {
-
-            // image_member2.setPadding(padding, padding, padding, padding)
-            //  image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
             image_member2.setImageResource(R.drawable.user_place_holder)
         }
 
@@ -114,25 +116,15 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         imgActivity.setImageResource(R.drawable.ic_camera_white)
 
         username.text = userName
-        //addLeader()
 
-        val clubListBean = GetMyClubResponce.DataBean()
-        clubListBean.club_name = "Activity Club"
-        activityMyClubList!!.add(clubListBean)
-        //feestypeList!!.add("Fees type")
-        feestypeList!!.add("Fixed")
-        feestypeList!!.add("Voluntary")
-        feestypeList!!.add("Free")
-        feestypeList!!.add("Dynamic")
-
+        feestypeList.add("Fixed")
+        feestypeList.add("Voluntary")
+        feestypeList.add("Free")
+        feestypeList.add("Dynamic")
         spinnActivityLeaderAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityLeaderList)
         spinnFeeTypeAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, feestypeList)
-        //spinnActivityClubAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityMyClubList)
-
-        //spinnerClub.adapter = spinnActivityClubAdapter
         spinnerLeader.adapter = spinnActivityLeaderAdapter
         spinnerFeesType.adapter = this.spinnFeeTypeAdapter
-
 
         autocompleteFragment = fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
 
@@ -188,15 +180,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) =
                     when (p2) {
-                        /*0 -> {
-                            feesType = ""
-                            fees.isEnabled = true
-                            *//*fees.setFocusable(true)
-                                    fees.setClickable(true)*//*
-                        }*/
                         2 -> {
-                            /*fees.setFocusable(false)
-                                    fees.setClickable(true)*/
                             fees.isEnabled = false
                             feesType = feestypeList!![p2]
                             fees.setText("")
@@ -204,36 +188,39 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                         else -> {
                             feesType = feestypeList!![p2]
                             fees.isEnabled = true
-                            /*fees.setFocusable(true)
-                                    fees.setClickable(true)*/
                         }
                     }
         }
-        /*spinnerClub.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
 
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (p2 == 0) {
-                    clubId = ""
-                    addLeader()
-                    spinnActivityLeaderAdapter!!.notifyDataSetChanged()
-                } else {
-                    clubId = activityMyClubList!![p2].clubId!!
-                    getLeaders(clubId)
-                }
-            }
-        }*/
         imgActivity.setOnClickListener(this@NewActivities)
         back_f.setOnClickListener(this@NewActivities)
         done.setOnClickListener(this@NewActivities)
     }
 
-    private fun addLeader() {
-        activityLeaderList?.clear()
-        val leaderListBean = GetLeaderResponce.DataBean()
-        leaderListBean.name = "Activity Leader"
-        activityLeaderList!!.add(leaderListBean)
+    fun updateUiForEdit() {
+        clubId = activityBean?.clubId!!
+        clubName = activityBean?.club_name!!
+        headTitle.text = activityBean?.activityName
+        val padding = 0
+        imgActivity.setPadding(padding, padding, padding, padding)
+        if (!TextUtils.isEmpty(activityBean?.image)) Picasso.with(imgActivity.context).load(activityBean?.image)
+                .placeholder(R.drawable.new_img).fit().into(imgActivity)
+        activityName.setText(activityBean?.activityName)
+        fees.setText(activityBean?.fee)
+        for (i in 0..feestypeList.size) {
+            val feesType = feestypeList[i]
+            if (feesType.equals(activityBean?.fee_type)) {
+                spinnerFeesType.setSelection(i)
+                break
+            }
+        }
+        activityLocation.setText(activityBean?.location)
+        latitute = activityBean?.latitude!!
+        longitute = activityBean?.longitude!!
+        minUser.setText(activityBean?.min_users)
+        maxUser.setText(activityBean?.max_users)
+        genDescription.setText(activityBean?.description)
+        termNConditionTxt.setText(activityBean?.terms_conditions)
     }
 
     override fun onClick(view: View?) {
@@ -245,10 +232,15 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 showBackConfirmationDialog()
             }
             R.id.done -> {
-                if (validator()) createActivities()
+                if (validator()) {
+                    if (activityBean != null) {
+                        updateActivities()
+                    } else {
+                        createActivities()
+                    }
+                }
             }
         }
-
     }
 
     private fun permissionPopUp() {
@@ -300,7 +292,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             }
             Constants.INTENTGALLERY -> {
                 ImagePicker.pickImage(this@NewActivities)
-              //   com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
+                //   com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
             }
             Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this@NewActivities, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_CAMERA)
@@ -474,45 +466,6 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         return true
     }
 
-    /* private fun getClub() {
-         val dialog = CusDialogProg(this@NewActivities)
-         dialog.show()
-         val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_my_club, Response.Listener<NetworkResponse> { response ->
-             val data = String(response.data)
-             Util.e("data", data)
-             dialog.dismiss()
-             //{"status":"success","message":"Club added successfully"}
-             try {
-                 val obj = JSONObject(data)
-                 if (obj.getString("status") == "success") {
-                     val clubResponce: GetMyClubResponce = Gson().fromJson(data, GetMyClubResponce::class.java)
-                     for (dataBean in clubResponce.getData()!!) {
-                         activityMyClubList?.add(dataBean)
-                     }
-                     spinnActivityLeaderAdapter!!.notifyDataSetChanged()
-                 } else {
-                     *//*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*//*
-                }
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()
-            }
-            dialog.dismiss()
-        }, Response.ErrorListener {
-            dialog.dismiss()
-            Toast.makeText(this@NewActivities, "Something went wrong", Toast.LENGTH_LONG).show()
-        }) {
-
-            override fun getHeaders(): MutableMap<String, String> {
-                val params = java.util.HashMap<String, String>()
-                params["authToken"] = ClubZ.currentUser!!.auth_token
-                return params
-            }
-        }
-        request.retryPolicy = DefaultRetryPolicy(10000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-        ClubZ.instance.addToRequestQueue(request)
-    }*/
-
     private fun getLeaders(clubId: String) {
         val dialog = CusDialogProg(this@NewActivities)
         dialog.show()
@@ -529,6 +482,15 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                         activityLeaderList!!.add(dataBean)
                     }
                     spinnActivityLeaderAdapter!!.notifyDataSetChanged()
+                    if (activityBean != null) {
+                        for (i in 0..activityLeaderList!!.size) {
+                            val leader = activityLeaderList!![i]
+                            if (leader.userId.equals(activityBean?.leader_id)) {
+                                spinnerLeader.setSelection(i)
+                                break
+                            }
+                        }
+                    }
                 } else {
                     /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
                 }
@@ -541,7 +503,6 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             dialog.dismiss()
             Toast.makeText(this@NewActivities, "Something went wrong", Toast.LENGTH_LONG).show()
         }) {
-
             override fun getHeaders(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
                 //  params.put("language", SessionManager.getObj().getLanguage())
@@ -567,7 +528,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 if (status == "success") {
                     Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
                     val activityDetails = Gson().fromJson(data, ActivityDetailsResponce::class.java)
-                    createFeedInFireBase(activityDetails)
+                    createActivityInFireBase(activityDetails)
                 } else {
                     Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
                 }
@@ -623,7 +584,73 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         ClubZ.instance.addToRequestQueue(request)
     }
 
-    private fun createFeedInFireBase(activityDetails: ActivityDetailsResponce) {
+    private fun updateActivities() {
+        val dialog = CusDialogProg(this@NewActivities)
+        dialog.show()
+        val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.updateActivity,
+                Response.Listener<NetworkResponse> { response ->
+                    val data = String(response.data)
+                    Util.e("data", data)
+                    dialog.dismiss()
+                    //{"status":"success","message":"Club added successfully"}
+                    try {
+                        val obj = JSONObject(data)
+                        val status = obj.getString("status")
+                        if (status == "success") {
+                            Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
+                            val activityDetails = Gson().fromJson(data, ActivityDetailsResponce::class.java)
+                            createActivityInFireBase(activityDetails)
+                        } else {
+                            Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()
+                        }
+                    } catch (e: java.lang.Exception) {
+                        e.printStackTrace()
+                        Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()
+                    }
+                    dialog.dismiss()
+                }, Response.ErrorListener {
+            dialog.dismiss()
+            Toast.makeText(this@NewActivities, "Something went wrong", Toast.LENGTH_LONG).show()
+        }) {
+            override fun getParams(): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params["activityId"] = activityBean?.activityId.toString()
+                params["name"] = activityName.text.toString()
+                params["leaderId"] = activityLeader
+                params["location"] = activityLocation.text.toString()
+                params["latitude"] = latitute
+                params["longitude"] = longitute
+                params["feeType"] = feesType
+                params["fee"] = fees.text.toString()
+                params["minUsers"] = minUser.text.toString()
+                params["maxUsers"] = maxUser.text.toString()
+                params["description"] = genDescription.text.toString()
+                params["termsConditions"] = termNConditionTxt.text.toString()
+
+                Util.e("parms create", params.toString())
+                return params
+            }
+
+            override fun getByteData(): MutableMap<String, DataPart>? {
+                val params = java.util.HashMap<String, DataPart>()
+                if (activityImage != null) {
+                    params["image"] = DataPart("activity_image.jpg", AppHelper.getFileDataFromDrawable(activityImage), "image")
+                }
+                return params
+            }
+
+            override fun getHeaders(): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                //  params.put("language", SessionManager.getObj().getLanguage())
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                return params
+            }
+        }
+        request.retryPolicy = DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        ClubZ.instance.addToRequestQueue(request)
+    }
+
+    private fun createActivityInFireBase(activityDetails: ActivityDetailsResponce) {
         val activityBean = ActivityBean()
         activityBean.activityId = activityDetails.getDetails()?.activityId
         activityBean.activityTitle = activityDetails.getDetails()?.name

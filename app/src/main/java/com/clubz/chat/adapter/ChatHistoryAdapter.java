@@ -1,6 +1,7 @@
 package com.clubz.chat.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.clubz.utils.DateTimeUtil;
 
 import com.clubz.utils.Util;
 import com.squareup.picasso.Picasso;
+import com.vanniktech.emoji.EmojiTextView;
 
 import java.util.List;
 
@@ -25,15 +27,15 @@ import java.util.List;
 
 public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.ViewHolder> {
     private List<ChatHistoryBean> mChatHistorylist;
- //   private MyOnCheckListioner myOnCheckListioner;
+    //   private MyOnCheckListioner myOnCheckListioner;
     private Context mContext;
     private OnItemClick onItemClick;
 
-    public ChatHistoryAdapter(Context context, List<ChatHistoryBean> mChatHistorylist,OnItemClick onItemClick) {
+    public ChatHistoryAdapter(Context context, List<ChatHistoryBean> mChatHistorylist, OnItemClick onItemClick) {
         this.mContext = context;
         this.mChatHistorylist = mChatHistorylist;
-        this.onItemClick=onItemClick;
-      //  this.myOnCheckListioner = myOnCheckListioner;
+        this.onItemClick = onItemClick;
+        //  this.myOnCheckListioner = myOnCheckListioner;
     }
 
     public void add(ChatHistoryBean historyBean) {
@@ -54,7 +56,7 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
 
         imgPath = historyBean.getProfilePic();
         holder.title.setText(historyBean.getHistoryName());
-        if (historyBean.getImage()==1) {
+        if (historyBean.getImage() == 1) {
             holder.lastMsg.setVisibility(View.GONE);
             holder.msgImg.setVisibility(View.VISIBLE);
         } else {
@@ -62,10 +64,14 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
             holder.msgImg.setVisibility(View.GONE);
             holder.lastMsg.setText(historyBean.getMessage());
         }
-
-        /*holder.dateTime.setText(DateTimeUtil.getDayDifference(DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(historyBean.getTimestamp())),
-                DateTimeUtil.getCurrentDate() + " " + DateTimeUtil.getCurrentTime()));*/
-        holder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(historyBean.getTimestamp())));
+        if (historyBean.getRead() == 1) {
+            holder.lastMsg.setTextColor(ContextCompat.getColor(mContext, R.color.nav_gray));
+        }else {
+            holder.lastMsg.setTextColor(ContextCompat.getColor(mContext, R.color.primaryColor));
+        }
+        holder.dateTime.setText(DateTimeUtil.getDayDifference(DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(historyBean.getTimestamp())),
+                DateTimeUtil.getCurrentDate() + " " + DateTimeUtil.getCurrentTime()));
+     //   holder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(historyBean.getTimestamp())));
         if (!TextUtils.isEmpty(imgPath)) {
             try {
                 Picasso.with(holder.profileImage.getContext())
@@ -86,12 +92,12 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
             } catch (Exception e) {
 
             }
-        }else if (TextUtils.isEmpty(imgPath)){
+        } else if (TextUtils.isEmpty(imgPath)) {
             holder.profileImage.setImageResource(R.drawable.user_place_holder);
         }
-        if (position==mChatHistorylist.size()-1){
+        if (position == mChatHistorylist.size() - 1) {
             holder.bottomView.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.bottomView.setVisibility(View.VISIBLE);
         }
     }
@@ -109,9 +115,11 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, lastMsg, dateTime;
-        private ImageView profileImage,msgImg;
+        private TextView title,dateTime;
+        private ImageView profileImage, msgImg;
         private View bottomView;
+        private EmojiTextView lastMsg;
+       // private TextView lastMsg;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -124,13 +132,13 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                onItemClick.onItemClick(mChatHistorylist.get(getAdapterPosition()));
+                    onItemClick.onItemClick(mChatHistorylist.get(getAdapterPosition()));
                 }
             });
         }
     }
 
-    public interface OnItemClick{
+    public interface OnItemClick {
         void onItemClick(ChatHistoryBean historyBean);
     }
 }

@@ -18,9 +18,9 @@
             android:id="@+id/back_f"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="center_vertical"
             android:padding="@dimen/_5sdp"
-            app:srcCompat="@drawable/ic_arrow_back_black_24dp"
-            android:layout_gravity="center_vertical"/>
+            app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -30,6 +30,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/headTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/teko_semibold"
@@ -213,9 +214,7 @@
                                 android:id="@+id/input_layout_password"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-
                                 android:theme="@style/tvStyle"
-                                app:counterEnabled="true"
                                 app:counterMaxLength="500"
                                 app:counterOverflowTextAppearance="@style/TextLimitError"
                                 app:counterTextAppearance="@style/CounterText">
@@ -228,43 +227,67 @@
                                     android:hint="@string/description"
                                     android:inputType="textCapSentences|textMultiLine"
                                     android:maxLength="500"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/nav_gray"
                                     android:textColorHint="#666666" />
 
                             </android.support.design.widget.TextInputLayout>
 
-                            <View
+                            <!--<View
                                 android:layout_width="1dp"
                                 android:layout_height="20dp"
-                                android:layout_above="@+id/markView"
+                                android:layout_above="@+id/descBlow"
                                 android:layout_below="@+id/input_layout_password"
                                 android:layout_marginStart="@dimen/_28sdp"
                                 android:layout_marginTop="@dimen/_16sdp"
-                                android:background="@color/transprent_text" />
+                                android:background="@color/transprent_text" />-->
 
-                            <android.support.v7.widget.AppCompatImageView
-                                android:id="@+id/markView"
-                                android:layout_width="@dimen/_28sdp"
-                                android:layout_height="@dimen/_28sdp"
-                                android:layout_alignParentBottom="true"
-                                android:layout_gravity="bottom"
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:padding="@dimen/_3sdp"
-                                app:srcCompat="@drawable/ic_info_black_24dp" />
-
-                            <TextView
-                                android:id="@+id/tvMarkView"
-                                android:layout_width="wrap_content"
+                            <RelativeLayout
+                                android:id="@+id/descBlow"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentBottom="true"
-                                android:layout_toEndOf="@+id/markView"
-                                android:fontFamily="@font/roboto_light"
-                                android:gravity="top"
-                                android:paddingBottom="8dp"
+                                android:layout_marginTop="-5dp"
+                                android:layout_below="@id/input_layout_password">
 
-                                android:text="@string/commonmark"
-                                android:textColor="@color/primaryColor" />
+                                <android.support.v7.widget.AppCompatImageView
+                                    android:id="@+id/markView"
+                                    android:layout_width="@dimen/_15sdp"
+                                    android:layout_height="@dimen/_15sdp"
+                                    app:srcCompat="@drawable/ic_info_black_24dp"
+                                    android:layout_marginLeft="4dp"/>
 
+                                <TextView
+                                    android:id="@+id/tvMarkView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@+id/markView"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="top"
+                                    android:paddingBottom="3dp"
+                                    android:text="@string/commonmark"
+                                    android:textColor="@color/primaryColor"
+                                    />
+                                <TextView
+                                    android:id="@+id/totalTxt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:text="/500"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="top"
+                                    android:paddingBottom="3dp"
+                                    android:layout_marginRight="4dp"
+                                    />
+                                <TextView
+                                    android:id="@+id/countTxt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toLeftOf="@+id/totalTxt"
+                                    android:text="0"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:gravity="top"
+                                    android:paddingBottom="3dp"/>
+                            </RelativeLayout>
 
                         </RelativeLayout>
 
@@ -300,11 +323,11 @@
                                 android:id="@+id/username"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="end"
                                 android:fontFamily="@font/teko_semibold"
                                 android:text="@string/dharmraj_acharya_bhurtel"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/_14sdp"
-                                android:layout_gravity="end"/>
+                                android:textSize="@dimen/_14sdp" />
 
                             <TextView
                                 android:id="@+id/usrerole"

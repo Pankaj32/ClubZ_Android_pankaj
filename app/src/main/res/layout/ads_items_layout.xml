@@ -3,22 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/_9sdp"
-    android:layout_marginStart="@dimen/_10sdp"
-    android:layout_marginTop="@dimen/_1sdp">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_4sdp"
-        android:elevation="@dimen/_4sdp"
-        tools:ignore="UnusedAttribute">
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="@dimen/_3sdp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -45,9 +44,9 @@
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/_15sdp"
                             android:fontFamily="@font/roboto_regular"
+                            android:text="sdfdfsdfsd"
                             android:textColor="@color/primaryColor"
-                            android:textSize="12sp"
-                            android:text="sdfdfsdfsd"/>
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/adTitle"
@@ -96,7 +95,8 @@
                             android:layout_marginTop="3dp"
                             android:layout_toStartOf="@id/iv_arrow_expand"
                             android:padding="@dimen/_2sdp"
-                            app:srcCompat="@drawable/inactive_heart_ico" />
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_favorite_fill" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -124,9 +124,9 @@
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:contentDescription="TODO"
                     android:scaleType="fitXY"
-                    android:src="@drawable/new_app_icon"
-                    android:contentDescription="TODO" />
+                    android:src="@drawable/new_app_icon" />
 
                 <TextView
                     android:id="@+id/adTime"

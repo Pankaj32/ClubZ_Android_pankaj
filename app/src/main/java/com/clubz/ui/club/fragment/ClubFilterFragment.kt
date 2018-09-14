@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,9 @@ import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.R
+import com.clubz.data.local.db.repo.AllClubRepo
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.AllClub
 import com.clubz.helper.Type_Token
 import com.clubz.data.remote.WebService
 import com.clubz.data.model.Clubs
@@ -29,12 +32,12 @@ import org.json.JSONObject
 import java.util.ArrayList
 
 
-class ClubFilterFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, MyClub {
+class ClubFilterFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, MyClub {
 
-    private var adapter  : ClubFilterAdapter? = null
-    private var clubList : ArrayList<Clubs> = arrayListOf()
+    private var adapter: ClubFilterAdapter? = null
+    private var clubList: ArrayList<Clubs> = arrayListOf()
     private var mListener: Listener? = null
-    private var pageListner : RecyclerViewScrollListener? = null
+    private var pageListner: RecyclerViewScrollListener? = null
 
     interface Listener {
         fun onRightNavigationItemChange()
@@ -62,15 +65,15 @@ class ClubFilterFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, My
         adapter = ClubFilterAdapter(clubList, context!!, this)
         list_recycler.adapter = adapter
 
-        val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         list_recycler.itemAnimator = null
         list_recycler.layoutManager = lm
         list_recycler.setHasFixedSize(true)
 
         pageListner = object : RecyclerViewScrollListener(lm) {
-            override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) { }
+            override fun onScroll(view: RecyclerView?, dx: Int, dy: Int) {}
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                getMyClubs("",page*10,false)
+                getMyClubs("", page * 10, false)
             }
         }
 
@@ -86,7 +89,7 @@ class ClubFilterFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, My
         pageListner = null
     }
 
-    fun refreshList(){
+    fun refreshList() {
         pageListner?.resetState()
         clubList.clear()
         getMyClubs()
@@ -98,12 +101,12 @@ class ClubFilterFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, My
         swipeRefreshLayout.isRefreshing = false
     }
 
-    fun updateAdapter(club : Clubs){
+    fun updateAdapter(club: Clubs) {
         clubList.add(club)
-        if(clubList.size>0){
+        if (clubList.size > 0) {
             noFeedMsgUI.visibility = View.GONE
             swipeRefreshLayout.visibility = View.VISIBLE
-        }else {
+        } else {
             noFeedMsgUI.visibility = View.VISIBLE
             swipeRefreshLayout.visibility = View.GONE
         }
@@ -111,14 +114,14 @@ class ClubFilterFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, My
     }
 
     override fun onJoinedClub(club: Clubs) {
-       // listner?.onJoinClub(club)
+        // listner?.onJoinClub(club)
     }
 
     override fun onLeavedClub(club: Clubs) {
-       // listner?.onLeaveClub(club)
+        // listner?.onLeaveClub(club)
     }
 
-    override fun onSilenceClub(club: Clubs, position : Int) {
+    override fun onSilenceClub(club: Clubs, position: Int) {
         val dialog = CusDialogProg(context)
         dialog.show()
         object : VolleyGetPost(activity, WebService.club_silence, false) {
@@ -129,7 +132,8 @@ class ClubFilterFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, My
                     if (obj.getString("status") == "success") {
                         mListener?.onRightNavigationItemChange()
                     }
-                } catch (ex: Exception) { }
+                } catch (ex: Exception) {
+                }
             }
 
             override fun onVolleyError(error: VolleyError?) {
@@ -154,40 +158,58 @@ class ClubFilterFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, My
     }
 
 
-    private fun getMyClubs(text : String = "", offset :Int = 0, showProgress : Boolean = false){  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
-        val dialog = CusDialogProg(activity )
-        if(showProgress)dialog.show()
+    private fun getMyClubs(text: String = "", offset: Int = 0, showProgress: Boolean = false) {  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
+        val dialog = CusDialogProg(activity)
+        if (showProgress) dialog.show()
 
-        object : VolleyGetPost(activity , activity, WebService.club_my_clubs, false){
+        object : VolleyGetPost(activity, activity, WebService.club_my_clubs, false) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
                     val obj = JSONObject(response)
-                    if(obj.getString("status") == "success"){
+                    if (obj.getString("status") == "success") {
                         clubList.addAll(Gson().fromJson<ArrayList<Clubs>>(obj.getString("data"), Type_Token.club_list))
+                        AllClubRepo().deleteTable()
+                        for (club in clubList) {
+                            if (!club.clubId.equals("1")) {
+                                val allClub = AllClub()
+                                allClub.clubId = club.clubId.toInt()
+                                allClub.club_name = club.club_name
+                                if (club.user_id.equals(ClubZ.currentUser?.id)) {
+                                    allClub.notSilent = "1"
+                                } else {
+                                    allClub.notSilent = club.is_allow_feeds
+                                }
+                                AllClubRepo().insert(allClub)
+                            }
+                        }
                     }
 
-                    if(clubList.size>0){
+                    if (clubList.size > 0) {
                         noFeedMsgUI.visibility = View.GONE
                         swipeRefreshLayout.visibility = View.VISIBLE
-                    }else {
+                    } else {
                         noFeedMsgUI.visibility = View.VISIBLE
                         swipeRefreshLayout.visibility = View.GONE
                     }
                     adapter?.notifyDataSetChanged()
-                }catch (ex: Exception){
+                } catch (ex: Exception) {
                     ex.printStackTrace()
                 }
             }
 
-            override fun onVolleyError(error: VolleyError?) { dialog.dismiss() }
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
 
-            override fun onNetError() { dialog.dismiss() }
+            override fun onNetError() {
+                dialog.dismiss()
+            }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["searchText"] = text
                 params["offset"] = offset.toString()
-                params["limit"]= "10"
+                params["limit"] = "10"
                 params["clubType"] = ClubZ.isPrivate.toString()
                 return params
             }
@@ -196,7 +218,7 @@ class ClubFilterFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener, My
 //                params["authToken"] = SessionManager.getObj().user.auth_token
                 params["authToken"] = ClubZ.currentUser!!.auth_token
                 params["language"] = SessionManager.getObj().language
-                return  params
+                return params
             }
         }.execute()
     }

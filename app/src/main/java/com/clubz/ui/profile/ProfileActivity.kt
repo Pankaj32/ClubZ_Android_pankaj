@@ -96,7 +96,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
 
         collapse_toolbar.title = profile!!.full_name
         if (!profile!!.profile_image.isBlank()) {
-            Picasso.with(this).load(profile!!.profile_image).into(toolbar_image, object : com.squareup.picasso.Callback {
+            Picasso.with(this).load(profile!!.profile_image).fit().into(toolbar_image, object : com.squareup.picasso.Callback {
                 override fun onSuccess() {
                     setPlated()
                 }

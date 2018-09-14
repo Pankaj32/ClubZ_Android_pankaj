@@ -24,6 +24,7 @@ import com.clubz.R
 import com.clubz.chat.fragments.FragmentChatHistory
 import com.clubz.chat.model.UserBean
 import com.clubz.chat.util.ChatUtil
+import com.clubz.data.local.db.repo.AllClubRepo
 import com.clubz.data.local.db.repo.ClubNameRepo
 import com.clubz.ui.newsfeed.fragment.FragNewsList
 import com.clubz.helper.Permission
@@ -33,7 +34,6 @@ import com.clubz.data.remote.AppAsnycTask
 import com.clubz.data.remote.GioAddressTask
 import com.clubz.ui.ads.activity.CreateAdActivity
 import com.clubz.ui.ads.fragment.AdsFragment
-import com.clubz.ui.chat.ChatFragment
 import com.clubz.ui.club.ClubsActivity
 import com.clubz.ui.club.fragment.ClubFilterFragment
 import com.clubz.ui.club.fragment.FragMyClubs
@@ -312,7 +312,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     }
 
     override fun navigateCreateAAd() {
-        if (SessionManager.getObj().update.needToUpdateMyClubs) {
+        /*if (SessionManager.getObj().update.needToUpdateMyClubs) {
             val dialog = CusDialogProg(this@HomeActivity)
             dialog.show()
             val task = AppAsnycTask()
@@ -329,8 +329,17 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 }
             }
             task.syncAppData()
-        } else {
-            val clubList = ClubNameRepo().getAllClubs()
+        } else {*/
+            val tempClubList = AllClubRepo().getAllClubs()
+            val clubList = ArrayList<ClubName>()
+            for (club in tempClubList) {
+                if (club.notSilent.equals("1")) {
+                    val data = ClubName()
+                    data.clubId = club.clubId
+                    data.club_name = club.club_name
+                    clubList.add(data)
+                }
+            }
 
             when (clubList.size) {
                 0 -> {
@@ -349,7 +358,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                     }.show()
                 }
             }
-        }
+        //}
     }
 /*
     override fun navigateOthersActivity() {
@@ -363,10 +372,27 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     }*/
 
     override fun onRightNavigationItemChange() {
-        val newsFeedFragment: FragNewsList? = supportFragmentManager.fragments
+        /*val newsFeedFragment: FragNewsList? = supportFragmentManager.fragments
                 .firstOrNull { it::class.java.simpleName == FragNewsList::class.java.simpleName }
                 ?.let { it as FragNewsList }
         newsFeedFragment?.setFilter(club, like, comment)
+        newsFeedFragment?.setFilter(club, like, comment)*/
+
+        val frag = getCurrentFragment()
+        when (frag!!::class.java.simpleName) {
+            FragNewsList::class.java.simpleName -> {
+                frag as FragNewsList
+                frag.setFilter(club, like, comment)
+            }
+            Frag_My_Activity::class.java.simpleName -> {
+                frag as Frag_My_Activity
+                frag.onSwitchClub()
+            }
+            AdsFragment::class.java.simpleName -> {
+                frag as AdsFragment
+                frag.onSwitchClub()
+            }
+        }
     }
 
     /* private fun updateMyNewsFeed(){
@@ -427,14 +453,14 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 for (view in arrayOf(menu, title_tv, bubble_menu)) view.visibility = View.VISIBLE
             }
 
-            ChatFragment::class.java.simpleName -> {
-                title_tv.setText(R.string.t_chat)
-                for (view in arrayOf(menu, title_tv)) view.visibility = View.VISIBLE
-            }
+            /* ChatFragment::class.java.simpleName -> {
+                 title_tv.setText(R.string.t_chat)
+                 for (view in arrayOf(menu, title_tv)) view.visibility = View.VISIBLE
+             }*/
 
             FragmentChatHistory::class.java.simpleName -> {
                 title_tv.setText(R.string.title_chat)
-                for (view in arrayOf(menu, title_tv,bubble_menu)) view.visibility = View.VISIBLE
+                for (view in arrayOf(menu, title_tv, bubble_menu)) view.visibility = View.VISIBLE
             }
             AdsFragment::class.java.simpleName -> {
                 title_tv.setText(R.string.t_ads)

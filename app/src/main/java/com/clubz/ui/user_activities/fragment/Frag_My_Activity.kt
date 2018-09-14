@@ -35,6 +35,7 @@ import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.FlowLayout
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.user_activities.activity.ActivitiesDetails
+import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.adapter.*
 import com.clubz.ui.user_activities.listioner.ActivityItemClickListioner
 import com.clubz.ui.user_activities.model.*
@@ -48,6 +49,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.dialog_add_events.*
+import kotlinx.android.synthetic.main.frag_crate_feed.*
 import kotlinx.android.synthetic.main.frag_my_activity.*
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -55,7 +57,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogFragment.Listener, SwipeRefreshLayout.OnRefreshListener {
+class Frag_My_Activity : Fragment(),
+        ActivityItemClickListioner,
+        ItemListDialogFragment.Listener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         /*if (isMyState) {
@@ -141,11 +146,11 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
 
     override fun onResume() {
         super.onResume()
-        if(isResume){
+        if (isResume) {
             getAllActivitiesList(isPull = true)
-        }else{
+        } else {
             getAllActivitiesList()
-            isResume =true
+            isResume = true
         }
     }
 
@@ -161,7 +166,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
 
     fun getAllActivitiesList(listType: String = "", limit: String = "10", offset: Int = 0, isPull: Boolean? = false) {
         val dialog = CusDialogProg(mContext)
-        if (!swiperefresh.isRefreshing||!isResume) dialog.show()
+        if (!swiperefresh.isRefreshing || !isResume) dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(mContext,
                 "${WebService.get_all_activity_list}?listType=${listType}&offset=${offset}&limit=${limit}" +
@@ -251,6 +256,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
                 list.add(DialogMenu(getString(R.string.un_hide_activity), R.drawable.ic_visibility))
                 hideUnhide = "unhide"
             }
+            list.add(DialogMenu(getString(R.string.edit_activity), R.drawable.ic_edit))
         } else {
             if (activity.is_like.equals("0")) {
                 list.add(DialogMenu(getString(R.string.join_activity), R.drawable.ic_cards_heart))
@@ -344,9 +350,10 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
 
     //bottomsheet
     override fun onItemClicked(position: Int) {
+        val activities = activityList[actionPosition!!]
         when (position) {
             0 -> {
-                val activities = activityList[actionPosition!!]
+
                 if (activities.is_my_activity.equals("1")) {
                     popUpAddEvents(activities)
                 } else {
@@ -363,9 +370,11 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
             2 -> {
                 showConfirmationDialog(action = hideUnhide!!)
             }
-            /*R.id.disableNotification -> {
-                return true
-            }*/
+            3 -> {
+                startActivity(Intent(mContext, NewActivities::class.java)
+                        .putExtra("activityBean", activities)
+                )
+            }
         }
     }
 
@@ -379,7 +388,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
             val builder1 = AlertDialog.Builder(mContext)
             builder1.setTitle("Alert")
             if (action.equals("confirm")) {
-                var status = if (confirmStatus.equals("1")) "confirm" else "unconfirm"
+                val status = if (confirmStatus.equals("1")) "confirm" else "unconfirm"
                 builder1.setMessage("Are you sure you want to $status this Date?")
             } else {
                 builder1.setMessage("Are you sure you want to $action this activity?")
@@ -405,6 +414,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
 
             val alert11 = builder1.create()
             alert11.show()
+            alert11.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(mContext!!, R.color.nav_gray))
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -532,8 +542,8 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         val minute = mcurrentTime.get(Calendar.MINUTE)
         val mTimePicker = TimePickerDialog(mContext, R.style.DialogTheme2, object : TimePickerDialog.OnTimeSetListener {
             override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
-               val hr= if (p1 < 10) "0$p1" else "$p1"
-               val min= if (p2 < 10) "0$p2" else "$p2"
+                val hr = if (p1 < 10) "0$p1" else "$p1"
+                val min = if (p2 < 10) "0$p2" else "$p2"
                 //val onTimeSet: Unit
                 eventTime = "$hr:$min"
                 addTimeTxt.text = Util.setTimeFormat(eventTime)
@@ -985,6 +995,7 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         val affilitesChip = dialog.findViewById<View>(R.id.affilitesChip) as FlowLayout
         val statusTxt = dialog.findViewById<View>(R.id.statusTxt) as TextView
         val mCancel = dialog.findViewById<View>(R.id.mCancel) as TextView
+        val mConfirm = dialog.findViewById<View>(R.id.mConfirm) as TextView
         val mClose = dialog.findViewById<View>(R.id.mClose) as TextView
 
 
@@ -994,16 +1005,28 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         if (!eventBean?.location.isNullOrEmpty()) locatonTxt.text = eventBean?.location
         if (!eventBean?.description.isNullOrEmpty()) descTxt.text = eventBean?.description
         if (!eventBean?.event_date.isNullOrEmpty()) dateTxt.text = eventBean?.event_date
-        statusTxt.text = DateTimeUtil.getTimeAgo(stringToDate(now).time, stringToDate(eventBean?.event_date + " " + eventBean?.event_time).time, mContext,getResources().getString(R.string.date_left_to_confirm))
-
+        statusTxt.text = DateTimeUtil.getTimeAgo(stringToDate(now).time, stringToDate(eventBean?.event_date + " " + eventBean?.event_time).time, mContext, getResources().getString(R.string.date_left_to_confirm))
+        confirmStatus = if (eventBean?.is_confirm.equals("0")) "1" else "0"
         if (TextUtils.isEmpty(eventBean?.confirm_userlist)) {
             addChip(affilitesChip, getString(R.string.a_notAvailable))
         } else {
             addChip(affilitesChip, eventBean?.confirm_userlist!!)
         }
         if (eventBean?.is_cancel.equals("1")) mCancel.visibility = View.GONE
+
+        if (eventBean?.is_confirm.equals("1")) {
+            mConfirm.setText("UNCONFIRM")
+            mConfirm.setTextColor(ContextCompat.getColor(mContext!!, R.color.red_favroit))
+        } else {
+            mConfirm.setText("CONFIRM")
+            mConfirm.setTextColor(ContextCompat.getColor(mContext!!, R.color.primaryColor))
+        }
         mCancel.setOnClickListener(View.OnClickListener {
-            cancelDate(activitiesBean.activityId!!,
+            showConfirmationCancelDialog("cancel", activitiesBean.activityId!!,
+                    eventBean?.activityEventId!!, dialog)
+        })
+        mConfirm.setOnClickListener(View.OnClickListener {
+            showConfirmationCancelDialog("confirm", activitiesBean.activityId!!,
                     eventBean?.activityEventId!!, dialog)
         })
         mClose.setOnClickListener(View.OnClickListener { dialog.dismiss() })
@@ -1178,8 +1201,57 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         }.execute(Frag_My_Activity::class.java.name)
     }
 
+    private fun showConfirmationCancelDialog(action: String = "",
+                                             activityId: String = "",
+                                             activityEventId: String = "",
+                                             dialog1: Dialog) {
+        try {
+            val builder1 = AlertDialog.Builder(mContext)
+            builder1.setTitle("Alert")
+            when (action) {
+                "cancel" -> {
+                    builder1.setMessage("Are you sure you want to $action this date?")
+                }
+                "confirm" -> {
+                    val status = if (confirmStatus.equals("1")) "confirm" else "unconfirm"
+                    builder1.setMessage("Are you sure you want to $status this date?")
+                }
+            }
+            builder1.setCancelable(false)
+            builder1.setPositiveButton("Ok", { dialog, id ->
+                dialog1.dismiss()
+                when (action) {
+                    "cancel" -> {
+                        cancelDate(activityId, activityEventId, dialog)
+                    }
+                    "confirm" -> {
+                        confirmMyActivity(activityId, activityEventId, userId, confirmStatus, dialog, snakLay)
+                    }
+                }
+
+            })
+
+            builder1.setNegativeButton("Cancel",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        dialog1.dismiss()
+                        dialog.cancel()
+                    })
+            /*       builder1.setOnShowListener( new OnShowListener() {
+           @Override
+           public void onShow(DialogInterface arg0) {
+               dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(COLOR_I_WANT);
+           }
+       });*/
+            val alert11 = builder1.create()
+            alert11.show()
+            alert11.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(mContext!!, R.color.nav_gray))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     private fun cancelDate(activityId: String = "", activityEventId: String = "",
-                           dialog1: Dialog? = null) {
+                           dialog1: DialogInterface) {
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
@@ -1277,5 +1349,9 @@ class Frag_My_Activity : Fragment(), ActivityItemClickListioner, ItemListDialogF
         simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
         val myDate = simpleDateFormat.parse(string)
         return myDate
+    }
+
+    fun onSwitchClub() {
+        getAllActivitiesList(isPull = true)
     }
 }

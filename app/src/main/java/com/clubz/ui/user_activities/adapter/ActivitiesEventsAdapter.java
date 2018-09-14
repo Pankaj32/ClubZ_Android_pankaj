@@ -65,29 +65,36 @@ public class ActivitiesEventsAdapter extends RecyclerView.Adapter<RecyclerView.V
         }*/
         int userCount = Integer.parseInt(eventsBean.getMin_users()) - Integer.parseInt(eventsBean.getConfirm_users());
         if (userCount <= 0) {
-            h.imgCheck.setVisibility(View.VISIBLE);
-            h.confirmBtnTxt.setVisibility(View.GONE);
+            //    h.imgCheck.setVisibility(View.VISIBLE);
+            //   h.confirmBtnTxt.setVisibility(View.GONE);
             h.confirmTxt.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
             h.confirmTxt.setText("CONFIRMED");
-            h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.primaryColor));
+            //   h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.primaryColor));
         } else {
             h.confirmTxt.setText((userCount /*- 1*/) + " " + context.getString(R.string.left_to_confirm));
             h.confirmTxt.setTextColor(ContextCompat.getColor(context, R.color.hint_color_gray));
-            h.imgCheck.setVisibility(View.GONE);
-            if (eventsBean.is_confirm().equals("1")){
+            //    h.imgCheck.setVisibility(View.GONE);
+            /*if (eventsBean.is_confirm().equals("1")){
                 h.confirmBtnTxt.setText("UNCONFIRM");
             }else {
                 h.confirmBtnTxt.setText("CONFIRM");
             }
-            h.confirmBtnTxt.setVisibility(View.VISIBLE);
-            h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.primaryColor));
+            h.confirmBtnTxt.setVisibility(View.VISIBLE);*/
+            //  h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.primaryColor));
         }
-        if (eventsBean.is_cancel().equals("1")){
-            h.imgCheck.setVisibility(View.VISIBLE);
+        if (eventsBean.is_confirm().equals("1")) {
+            h.confirmBtnTxt.setText("UNCONFIRM");
+            h.confirmBtnTxt.setTextColor(ContextCompat.getColor(context, R.color.red_favroit));
+        } else {
+            h.confirmBtnTxt.setText("CONFIRM");
+            h.confirmBtnTxt.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
+        }
+        if (eventsBean.is_cancel().equals("1")) {
+            // h.imgCheck.setVisibility(View.VISIBLE);
             h.confirmBtnTxt.setVisibility(View.GONE);
             h.confirmTxt.setTextColor(ContextCompat.getColor(context, R.color.red_favroit));
             h.confirmTxt.setText("CANCELLED");
-            h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.nav_gray));
+            // h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.nav_gray));
         }
         /*if (eventsBean.is_confirm().equals("0")) {
             h.imgCheck.setColorFilter(ContextCompat.getColor(context, R.color.nav_gray));
@@ -107,14 +114,14 @@ public class ActivitiesEventsAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imgCheck;
+        //private ImageView imgCheck;
         private TextView eventDate, eventTime, eventDesc, confirmTxt, confirmBtnTxt;
         private LinearLayout datelay;
         //   private ProgressBar eventPogress;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            imgCheck = itemView.findViewById(R.id.imgCheck);
+            //imgCheck = itemView.findViewById(R.id.imgCheck);
             eventDate = itemView.findViewById(R.id.eventDate);
             eventTime = itemView.findViewById(R.id.eventTime);
             eventDesc = itemView.findViewById(R.id.eventDesc);
@@ -122,18 +129,19 @@ public class ActivitiesEventsAdapter extends RecyclerView.Adapter<RecyclerView.V
             confirmBtnTxt = itemView.findViewById(R.id.confirmBtnTxt);
             datelay = itemView.findViewById(R.id.datelay);
             // eventPogress = itemView.findViewById(R.id.eventPogress);
-            imgCheck.setOnClickListener(new View.OnClickListener() {
+            /*imgCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ActivitiesBean.DataBean.EventsBean eventsBean = eventsBeans.get(getAdapterPosition());
                     if (eventsBean.is_cancel().equals("0"))eventItemClickListioner.onConfirm(getAdapterPosition());
                 }
-            });
+            });*/
             confirmBtnTxt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ActivitiesBean.DataBean.EventsBean eventsBean = eventsBeans.get(getAdapterPosition());
-                    if (eventsBean.is_cancel().equals("0"))eventItemClickListioner.onConfirm(getAdapterPosition());
+                    if (eventsBean.is_cancel().equals("0"))
+                        eventItemClickListioner.onConfirm(getAdapterPosition());
                 }
             });
             datelay.setOnClickListener(new View.OnClickListener() {

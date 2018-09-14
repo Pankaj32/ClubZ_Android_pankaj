@@ -48,7 +48,7 @@
     android:shape="rectangle">
     <!-- you can use any color you want I used here gray color-->
     <solid android:color="@color/white" />
-    <corners android:radius="@dimen/_3sdp" />
+    <corners android:radius="2dp" />
     <stroke
         android:width=".9dp"
         android:color="@color/gray_transprent" />

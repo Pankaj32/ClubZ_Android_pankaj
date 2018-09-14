@@ -9,8 +9,7 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/_10sdp">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,12 +19,14 @@
                 android:id="@+id/recyclerViewAds"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible" />
+                android:visibility="visible"
+                tools:listitem="@layout/ads_items_layout"/>
 
             <include
                 android:id="@+id/nodataLay"
                 layout="@layout/no_ad_layout"
-                android:visibility="visible" />
+                android:visibility="visible"/>
+
         </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>

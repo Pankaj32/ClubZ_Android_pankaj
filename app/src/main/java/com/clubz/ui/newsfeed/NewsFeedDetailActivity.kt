@@ -12,7 +12,8 @@ import com.clubz.data.model.Feed
 import com.clubz.ui.core.ViewPagerAdapter
 import com.clubz.ui.newsfeed.fragment.FeedDetailFragment
 import com.clubz.utils.KeyboardUtil
-import kotlinx.android.synthetic.main.activity_club_detail.*
+import kotlinx.android.synthetic.main.activity_news_feed_detail.*
+
 
 class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener, ViewPager.OnPageChangeListener {
 
@@ -33,11 +34,12 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener, ViewPa
         requireNotNull(feed) { "no user_id provided in Intent extras" }*/
 
         title_tv.text = feed.news_feed_title
+        clubNameTxt.text = feed.club_name
         for (views in arrayOf(backBtn, bubble_menu)) views.setOnClickListener(this)
         setViewPager(view_pager_cd)
         view_pager_cd.addOnPageChangeListener(this)
         //tablayout_cd.setupWithViewPager(view_pager_cd)
-        bubble_menu.visibility = if(feed.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE
+      //  bubble_menu.visibility = if(feed.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE
     }
 
    private fun setViewPager(viewPager: ViewPager) {

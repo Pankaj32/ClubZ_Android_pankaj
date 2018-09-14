@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,15 +13,13 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.*
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 
@@ -39,6 +38,8 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.mvc.imagepicker.ImagePicker
+import com.vanniktech.emoji.EmojiEditText
+import com.vanniktech.emoji.EmojiPopup
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
 import kotlinx.android.synthetic.main.fragment_chat.*
@@ -84,12 +85,14 @@ class FragmentChat : Fragment(), View.OnClickListener {
     private var noDataTxt: TextView? = null
     private var silentTxt: TextView? = null
     private var progressbar: ProgressBar? = null
-    private var txtMsg: EmojiconEditText? = null
+    //    private var txtMsg: EmojiconEditText? = null
     private var chatRecycler: RecyclerView? = null
     private var memberList = ArrayList<MemberBean>()
 
 
-    private var emojIcon: EmojIconActions? = null
+    private var txtMsg: EmojiEditText? = null
+    private var emoji: ImageView? = null
+    internal var emojiPopup: EmojiPopup? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -98,7 +101,8 @@ class FragmentChat : Fragment(), View.OnClickListener {
         noDataTxt = view.findViewById<EditText>(R.id.noDataTxt)
         silentTxt = view.findViewById<TextView>(R.id.silentTxt)
         progressbar = view.findViewById<ProgressBar>(R.id.progressbar)
-        txtMsg = view.findViewById<EmojiconEditText>(R.id.txtMsg)
+        txtMsg = view.findViewById<EmojiEditText>(R.id.txtMsg)
+        emoji = view.findViewById<ImageView>(R.id.emoji)
         chatRecycler = view.findViewById<RecyclerView>(R.id.chatRecycler)
         return view
     }
@@ -115,7 +119,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                     feedId = arguments!!.getString(ARG_FEED_ID)
                     feedName = arguments!!.getString(ARG_FEED_NAME)
                     chatRoom = clubId + "_" + feedId + "_" + chatFor
-                    chatHistoryRoom = clubId + "_" + feedId + "_" + chatFor + "_" + feedName
+                    chatHistoryRoom = clubId + "_" + feedId + "_" + chatFor
                     historyId = feedId
                     historyName = feedName
                     //getFeedStatus()
@@ -129,7 +133,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                     activityId = arguments!!.getString(ARG_ACTIVITY_ID)
                     activityName = arguments!!.getString(ARG_ACTIVITY_NAME)
                     chatRoom = clubId + "_" + activityId + "_" + chatFor
-                    chatHistoryRoom = clubId + "_" + activityId + "_" + chatFor + "_" + activityName
+                    chatHistoryRoom = clubId + "_" + activityId + "_" + chatFor
                     historyId = activityId
                     historyName = activityName
                     getUserStatus()
@@ -144,7 +148,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                     adId = arguments!!.getString(ARG_AD_ID)
                     adName = arguments!!.getString(ARG_AD_NAME)
                     chatRoom = clubId + "_" + adId + "_" + chatFor
-                    chatHistoryRoom = clubId + "_" + adId + "_" + chatFor + "_" + adName
+                    chatHistoryRoom = clubId + "_" + adId + "_" + chatFor
                     historyId = adId
                     historyName = adName
                     getUserStatus()
@@ -158,7 +162,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
         }
         sentButton.setOnClickListener(this)
         sendPicBtn.setOnClickListener(this)
-        emojIcon?.setUseSystemEmoji(false)
+        /*emojIcon?.setUseSystemEmoji(false)
         emojIcon = EmojIconActions(mContext, rootView, txtMsg, emoji)
         emojIcon?.ShowEmojIcon()
         emojIcon?.setIconsIds(R.drawable.keyboard_ico, R.drawable.ic_smilely_ico)
@@ -170,7 +174,12 @@ class FragmentChat : Fragment(), View.OnClickListener {
             override fun onKeyboardClose() {
 
             }
-        })
+        })*/
+
+        // newEmoji
+        emoji?.setColorFilter(ContextCompat.getColor(mContext!!, R.color.emoji_icons), PorterDuff.Mode.SRC_IN)
+        emoji?.setOnClickListener({ ignore -> emojiPopup?.toggle() })
+        setUpEmojiPopup()
     }
 
 
@@ -186,7 +195,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 if (txtMsg?.text.toString().trim().isNotEmpty()) {
                     sendMessage(txtMsg?.text.toString(), "text", chatFor)
                 } else {
-                 //   Toast.makeText(mContext, R.string.please_type, Toast.LENGTH_LONG).show()
+                    //   Toast.makeText(mContext, R.string.please_type, Toast.LENGTH_LONG).show()
                 }
             }
             R.id.sendPicBtn -> {
@@ -318,54 +327,69 @@ class FragmentChat : Fragment(), View.OnClickListener {
 
     fun getMessageFromFirebaseUser() {
         val databaseReference = FirebaseDatabase.getInstance().reference
-        databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).ref.orderByKey().addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                FirebaseDatabase.getInstance()
-                        .reference
-                        .child(ChatUtil.ARG_CHAT_ROOMS)
-                        .child(chatRoom).addChildEventListener(object : ChildEventListener {
-                            override fun onChildAdded(dataSnapshot: DataSnapshot?, p1: String?) {
-                                val chatBean = dataSnapshot?.getValue(ChatBean::class.java)
-                                if (mChatRecyclerAdapter == null) {
-                                    val chatbeans = ArrayList<ChatBean>()
-                                    chatbeans.add(chatBean!!)
-                                    mChatRecyclerAdapter = ChatRecyclerAdapter(mContext, chatbeans/*, object : ChatAdapterClickListner() {
+        databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).ref.orderByKey()
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        FirebaseDatabase.getInstance()
+                                .reference
+                                .child(ChatUtil.ARG_CHAT_ROOMS)
+                                .child(chatRoom).addChildEventListener(object : ChildEventListener {
+                                    override fun onChildAdded(dataSnapshot: DataSnapshot?, p1: String?) {
+                                        val chatBean = dataSnapshot?.getValue(ChatBean::class.java)
+                                        if (mChatRecyclerAdapter == null) {
+                                            val chatbeans = ArrayList<ChatBean>()
+                                            chatbeans.add(chatBean!!)
+                                            mChatRecyclerAdapter = ChatRecyclerAdapter(mContext, chatbeans/*, object : ChatAdapterClickListner() {
                                     fun clickedItemPosition(url: String) {
                                         showZoomImage(url)
                                     }
                                 }*/)
-                                    chatRecycler?.adapter = mChatRecyclerAdapter
-                                } else {
-                                    mChatRecyclerAdapter?.add(chatBean)
-                                }
-                                try {
-                                    chatRecycler?.scrollToPosition(mChatRecyclerAdapter!!.itemCount - 1)
-                                } catch (e: Exception) {
+                                            chatRecycler?.adapter = mChatRecyclerAdapter
+                                        } else {
+                                            mChatRecyclerAdapter?.add(chatBean)
+                                        }
+                                        try {
+                                            chatRecycler?.scrollToPosition(mChatRecyclerAdapter!!.itemCount - 1)
+                                        } catch (e: Exception) {
 
-                                }
-                                noDataTxt?.visibility = View.GONE
-                                progressbar?.visibility = View.GONE
-                            }
+                                        }
+                                        noDataTxt?.visibility = View.GONE
+                                        progressbar?.visibility = View.GONE
+                                    }
 
-                            override fun onChildChanged(dataSnapshot: DataSnapshot?, s: String?) {
-                            }
+                                    override fun onChildChanged(dataSnapshot: DataSnapshot?, s: String?) {
+                                    }
 
-                            override fun onChildRemoved(dataSnapshot: DataSnapshot?) {
+                                    override fun onChildRemoved(dataSnapshot: DataSnapshot?) {
 
-                            }
+                                    }
 
-                            override fun onChildMoved(dataSnapshot: DataSnapshot?, s: String?) {
+                                    override fun onChildMoved(dataSnapshot: DataSnapshot?, s: String?) {
 
-                            }
+                                    }
 
-                            override fun onCancelled(databaseError: DatabaseError?) {
-                                progressbar?.visibility = View.GONE
-                            }
-                        })
+                                    override fun onCancelled(databaseError: DatabaseError?) {
+                                        progressbar?.visibility = View.GONE
+                                    }
+                                })
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError?) {
+                        //  mOnGetMessagesListener.onGetMessagesFailure("Unable to get message: " + databaseError.getMessage());
+                    }
+                })
+        upadteReadWriteMessage()
+    }
+
+    private fun upadteReadWriteMessage() {
+        FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser?.id).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError?) {
             }
 
-            override fun onCancelled(databaseError: DatabaseError?) {
-                //  mOnGetMessagesListener.onGetMessagesFailure("Unable to get message: " + databaseError.getMessage());
+            override fun onDataChange(p0: DataSnapshot?) {
+                if (p0!!.hasChild(chatHistoryRoom)) {
+                    FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser?.id).child(chatHistoryRoom).child("read").setValue(1)
+                }
             }
         })
     }
@@ -563,7 +587,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
         chatHistory.clubId = clubId
         chatHistory.historyId = historyId
         chatHistory.historyName = historyName
-
+        if (member.userId.equals(ClubZ.currentUser?.id)) chatHistory.read = 1
         chatHistory.image = chatBean.image
         chatHistory.imageUrl = chatBean.imageUrl
         chatHistory.profilePic = ""
@@ -583,6 +607,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
         chatHistory.clubId = clubId
         chatHistory.historyId = historyId
         chatHistory.historyName = historyName
+        if (clubOwnerId.equals(ClubZ.currentUser?.id)) chatHistory.read = 1
         chatHistory.image = chatBean.image
         chatHistory.imageUrl = chatBean.imageUrl
         chatHistory.profilePic = ""
@@ -607,6 +632,34 @@ class FragmentChat : Fragment(), View.OnClickListener {
                         clubOwnerId = club?.ownerId!!
                     }
                 })
+    }
+
+    //newEmoji
+    private fun setUpEmojiPopup() {
+        emojiPopup = EmojiPopup.Builder.fromRootView(rootView)
+                .setOnEmojiBackspaceClickListener { ignore -> Log.e("CHATALLACTIVITY", "Clicked on Backspace") }
+                .setOnEmojiClickListener { ignore, ignore2 -> Log.e("CHATALLACTIVITY", "Clicked on emoji") }
+                .setOnEmojiPopupShownListener { emoji?.setImageResource(R.drawable.keyboard_ico) }
+                .setOnSoftKeyboardOpenListener { ignore -> Log.d("CHATALLACTIVITY", "Opened soft keyboard") }
+                .setOnEmojiPopupDismissListener { emoji?.setImageResource(R.drawable.ic_smilely_ico) }
+                .setOnSoftKeyboardCloseListener { Log.d("CHATALLACTIVITY", "Closed soft keyboard") }
+                .build(txtMsg!!)
+    }
+
+    /*override fun onBackPressed() {
+        if (emojiPopup != null && emojiPopup!!.isShowing()) {
+            emojiPopup!!.dismiss()
+        } else {
+            super.onBackPressed()
+        }
+    }*/
+
+    override fun onStop() {
+        if (emojiPopup != null) {
+            emojiPopup!!.dismiss()
+        }
+
+        super.onStop()
     }
 
     companion object {

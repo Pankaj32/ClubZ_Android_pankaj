@@ -37,7 +37,8 @@
             android:textColor="@color/black"
             android:text="@string/title_leave_club_conformation"
             android:textSize="20sp"
-            android:fontFamily="@font/teko_bold"/>
+            android:fontFamily="@font/teko_bold"
+            android:layout_centerHorizontal="true"/>
 
         <TextView
             android:id="@+id/mDesc"

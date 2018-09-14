@@ -5,19 +5,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.clubz.ClubZ;
+import com.clubz.data.local.db.repo.AllClubRepo;
 import com.clubz.data.local.db.repo.ClubNameRepo;
 import com.clubz.data.model.ClubName;
 
-public class DBHelper  extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
     //version number to upgrade database version
     //each time if you Add, Edit table, you need to change the
     //version number.
-    private static final int DATABASE_VERSION =8;
+    private static final int DATABASE_VERSION = 8;
     // Database Name
     private static final String DATABASE_NAME = "ClubZ.db";
     private static final String TAG = DBHelper.class.getSimpleName();
 
-    public DBHelper( ) {
+    public DBHelper() {
         super(ClubZ.instance.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -25,6 +26,7 @@ public class DBHelper  extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //All necessary tables you like to create will create here
         db.execSQL(ClubNameRepo.Companion.createTable());
+        db.execSQL(AllClubRepo.Companion.createTable());
     }
 
     @Override

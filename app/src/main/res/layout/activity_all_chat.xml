@@ -56,8 +56,8 @@
             android:layout_height="@dimen/_50sdp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/chat_txt_bg"
-            android:paddingRight="@dimen/_8sdp"
-            android:paddingLeft="@dimen/_8sdp">
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingRight="@dimen/_8sdp">
 
 
             <ImageView
@@ -89,8 +89,8 @@
                 android:padding="@dimen/_2sdp"
                 android:tint="@color/nav_gray"
                 app:srcCompat="@drawable/ic_attach_file_black_24dp" />
-
-            <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
+<!--oldEmoji-->
+            <!--<hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
                 android:id="@+id/txtMsg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -102,15 +102,32 @@
                 android:textColor="@color/nav_gray"
                 android:textColorHint="@color/hint_color"
                 android:textCursorDrawable="@drawable/curser"
-                android:textSize="12sp" />
+                app:emojiconSize="50sp"
+                />-->
 
+            <!--newemoji-->
+            <com.vanniktech.emoji.EmojiEditText
+                android:id="@+id/txtMsg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/emoji"
+                android:layout_toStartOf="@id/sendPicBtn"
+                android:imeOptions="actionSend|flagNoExtractUi"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="3"
+                android:hint="@string/type_a_message"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/nav_gray"
+                android:textColorHint="@color/hint_color"
+                android:textCursorDrawable="@drawable/curser"
+                />
 
             <ImageButton
                 android:id="@+id/sentButton"
                 android:layout_width="@dimen/_37sdp"
                 android:layout_height="@dimen/_37sdp"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:background="@drawable/bg_circle_primary"
                 app:srcCompat="@drawable/ic_send_chat_24dp">
@@ -140,7 +157,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/bottomLay"
-            android:layout_margin="@dimen/_8sdp">
+            android:layout_margin="@dimen/_10sdp">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/chatRecycler"

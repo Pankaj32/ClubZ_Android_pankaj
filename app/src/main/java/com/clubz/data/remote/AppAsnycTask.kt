@@ -1,6 +1,7 @@
 package com.clubz.data.remote
 
 import android.os.AsyncTask
+import android.util.Log
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
@@ -16,18 +17,18 @@ import org.json.JSONObject
 
 class AppAsnycTask {
 
-    var listener : Listener? = null
+    var listener: Listener? = null
 
-    interface Listener{
+    interface Listener {
         fun onProgressDone()
-        fun onProgressCancel(status : String?)
+        fun onProgressCancel(status: String?)
     }
 
-    fun syncAppData(){
+    fun syncAppData() {
         val update = SessionManager.getObj().update
 
         //put your logic heare
-        if(update.needToUpdateMyClubs)
+        if (update.needToUpdateMyClubs)
             FatchMyClubs().execute()
     }
 
@@ -38,18 +39,19 @@ class AppAsnycTask {
 
             val request = object : VolleyMultipartRequest(Request.Method.GET, WebService.get_my_club, Response.Listener<NetworkResponse> { response ->
                 val data = String(response.data)
+                Log.e("my Club:", data)
                 try {
                     val obj = JSONObject(data)
                     if (obj.getString("status") == "success") {
                         val list = Gson().fromJson<List<ClubName>>(obj.getJSONArray("data").toString(), Type_Token.clubNameList)
-                        for(club in list)
+                        for (club in list)
                             ClubNameRepo().insert(club)
 
                         val update = SessionManager.getObj().update
                         update.needToUpdateMyClubs = false
                         SessionManager.getObj().setUpdateAppData(update)
                         listener?.onProgressDone()
-                    }else {
+                    } else {
                         listener?.onProgressCancel(obj.getString("status"))
                     }
                 } catch (e: java.lang.Exception) {

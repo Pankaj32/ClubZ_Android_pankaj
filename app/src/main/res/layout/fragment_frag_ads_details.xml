@@ -5,7 +5,7 @@
     android:id="@+id/snakLay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     tools:context=".ui.ads.fragment.FragAdsDetails">
 
     <ScrollView
@@ -19,10 +19,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                android:elevation="@dimen/_4sdp"
+                android:layout_margin="10dp"
                 app:cardBackgroundColor="@color/white"
-                app:cardElevation="@dimen/_4sdp">
+                app:cardElevation="@dimen/_3sdp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -30,14 +30,27 @@
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/_5sdp">
 
-                    <com.clubz.ui.cv.AspectRatioImageView
-                        android:id="@+id/adImg"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scaleType="centerCrop"
-                        app:ari_aspect="height"
-                        app:ari_ratio="0.75"
-                        android:src="@drawable/ic_new_img" />
+                        android:layout_height="wrap_content">
+
+                        <com.clubz.ui.cv.AspectRatioImageView
+                            android:id="@+id/adImg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_new_img"
+                            app:ari_aspect="height"
+                            app:ari_ratio="0.75" />
+
+                        <ProgressBar
+                            android:id="@+id/smlProgress"
+                            style="@android:style/Widget.ProgressBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true" />
+
+                    </RelativeLayout>
 
                     <TextView
                         android:id="@+id/adTitle"
@@ -89,7 +102,8 @@
                                 android:layout_width="@dimen/_18sdp"
                                 android:layout_height="@dimen/_18sdp"
                                 android:layout_marginStart="@dimen/_5sdp"
-                                android:src="@drawable/active_heart_ico" />
+                                android:src="@drawable/ic_favorite_fill"
+                                android:visibility="gone" />
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -104,9 +118,9 @@
                         android:id="@+id/adDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:padding="@dimen/_10sdp"
                         android:text="@string/a_notAvailable"
                         android:textColor="@color/nav_gray"
                         android:textSize="14sp" />
@@ -114,19 +128,20 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="1"
-                        android:layout_marginTop="@dimen/_15sdp">
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:weightSum="1">
 
                         <LinearLayout
                             android:layout_width="0dip"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".5"/>
+                            android:layout_weight=".5" />
+
                         <View
                             android:layout_width="0dip"
                             android:layout_height=".9dp"
+                            android:layout_marginStart="@dimen/_20sdp"
                             android:layout_weight=".5"
-                            android:background="@color/gray_transprent"
-                            android:layout_marginStart="@dimen/_20sdp"/>
+                            android:background="@color/gray_transprent" />
 
 
                     </LinearLayout>
@@ -169,7 +184,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/teko_semibold"
-                                android:text="@string/dharmraj_acharya_bhurtel"
+                                android:text="@string/a_notAvailable"
                                 android:textColor="@color/primaryColor"
                                 android:textSize="@dimen/_14sdp" />
 
@@ -198,4 +213,12 @@
             </android.support.v7.widget.CardView>
         </FrameLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/visibleLay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha=".7"
+        android:background="@color/white"
+        android:visibility="visible" />
 </FrameLayout>

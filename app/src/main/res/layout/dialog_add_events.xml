@@ -42,12 +42,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/teko_bold"
                 android:text="@string/add_a_new_date"
                 android:textColor="@color/eighty_black"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:layout_gravity="center"/>
 
             <TextView
                 android:id="@+id/mTitle"
@@ -96,6 +96,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/h_eventTitle"
+                        android:singleLine="true"
+                        android:maxLines="1"
                         android:imeOptions="actionNext"
                         android:inputType="textCapSentences|textMultiLine"
                         android:maxLength="50"

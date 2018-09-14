@@ -5,7 +5,7 @@
     android:id="@+id/snakLay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     tools:context=".ui.user_activities.fragment.FragActivityDetailsNew">
 
     <ScrollView
@@ -19,10 +19,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_8sdp"
-                android:elevation="@dimen/_4sdp"
+                android:layout_margin="10dp"
                 app:cardBackgroundColor="@color/white"
-                app:cardElevation="@dimen/_4sdp">
+                app:cardUseCompatPadding="true"
+                app:cardElevation="@dimen/_3sdp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:fontFamily="@font/teko_semibold"
-                            android:text="FootBall Class"
+                            android:text="Loading...."
                             android:textColor="@color/eighty_black"
                             android:textSize="25sp" />
 
@@ -571,4 +571,20 @@
             </android.support.v7.widget.CardView>
         </FrameLayout>
     </ScrollView>
+    <View
+        android:id="@+id/transView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:alpha=".7"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/AlertDialog.AppCompat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/primaryDarkColor"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone" />
 </FrameLayout>

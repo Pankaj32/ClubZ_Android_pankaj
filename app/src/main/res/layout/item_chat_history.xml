@@ -56,18 +56,30 @@
                 android:textColor="@color/eighty_black"
                 android:textSize="@dimen/_14sdp" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/lastMsg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:singleLine="true"
                 android:textColor="@color/nav_gray"
                 android:textSize="@dimen/_14sdp"
                 android:visibility="gone"
-                tools:text="loading....." />
+                tools:text="loading....." />-->
+            <com.vanniktech.emoji.EmojiTextView
+                android:id="@+id/lastMsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/nav_gray"
+                android:textSize="@dimen/_14sdp"
+                android:visibility="gone"
+                tools:text="loading....."/>
 
             <ImageView
                 android:id="@+id/msgImg"

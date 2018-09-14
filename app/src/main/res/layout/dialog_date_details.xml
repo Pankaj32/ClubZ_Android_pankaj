@@ -30,24 +30,24 @@
         android:id="@+id/rl_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/top_primary"
-        >
+        android:layout_below="@+id/top_primary">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="18dp"
             android:layout_marginBottom="6dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/activityTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
                 android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_10sdp"
                 android:fontFamily="@font/teko_bold"
                 android:textColor="@color/eighty_black"
                 android:textSize="18sp" />
@@ -118,7 +118,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:tint="@color/nav_gray"
-                    app:srcCompat="@drawable/ic_nav_event" />
+                    app:srcCompat="@drawable/ic_calendar_blank" />
 
                 <TextView
                     android:id="@+id/tv_dateHint"
@@ -415,40 +415,62 @@
             </RelativeLayout>
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                tools:ignore="RtlHardcoded">
+                tools:ignore="RtlHardcoded"
+                android:layout_marginTop="@dimen/_5sdp">
 
                 <TextView
                     android:id="@+id/mCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/button_size"
                     android:layout_marginEnd="8dp"
+                    android:background="?android:attr/selectableItemBackground"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
-                    android:paddingLeft="8dp"
                     android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
                     android:text="@string/cancel_date"
                     android:textAllCaps="true"
                     android:textColor="@color/red_favroit"
                     android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/mClose"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/button_size"
-                    android:fontFamily="@font/roboto_medium"
-                    android:gravity="center"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:text="@string/close"
-                    android:textAllCaps="true"
-                    android:textColor="@color/primaryColor"
-                    android:textSize="14sp" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/mClose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_size"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="8dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="@string/close"
+                        android:textAllCaps="true"
+                        android:textColor="@color/nav_gray"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/mConfirm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_size"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:text="@string/confirm"
+                        android:textAllCaps="true"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

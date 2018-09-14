@@ -67,9 +67,9 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             h.userImg.setImageResource(R.drawable.user_place_holder);
         }
         if (dataBean.isFav().equals("1")) {
-            h.iv_like.setImageResource(R.drawable.active_heart_ico);
+            h.iv_like.setVisibility(View.VISIBLE);
         } else {
-            h.iv_like.setImageResource(R.drawable.inactive_heart_ico);
+            h.iv_like.setVisibility(View.GONE);
         }
         if (dataBean.getVisible()) {
             h.belloLay.setVisibility(View.VISIBLE);
@@ -82,13 +82,15 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         if (dataBean.is_New().equals("1")) {
-            h.adType.setText(R.string.new_txt);
+            h.adType.setText(R.string.recent_txt);
             h.adType.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
-        } else if (dataBean.isFav().equals("1")) {
+        }else {
+            h.adType.setText("new");
+            h.adType.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
+        }
+        if (dataBean.getExpire_ads().equals("Yes")) {
+            h.adType.setText(R.string.expired);
             h.adType.setTextColor(ContextCompat.getColor(context, R.color.nav_gray));
-            h.adType.setText(R.string.favorit_txt);
-        } else {
-            h.adType.setText("");
         }
     }
 

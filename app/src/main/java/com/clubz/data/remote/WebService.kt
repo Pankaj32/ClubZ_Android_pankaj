@@ -43,6 +43,7 @@ class WebService {
         val get_leaders= base_Url+"service/activity/activityLeaderList?clubId="
         val get_my_club= base_Url+"service/club/myCreatedClubsName"
         val create_activity= base_Url+"service/activity/createActivity"
+        val updateActivity= base_Url+"service/activity/updateActivity"
         val get_my_activity_list= base_Url+"service/activity/myActivityList"
         val get_all_activity_list= base_Url+"service/activity/activityListNew"
         val get_activity_list= base_Url+"service/activity/activityList"
@@ -65,13 +66,15 @@ class WebService {
         val getActivityDetails= base_Url +"service/activity/activityDetail"
         val getActivitymembers= base_Url +"service/activity/activityMembersList"
         val createAd= base_Url +"service/ads/createAd"
+        val updateAd= base_Url +"service/ads/editAds"
         val getAdsList= base_Url +"service/ads/adsListNew"
         val getAdsDetails= base_Url +"service/ads/adsDetail"
-
+        val adsFab= base_Url +"service/ads/favoriteAd"
+        val adsDelete= base_Url +"service/ads/deleteAds"
+        val renewAds= base_Url +"service/ads/renewAds"
         val updateContact= base_Url +"service/user/updateContact"
         val contactList= base_Url +"service/user/contactList"
     }
-
 
     //http://clubz.co/dev/service/login
 }

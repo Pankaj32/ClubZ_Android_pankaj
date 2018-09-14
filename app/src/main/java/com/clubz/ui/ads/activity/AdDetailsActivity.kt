@@ -47,7 +47,6 @@ class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.O
         adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(FragAdsDetails.newInstance(adId, adType), resources.getString(R.string.a_activity_first_tab), " This is First")
         adapter.addFragment(FragmentChat.newInstanceAdChat(adId, clubId, adTitle), resources.getString(R.string.a_activity_snd_tab), " This is second")
-
         viewPager.adapter = adapter
         //Chiranjib
     }

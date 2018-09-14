@@ -1,262 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.newsfeed.fragment.FeedDetailFragment"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    tools:context=".ui.newsfeed.fragment.FeedDetailFragment">
 
-    <android.support.v7.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardUseCompatPadding="true">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/ivBanner"
-                    android:layout_width="match_parent"
-                    android:layout_height="240dp"
-                    android:src="@drawable/img_gallery"
-                    android:scaleType="fitCenter"/>
-
-            </RelativeLayout>
-
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="@dimen/_3sdp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/teko_medium"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:text="@string/dharmraj_acharya_bhurtel"/>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:id="@+id/tvCreateTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/TextView.SingleLine.Gray"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="end"
-                        android:textSize="12sp"
-                        android:text="# Hours ago"/>
-
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:id="@+id/tvLikeCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/TextView.SingleLine.Gray"
-                        android:text="50 Likes"/>
-
-                    <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/likeIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_check_favorite"
-                        android:button="@null"
-                        android:checked="false"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:stateListAnimator="@animator/scale"
-                        tools:ignore="UnusedAttribute" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="@color/gray_transprent"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:orientation="vertical">
-
-                <!--<LinearLayout
-                    android:id="@+id/ll2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvCreateTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/TextView.SingleLine.Gray"
-                        android:fontFamily="@font/roboto_light"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:text="# Hours ago"/>
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-                    <android.support.v7.widget.AppCompatCheckBox
-                        android:id="@+id/likeIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_check_favorite"
-                        android:button="@null"
-                        android:checked="false"
-                        android:layout_marginRight="5dp"
-                        android:stateListAnimator="@animator/scale"
-                        tools:ignore="UnusedAttribute" />
-                   &lt;!&ndash; <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:padding="5dp"
-                        app:srcCompat="@drawable/active_heart_ico"/>&ndash;&gt;
-
-                    <TextView
-                        android:id="@+id/tvLikeCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/TextView.SingleLine.Gray"
-                        android:fontFamily="@font/roboto_light"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:text="50 Likes"/>
-
-
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/ivChat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="3dp"
-                        android:layout_marginLeft="5dp"
-                        app:srcCompat="@drawable/ic_chat_outline" />
-
-                    <TextView
-                        android:id="@+id/tvCommentCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/TextView.SingleLine.Gray"
-                        android:fontFamily="@font/roboto_light"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:text="150 Comments"/>
-
-                </LinearLayout>-->
-
-
-
-               <!-- <com.clubz.ui.cv.FlowLayout
-                    android:id="@+id/chip_grid"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:visibility="gone"/>-->
-
-                <TextView
-                    android:id="@+id/tvDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/text_color_gray" />
-
-                <LinearLayout
-                    android:layout_width="@dimen/_150sdp"
-                    android:layout_height="@dimen/_16sdp"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:background="@color/white"
-                    android:layout_gravity="end"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.7dp"
-                        android:background="@color/black_trans80" />
-
-                </LinearLayout>
 
                 <RelativeLayout
-                    android:id="@+id/rtv_leadby"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/image_member"
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="@dimen/_40sdp"
-                        android:background="@drawable/bg_circle_blue"
-                        android:layout_alignParentEnd="true"
-                        app:srcCompat="@drawable/ic_user_shape" />
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/ivBanner"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/new_img" />
 
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/tvUsername"
+                    <ProgressBar
+                        android:id="@+id/smlProgress"
+                        style="@android:style/Widget.ProgressBar.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14sdp"
-                        android:fontFamily="@font/teko_semibold"
-                        android:layout_alignTop="@id/image_member"
-                        android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_toStartOf="@id/image_member"
-                        android:text="@string/dharmraj_acharya_bhurtel"/>
-
-                    <TextView
-                        android:id="@+id/tvUsreRole"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/text_color_gray"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_toStartOf="@id/image_member"
-                        android:layout_below="@+id/tvUsername"
-                        android:text="@string/manager"
-                        />
+                        android:layout_centerInParent="true" />
 
                 </RelativeLayout>
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/teko_medium"
+                        android:maxLines="1"
+                        android:text="@string/a_notAvailable"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tvCreateTime"
+                            style="@style/TextView.SingleLine.Gray"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="end"
+                            android:hint="@string/a_notAvailable"
+                            android:textSize="12sp" />
+
+
+                        <android.support.v4.widget.Space
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/tvLikeCount"
+                            style="@style/TextView.SingleLine.Gray"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/a_notAvailable" />
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/likeIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:background="@drawable/ic_check_favorite"
+                            android:button="@null"
+                            android:checked="false"
+                            android:stateListAnimator="@animator/scale"
+                            tools:ignore="UnusedAttribute" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.7dp"
+                    android:background="@color/gray_transprent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
+
+                    <!--<LinearLayout
+                        android:id="@+id/ll2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvCreateTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextView.SingleLine.Gray"
+                            android:fontFamily="@font/roboto_light"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:text="# Hours ago"/>
+
+                        <android.support.v4.widget.Space
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/likeIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_check_favorite"
+                            android:button="@null"
+                            android:checked="false"
+                            android:layout_marginRight="5dp"
+                            android:stateListAnimator="@animator/scale"
+                            tools:ignore="UnusedAttribute" />
+                       &lt;!&ndash; <android.support.v7.widget.AppCompatImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:padding="5dp"
+                            app:srcCompat="@drawable/active_heart_ico"/>&ndash;&gt;
+
+                        <TextView
+                            android:id="@+id/tvLikeCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextView.SingleLine.Gray"
+                            android:fontFamily="@font/roboto_light"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:text="50 Likes"/>
+
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/ivChat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="3dp"
+                            android:layout_marginLeft="5dp"
+                            app:srcCompat="@drawable/ic_chat_outline" />
+
+                        <TextView
+                            android:id="@+id/tvCommentCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextView.SingleLine.Gray"
+                            android:fontFamily="@font/roboto_light"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:text="150 Comments"/>
+
+                    </LinearLayout>-->
+
+
+                    <!-- <com.clubz.ui.cv.FlowLayout
+                         android:id="@+id/chip_grid"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_marginBottom="@dimen/_10sdp"
+                         android:visibility="gone"/>-->
+
+                    <TextView
+                        android:id="@+id/tvDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/text_color_gray" />
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.7dp"
+                            android:background="@color/black_trans80" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rtv_leadby"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/image_member"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/bg_circle_blue"
+                            app:srcCompat="@drawable/ic_user_shape" />
+
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tvUsername"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@id/image_member"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:layout_toStartOf="@id/image_member"
+                            android:fontFamily="@font/teko_semibold"
+                            android:text="@string/a_notAvailable"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:id="@+id/tvUsreRole"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvUsername"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:layout_toStartOf="@id/image_member"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/manager"
+                            android:textColor="@color/text_color_gray"
+                            android:textSize="@dimen/_12sdp" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
 
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </ScrollView>
 
-
-    </android.support.v7.widget.CardView>
-
-</ScrollView>
+    <!--<RelativeLayout
+        android:id="@+id/visibleLay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha=".7"
+        android:background="@color/white"
+        android:visibility="visible" />-->
+</FrameLayout>

@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
@@ -11,6 +12,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
@@ -19,10 +21,7 @@ import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
@@ -40,6 +39,10 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.mvc.imagepicker.ImagePicker
+import com.vanniktech.emoji.EmojiEditText
+import com.vanniktech.emoji.EmojiManager
+import com.vanniktech.emoji.EmojiPopup
+import com.vanniktech.emoji.one.EmojiOneProvider
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
 import kotlinx.android.synthetic.main.activity_all_chat.*
@@ -99,7 +102,12 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
     private var noDataTxt: TextView? = null
     private var silentTxt: TextView? = null
     private var progressbar: ProgressBar? = null
-    private var txtMsg: EmojiconEditText? = null
+ //  oldemoji
+ //   private var txtMsg: EmojiconEditText? = null
+ //newemoji
+    private var txtMsg: EmojiEditText? = null
+    private var emoji: ImageView? = null
+    internal var emojiPopup: EmojiPopup? = null
     private var chatRecycler: RecyclerView? = null
     private var memberList = ArrayList<MemberBean>()
 
@@ -108,11 +116,14 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_chat)
-
         noDataTxt = findViewById<EditText>(R.id.noDataTxt)
         silentTxt = findViewById<TextView>(R.id.silentTxt)
         progressbar = findViewById<ProgressBar>(R.id.progressbar)
-        txtMsg = findViewById<EmojiconEditText>(R.id.txtMsg)
+        //oldEmoji
+      //  txtMsg = findViewById<EmojiconEditText>(R.id.txtMsg)
+     //   newEmoji
+        txtMsg = findViewById<EmojiEditText>(R.id.txtMsg)
+        emoji = findViewById<ImageView>(R.id.emoji)
         chatRecycler = findViewById<RecyclerView>(R.id.chatRecycler)
 
         app = FirebaseApp.getInstance()
@@ -127,7 +138,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
                     historyId = arguments.getString(ARG_HISTORY_ID)
                     historyName = arguments.getString(ARG_HISTORY_NAME)
                     chatRoom = clubId + "_" + historyId + "_" + chatFor
-                    chatHistoryRoom = clubId + "_" + historyId + "_" + chatFor + "_" + historyName
+                    chatHistoryRoom = clubId + "_" + historyId + "_" + chatFor
 
                     //getFeedStatus()
                     getUserStatus()
@@ -140,7 +151,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
                     historyId = arguments.getString(ARG_HISTORY_ID)
                     historyName = arguments.getString(ARG_HISTORY_NAME)
                     chatRoom = clubId + "_" + historyId + "_" + chatFor
-                    chatHistoryRoom = clubId + "_" + historyId + "_" + chatFor + "_" + historyName
+                    chatHistoryRoom = clubId + "_" + historyId + "_" + chatFor
                     getUserStatus()
                     getClubMembers()
                     getClubOwner()
@@ -153,7 +164,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
                     historyId = arguments.getString(ARG_HISTORY_ID)
                     historyName = arguments.getString(ARG_HISTORY_NAME)
                     chatRoom = clubId + "_" + historyId + "_" + chatFor
-                    chatHistoryRoom = clubId + "_" + historyId + "_" + chatFor + "_" + historyName
+                    chatHistoryRoom = clubId + "_" + historyId + "_" + chatFor
                     getUserStatus()
                     getClubMembers()
                     getClubOwner()
@@ -167,10 +178,15 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         sentButton.setOnClickListener(this)
         sendPicBtn.setOnClickListener(this)
         backBtn.setOnClickListener(this)
-        emojIcon?.setUseSystemEmoji(false)
+
+    //    oldEmoji
+        /*emojIcon?.setUseSystemEmoji(false)
+        emojIcon?.setUseSystemEmoji(true)
+        txtMsg?.setUseSystemDefault(true)
         emojIcon = EmojIconActions(this, rootView, txtMsg, emoji)
         emojIcon?.ShowEmojIcon()
         emojIcon?.setIconsIds(R.drawable.keyboard_ico, R.drawable.ic_smilely_ico)
+        txtMsg?.setEmojiconSize(100)
         emojIcon?.setKeyboardListener(object : EmojIconActions.KeyboardListener {
             override fun onKeyboardOpen() {
 
@@ -179,7 +195,11 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
             override fun onKeyboardClose() {
 
             }
-        })
+        })*/
+        // newEmoji
+        emoji?.setColorFilter(ContextCompat.getColor(this, R.color.emoji_icons), PorterDuff.Mode.SRC_IN)
+        emoji?.setOnClickListener({ ignore -> emojiPopup?.toggle() })
+        setUpEmojiPopup()
     }
 
     private fun getClubOwner() {
@@ -205,7 +225,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
                 if (txtMsg?.text.toString().trim().isNotEmpty()) {
                     sendMessage(txtMsg?.text.toString(), "text", chatFor)
                 } else {
-                 //   Toast.makeText(this, R.string.please_type, Toast.LENGTH_LONG).show()
+                    //   Toast.makeText(this, R.string.please_type, Toast.LENGTH_LONG).show()
                 }
             }
             R.id.sendPicBtn -> {
@@ -329,54 +349,69 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
 
     fun getMessageFromFirebaseUser() {
         val databaseReference = FirebaseDatabase.getInstance().reference
-        databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).ref.orderByKey().addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                FirebaseDatabase.getInstance()
-                        .reference
-                        .child(ChatUtil.ARG_CHAT_ROOMS)
-                        .child(chatRoom).addChildEventListener(object : ChildEventListener {
-                            override fun onChildAdded(dataSnapshot: DataSnapshot?, p1: String?) {
-                                val chatBean = dataSnapshot?.getValue(ChatBean::class.java)
-                                if (mChatRecyclerAdapter == null) {
-                                    val chatbeans = ArrayList<ChatBean>()
-                                    chatbeans.add(chatBean!!)
-                                    mChatRecyclerAdapter = ChatRecyclerAdapter(this@AllChatActivity, chatbeans/*, object : ChatAdapterClickListner() {
+        databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).ref.orderByKey()
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        FirebaseDatabase.getInstance()
+                                .reference
+                                .child(ChatUtil.ARG_CHAT_ROOMS)
+                                .child(chatRoom).addChildEventListener(object : ChildEventListener {
+                                    override fun onChildAdded(dataSnapshot: DataSnapshot?, p1: String?) {
+                                        val chatBean = dataSnapshot?.getValue(ChatBean::class.java)
+                                        if (mChatRecyclerAdapter == null) {
+                                            val chatbeans = ArrayList<ChatBean>()
+                                            chatbeans.add(chatBean!!)
+                                            mChatRecyclerAdapter = ChatRecyclerAdapter(this@AllChatActivity, chatbeans/*, object : ChatAdapterClickListner() {
                                     fun clickedItemPosition(url: String) {
                                         showZoomImage(url)
                                     }
                                 }*/)
-                                    chatRecycler?.adapter = mChatRecyclerAdapter
-                                } else {
-                                    mChatRecyclerAdapter?.add(chatBean)
-                                }
-                                try {
-                                    chatRecycler?.scrollToPosition(mChatRecyclerAdapter!!.itemCount - 1)
-                                } catch (e: Exception) {
+                                            chatRecycler?.adapter = mChatRecyclerAdapter
+                                        } else {
+                                            mChatRecyclerAdapter?.add(chatBean)
+                                        }
+                                        try {
+                                            chatRecycler?.scrollToPosition(mChatRecyclerAdapter!!.itemCount - 1)
+                                        } catch (e: Exception) {
 
-                                }
-                                noDataTxt?.visibility = View.GONE
-                                progressbar?.visibility = View.GONE
-                            }
+                                        }
+                                        noDataTxt?.visibility = View.GONE
+                                        progressbar?.visibility = View.GONE
+                                    }
 
-                            override fun onChildChanged(dataSnapshot: DataSnapshot?, s: String?) {
-                            }
+                                    override fun onChildChanged(dataSnapshot: DataSnapshot?, s: String?) {
+                                    }
 
-                            override fun onChildRemoved(dataSnapshot: DataSnapshot?) {
+                                    override fun onChildRemoved(dataSnapshot: DataSnapshot?) {
 
-                            }
+                                    }
 
-                            override fun onChildMoved(dataSnapshot: DataSnapshot?, s: String?) {
+                                    override fun onChildMoved(dataSnapshot: DataSnapshot?, s: String?) {
 
-                            }
+                                    }
 
-                            override fun onCancelled(databaseError: DatabaseError?) {
-                                progressbar?.visibility = View.GONE
-                            }
-                        })
+                                    override fun onCancelled(databaseError: DatabaseError?) {
+                                        progressbar?.visibility = View.GONE
+                                    }
+                                })
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError?) {
+                        //  mOnGetMessagesListener.onGetMessagesFailure("Unable to get message: " + databaseError.getMessage());
+                    }
+                })
+        upadteReadWriteMessage()
+    }
+
+    private fun upadteReadWriteMessage() {
+        FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser?.id).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError?) {
             }
 
-            override fun onCancelled(databaseError: DatabaseError?) {
-                //  mOnGetMessagesListener.onGetMessagesFailure("Unable to get message: " + databaseError.getMessage());
+            override fun onDataChange(p0: DataSnapshot?) {
+                if (p0!!.hasChild(chatHistoryRoom)) {
+                    FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser?.id).child(chatHistoryRoom).child("read").setValue(1)
+                }
             }
         })
     }
@@ -574,7 +609,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         chatHistory.clubId = clubId
         chatHistory.historyId = historyId
         chatHistory.historyName = historyName
-
+        if (member.userId.equals(ClubZ.currentUser?.id)) chatHistory.read = 1
         chatHistory.image = chatBean.image
         chatHistory.imageUrl = chatBean.imageUrl
         chatHistory.profilePic = ""
@@ -594,6 +629,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         chatHistory.clubId = clubId
         chatHistory.historyId = historyId
         chatHistory.historyName = historyName
+        if (clubOwnerId.equals(ClubZ.currentUser?.id)) chatHistory.read = 1
         chatHistory.image = chatBean.image
         chatHistory.imageUrl = chatBean.imageUrl
         chatHistory.profilePic = ""
@@ -603,4 +639,31 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         chatHistory.timestamp = chatBean.timestamp
         databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(clubOwnerId).child(chatHistoryRoom).setValue(chatHistory)
     }
+    //newEmoji
+    private fun setUpEmojiPopup() {
+        emojiPopup = EmojiPopup.Builder.fromRootView(rootView)
+                .setOnEmojiBackspaceClickListener { ignore -> Log.e("CHATALLACTIVITY", "Clicked on Backspace") }
+                .setOnEmojiClickListener { ignore, ignore2 -> Log.e("CHATALLACTIVITY", "Clicked on emoji") }
+                .setOnEmojiPopupShownListener { emoji?.setImageResource(R.drawable.keyboard_ico) }
+                .setOnSoftKeyboardOpenListener { ignore -> Log.d("CHATALLACTIVITY", "Opened soft keyboard") }
+                .setOnEmojiPopupDismissListener { emoji?.setImageResource(R.drawable.ic_smilely_ico) }
+                .setOnSoftKeyboardCloseListener { Log.d("CHATALLACTIVITY", "Closed soft keyboard") }
+                .build(txtMsg!!)
+    }
+
+    override fun onBackPressed() {
+        if (emojiPopup != null && emojiPopup!!.isShowing()) {
+            emojiPopup!!.dismiss()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onStop() {
+        if (emojiPopup != null) {
+            emojiPopup!!.dismiss()
+        }
+        super.onStop()
+    }
+
 }

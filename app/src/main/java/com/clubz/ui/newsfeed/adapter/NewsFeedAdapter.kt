@@ -14,6 +14,7 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Feed
 import com.clubz.data.remote.WebService
 import com.clubz.utils.VolleyGetPost
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.adapter_news_feed.view.*
 import org.json.JSONObject
@@ -54,11 +55,24 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
             holder.rlContent.visibility = View.GONE
             holder.llTxt.visibility = View.VISIBLE
             holder.tvDescTxt.text = feed.news_feed_description
+            holder.smlProgress.visibility=View.GONE
         } else{
             holder.llTxt.visibility = View.GONE
             holder.ivBanner.visibility = View.VISIBLE
             holder.rlContent.visibility = View.VISIBLE
-            Picasso.with(holder.ivBanner.context).load(feed.news_feed_attachment).fit().into(holder.ivBanner)
+            Picasso.with(holder.ivBanner.context)
+                    .load(feed.news_feed_attachment)
+                    .placeholder(R.drawable.new_img)
+                    .fit()
+                    .into(holder.ivBanner,object: Callback {
+                        override fun onSuccess() {
+                            holder.smlProgress.visibility=View.GONE
+                        }
+
+                        override fun onError() {
+                            holder.smlProgress.visibility=View.GONE
+                        }
+                    })
         }
 
        /* if(!feed.club_icon.isEmpty())
@@ -81,6 +95,7 @@ class NewsFeedAdapter(val items : ArrayList<Feed>, val context: Context, val lis
         val likeIcon = view.likeIcon!!
         val ivChat = view.ivChat!!
         val ll1 = view.ll1!!
+        val smlProgress = view.smlProgress!!
         // val ivUserProfile = view.ivUserProfile
 
         init {

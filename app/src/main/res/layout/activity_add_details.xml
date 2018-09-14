@@ -67,7 +67,8 @@
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="match_parent"
                     android:padding="@dimen/_3sdp"
-                    app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+                    app:srcCompat="@drawable/ic_more_vert_black_24dp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -76,7 +77,6 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tablayout"
-
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
             android:background="@color/primaryColor"

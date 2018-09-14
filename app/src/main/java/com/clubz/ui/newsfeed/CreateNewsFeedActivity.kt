@@ -16,6 +16,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.PopupMenu
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.widget.AdapterView
 import android.widget.Toast
@@ -74,9 +76,9 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
         }
 
         //tvLeadby.text = String.format("%s " + ClubZ.currentUser?.full_name, getString(R.string.lead_by))
-        tvLeadby.text = String.format(""+ClubZ.currentUser?.full_name)
-        if(clubName!!.isNotEmpty()){
-            tv_clubName.visibility =  View.VISIBLE
+        tvLeadby.text = String.format("" + ClubZ.currentUser?.full_name)
+        if (clubName!!.isNotEmpty()) {
+            tv_clubName.visibility = View.VISIBLE
             tv_clubName.text = clubName
         }
 
@@ -93,14 +95,14 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
 
         for (views in arrayOf(img_newsFeed, backBtn, ivDone, tvMarkView, markView)) views.setOnClickListener(this)
 
-       /* edFilterTag.setOnEditorActionListener { _, actionId, event ->
-            if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
-                val tag = edFilterTag.text.toString().trim { it <= ' ' }
-                addTag(tag)
-                if (tagList.size > 0) chip_grid.visibility = View.VISIBLE
-            }
-            false
-        }*/
+        /* edFilterTag.setOnEditorActionListener { _, actionId, event ->
+             if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
+                 val tag = edFilterTag.text.toString().trim { it <= ' ' }
+                 addTag(tag)
+                 if (tagList.size > 0) chip_grid.visibility = View.VISIBLE
+             }
+             false
+         }*/
 
         spn_commentStatus!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -109,73 +111,26 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
                 } else ivComment.setImageResource(R.drawable.ic_comment_enable)
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) { }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-       /* adapter = object : AdapterAutoTextView(this, tagFilter) {
-            override fun getFilterItemFromServer(txt: String?) {
-                getTagFilterSuggestion(txt!!)
+        ed_description.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
             }
-        }*/
 
-       /* edFilterTag.onItemClickListener = this  // 'this' is Activity instance
-        edFilterTag.threshold = 1
-        edFilterTag.setAdapter(adapter)*/
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-        if (feed != null){
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                countTxt.text = "" + p0?.length
+            }
+        })
+        if (feed != null) {
             updateViewIntoEditableMode()
-        }/* else if(clubId.isNullOrBlank()) {
-            divider_view.visibility = View.VISIBLE
-            ll_clubList.visibility = View.VISIBLE
-            getAllMyClubList()
-        }*/
+        }
     }
-
-   /* override fun refreshSpinner() {
-        // Create an ArrayAdapter using a simple spinner layout and languages array
-        val aa = ArrayAdapter(this, R.layout.spinner_item, R.id.spinnText, clubList)
-        // Set layout to use when the list of choices appear
-        aa.setDropDownViewResource(R.layout.spinner_item)
-        // Set Adapter to Spinner
-        spn_clubList?.adapter = aa
-
-        spn_clubList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(p0: AdapterView<*>?) { }
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                clubId = clubList[p2].clubId.toString()
-            }
-        }
-    }*/
-
-    /*private fun addTag(tag: String) {
-        if (!TextUtils.isEmpty(tag)) {
-            val chip = object : ChipView(this@CreateNewsFeedActivity, chip_grid.childCount.toString()) {
-                override fun getLayout(): Int {
-                    return R.layout.z_cus_chip_view_newsfeed
-                }
-
-                override fun setDeleteListner(chipView: ChipView?) {
-                    for (s in tagList) {
-                        if (s.trim().toLowerCase() == chipView!!.text.trim().toLowerCase()) {
-                            tagList.remove(s)
-                            break
-                        }
-                    }
-                }
-            }
-            chip.text = tag.trim()
-            tagList.add(tag.trim())
-            chip_grid.addView(chip)
-            edFilterTag.setText("")
-            KeyboardUtil.hideKeyboard(this@CreateNewsFeedActivity)
-        }
-    }*/
-
-   /* override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val tag = parent?.getItemAtPosition(position).toString()
-        addTag(tag)
-        if (tagList.size > 0) chip_grid.visibility = View.VISIBLE
-    }*/
 
     private fun updateViewIntoEditableMode() {
         tv_header.text = getString(R.string.update_article)
@@ -186,11 +141,8 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
         spn_commentStatus.setSelection(feed!!.is_comment_allow)
         clubId = feed?.clubId
         if (!feed?.news_feed_attachment.isNullOrEmpty())
-            Picasso.with(img_newsFeed.context).load(feed!!.news_feed_attachment).fit().into(img_newsFeed)
+            Picasso.with(img_newsFeed.context).load(feed!!.news_feed_attachment).placeholder(R.drawable.ic_new_img).fit().into(img_newsFeed)
 
-        //val tags = feed?.tagName?.split(",")?.map { it.trim() }
-       // for (t in tags!!) if (t.isNotEmpty()) addTag(t)
-       // if (tagList.size > 0) chip_grid.visibility = View.VISIBLE
     }
 
     override fun onClick(v: View?) {
@@ -210,7 +162,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
                 }
             }
 
-            R.id.tvMarkView , R.id.markView -> {
+            R.id.tvMarkView, R.id.markView -> {
                 showSneckBar(getString(R.string.under_development))
             }
         }
@@ -394,47 +346,6 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
         request.retryPolicy = DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         ClubZ.instance.addToRequestQueue(request)
     }
-
-    /*private fun getTagFilterSuggestion(searchText: String = "") {
-        ClubZ.instance.cancelPendingRequests(CreateNewsFeedActivity::class.java.name)
-        val request = object : VolleyMultipartRequest(Request.Method.POST,
-                WebService.feed_filter_tag,
-                Response.Listener<NetworkResponse> { response ->
-                    val data = String(response.data)
-                    try {
-                        val obj = JSONObject(data)
-                        if (obj.getString("status") == "success") {
-                            val dataArray = obj.getJSONArray("data")
-                            for (i in 0 until dataArray.length()) {
-                                tagFilter?.add(dataArray.getJSONObject(i).getString("feed_filter_tag_name"))
-                            }
-                        }
-                        adapter?.notifyDataSetChanged()
-                        if (!edFilterTag.isPopupShowing && edFilterTag.text.isNotEmpty()) {
-                            edFilterTag.showDropDown()
-                        }
-                    } catch (e: java.lang.Exception) {
-                        e.printStackTrace()
-                    }
-                }, Response.ErrorListener {
-        }) {
-            override fun getParams(): MutableMap<String, String> {
-                val params = java.util.HashMap<String, String>()
-                params["searchText"] = searchText
-                params["clubId"] = if (clubId.isNullOrBlank()) feed!!.clubId else clubId!!
-                return params
-            }
-
-            override fun getHeaders(): MutableMap<String, String> {
-                val params = java.util.HashMap<String, String>()
-                params["language"] = SessionManager.getObj().language
-                params["authToken"] = SessionManager.getObj().user.auth_token
-                return params
-            }
-        }
-
-        ClubZ.instance.addToRequestQueue(request, CreateNewsFeedActivity::class.java.name)
-    }*/
 
     private fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(this@CreateNewsFeedActivity, R.style.popstyle)

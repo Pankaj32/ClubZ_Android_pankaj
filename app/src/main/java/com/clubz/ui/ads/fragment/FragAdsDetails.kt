@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import com.android.volley.VolleyError
 
 import com.clubz.R
@@ -19,6 +20,7 @@ import com.clubz.utils.DateTimeUtil
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_frag_ads_details.*
 import org.json.JSONObject
@@ -73,6 +75,7 @@ class FragAdsDetails : Fragment() {
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
                         dialogProgress.dismiss()
+                        visibleLay.visibility = View.GONE
                         var adDetails = Gson().fromJson(response, AddDetailsBean::class.java)
                         updateUi(adDetails)
                     } else {
@@ -106,7 +109,20 @@ class FragAdsDetails : Fragment() {
 
     private fun updateUi(adDetails: AddDetailsBean?) {
         if (adDetails?.data?.image!!.isNotEmpty()) {
-            Picasso.with(adImg.context).load(adDetails.data?.image).fit().into(adImg)
+            Picasso.with(adImg.context)
+                    .load(adDetails.data?.image)
+                    .placeholder(R.drawable.new_img)
+                    .fit().into(adImg,object :Callback{
+                        override fun onSuccess() {
+                            smlProgress.visibility=View.GONE
+                        }
+
+                        override fun onError() {
+                            smlProgress.visibility=View.GONE
+                        }
+                    })
+        }else{
+            smlProgress.visibility=View.GONE
         }
         if (!adDetails.data!!.title.isNullOrEmpty()) {
             adTitle.text = adDetails.data?.title
@@ -116,20 +132,20 @@ class FragAdsDetails : Fragment() {
         }
         if (!adDetails.data?.total_likes.isNullOrEmpty()) {
             if (adDetails.data?.total_likes.equals("0")) {
-                likeImg.setImageResource(R.drawable.inactive_heart_ico)
+                likeImg.visibility = View.GONE
             } else {
                 likeTxt.text = adDetails.data!!.total_likes + " Likes"
-                likeImg.setImageResource(R.drawable.active_heart_ico)
+                likeImg.visibility = View.VISIBLE
             }
         }
-        timeAgo.text = DateTimeUtil.getDayDifference(adDetails.data!!.created,adDetails.dateTime)
+        timeAgo.text = DateTimeUtil.getDayDifference(adDetails.data!!.created, adDetails.dateTime)
         if (!adDetails.data!!.description.isNullOrEmpty()) {
             adDesc.text = adDetails.data?.description
         }
         username.text = adDetails.data?.creator_name
 
         if (adDetails.data?.creator_profile_image?.isNotEmpty()!!) {
-            Picasso.with(image_member2.context).load(adDetails.data?.creator_profile_image).into(image_member2)
+            Picasso.with(image_member2.context).load(adDetails.data?.creator_profile_image).fit().into(image_member2)
         } else {
             // val padding = resources.getDimension(R.dimen._8sdp).toInt()
             // image_member2.setPadding(padding, padding, padding, padding)

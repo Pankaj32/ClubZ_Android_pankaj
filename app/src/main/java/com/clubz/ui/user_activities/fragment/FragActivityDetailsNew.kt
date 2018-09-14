@@ -14,10 +14,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 
@@ -49,6 +46,8 @@ class FragActivityDetailsNew : Fragment() {
     private var userId: String = ""
     private var userName: String = ""
     private var userImage: String = ""
+    private var progressBar: ProgressBar? = null
+    /*  private progressBar=*/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -59,7 +58,7 @@ class FragActivityDetailsNew : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeView()
-
+        progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
         termsNCondition.setOnClickListener {
             object : TermsConditionDialog(mContext!!, resources.getString(R.string.terms_conditions), activityDetails?.getData()?.terms_conditions!!) {
                 override fun onCloseClicked() {
@@ -129,19 +128,21 @@ class FragActivityDetailsNew : Fragment() {
     }
 
     private fun getActivityDetails() {
-        val dialogProgress = CusDialogProg(mContext!!)
-        dialogProgress.show()
+        /*val dialogProgress = CusDialogProg(mContext!!)
+        dialogProgress.show()*/
+        progressBar?.visibility = View.VISIBLE
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(activity!!, mContext,
                 "${WebService.getActivityDetails}?activityId=${activityId}",
                 true) {
             override fun onVolleyResponse(response: String?) {
-                dialogProgress.dismiss()
+                progressBar?.visibility = View.VISIBLE
                 try {
 
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
-                        dialogProgress.dismiss()
+                        transView.visibility = View.GONE
+                        progressBar?.visibility = View.GONE
                         activityDetails = Gson().fromJson(response, GetActivityDetailsResponce::class.java)
                         updateUi()
                     } else {
@@ -154,11 +155,11 @@ class FragActivityDetailsNew : Fragment() {
             }
 
             override fun onVolleyError(error: VolleyError?) {
-                dialogProgress.dismiss()
+                progressBar?.visibility = View.GONE
             }
 
             override fun onNetError() {
-                dialogProgress.dismiss()
+                progressBar?.visibility = View.GONE
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -190,7 +191,7 @@ class FragActivityDetailsNew : Fragment() {
             likeImg.setImageResource(R.drawable.active_heart_ico)
         }*/
         if (activityDetails?.getData()?.image?.isNotEmpty()!!) {
-            Picasso.with(imgActivity.context).load(activityDetails?.getData()?.image).fit().into(imgActivity)
+            Picasso.with(imgActivity.context).load(activityDetails?.getData()?.image).placeholder(R.drawable.new_img).fit().into(imgActivity)
         }
         if (activityDetails?.getData()?.leader_name?.isNotEmpty()!!) {
             activityLeader.text = activityDetails?.getData()?.leader_name
@@ -213,7 +214,7 @@ class FragActivityDetailsNew : Fragment() {
         } else {
             if (activityDetails?.getData()?.is_like.equals("1")) {
                 imgLike.setImageResource(R.drawable.active_heart_ico)
-            }else{
+            } else {
                 imgLike.setImageResource(R.drawable.inactive_heart_ico)
             }
         }
@@ -222,9 +223,9 @@ class FragActivityDetailsNew : Fragment() {
         if (activityDetails?.getData()?.creator_profile_image?.isNotEmpty()!!) {
             Picasso.with(image_member2.context).load(activityDetails?.getData()?.creator_profile_image).into(image_member2)
         } else {
-           // val padding = resources.getDimension(R.dimen._8sdp).toInt()
-           // image_member2.setPadding(padding, padding, padding, padding)
-           // image_member2.background = ContextCompat.getDrawable(mContext!!, R.drawable.bg_circle_blue)
+            // val padding = resources.getDimension(R.dimen._8sdp).toInt()
+            // image_member2.setPadding(padding, padding, padding, padding)
+            // image_member2.background = ContextCompat.getDrawable(mContext!!, R.drawable.bg_circle_blue)
             image_member2.setImageResource(R.drawable.user_place_holder)
         }
     }
@@ -238,6 +239,7 @@ class FragActivityDetailsNew : Fragment() {
                 true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
+                // progressBar.visibility=View.GONE
                 try {
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
@@ -255,7 +257,7 @@ class FragActivityDetailsNew : Fragment() {
             }
 
             override fun onNetError() {
-
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {

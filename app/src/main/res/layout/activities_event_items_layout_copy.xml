@@ -14,14 +14,15 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/datelay"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="?android:attr/selectableItemBackground">
 
             <LinearLayout
-                android:id="@+id/datelay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_10sdp"
@@ -108,7 +109,7 @@
 
             </LinearLayout>
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/imgCheck"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="wrap_content"
@@ -116,7 +117,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:tint="@color/primaryColor"
-                app:srcCompat="@drawable/ic_checkbox" />
+                app:srcCompat="@drawable/ic_checkbox" />-->
 
         </RelativeLayout>
     </LinearLayout>
@@ -130,9 +131,4 @@
         android:background="@color/color_Light_Green"
         android:progressTint="@color/primaryColor"
         android:layout_marginTop="2dp"/>-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/gray_transprent_nnty" />
 </LinearLayout>

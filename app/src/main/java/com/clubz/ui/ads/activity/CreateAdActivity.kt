@@ -35,6 +35,7 @@ import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.ads.model.AdDetailsCreated
+import com.clubz.ui.ads.model.AdsListBean
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.utils.Constants
 import com.clubz.utils.Util
@@ -60,6 +61,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
     private var userImage: String? = ""
     private var clubId: String? = ""
     private var clubName: String? = ""
+    private var adBean: AdsListBean.DataBean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,17 +73,28 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
         let {
             if (intent.hasExtra("clubId")) clubId = intent.extras.getString("clubId") else clubId = ""
             if (intent.hasExtra("clubName")) clubName = intent.extras.getString("clubName") else clubName = ""
+            if (intent.hasExtra("adBean")) adBean = intent.getParcelableExtra("adBean")
         }
-        clubNameTxt.text = clubName
-        userId = ClubZ.currentUser!!.id
-        userName = ClubZ.currentUser!!.full_name
-        userImage = ClubZ.currentUser!!.profile_image
-        val padding = resources.getDimension(R.dimen._8sdp).toInt()
-        if (userImage!!.isNotEmpty()) {
-            Picasso.with(image_member2.context).load(userImage).into(image_member2)
+        if (adBean == null) {
+            clubNameTxt.text = clubName
+            userId = ClubZ.currentUser!!.id
+            userName = ClubZ.currentUser!!.full_name
+            userImage = ClubZ.currentUser!!.profile_image
         } else {
-            //image_member2.setPadding(padding, padding, padding, padding)
-            // image_member2.background = ContextCompat.getDrawable(this, R.drawable.bg_circle_blue)
+            clubNameTxt.text = adBean?.club_name
+            userId = adBean?.user_id
+            userName = adBean?.full_name
+            userImage = adBean?.profile_image
+            if (!TextUtils.isEmpty(adBean?.image)) Picasso.with(imgAd.context).load(adBean?.image).fit().placeholder(R.drawable.ic_new_img).into(imgAd)
+            headTitle.text = adBean?.title
+            adTitle.setText(adBean?.title)
+            adValue.setText(adBean?.fee)
+            adValue.setText(adBean?.fee)
+            adDescription.setText(adBean?.description)
+        }
+        if (userImage!!.isNotEmpty()) {
+            Picasso.with(image_member2.context).load(userImage).fit().placeholder(R.drawable.user_place_holder).into(image_member2)
+        } else {
             image_member2.setImageResource(R.drawable.user_place_holder)
         }
         username.text = userName
@@ -109,6 +122,19 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         })
+        adDescription.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                countTxt.text = "" + p0?.length
+            }
+        })
     }
 
     override fun onClick(p0: View?) {
@@ -120,7 +146,14 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                 showBackConfirmationDialog()
             }
             R.id.done -> {
-                if (validator()) createAd()
+                if (validator()) {
+                    if (adBean != null) {
+                        updateAd()
+                    } else {
+                        createAd()
+                    }
+
+                }
             }
         }
     }
@@ -328,28 +361,30 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
     private fun createAd() {
         val dialog = CusDialogProg(this@CreateAdActivity)
         dialog.show()
-        val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.createAd, Response.Listener<NetworkResponse> { response ->
-            val data = String(response.data)
-            Util.e("data", data)
-            dialog.dismiss()
-            try {
-                val obj = JSONObject(data)
-                val status = obj.getString("status")
-                if (status == "success") {
-                    val adDetails = Gson().fromJson(data, AdDetailsCreated::class.java)
-                    createAdInFireBase(adDetails)
-                } else {
-                    Toast.makeText(this@CreateAdActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
-                }
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                Toast.makeText(this@CreateAdActivity, R.string.swr, Toast.LENGTH_LONG).show()
-            }
-            dialog.dismiss()
-        }, Response.ErrorListener {
-            dialog.dismiss()
-            Toast.makeText(this@CreateAdActivity, "Something went wrong", Toast.LENGTH_LONG).show()
-        }) {
+        val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.createAd,
+                Response.Listener<NetworkResponse> { response ->
+                    val data = String(response.data)
+                    Util.e("data", data)
+                    dialog.dismiss()
+                    try {
+                        val obj = JSONObject(data)
+                        val status = obj.getString("status")
+                        if (status == "success") {
+                            val adDetails = Gson().fromJson(data, AdDetailsCreated::class.java)
+                            createAdInFireBase(adDetails)
+                        } else {
+                            Toast.makeText(this@CreateAdActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
+                        }
+                    } catch (e: java.lang.Exception) {
+                        e.printStackTrace()
+                        Toast.makeText(this@CreateAdActivity, R.string.swr, Toast.LENGTH_LONG).show()
+                    }
+                    dialog.dismiss()
+                },
+                Response.ErrorListener {
+                    dialog.dismiss()
+                    Toast.makeText(this@CreateAdActivity, "Something went wrong", Toast.LENGTH_LONG).show()
+                }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
                 params["title"] = adTitle.text.toString()
@@ -386,18 +421,76 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
         ClubZ.instance.addToRequestQueue(request)
     }
 
+    private fun updateAd() {
+        val dialog = CusDialogProg(this@CreateAdActivity)
+        dialog.show()
+        val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.updateAd, Response.Listener<NetworkResponse> { response ->
+            val data = String(response.data)
+            Util.e("data", data)
+            dialog.dismiss()
+            try {
+                val obj = JSONObject(data)
+                val status = obj.getString("status")
+                if (status == "success") {
+                    val adDetails = Gson().fromJson(data, AdDetailsCreated::class.java)
+                    createAdInFireBase(adDetails)
+                } else {
+                    Toast.makeText(this@CreateAdActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Toast.makeText(this@CreateAdActivity, R.string.swr, Toast.LENGTH_LONG).show()
+            }
+            dialog.dismiss()
+        }, Response.ErrorListener {
+            dialog.dismiss()
+            Toast.makeText(this@CreateAdActivity, "Something went wrong", Toast.LENGTH_LONG).show()
+        }) {
+            override fun getParams(): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                params["adId"] = adBean?.adId.toString()
+                params["title"] = adTitle.text.toString()
+                params["fee"] = adValue.text.toString()
+                params["description"] = adDescription.text.toString()
+                if (TextUtils.isEmpty(usrerole.text.toString())) {
+                    params["userRole"] = "admin"
+                } else {
+                    params["userRole"] = usrerole.text.toString()
+                }
+                return params
+            }
+
+            override fun getByteData(): MutableMap<String, DataPart>? {
+                val params = java.util.HashMap<String, DataPart>()
+                if (adImage != null) {
+                    params["image"] = DataPart("activity_image.jpg", AppHelper.getFileDataFromDrawable(adImage), "image")
+                }
+                return params
+            }
+
+            override fun getHeaders(): MutableMap<String, String> {
+                val params = java.util.HashMap<String, String>()
+                //  params.put("language", SessionManager.getObj().getLanguage())
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                return params
+            }
+        }
+        request.retryPolicy = DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        ClubZ.instance.addToRequestQueue(request)
+    }
+
     private fun createAdInFireBase(adDetails: AdDetailsCreated) {
-        val activityBean = AdBean()
-        activityBean.adId = adDetails.adDetail.adId
-        activityBean.adTitle = adDetails.adDetail.title
-        activityBean.adImage = adDetails.adDetail.image
-        activityBean.clubId = adDetails.adDetail.clubId
+        val adBean = AdBean()
+        adBean.adId = adDetails.adDetail.adId
+        adBean.adTitle = adDetails.adDetail.title
+        adBean.adImage = adDetails.adDetail.image
+        adBean.clubId = adDetails.adDetail.clubId
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_ADS)
                 .child(adDetails.adDetail.clubId)
                 .child(adDetails.adDetail.adId)
-                .setValue(activityBean).addOnCompleteListener {
+                .setValue(adBean).addOnCompleteListener {
                     Toast.makeText(this@CreateAdActivity, adDetails.message, Toast.LENGTH_LONG).show()
                     finish()
                 }

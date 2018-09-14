@@ -1,5 +1,7 @@
 package com.clubz.ui.user_activities.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,7 +21,7 @@ class ActivitiesBean {
     var dateTime: String? = null
     var data: List<DataBean>? = null
 
-    class DataBean {
+    class DataBean() : Parcelable{
         /**
          * event_date : 2018-08-30
          * is_my_activity : 1
@@ -36,7 +38,7 @@ class ActivitiesBean {
          * events : [{"activityEventId":"23","event_title":"Kinder","event_date":"2018-08-30","event_time":"06:30:00","description":"","location":"502, 503 & 504 Krishna Tower Above ICICI Bank, Main Rd, Brajeshwari Extension, Pipliyahana, Indore, Madhya Pradesh 452016, India","latitude":"22.705138200000004","longitude":"75.9090618","fee":"10","fee_type":"Voluntary","max_users":"10","total_users":"0","joined_users":"0","is_confirm":"0","hasJoined":"0","hasAffiliatesJoined":"0"}]
          */
 
-        var event_date: String? = null
+        /*var event_date: String? = null
         var is_my_activity: String? = null
         var image: String? = null
         var activityName: String? = null
@@ -51,7 +53,81 @@ class ActivitiesBean {
         var listType: String? = null
         var events: List<EventsBean>? = null
         var visible = false
+        var is_hide: String? = null*/
+
+        var activityEventId: String? = null
+        var event_date: String? = null
+        var is_my_activity: String? = null
+        var image: String? = null
+        var activityName: String? = null
         var is_hide: String? = null
+        var activityId: String? = null
+        var name: String? = null
+        var leader_id: String? = null
+        var club_id: String? = null
+        var creator_id: String? = null
+        var location: String? = null
+        var latitude: String? = null
+        var longitude: String? = null
+        var fee_type: String? = null
+        var fee: String? = null
+        var min_users: String? = null
+        var max_users: String? = null
+        var user_role: String? = null
+        var description: String? = null
+        var terms_conditions: String? = null
+        var is_cancel: String? = null
+        var status: String? = null
+        var crd: String? = null
+        var upd: String? = null
+        var club_name: String? = null
+        var clubId: String? = null
+        var is_like: String? = null
+        var userId: String? = null
+        var full_name: String? = null
+        var device_token: String? = null
+        var profile_image: String? = null
+        var listType: String? = null
+        var visible = false
+        var events: List<EventsBean>? = null
+
+        constructor(parcel: Parcel) : this() {
+            activityEventId = parcel.readString()
+            event_date = parcel.readString()
+            is_my_activity = parcel.readString()
+            image = parcel.readString()
+            activityName = parcel.readString()
+            is_hide = parcel.readString()
+            activityId = parcel.readString()
+            name = parcel.readString()
+            leader_id = parcel.readString()
+            club_id = parcel.readString()
+            creator_id = parcel.readString()
+            location = parcel.readString()
+            latitude = parcel.readString()
+            longitude = parcel.readString()
+            fee_type = parcel.readString()
+            fee = parcel.readString()
+            min_users = parcel.readString()
+            max_users = parcel.readString()
+            user_role = parcel.readString()
+            description = parcel.readString()
+            terms_conditions = parcel.readString()
+            is_cancel = parcel.readString()
+            status = parcel.readString()
+            crd = parcel.readString()
+            upd = parcel.readString()
+            club_name = parcel.readString()
+            clubId = parcel.readString()
+            is_like = parcel.readString()
+            userId = parcel.readString()
+            full_name = parcel.readString()
+            device_token = parcel.readString()
+            profile_image = parcel.readString()
+            listType = parcel.readString()
+            visible = parcel.readByte() != 0.toByte()
+        }
+
 
         class EventsBean {
             /**
@@ -98,7 +174,7 @@ class ActivitiesBean {
                 // String input = "2014-04-25 17:03:13";
                 val inputFormat = SimpleDateFormat("yyyy-MM-dd")
                 //  val outputFormat = SimpleDateFormat("E, MMM dd, yyyy")
-             //   val outputFormat = SimpleDateFormat("MMM'.' dd")
+                //   val outputFormat = SimpleDateFormat("MMM'.' dd")
                 val outputFormat = SimpleDateFormat("MMM dd")
                 try {
                     return outputFormat.format(inputFormat.parse(event_date)).toUpperCase()
@@ -130,6 +206,56 @@ class ActivitiesBean {
                 return formatedTime
             }
         }
-    }
 
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(activityEventId)
+            parcel.writeString(event_date)
+            parcel.writeString(is_my_activity)
+            parcel.writeString(image)
+            parcel.writeString(activityName)
+            parcel.writeString(is_hide)
+            parcel.writeString(activityId)
+            parcel.writeString(name)
+            parcel.writeString(leader_id)
+            parcel.writeString(club_id)
+            parcel.writeString(creator_id)
+            parcel.writeString(location)
+            parcel.writeString(latitude)
+            parcel.writeString(longitude)
+            parcel.writeString(fee_type)
+            parcel.writeString(fee)
+            parcel.writeString(min_users)
+            parcel.writeString(max_users)
+            parcel.writeString(user_role)
+            parcel.writeString(description)
+            parcel.writeString(terms_conditions)
+            parcel.writeString(is_cancel)
+            parcel.writeString(status)
+            parcel.writeString(crd)
+            parcel.writeString(upd)
+            parcel.writeString(club_name)
+            parcel.writeString(clubId)
+            parcel.writeString(is_like)
+            parcel.writeString(userId)
+            parcel.writeString(full_name)
+            parcel.writeString(device_token)
+            parcel.writeString(profile_image)
+            parcel.writeString(listType)
+            parcel.writeByte(if (visible) 1 else 0)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<DataBean> {
+            override fun createFromParcel(parcel: Parcel): DataBean {
+                return DataBean(parcel)
+            }
+
+            override fun newArray(size: Int): Array<DataBean?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
 }

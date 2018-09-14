@@ -106,17 +106,18 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 shortList()
                 // chatHistoryAdapter?.notifyDataSetChanged()
                 chatHistoryRecycler?.visibility = View.VISIBLE
-                when (historyBean?.chatType) {
-                    ChatUtil.ARG_NEWS_FEED -> {
-                        getFeedsImage(historyBean)
+
+                    when (historyBean?.chatType) {
+                        ChatUtil.ARG_NEWS_FEED -> {
+                            getFeedsImage(historyBean)
+                        }
+                        ChatUtil.ARG_ACTIVITIES -> {
+                            getActivityImage(historyBean)
+                        }
+                        ChatUtil.ARG_ADS -> {
+                            getAdsImage(historyBean)
+                        }
                     }
-                    ChatUtil.ARG_ACTIVITIES -> {
-                        getActivityImage(historyBean)
-                    }
-                    ChatUtil.ARG_ADS -> {
-                        getAdsImage(historyBean)
-                    }
-                }
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot?, s: String?) {
@@ -140,16 +141,20 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 }
                 shortList()
                 chatHistoryRecycler?.visibility = View.VISIBLE
-                when (historyBean?.chatType) {
-                    ChatUtil.ARG_NEWS_FEED -> {
-                        getFeedsImage(historyBean)
+                try {
+                    when (historyBean?.chatType) {
+                        ChatUtil.ARG_NEWS_FEED -> {
+                            getFeedsImage(historyBean)
+                        }
+                        ChatUtil.ARG_ACTIVITIES -> {
+                            getActivityImage(historyBean)
+                        }
+                        ChatUtil.ARG_ADS -> {
+                            getAdsImage(historyBean)
+                        }
                     }
-                    ChatUtil.ARG_ACTIVITIES -> {
-                        getActivityImage(historyBean)
-                    }
-                    ChatUtil.ARG_ADS -> {
-                        getAdsImage(historyBean)
-                    }
+                } catch (e: Exception) {
+
                 }
             }
 
@@ -178,14 +183,18 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 .child(historyBean.clubId)
                 .child(historyBean.historyId).addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        val adBean = dataSnapshot?.getValue(AdBean::class.java)
-                        for (data in chatHistoryBeanList) {
-                            if (data.chatType?.equals(ChatUtil.ARG_ADS)!!) {
-                                if (data.historyId.equals(adBean?.adId)) {
-                                    data.profilePic = adBean?.adImage
-                                    break
+                        try {
+                            val adBean = dataSnapshot?.getValue(AdBean::class.java)
+                            for (data in chatHistoryBeanList) {
+                                if (data.chatType?.equals(ChatUtil.ARG_ADS)!!) {
+                                    if (data.historyId.equals(adBean?.adId)) {
+                                        data.profilePic = adBean?.adImage
+                                        break
+                                    }
                                 }
                             }
+                        } catch (e: Exception) {
+
                         }
                         chatHistoryAdapter?.notifyDataSetChanged()
                     }
@@ -204,14 +213,18 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 .child(historyBean.clubId)
                 .child(historyBean.historyId).addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        val activityBean = dataSnapshot?.getValue(ActivityBean::class.java)
-                        for (data in chatHistoryBeanList) {
-                            if (data.chatType?.equals(ChatUtil.ARG_ACTIVITIES)!!) {
-                                if (data.historyId.equals(activityBean?.activityId)) {
-                                    data.profilePic = activityBean?.activityImage
-                                    break
+                        try {
+                            val activityBean = dataSnapshot?.getValue(ActivityBean::class.java)
+                            for (data in chatHistoryBeanList) {
+                                if (data.chatType?.equals(ChatUtil.ARG_ACTIVITIES)!!) {
+                                    if (data.historyId.equals(activityBean?.activityId)) {
+                                        data.profilePic = activityBean?.activityImage
+                                        break
+                                    }
                                 }
                             }
+                        } catch (e: Exception) {
+
                         }
                         chatHistoryAdapter?.notifyDataSetChanged()
                     }
@@ -230,14 +243,19 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 .child(historyBean.clubId)
                 .child(historyBean.historyId).addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        val feedBean = dataSnapshot?.getValue(FeedBean::class.java)
-                        for (data in chatHistoryBeanList) {
-                            if (data.chatType?.equals(ChatUtil.ARG_NEWS_FEED)!!) {
-                                if (data.historyId.equals(feedBean?.feedId)) {
-                                    data.profilePic = feedBean?.feedImage
-                                    break
+                        try {
+                            val feedBean = dataSnapshot?.getValue(FeedBean::class.java)
+                            for (data in chatHistoryBeanList) {
+
+                                if (data.chatType?.equals(ChatUtil.ARG_NEWS_FEED)!!) {
+                                    if (data.historyId.equals(feedBean?.feedId)) {
+                                        data.profilePic = feedBean?.feedImage
+                                        break
+                                    }
                                 }
                             }
+                        } catch (e: Exception) {
+
                         }
                         chatHistoryAdapter?.notifyDataSetChanged()
                     }

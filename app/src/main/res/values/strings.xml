@@ -311,24 +311,6 @@
     <string name="add_activity">Add new activity</string>
     <string name="users">users</string>
 
-    <!--<string name="emoji1" > &#x1f60b; </string>-->
-    <!--<string name="emoji1" > U+1F60B </string>-->
-    <!--<string name="emoji1" > U+1F60B </string>-->
-    <!--
-        User name
-        - Please enter username.
-        - User name can't have space.
-        Email
-        - Please enter email address.
-        - Please enter valid email address.
-        - Email address already exist.
-        -->
-    <!--
-        1. Enter your phone number for verification via SMS.
-        2. Please select country code
-        3. Please enter valid phone number
-        -->
-    <!--Create Activity validation-->
     <string name="a_actnme">Please enter activity name</string>
     <string name="a_actImg">Please select activity image</string>
     <string name="a_actLoc">Please select location</string>
@@ -375,7 +357,7 @@
     <string name="tab_to_add_filter_tags">tab to add filter tags</string>
     <string name="create_news_feed">Create news feed</string>
     <string name="article_s_content">Article\'s content</string>
-    <string name="create_new_nwes">Create a new news</string>
+    <string name="create_new_nwes">New news</string>
     <string name="new_article">New Article</string>
     <string name="update_article">Edit Article</string>
     <string name="error_article_name">Please enert article name.</string>
@@ -390,10 +372,14 @@
     <string name="there_is_no_chat_stil_here">There is no chat still here</string>
     <string name="there_is_no_ad_stil_here">There are no ads still here</string>
     <string name="there_is_no_member_stil_here">There is no members still here</string>
-    <string name="no_feed_content_body">Here will appear news from the clubs you belong. Club managers have not published anything yet.
-        \n\nYou can also verify that your clubs are not muted, swipe the screen from the right side and enable them.</string>
-    <string name="no_activity_content_body">The activities will be available once the club manager create it.</string>
-    <string name="no_ads_content_body">Be the first to creating one!</string>
+    <string name="no_feed_content_body">Here will appear news from the clubs you belong. Seems that club managers have not published anything yet.
+\n\nAlso, check if your clubs are not muted. Swipe the screen from the right side and enable them.</string>
+    <string name="no_activity_content_body">Here you will see the activities of your club. May be the club managers have not created anything yet.
+\n\nYou can also verify that your clubs are not muted. Swipe the screen from the right side and enable them.</string>
+    <string name="no_chat_content_body">Here you will find your chat history. Each chat you start will appear here, such as news chat, activity chat, and ad chat.
+\n\nYou can verify if your clubs are not muted. Just swipe the screen from the right side and enable them.</string>
+    <string name="no_ads_content_body">It seems that the members of yours club have not published any advertisement, be the first to create one!
+\n\nRemember to verify if your clubs are not muted. Swipe the screen from the right side and enable them.</string>
     <string name="no_member_content_body">Members will appear here when users join to the activity</string>
     <string name="t_date_title">Date title</string>
     <string name="t_next_date">Next date</string>
@@ -409,6 +395,7 @@
     <string name="set_notification">Set Notification</string>
     <string name="join_activity">Join to the activity</string>
     <string name="leave_activity">Leave the activity group</string>
+    <string name="edit_activity">Edit this activity</string>
 
     <string name="menu_my_newsfeed">Show my feed</string>
     <string name="menu_filter_by_clubs">Filter by clubs</string>
@@ -459,73 +446,6 @@
     <string name="my_skills">My Skills</string>
     <string name="my_interests">My Interests</string>
 
-    <string name="large_text">
-        "Material is the metaphor.\n\n"
-
-        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
-        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
-        "technologically advanced and open to imagination and magic.\n"
-        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
-        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
-        "flexibility of the material creates new affordances that supercede those in the physical "
-        "world, without breaking the rules of physics.\n"
-        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
-        "interact, and exist in space and in relation to each other. Realistic lighting shows "
-        "seams, divides space, and indicates moving parts.\n\n"
-
-        "Bold, graphic, intentional.\n\n"
-
-        "The foundational elements of print based design typography, grids, space, scale, color, "
-        "and use of imagery guide visual treatments. These elements do far more than please the "
-        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
-        "imagery, large scale typography, and intentional white space create a bold and graphic "
-        "interface that immerse the user in the experience.\n"
-        "An emphasis on user actions makes core functionality immediately apparent and provides "
-        "waypoints for the user.\n\n"
-
-        "Motion provides meaning.\n\n"
-
-        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
-        "inflection points that initiate motion, transforming the whole design.\n"
-        "All action takes place in a single environment. Objects are presented to the user without "
-        "breaking the continuity of experience even as they transform and reorganize.\n"
-        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
-        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
-
-        "3D world.\n\n"
-
-        "The material environment is a 3D space, which means all objects have x, y, and z "
-        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
-        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
-        "position along the z-axis and has a standard 1dp thickness.\n"
-        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
-        "emulated by manipulating the y-axis.\n\n"
-
-        "Light and shadow.\n\n"
-
-        "Within the material environment, virtual lights illuminate the scene. Key lights create "
-        "directional shadows, while ambient light creates soft shadows from all angles.\n"
-        "Shadows in the material environment are cast by these two light sources. In Android "
-        "development, shadows occur when light sources are blocked by sheets of material at "
-        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
-        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
-
-        "Resting elevation.\n\n"
-
-        "All material objects, regardless of size, have a resting elevation, or default elevation "
-        "that does not change. If an object changes elevation, it should return to its resting "
-        "elevation as soon as possible.\n\n"
-
-        "Component elevations.\n\n"
-
-        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
-        "does not vary from 6dp in one app to 16dp in another app).\n"
-        "Components may have different resting elevations across platforms, depending on the depth "
-        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
-
-        "Responsive elevation and dynamic elevation offsets."
-
-    </string>
     <string name="silece_this_user">Silece this user</string>
     <string name="only_for_my_contact">Only for my contact</string>
     <string name="write_something_interesting_about_you">Write something interesting about you</string>
@@ -581,7 +501,7 @@
 
 
     <!--ads-->
-    <string name="create_new_ad">Create new Ad</string>
+    <string name="create_new_ad">New Ad</string>
     <string name="value">Value</string>
     <string name="description">Description</string>
     <string name="new_ad">New Ad</string>
@@ -589,15 +509,26 @@
     <string name="a_addTitle">Please enter ad title</string>
     <string name="left_to_confirm">user left to confirm</string>
     <string name="new_txt">New</string>
+    <string name="recent_txt">Recent</string>
     <string name="favorit_txt">Favorite</string>
     <string name="confirm_date">CONFIRM</string>
     <string name="cancel_date"> Cancel Date </string>
     <string name="status"> Status </string>
     <!--Ad Bottom sheet menu-->
     <string name="remove_ad_fav"> Remove the ad from favorites </string>
+    <string name="add_ad_fav"> Add to favorites </string>
     <string name="private_chat_with_advertiser"> Private chat with the advertiser </string>
-    <string name="delete_ad"> Delete the ad from my feed </string>
+    <string name="delete_ad_from_my_feed"> Delete the ad from my feed </string>
+    <string name="edit_ad"> Edit ad </string>
+    <string name="delete_ad"> Delete ad </string>
+    <string name="renew_ad"> Renew ad </string>
     <string name="my_ads"> My Ads </string>
     <string name="commonmark">CommonMark</string>
     <string name="type_a_message">Type a message</string>
+    <string name="add_ad_fav_title">Are you sure, you want this ad to favorites?</string>
+    <string name="remove_ad_fav_title">Are you sure, you want to remove this ad from favorites?</string>
+    <string name="delete_my_ad_title">Are you sure, you want to delete this ad? </string>
+    <string name="delete_other_ad_title">Are you sure, you want to delete this ad from feeds?</string>
+    <string name="renew_ad_title">Are you sure, you want to Renew this ad </string>
+    <string name="expired">Expired</string>
 </resources>

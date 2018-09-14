@@ -1,5 +1,7 @@
 package com.clubz.ui.ads.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
@@ -15,7 +17,7 @@ class AdsListBean {
      var data: List<DataBean>? = null
 
 
-    class DataBean {
+    class DataBean() :Parcelable{
         /**
          * adId : 2
          * title : Testing ads
@@ -52,7 +54,30 @@ class AdsListBean {
         var currentDatetime: String? = null
         var is_my_ads: String? = null
         var is_New: String? = null
+        var expire_ads: String? = null
         var visible = false
+
+        constructor(parcel: Parcel) : this() {
+            adId = parcel.readString()
+            title = parcel.readString()
+            fee = parcel.readString()
+            is_renew = parcel.readString()
+            description = parcel.readString()
+            club_id = parcel.readString()
+            user_id = parcel.readString()
+            user_role = parcel.readString()
+            crd = parcel.readString()
+            image = parcel.readString()
+            profile_image = parcel.readString()
+            club_name = parcel.readString()
+            full_name = parcel.readString()
+            isFav = parcel.readString()
+            currentDatetime = parcel.readString()
+            is_my_ads = parcel.readString()
+            is_New = parcel.readString()
+            expire_ads = parcel.readString()
+            visible = parcel.readByte() != 0.toByte()
+        }
 
         fun getDayDifference(): String {
             val isgrater = false
@@ -109,6 +134,42 @@ class AdsListBean {
             }
 
             return returnDay
+        }
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(adId)
+            parcel.writeString(title)
+            parcel.writeString(fee)
+            parcel.writeString(is_renew)
+            parcel.writeString(description)
+            parcel.writeString(club_id)
+            parcel.writeString(user_id)
+            parcel.writeString(user_role)
+            parcel.writeString(crd)
+            parcel.writeString(image)
+            parcel.writeString(profile_image)
+            parcel.writeString(club_name)
+            parcel.writeString(full_name)
+            parcel.writeString(isFav)
+            parcel.writeString(currentDatetime)
+            parcel.writeString(is_my_ads)
+            parcel.writeString(is_New)
+            parcel.writeString(expire_ads)
+            parcel.writeByte(if (visible) 1 else 0)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<DataBean> {
+            override fun createFromParcel(parcel: Parcel): DataBean {
+                return DataBean(parcel)
+            }
+
+            override fun newArray(size: Int): Array<DataBean?> {
+                return arrayOfNulls(size)
+            }
         }
     }
 }

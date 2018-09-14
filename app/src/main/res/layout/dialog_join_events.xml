@@ -40,7 +40,8 @@
             android:fontFamily="@font/teko_bold"
             android:text="@string/joinTitle"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_gravity="center"/>
 
         <View
             android:layout_width="match_parent"

@@ -14,6 +14,7 @@ import com.clubz.data.model.Feed
 import com.clubz.data.remote.WebService
 import com.clubz.ui.newsfeed.NewsFeedDetailActivity
 import com.clubz.utils.VolleyGetPost
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_feed_detail.*
 
@@ -61,13 +62,28 @@ class FeedDetailFragment : Fragment() {
         likeIcon.isChecked = feed?.isLiked==1
 
         //ivChat.setImageResource(if(feed!!.comments>0) R.drawable.chat_icon else R.drawable.ic_chat_outline)
-        if(feed?.news_feed_attachment.isNullOrEmpty()) ivBanner.visibility = View.GONE
-        else Picasso.with(ivBanner.context).load(feed?.news_feed_attachment).fit().into(ivBanner)
+       /* if(feed?.news_feed_attachment.isNullOrEmpty()) ivBanner.visibility = View.GONE
+        else Picasso.with(ivBanner.context).load(feed?.news_feed_attachment).fit().into(ivBanner)*/
 
-        if(feed?.profile_image.isNullOrEmpty())
-            Picasso.with(ivBanner.context).load(R.drawable.ic_user_white).fit().into(image_member)
-        else
-            Picasso.with(ivBanner.context).load(feed?.profile_image).fit().into(image_member)
+        if(!feed?.news_feed_attachment.isNullOrEmpty()){
+            Picasso.with(ivBanner.context)
+                    .load(feed?.news_feed_attachment)
+                    .placeholder(R.drawable.new_img)
+                    .fit()
+                    .into(ivBanner,object :Callback{
+                        override fun onSuccess() {
+                            smlProgress.visibility=View.GONE
+                        }
+
+                        override fun onError() {
+                            smlProgress.visibility=View.GONE
+                        }
+                    } )
+        }else{
+            smlProgress.visibility=View.GONE
+        }
+
+        if(feed?.profile_image.isNullOrEmpty())Picasso.with(image_member.context).load(feed?.profile_image).fit().into(image_member)
 
        /* val result: List<String> = feed!!.tagName.split(",").map { it.trim() }
         chip_grid.visibility = if(result.size>0) View.VISIBLE else View.GONE

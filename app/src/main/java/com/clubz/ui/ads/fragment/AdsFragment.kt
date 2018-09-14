@@ -1,9 +1,12 @@
 package com.clubz.ui.ads.fragment
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -51,6 +54,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
     private var adsAdapter: AdsAdapter? = null
     private var isResume = false
     var isMyAds: Boolean = false
+    private var actionPosition = 0
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -60,7 +64,6 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
         }
     }
 
@@ -97,7 +100,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
             }
         }
         recyclerViewAds.addOnScrollListener(pageListner)
-        getAdsList(isPull = true)
+        // getAdsList(isPull = true)
     }
 
     override fun onResume() {
@@ -105,7 +108,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         if (isResume) {
             getAdsList(isPull = true)
         } else {
-            getAdsList()
+            getAdsList(isPull = true)
             isResume = true
         }
     }
@@ -171,7 +174,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         } else {
             adList.addAll(tempAdList)
         }
-        adList.addAll(adsBean.data!!)
+        // adList.addAll(adsBean.data!!)
         adsAdapter?.notifyDataSetChanged()
         nodataLay.visibility = if (adList.isEmpty()) View.VISIBLE else View.GONE
     }
@@ -193,11 +196,24 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
     }
 
     override fun onLongPress(position: Int) {
+        actionPosition = position
         val adBean = adList[position]
         val list: ArrayList<DialogMenu> = arrayListOf()
-        list.add(DialogMenu(getString(R.string.remove_ad_fav), R.drawable.ic_favorite_fill))
-        list.add(DialogMenu(getString(R.string.private_chat_with_advertiser), R.drawable.ic_chat_bt_sht))
-        list.add(DialogMenu(getString(R.string.delete_ad), R.drawable.ic_delete_forever))
+        if (adBean.is_my_ads.equals("1")) {
+            list.add(DialogMenu(getString(R.string.edit_ad), R.drawable.ic_edit))
+            list.add(DialogMenu(getString(R.string.delete_ad), R.drawable.ic_delete_forever))
+            if(adBean.expire_ads.equals("Yes")) {
+                list.add(DialogMenu(getString(R.string.renew_ad), R.drawable.ic_refresh))
+            }
+        } else {
+            if (adBean.isFav.equals("1")) {
+                list.add(DialogMenu(getString(R.string.remove_ad_fav), R.drawable.ic_favorite_fill))
+            } else {
+                list.add(DialogMenu(getString(R.string.add_ad_fav), R.drawable.ic_favorite_fill))
+            }
+            list.add(DialogMenu(getString(R.string.private_chat_with_advertiser), R.drawable.ic_chat_bt_sht))
+            list.add(DialogMenu(getString(R.string.delete_ad_from_my_feed), R.drawable.ic_delete_forever))
+        }
 
         val a = ItemListDialogFragment()
         a.setInstanceMyAd(this, list)
@@ -206,16 +222,220 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
 
     //bottom sheet click
     override fun onItemClicked(position: Int) {
+        val adBean = adList[actionPosition]
         when (position) {
             0 -> {
-                Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show()
+                if (adBean.is_my_ads.equals("1")) {
+                    startActivity(Intent(mContext, CreateAdActivity::class.java)
+                            .putExtra("adBean", adBean)
+
+
+                    )
+                } else {
+                    showConfirmationDialog("fav", adBean)
+                }
             }
             1 -> {
-                Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show()
+                if (adBean.is_my_ads.equals("1")) {
+                    showConfirmationDialog("deleteMy", adBean)
+                } else {
+                    Toast.makeText(mContext, adBean.title + " go for chat", Toast.LENGTH_SHORT).show()
+                }
             }
             2 -> {
-                Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show()
+                if (adBean.is_my_ads.equals("1")) {
+                    showConfirmationDialog("renew", adBean)
+                } else {
+                    showConfirmationDialog("deleteOthers", adBean)
+                }
             }
+        }
+    }
+
+    private fun deleteAd(adsBean: AdsListBean.DataBean, dialog1: DialogInterface? = null) {
+        val dialog = CusDialogProg(mContext)
+        if (!swiperefresh.isRefreshing || !isResume) dialog.show()
+        object : VolleyGetPost(mContext,
+                WebService.adsDelete, false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
+                    dialog.dismiss()
+
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+                        if (dialog1 != null) dialog1.dismiss()
+                        getAdsList(isPull = true)
+                    } else {
+                        nodataLay.visibility = View.VISIBLE
+                    }
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("adId", adsBean.adId!!)
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                Log.e("Auth:", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }.execute(AdsFragment::class.java.name)
+
+    }
+
+    private fun reNewAd(adsBean: AdsListBean.DataBean, dialog1: DialogInterface? = null) {
+        val dialog = CusDialogProg(mContext)
+        if (!swiperefresh.isRefreshing || !isResume) dialog.show()
+        object : VolleyGetPost(mContext,
+                WebService.renewAds, false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
+                    dialog.dismiss()
+
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+                        if (dialog1 != null) dialog1.dismiss()
+                        getAdsList(isPull = true)
+                    } else {
+                        nodataLay.visibility = View.VISIBLE
+                    }
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("adId", adsBean.adId!!)
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                Log.e("Auth:", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }.execute(AdsFragment::class.java.name)
+
+    }
+
+    private fun addRemoveAdFromFab(adsBean: AdsListBean.DataBean, dialog1: DialogInterface? = null) {
+        val dialog = CusDialogProg(mContext)
+        if (!swiperefresh.isRefreshing || !isResume) dialog.show()
+        object : VolleyGetPost(mContext,
+                WebService.adsFab, false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
+                    dialog.dismiss()
+
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+                        if (dialog1 != null) dialog1.dismiss()
+                        getAdsList(isPull = true)
+                        getAdsList(isPull = true)
+                    } else {
+                        nodataLay.visibility = View.VISIBLE
+                    }
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("adId", adsBean.adId!!)
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                Log.e("Auth:", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }.execute(AdsFragment::class.java.name)
+
+    }
+
+    private fun showConfirmationDialog(action: String = "", adsBean: AdsListBean.DataBean) {
+        try {
+            var title = ""
+            when (action) {
+                "fav" -> {
+                    if (adsBean.isFav.equals("1")) {
+                        title = getString(R.string.remove_ad_fav_title)
+                    } else {
+                        title = getString(R.string.add_ad_fav_title)
+                    }
+                }
+                "deleteMy" -> {
+                    title = getString(R.string.delete_my_ad_title)
+                }
+                "deleteOthers" -> {
+                    title = getString(R.string.delete_other_ad_title)
+                }
+                "renew" -> {
+                    title = getString(R.string.renew_ad_title)
+                }
+            }
+
+            val builder1 = AlertDialog.Builder(mContext)
+            builder1.setTitle("Alert")
+            builder1.setMessage(title)
+            builder1.setCancelable(false)
+            builder1.setPositiveButton("Ok", { dialog, id ->
+                when (action) {
+                    "fav" -> {
+                        addRemoveAdFromFab(adsBean, dialog)
+                    }
+                    "deleteMy",
+                    "deleteOthers" -> {
+                        deleteAd(adsBean, dialog)
+                    }
+                    "renew" -> {
+                        reNewAd(adsBean, dialog)
+                    }
+                }
+            })
+
+            builder1.setNegativeButton("Cancel",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        dialog.cancel()
+                    })
+
+            val alert11 = builder1.create()
+            alert11.show()
+            alert11.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(mContext!!, R.color.nav_gray))
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -233,5 +453,9 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         }
         nodataLay.visibility = if (adList.isEmpty()) View.VISIBLE else View.GONE
         adsAdapter?.notifyDataSetChanged()
+    }
+
+    fun onSwitchClub() {
+        getAdsList(isPull = true)
     }
 }

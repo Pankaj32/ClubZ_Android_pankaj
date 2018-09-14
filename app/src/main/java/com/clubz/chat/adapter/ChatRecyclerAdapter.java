@@ -16,6 +16,9 @@ import com.clubz.chat.model.ChatBean;
 import com.clubz.chat.util.ChatUtil;
 import com.clubz.utils.DateTimeUtil;
 import com.squareup.picasso.Picasso;
+import com.vanniktech.emoji.EmojiInformation;
+import com.vanniktech.emoji.EmojiTextView;
+import com.vanniktech.emoji.EmojiUtils;
 
 import java.util.List;
 
@@ -91,7 +94,8 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             myChatViewHolder.chatImageview.setVisibility(View.GONE);
             myChatViewHolder.smlProgress.setVisibility(View.GONE);
-            myChatViewHolder.txtChatMessage.setText(message);
+           // myChatViewHolder.txtChatMessage.setText(message);
+            setTextEmoji(myChatViewHolder.txtChatMessage, message);
         }
         if (position==0) {
             myChatViewHolder.userTxt.setText("You");
@@ -104,9 +108,9 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
         //   chatBean.timeForDelete
-        /*myChatViewHolder.dateTime.setText(DateTimeUtil.getDayDifference(DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(chatBean.getTimestamp())),
-                DateTimeUtil.getCurrentDate() + " " + DateTimeUtil.getCurrentTime()));*/
-        myChatViewHolder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(chatBean.getTimestamp())));
+        myChatViewHolder.dateTime.setText(DateTimeUtil.getDayDifference(DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(chatBean.getTimestamp())),
+                DateTimeUtil.getCurrentDate() + " " + DateTimeUtil.getCurrentTime()));
+     //   myChatViewHolder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(chatBean.getTimestamp())));
         myChatViewHolder.chatImageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,11 +143,12 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             otherChatViewHolder.chatImageview.setVisibility(View.GONE);
             otherChatViewHolder.smlProgress.setVisibility(View.GONE);
-            otherChatViewHolder.txtChatMessage.setText(message);
+            setTextEmoji(otherChatViewHolder.txtChatMessage, message);
+           // otherChatViewHolder.txtChatMessage.setText(message);
         }
-        /*otherChatViewHolder.dateTime.setText(DateTimeUtil.getDayDifference(DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(chatBean.getTimestamp())),
-                DateTimeUtil.getCurrentDate() + " " + DateTimeUtil.getCurrentTime()));*/
-        otherChatViewHolder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(chatBean.getTimestamp())));
+        otherChatViewHolder.dateTime.setText(DateTimeUtil.getDayDifference(DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(chatBean.getTimestamp())),
+                DateTimeUtil.getCurrentDate() + " " + DateTimeUtil.getCurrentTime()));
+    //    otherChatViewHolder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(chatBean.getTimestamp())));
         otherChatViewHolder.chatImageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,7 +178,8 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private class MyChatViewHolder extends RecyclerView.ViewHolder {
         private TextView dateTime, userTxt;
         private ImageView chatImageview;
-        private EmojiconTextView txtChatMessage;
+        private EmojiTextView txtChatMessage;
+      //  private TextView txtChatMessage;
         private ProgressBar smlProgress;
 
 
@@ -190,7 +196,8 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private class OtherChatViewHolder extends RecyclerView.ViewHolder {
         private TextView dateTime, userTxt;
         private ImageView chatImageview;
-        private EmojiconTextView txtChatMessage;
+       private EmojiTextView txtChatMessage;
+       // private TextView txtChatMessage;
         private ProgressBar smlProgress;
 
         OtherChatViewHolder(View itemView) {
@@ -201,5 +208,21 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             chatImageview = itemView.findViewById(R.id.chat_imageview);
             smlProgress = itemView.findViewById(R.id.smlProgress);
         }
+    }
+
+    private void setTextEmoji(EmojiTextView emojiTextView, String message) {
+        final EmojiInformation emojiInformation = EmojiUtils.emojiInformation(message);
+        final int res;
+
+        if (emojiInformation.isOnlyEmojis && emojiInformation.emojis.size() == 1) {
+            res = R.dimen.emoji_size_single_emoji;
+        } else if (emojiInformation.isOnlyEmojis && emojiInformation.emojis.size() > 1) {
+            res = R.dimen.emoji_size_only_emojis;
+        } else {
+            res = R.dimen.emoji_size_default;
+        }
+
+        emojiTextView.setEmojiSizeRes(res, false);
+        emojiTextView.setText(message);
     }
 }
