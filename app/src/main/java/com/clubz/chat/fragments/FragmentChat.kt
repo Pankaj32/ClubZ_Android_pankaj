@@ -639,7 +639,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
         emojiPopup = EmojiPopup.Builder.fromRootView(rootView)
                 .setOnEmojiBackspaceClickListener { ignore -> Log.e("CHATALLACTIVITY", "Clicked on Backspace") }
                 .setOnEmojiClickListener { ignore, ignore2 -> Log.e("CHATALLACTIVITY", "Clicked on emoji") }
-                .setOnEmojiPopupShownListener { emoji?.setImageResource(R.drawable.keyboard_ico) }
+                .setOnEmojiPopupShownListener { emoji?.setImageResource(R.drawable.ic_keyboard_ico) }
                 .setOnSoftKeyboardOpenListener { ignore -> Log.d("CHATALLACTIVITY", "Opened soft keyboard") }
                 .setOnEmojiPopupDismissListener { emoji?.setImageResource(R.drawable.ic_smilely_ico) }
                 .setOnSoftKeyboardCloseListener { Log.d("CHATALLACTIVITY", "Closed soft keyboard") }

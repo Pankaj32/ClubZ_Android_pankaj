@@ -16,6 +16,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.Gravity
@@ -102,16 +104,17 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
     private var noDataTxt: TextView? = null
     private var silentTxt: TextView? = null
     private var progressbar: ProgressBar? = null
- //  oldemoji
- //   private var txtMsg: EmojiconEditText? = null
- //newemoji
-    private var txtMsg: EmojiEditText? = null
+    //  oldemoji
+    //   private var txtMsg: EmojiconEditText? = null
+    //newemoji
+    // private var txtMsg: EmojiEditText? = null
     private var emoji: ImageView? = null
     internal var emojiPopup: EmojiPopup? = null
     private var chatRecycler: RecyclerView? = null
     private var memberList = ArrayList<MemberBean>()
 
     private var emojIcon: EmojIconActions? = null
+    private var isText = false;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,9 +123,9 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         silentTxt = findViewById<TextView>(R.id.silentTxt)
         progressbar = findViewById<ProgressBar>(R.id.progressbar)
         //oldEmoji
-      //  txtMsg = findViewById<EmojiconEditText>(R.id.txtMsg)
-     //   newEmoji
-        txtMsg = findViewById<EmojiEditText>(R.id.txtMsg)
+        //  txtMsg = findViewById<EmojiconEditText>(R.id.txtMsg)
+        //   newEmoji
+        //  txtMsg = findViewById<EmojiEditText>(R.id.txtMsg)
         emoji = findViewById<ImageView>(R.id.emoji)
         chatRecycler = findViewById<RecyclerView>(R.id.chatRecycler)
 
@@ -176,10 +179,10 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         }
         titleTxt.text = historyName
         sentButton.setOnClickListener(this)
-        sendPicBtn.setOnClickListener(this)
+        //    sendPicBtn.setOnClickListener(this)
         backBtn.setOnClickListener(this)
 
-    //    oldEmoji
+        //    oldEmoji
         /*emojIcon?.setUseSystemEmoji(false)
         emojIcon?.setUseSystemEmoji(true)
         txtMsg?.setUseSystemDefault(true)
@@ -200,6 +203,28 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         emoji?.setColorFilter(ContextCompat.getColor(this, R.color.emoji_icons), PorterDuff.Mode.SRC_IN)
         emoji?.setOnClickListener({ ignore -> emojiPopup?.toggle() })
         setUpEmojiPopup()
+
+        txtMsg.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0.isNullOrEmpty()) {
+                    isText = false
+                    sentButton.setImageResource(R.drawable.ic_attach_file_black_24dp)
+                    sentButton.setColorFilter(ContextCompat.getColor(this@AllChatActivity, R.color.nav_gray))
+                } else {
+                    isText = true
+                    sentButton.setImageResource(R.drawable.ic_send_chat_24dp)
+                    sentButton.setColorFilter(ContextCompat.getColor(this@AllChatActivity, R.color.primaryColor))
+                }
+            }
+        })
     }
 
     private fun getClubOwner() {
@@ -222,15 +247,20 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.sentButton -> {
-                if (txtMsg?.text.toString().trim().isNotEmpty()) {
-                    sendMessage(txtMsg?.text.toString(), "text", chatFor)
+                if (isText) {
+                    if (txtMsg?.text.toString().trim().isNotEmpty()) {
+                        sendMessage(txtMsg?.text.toString(), "text", chatFor)
+                    } else {
+                        //   Toast.makeText(this, R.string.please_type, Toast.LENGTH_LONG).show()
+                    }
                 } else {
-                    //   Toast.makeText(this, R.string.please_type, Toast.LENGTH_LONG).show()
+                    permissionPopUp()
                 }
+
             }
-            R.id.sendPicBtn -> {
-                permissionPopUp()
-            }
+            /*R.id.sendPicBtn -> {
+
+            }*/
             R.id.backBtn -> {
                 finish()
             }
@@ -418,7 +448,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
 
     fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(this@AllChatActivity, R.style.popstyle)
-        val popupMenu = PopupMenu(wrapper, sendPicBtn, Gravity.CENTER)
+        val popupMenu = PopupMenu(wrapper, sentButton, Gravity.CENTER)
         popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())
         popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem): Boolean {
@@ -639,14 +669,15 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         chatHistory.timestamp = chatBean.timestamp
         databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(clubOwnerId).child(chatHistoryRoom).setValue(chatHistory)
     }
+
     //newEmoji
     private fun setUpEmojiPopup() {
         emojiPopup = EmojiPopup.Builder.fromRootView(rootView)
                 .setOnEmojiBackspaceClickListener { ignore -> Log.e("CHATALLACTIVITY", "Clicked on Backspace") }
                 .setOnEmojiClickListener { ignore, ignore2 -> Log.e("CHATALLACTIVITY", "Clicked on emoji") }
-                .setOnEmojiPopupShownListener { emoji?.setImageResource(R.drawable.keyboard_ico) }
+                .setOnEmojiPopupShownListener { emoji?.setImageResource(R.drawable.ic_keyboard_ico) }
                 .setOnSoftKeyboardOpenListener { ignore -> Log.d("CHATALLACTIVITY", "Opened soft keyboard") }
-                .setOnEmojiPopupDismissListener { emoji?.setImageResource(R.drawable.ic_smilely_ico) }
+                .setOnEmojiPopupDismissListener { emoji?.setImageResource(R.drawable.ic_keyboard_ico) }
                 .setOnSoftKeyboardCloseListener { Log.d("CHATALLACTIVITY", "Closed soft keyboard") }
                 .build(txtMsg!!)
     }

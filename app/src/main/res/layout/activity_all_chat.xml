@@ -79,7 +79,7 @@
                 android:layout_toEndOf="@id/emoji"
                 android:background="@color/black" />-->
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/sendPicBtn"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
@@ -88,7 +88,7 @@
                 android:layout_marginRight="@dimen/_40sdp"
                 android:padding="@dimen/_2sdp"
                 android:tint="@color/nav_gray"
-                app:srcCompat="@drawable/ic_attach_file_black_24dp" />
+                app:srcCompat="@drawable/ic_attach_file_black_24dp" />-->
 <!--oldEmoji-->
             <!--<hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
                 android:id="@+id/txtMsg"
@@ -122,17 +122,16 @@
                 android:textCursorDrawable="@drawable/curser"
                 />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/sentButton"
-                android:layout_width="@dimen/_37sdp"
-                android:layout_height="@dimen/_37sdp"
-                android:layout_alignParentBottom="true"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:background="@drawable/bg_circle_primary"
-                app:srcCompat="@drawable/ic_send_chat_24dp">
-
-            </ImageButton>
+                android:tint="@color/nav_gray"
+                app:srcCompat="@drawable/ic_attach_file_black_24dp">
+                <!--ic_attach_file_black_24dp-->
+            </ImageView>
         </RelativeLayout>
 
         <TextView
