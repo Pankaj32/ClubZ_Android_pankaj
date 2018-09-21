@@ -72,7 +72,7 @@ dependencies {
     //imoji
     implementation 'hani.momanii.supernova_emoji_library:supernova-emoji-library:0.0.2'
     implementation 'com.vanniktech:emoji-one:0.5.1'
-
+    implementation 'com.google.android.gms:play-services-ads:11.8.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

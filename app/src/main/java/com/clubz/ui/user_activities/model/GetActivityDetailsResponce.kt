@@ -62,6 +62,7 @@ class GetActivityDetailsResponce {
          */
 
         var activityId: String? = null
+        var creator_id: String? = null
         var name: String? = null
         var location: String? = null
         var latitude: String? = null
@@ -72,10 +73,14 @@ class GetActivityDetailsResponce {
         var max_users: String? = null
         var user_role: String? = null
         var description: String? = null
+        var creator_phone: String? = null
+        var leader_id: String? = null
         var terms_conditions: String? = null
         var image: String? = null
         var is_like: String? = null
         var leader_name: String? = null
+        var leader_prflimage: String? = null
+        var leader_phno: String? = null
         var creator_name: String? = null
         var creator_profile_image: String? = null
         var club_name: String? = null

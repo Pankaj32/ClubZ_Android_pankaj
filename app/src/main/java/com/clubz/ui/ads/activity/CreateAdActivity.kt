@@ -41,6 +41,7 @@ import com.clubz.utils.Constants
 import com.clubz.utils.Util
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
+import com.clubz.utils.picker.ImageRotator
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
@@ -254,29 +255,56 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@CreateAdActivity, requestCode, resultCode, data)
-                if (imageUri != null) {
+                /*if (imageUri != null) {
                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@CreateAdActivity)
-                    /*CropImage.activity(imageUri)
+                    *//*CropImage.activity(imageUri)
                             .setCropShape(CropImageView.CropShape.OVAL)
                             .setMinCropResultSize(200, 200)
                             .setMaxCropResultSize(4000, 4000)
-                            .setAspectRatio(300, 300).start(this@CreateAdActivity)*/
+                            .setAspectRatio(300, 300).start(this@CreateAdActivity)*//*
 
                 } else {
                     Toast.makeText(this@CreateAdActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                }*/
+
+                try {
+                    if (imageUri != null)
+                        adImage = MediaStore.Images.Media.getBitmap(this@CreateAdActivity.contentResolver, imageUri)
+                    val rotation = ImageRotator.getRotation(this, imageUri, true)
+                    adImage = ImageRotator.rotate(adImage, rotation)
+                    if (adImage != null) {
+                        val padding = 0
+                        imgAd.setPadding(padding, padding, padding, padding)
+                        imgAd.setImageBitmap(adImage)
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
-                if (imageUri != null) {
+                /*if (imageUri != null) {
                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@CreateAdActivity)
-                    /*CropImage.activity(imageUri)
+                    *//*CropImage.activity(imageUri)
                             .setCropShape(CropImageView.CropShape.OVAL)
                             .setMinCropResultSize(200, 200)
                             .setMaxCropResultSize(4000, 4000)
-                            .setAspectRatio(300, 300).start(this@CreateAdActivity)*/
+                            .setAspectRatio(300, 300).start(this@CreateAdActivity)*//*
                 } else {
                     Toast.makeText(this@CreateAdActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                }*/
+                try {
+                    if (imageUri != null)
+                        adImage = MediaStore.Images.Media.getBitmap(this@CreateAdActivity.contentResolver, imageUri)
+                    val rotation = ImageRotator.getRotation(this, imageUri, true)
+                    adImage = ImageRotator.rotate(adImage, rotation)
+                    if (adImage != null) {
+                        val padding = 0
+                        imgAd.setPadding(padding, padding, padding, padding)
+                        imgAd.setImageBitmap(adImage)
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {

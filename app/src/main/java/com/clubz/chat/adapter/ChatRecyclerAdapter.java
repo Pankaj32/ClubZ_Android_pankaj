@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.clubz.ClubZ;
 import com.clubz.R;
 import com.clubz.chat.model.ChatBean;
-import com.clubz.chat.util.ChatUtil;
 import com.clubz.utils.DateTimeUtil;
 import com.squareup.picasso.Picasso;
 import com.vanniktech.emoji.EmojiInformation;
@@ -21,8 +20,6 @@ import com.vanniktech.emoji.EmojiTextView;
 import com.vanniktech.emoji.EmojiUtils;
 
 import java.util.List;
-
-import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
 
 /**
  * Created by chiranjib on 6/06/18.
@@ -35,12 +32,14 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context mContext;
     private List<ChatBean> mChatBeen;
     private String mUid;
+    private onClick onClick;
 
-    public ChatRecyclerAdapter(Context mContext, List<ChatBean> chatBeen/*, ChatAdapterClickListner chatAdapterClickListner*/) {
+    public ChatRecyclerAdapter(Context mContext, List<ChatBean> chatBeen,onClick onClick/*, ChatAdapterClickListner chatAdapterClickListner*/) {
         this.mContext = mContext;
         //  this.chatAdapterClickListner = chatAdapterClickListner;
         this.mChatBeen = chatBeen;
         this.mUid = ClubZ.Companion.getCurrentUser().getId();
+        this.onClick = onClick;
     }
 
     public void add(ChatBean chatBean) {
@@ -98,25 +97,19 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             setTextEmoji(myChatViewHolder.txtChatMessage, message);
         }
         if (position==0) {
-            myChatViewHolder.userTxt.setText("You");
+            myChatViewHolder.userTxt.setText(R.string.you);
         }else {
             if (mChatBeen.get(position - 1).getSenderName().equals(chatBean.getSenderName())) {
                 myChatViewHolder.userTxt.setVisibility(View.GONE);
             } else {
                 myChatViewHolder.userTxt.setVisibility(View.VISIBLE);
-                myChatViewHolder.userTxt.setText("You");
+                myChatViewHolder.userTxt.setText(R.string.you);
             }
         }
         //   chatBean.timeForDelete
-        myChatViewHolder.dateTime.setText(DateTimeUtil.getDayDifference(DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(chatBean.getTimestamp())),
+        myChatViewHolder.dateTime.setText(DateTimeUtil.getDayDifference(mContext, DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(chatBean.getTimestamp())),
                 DateTimeUtil.getCurrentDate() + " " + DateTimeUtil.getCurrentTime()));
      //   myChatViewHolder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(chatBean.getTimestamp())));
-        myChatViewHolder.chatImageview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // chatAdapterClickListner.clickedItemPosition(chatBean.imageUrl);
-            }
-        });
     }
 
     private void configureOtherChatViewHolder(OtherChatViewHolder otherChatViewHolder, final int position) {
@@ -146,15 +139,10 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             setTextEmoji(otherChatViewHolder.txtChatMessage, message);
            // otherChatViewHolder.txtChatMessage.setText(message);
         }
-        otherChatViewHolder.dateTime.setText(DateTimeUtil.getDayDifference(DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(chatBean.getTimestamp())),
+        otherChatViewHolder.dateTime.setText(DateTimeUtil.getDayDifference(mContext, DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(chatBean.getTimestamp())),
                 DateTimeUtil.getCurrentDate() + " " + DateTimeUtil.getCurrentTime()));
     //    otherChatViewHolder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(chatBean.getTimestamp())));
-        otherChatViewHolder.chatImageview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //    chatAdapterClickListner.clickedItemPosition(chatBean.imageUrl);
-            }
-        });
+
 
     }
 
@@ -190,6 +178,14 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             dateTime = itemView.findViewById(R.id.dateTime);
             chatImageview = itemView.findViewById(R.id.chat_imageview);
             smlProgress = itemView.findViewById(R.id.smlProgress);
+
+            chatImageview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ChatBean chatBean = mChatBeen.get(getAdapterPosition());
+                    onClick.onImageClick(chatBean.getImageUrl());
+                }
+            });
         }
     }
 
@@ -207,6 +203,13 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             dateTime = itemView.findViewById(R.id.dateTime);
             chatImageview = itemView.findViewById(R.id.chat_imageview);
             smlProgress = itemView.findViewById(R.id.smlProgress);
+            chatImageview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ChatBean chatBean = mChatBeen.get(getAdapterPosition());
+                    onClick.onImageClick(chatBean.getImageUrl());
+                }
+            });
         }
     }
 
@@ -221,8 +224,11 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             res = R.dimen.emoji_size_default;
         }
-
         emojiTextView.setEmojiSizeRes(res, false);
         emojiTextView.setText(message);
+    }
+
+   public interface onClick{
+         void onImageClick(String imgUrl);
     }
 }

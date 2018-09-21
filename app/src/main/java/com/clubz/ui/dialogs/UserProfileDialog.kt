@@ -2,6 +2,7 @@ package com.clubz.ui.dialogs
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.AllChatActivity
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.ClubMember
 import com.clubz.data.remote.WebService
@@ -26,11 +29,19 @@ abstract class UserProfileDialog(internal val context: Context, val member: Club
     : Dialog(context), View.OnClickListener{
 
     var user: ClubMember? = null
-
+    private val ARG_CHATFOR = "chatFor"
+    private val ARG_HISTORY_ID = "historyId"
+    private val ARG_HISTORY_NAME = "historyName"
     override fun onClick(v: View?) {
         when(v!!.id){
             R.id.ic_call->{      onCallClicked()}
-            R.id.ic_chat->{      onChatClicked()}
+            R.id.ic_chat->{
+                context.startActivity(Intent(context, AllChatActivity::class.java)
+                        .putExtra(ARG_CHATFOR, ChatUtil.ARG_IDIVIDUAL)
+                        .putExtra(ARG_HISTORY_ID, user!!.userId)
+                        .putExtra(ARG_HISTORY_NAME, user!!.full_name)
+                )
+            }
             R.id.ic_flag->{      onFlagClicked()}
             R.id.ivEdit->{ //tv_FullName.isEnabled = !tv_FullName.isEnabled
 
@@ -98,7 +109,7 @@ abstract class UserProfileDialog(internal val context: Context, val member: Club
     }
 
     abstract fun onCallClicked()
-    abstract fun onChatClicked()
+    /*abstract fun onChatClicked()*/
     abstract fun onLikeClicked(isLIked: Int)
     abstract fun onFlagClicked()
     abstract fun onProfileUpdate(name : String)

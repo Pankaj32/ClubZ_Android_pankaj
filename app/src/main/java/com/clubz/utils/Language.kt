@@ -15,7 +15,7 @@ public object Language {
         Locale.setDefault(locale)
         val resources = _context.resources
         val configuration = resources.configuration
-        configuration.locale = locale
+        configuration.setLocale(locale)
         resources.updateConfiguration(configuration, resources.displayMetrics)
     }
 }

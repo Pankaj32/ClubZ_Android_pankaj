@@ -107,6 +107,11 @@ public class SessionManager {
         return mypref.getString(Constants._userLanguage, "en");
     }
 
+    public void setLanguage(String language){
+        editor.putString(Constants._userLanguage, language);
+        editor.apply();
+    }
+
     public UserLocation getLastKnownLocation(){
       String text = mypref.getString(Constants._userLastLocation,"");
       if(!text.isEmpty()){

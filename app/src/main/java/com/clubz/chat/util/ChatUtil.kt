@@ -16,6 +16,7 @@ class ChatUtil {
         val ARG_NEWS_FEED = "newsFeed"
         val ARG_ACTIVITIES = "activities"
         val ARG_ADS= "adds"
+        val ARG_IDIVIDUAL= "individual"
 
         fun ConvertMilliSecondsToFormattedDateToTime(dateTime: String): String {
             try {

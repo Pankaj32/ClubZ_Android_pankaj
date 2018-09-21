@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     android:orientation="vertical"
-    android:id="@+id/clRootView"
     tools:context=".ui.club.ClubCreationActivity">
 
     <!--<android.support.design.widget.AppBarLayout
@@ -22,60 +22,60 @@
             app:titleTextAppearance="@style/TextAppearanceExpand"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:orientation="horizontal"
-                android:background="@color/primaryColor">
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/back_f"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:padding="@dimen/_12sdp"
-                    app:srcCompat="@drawable/ic_arrow_back_black_24dp"
-                    />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="@string/t_new_club"
-                    android:fontFamily="@font/teko_semibold"
-                    android:gravity="center_vertical"
-                    android:textSize="@dimen/_18sdp"
-                    android:textColor="@color/white"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@color/primaryColor"
+        android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/done"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:padding="@dimen/_12sdp"
-                    app:srcCompat="@drawable/ic_check_white_24dp"
-                    />
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/back_f"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:padding="@dimen/_12sdp"
+            app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
-            </LinearLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/teko_semibold"
+            android:gravity="center_vertical"
+            android:text="@string/t_new_club"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18sdp" />
 
-        <!--</android.support.v7.widget.Toolbar>
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/done"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:padding="@dimen/_12sdp"
+            app:srcCompat="@drawable/ic_check_white_24dp" />
+
+    </LinearLayout>
+
+    <!--</android.support.v7.widget.Toolbar>
 
 
-    </android.support.design.widget.AppBarLayout>-->
+</android.support.design.widget.AppBarLayout>-->
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_4sdp"
-                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@color/white"
                 app:cardElevation="4dp"
-                app:contentPadding="@dimen/_16sdp"
-                app:cardBackgroundColor="@color/white">
+                app:cardUseCompatPadding="true"
+                app:contentPadding="@dimen/_16sdp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <android.support.v7.widget.AppCompatImageView
+                        <!--<android.support.v7.widget.AppCompatImageView
                             android:id="@+id/image_icon"
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="@dimen/_40sdp"
@@ -95,6 +95,14 @@
                             app:siBorderWidth="@dimen/_1sdp"
                             android:padding="@dimen/_8sdp"
                             android:background="@drawable/bg_circle_blue"
+                            app:srcCompat="@drawable/ic_camera_white" />-->
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/image_icon"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:background="@drawable/bg_circle_blue"
+                            app:siBorderColor="@color/text_gray"
+                            app:siBorderWidth="@dimen/_1sdp"
                             app:srcCompat="@drawable/ic_camera_white" />
 
                         <android.support.design.widget.TextInputLayout
@@ -105,21 +113,21 @@
                             android:theme="@style/tvStyle"
                             app:counterEnabled="true"
                             app:counterMaxLength="50"
-                            app:counterTextAppearance="@style/CounterText"
-                            app:counterOverflowTextAppearance="@style/TextLimitError">
+                            app:counterOverflowTextAppearance="@style/TextLimitError"
+                            app:counterTextAppearance="@style/CounterText">
 
                             <EditText
                                 android:id="@+id/titile_name"
+                                style="@style/EditText.ClubCreation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/EditText.ClubCreation"
-                                android:textColorHint="@color/nav_gray"
-                                android:textColor="@color/black"
+                                android:hint="@string/club_s_name"
                                 android:inputType="textCapSentences"
                                 android:maxLength="50"
-                                android:hint="@string/club_s_name"
+                                android:maxLines="1"
                                 android:singleLine="true"
-                                android:maxLines="1" />
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/nav_gray" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -134,147 +142,147 @@
                             android:id="@+id/img_club"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_180sdp"
+                            android:background="#00A8D1"
                             android:scaleType="fitXY"
-                            app:srcCompat="@drawable/ic_new_img"
-                            android:background="#00A8D1"/>
+                            app:srcCompat="@drawable/ic_new_img" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_camera_white"
+                            android:layout_gravity="end|bottom"
                             android:padding="@dimen/_8sdp"
-                            android:layout_gravity="end|bottom" />
+                            app:srcCompat="@drawable/ic_camera_white" />
 
                     </FrameLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:textSize="@dimen/_14sdp"
-                        android:text="@string/general_information"
                         android:enabled="false"
-                        android:fontFamily="@font/roboto_regular"/>
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/general_information"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/_3sdp"
-                        android:background="@color/black_trans80"/>
+                        android:background="@color/black_trans80" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_8sdp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/tv_titleHint"
+                            style="@style/TextView.Gray"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextView.Gray"
-                            android:layout_toEndOf="@+id/ivComment"
                             android:layout_marginStart="@dimen/_16sdp"
-                            android:textSize="12sp"
-                            android:text="@string/category"/>
+                            android:layout_toEndOf="@+id/ivComment"
+                            android:text="@string/category"
+                            android:textSize="12sp" />
 
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/ivComment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_titleHint"
                             android:layout_centerVertical="true"
                             android:layout_marginTop="@dimen/_3sdp"
                             android:tint="@color/nav_gray"
-                            android:layout_below="@+id/tv_titleHint"
                             app:srcCompat="@drawable/ic_shap_24_black" />
 
                         <Spinner
                             android:id="@+id/spn_club_category"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/ivComment"
                             android:layout_below="@+id/tv_titleHint"
-                            android:theme="@style/AppTheme.Light"
                             android:layout_marginStart="@dimen/_12sdp"
-                            android:textSize="@dimen/_12sdp"
-                            android:textColor="#626262"
+                            android:layout_toEndOf="@+id/ivComment"
+                            android:entries="@array/comment_type"
                             android:prompt="@string/category"
-                            android:entries="@array/comment_type"/>
+                            android:textColor="#626262"
+                            android:textSize="@dimen/_12sdp"
+                            android:theme="@style/AppTheme.Light" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/gray_transprent"
-                            android:layout_toEndOf="@+id/ivComment"
+                            android:layout_alignParentBottom="true"
                             android:layout_marginStart="@dimen/_16sdp"
-                            android:layout_alignParentBottom="true"/>
+                            android:layout_toEndOf="@+id/ivComment"
+                            android:background="@color/gray_transprent" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/tv_privacyHint"
+                            style="@style/TextView.Gray"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextView.Gray"
-                            android:layout_toEndOf="@+id/ivCategory"
                             android:layout_marginStart="@dimen/_16sdp"
-                            android:textSize="12sp"
-                            android:text="@string/privacy"/>
+                            android:layout_toEndOf="@+id/ivCategory"
+                            android:text="@string/privacy"
+                            android:textSize="12sp" />
 
                         <android.support.v7.widget.AppCompatImageView
                             android:id="@+id/ivCategory"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_privacyHint"
                             android:layout_centerVertical="true"
                             android:layout_marginTop="@dimen/_3sdp"
                             android:tint="@color/nav_gray"
-                            android:layout_below="@+id/tv_privacyHint"
                             app:srcCompat="@drawable/ic_lock_black_24dp" />
 
                         <Spinner
                             android:id="@+id/spn_privacy"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/ivCategory"
                             android:layout_below="@+id/tv_privacyHint"
-                            android:theme="@style/AppTheme.Light"
                             android:layout_marginStart="@dimen/_12sdp"
-                            android:textSize="@dimen/_12sdp"
-                            android:textColor="#626262"
+                            android:layout_toEndOf="@+id/ivCategory"
+                            android:entries="@array/privacy_type"
                             android:prompt="@string/privacy"
-                            android:entries="@array/privacy_type"/>
+                            android:textColor="#626262"
+                            android:textSize="@dimen/_12sdp"
+                            android:theme="@style/AppTheme.Light" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/gray_transprent"
-                            android:layout_toEndOf="@+id/ivCategory"
+                            android:layout_alignParentBottom="true"
                             android:layout_marginStart="@dimen/_16sdp"
-                            android:layout_alignParentBottom="true"/>
+                            android:layout_toEndOf="@+id/ivCategory"
+                            android:background="@color/gray_transprent" />
 
                     </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_cake_p"
-                            android:tint="@color/icon_tint" />
+                            android:tint="@color/icon_tint"
+                            app:srcCompat="@drawable/ic_cake_p" />
 
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/input_layout_password"
@@ -285,9 +293,9 @@
 
                             <EditText
                                 android:id="@+id/ed_foundation_date"
+                                style="@style/EditText.ClubCreation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/EditText.ClubCreation"
                                 android:focusable="false"
                                 android:hint="@string/foundation_date" />
 
@@ -304,8 +312,8 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_mail_outline"
-                            android:tint="@color/icon_tint" />
+                            android:tint="@color/icon_tint"
+                            app:srcCompat="@drawable/ic_mail_outline" />
 
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/input_layout_clubEmail"
@@ -316,12 +324,12 @@
 
                             <EditText
                                 android:id="@+id/club_email"
+                                style="@style/EditText.ClubCreation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/EditText.ClubCreation"
                                 android:hint="@string/club_email"
-                                android:maxLength="100"
-                                android:inputType="textEmailAddress" />
+                                android:inputType="textEmailAddress"
+                                android:maxLength="100" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -336,8 +344,8 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_call"
-                            android:tint="@color/icon_tint" />
+                            android:tint="@color/icon_tint"
+                            app:srcCompat="@drawable/ic_call" />
 
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/input_layout_contact"
@@ -348,13 +356,13 @@
 
                             <EditText
                                 android:id="@+id/club_phone"
+                                style="@style/EditText.ClubCreation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/EditText.ClubCreation"
-                                android:inputType="phone"
-                                android:maxLength="15"
                                 android:digits="1234567890"
-                                android:hint="@string/club_phone_no" />
+                                android:hint="@string/club_phone_no"
+                                android:inputType="phone"
+                                android:maxLength="15" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -369,8 +377,8 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_my_location"
-                            android:tint="@color/icon_tint" />
+                            android:tint="@color/icon_tint"
+                            app:srcCompat="@drawable/ic_my_location" />
 
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/input_layout_city"
@@ -381,9 +389,9 @@
 
                             <EditText
                                 android:id="@+id/club_city"
+                                style="@style/EditText.ClubCreation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/EditText.ClubCreation"
                                 android:hint="@string/club_city" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -399,8 +407,8 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_place_black_24dp"
-                            android:tint="@color/icon_tint" />
+                            android:tint="@color/icon_tint"
+                            app:srcCompat="@drawable/ic_place_black_24dp" />
 
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/input_layout_address"
@@ -411,9 +419,9 @@
 
                             <EditText
                                 android:id="@+id/club_address"
+                                style="@style/EditText.ClubCreation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/EditText.ClubCreation"
                                 android:focusable="false"
                                 android:hint="@string/club_address" />
 
@@ -430,8 +438,8 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_glob"
-                            android:tint="@color/icon_tint" />
+                            android:tint="@color/icon_tint"
+                            app:srcCompat="@drawable/ic_glob" />
 
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/input_layout_web"
@@ -442,11 +450,11 @@
 
                             <EditText
                                 android:id="@+id/club_web"
+                                style="@style/EditText.ClubCreation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/EditText.ClubCreation"
                                 android:hint="@string/club_web_site"
-                                android:inputType="textWebEmailAddress"/>
+                                android:inputType="textWebEmailAddress" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -470,23 +478,23 @@
                             android:id="@+id/input_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/tvStyle"
                             android:layout_marginStart="@dimen/_16sdp"
+                            android:theme="@style/tvStyle"
                             app:counterEnabled="true"
                             app:counterMaxLength="300"
-                            app:counterTextAppearance="@style/CounterText"
-                            app:counterOverflowTextAppearance="@style/TextLimitError">
+                            app:counterOverflowTextAppearance="@style/TextLimitError"
+                            app:counterTextAppearance="@style/CounterText">
 
                             <EditText
                                 android:id="@+id/etv_description"
+                                style="@style/EditText.ClubCreation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/EditText.ClubCreation"
                                 android:hint="@string/hint_club_des"
-                                android:textColorHint="#666666"
-                                android:textColor="@color/black"
                                 android:inputType="textCapSentences|textMultiLine"
-                                android:maxLength="300"/>
+                                android:maxLength="300"
+                                android:textColor="@color/black"
+                                android:textColorHint="#666666" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -508,23 +516,23 @@
                             android:id="@+id/input_term_condition"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/tvStyle"
                             android:layout_marginStart="@dimen/_16sdp"
+                            android:theme="@style/tvStyle"
                             app:counterEnabled="true"
                             app:counterMaxLength="300"
-                            app:counterTextAppearance="@style/CounterText"
-                            app:counterOverflowTextAppearance="@style/TextLimitError">
+                            app:counterOverflowTextAppearance="@style/TextLimitError"
+                            app:counterTextAppearance="@style/CounterText">
 
                             <EditText
                                 android:id="@+id/terms_n_condition"
+                                style="@style/EditText.ClubCreation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/EditText.ClubCreation"
                                 android:hint="@string/terms_conditions"
-                                android:textColorHint="#666666"
-                                android:textColor="@color/black"
                                 android:inputType="textCapSentences|textMultiLine"
-                                android:maxLength="300"/>
+                                android:maxLength="300"
+                                android:textColor="@color/black"
+                                android:textColorHint="#666666" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -543,46 +551,46 @@
                             android:id="@+id/image_member2"
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="@dimen/_40sdp"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/bg_circle_blue"
                             app:siBorderColor="@color/text_gray"
                             app:siBorderWidth="@dimen/_1sdp"
-                            android:background="@drawable/bg_circle_blue"
-                            android:layout_alignParentEnd="true"
                             app:srcCompat="@drawable/ic_user_shape" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="end"
-                            android:layout_marginEnd="@dimen/_8sdp"
                             android:layout_centerInParent="true"
-                            android:layout_toStartOf="@+id/image_member2">
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:layout_toStartOf="@+id/image_member2"
+                            android:gravity="end"
+                            android:orientation="vertical">
 
                             <android.support.v7.widget.AppCompatTextView
                                 android:id="@+id/tvLeadby"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14sdp"
                                 android:fontFamily="@font/teko_semibold"
-                                android:text="@string/dharmraj_acharya_bhurtel"/>
+                                android:text="@string/dharmraj_acharya_bhurtel"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14sdp" />
 
                             <EditText
                                 android:id="@+id/usrerole"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_light"
-                                android:enabled="false"
                                 android:background="@null"
-                                android:textColorHint="@color/nav_gray"
-                                android:textColor="@color/nav_gray"
-                                android:textSize="@dimen/_12sdp"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                                android:enabled="false"
+                                android:fontFamily="@font/roboto_light"
                                 android:hint="@string/manager"
-                                android:text="@string/manager"
                                 android:inputType="textCapSentences"
                                 android:maxLength="38"
                                 android:singleLine="true"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz " />
+                                android:text="@string/manager"
+                                android:textColor="@color/nav_gray"
+                                android:textColorHint="@color/nav_gray"
+                                android:textSize="@dimen/_12sdp" />
 
                         </LinearLayout>
 
@@ -594,7 +602,7 @@
             </android.support.v7.widget.CardView>
 
 
-</FrameLayout>
+        </FrameLayout>
     </ScrollView>
 
     <!--</android.support.v4.widget.NestedScrollView>-->

@@ -74,8 +74,24 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             h.likeLay.setVisibility(View.GONE);
             h.activityType.setText("Not scheduled");
         } else {
-            h.activityType.setText(Util.Companion.toSentenceCase(dataBean.getListType()));
+            switch (dataBean.getListType()) {
+                case "today":
+                case "Today":
+                    h.activityType.setText(Util.Companion.toSentenceCase(context.getResources().getString(R.string.h_Today)));
+                    break;
+                case "tomorrow":
+                case "Tomorrow":
+                    h.activityType.setText(Util.Companion.toSentenceCase(context.getResources().getString(R.string.h_Tomorrow)));
+                    break;
+                case "soon":
+                case "Soon":
+                    h.activityType.setText(Util.Companion.toSentenceCase(context.getResources().getString(R.string.h_coming_soon)));
+                    break;
+            }
+
+          //  h.activityType.setText(Util.Companion.toSentenceCase(dataBean.getListType()));
         }
+
         if (dataBean.is_my_activity().equals("1")) {
             h.likeLay.setVisibility(View.VISIBLE);
             h.itemLike.setImageResource(R.drawable.ic_cards_heart_active);

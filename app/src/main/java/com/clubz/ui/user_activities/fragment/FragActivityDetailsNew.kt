@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.util.Log
@@ -20,21 +20,25 @@ import com.clubz.ClubZ
 
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.Profile
+import com.clubz.data.model.UserInfo
 import com.clubz.data.remote.WebService
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.TermsConditionDialog
+import com.clubz.ui.dialogs.ProfileDialog
+import com.clubz.ui.dialogs.ZoomDialog
+import com.clubz.ui.profile.ProfileActivity
 import com.clubz.ui.user_activities.adapter.JoinAffiliatesAdapter
 import com.clubz.ui.user_activities.model.GetActivityDetailsResponce
 import com.clubz.ui.user_activities.model.GetJoinAffliates
-import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.dialog_add_events.*
 import kotlinx.android.synthetic.main.frag_activity_details_new.*
 import org.json.JSONObject
 
-class FragActivityDetailsNew : Fragment() {
+class FragActivityDetailsNew : Fragment(), View.OnClickListener {
+
     private var mContext: Context? = null
     private var activityId = ""
     private var type = ""
@@ -98,7 +102,9 @@ class FragActivityDetailsNew : Fragment() {
             Log.e("ActivityId:  ", activityId)
             getActivityDetails()
         }
-
+        username.setOnClickListener(this)
+        imgActivity.setOnClickListener(this)
+        activityLeader.setOnClickListener(this)
     }
 
     override fun onAttach(context: Context) {
@@ -397,5 +403,67 @@ class FragActivityDetailsNew : Fragment() {
                 return params
             }
         }.execute(FragActivityDetailsNew::class.java.name)
+    }
+
+    override fun onClick(p0: View?) {
+        when (p0!!.id) {
+            R.id.username -> {
+                val user = UserInfo()
+                user.userId = activityDetails!!.getData()!!.creator_id!!
+                user.isLiked = 0
+                user.full_name = activityDetails?.getData()!!.creator_name!!
+                user.profile_image = activityDetails?.getData()!!.creator_profile_image!!
+                user.country_code = ""
+                user.contact_no = activityDetails?.getData()!!.creator_phone!!
+                if(!activityDetails?.getData()?.creator_id!!.equals(ClubZ.currentUser!!.id))showProfile(user)
+            }
+            R.id.activityLeader -> {
+                val user = UserInfo()
+                user.userId = activityDetails!!.getData()!!.leader_id!!
+                user.isLiked = 0
+                user.full_name = activityDetails?.getData()!!.leader_name!!
+                user.profile_image = activityDetails?.getData()!!.leader_prflimage!!
+                user.country_code = ""
+                user.contact_no = activityDetails?.getData()!!.leader_phno!!
+                if(!activityDetails?.getData()?.leader_id!!.equals(ClubZ.currentUser!!.id))showProfile(user)
+            }
+            R.id.imgActivity -> {
+                val dialog = ZoomDialog(mContext!!, activityDetails?.getData()?.image!!)
+                dialog.setCancelable(false)
+                dialog.show()
+            }
+        }
+    }
+
+    private fun showProfile(user: UserInfo) {
+
+        val dialog = object : ProfileDialog(mContext!!, user) {
+            override fun OnFabClick(user: UserInfo) {
+                Toast.makeText(mContext, "OnFabClick", Toast.LENGTH_SHORT).show()
+            }
+
+          /*  override fun OnChatClick(user: UserInfo) {
+                Toast.makeText(mContext, "OnChatClick", Toast.LENGTH_SHORT).show()
+            }*/
+
+            /*override fun OnCallClick(user: UserInfo) {
+                Toast.makeText(mContext, "OnCallClick", Toast.LENGTH_SHORT).show()
+            }*/
+
+            override fun OnProfileClick(user: UserInfo) {
+                if (user.userId.isNotEmpty()) {
+                    val profile = Profile()
+                    profile.userId = user.userId
+                    profile.full_name = user.full_name
+                    profile.profile_image = user.profile_image
+                    mContext?.startActivity(Intent(mContext, ProfileActivity::class.java).putExtra("profile", profile))
+                } else {
+                    Toast.makeText(mContext, getString(R.string.under_development), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
+        //  dialog.setCancelable(true)
+        dialog.show()
     }
 }

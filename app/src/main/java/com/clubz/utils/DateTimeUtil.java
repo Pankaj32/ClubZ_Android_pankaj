@@ -138,7 +138,7 @@ public class DateTimeUtil {
         return Math.round((Math.abs(timeDistance) / 1000) / 60);
     }
 
-    public static String getDayDifference(String departDateTime, String returnDateTime) {
+    public static String getDayDifference(Context mContext, String departDateTime, String returnDateTime) {
         boolean isgrater = false;
         String returnDay = "";
         SimpleDateFormat simpleDateFormat =
@@ -175,19 +175,19 @@ public class DateTimeUtil {
             if (elapsedDays == 0) {
                 if (elapsedHours == 0) {
                     if (elapsedMinutes == 0) {
-                        returnDay = /*elapsedSeconds +*/ " Just now";
+                        returnDay = /*elapsedSeconds +*/ mContext.getString(R.string.just_now);
                     } else {
-                        returnDay = elapsedMinutes + " minutes ago";
+                        returnDay = elapsedMinutes + " "+mContext.getString(R.string.date_util_unit_minutes)+" "+mContext.getString(R.string.ago);
                     }
                 } else if (elapsedHours == 1) {
-                    returnDay = elapsedHours + " hour ago";
+                    returnDay = elapsedHours + "  "+mContext.getString(R.string.date_util_unit_hour)+" "+mContext.getString(R.string.ago);
                 } else {
-                    returnDay = elapsedHours + " hours ago";
+                    returnDay = elapsedHours + " "+mContext.getString(R.string.date_util_unit_hours)+" "+mContext.getString(R.string.ago);
                 }
             } else if (elapsedDays == 1) {
-                returnDay = /*elapsedDays +*/ " Yesterday";
+                returnDay = /*elapsedDays +*/ " "+mContext.getString(R.string.yesterday);
             } else {
-                returnDay = elapsedDays + " days ago";
+                returnDay = elapsedDays + " "+mContext.getString(R.string.date_util_unit_days)+" "+mContext.getString(R.string.ago);;
             }
         } catch (ParseException e) {
             e.printStackTrace();

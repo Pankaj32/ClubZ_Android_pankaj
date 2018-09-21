@@ -386,7 +386,7 @@ class Frag_My_Activity : Fragment(),
     private fun showConfirmationDialog(action: String = "", activityId: String = "", activityEventId: String = "") {
         try {
             val builder1 = AlertDialog.Builder(mContext)
-            builder1.setTitle("Alert")
+            builder1.setTitle(mContext!!.getString(R.string.alert))
             if (action.equals("confirm")) {
                 val status = if (confirmStatus.equals("1")) "confirm" else "unconfirm"
                 builder1.setMessage("Are you sure you want to $status this Date?")
@@ -394,7 +394,7 @@ class Frag_My_Activity : Fragment(),
                 builder1.setMessage("Are you sure you want to $action this activity?")
             }
             builder1.setCancelable(false)
-            builder1.setPositiveButton("Ok", { dialog, id ->
+            builder1.setPositiveButton(mContext!!.getString(R.string.ok), { dialog, id ->
                 when (action) {
                     "remove" -> {
                         deleteMyActivity(activityList[actionPosition!!].activityId!!)
@@ -407,7 +407,7 @@ class Frag_My_Activity : Fragment(),
                 }
             })
 
-            builder1.setNegativeButton("Cancel",
+            builder1.setNegativeButton(mContext!!.getString(R.string.cancel),
                     DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                     })
@@ -846,7 +846,7 @@ class Frag_My_Activity : Fragment(),
         val mTitle = dialog.findViewById<View>(R.id.mTitle) as TextView
         val mCancel = dialog.findViewById<View>(R.id.mCancel) as TextView
         val mJoin = dialog.findViewById<View>(R.id.mJoin) as TextView
-        mJoin.setText("Confirm")
+        mJoin.setText(mContext!!.getString(R.string.confirm))
         if (confirmAffiliates.getData()!!.isConfirmed != null) {
             if (confirmAffiliates.getData()!!.isConfirmed.equals("1")) {
                 //   like.setImageResource(R.drawable.hand_ico)
@@ -1015,18 +1015,18 @@ class Frag_My_Activity : Fragment(),
         if (eventBean?.is_cancel.equals("1")) mCancel.visibility = View.GONE
 
         if (eventBean?.is_confirm.equals("1")) {
-            mConfirm.setText("UNCONFIRM")
+            mConfirm.setText(getString(R.string.un_confirm_date))
             mConfirm.setTextColor(ContextCompat.getColor(mContext!!, R.color.red_favroit))
         } else {
-            mConfirm.setText("CONFIRM")
+            mConfirm.setText(getString(R.string.confirm_date))
             mConfirm.setTextColor(ContextCompat.getColor(mContext!!, R.color.primaryColor))
         }
         mCancel.setOnClickListener(View.OnClickListener {
-            showConfirmationCancelDialog("cancel", activitiesBean.activityId!!,
+            showConfirmationCancelDialog(getString(R.string.cancel), activitiesBean.activityId!!,
                     eventBean?.activityEventId!!, dialog)
         })
         mConfirm.setOnClickListener(View.OnClickListener {
-            showConfirmationCancelDialog("confirm", activitiesBean.activityId!!,
+            showConfirmationCancelDialog(getString(R.string.confirm_date), activitiesBean.activityId!!,
                     eventBean?.activityEventId!!, dialog)
         })
         mClose.setOnClickListener(View.OnClickListener { dialog.dismiss() })
@@ -1207,31 +1207,31 @@ class Frag_My_Activity : Fragment(),
                                              dialog1: Dialog) {
         try {
             val builder1 = AlertDialog.Builder(mContext)
-            builder1.setTitle("Alert")
+            builder1.setTitle(mContext!!.getString(R.string.alert))
             when (action) {
-                "cancel" -> {
-                    builder1.setMessage("Are you sure you want to $action this date?")
+                getString(R.string.cancel) -> {
+                    builder1.setMessage("Are you sure you want to ${action.toLowerCase()} this date?")
                 }
-                "confirm" -> {
-                    val status = if (confirmStatus.equals("1")) "confirm" else "unconfirm"
+                getString(R.string.confirm) -> {
+                    val status = if (confirmStatus.equals("1")) getString(R.string.confirm) else getString(R.string.un_confirm)
                     builder1.setMessage("Are you sure you want to $status this date?")
                 }
             }
             builder1.setCancelable(false)
-            builder1.setPositiveButton("Ok", { dialog, id ->
+            builder1.setPositiveButton(mContext!!.getString(R.string.ok), { dialog, id ->
                 dialog1.dismiss()
                 when (action) {
-                    "cancel" -> {
+                    getString(R.string.cancel) -> {
                         cancelDate(activityId, activityEventId, dialog)
                     }
-                    "confirm" -> {
+                    getString(R.string.confirm) -> {
                         confirmMyActivity(activityId, activityEventId, userId, confirmStatus, dialog, snakLay)
                     }
                 }
 
             })
 
-            builder1.setNegativeButton("Cancel",
+            builder1.setNegativeButton(mContext!!.getString(R.string.cancel),
                     DialogInterface.OnClickListener { dialog, id ->
                         dialog1.dismiss()
                         dialog.cancel()

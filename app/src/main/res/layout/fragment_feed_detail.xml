@@ -244,7 +244,7 @@
                             android:layout_toStartOf="@id/image_member"
                             android:fontFamily="@font/teko_semibold"
                             android:text="@string/a_notAvailable"
-                            android:textColor="@color/black"
+                            android:textColor="@color/primaryColor"
                             android:textSize="@dimen/_14sdp" />
 
                         <TextView

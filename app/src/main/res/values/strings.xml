@@ -3,7 +3,8 @@
     <string name="facebook_app_id">1901949733451269</string>
     <string name="fb_login_protocol_scheme">fb1901949733451269</string>
     <string name="server_client_id">303882214487-pkujqbkqgmq3m22muu8kbkj17n6hvvdc.apps.googleusercontent.com</string>
-
+    <string name="admob_app_id">ca-app-pub-2270528014536403~6190929441</string>
+    <string name="banner_home_footer">ca-app-pub-2270528014536403/7831739205</string>
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
     <string name="explore1">Explore the</string>
@@ -164,6 +165,7 @@
     <!--Buttons-->
     <string name="sign_in"> Sign In </string>
     <string name="confirm"> Confirm </string>
+    <string name="un_confirm"> Unconfirm </string>
     <string name="next"> Next </string>
 
     <string name="done"> Done </string>
@@ -435,6 +437,7 @@
     <string name="date_util_prefix_over">over</string>
     <string name="date_util_prefix_almost">almost</string>
     <string name="date_util_suffix">ago</string>
+    <string name="ago">ago</string>
     <string name="date_left_to_confirm">left to confirm the date</string>
 
     <string name="likes_count">%d Likes</string>
@@ -464,11 +467,11 @@
     <!--Setting page-->
     <string name="notifications">Notifications</string>
     <string name="allow_notifications">Allow notifications</string>
-    <string name="news_notifications">News Notifications</string>
-    <string name="activities_notifications">Activities Notifications</string>
-    <string name="chat_notifications">Chat Notifications</string>
+    <string name="news_notifications">News notifications</string>
+    <string name="activities_notifications">Activities notifications</string>
+    <string name="chat_notifications">Chat notifications</string>
     <string name="setting">Setting</string>
-    <string name="ads_notifications">Ads Notifications</string>
+    <string name="ads_notifications">Ads notifications</string>
     <string name="privacy">Privacy</string>
     <string name="show_my_profile">Show my profile</string>
     <string name="delete_my_account">Delete my account</string>
@@ -512,6 +515,7 @@
     <string name="recent_txt">Recent</string>
     <string name="favorit_txt">Favorite</string>
     <string name="confirm_date">CONFIRM</string>
+    <string name="un_confirm_date">UNCONFIRM</string>
     <string name="cancel_date"> Cancel Date </string>
     <string name="status"> Status </string>
     <!--Ad Bottom sheet menu-->
@@ -531,4 +535,11 @@
     <string name="delete_other_ad_title">Are you sure, you want to delete this ad from feeds?</string>
     <string name="renew_ad_title">Are you sure, you want to Renew this ad </string>
     <string name="expired">Expired</string>
+    <string name="english">English</string>
+    <string name="spanish">Spanish</string>
+    <string name="you">You</string>
+    <string name="not_sheduled">Not scheduled</string>
+    <string name="just_now">Just now</string>
+    <string name="leader">Leader</string>
+    <string name="yesterday">Yesterday</string>
 </resources>

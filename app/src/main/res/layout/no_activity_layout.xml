@@ -18,33 +18,31 @@
         android:background="@color/white"
         android:padding="@dimen/_16sdp">
 
-        <android.support.v7.widget.AppCompatImageView
+        <!--<android.support.v7.widget.AppCompatImageView
             android:layout_width="@dimen/_45sdp"
             android:layout_height="@dimen/_45sdp"
             android:background="@drawable/bg_circle_primary"
             android:padding="@dimen/_8sdp"
             android:scaleType="fitCenter"
             android:tint="@color/white"
-            app:srcCompat="@drawable/ic_zoe" />
+            app:srcCompat="@drawable/ic_zoe" />-->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_61sdp"
             android:fontFamily="@font/teko_semibold"
             android:text="@string/there_is_no_activity_stil_here"
-            android:textColor="@color/black"
+            android:textColor="@color/eighty_black"
             android:textSize="@dimen/_14sdp" />
 
         <TextView
             android:id="@+id/body_t"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_61sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/no_activity_content_body"
-            android:textColor="@color/black"
+            android:textColor="@color/nav_gray"
             android:textSize="@dimen/_10sdp" />
 
     </RelativeLayout>

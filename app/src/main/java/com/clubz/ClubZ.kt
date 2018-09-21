@@ -11,6 +11,7 @@ import com.clubz.data.local.db.DBHelper
 import com.clubz.data.local.db.DatabaseManager
 import com.clubz.data.local.db.repo.ClubNameRepo
 import com.clubz.data.remote.AppAsnycTask
+import com.google.android.gms.ads.MobileAds
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.one.EmojiOneProvider
 
@@ -65,6 +66,8 @@ class ClubZ  : Application() {
         super.onCreate()
         instance = this@ClubZ
         EmojiManager.install(EmojiOneProvider())
+        // initialize the AdMob app
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
         //Fabric.with(this, new Crashlytics())
 
         val sessionManager = SessionManager.getObj()

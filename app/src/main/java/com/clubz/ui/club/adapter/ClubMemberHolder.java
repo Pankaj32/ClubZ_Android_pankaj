@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
+
+import com.clubz.ClubZ;
 import com.clubz.data.model.ClubMember;
 import com.clubz.data.model.Profile;
 import com.clubz.ui.dialogs.UserProfileDialog;
@@ -31,51 +33,48 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder {
     protected void showProfile(){
 
         final ClubMember member = getProfile();
-        /*if(member.getClubUserId().equals(ClubZ.instance.getCurrentUser().getId())){
+        if(!member.getClubUserId().equals(ClubZ.Companion.getCurrentUser().getId())){
+            final UserProfileDialog userProfileDialog = new UserProfileDialog(mContext, member, canEditNickName()) {
+                @Override
+                public void onProfileUpdate(String name) {
+                    member.setUser_nickname(name);
+                    notyfyData(getAdapterPosition());
+                }
 
-        }*/
+                @Override
+                public void showError(@NotNull String msg) {
+                    showToast(msg);
+                }
 
+                @Override
+                public void onCallClicked() {
+                    showToast("call clicked!");
+                }
 
-        final UserProfileDialog userProfileDialog = new UserProfileDialog(mContext, member, canEditNickName()) {
-            @Override
-            public void onProfileUpdate(String name) {
-                member.setUser_nickname(name);
-                notyfyData(getAdapterPosition());
-            }
-
-            @Override
-            public void showError(@NotNull String msg) {
-                showToast(msg);
-            }
-
-            @Override
-            public void onCallClicked() {
-                showToast("call clicked!");
-            }
-
-            @Override
+            /*@Override
             public void onChatClicked() {
                 showToast("chat clicked!");
-            }
+            }*/
 
-            @Override
-            public void onLikeClicked(int isLIked) {
-                showToast("favorite clicked!");
-            }
+                @Override
+                public void onLikeClicked(int isLIked) {
+                    showToast("favorite clicked!");
+                }
 
-            @Override
-            public void onFlagClicked() {
-                dismiss();
-                showProfileDetail(member);
-                Profile profile = new Profile();
-                profile.setUserId(member.getUserId());
-                profile.setFull_name(member.getFull_name());
-                profile.setProfile_image(member.getProfile_image());
-                mContext.startActivity(new Intent(mContext, ProfileActivity.class).putExtra("profile", profile));
-            }
-        };
-        userProfileDialog.setCancelable(true);
-        userProfileDialog.show();
+                @Override
+                public void onFlagClicked() {
+                    dismiss();
+                    showProfileDetail(member);
+                    Profile profile = new Profile();
+                    profile.setUserId(member.getUserId());
+                    profile.setFull_name(member.getFull_name());
+                    profile.setProfile_image(member.getProfile_image());
+                    mContext.startActivity(new Intent(mContext, ProfileActivity.class).putExtra("profile", profile));
+                }
+            };
+            userProfileDialog.setCancelable(true);
+            userProfileDialog.show();
+        }
     }
 
     protected abstract ClubMember getProfile();

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/background"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".ui.setting.SettingActivity">
 
 
@@ -36,8 +35,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:paddingTop="@dimen/_3sdp"
                 android:text="@string/settings"
@@ -64,180 +63,176 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="@dimen/_8sdp"
-            android:paddingEnd="@dimen/_8sdp"
-            android:paddingTop="@dimen/_8sdp">
+            android:paddingBottom="15dp"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:paddingTop="15dp">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/card_notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
                 app:contentPadding="@dimen/_8sdp"
-                app:cardUseCompatPadding="true">
+                app:cardElevation="@dimen/_3sdp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginEnd="@dimen/_2sdp">
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:text="@string/notifications"
-                        android:textColor="@color/black"
                         android:id="@+id/txt_notifications"
-                        android:gravity="center"
-                        android:textSize="@dimen/_16sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/teko_semibold"
-                        android:layout_height="wrap_content" />
+                        android:gravity="center"
+                        android:text="@string/notifications"
+                        android:textColor="@color/eighty_black"
+                        android:textSize="@dimen/_16sdp" />
 
 
                     <View
                         android:id="@+id/view"
                         android:layout_width="match_parent"
-                        android:background="@color/text_color_gray"
-                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_height="0.5dp"
                         android:layout_below="@+id/txt_notifications"
-                        android:layout_height="0.5dp"/>
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@color/text_color_gray" />
 
                     <RelativeLayout
                         android:id="@+id/rl_allow"
-                        android:layout_below="@+id/view"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view"
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:text="@string/allow_notifications"
                             android:id="@+id/txt_allow_notifications"
                             style="@style/TextView.SingleLine.Gray"
-                            android:textSize="@dimen/_12sdp"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/allow_notifications"
+                            android:textSize="@dimen/_12sdp" />
 
                         <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switch_allow_notifications"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_toRightOf="@+id/txt_allow_notifications"
-                            android:layout_height="wrap_content"
                             app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD"
-                            android:id="@+id/switch_allow_notifications" />
+                            app:trackTint="#69BCBD" />
 
                     </RelativeLayout>
 
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
                         android:id="@+id/rl_news"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/rl_allow"
-                        android:layout_height="wrap_content">
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:layout_width="wrap_content"
                             android:id="@+id/txt_news_notification"
                             style="@style/TextView.SingleLine.Gray"
-                            android:textSize="@dimen/_12sdp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="@string/news_notifications"
-                            android:layout_height="wrap_content" />
+                            android:textSize="@dimen/_12sdp" />
 
                         <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switch_news_notification"
                             android:layout_width="wrap_content"
-                            android:layout_alignParentEnd="true"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
                             android:layout_toRightOf="@+id/txt_news_notification"
                             app:thumbTint="@color/primaryColor"
-                            android:id="@+id/switch_news_notification"
                             app:trackTint="#69BCBD" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/rl_activities"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_below="@+id/rl_news"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rl_news"
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            style="@style/TextView.SingleLine.Gray"
-                            android:textSize="@dimen/_12sdp"
                             android:id="@+id/txt_activities"
+                            style="@style/TextView.SingleLine.Gray"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="@string/activities_notifications"
-                            android:layout_height="wrap_content" />
+                            android:textSize="@dimen/_12sdp" />
 
                         <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switch_activities"
                             android:layout_width="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
                             android:layout_toRightOf="@+id/txt_activities"
                             app:thumbTint="@color/primaryColor"
-                            android:id="@+id/switch_activities"
                             app:trackTint="#69BCBD" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
                         android:id="@+id/rl_chat"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/rl_activities"
-                        android:layout_height="wrap_content">
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            style="@style/TextView.SingleLine.Gray"
-                            android:textSize="@dimen/_12sdp"
                             android:id="@+id/txt_chat"
+                            style="@style/TextView.SingleLine.Gray"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="@string/chat_notifications"
-                            android:layout_height="wrap_content" />
+                            android:textSize="@dimen/_12sdp" />
 
                         <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switch_chat"
                             android:layout_width="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
                             android:layout_toRightOf="@+id/txt_chat"
                             app:thumbTint="@color/primaryColor"
-                            android:id="@+id/switch_chat"
                             app:trackTint="#69BCBD" />
 
                     </RelativeLayout>
 
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
                         android:id="@+id/rl_ads"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/rl_chat"
-                        android:layout_height="wrap_content">
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            style="@style/TextView.SingleLine.Gray"
-                            android:textSize="@dimen/_12sdp"
                             android:id="@+id/txt_ads"
+                            style="@style/TextView.SingleLine.Gray"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="@string/ads_notifications"
-                            android:layout_height="wrap_content" />
+                            android:textSize="@dimen/_12sdp" />
 
                         <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switch_ads"
                             android:layout_width="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
                             android:layout_toRightOf="@+id/txt_ads"
                             app:thumbTint="@color/primaryColor"
-                            android:id="@+id/switch_ads"
-                            app:trackTint="#69BCBD"
-                            />
+                            app:trackTint="#69BCBD" />
 
 
                     </RelativeLayout>
-
 
 
                 </RelativeLayout>
@@ -248,87 +243,85 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
+                app:cardUseCompatPadding="true"
                 app:contentPadding="@dimen/_8sdp"
-                app:cardUseCompatPadding="true">
+                app:cardElevation="@dimen/_3sdp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginEnd="@dimen/_2sdp">
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:text="@string/privacy"
-                        android:textColor="@color/black"
                         android:id="@+id/txt_privacy"
-                        android:gravity="center"
-                        android:textSize="@dimen/_16sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/teko_semibold"
-                        android:layout_height="wrap_content" />
+                        android:gravity="center"
+                        android:text="@string/privacy"
+                        android:textColor="@color/eighty_black"
+                        android:textSize="@dimen/_16sdp" />
 
                     <View
-                        android:layout_width="match_parent"
-                        android:background="@color/text_color_gray"
-                        android:layout_marginTop="@dimen/_5sdp"
                         android:id="@+id/view_privacy"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
                         android:layout_below="@+id/txt_privacy"
-                        android:layout_height="0.5dp"/>
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@color/text_color_gray" />
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
                         android:id="@+id/rl_show_profile"
-                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/view_privacy"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_height="wrap_content">
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:text="@string/show_my_profile"
-                            style="@style/TextView.SingleLine.Gray"
                             android:id="@+id/txt_show_profile"
-                            android:textSize="@dimen/_12sdp"
-                            android:layout_height="wrap_content" />
+                            style="@style/TextView.SingleLine.Gray"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/show_my_profile"
+                            android:textSize="@dimen/_12sdp" />
 
                         <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/switch_show_profile"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_toRightOf="@+id/txt_show_profile"
-                            android:layout_height="wrap_content"
-                            app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD"
                             android:switchTextAppearance="@style/SwitchTheme"
-                            android:id="@+id/switch_show_profile" />
+                            app:thumbTint="@color/primaryColor"
+                            app:trackTint="#69BCBD" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/rl_allow_anyone"
                         android:layout_width="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/rl_show_profile"
-                        android:layout_height="wrap_content">
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
                             android:id="@+id/txt_allow_anyone"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="@string/allow_anyone_to_contact_me"
-                            android:textSize="@dimen/_12sdp"
-                            android:layout_height="wrap_content" />
+                            android:textSize="@dimen/_12sdp" />
 
                         <android.support.v7.widget.SwitchCompat
-                            android:layout_width="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_height="wrap_content"
-                            app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD"
                             android:id="@+id/switch_allow_anyone"
-                            android:switchTextAppearance="@style/SwitchTheme" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:switchTextAppearance="@style/SwitchTheme"
+                            app:thumbTint="@color/primaryColor"
+                            app:trackTint="#69BCBD" />
 
                     </RelativeLayout>
-
 
                 </RelativeLayout>
 
@@ -340,56 +333,57 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 app:cardUseCompatPadding="true"
-                app:contentPadding="@dimen/_8sdp">
+                app:contentPadding="@dimen/_8sdp"
+                app:cardElevation="@dimen/_3sdp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginEnd="@dimen/_2sdp">
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:text="@string/data_use"                           android:textColor="@color/black"
                         android:id="@+id/txt_sync"
-                        android:gravity="center"
-                        android:textSize="@dimen/_16sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/teko_semibold"
-                        android:layout_height="wrap_content" />
+                        android:gravity="center"
+                        android:text="@string/data_use"
+                        android:textColor="@color/eighty_black"
+                        android:textSize="@dimen/_16sdp" />
 
 
                     <View
-                        android:layout_width="match_parent"
-                        android:background="@color/text_color_gray"
-                        android:layout_marginTop="@dimen/_5sdp"
                         android:id="@+id/view_sync"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
                         android:layout_below="@+id/txt_sync"
-                        android:layout_height="0.5dp"/>
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@color/text_color_gray" />
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
                         android:id="@+id/rl_wifi"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/view_sync"
-                        android:layout_height="wrap_content">
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
+                            android:id="@+id/txt_wifi"
+                            style="@style/TextView.SingleLine.Gray"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/sync_only_wifi"
-                            style="@style/TextView.SingleLine.Gray"
-                            android:id="@+id/txt_wifi"
                             android:textSize="@dimen/_12sdp" />
 
                         <android.support.v7.widget.SwitchCompat
                             android:id="@+id/switch_sync"
                             android:layout_width="wrap_content"
-                            android:layout_alignParentEnd="true"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:switchTextAppearance="@style/SwitchTheme"
                             app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD"
-                            android:switchTextAppearance="@style/SwitchTheme" />
+                            app:trackTint="#69BCBD" />
 
                     </RelativeLayout>
 
@@ -399,50 +393,49 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
                 android:id="@+id/card_simplified"
-                app:contentPadding="@dimen/_8sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 app:cardUseCompatPadding="true"
-                android:layout_height="wrap_content">
+                app:contentPadding="@dimen/_8sdp"
+                app:cardElevation="@dimen/_3sdp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginEnd="@dimen/_2sdp">
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp">
 
                     <TextView
+                        android:id="@+id/txt_silenced"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/teko_semibold"
+                        android:gravity="center"
                         android:text="@string/silenced_users"
                         android:textColor="@color/black"
-                        android:id="@+id/txt_silenced"
-                        android:gravity="center"
-                        android:textSize="@dimen/_16sdp"
-                        android:fontFamily="@font/teko_semibold"
-                        android:layout_height="wrap_content" />
+                        android:textSize="@dimen/_16sdp" />
 
 
                     <View
-                        android:layout_width="match_parent"
-                        android:background="@color/text_color_gray"
                         android:id="@+id/view_silenecd"
-                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
                         android:layout_below="@+id/txt_silenced"
-                        android:layout_height="0.5dp"/>
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@color/text_color_gray" />
 
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/view_silenecd"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_10sdp">
-
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp">
 
 
                     </RelativeLayout>
-
 
 
                 </RelativeLayout>
@@ -455,54 +448,56 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 app:cardUseCompatPadding="true"
-                app:contentPadding="@dimen/_8sdp">
+                app:contentPadding="@dimen/_8sdp"
+                app:cardElevation="@dimen/_3sdp">
 
                 <RelativeLayout
                     android:id="@+id/rl_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginEnd="@dimen/_2sdp">
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp">
 
                     <TextView
                         android:id="@+id/txt_account"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/teko_semibold"
+                        android:gravity="center"
                         android:text="@string/account"
                         android:textColor="@color/black"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:textSize="@dimen/_16sdp"
-                        android:fontFamily="@font/teko_semibold"
-                        android:layout_height="wrap_content" />
+                        android:textSize="@dimen/_16sdp" />
 
 
                     <View
-                        android:layout_width="match_parent"
-                        android:background="@color/text_color_gray"
                         android:id="@+id/view_account"
-                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
                         android:layout_below="@+id/txt_account"
-                        android:layout_height="0.5dp"/>
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@color/text_color_gray" />
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
                         android:id="@+id/rl_change_location"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/view_account"
-                        android:layout_height="wrap_content">
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
+                            style="@style/TextView.SingleLine.Gray"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextView.SingleLine.Gray"
-                            android:text="@string/change_my_main_location" />
+                            android:text="@string/change_my_main_location"
+                            android:textSize="@dimen/_12sdp" />
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_edit_location"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
                             android:layout_alignParentEnd="true"
-                            android:tint="@color/icon_tint" />
+                            android:tint="@color/icon_tint"
+                            app:srcCompat="@drawable/ic_edit_location" />
 
                     </RelativeLayout>
 
@@ -510,65 +505,68 @@
                     <RelativeLayout
                         android:id="@+id/rl_change_language"
                         android:layout_width="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/rl_change_location"
-                        android:layout_height="wrap_content">
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:layout_width="wrap_content"
                             style="@style/TextView.SingleLine.Gray"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="@string/change_the_language"
-                            android:layout_height="wrap_content" />
+                            android:textSize="@dimen/_12sdp" />
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            app:srcCompat="@drawable/ic_glob"
-                            android:tint="@color/icon_tint"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
                             android:layout_alignParentEnd="true"
-                            android:layout_height="wrap_content" />
+                            android:tint="@color/icon_tint"
+                            app:srcCompat="@drawable/ic_glob" />
 
 
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_below="@+id/rl_change_language"
                         android:id="@+id/rl_change_number"
-                        android:layout_height="wrap_content">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rl_change_language"
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="@string/change_my_phone_number"
-                            android:layout_height="wrap_content" />
+                            android:textSize="@dimen/_12sdp" />
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            app:srcCompat="@drawable/ic_edit"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
                             android:layout_alignParentRight="true"
                             android:tint="@color/icon_tint"
-                            android:layout_height="wrap_content" />
+                            app:srcCompat="@drawable/ic_edit" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/rl_delete_account"
                         android:layout_width="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/rl_change_number"
-                        android:layout_height="wrap_content">
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="@string/delete_my_account"
-                            android:layout_height="wrap_content" />
+                            android:textSize="@dimen/_12sdp" />
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_delete_icon"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
                             android:layout_alignParentEnd="true"
-                            android:tint="@color/icon_tint"/>
+                            android:tint="@color/icon_tint"
+                            app:srcCompat="@drawable/ic_delete_icon" />
 
 
                     </RelativeLayout>

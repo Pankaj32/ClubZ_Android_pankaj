@@ -43,6 +43,7 @@ import com.clubz.ui.cv.Purchase_membership_dialog
 import com.clubz.utils.*
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
+import com.clubz.utils.picker.ImageRotator
 import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
@@ -222,16 +223,35 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@ClubCreationActivity, requestCode, resultCode, data)
                 if (imageUri != null) {
-                    if (!isClubIcon)
-                        CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
+                    if (!isClubIcon) {
+
+                        clubImage = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, imageUri)
+                        val rotation = ImageRotator.getRotation(this, imageUri, true)
+                        clubImage = ImageRotator.rotate(clubImage, rotation)
+                        if (clubImage != null) {
+                            val padding = 0
+                            img_club.setPadding(padding, padding, padding, padding)
+                            img_club.setImageBitmap(clubImage)
+                        }
+                        /*CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
                                 .setMinCropResultSize(300, 200)
                                 .setMaxCropResultSize(4000, 4000)
-                                .setAspectRatio(300, 200).start(this@ClubCreationActivity)
-                    else CropImage.activity(imageUri)
-                            .setCropShape(CropImageView.CropShape.OVAL)
-                            .setMinCropResultSize(200, 200)
-                            .setMaxCropResultSize(4000, 4000)
-                            .setAspectRatio(300, 300).start(this@ClubCreationActivity)
+                                .setAspectRatio(300, 200).start(this@ClubCreationActivity)*/
+                    }else {
+                        clubIcon = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, imageUri)
+                        val rotation = ImageRotator.getRotation(this, imageUri, true)
+                        clubIcon = ImageRotator.rotate(clubIcon, rotation)
+                        if (clubIcon != null) {
+                            val padding = 0
+                            image_icon.setPadding(padding, padding, padding, padding)
+                            image_icon.setImageBitmap(clubIcon)
+                        }
+                        /*CropImage.activity(imageUri)
+                                .setCropShape(CropImageView.CropShape.OVAL)
+                                .setMinCropResultSize(200, 200)
+                                .setMaxCropResultSize(4000, 4000)
+                                .setAspectRatio(300, 300).start(this@ClubCreationActivity)*/
+                    }
                 } else {
                     Toast.makeText(this@ClubCreationActivity, R.string.swr, Toast.LENGTH_SHORT).show()
                 }
@@ -239,17 +259,35 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
                 if (imageUri != null) {
-                    if (!isClubIcon)
-                        CropImage.activity(imageUri)
+                    if (!isClubIcon) {
+                        clubImage = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, imageUri)
+                        val rotation = ImageRotator.getRotation(this, imageUri, true)
+                        clubImage = ImageRotator.rotate(clubImage, rotation)
+                        if (clubImage != null) {
+                            val padding = 0
+                            img_club.setPadding(padding, padding, padding, padding)
+                            img_club.setImageBitmap(clubImage)
+                        }
+                        /*CropImage.activity(imageUri)
                                 .setCropShape(CropImageView.CropShape.RECTANGLE)
                                 .setMinCropResultSize(300, 200)
                                 .setMaxCropResultSize(4000, 4000)
-                                .setAspectRatio(300, 200).start(this@ClubCreationActivity)
-                    else CropImage.activity(imageUri)
-                            .setCropShape(CropImageView.CropShape.OVAL)
-                            .setMinCropResultSize(200, 200)
-                            .setMaxCropResultSize(4000, 4000)
-                            .setAspectRatio(300, 300).start(this@ClubCreationActivity)
+                                .setAspectRatio(300, 200).start(this@ClubCreationActivity)*/
+                    } else {
+                        clubIcon = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, imageUri)
+                        val rotation = ImageRotator.getRotation(this, imageUri, true)
+                        clubIcon = ImageRotator.rotate(clubIcon, rotation)
+                        if (clubIcon != null) {
+                            val padding = 0
+                            image_icon.setPadding(padding, padding, padding, padding)
+                            image_icon.setImageBitmap(clubIcon)
+                            /*CropImage.activity(imageUri)
+                                    .setCropShape(CropImageView.CropShape.OVAL)
+                                    .setMinCropResultSize(200, 200)
+                                    .setMaxCropResultSize(4000, 4000)
+                                    .setAspectRatio(300, 300).start(this@ClubCreationActivity)*/
+                        }
+                    }
                 } else {
                     Toast.makeText(this@ClubCreationActivity, R.string.swr, Toast.LENGTH_SHORT).show()
                 }

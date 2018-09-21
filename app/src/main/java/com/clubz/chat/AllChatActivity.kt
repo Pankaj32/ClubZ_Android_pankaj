@@ -2,8 +2,10 @@ package com.clubz.chat
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
@@ -23,6 +25,7 @@ import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
@@ -33,14 +36,19 @@ import com.clubz.chat.model.ChatHistoryBean
 import com.clubz.chat.model.ClubBean
 import com.clubz.chat.model.MemberBean
 import com.clubz.chat.util.ChatUtil
+import com.clubz.ui.dialogs.ZoomDialog
 import com.clubz.utils.Constants
+import com.clubz.utils.KeyboardUtil
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
+import com.clubz.utils.picker.ImagePicker.getImageResized
+import com.clubz.utils.picker.ImageRotator
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.mvc.imagepicker.ImagePicker
+import com.mvc.imagepicker.ImageUtils.getTemporalFile
 import com.vanniktech.emoji.EmojiEditText
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.EmojiPopup
@@ -49,10 +57,12 @@ import hani.momanii.supernova_emoji_library.Actions.EmojIconActions
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
 import kotlinx.android.synthetic.main.activity_all_chat.*
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
-import java.util.ArrayList
+import java.io.OutputStream
+import java.util.*
 
-class AllChatActivity : AppCompatActivity(), View.OnClickListener {
+class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerAdapter.onClick {
 
     private val ARG_CHATFOR = "chatFor"
     private val ARG_CLUB_ID = "clubId"
@@ -97,6 +107,8 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
     private var app: FirebaseApp? = null
     private var chatRoom = ""
     private var chatHistoryRoom = ""
+    private var mUserId = ""
+    private var mUserName = ""
     private val databaseReference = FirebaseDatabase.getInstance().reference
     private var mChatRecyclerAdapter: ChatRecyclerAdapter? = null
     private var isCameraSelected: Boolean = false
@@ -110,11 +122,13 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
     // private var txtMsg: EmojiEditText? = null
     private var emoji: ImageView? = null
     internal var emojiPopup: EmojiPopup? = null
-    private var chatRecycler: RecyclerView? = null
+    // private var chatRecycler: RecyclerView? = null
     private var memberList = ArrayList<MemberBean>()
 
     private var emojIcon: EmojIconActions? = null
-    private var isText = false;
+    private var isText = false
+    val wrapper = ContextThemeWrapper(this@AllChatActivity, R.style.popstyle)
+    var popupMenu: PopupMenu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,13 +136,10 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         noDataTxt = findViewById<EditText>(R.id.noDataTxt)
         silentTxt = findViewById<TextView>(R.id.silentTxt)
         progressbar = findViewById<ProgressBar>(R.id.progressbar)
-        //oldEmoji
-        //  txtMsg = findViewById<EmojiconEditText>(R.id.txtMsg)
-        //   newEmoji
-        //  txtMsg = findViewById<EmojiEditText>(R.id.txtMsg)
         emoji = findViewById<ImageView>(R.id.emoji)
-        chatRecycler = findViewById<RecyclerView>(R.id.chatRecycler)
 
+        mUserId = ClubZ.currentUser!!.id
+        mUserName = ClubZ.currentUser!!.full_name
         app = FirebaseApp.getInstance()
         mstorage = FirebaseStorage.getInstance(app!!)
 
@@ -171,6 +182,16 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
                     getUserStatus()
                     getClubMembers()
                     getClubOwner()
+                    /*silentTxt?.visibility = View.VISIBLE
+                    silentTxt?.isClickable = true
+                    silentTxt?.text="Ads Chat is On Development Mode"*/
+                }
+                ChatUtil.ARG_IDIVIDUAL -> {
+                    historyId = arguments.getString(ARG_HISTORY_ID)
+                    historyName = arguments.getString(ARG_HISTORY_NAME)
+                    chatRoom = if (mUserId.toInt() > historyId.toInt()) historyId + "_" + mUserId + "_" + chatFor else mUserId + "_" + historyId + "_" + chatFor
+                    chatHistoryRoom = chatRoom
+                    if (mChatRecyclerAdapter == null) getMessageFromFirebaseUser()
                     /*silentTxt?.visibility = View.VISIBLE
                     silentTxt?.isClickable = true
                     silentTxt?.text="Ads Chat is On Development Mode"*/
@@ -220,11 +241,13 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
                     sentButton.setColorFilter(ContextCompat.getColor(this@AllChatActivity, R.color.nav_gray))
                 } else {
                     isText = true
+                    if (popupMenu != null) popupMenu!!.dismiss()
                     sentButton.setImageResource(R.drawable.ic_send_chat_24dp)
                     sentButton.setColorFilter(ContextCompat.getColor(this@AllChatActivity, R.color.primaryColor))
                 }
             }
         })
+        chatRecycler.setOnClickListener(this)
     }
 
     private fun getClubOwner() {
@@ -263,6 +286,10 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
             }*/
             R.id.backBtn -> {
                 finish()
+            }
+            R.id.chatRecycler -> {
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(txtMsg.getWindowToken(), 0)
             }
         }
     }
@@ -308,10 +335,16 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
                         gen_key.setValue(chatBean)
                         // getMessageFromFirebaseUser(mUid, rcvUId)
                     }
-                    for (member in memberList) {
-                        sendToChatHistory(member, chatBean, databaseReference)
+                    if (chatFor.equals(ChatUtil.ARG_IDIVIDUAL)) {
+                        sendToMyIndividualChatHistory(chatBean, databaseReference)
+                        sendToOtherIndividualChatHistory(chatBean, databaseReference)
+                    } else {
+                        for (member in memberList) {
+                            sendToChatHistory(member, chatBean, databaseReference)
+                        }
+                        sendToOwnerChatHistory(chatBean, databaseReference)
                     }
-                    sendToOwnerChatHistory(chatBean, databaseReference)
+
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -391,7 +424,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
                                         if (mChatRecyclerAdapter == null) {
                                             val chatbeans = ArrayList<ChatBean>()
                                             chatbeans.add(chatBean!!)
-                                            mChatRecyclerAdapter = ChatRecyclerAdapter(this@AllChatActivity, chatbeans/*, object : ChatAdapterClickListner() {
+                                            mChatRecyclerAdapter = ChatRecyclerAdapter(this@AllChatActivity, chatbeans, this@AllChatActivity/*, object : ChatAdapterClickListner() {
                                     fun clickedItemPosition(url: String) {
                                         showZoomImage(url)
                                     }
@@ -447,10 +480,9 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun permissionPopUp() {
-        val wrapper = ContextThemeWrapper(this@AllChatActivity, R.style.popstyle)
-        val popupMenu = PopupMenu(wrapper, sentButton, Gravity.CENTER)
-        popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())
-        popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+        popupMenu = PopupMenu(wrapper, sentButton, Gravity.CENTER)
+        popupMenu!!.getMenuInflater().inflate(R.menu.popupmenu, popupMenu!!.getMenu())
+        popupMenu!!.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem): Boolean {
                 isCameraSelected = true
                 when (item.getItemId()) {
@@ -479,7 +511,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
                 return false
             }
         })
-        popupMenu.show()
+        popupMenu!!.show()
     }
 
     fun callIntent(caseid: Int) {
@@ -545,19 +577,73 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@AllChatActivity, requestCode, resultCode, data);
-                if (imageUri != null) {
+               /* if (imageUri != null) {
                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this)
                 } else {
                     Toast.makeText(this@AllChatActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                }*/
+                var bm: Bitmap? = null
+                bm = getImageResized(this@AllChatActivity, imageUri)
+                val rotation = ImageRotator.getRotation(this@AllChatActivity, imageUri, true)
+                bm = ImageRotator.rotate(bm, rotation)
+
+                val file = File(this@AllChatActivity.getExternalCacheDir(), UUID.randomUUID().toString() + ".jpg")
+                val imageUri = FileProvider.getUriForFile(this@AllChatActivity, applicationContext.packageName + ".provider", file)
+
+
+                if (file != null) {
+                    try {
+                        var outStream: OutputStream? = null
+                        outStream = FileOutputStream(file)
+                        bm!!.compress(Bitmap.CompressFormat.PNG, 80, outStream)
+                        outStream!!.flush()
+                        outStream.close()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
                 }
+                sendFileFireBase(imageUri)
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
-                if (imageUri != null) {
+              /*  if (imageUri != null) {
                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this)
                 } else {
                     Toast.makeText(this@AllChatActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                }*/
+
+                /*var bm: Bitmap? = null
+                val imageFile = getTemporalFile(this@AllChatActivity)
+                val photoURI = Uri.fromFile(imageFile)*/
+                var bm: Bitmap? = null
+                bm = getImageResized(this@AllChatActivity, imageUri)
+                val rotation = ImageRotator.getRotation(this@AllChatActivity, imageUri, true)
+                bm = ImageRotator.rotate(bm, rotation)
+
+                val file = File(this@AllChatActivity.getExternalCacheDir(), UUID.randomUUID().toString() + ".jpg")
+                val imageUri = FileProvider.getUriForFile(this@AllChatActivity, applicationContext.packageName + ".provider", file)
+
+
+                if (file != null) {
+                    try {
+                        var outStream: OutputStream? = null
+                        outStream = FileOutputStream(file)
+                        bm!!.compress(Bitmap.CompressFormat.PNG, 80, outStream)
+                        outStream!!.flush()
+                        outStream.close()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
                 }
+                /*Intent i = new Intent(ChatActivity.this, CropActivity.class);
+                i.putExtra("Image", imageUri.toString());
+                i.putExtra("FROM", "gallery");
+                startActivityForResult(i, 111);*/
+
+                sendFileFireBase(imageUri)
+
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 var result: CropImage.ActivityResult = CropImage.getActivityResult(data)
@@ -647,7 +733,10 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         chatHistory.lastMessanger = ClubZ.currentUser?.full_name
         chatHistory.message = chatBean.message
         chatHistory.timestamp = chatBean.timestamp
-        databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(member.userId).child(chatHistoryRoom).setValue(chatHistory)
+        databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref
+                .child(member.userId)
+                .child(chatHistoryRoom)
+                .setValue(chatHistory)
     }
 
     private fun sendToOwnerChatHistory(chatBean: ChatBean,
@@ -667,7 +756,57 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         chatHistory.lastMessanger = ClubZ.currentUser?.full_name
         chatHistory.message = chatBean.message
         chatHistory.timestamp = chatBean.timestamp
-        databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(clubOwnerId).child(chatHistoryRoom).setValue(chatHistory)
+        databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref
+                .child(clubOwnerId)
+                .child(chatHistoryRoom)
+                .setValue(chatHistory)
+    }
+
+    private fun sendToMyIndividualChatHistory(chatBean: ChatBean,
+                                              databaseReference: DatabaseReference) {
+        val chatHistory = ChatHistoryBean()
+        // chatHistory.deleteby = ""
+        chatHistory.chatType = chatFor
+        chatHistory.chatHistoryRoom = chatHistoryRoom
+        chatHistory.clubId = ""
+        chatHistory.historyId = historyId
+        chatHistory.historyName = historyName
+        chatHistory.read = 1
+        chatHistory.image = chatBean.image
+        chatHistory.imageUrl = chatBean.imageUrl
+        chatHistory.profilePic = ""
+        chatHistory.lastMessangerId = ClubZ.currentUser?.id
+        chatHistory.lastMessanger = ClubZ.currentUser?.full_name
+        chatHistory.message = chatBean.message
+        chatHistory.timestamp = chatBean.timestamp
+        databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref
+                .child(mUserId)
+                .child(chatHistoryRoom)
+                .setValue(chatHistory)
+    }
+
+    private fun sendToOtherIndividualChatHistory(chatBean: ChatBean,
+                                              databaseReference: DatabaseReference) {
+        val chatHistory = ChatHistoryBean()
+        // chatHistory.deleteby = ""
+        chatHistory.chatType = chatFor
+        chatHistory.chatHistoryRoom = chatHistoryRoom
+        chatHistory.clubId = ""
+        chatHistory.historyId = mUserId
+        chatHistory.historyName = mUserName
+        chatHistory.read = 0
+        chatHistory.image = chatBean.image
+        chatHistory.imageUrl = chatBean.imageUrl
+        chatHistory.profilePic = ""
+        chatHistory.lastMessangerId = ClubZ.currentUser?.id
+        chatHistory.lastMessanger = ClubZ.currentUser?.full_name
+        chatHistory.message = chatBean.message
+        chatHistory.timestamp = chatBean.timestamp
+
+        databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref.
+                child(historyId).
+                child(chatHistoryRoom)
+                .setValue(chatHistory)
     }
 
     //newEmoji
@@ -677,7 +816,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
                 .setOnEmojiClickListener { ignore, ignore2 -> Log.e("CHATALLACTIVITY", "Clicked on emoji") }
                 .setOnEmojiPopupShownListener { emoji?.setImageResource(R.drawable.ic_keyboard_ico) }
                 .setOnSoftKeyboardOpenListener { ignore -> Log.d("CHATALLACTIVITY", "Opened soft keyboard") }
-                .setOnEmojiPopupDismissListener { emoji?.setImageResource(R.drawable.ic_keyboard_ico) }
+                .setOnEmojiPopupDismissListener { emoji?.setImageResource(R.drawable.ic_smilely_ico) }
                 .setOnSoftKeyboardCloseListener { Log.d("CHATALLACTIVITY", "Closed soft keyboard") }
                 .build(txtMsg!!)
     }
@@ -697,4 +836,9 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener {
         super.onStop()
     }
 
+    override fun onImageClick(imgUrl: String?) {
+        val dialog = ZoomDialog(this@AllChatActivity, imgUrl!!)
+        dialog.setCancelable(false)
+        dialog.show()
+    }
 }

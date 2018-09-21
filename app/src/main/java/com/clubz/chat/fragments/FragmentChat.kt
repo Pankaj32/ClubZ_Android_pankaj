@@ -17,6 +17,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -30,7 +32,9 @@ import com.clubz.chat.model.ChatHistoryBean
 import com.clubz.chat.model.ClubBean
 import com.clubz.chat.model.MemberBean
 import com.clubz.chat.util.ChatUtil
+import com.clubz.ui.dialogs.ZoomDialog
 import com.clubz.utils.Constants
+import com.clubz.utils.KeyboardUtil
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
 import com.google.firebase.FirebaseApp
@@ -50,7 +54,7 @@ import java.io.IOException
 import java.util.ArrayList
 
 
-class FragmentChat : Fragment(), View.OnClickListener {
+class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onClick {
 
     private var mContext: Context? = null
     private var chatFor = ""
@@ -86,14 +90,14 @@ class FragmentChat : Fragment(), View.OnClickListener {
     private var silentTxt: TextView? = null
     private var progressbar: ProgressBar? = null
     //    private var txtMsg: EmojiconEditText? = null
-    private var chatRecycler: RecyclerView? = null
+    //  private var chatRecycler: RecyclerView? = null
     private var memberList = ArrayList<MemberBean>()
 
 
-    private var txtMsg: EmojiEditText? = null
+    // private var txtMsg: EmojiEditText? = null
     private var emoji: ImageView? = null
     internal var emojiPopup: EmojiPopup? = null
-
+    private var isText = false
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -101,9 +105,9 @@ class FragmentChat : Fragment(), View.OnClickListener {
         noDataTxt = view.findViewById<EditText>(R.id.noDataTxt)
         silentTxt = view.findViewById<TextView>(R.id.silentTxt)
         progressbar = view.findViewById<ProgressBar>(R.id.progressbar)
-        txtMsg = view.findViewById<EmojiEditText>(R.id.txtMsg)
+        //  txtMsg = view.findViewById<EmojiEditText>(R.id.txtMsg)
         emoji = view.findViewById<ImageView>(R.id.emoji)
-        chatRecycler = view.findViewById<RecyclerView>(R.id.chatRecycler)
+        // chatRecycler = view.findViewById<RecyclerView>(R.id.chatRecycler)
         return view
     }
 
@@ -161,7 +165,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
             }
         }
         sentButton.setOnClickListener(this)
-        sendPicBtn.setOnClickListener(this)
+        //    sendPicBtn.setOnClickListener(this)
         /*emojIcon?.setUseSystemEmoji(false)
         emojIcon = EmojIconActions(mContext, rootView, txtMsg, emoji)
         emojIcon?.ShowEmojIcon()
@@ -180,6 +184,28 @@ class FragmentChat : Fragment(), View.OnClickListener {
         emoji?.setColorFilter(ContextCompat.getColor(mContext!!, R.color.emoji_icons), PorterDuff.Mode.SRC_IN)
         emoji?.setOnClickListener({ ignore -> emojiPopup?.toggle() })
         setUpEmojiPopup()
+        txtMsg.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0.isNullOrEmpty()) {
+                    isText = false
+                    sentButton.setImageResource(R.drawable.ic_attach_file_black_24dp)
+                    sentButton.setColorFilter(ContextCompat.getColor(mContext!!, R.color.nav_gray))
+                } else {
+                    isText = true
+                    if(popupMenu!=null)popupMenu!!.dismiss()
+                    sentButton.setImageResource(R.drawable.ic_send_chat_24dp)
+                    sentButton.setColorFilter(ContextCompat.getColor(mContext!!, R.color.primaryColor))
+                }
+            }
+        })
     }
 
 
@@ -192,14 +218,21 @@ class FragmentChat : Fragment(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.sentButton -> {
-                if (txtMsg?.text.toString().trim().isNotEmpty()) {
-                    sendMessage(txtMsg?.text.toString(), "text", chatFor)
+                if (isText) {
+                    if (txtMsg?.text.toString().trim().isNotEmpty()) {
+                        sendMessage(txtMsg?.text.toString(), "text", chatFor)
+                    } else {
+                        //   Toast.makeText(this, R.string.please_type, Toast.LENGTH_LONG).show()
+                    }
                 } else {
-                    //   Toast.makeText(mContext, R.string.please_type, Toast.LENGTH_LONG).show()
+                    permissionPopUp()
                 }
             }
-            R.id.sendPicBtn -> {
+            /*R.id.sendPicBtn -> {
                 permissionPopUp()
+            }*/
+            R.id.chatRecycler -> {
+                KeyboardUtil.hideKeyboard(activity)
             }
         }
     }
@@ -339,7 +372,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                                         if (mChatRecyclerAdapter == null) {
                                             val chatbeans = ArrayList<ChatBean>()
                                             chatbeans.add(chatBean!!)
-                                            mChatRecyclerAdapter = ChatRecyclerAdapter(mContext, chatbeans/*, object : ChatAdapterClickListner() {
+                                            mChatRecyclerAdapter = ChatRecyclerAdapter(mContext, chatbeans,this@FragmentChat/*, object : ChatAdapterClickListner() {
                                     fun clickedItemPosition(url: String) {
                                         showZoomImage(url)
                                     }
@@ -394,11 +427,14 @@ class FragmentChat : Fragment(), View.OnClickListener {
         })
     }
 
+
+
+    var popupMenu:PopupMenu?=null
     fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(mContext, R.style.popstyle)
-        val popupMenu = PopupMenu(wrapper, sendPicBtn, Gravity.CENTER)
-        popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu())
-        popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+        popupMenu=PopupMenu(wrapper, sentButton, Gravity.CENTER)
+        popupMenu!!.getMenuInflater().inflate(R.menu.popupmenu, popupMenu!!.getMenu())
+        popupMenu!!.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem): Boolean {
                 isCameraSelected = true
                 when (item.getItemId()) {
@@ -427,7 +463,7 @@ class FragmentChat : Fragment(), View.OnClickListener {
                 return false
             }
         })
-        popupMenu.show()
+        popupMenu!!.show()
     }
 
     fun callIntent(caseid: Int) {
@@ -661,7 +697,11 @@ class FragmentChat : Fragment(), View.OnClickListener {
 
         super.onStop()
     }
-
+    override fun onImageClick(imgUrl: String?) {
+        val dialog = ZoomDialog(mContext!!, imgUrl!!)
+        dialog.setCancelable(false)
+        dialog.show()
+    }
     companion object {
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

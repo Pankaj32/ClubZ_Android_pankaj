@@ -65,5 +65,6 @@
     <color name="chat_my_bg">#f2f7fb</color>
     <color name="red_favroit">#DD3A58</color>
     <color name="color_Light_Green">#95c8c1</color>
+    <color name="color_pop_up_bg">#346d85</color>
 
 </resources>

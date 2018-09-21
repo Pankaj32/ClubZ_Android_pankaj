@@ -5,158 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <!--<RelativeLayout
-        android:id="@+id/rootView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <RelativeLayout
-            android:id="@+id/bottomLay"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:layout_marginLeft="@dimen/_6sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_2sdp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/_30sdp"
-                android:background="@drawable/ic_chat_txt_bg">
-
-                <ImageView
-                    android:id="@+id/emoji"
-                    android:layout_width="@dimen/_25sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:tint="@color/nav_gray"
-                    app:srcCompat="@drawable/ic_smilely_ico" />
-
-                &lt;!&ndash;<View
-                    android:id="@+id/emjView"
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:layout_marginLeft="@dimen/_2sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_toEndOf="@id/emoji"
-                    android:background="@color/black" />&ndash;&gt;
-
-                <ImageView
-                    android:id="@+id/sendPicBtn"
-                    android:layout_width="@dimen/_25sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/_15sdp"
-                    android:padding="@dimen/_2sdp"
-                    android:tint="@color/nav_gray"
-                    app:srcCompat="@drawable/ic_attach_file_black_24dp" />
-
-                &lt;!&ndash;<EditText
-                    android:id="@+id/txtMsg"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@id/emjView"
-                    android:layout_toStartOf="@id/sendPicBtn"
-                    android:background="@null"
-                    android:padding="@dimen/_5sdp"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />&ndash;&gt;
-                <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
-                    android:id="@+id/txtMsg"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@id/emoji"
-                    android:layout_toStartOf="@id/sendPicBtn"
-                    android:background="@null"
-                    android:padding="@dimen/_5sdp"
-                    android:textColor="@color/nav_gray"
-                    android:textColorHint="@color/hint_color"
-                    android:hint="@string/type_a_message"
-                    android:textCursorDrawable="@drawable/curser"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
-            <ImageButton
-                android:id="@+id/sentButton"
-                android:layout_width="@dimen/_37sdp"
-                android:layout_height="@dimen/_37sdp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:background="@drawable/bg_circle_primary"
-                app:srcCompat="@drawable/ic_send_chat_24dp">
-
-            </ImageButton>
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/silentTxt"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:layout_marginLeft="@dimen/_6sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:background="@drawable/curser"
-            android:fontFamily="@font/roboto_regular"
-            android:gravity="center"
-            android:text="@string/you_are_silent_by_the_club_manager"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            android:visibility="gone" />
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/bottomLay"
-            android:layout_margin="@dimen/_8sdp"
-            app:cardElevation="3dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:layout_above="@id/bottomLay">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/chatRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
-
-                <TextView
-                    android:id="@+id/noDataTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="@string/no_chat_found_yet"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="16sp"
-                    android:visibility="visible" />
-
-                <ProgressBar
-                    android:id="@+id/progressbar"
-                    style="@style/AlertDialog.AppCompat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:indeterminate="true"
-                    android:indeterminateTint="@color/colorAccent"
-                    android:indeterminateTintMode="src_atop"
-                    android:visibility="gone" />
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-    </RelativeLayout>-->
-
     <RelativeLayout
         android:id="@+id/rootView"
         android:layout_width="match_parent"
@@ -168,8 +16,8 @@
             android:layout_height="@dimen/_50sdp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/chat_txt_bg"
-            android:paddingRight="@dimen/_8sdp"
-            android:paddingLeft="@dimen/_8sdp">
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingRight="@dimen/_8sdp">
 
 
             <ImageView
@@ -191,7 +39,7 @@
                 android:layout_toEndOf="@id/emoji"
                 android:background="@color/black" />-->
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/sendPicBtn"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
@@ -200,14 +48,30 @@
                 android:layout_marginRight="@dimen/_40sdp"
                 android:padding="@dimen/_2sdp"
                 android:tint="@color/nav_gray"
-                app:srcCompat="@drawable/ic_attach_file_black_24dp" />
-
-            <com.vanniktech.emoji.EmojiEditText
+                app:srcCompat="@drawable/ic_attach_file_black_24dp" />-->
+            <!--oldEmoji-->
+            <!--<hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
                 android:id="@+id/txtMsg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toEndOf="@id/emoji"
                 android:layout_toStartOf="@id/sendPicBtn"
+                android:background="@null"
+                android:hint="@string/type_a_message"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/nav_gray"
+                android:textColorHint="@color/hint_color"
+                android:textCursorDrawable="@drawable/curser"
+                app:emojiconSize="50sp"
+                />-->
+
+            <!--newemoji-->
+            <com.vanniktech.emoji.EmojiEditText
+                android:id="@+id/txtMsg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/emoji"
+                android:layout_toStartOf="@+id/sentButton"
                 android:imeOptions="actionSend|flagNoExtractUi"
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLines="3"
@@ -218,18 +82,16 @@
                 android:textCursorDrawable="@drawable/curser"
                 />
 
-
-            <ImageButton
+            <ImageView
                 android:id="@+id/sentButton"
-                android:layout_width="@dimen/_37sdp"
-                android:layout_height="@dimen/_37sdp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:background="@drawable/bg_circle_primary"
-                app:srcCompat="@drawable/ic_send_chat_24dp">
-
-            </ImageButton>
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:tint="@color/nav_gray"
+                app:srcCompat="@drawable/ic_attach_file_black_24dp">
+                <!--ic_attach_file_black_24dp-->
+            </ImageView>
         </RelativeLayout>
 
         <TextView

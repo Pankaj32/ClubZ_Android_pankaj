@@ -13,8 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.clubz.R;
+import com.clubz.data.model.UserInfo;
 import com.clubz.ui.ads.listioner.AdsClickListioner;
 import com.clubz.ui.ads.model.AdsListBean;
+import com.clubz.utils.DateTimeUtil;
 import com.clubz.utils.Util;
 import com.squareup.picasso.Picasso;
 
@@ -53,7 +55,10 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         h.adTitle.setText(dataBean.getTitle());
         h.adValue.setText("$ " + dataBean.getFee());
-        h.adTime.setText(dataBean.getDayDifference());
+
+        h.adTime.setText(DateTimeUtil.getDayDifference(context,dataBean.getCrd(),dataBean.getCurrentDatetime()));
+
+       // h.adTime.setText(dataBean.getDayDifference());
         h.username.setText(dataBean.getFull_name());
         h.usrerole.setText(dataBean.getUser_role());
         if (!TextUtils.isEmpty(dataBean.getImage())) {
@@ -82,10 +87,10 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         if (dataBean.is_New().equals("1")) {
-            h.adType.setText(R.string.recent_txt);
+            h.adType.setText(context.getString(R.string.new_txt));
             h.adType.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
         }else {
-            h.adType.setText("new");
+            h.adType.setText(R.string.recent_txt);
             h.adType.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
         }
         if (dataBean.getExpire_ads().equals("Yes")) {
@@ -152,6 +157,20 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public boolean onLongClick(View view) {
                     adsClickListioner.onLongPress(getAdapterPosition());
                     return false;
+                }
+            });
+            username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AdsListBean.DataBean dataBean = adBeans.get(getAdapterPosition());
+                    UserInfo userInfo= new UserInfo();
+                    userInfo.setUserId(dataBean.getUser_id());
+                    userInfo.setLiked(0);
+                    userInfo.setFull_name(dataBean.getFull_name());
+                    userInfo.setProfile_image(dataBean.getProfile_image());
+                    userInfo.setCountry_code("+91");
+                    userInfo.setContact_no("+811674365");
+                    adsClickListioner.onUserClick(userInfo);
                 }
             });
         }

@@ -1,5 +1,6 @@
 package com.clubz.ui.user_activities.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -143,6 +144,7 @@ class FragActivitiesDetails : Fragment() {
         }.execute(FragActivitiesDetails::class.java.name)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateUi() {
         activityName.text = activityDetails?.getData()?.name
         clubName.text = activityDetails?.getData()?.club_name
@@ -156,7 +158,7 @@ class FragActivitiesDetails : Fragment() {
         }
         if (activityDetails?.getData()?.leader_name?.isNotEmpty()!!) {
             activityLeader.text = activityDetails?.getData()?.leader_name
-            leader.text = "Leader"
+            leader.text = getString(R.string.leader)
         } else {
             leaderLay.visibility = View.GONE
         }

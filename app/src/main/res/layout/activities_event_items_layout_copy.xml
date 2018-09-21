@@ -79,20 +79,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/confirmTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:maxLines="1"
-                        android:paddingBottom="@dimen/_5sdp"
-                        android:paddingTop="@dimen/_3sdp"
-                        android:text="yikyyhbdbbab"
-                        android:textColor="@color/primaryColor"
-                        android:textSize="12sp"
-                        android:visibility="visible" />
-
                     <TextView
                         android:id="@+id/confirmBtnTxt"
                         android:layout_width="wrap_content"
@@ -105,6 +91,21 @@
                         android:textColor="@color/primaryColor"
                         android:textSize="13sp"
                         android:visibility="visible" />
+                    <TextView
+                        android:id="@+id/confirmTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:maxLines="1"
+                        android:paddingBottom="@dimen/_5sdp"
+                        android:layout_toLeftOf="@id/confirmBtnTxt"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:text="yikyyhbdbbab"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="12sp"
+                        android:visibility="visible" />
+
+
                 </RelativeLayout>
 
             </LinearLayout>

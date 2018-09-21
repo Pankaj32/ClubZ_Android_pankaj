@@ -43,6 +43,7 @@ import com.clubz.utils.Constants
 import com.clubz.utils.Util
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
+import com.clubz.utils.picker.ImageRotator
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
@@ -338,8 +339,8 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@NewActivities, requestCode, resultCode, data)
-                if (imageUri != null) {
-                    /*CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@NewActivities)*/
+                /*if (imageUri != null) {
+                    *//*CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@NewActivities)*//*
                     CropImage.activity(imageUri)
                             .setCropShape(CropImageView.CropShape.OVAL)
                             .setMinCropResultSize(200, 200)
@@ -348,12 +349,25 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
                 } else {
                     Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_SHORT).show()
+                }*/
+                try {
+                    if (imageUri != null)
+                        activityImage = MediaStore.Images.Media.getBitmap(this@NewActivities.contentResolver, imageUri)
+                    val rotation = ImageRotator.getRotation(this, imageUri, true)
+                    activityImage = ImageRotator.rotate(activityImage, rotation)
+                    if (activityImage != null) {
+                        val padding = 0
+                        imgActivity.setPadding(padding, padding, padding, padding)
+                        imgActivity.setImageBitmap(activityImage)
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
-                if (imageUri != null) {
-                    /*CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@NewActivities)*/
+               /* if (imageUri != null) {
+                    *//*CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@NewActivities)*//*
                     CropImage.activity(imageUri)
                             .setCropShape(CropImageView.CropShape.OVAL)
                             .setMinCropResultSize(200, 200)
@@ -361,6 +375,19 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                             .setAspectRatio(300, 300).start(this@NewActivities)
                 } else {
                     Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_SHORT).show()
+                }*/
+                try {
+                    if (imageUri != null)
+                        activityImage = MediaStore.Images.Media.getBitmap(this@NewActivities.contentResolver, imageUri)
+                    val rotation = ImageRotator.getRotation(this, imageUri, true)
+                    activityImage = ImageRotator.rotate(activityImage, rotation)
+                    if (activityImage != null) {
+                        val padding = 0
+                        imgActivity.setPadding(padding, padding, padding, padding)
+                        imgActivity.setImageBitmap(activityImage)
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {

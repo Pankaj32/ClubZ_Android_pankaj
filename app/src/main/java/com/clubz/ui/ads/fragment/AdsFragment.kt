@@ -20,6 +20,8 @@ import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
+import com.clubz.data.model.Profile
+import com.clubz.data.model.UserInfo
 import com.clubz.data.remote.WebService
 import com.clubz.ui.activities.fragment.ItemListDialogFragment
 import com.clubz.ui.ads.activity.AdDetailsActivity
@@ -29,7 +31,12 @@ import com.clubz.ui.ads.listioner.AdsClickListioner
 import com.clubz.ui.ads.model.AdsListBean
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
+import com.clubz.ui.dialogs.ProfileDialog
+import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.VolleyGetPost
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_ads.*
 import org.json.JSONObject
@@ -101,6 +108,31 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         }
         recyclerViewAds.addOnScrollListener(pageListner)
         // getAdsList(isPull = true)
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+        adView.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            override fun onAdFailedToLoad(errorCode: Int) {
+                // Code to be executed when an ad request fails.
+            }
+
+            override fun onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            override fun onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            override fun onAdClosed() {
+                // Code to be executed when when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        }
     }
 
     override fun onResume() {
@@ -202,7 +234,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         if (adBean.is_my_ads.equals("1")) {
             list.add(DialogMenu(getString(R.string.edit_ad), R.drawable.ic_edit))
             list.add(DialogMenu(getString(R.string.delete_ad), R.drawable.ic_delete_forever))
-            if(adBean.expire_ads.equals("Yes")) {
+            if (adBean.expire_ads.equals("Yes")) {
                 list.add(DialogMenu(getString(R.string.renew_ad), R.drawable.ic_refresh))
             }
         } else {
@@ -218,6 +250,41 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         val a = ItemListDialogFragment()
         a.setInstanceMyAd(this, list)
         a.show(fragmentManager, "draj")
+    }
+
+    override fun onUserClick(user: UserInfo) {
+        if(!user.userId.equals(ClubZ.currentUser!!.id))showProfile(user)
+    }
+
+    fun showProfile(user: UserInfo) {
+
+        val dialog = object : ProfileDialog(mContext!!, user) {
+            override fun OnFabClick(user: UserInfo) {
+                Toast.makeText(mContext,"OnFabClick",Toast.LENGTH_SHORT).show()
+            }
+
+            /*override fun OnChatClick(user: UserInfo) {
+                Toast.makeText(mContext,"OnChatClick",Toast.LENGTH_SHORT).show()
+            }*/
+
+            /*override fun OnCallClick(user: UserInfo) {
+                Toast.makeText(mContext,"OnCallClick",Toast.LENGTH_SHORT).show()
+            }*/
+
+            override fun OnProfileClick(user: UserInfo) {
+                if (user.userId.isNotEmpty()) {
+                    val profile = Profile()
+                    profile.userId = user.userId
+                    profile.full_name = user.full_name
+                    profile.profile_image = user.profile_image
+                    mContext?.startActivity(Intent(mContext, ProfileActivity::class.java).putExtra("profile", profile))
+                } else {
+                    Toast.makeText(mContext, getString(R.string.under_development), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+      //  dialog.setCancelable(true)
+        dialog.show()
     }
 
     //bottom sheet click

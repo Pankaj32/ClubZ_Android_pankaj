@@ -140,6 +140,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBbpgox7d2eiD1fxpNu9-VaYCM_WSkhQqE" />
         <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="REPLACE_WITH_YOUR_ADMOB_APP_ID"/>
+        <meta-data
             android:name="font"
             android:resource="@array/clubz_font" />
 
@@ -173,13 +176,16 @@
             android:theme="@style/AppThmeLight" />
         <activity
             android:name=".ui.profile.ProfileActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppThmeLight" />
         <activity
             android:name=".ui.setting.SettingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight" />
         <activity
             android:name=".ui.profile.ProfileEditActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight" />
 
         <meta-data
@@ -188,6 +194,7 @@
 
         <activity
             android:name=".ui.profile.ContactListActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:theme="@style/AppThmeLight">
             <intent-filter>

@@ -38,6 +38,7 @@ import com.clubz.utils.Constants
 import com.clubz.utils.Util
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
+import com.clubz.utils.picker.ImageRotator
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
@@ -443,22 +444,48 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@CreateNewsFeedActivity, requestCode, resultCode, data)
 
-                if (imageUri != null) {
+                /*if (imageUri != null) {
                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
                             .setMinCropResultSize(300, 200)
                             .setMaxCropResultSize(4000, 4000)
                             .setAspectRatio(300, 200).start(this@CreateNewsFeedActivity)
                 } else {
                     Toast.makeText(this@CreateNewsFeedActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                }*/
+                try {
+                    if (imageUri != null)
+                        feedImage = MediaStore.Images.Media.getBitmap(this@CreateNewsFeedActivity.contentResolver, imageUri)
+                    val rotation = ImageRotator.getRotation(this, imageUri, true)
+                    feedImage = ImageRotator.rotate(feedImage, rotation)
+                    if (feedImage != null) {
+                        val padding = 0
+                        img_newsFeed.setPadding(padding, padding, padding, padding)
+                        img_newsFeed.setImageBitmap(feedImage)
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
             } else if (requestCode == Constants.REQUEST_CAMERA) {
-                if (imageUri != null) {
+               /* if (imageUri != null) {
                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
                             .setMinCropResultSize(300, 200)
                             .setMaxCropResultSize(4000, 4000)
                             .setAspectRatio(300, 200).start(this@CreateNewsFeedActivity)
                 } else {
                     Toast.makeText(this@CreateNewsFeedActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                }*/
+                try {
+                    if (imageUri != null)
+                        feedImage = MediaStore.Images.Media.getBitmap(this@CreateNewsFeedActivity.contentResolver, imageUri)
+                    val rotation = ImageRotator.getRotation(this, imageUri, true)
+                    feedImage = ImageRotator.rotate(feedImage, rotation)
+                    if (feedImage != null) {
+                        val padding = 0
+                        img_newsFeed.setPadding(padding, padding, padding, padding)
+                        img_newsFeed.setImageBitmap(feedImage)
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
             } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 val result: CropImage.ActivityResult = CropImage.getActivityResult(data)

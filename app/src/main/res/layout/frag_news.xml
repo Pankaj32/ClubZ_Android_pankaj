@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/teko_semibold"
                     android:text="@string/there_is_no_news_stil_here"
-                    android:textColor="@color/black"
+                    android:textColor="@color/eighty_black"
                     android:textSize="16sp" />
 
                 <TextView
@@ -54,7 +54,7 @@
                     android:layout_marginTop="@dimen/_25sdp"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/no_feed_content_body"
-                    android:textColor="@color/text_color_gray"
+                    android:textColor="@color/nav_gray"
                     android:textSize="13sp" />
 
             </RelativeLayout>

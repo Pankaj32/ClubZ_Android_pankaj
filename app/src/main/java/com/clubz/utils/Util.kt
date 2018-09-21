@@ -14,6 +14,7 @@ import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.Toast
 import com.clubz.R
+import com.clubz.data.local.pref.SessionManager
 import java.math.BigDecimal
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -25,6 +26,8 @@ import java.util.*
 class Util {
 
     companion object {
+        var ENGLISH_LOCALE="en"
+        var SPANISH_LOCALE="es"
         fun e(tag: String, response: String) { Log.e(tag,response);}
 
         /**
@@ -51,14 +54,13 @@ class Util {
         }
 
         fun checklaunage(activity :Activity) {
-            val userselectedlanguage = "en"// AppSharedPreference.getStringPreference(this@Sign_In_Activity, Constants.Language, "")
+            val userselectedlanguage =SessionManager.getObj().language// AppSharedPreference.getStringPreference(this@Sign_In_Activity, Constants.Language, "")
 
-            if (userselectedlanguage == "en") {
-                Language.SetLanguage(activity, "en")
+            if (userselectedlanguage == ENGLISH_LOCALE) {
+                Language.SetLanguage(activity, ENGLISH_LOCALE)
             } else {
-                Language.SetLanguage(activity, "es")
+                Language.SetLanguage(activity, SPANISH_LOCALE)
             }
-
         }
 
         fun showSnake(context: Context?,view : View ,  int :Int=0 , message :String = ""){

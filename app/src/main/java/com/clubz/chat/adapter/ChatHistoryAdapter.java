@@ -69,7 +69,7 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
         }else {
             holder.lastMsg.setTextColor(ContextCompat.getColor(mContext, R.color.primaryColor));
         }
-        holder.dateTime.setText(DateTimeUtil.getDayDifference(DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(historyBean.getTimestamp())),
+        holder.dateTime.setText(DateTimeUtil.getDayDifference(mContext,DateTimeUtil.ConvertMilliSecondsToFormattedDate(String.valueOf(historyBean.getTimestamp())),
                 DateTimeUtil.getCurrentDate() + " " + DateTimeUtil.getCurrentTime()));
      //   holder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(historyBean.getTimestamp())));
         if (!TextUtils.isEmpty(imgPath)) {
