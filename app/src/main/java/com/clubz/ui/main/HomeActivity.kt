@@ -19,6 +19,7 @@ import android.support.v7.widget.AppCompatImageView
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.*
 import android.widget.*
+import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.chat.fragments.FragmentChatHistory
@@ -55,7 +56,6 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
@@ -155,7 +155,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         }
 
         if (ClubZ.currentUser!!.profile_image.isNotEmpty()) {
-            Picasso.with(this).load(ClubZ.currentUser!!.profile_image).fit().into(nav.iv_profileImage)
+            Glide.with(this).load(ClubZ.currentUser!!.profile_image)/*.fitCenter()*/.into(nav.iv_profileImage)
         }
     }
 

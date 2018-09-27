@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +22,11 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.android.volley.VolleyError
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
@@ -33,7 +39,6 @@ import com.clubz.ui.cv.FlowLayout
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_profile_edit.*
 import org.json.JSONObject
 import kotlin.math.log
@@ -122,15 +127,18 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         collapse_toolbar.title = profile.full_name
 
         if (profile.profile_image.isNotBlank()) {
-            Picasso.with(this).load(profile.profile_image).into(toolbar_image, object : com.squareup.picasso.Callback {
-                override fun onSuccess() {
-                    setPlated()
-                }
+            Glide.with(this).load(profile.profile_image)
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            return false
+                        }
 
-                override fun onError() {
-                    setPlated()
-                }
-            })
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            setPlated()
+                            return false
+                        }
+                    })
+                    .into(toolbar_image)
         }
 
         let {
@@ -167,10 +175,10 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
             R.id.tvMyInterestVisibility -> {
                 showVisibilityMenu(tvMyInterestVisibility)
             }
-        /* R.id.plus -> {
-             if (canAdd()) addChip(affilitesChip, affiliates.text.toString())
-             affiliates.setText("")
-         }*/
+            /* R.id.plus -> {
+                 if (canAdd()) addChip(affilitesChip, affiliates.text.toString())
+                 affiliates.setText("")
+             }*/
         }
     }
 

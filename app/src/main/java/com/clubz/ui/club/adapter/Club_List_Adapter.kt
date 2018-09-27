@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import com.android.volley.VolleyError
+import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.main.HomeActivity
@@ -21,11 +22,10 @@ import com.clubz.data.remote.WebService
 import com.clubz.ui.club.ClubDetailIntent
 import com.clubz.ui.dialogs.LeaveClubDialog
 import com.clubz.utils.CircleTransform
+
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
-import com.github.siyamed.shapeimageview.CircularImageView
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
+
 import org.json.JSONObject
 import java.util.ArrayList
 
@@ -68,13 +68,19 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
             holder.switch1.visibility = View.GONE
             holder.btn_join.visibility = View.GONE
             if(!ClubZ.currentUser!!.profile_image.isEmpty()){
-                Picasso.with(holder.ivClubManager.context)
+                Glide.with(holder.ivClubManager.context)
                         .load(ClubZ.currentUser!!.profile_image)
                         .into(holder.ivClubManager)
+               /* Picasso.with(holder.ivClubManager.context)
+                        .load(ClubZ.currentUser!!.profile_image)
+                        .into(holder.ivClubManager)*/
             }else
-                Picasso.with(holder.ivClubManager.context)
+                Glide.with(holder.ivClubManager.context)
                         .load(R.drawable.ic_user_white)
                         .into(holder.ivClubManager)
+               /* Picasso.with(holder.ivClubManager.context)
+                        .load(R.drawable.ic_user_white)
+                        .into(holder.ivClubManager)*/
         }
         else{
             //holder.switch1.visibility = View.VISIBLE
@@ -109,12 +115,19 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
         try {
 
             if(obj.profile_image.isEmpty()){
-                Picasso.with(holder.ivClubManager.context)
+                Glide.with(holder.ivClubManager.context)
                         .load(R.drawable.ic_user_white)
-                        .fit()
                         .into(holder.ivClubManager)
             }else
-                Picasso.with(holder.ivClubManager.context)
+                Glide.with(holder.ivClubManager.context)
+                        .load(obj.profile_image)
+                        .into(holder.ivClubManager)
+
+            Glide.with(holder.image_club.context)
+                        .load(obj.club_icon)
+                        .into(holder.ivClubManager)
+
+                /*Picasso.with(holder.ivClubManager.context)
                         .load(obj.profile_image)
                         .fit()
                         .into(holder.ivClubManager)
@@ -122,7 +135,7 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
             Picasso.with(holder.image_club.context)
                     .load(obj.club_icon)
                     .fit()
-                    .placeholder(R.drawable.img_gallery).into(holder.image_club)
+                    .placeholder(R.drawable.img_gallery).into(holder.image_club)*/
 
         }catch (ex :Exception){}
     }

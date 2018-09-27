@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.android.volley.VolleyError
+import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 
 import com.clubz.R
@@ -23,8 +24,6 @@ import com.clubz.ui.dialogs.ZoomDialog
 import com.clubz.ui.newsfeed.NewsFeedDetailActivity
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.VolleyGetPost
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_feed_detail.*
 
 
@@ -83,26 +82,18 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
          else Picasso.with(ivBanner.context).load(feed?.news_feed_attachment).fit().into(ivBanner)*/
 
         if (!feed?.news_feed_attachment.isNullOrEmpty()) {
-            Picasso.with(ivBanner.context)
+            Glide.with(ivBanner.context)
                     .load(feed?.news_feed_attachment)
-                    .placeholder(R.drawable.new_img)
-                    .fit()
-                    .into(ivBanner, object : Callback {
-                        override fun onSuccess() {
-                            smlProgress!!.visibility = View.GONE
-                        }
-
-                        override fun onError() {
-                            smlProgress!!.visibility = View.GONE
-                        }
-                    })
+                    /*.placeholder(R.drawable.new_img)
+                    .fitCenter()*/
+                    .into(ivBanner)
         } else {
             smlProgress!!.visibility = View.GONE
         }
 
-        if (feed?.profile_image.isNullOrEmpty()) Picasso.with(image_member.context).load(feed?.profile_image).fit().into(image_member)
+        if (feed?.profile_image.isNullOrEmpty()) Glide.with(image_member.context).load(feed?.profile_image)/*.fitCenter()*/.into(image_member)
         if (feed?.profile_image.isNullOrEmpty()) {
-            Picasso.with(image_member.context).load(feed?.profile_image).fit().into(image_member)
+            Glide.with(image_member.context).load(feed?.profile_image)/*.fitCenter()*/.into(image_member)
         } else {
             image_member.setImageResource(R.drawable.user_place_holder)
         }

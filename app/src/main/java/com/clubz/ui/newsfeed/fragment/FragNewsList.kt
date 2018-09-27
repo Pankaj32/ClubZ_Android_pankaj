@@ -19,10 +19,13 @@ import com.android.volley.*
 import com.clubz.ClubZ
 
 import com.clubz.R
+import com.clubz.chat.AllChatActivity
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.*
 import com.clubz.data.remote.WebService
 import com.clubz.helper.Type_Token
+import com.clubz.ui.activities.fragment.ItemListDialogFragment
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.dialogs.DeleteNewsFeedDialog
@@ -43,7 +46,7 @@ import org.json.JSONObject
  */
 
 class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, ItemListDialogFragment.Listener {
 
     private var pageListner: RecyclerViewScrollListener? = null
     private var newsFeeds: ArrayList<Feed> = arrayListOf()
@@ -53,6 +56,8 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
     private var isFilterByLike = false
     private var isFilterByComment = false
     private var isFilterByClub = false
+
+    private var actionPos=0
 
     companion object {
         /**
@@ -104,6 +109,10 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         feedRecycleView.itemAnimator = null
         feedRecycleView.layoutManager = lm
         feedRecycleView.setHasFixedSize(true)
+
+       // feedRecycleView.setItemViewCacheSize(20);
+        feedRecycleView.setDrawingCacheEnabled(true);
+        feedRecycleView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         adapter = NewsFeedAdapter(newsFeeds, context!!, this)
         feedRecycleView.adapter = adapter
         //val decor = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
@@ -196,6 +205,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
 
         if(!feed!!.user_id.equals(ClubZ.currentUser!!.id)) showProfile(feed)
     }
+
     private fun showProfile(feed: Feed) {
         val user = UserInfo()
         user.profile_image = feed!!.profile_image
@@ -266,11 +276,21 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         }
         lpw.show()
     }
-
+    private val ARG_CHATFOR = "chatFor"
+    private val ARG_CLUB_ID = "clubId"
+    private val ARG_HISTORY_ID = "historyId"
+    private val ARG_HISTORY_NAME = "historyName"
     override fun onChatClick(feed: Feed) {
         if (feed.is_comment_allow == 0) {
-            Util.showToast(R.string.error_comment_disabled, context!!)
-        } else Util.showToast(R.string.under_development, context!!)
+            Util.showToast("comment disable",context)
+        } else{
+            startActivity(Intent(context, AllChatActivity::class.java)
+                    .putExtra(ARG_CHATFOR, ChatUtil.ARG_NEWS_FEED)
+                    .putExtra(ARG_CLUB_ID, feed.clubId)
+                    .putExtra(ARG_HISTORY_ID, feed.newsFeedId.toString())
+                    .putExtra(ARG_HISTORY_NAME, feed.news_feed_title)
+            )
+        }
     }
 
     override fun onClick(v: View) {
@@ -278,6 +298,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
             //R.id.search_t-> (activity as HomeActivity).draweHandler(Gravity.END)
         }
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -293,6 +314,44 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         }
     }
 
+    override fun onLongPress(feed: Feed,pos:Int) {
+        actionPos=pos
+        val list: ArrayList<DialogMenu> = arrayListOf()
+
+            list.add(DialogMenu(getString(R.string.edit), R.drawable.ic_add_24))
+            list.add(DialogMenu(getString(R.string.delete), R.drawable.ic_delete_icon))
+        val a = ItemListDialogFragment()
+        a.setInstanceMyFeed(this, list)
+        a.show(fragmentManager, "draj")
+    }
+
+    //bottom sheet
+    override fun onItemClicked(position: Int) {
+        var feed=newsFeeds[actionPos]
+        when (position) {
+            0 -> {
+                startActivityForResult(Intent(context,
+                        CreateNewsFeedActivity::class.java)
+                        .putExtra("feed", feed)
+                        .putExtra("pos", actionPos),
+                        1002)
+
+            }
+            1 -> {
+                object : DeleteNewsFeedDialog(context!!) {
+                    override fun onCloseClicked(dialog: DeleteNewsFeedDialog) {
+                        dialog.dismiss()
+                    }
+
+                    override fun onDeleteNewsFeed(dialog: DeleteNewsFeedDialog) {
+                        dialog.dismiss()
+                        deleteFeeds(feed, actionPos)
+                    }
+                }.show()
+            }
+
+        }
+    }
     private fun showToast(text: String) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }

@@ -2,6 +2,7 @@ package com.clubz.ui.ads.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 
@@ -10,6 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.android.volley.VolleyError
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.clubz.ClubZ
 
 import com.clubz.R
@@ -25,8 +31,6 @@ import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.DateTimeUtil
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_frag_ads_details.*
 import org.json.JSONObject
 
@@ -115,18 +119,26 @@ class FragAdsDetails : Fragment(), View.OnClickListener {
 
     private fun updateUi(adDetails: AddDetailsBean?) {
         if (adDetails?.data?.image!!.isNotEmpty()) {
-            Picasso.with(adImg.context)
+            /*Glide.with(adImg.context)
                     .load(adDetails.data?.image)
-                    .placeholder(R.drawable.new_img)
-                    .fit().into(adImg, object : Callback {
-                        override fun onSuccess() {
-                            smlProgress.visibility = View.GONE
+                    .into(adImg)*/
+
+            Glide.with(adImg.context)
+                    .load(adDetails.data?.image)
+                    /*.placeholder(R.drawable.new_img)
+                    .fitCenter()*/
+                    .listener(object: RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            smlProgress.visibility=View.GONE
+                            return false
                         }
 
-                        override fun onError() {
-                            smlProgress.visibility = View.GONE
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            smlProgress.visibility=View.GONE
+                            return false
                         }
                     })
+                    .into(adImg)
         } else {
             smlProgress.visibility = View.GONE
         }
@@ -151,7 +163,10 @@ class FragAdsDetails : Fragment(), View.OnClickListener {
         username.text = adDetails.data?.creator_name
 
         if (adDetails.data?.creator_profile_image?.isNotEmpty()!!) {
-            Picasso.with(image_member2.context).load(adDetails.data?.creator_profile_image).fit().into(image_member2)
+            Glide.with(image_member2.context)
+                    .load(adDetails.data?.creator_profile_image)
+                    .into(image_member2)
+          //  Picasso.with(image_member2.context).load(adDetails.data?.creator_profile_image).fit().into(image_member2)
         } else {
             // val padding = resources.getDimension(R.dimen._8sdp).toInt()
             // image_member2.setPadding(padding, padding, padding, padding)

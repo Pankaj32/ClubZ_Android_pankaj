@@ -23,6 +23,7 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.android.volley.VolleyError
+import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 
 import com.clubz.R
@@ -47,7 +48,6 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.location.places.ui.PlaceAutocomplete
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.dialog_add_events.*
 import kotlinx.android.synthetic.main.frag_crate_feed.*
 import kotlinx.android.synthetic.main.frag_my_activity.*
@@ -866,7 +866,7 @@ class Frag_My_Activity : Fragment(),
 
         activityUserName.text = userName
         if (!userImage.equals("")) {
-            Picasso.with(profileImage.context).load(userImage).fit().into(profileImage)
+            Glide.with(profileImage.context).load(userImage)/*.fitCenter()*/.into(profileImage)
         }
         //}
         dialog.setCancelable(true)
@@ -938,7 +938,7 @@ class Frag_My_Activity : Fragment(),
         mTitle.setText(R.string.joinTitle)
         activityUserName.text = userName
         if (!userImage.equals("")) {
-            Picasso.with(profileImage.context).load(userImage).fit().into(profileImage)
+            Glide.with(profileImage.context).load(userImage)/*.fitCenter()*/.into(profileImage)
         }
         //}
         dialog.setCancelable(true)
@@ -1210,11 +1210,14 @@ class Frag_My_Activity : Fragment(),
             builder1.setTitle(mContext!!.getString(R.string.alert))
             when (action) {
                 getString(R.string.cancel) -> {
-                    builder1.setMessage("Are you sure you want to ${action.toLowerCase()} this date?")
+                    builder1.setMessage(getString(R.string.activity_date_cancel))
                 }
                 getString(R.string.confirm) -> {
-                    val status = if (confirmStatus.equals("1")) getString(R.string.confirm) else getString(R.string.un_confirm)
-                    builder1.setMessage("Are you sure you want to $status this date?")
+                     if (confirmStatus.equals("1")) {
+                         builder1.setMessage(getString(R.string.activity_date_confirm))
+                     } else {
+                         builder1.setMessage(getString(R.string.activity_date_unconfirm))
+                     }
                 }
             }
             builder1.setCancelable(false)

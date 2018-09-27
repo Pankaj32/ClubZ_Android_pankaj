@@ -13,6 +13,7 @@ import android.widget.TextView
 import com.clubz.R
 import com.clubz.data.model.DialogMenu
 import com.clubz.ui.ads.fragment.AdsFragment
+import com.clubz.ui.newsfeed.fragment.FragNewsList
 import com.clubz.ui.user_activities.fragment.Frag_My_Activity
 import kotlinx.android.synthetic.main.fragment_item_list_dialog.*
 import kotlinx.android.synthetic.main.fragment_item_list_dialog_item.view.*
@@ -35,6 +36,7 @@ class ItemListDialogFragment : BottomSheetDialogFragment() {
     private var mListener: Listener? = null
     private var instanceMyActivity: Frag_My_Activity? = null
     private var instanceMyAd: AdsFragment? = null
+    private var instanceMyFeed: FragNewsList? = null
     private var menuList = ArrayList<DialogMenu>()
 
 
@@ -120,7 +122,12 @@ class ItemListDialogFragment : BottomSheetDialogFragment() {
     fun setInstanceMyAd(instance: AdsFragment, menuList: ArrayList<DialogMenu>) {
         this.instanceMyAd = instance
         this.menuList = menuList
-        mListener = instance
+        mListener = instanceMyAd
+    }
+    fun setInstanceMyFeed(instance: FragNewsList, menuList: ArrayList<DialogMenu>) {
+        this.instanceMyFeed = instance
+        this.menuList = menuList
+        mListener = instanceMyFeed
     }
 
     companion object {

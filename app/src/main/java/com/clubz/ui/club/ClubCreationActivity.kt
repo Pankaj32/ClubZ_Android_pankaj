@@ -22,6 +22,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.DatePicker
 import android.widget.Toast
 import com.android.volley.*
+import com.bumptech.glide.Glide
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
@@ -48,8 +49,6 @@ import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import io.michaelrocks.libphonenumber.android.NumberParseException
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
 import kotlinx.android.synthetic.main.activity_club_creation.*
@@ -114,7 +113,12 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         try {
 
             if (ClubZ.currentUser!!.profile_image.isNotBlank()) {
-                Picasso.with(this).load(SessionManager.getObj().user.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).fit().into(image_member2, object : Callback {
+                Glide.with(image_member2.context)
+                        .load(SessionManager.getObj().user.profile_image)
+                        /*.placeholder(R.drawable.ic_user_shape)
+                        .fitCenter()*/
+                        .into(image_member2)
+                /*Picasso.with(this).load(SessionManager.getObj().user.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).fit().into(image_member2, object : Callback {
                     override fun onSuccess() {
                         image_member2.setPadding(0, 0, 0, 0)
                     }
@@ -122,7 +126,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                     override fun onError() {
 
                     }
-                })
+                })*/
             }
 
         } catch (ex: Exception) {

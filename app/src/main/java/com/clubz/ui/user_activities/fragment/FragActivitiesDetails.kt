@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.volley.VolleyError
+import com.bumptech.glide.Glide
 
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
@@ -21,7 +22,6 @@ import com.clubz.ui.user_activities.model.GetActivityDetailsResponce
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_frag_activities_details.*
 import org.json.JSONObject
 
@@ -154,7 +154,7 @@ class FragActivitiesDetails : Fragment() {
             likeImg.setImageResource(R.drawable.active_heart_ico)
         }*/
         if (activityDetails?.getData()?.image?.isNotEmpty()!!) {
-            Picasso.with(imgActivity.context).load(activityDetails?.getData()?.image).into(imgActivity)
+            Glide.with(imgActivity.context).load(activityDetails?.getData()?.image).into(imgActivity)
         }
         if (activityDetails?.getData()?.leader_name?.isNotEmpty()!!) {
             activityLeader.text = activityDetails?.getData()?.leader_name
@@ -189,7 +189,7 @@ class FragActivitiesDetails : Fragment() {
         genDescription.text = activityDetails?.getData()?.description
         username.text = activityDetails?.getData()?.creator_name
         if (activityDetails?.getData()?.creator_profile_image?.isNotEmpty()!!) {
-            Picasso.with(image_member2.context).load(activityDetails?.getData()?.creator_profile_image).into(image_member2)
+            Glide.with(image_member2.context).load(activityDetails?.getData()?.creator_profile_image).into(image_member2)
         } else {
             val padding = resources.getDimension(R.dimen._8sdp).toInt()
             image_member2.setPadding(padding, padding, padding, padding)

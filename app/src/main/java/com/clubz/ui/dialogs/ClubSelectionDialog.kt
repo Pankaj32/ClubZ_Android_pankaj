@@ -54,17 +54,17 @@ abstract class ClubSelectionDialog(internal val context: Context, val clubList: 
     abstract fun onClubSelect(clubName: ClubName)
 
 
-    inner class Adapter : RecyclerView.Adapter<Adapter.Holder>() {
+     inner class Adapter : RecyclerView.Adapter<Adapter.Holder>() {
 
         var lasetSelectedPosition = -1
 
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): Holder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
             return Holder(LayoutInflater.from(context).inflate(R.layout.item_club_selection, parent, false))
         }
 
         override fun getItemCount(): Int = clubList.size
 
-        override fun onBindViewHolder(holder: Holder?, position: Int) {
+        override fun onBindViewHolder(holder: Holder, position: Int) {
             val club = clubList.get(position)
             holder?.tvClubName?.text = club.club_name
             holder?.radioBtn?.isChecked = club.isSelected

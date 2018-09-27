@@ -25,6 +25,7 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import com.android.volley.Response
+import com.bumptech.glide.Glide
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
@@ -38,6 +39,7 @@ import com.clubz.ui.ads.model.AdDetailsCreated
 import com.clubz.ui.ads.model.AdsListBean
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.utils.Constants
+
 import com.clubz.utils.Util
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
@@ -45,7 +47,7 @@ import com.clubz.utils.picker.ImageRotator
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
-import com.squareup.picasso.Picasso
+
 import kotlinx.android.synthetic.main.activity_create_ad.*
 import org.json.JSONObject
 import java.io.File
@@ -86,7 +88,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
             userId = adBean?.user_id
             userName = adBean?.full_name
             userImage = adBean?.profile_image
-            if (!TextUtils.isEmpty(adBean?.image)) Picasso.with(imgAd.context).load(adBean?.image).fit().placeholder(R.drawable.ic_new_img).into(imgAd)
+            if (!TextUtils.isEmpty(adBean?.image))Glide.with(imgAd.context).load(adBean?.image)/*.fitCenter().placeholder(R.drawable.ic_new_img)*/.into(imgAd)
             headTitle.text = adBean?.title
             adTitle.setText(adBean?.title)
             adValue.setText(adBean?.fee)
@@ -94,7 +96,10 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
             adDescription.setText(adBean?.description)
         }
         if (userImage!!.isNotEmpty()) {
-            Picasso.with(image_member2.context).load(userImage).fit().placeholder(R.drawable.user_place_holder).into(image_member2)
+            /*Glide.with(image_member2.context)
+                    .load(userImage)
+                    .into(image_member2)*/
+            Glide.with(image_member2.context).load(userImage)/*.fitCenter().placeholder(R.drawable.user_place_holder)*/.into(image_member2)
         } else {
             image_member2.setImageResource(R.drawable.user_place_holder)
         }
@@ -523,4 +528,6 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                     finish()
                 }
     }
+
+
 }

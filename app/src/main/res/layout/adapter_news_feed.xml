@@ -2,19 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         app:cardBackgroundColor="@color/white"
-        app:cardUseCompatPadding="true"
-        app:cardElevation="@dimen/_3sdp">
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,8 +23,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:orientation="vertical">
+                android:background="@drawable/longpress_selecter"
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -37,12 +37,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
                         android:fontFamily="@font/teko_medium"
-                        android:text="@string/dharmraj_acharya_bhurtel"/>
+                        android:text="@string/dharmraj_acharya_bhurtel"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <!--<android.support.v7.widget.AppCompatImageView
                         android:id="@+id/bubble_menu"
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="match_parent"
@@ -50,7 +50,7 @@
                         android:layout_marginRight="-16dp"
                         android:background="?selectableItemBackgroundBorderless"
                         app:tint="@color/icon_tint_gray"
-                        app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+                        app:srcCompat="@drawable/ic_more_vert_black_24dp" />-->
 
                 </LinearLayout>
 
@@ -61,21 +61,21 @@
 
                     <TextView
                         android:id="@+id/tvClubname"
+                        style="@style/TextView.SingleLine.Gray"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/TextView.SingleLine.Gray"
+                        android:layout_alignParentLeft="true"
                         android:layout_marginRight="8dp"
                         android:layout_toLeftOf="@+id/tvCreateTime"
-                        android:layout_alignParentLeft="true"
-                        android:text="@string/club_s_name"/>
+                        android:text="@string/club_s_name" />
 
                     <TextView
                         android:id="@+id/tvCreateTime"
+                        style="@style/TextView.SingleLine.Gray"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/TextView.SingleLine.Gray"
                         android:layout_alignParentRight="true"
-                        android:text="# Hours ago"/>
+                        android:text="# Hours ago" />
 
                 </RelativeLayout>
 
@@ -84,14 +84,8 @@
             <RelativeLayout
                 android:id="@+id/rl_content"
                 android:layout_width="match_parent"
-                android:layout_height="210dp">
-
-                <ImageView
-                    android:id="@+id/ivBanner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/new_img"
-                    android:scaleType="fitXY"/>
+                android:layout_height="210dp"
+                android:background="@color/app_blue">
 
                 <ProgressBar
                     android:id="@+id/smlProgress"
@@ -100,19 +94,50 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true" />
 
-                <TextView
-                    android:id="@+id/tvDescription"
+                <ImageView
+                    android:id="@+id/ivBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/new_img" />
+
+                <!-- <com.facebook.drawee.view.SimpleDraweeView
+                     android:id="@+id/ivBanner"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     fresco:placeholderImage="@drawable/ic_image_area" />-->
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="3"
-                    android:ellipsize="end"
-                    android:padding="8dp"
-                    android:fontFamily="@font/roboto_regular"
                     android:layout_alignParentBottom="true"
                     android:background="@color/transprent_text"
-                    android:textColor="@color/white"
-                    android:text="@string/dharmraj_acharya_bhurtel"/>
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/tvDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_regular"
+                        android:maxLines="2"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="8dp"
+                        android:text="@string/dharmraj_acharya_bhurtel"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tvReadMore"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_regular"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/read_more"
+                        android:textColor="@color/primaryColor" />
+                </LinearLayout>
             </RelativeLayout>
 
             <LinearLayout
@@ -120,30 +145,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
                 android:visibility="gone">
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/gray_transprent"/>
+                    android:background="@color/gray_transprent" />
 
-                <TextView
-                    android:id="@+id/tvDescTxt"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="6"
-                    android:ellipsize="end"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:minHeight="50dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/text_color_gray" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvDescTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_regular"
+                        android:maxLines="6"
+                        android:minHeight="50dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="8dp"
+                        android:text="@string/dharmraj_acharya_bhurtel"
+                        android:textColor="@color/text_color_gray" />
+
+                    <TextView
+                        android:id="@+id/tvReadMoreDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_regular"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/read_more"
+                        android:textColor="@color/primaryColor" />
+                </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/gray_transprent"/>
+                    android:background="@color/gray_transprent" />
 
             </LinearLayout>
 
@@ -159,31 +203,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/ll2"
-                    android:layout_marginRight="8dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@+id/ll2"
                     android:gravity="center_vertical">
 
                     <TextView
                         style="@style/TextView.SingleLine.Gray"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/by"/>
+                        android:text="@string/by" />
 
                     <TextView
                         android:id="@+id/tvCreaterName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/primaryColor"
-                        android:fontFamily="@font/roboto_medium"
                         android:layout_marginLeft="8dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:maxLines="1"
-                        android:ellipsize="end"
                         android:layout_marginRight="8dp"
-                        android:text="@string/dharmraj_acharya_bhurtel"/>
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_medium"
+                        android:maxLines="1"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:text="@string/dharmraj_acharya_bhurtel"
+                        android:textColor="@color/primaryColor" />
 
                 </LinearLayout>
 
@@ -191,28 +235,28 @@
                     android:id="@+id/ll2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/ivChat"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:padding="5dp"
                         android:layout_marginRight="8dp"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/chat_icon" />
 
                     <android.support.v7.widget.AppCompatCheckBox
                         android:id="@+id/likeIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
                         android:background="@drawable/ic_check_favorite"
                         android:button="@null"
                         android:checked="false"
                         android:stateListAnimator="@animator/scale"
-                        android:layout_marginRight="16dp"
                         tools:ignore="UnusedAttribute" />
 
                 </LinearLayout>

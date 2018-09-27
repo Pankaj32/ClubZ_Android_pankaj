@@ -71,9 +71,9 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_4sdp"
+                android:layout_margin="9dp"
                 app:cardBackgroundColor="@color/white"
-                app:cardElevation="4dp"
+                app:cardElevation="6dp"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="@dimen/_16sdp">
 
@@ -100,10 +100,9 @@
                             android:id="@+id/image_icon"
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="@dimen/_40sdp"
-                            android:background="@drawable/bg_circle_blue"
                             app:siBorderColor="@color/text_gray"
                             app:siBorderWidth="@dimen/_1sdp"
-                            app:srcCompat="@drawable/ic_camera_white" />
+                            android:src="@drawable/new_img" />
 
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/input_layout_articleTitle"
@@ -143,7 +142,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_180sdp"
                             android:background="#00A8D1"
-                            android:scaleType="fitXY"
                             app:srcCompat="@drawable/ic_new_img" />
 
                         <ImageView

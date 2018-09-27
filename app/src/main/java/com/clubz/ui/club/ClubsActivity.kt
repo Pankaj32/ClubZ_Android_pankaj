@@ -58,6 +58,15 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         var isPrivate: Int = 0
     }*/
 
+    /*@Override
+    public void applyOptions(Context context, GlideBuilder builder) {
+        // Glide default Bitmap Format is set to RGB_565 since it
+        // consumed just 50% memory footprint compared to ARGB_8888.
+        // Increase memory usage for quality with:
+
+        builder.setDefaultRequestOptions(new RequestOptions().format(DecodeFormat.PREFER_ARGB_8888));
+    }*/
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clubs)
@@ -198,12 +207,14 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             R.id.tv_private -> {
                 when (ClubZ.isPrivate) {
                     1 -> {
-                        ClubZ.isPrivate = 0; dialog!!.chk_priavte.isChecked = true
+                        ClubZ.isPrivate = 0
+                        dialog!!.chk_priavte.isChecked = true
                         dialog!!.chk_public.isChecked = true
                         refreshNow()
                     }
                     0, 2 -> {
-                        ClubZ.isPrivate = 1; dialog!!.chk_priavte.isChecked = false
+                        ClubZ.isPrivate = 1
+                        dialog!!.chk_priavte.isChecked = false
                         dialog!!.chk_public.isChecked = true
                         refreshNow()
                     }
@@ -213,12 +224,14 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             R.id.tv_public -> {
                 when (ClubZ.isPrivate) {
                     2 -> {
-                        ClubZ.isPrivate = 0; dialog!!.chk_priavte.isChecked = true
+                        ClubZ.isPrivate = 0
+                        dialog!!.chk_priavte.isChecked = true
                         dialog!!.chk_public.isChecked = true
                         refreshNow()
                     }
                     0, 1 -> {
-                        ClubZ.isPrivate = 2; dialog!!.chk_priavte.isChecked = true
+                        ClubZ.isPrivate = 2
+                        dialog!!.chk_priavte.isChecked = true
                         dialog!!.chk_public.isChecked = false
                         refreshNow()
                     }

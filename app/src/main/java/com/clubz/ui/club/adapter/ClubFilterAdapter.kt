@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.model.ClubMember
 import com.clubz.data.model.Clubs
 import com.clubz.ui.club.ClubDetailIntent
-import com.clubz.utils.Util
-import com.squareup.picasso.Picasso
+
 import java.util.ArrayList
 
 /**
@@ -54,10 +54,15 @@ class ClubFilterAdapter(internal var list : ArrayList<Clubs>, internal var conte
         }
 
         try {
-            Picasso.with(holder.imageClub.context)
+            /*Glide.with(holder.imageClub.context)
                     .load(obj.club_icon)
-                    .fit()
-                    .placeholder(R.drawable.img_gallery).into(holder.imageClub)
+
+                    .into(holder.imageClub)*/
+
+            Glide.with(holder.imageClub.context)
+                    .load(obj.club_icon)
+                    /*.fitCenter()
+                    .placeholder(R.drawable.img_gallery)*/.into(holder.imageClub)
 
         }catch (ex :Exception){}
     }

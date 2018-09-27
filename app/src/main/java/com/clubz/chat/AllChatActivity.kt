@@ -53,8 +53,6 @@ import com.vanniktech.emoji.EmojiEditText
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.EmojiPopup
 import com.vanniktech.emoji.one.EmojiOneProvider
-import hani.momanii.supernova_emoji_library.Actions.EmojIconActions
-import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
 import kotlinx.android.synthetic.main.activity_all_chat.*
 import java.io.File
 import java.io.FileOutputStream
@@ -125,7 +123,6 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
     // private var chatRecycler: RecyclerView? = null
     private var memberList = ArrayList<MemberBean>()
 
-    private var emojIcon: EmojIconActions? = null
     private var isText = false
     val wrapper = ContextThemeWrapper(this@AllChatActivity, R.style.popstyle)
     var popupMenu: PopupMenu? = null

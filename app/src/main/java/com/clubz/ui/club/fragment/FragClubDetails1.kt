@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.volley.VolleyError
+import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.TermsConditionDialog
@@ -18,8 +19,6 @@ import com.clubz.utils.CircleTransform
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.frag_club_details1.*
 import org.json.JSONObject
 
@@ -67,9 +66,9 @@ class FragClubDetails1 : Fragment() {
 
 
         if(clubz.profile_image.isEmpty())
-            Picasso.with(context).load(R.drawable.ic_user_white).fit().into(image_member2)
+            Glide.with(image_member2.context).load(R.drawable.ic_user_white).into(image_member2)
         else
-            Picasso.with(context).load(clubz.profile_image).fit().into(image_member2)
+            Glide.with(image_member2.context).load(clubz.profile_image).into(image_member2)
 
         /*if(clubz.profile_image.isNotEmpty()){
             Picasso.with(image_member2.context).load(clubz.profile_image)
@@ -84,7 +83,7 @@ class FragClubDetails1 : Fragment() {
         }
 */
         try{
-            Picasso.with(context).load(clubz.club_image).fit().into(img_club)
+            Glide.with(img_club.context).load(clubz.club_image).into(img_club)
         }catch (ex:Exception){
         }
     }
@@ -126,13 +125,14 @@ class FragClubDetails1 : Fragment() {
                         })*/
 
                         if (!clubz.club_icon.endsWith("clubDefault.png")) {
-                            Picasso.with(context).load(clubz.club_icon).transform(CircleTransform()).into(image_icon, object : Callback {
+                            Glide.with(image_icon.context).load(clubz.club_icon).into(image_icon)
+                            /*Glide.with(image_icon.context).load(clubz.club_icon).transform(CircleTransform()).into(image_icon, object : Callback {
                                 override fun onSuccess() {
                                     image_icon?.setPadding(0,0,0,0)
                                 }
 
                                 override fun onError() { }
-                            })
+                            })*/
                             /*val padding = resources.getDimension(R.dimen._8sdp).toInt()
                             image_icon.setPadding(padding, padding, padding, padding)
                             image_icon.background = ContextCompat.getDrawable(context, R.drawable.ic_shield_outline)

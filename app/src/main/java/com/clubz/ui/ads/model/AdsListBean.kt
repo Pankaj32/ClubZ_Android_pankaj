@@ -56,6 +56,7 @@ class AdsListBean {
         var is_New: String? = null
         var expire_ads: String? = null
         var visible = false
+        var isgoogleAdd=false
 
         constructor(parcel: Parcel) : this() {
             adId = parcel.readString()
@@ -77,6 +78,7 @@ class AdsListBean {
             is_New = parcel.readString()
             expire_ads = parcel.readString()
             visible = parcel.readByte() != 0.toByte()
+            isgoogleAdd = parcel.readByte() != 0.toByte()
         }
 
         fun getDayDifference(): String {

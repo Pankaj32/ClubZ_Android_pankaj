@@ -7,10 +7,9 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
+import com.bumptech.glide.Glide
 import com.clubz.R
-import com.squareup.picasso.Callback
 
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.zoom_image.*
 
 class ZoomDialog(internal val context: Context, imgUrl: String) : Dialog(context), View.OnClickListener {
@@ -26,16 +25,8 @@ class ZoomDialog(internal val context: Context, imgUrl: String) : Dialog(context
         this.setContentView(view)
 
         if (!imgUrl.isNullOrEmpty()) {
-            Picasso.with(zoomImageView.context).load(imgUrl)
-                    .into(zoomImageView, object : Callback {
-                override fun onSuccess() {
-                    smlProgress.visibility = View.GONE
-                }
-
-                override fun onError() {
-                    smlProgress.visibility = View.GONE
-                }
-            })
+            Glide.with(zoomImageView.context).load(imgUrl)
+                    .into(zoomImageView)
         }
         cancelBtn.setOnClickListener(this)
     }

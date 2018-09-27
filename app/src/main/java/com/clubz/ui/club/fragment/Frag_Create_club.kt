@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +18,11 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.android.volley.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 import com.clubz.*
 import com.clubz.BuildConfig
@@ -41,8 +47,6 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import io.michaelrocks.libphonenumber.android.NumberParseException
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
 import kotlinx.android.synthetic.main.frag_create_club.*
@@ -128,15 +132,13 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
        getCategory()
         username.text = SessionManager.getObj().user.full_name
         try{
-            Picasso.with(context).load(SessionManager.getObj().user.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).into(image_member2, object :Callback{
-                override fun onSuccess() {
-                    image_member2.setPadding(0,0,0,0)
-                }
+            Glide.with(image_member2.context)
+                    .load(SessionManager.getObj().user.profile_image)
+                    /*.placeholder(R.drawable.ic_user_shape)
+                    .fitCenter()*/
+                    .into(image_member2)
 
-                override fun onError() {
 
-                }
-            })
         }catch (ex :Exception){
             ex.printStackTrace()
         }catch (ex :NullPointerException){

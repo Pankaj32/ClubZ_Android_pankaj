@@ -10,7 +10,7 @@ import com.clubz.ui.ads.fragment.FragAdsDetails
 import com.clubz.ui.core.ViewPagerAdapter
 import com.clubz.utils.KeyboardUtil
 import kotlinx.android.synthetic.main.activity_add_details.*
-import okhttp3.internal.Util
+/*import okhttp3.internal.Util*/
 
 class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.OnPageChangeListener {
 

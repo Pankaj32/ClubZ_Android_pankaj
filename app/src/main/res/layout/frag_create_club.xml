@@ -68,7 +68,7 @@
                         android:padding="@dimen/_8sdp"
                         android:layout_margin="@dimen/_16sdp"
                         android:background="@drawable/bg_circle_blue"
-                        app:srcCompat="@drawable/ic_shield_outline"
+                        app:srcCompat="@drawable/ic_camera_white"
                         />
 
                     <EditText

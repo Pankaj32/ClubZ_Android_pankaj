@@ -72,7 +72,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (dataBean.getListType().equals("Others")) {
             h.likeLay.setVisibility(View.GONE);
-            h.activityType.setText("Not scheduled");
+            h.activityType.setText(context.getString(R.string.not_sheduled));
         } else {
             switch (dataBean.getListType()) {
                 case "today":

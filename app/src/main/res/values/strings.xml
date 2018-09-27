@@ -542,4 +542,6 @@
     <string name="just_now">Just now</string>
     <string name="leader">Leader</string>
     <string name="yesterday">Yesterday</string>
+    <string name="read_more">Read more</string>
+    <string name="read_less">Read less</string>
 </resources>

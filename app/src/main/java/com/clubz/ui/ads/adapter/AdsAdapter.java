@@ -12,14 +12,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.clubz.R;
 import com.clubz.data.model.UserInfo;
 import com.clubz.ui.ads.listioner.AdsClickListioner;
 import com.clubz.ui.ads.model.AdsListBean;
 import com.clubz.utils.DateTimeUtil;
 import com.clubz.utils.Util;
-import com.squareup.picasso.Picasso;
-
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.List;
 
@@ -27,76 +29,113 @@ import java.util.List;
  * Created by chiranjib on 28/12/17.
  */
 
-public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdsAdapter extends RecyclerView.Adapter {
     private Context context;
     private String mType;
     private List<AdsListBean.DataBean> adBeans;
     private AdsClickListioner adsClickListioner;
+    private final int TYPE_ADD = 1;
+    private final int TYPE_GOOGLE_ADD = 2;
 
     public AdsAdapter(Context context, List<AdsListBean.DataBean> adBeans, AdsClickListioner adsClickListioner) {
         this.context = context;
         // this.mType = type;
         this.adBeans = adBeans;
-        this.adsClickListioner=adsClickListioner;
+        this.adsClickListioner = adsClickListioner;
     }
-    //This is comment ot cjec'
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ads_items_layout, parent, false);
-        return new MyViewHolder(view);
+        switch (viewType) {
+            case TYPE_GOOGLE_ADD:
+                View googleAdView = LayoutInflater.from(parent.getContext()).inflate(R.layout.google_ads_items_layout, parent, false);
+                return new GoogleViewHolder(googleAdView);
+            case TYPE_ADD:
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ads_items_layout, parent, false);
+                return new MyViewHolder(view);
+        }
+        return null;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        int type = 1;
+        AdsListBean.DataBean dataBean = adBeans.get(position);
+        if (dataBean.getIsgoogleAdd()) {
+            type = TYPE_GOOGLE_ADD;
+        } else type = TYPE_ADD;
+        return type;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        final AdsAdapter.MyViewHolder h = (AdsAdapter.MyViewHolder) holder;
         AdsListBean.DataBean dataBean = adBeans.get(position);
+        if (dataBean.getIsgoogleAdd()) {
+            AdsAdapter.GoogleViewHolder h = (AdsAdapter.GoogleViewHolder) holder;
+            AdRequest adRequest = new AdRequest.Builder().build();
+            h.adView.loadAd(adRequest);
+            h.adView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    super.onAdLoaded();
+                }
+            });
 
-        h.adTitle.setText(dataBean.getTitle());
-        h.adValue.setText("$ " + dataBean.getFee());
-
-        h.adTime.setText(DateTimeUtil.getDayDifference(context,dataBean.getCrd(),dataBean.getCurrentDatetime()));
-
-       // h.adTime.setText(dataBean.getDayDifference());
-        h.username.setText(dataBean.getFull_name());
-        h.usrerole.setText(dataBean.getUser_role());
-        if (!TextUtils.isEmpty(dataBean.getImage())) {
-            Picasso.with(h.adImg.getContext()).load(dataBean.getImage()).fit().placeholder(R.drawable.ic_new_img).into(h.adImg);
-        }else {
-            h.adImg.setImageResource(R.drawable.ic_new_img);
-        }
-        if (!TextUtils.isEmpty(dataBean.getImage())) {
-            Picasso.with(h.userImg.getContext()).load(dataBean.getProfile_image()).fit().placeholder(R.drawable.user_place_holder).into(h.userImg);
-        }else {
-            h.userImg.setImageResource(R.drawable.user_place_holder);
-        }
-        if (dataBean.isFav().equals("1")) {
-            h.iv_like.setVisibility(View.VISIBLE);
         } else {
-            h.iv_like.setVisibility(View.GONE);
-        }
-        if (dataBean.getVisible()) {
-            h.belloLay.setVisibility(View.VISIBLE);
-            h.lineView.setVisibility(View.VISIBLE);
-            h.iv_arrow_expand.setImageResource(R.drawable.ic_event_up_arrow);
-        } else {
-            h.belloLay.setVisibility(View.GONE);
-            h.lineView.setVisibility(View.GONE);
-            h.iv_arrow_expand.setImageResource(R.drawable.ic_event_down_arrow);
+            AdsAdapter.MyViewHolder h = (AdsAdapter.MyViewHolder) holder;
+            h.adTitle.setText(dataBean.getTitle());
+            h.adValue.setText("$ " + dataBean.getFee());
+
+            h.adTime.setText(DateTimeUtil.getDayDifference(context, dataBean.getCrd(), dataBean.getCurrentDatetime()));
+
+            // h.adTime.setText(dataBean.getDayDifference());
+            h.username.setText(dataBean.getFull_name());
+            h.usrerole.setText(dataBean.getUser_role());
+            if (!TextUtils.isEmpty(dataBean.getImage())) {
+                Glide.with(h.adImg.getContext())
+                        .load(dataBean.getImage())
+                        .into(h.adImg);
+                //  Picasso.with(h.adImg.getContext()).load(dataBean.getImage()).fit().placeholder(R.drawable.ic_new_img).into(h.adImg);
+            } else {
+                h.adImg.setImageResource(R.drawable.ic_new_img);
+            }
+            if (!TextUtils.isEmpty(dataBean.getImage())) {
+                //   Picasso.with(h.userImg.getContext()).load(dataBean.getProfile_image()).fit().placeholder(R.drawable.user_place_holder).into(h.userImg);
+                Glide.with(h.userImg.getContext())
+                        .load(dataBean.getProfile_image())
+                        .into(h.userImg);
+            } else {
+                h.userImg.setImageResource(R.drawable.user_place_holder);
+            }
+            if (dataBean.isFav().equals("1")) {
+                h.iv_like.setVisibility(View.VISIBLE);
+            } else {
+                h.iv_like.setVisibility(View.GONE);
+            }
+            if (dataBean.getVisible()) {
+                h.belloLay.setVisibility(View.VISIBLE);
+                h.lineView.setVisibility(View.VISIBLE);
+                h.iv_arrow_expand.setImageResource(R.drawable.ic_event_up_arrow);
+            } else {
+                h.belloLay.setVisibility(View.GONE);
+                h.lineView.setVisibility(View.GONE);
+                h.iv_arrow_expand.setImageResource(R.drawable.ic_event_down_arrow);
+            }
+
+            if (dataBean.is_New().equals("1")) {
+                h.adType.setText(context.getString(R.string.new_txt));
+                h.adType.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
+            } else {
+                h.adType.setText(R.string.recent_txt);
+                h.adType.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
+            }
+            if (dataBean.getExpire_ads().equals("Yes")) {
+                h.adType.setText(R.string.expired);
+                h.adType.setTextColor(ContextCompat.getColor(context, R.color.nav_gray));
+            }
         }
 
-        if (dataBean.is_New().equals("1")) {
-            h.adType.setText(context.getString(R.string.new_txt));
-            h.adType.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
-        }else {
-            h.adType.setText(R.string.recent_txt);
-            h.adType.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
-        }
-        if (dataBean.getExpire_ads().equals("Yes")) {
-            h.adType.setText(R.string.expired);
-            h.adType.setTextColor(ContextCompat.getColor(context, R.color.nav_gray));
-        }
     }
 
     @Override
@@ -163,7 +202,7 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     AdsListBean.DataBean dataBean = adBeans.get(getAdapterPosition());
-                    UserInfo userInfo= new UserInfo();
+                    UserInfo userInfo = new UserInfo();
                     userInfo.setUserId(dataBean.getUser_id());
                     userInfo.setLiked(0);
                     userInfo.setFull_name(dataBean.getFull_name());
@@ -173,6 +212,15 @@ public class AdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     adsClickListioner.onUserClick(userInfo);
                 }
             });
+        }
+    }
+
+    private class GoogleViewHolder extends RecyclerView.ViewHolder {
+        private AdView adView;
+
+        public GoogleViewHolder(View itemView) {
+            super(itemView);
+            adView = itemView.findViewById(R.id.adView);
         }
     }
 

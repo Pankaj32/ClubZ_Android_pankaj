@@ -2,6 +2,7 @@ package com.clubz.ui.newsfeed
 
 import android.Manifest
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -22,6 +23,7 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.Toast
 import com.android.volley.*
+import com.bumptech.glide.Glide
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
@@ -42,7 +44,6 @@ import com.clubz.utils.picker.ImageRotator
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_create_news_feed.*
 import org.json.JSONObject
 import java.io.File
@@ -85,7 +86,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
 
         let {
             if (ClubZ.currentUser!!.profile_image.isNotEmpty()) {
-                Picasso.with(image_member2.context).load(ClubZ.currentUser!!.profile_image).into(image_member2)
+                Glide.with(image_member2.context).load(ClubZ.currentUser!!.profile_image).into(image_member2)
             } else {
                 val padding = resources.getDimension(R.dimen._8sdp).toInt()
                 image_member2.setPadding(padding, padding, padding, padding)
@@ -142,7 +143,8 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
         spn_commentStatus.setSelection(feed!!.is_comment_allow)
         clubId = feed?.clubId
         if (!feed?.news_feed_attachment.isNullOrEmpty())
-            Picasso.with(img_newsFeed.context).load(feed!!.news_feed_attachment).placeholder(R.drawable.ic_new_img).fit().into(img_newsFeed)
+            Glide.with(img_newsFeed.context).load(feed!!.news_feed_attachment)
+                    /* .placeholder(R.drawable.ic_new_img).fitCenter()*/.into(img_newsFeed)
 
     }
 
@@ -150,7 +152,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
 
         when (v?.id) {
             R.id.backBtn -> {
-                onBackPressed()
+                showBackConfirmationDialog()
             }
 
             R.id.img_newsFeed -> {
@@ -240,7 +242,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
                 params["newsFeedTitle"] = feedTitle!!
                 params["newsFeedDescription"] = description!!
                 params["tagName"] = tagList.joinToString()
-                params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "comment disabled") "0" else "1"
+                params["isCommentAllow"] = if (spn_commentStatus.selectedItem.toString().toLowerCase() == "disabled") "0" else "1"
                 params["userRole"] = if (userRole.isNullOrBlank()) getString(R.string.manager) else userRole!!
                 return params
             }
@@ -460,20 +462,20 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
                     if (feedImage != null) {
                         val padding = 0
                         img_newsFeed.setPadding(padding, padding, padding, padding)
-                        img_newsFeed.setImageBitmap(feedImage)
+                        img_newsFeed.setImageURI(imageUri)
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
             } else if (requestCode == Constants.REQUEST_CAMERA) {
-               /* if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
-                            .setMinCropResultSize(300, 200)
-                            .setMaxCropResultSize(4000, 4000)
-                            .setAspectRatio(300, 200).start(this@CreateNewsFeedActivity)
-                } else {
-                    Toast.makeText(this@CreateNewsFeedActivity, R.string.swr, Toast.LENGTH_SHORT).show()
-                }*/
+                /* if (imageUri != null) {
+                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
+                             .setMinCropResultSize(300, 200)
+                             .setMaxCropResultSize(4000, 4000)
+                             .setAspectRatio(300, 200).start(this@CreateNewsFeedActivity)
+                 } else {
+                     Toast.makeText(this@CreateNewsFeedActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                 }*/
                 try {
                     if (imageUri != null)
                         feedImage = MediaStore.Images.Media.getBitmap(this@CreateNewsFeedActivity.contentResolver, imageUri)
@@ -482,7 +484,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
                     if (feedImage != null) {
                         val padding = 0
                         img_newsFeed.setPadding(padding, padding, padding, padding)
-                        img_newsFeed.setImageBitmap(feedImage)
+                        img_newsFeed.setImageURI(imageUri)
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -501,5 +503,28 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
             }
         }
         isCameraSelected = false
+    }
+
+    fun showBackConfirmationDialog() {
+        val builder1 = android.app.AlertDialog.Builder(this@CreateNewsFeedActivity)
+        builder1.setTitle("Be careful !!")
+        builder1.setMessage("Are you sure you want to discard this new news?")
+        builder1.setCancelable(true)
+        builder1.setPositiveButton("DISCARD"
+        ) { dialog, id ->
+            super.onBackPressed()
+        }
+        builder1.setNegativeButton("CANCEL", object : DialogInterface.OnClickListener {
+            override fun onClick(dialogInterface: DialogInterface, id: Int) {
+                dialogInterface.cancel()
+            }
+        })
+
+        val alert11 = builder1.create()
+        alert11.show()
+    }
+
+    override fun onBackPressed() {
+        showBackConfirmationDialog()
     }
 }

@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import com.android.volley.VolleyError
+import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 
 import com.clubz.R
@@ -31,9 +32,9 @@ import com.clubz.ui.profile.ProfileActivity
 import com.clubz.ui.user_activities.adapter.JoinAffiliatesAdapter
 import com.clubz.ui.user_activities.model.GetActivityDetailsResponce
 import com.clubz.ui.user_activities.model.GetJoinAffliates
+
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.frag_activity_details_new.*
 import org.json.JSONObject
 
@@ -197,7 +198,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
             likeImg.setImageResource(R.drawable.active_heart_ico)
         }*/
         if (activityDetails?.getData()?.image?.isNotEmpty()!!) {
-            Picasso.with(imgActivity.context).load(activityDetails?.getData()?.image).placeholder(R.drawable.new_img).fit().into(imgActivity)
+            Glide.with(imgActivity.context).load(activityDetails?.getData()?.image)/*.placeholder(R.drawable.new_img).fitCenter()*/.into(imgActivity)
         }
         if (activityDetails?.getData()?.leader_name?.isNotEmpty()!!) {
             activityLeader.text = activityDetails?.getData()?.leader_name
@@ -227,7 +228,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         activityDesc.text = activityDetails?.getData()?.description
         username.text = activityDetails?.getData()?.creator_name
         if (activityDetails?.getData()?.creator_profile_image?.isNotEmpty()!!) {
-            Picasso.with(image_member2.context).load(activityDetails?.getData()?.creator_profile_image).into(image_member2)
+            Glide.with(image_member2.context).load(activityDetails?.getData()?.creator_profile_image).into(image_member2)
         } else {
             // val padding = resources.getDimension(R.dimen._8sdp).toInt()
             // image_member2.setPadding(padding, padding, padding, padding)
@@ -318,7 +319,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         mTitle.setText(R.string.joinTitle)
         activityUserName.text = userName
         if (!userImage.equals("")) {
-            Picasso.with(profileImage.context).load(userImage).fit().into(profileImage)
+            Glide.with(profileImage.context).load(userImage)/*.fitCenter()*/.into(profileImage)
         }
         //}
         dialog.setCancelable(true)

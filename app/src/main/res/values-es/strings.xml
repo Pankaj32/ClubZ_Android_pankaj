@@ -301,7 +301,6 @@
     <string name="a_activity_first_tab">Detalle</string>
     <string name="a_activity_snd_tab">Chat</string>
     <string name="a_activity_rd_tab">Usuarios</string>
-    <string name="likes">Me gusta </string>
     <string name="comments">Comentarios </string>
     <string name="error_nickname">Introduce primero el nombre de usuario.</string>
     <string name="by">Por</string>
@@ -325,7 +324,7 @@
     <string name="there_is_no_chat_stil_here">No hay ningún chat todavía aquí</string>
     <string name="there_is_no_ad_stil_here">No hay anuncios todavía aquí</string>
     <string name="there_is_no_member_stil_here">No hay miembros todavía aquí</string>
-    <string name="no_feed_content_body">Aquí aparecerán las noticias de los clubes a los que perteneces. Los administradores de tus clubes no han publicado nada todavía.\n        \\n\\n También puedes verificar que tus clubes no estén silenciados, desliza la pantalla desde la derecha y habilítalos.</string>
+    <string name="no_feed_content_body">Aquí aparecerán las noticias de los clubes a los que perteneces. Los administradores de tus clubes no han publicado nada todavía.\n \n También puedes verificar que tus clubes no estén silenciados, desliza la pantalla desde la derecha y habilítalos.</string>
     <string name="no_activity_content_body">Las actividades estarán disponibles una vez que el administrador del club las cree.</string>
     <string name="no_ads_content_body">¡Sé el primero en crear uno!</string>
     <string name="no_member_content_body">Los miembros aparecerán aquí cuando los usuarios se unan a la actividad</string>
@@ -469,6 +468,19 @@
     <string name="delete_my_ad_title">¿Estás seguro de que quieres borrar este anuncio? </string>
     <string name="delete_other_ad_title">¿Estás seguro de que quieres borrar este anuncio de tu listado?</string>
     <string name="renew_ad_title">¿Estás seguro de que quieres renovar este anuncio? </string>
-    <string name="expired">Expirado
-Exit status : </string>
+    <string name="expired">Expirado</string>
+    <string name="english">Inglés</string>
+    <string name="spanish">Español</string>
+    <string name="you">Tu</string>
+    <string name="not_sheduled">No programado</string>
+    <string name="just_now">Justo ahora</string>
+    <string name="leader">Líder</string>
+    <string name="yesterday">Ayer</string>
+    <string name="un_confirm_date">DESCONFIRMAR</string>
+    <string name="likes">likes</string>
+    <!--<string name="likes">Me gusta </string>-->
+    <string name="like">gustar</string>
+    <string name="activity_date_confirm">¿Confirmas que asistirás a esta fecha?</string>
+    <string name="activity_date_unconfirm">¿Confirmas que en definitiva no podrás asistir a esta fecha?</string>
+    <string name="activity_date_cancel">¿Confirmas que quieres cancelar esta fecha?</string>
 </resources>

@@ -19,6 +19,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
 import com.android.volley.VolleyError
+import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
@@ -30,7 +31,6 @@ import com.clubz.ui.cv.FlowLayout
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_profile.*
 import org.json.JSONObject
 
@@ -96,15 +96,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
 
         collapse_toolbar.title = profile!!.full_name
         if (!profile!!.profile_image.isBlank()) {
-            Picasso.with(this).load(profile!!.profile_image).fit().into(toolbar_image, object : com.squareup.picasso.Callback {
-                override fun onSuccess() {
-                    setPlated()
-                }
-
-                override fun onError() {
-                    setPlated()
-                }
-            })
+            Glide.with(this).load(profile!!.profile_image)/*.fitCenter()*/.into(toolbar_image)
         }
 
     }

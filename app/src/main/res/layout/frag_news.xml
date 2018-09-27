@@ -16,11 +16,9 @@
             android:id="@+id/noFeedMsgUI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_margin="12dp"
             app:cardBackgroundColor="@color/white"
-            app:cardElevation="@dimen/_3sdp"
+            app:cardElevation="6dp"
             app:cardUseCompatPadding="true">
 
             <RelativeLayout
@@ -45,7 +43,7 @@
                     android:fontFamily="@font/teko_semibold"
                     android:text="@string/there_is_no_news_stil_here"
                     android:textColor="@color/eighty_black"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/_14sdp" />
 
                 <TextView
                     android:id="@+id/body_t"
@@ -55,7 +53,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/no_feed_content_body"
                     android:textColor="@color/nav_gray"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/_10sdp" />
 
             </RelativeLayout>
 
@@ -66,13 +64,15 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/feedRecycleView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/adapter_news_feed" />
+            tools:listitem="@layout/adapter_news_feed"
+            />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

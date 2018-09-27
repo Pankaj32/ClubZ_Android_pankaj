@@ -3,6 +3,7 @@ package com.clubz.utils;
 import android.content.Context;
 
 import com.clubz.R;
+import com.clubz.data.local.pref.SessionManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,7 @@ public class DateTimeUtil {
     }
 
     public static String getTimeAgo(long time, Context ctx) {
+        String language= SessionManager.getObj().getLanguage();
         /*if (time < 1000000000000L) {
             // if timestamp given in seconds, convert to millis
             time *= 1000;
@@ -61,25 +63,57 @@ public class DateTimeUtil {
         int dim = getTimeDistanceInMinutes(time);
         String timeAgo = null;
         if (dim == 0) {
-            timeAgo = ctx.getResources().getString(R.string.date_util_term_less) + " " + ctx.getResources().getString(R.string.date_util_term_a) + " " + ctx.getResources().getString(R.string.date_util_unit_minute);
+            timeAgo = ctx.getString(R.string.just_now);
         } else if (dim == 1) {
-            return "1 " + ctx.getResources().getString(R.string.date_util_unit_minute);
-        } else if (dim >= 2 && dim <= 44) {
-            timeAgo = dim + " " + ctx.getResources().getString(R.string.date_util_unit_minutes);
-        } else if (dim >= 45 && dim <= 89) {
-            timeAgo = /*ctx.getResources().getString(R.string.date_util_prefix_about) + " "+*/ctx.getResources().getString(R.string.date_util_term_an) + " " + ctx.getResources().getString(R.string.date_util_unit_hour);
-        } else if (dim >= 90 && dim <= 1439) {
-            timeAgo = /*ctx.getResources().getString(R.string.date_util_prefix_about) + " " +*/ (Math.round(dim / 60)) + " " + ctx.getResources().getString(R.string.date_util_unit_hours);
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                return   dim +" "+ ctx.getResources().getString(R.string.date_util_unit_minute);
+            }else {
+                return   dim +" "+ ctx.getResources().getString(R.string.date_util_unit_minute);
+            }
+        } else if (dim >= 2 && dim <= 59) {
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo = dim + " " + ctx.getString(R.string.date_util_unit_minutes) + " " + ctx.getString(R.string.ago);
+            }else{
+                timeAgo = "" + ctx.getString(R.string.ago) +" "+ dim + " " + ctx.getString(R.string.date_util_unit_minutes);
+            }
+        } else if (dim >= 61 && dim <= 119) {
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo ="1  "+ctx.getString(R.string.date_util_unit_hour)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo =ctx.getString(R.string.ago)+ " 1 "+ctx.getString(R.string.date_util_unit_hour);
+            }
+        } else if (dim >= 120 && dim <= 1439) {
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo = (Math.round(dim / 60)) + " "+ctx.getString(R.string.date_util_unit_hours)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo = ""+ctx.getString(R.string.ago)+" "+(Math.round(dim / 60)) +" "+ctx.getString(R.string.date_util_unit_hours);
+            }
         } else if (dim >= 1440 && dim <= 2519) {
-            timeAgo = "1 " + ctx.getResources().getString(R.string.date_util_unit_day);
+            timeAgo = /*elapsedDays +*/ " "+ctx.getString(R.string.yesterday);
         } else if (dim >= 2520 && dim <= 43199) {
-            timeAgo = (Math.round(dim / 1440)) + " " + ctx.getResources().getString(R.string.date_util_unit_days);
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo = (Math.round(dim / 1440)) + " "+ctx.getString(R.string.date_util_unit_days)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo = ""+ctx.getString(R.string.ago)+" "+(Math.round(dim / 1440)) + " "+ctx.getString(R.string.date_util_unit_days);;
+            }
         } else if (dim >= 43200 && dim <= 86399) {
-            timeAgo = /*ctx.getResources().getString(R.string.date_util_prefix_about) + " "+*/ctx.getResources().getString(R.string.date_util_term_a) + " " + ctx.getResources().getString(R.string.date_util_unit_month);
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo ="1  "+ctx.getString(R.string.date_util_unit_month)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo =ctx.getString(R.string.ago)+ " 1 "+ctx.getString(R.string.date_util_unit_month);
+            }
         } else if (dim >= 86400 && dim <= 525599) {
-            timeAgo = (Math.round(dim / 43200)) + " " + ctx.getResources().getString(R.string.date_util_unit_months);
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo =(Math.round(dim / 43200))+" "+ctx.getString(R.string.date_util_unit_month)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo =ctx.getString(R.string.ago)+" "+(Math.round(dim / 43200))+" "+ctx.getString(R.string.date_util_unit_month);
+            }
         } else if (dim >= 525600 && dim <= 655199) {
-            timeAgo = /*ctx.getResources().getString(R.string.date_util_prefix_about) + " "+*/ctx.getResources().getString(R.string.date_util_term_a) + " " + ctx.getResources().getString(R.string.date_util_unit_year);
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo ="1  "+ctx.getString(R.string.date_util_unit_year)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo =ctx.getString(R.string.ago)+ " 1 "+ctx.getString(R.string.date_util_unit_year);
+            }
         } else if (dim >= 655200 && dim <= 914399) {
             timeAgo = ctx.getResources().getString(R.string.date_util_prefix_over) + " " + ctx.getResources().getString(R.string.date_util_term_a) + " " + ctx.getResources().getString(R.string.date_util_unit_year);
         } else if (dim >= 914400 && dim <= 1051199) {
@@ -88,12 +122,12 @@ public class DateTimeUtil {
             timeAgo = /*ctx.getResources().getString(R.string.date_util_prefix_about) + " " +*/ (Math.round(dim / 525600)) + " " + ctx.getResources().getString(R.string.date_util_unit_years);
         }
 
-        return timeAgo + " " + ctx.getResources().getString(R.string.date_util_suffix);
+        return timeAgo;
     }
 
 
     public static String getTimeAgo(long startTime, long endTime, Context ctx, String msg) {
-
+        String language= SessionManager.getObj().getLanguage();
         Date curDate = currentDate();
         long now = curDate.getTime();
         /*if (endTime > startTime || endTime <= 0) {
@@ -103,25 +137,57 @@ public class DateTimeUtil {
         int dim = getTimeDistanceInMinutes(endTime);
         String timeAgo = null;
         if (dim == 0) {
-            timeAgo = ctx.getResources().getString(R.string.date_util_term_less) + " " + ctx.getResources().getString(R.string.date_util_term_a) + " " + ctx.getResources().getString(R.string.date_util_unit_minute);
+            timeAgo = ctx.getString(R.string.just_now);
         } else if (dim == 1) {
-            return "1 " + ctx.getResources().getString(R.string.date_util_unit_minute);
-        } else if (dim >= 2 && dim <= 44) {
-            timeAgo = dim + " " + ctx.getResources().getString(R.string.date_util_unit_minutes);
-        } else if (dim >= 45 && dim <= 89) {
-            timeAgo = /*ctx.getResources().getString(R.string.date_util_prefix_about) + " "+*/ctx.getResources().getString(R.string.date_util_term_an) + " " + ctx.getResources().getString(R.string.date_util_unit_hour);
-        } else if (dim >= 90 && dim <= 1439) {
-            timeAgo = /*ctx.getResources().getString(R.string.date_util_prefix_about) + " " +*/ (Math.round(dim / 60)) + " " + ctx.getResources().getString(R.string.date_util_unit_hours);
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                return   dim +" "+ ctx.getResources().getString(R.string.date_util_unit_minute);
+            }else {
+                return   dim +" "+ ctx.getResources().getString(R.string.date_util_unit_minute);
+            }
+        } else if (dim >= 2 && dim <= 59) {
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo = dim + " " + ctx.getString(R.string.date_util_unit_minutes) + " " + ctx.getString(R.string.ago);
+            }else{
+                timeAgo = "" + ctx.getString(R.string.ago) +" "+ dim + " " + ctx.getString(R.string.date_util_unit_minutes);
+            }
+        } else if (dim >= 61 && dim <= 119) {
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo ="1  "+ctx.getString(R.string.date_util_unit_hour)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo =ctx.getString(R.string.ago)+ " 1 "+ctx.getString(R.string.date_util_unit_hour);
+            }
+        } else if (dim >= 120 && dim <= 1439) {
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo = (Math.round(dim / 60)) + " "+ctx.getString(R.string.date_util_unit_hours)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo = ""+ctx.getString(R.string.ago)+" "+(Math.round(dim / 60)) +" "+ctx.getString(R.string.date_util_unit_hours);
+            }
         } else if (dim >= 1440 && dim <= 2519) {
-            timeAgo = "1 " + ctx.getResources().getString(R.string.date_util_unit_day);
+            timeAgo = /*elapsedDays +*/ " "+ctx.getString(R.string.yesterday);
         } else if (dim >= 2520 && dim <= 43199) {
-            timeAgo = (Math.round(dim / 1440)) + " " + ctx.getResources().getString(R.string.date_util_unit_days);
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo = (Math.round(dim / 1440)) + " "+ctx.getString(R.string.date_util_unit_days)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo = ""+ctx.getString(R.string.ago)+" "+(Math.round(dim / 1440)) + " "+ctx.getString(R.string.date_util_unit_days);;
+            }
         } else if (dim >= 43200 && dim <= 86399) {
-            timeAgo = /*ctx.getResources().getString(R.string.date_util_prefix_about) + " "+*/ctx.getResources().getString(R.string.date_util_term_a) + " " + ctx.getResources().getString(R.string.date_util_unit_month);
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo ="1  "+ctx.getString(R.string.date_util_unit_month)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo =ctx.getString(R.string.ago)+ " 1 "+ctx.getString(R.string.date_util_unit_month);
+            }
         } else if (dim >= 86400 && dim <= 525599) {
-            timeAgo = (Math.round(dim / 43200)) + " " + ctx.getResources().getString(R.string.date_util_unit_months);
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo =(Math.round(dim / 43200))+" "+ctx.getString(R.string.date_util_unit_month)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo =ctx.getString(R.string.ago)+" "+(Math.round(dim / 43200))+" "+ctx.getString(R.string.date_util_unit_month);
+            }
         } else if (dim >= 525600 && dim <= 655199) {
-            timeAgo = /*ctx.getResources().getString(R.string.date_util_prefix_about) + " "+*/ctx.getResources().getString(R.string.date_util_term_a) + " " + ctx.getResources().getString(R.string.date_util_unit_year);
+            if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                timeAgo ="1  "+ctx.getString(R.string.date_util_unit_year)+" "+ctx.getString(R.string.ago);
+            }else {
+                timeAgo =ctx.getString(R.string.ago)+ " 1 "+ctx.getString(R.string.date_util_unit_year);
+            }
         } else if (dim >= 655200 && dim <= 914399) {
             timeAgo = ctx.getResources().getString(R.string.date_util_prefix_over) + " " + ctx.getResources().getString(R.string.date_util_term_a) + " " + ctx.getResources().getString(R.string.date_util_unit_year);
         } else if (dim >= 914400 && dim <= 1051199) {
@@ -139,6 +205,7 @@ public class DateTimeUtil {
     }
 
     public static String getDayDifference(Context mContext, String departDateTime, String returnDateTime) {
+        String language= SessionManager.getObj().getLanguage();
         boolean isgrater = false;
         String returnDay = "";
         SimpleDateFormat simpleDateFormat =
@@ -177,17 +244,35 @@ public class DateTimeUtil {
                     if (elapsedMinutes == 0) {
                         returnDay = /*elapsedSeconds +*/ mContext.getString(R.string.just_now);
                     } else {
-                        returnDay = elapsedMinutes + " "+mContext.getString(R.string.date_util_unit_minutes)+" "+mContext.getString(R.string.ago);
+                        if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                            returnDay = elapsedMinutes + " " + mContext.getString(R.string.date_util_unit_minutes) + " " + mContext.getString(R.string.ago);
+                        }else{
+                            returnDay = "" + mContext.getString(R.string.ago) +" "+ elapsedMinutes + " " + mContext.getString(R.string.date_util_unit_minutes);
+                        }
                     }
                 } else if (elapsedHours == 1) {
-                    returnDay = elapsedHours + "  "+mContext.getString(R.string.date_util_unit_hour)+" "+mContext.getString(R.string.ago);
+                    if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                        returnDay = elapsedHours + "  "+mContext.getString(R.string.date_util_unit_hour)+" "+mContext.getString(R.string.ago);
+                    }else {
+                        returnDay = ""+mContext.getString(R.string.ago)+" "+elapsedHours + " "+mContext.getString(R.string.date_util_unit_hour);
+                    }
                 } else {
-                    returnDay = elapsedHours + " "+mContext.getString(R.string.date_util_unit_hours)+" "+mContext.getString(R.string.ago);
+                    if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                        returnDay = elapsedHours + " "+mContext.getString(R.string.date_util_unit_hours)+" "+mContext.getString(R.string.ago);
+                    }else {
+                        returnDay = ""+mContext.getString(R.string.ago)+" "+elapsedHours +" "+mContext.getString(R.string.date_util_unit_hours);
+                    }
+
                 }
             } else if (elapsedDays == 1) {
                 returnDay = /*elapsedDays +*/ " "+mContext.getString(R.string.yesterday);
             } else {
-                returnDay = elapsedDays + " "+mContext.getString(R.string.date_util_unit_days)+" "+mContext.getString(R.string.ago);;
+                if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
+                    returnDay = elapsedDays + " "+mContext.getString(R.string.date_util_unit_days)+" "+mContext.getString(R.string.ago);;
+                }else {
+                    returnDay = ""+mContext.getString(R.string.ago)+" "+elapsedDays + " "+mContext.getString(R.string.date_util_unit_days);;
+                }
+
             }
         } catch (ParseException e) {
             e.printStackTrace();

@@ -44,8 +44,6 @@ import com.google.firebase.storage.StorageReference
 import com.mvc.imagepicker.ImagePicker
 import com.vanniktech.emoji.EmojiEditText
 import com.vanniktech.emoji.EmojiPopup
-import hani.momanii.supernova_emoji_library.Actions.EmojIconActions
-import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.z_user_profile_dialog.*
 import java.io.File
@@ -94,7 +92,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     private var memberList = ArrayList<MemberBean>()
 
 
-    // private var txtMsg: EmojiEditText? = null
+     private var txtMsg: EmojiEditText? = null
     private var emoji: ImageView? = null
     internal var emojiPopup: EmojiPopup? = null
     private var isText = false
@@ -105,7 +103,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
         noDataTxt = view.findViewById<EditText>(R.id.noDataTxt)
         silentTxt = view.findViewById<TextView>(R.id.silentTxt)
         progressbar = view.findViewById<ProgressBar>(R.id.progressbar)
-        //  txtMsg = view.findViewById<EmojiEditText>(R.id.txtMsg)
+          txtMsg = view.findViewById<EmojiEditText>(R.id.txtMsg)
         emoji = view.findViewById<ImageView>(R.id.emoji)
         // chatRecycler = view.findViewById<RecyclerView>(R.id.chatRecycler)
         return view
@@ -184,7 +182,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
         emoji?.setColorFilter(ContextCompat.getColor(mContext!!, R.color.emoji_icons), PorterDuff.Mode.SRC_IN)
         emoji?.setOnClickListener({ ignore -> emojiPopup?.toggle() })
         setUpEmojiPopup()
-        txtMsg.addTextChangedListener(object : TextWatcher {
+        txtMsg?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
 
             }

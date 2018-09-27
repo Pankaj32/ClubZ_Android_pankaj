@@ -25,6 +25,7 @@
         android:roundIcon="@drawable/new_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Splash"
+        android:largeHeap="true"
         >
         <activity
             android:name=".ui.splash.SplashActivity"

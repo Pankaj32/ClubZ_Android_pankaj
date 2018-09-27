@@ -8,11 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.clubz.R
 import com.clubz.chat.AllChatActivity
 import com.clubz.chat.util.ChatUtil
 import com.clubz.data.model.UserInfo
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.z_profile_dialog.*
 
 abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
@@ -32,7 +32,7 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
         if (user!!.profile_image.isNotEmpty()) {
             if(!user!!.profile_image.contains("defaultUser")){
                 iv_profileImage.clearColorFilter()
-                Picasso.with(context).load(user!!.profile_image).placeholder(R.drawable.ic_person_512).fit().into(iv_profileImage)
+                Glide.with(context).load(user!!.profile_image)/*.placeholder(R.drawable.ic_person_512)*/.into(iv_profileImage)
             }
 
         } else iv_profileImage.setColorFilter(R.color.white)

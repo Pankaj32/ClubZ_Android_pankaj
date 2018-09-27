@@ -11,6 +11,7 @@ import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
+import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.chat.AllChatActivity
@@ -21,7 +22,6 @@ import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.utils.VolleyGetPost
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.z_user_profile_dialog.*
 import org.json.JSONObject
 
@@ -88,7 +88,7 @@ abstract class UserProfileDialog(internal val context: Context, val member: Club
 
         if(member.profile_image.isNotEmpty()){
             iv_profileImage.clearColorFilter()
-            Picasso.with(context).load(member.profile_image).into(iv_profileImage)
+            Glide.with(context).load(member.profile_image).into(iv_profileImage)
         } else iv_profileImage.setColorFilter(R.color.white)
 
         tv_FullName.setText(member.getNickname())

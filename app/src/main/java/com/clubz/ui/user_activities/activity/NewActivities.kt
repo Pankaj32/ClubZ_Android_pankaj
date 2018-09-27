@@ -24,6 +24,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.android.volley.*
+import com.bumptech.glide.Glide
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
@@ -51,7 +52,6 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_new_activities.*
 import org.json.JSONObject
 import java.io.File
@@ -107,7 +107,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         userName = ClubZ.currentUser!!.full_name
         userImage = ClubZ.currentUser!!.profile_image
         if (userImage.isNotEmpty()) {
-            Picasso.with(image_member2.context).load(userImage).fit().into(image_member2)
+            Glide.with(image_member2.context).load(userImage)/*.fitCenter()*/.into(image_member2)
         } else {
             image_member2.setImageResource(R.drawable.user_place_holder)
         }
@@ -204,8 +204,8 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         headTitle.text = activityBean?.activityName
         val padding = 0
         imgActivity.setPadding(padding, padding, padding, padding)
-        if (!TextUtils.isEmpty(activityBean?.image)) Picasso.with(imgActivity.context).load(activityBean?.image)
-                .placeholder(R.drawable.new_img).fit().into(imgActivity)
+        if (!TextUtils.isEmpty(activityBean?.image)) Glide.with(imgActivity.context).load(activityBean?.image)
+                /*.placeholder(R.drawable.new_img).fitCenter()*/.into(imgActivity)
         activityName.setText(activityBean?.activityName)
         fees.setText(activityBean?.fee)
         for (i in 0..feestypeList.size) {

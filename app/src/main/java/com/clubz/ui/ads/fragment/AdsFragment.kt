@@ -34,9 +34,6 @@ import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.dialogs.ProfileDialog
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.VolleyGetPost
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_ads.*
 import org.json.JSONObject
@@ -108,7 +105,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         }
         recyclerViewAds.addOnScrollListener(pageListner)
         // getAdsList(isPull = true)
-        val adRequest = AdRequest.Builder().build()
+        /*val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
@@ -132,7 +129,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
                 // Code to be executed when when the user is about to return
                 // to the app after tapping on an ad.
             }
-        }
+        }*/
     }
 
     override fun onResume() {
@@ -205,6 +202,14 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
             }
         } else {
             adList.addAll(tempAdList)
+        }
+
+        val data=AdsListBean.DataBean()
+        data.isgoogleAdd=true
+        if(adList.size<3){
+            adList.add(data)
+        }else{
+            adList.add(3,data)
         }
         // adList.addAll(adsBean.data!!)
         adsAdapter?.notifyDataSetChanged()
