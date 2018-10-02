@@ -37,53 +37,78 @@
             android:visibility="visible"
             android:fontFamily="@font/roboto_regular"
             android:textSize="12sp"/>-->
-        <FrameLayout
+        <com.loopeer.shadow.ShadowView
+            android:id="@+id/shadowTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="@dimen/_70sdp"
-            android:background="@drawable/chat_other_bg">
-        <!--<TextView
-            android:id="@+id/text_view_chat_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_regular"
-            android:padding="@dimen/_8sdp"
-            android:textColor="@color/eighty_black"
-            android:visibility="visible"
-            android:layout_gravity="end"/>-->
-            <com.vanniktech.emoji.EmojiTextView
-            android:id="@+id/text_view_chat_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_regular"
-            android:padding="@dimen/_8sdp"
-            android:textColor="@color/eighty_black"
-            android:visibility="visible"
-            app:emojiSize="@dimen/emoji_size_default"
-            tools:text="fdg"
-            android:layout_gravity="end"/>
-        </FrameLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/chat_other_bg">
+            app:cornerRadiusBL="0dp"
+            app:cornerRadiusBR="5dp"
+            app:cornerRadiusTL="5dp"
+            app:cornerRadiusTR="5dp"
+            app:shadowColor="@color/shadow_color"
+            app:shadowMarginBottom="3dp"
+            app:shadowMarginTop="1dp"
+            app:shadowMarginLeft="3dp"
+            app:shadowMarginRight="1dp"
+            app:shadowRadius="@dimen/_5sdp">
 
-            <ProgressBar
-                android:id="@+id/smlProgress"
-                style="@android:style/Widget.ProgressBar.Small"
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="visible" />
+                android:background="@color/chat_my_bg"
+                android:minWidth="@dimen/_70sdp">
 
-            <ImageView
-                android:id="@+id/chat_imageview"
-                android:layout_width="@dimen/_150sdp"
-                android:layout_height="@dimen/_150sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:scaleType="fitXY"
-                android:visibility="visible" />
-        </RelativeLayout>
+                <com.vanniktech.emoji.EmojiTextView
+                    android:id="@+id/text_view_chat_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:fontFamily="@font/roboto_regular"
+                    android:padding="@dimen/_8sdp"
+                    android:textColor="@color/eighty_black"
+                    android:visibility="visible"
+                    app:emojiSize="@dimen/emoji_size_default"
+                    tools:text="fdg" />
+            </FrameLayout>
+        </com.loopeer.shadow.ShadowView>
+
+        <com.loopeer.shadow.ShadowView
+            android:id="@+id/shadowImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cornerRadiusBL="0dp"
+            app:cornerRadiusBR="5dp"
+            app:cornerRadiusTL="5dp"
+            app:cornerRadiusTR="5dp"
+            app:shadowColor="@color/shadow_color"
+            app:shadowMarginBottom="3dp"
+            app:shadowMarginTop="1dp"
+            app:shadowMarginLeft="3dp"
+            app:shadowMarginRight="1dp"
+            app:shadowRadius="@dimen/_5sdp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/chat_my_bg">
+
+                <ProgressBar
+                    android:id="@+id/smlProgress"
+                    style="@android:style/Widget.ProgressBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/chat_imageview"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_150sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:scaleType="fitXY"
+                    android:visibility="visible" />
+            </RelativeLayout>
+        </com.loopeer.shadow.ShadowView>
 
         <TextView
             android:id="@+id/dateTime"
@@ -96,8 +121,7 @@
             android:text="6.00pm"
             android:textColor="@color/nav_gray"
             android:textSize="8sp"
-            android:visibility="visible"
-            />
+            android:visibility="visible" />
     </LinearLayout>
 
 

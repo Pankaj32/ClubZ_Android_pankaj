@@ -31,6 +31,7 @@ import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.DateTimeUtil
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_frag_ads_details.*
 import org.json.JSONObject
 
@@ -122,25 +123,26 @@ class FragAdsDetails : Fragment(), View.OnClickListener {
             /*Glide.with(adImg.context)
                     .load(adDetails.data?.image)
                     .into(adImg)*/
-
+            ImgLay.visibility = View.VISIBLE
             Glide.with(adImg.context)
                     .load(adDetails.data?.image)
                     /*.placeholder(R.drawable.new_img)
                     .fitCenter()*/
-                    .listener(object: RequestListener<Drawable> {
+                    .listener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            smlProgress.visibility=View.GONE
+                            smlProgress.visibility = View.GONE
                             return false
                         }
 
                         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            smlProgress.visibility=View.GONE
+                            smlProgress.visibility = View.GONE
                             return false
                         }
                     })
                     .into(adImg)
         } else {
             smlProgress.visibility = View.GONE
+            ImgLay.visibility = View.GONE
         }
         if (!adDetails.data!!.title.isNullOrEmpty()) {
             adTitle.text = adDetails.data?.title
@@ -163,10 +165,10 @@ class FragAdsDetails : Fragment(), View.OnClickListener {
         username.text = adDetails.data?.creator_name
 
         if (adDetails.data?.creator_profile_image?.isNotEmpty()!!) {
-            Glide.with(image_member2.context)
+            /*Glide.with(image_member2.context)
                     .load(adDetails.data?.creator_profile_image)
-                    .into(image_member2)
-          //  Picasso.with(image_member2.context).load(adDetails.data?.creator_profile_image).fit().into(image_member2)
+                    .into(image_member2)*/
+            Picasso.with(image_member2.context).load(adDetails.data?.creator_profile_image).placeholder(R.drawable.user_place_holder).fit().into(image_member2)
         } else {
             // val padding = resources.getDimension(R.dimen._8sdp).toInt()
             // image_member2.setPadding(padding, padding, padding, padding)
@@ -178,11 +180,10 @@ class FragAdsDetails : Fragment(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.username -> {
-                if(!adDetails?.data?.user_id!!.equals(ClubZ.currentUser!!.id))showProfile()
+                if (!adDetails?.data?.user_id!!.equals(ClubZ.currentUser!!.id)) showProfile()
             }
             R.id.adImg -> {
                 val dialog = ZoomDialog(mContext!!, adDetails?.data?.image!!)
-                dialog.setCancelable(false)
                 dialog.show()
             }
         }
@@ -190,16 +191,16 @@ class FragAdsDetails : Fragment(), View.OnClickListener {
 
     private fun showProfile() {
         val user = UserInfo()
-        user.userId =adDetails?.data?.user_id!!
-        user.isLiked =0
-        user.full_name =adDetails?.data?.creator_name!!
-        user.profile_image =adDetails?.data?.creator_profile_image!!
-        user.country_code ="+91"
-        user.contact_no ="8116174365"
+        user.userId = adDetails?.data?.user_id!!
+        user.isLiked = 0
+        user.full_name = adDetails?.data?.creator_name!!
+        user.profile_image = adDetails?.data?.creator_profile_image!!
+        user.country_code = "+91"
+        user.contact_no = "8116174365"
 
-        val dialog=object :ProfileDialog(mContext!!,user){
+        val dialog = object : ProfileDialog(mContext!!, user) {
             override fun OnFabClick(user: UserInfo) {
-                Toast.makeText(mContext,"OnFabClick",Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, "OnFabClick", Toast.LENGTH_SHORT).show()
             }
 
             /*override fun OnChatClick(user: UserInfo) {
@@ -223,7 +224,7 @@ class FragAdsDetails : Fragment(), View.OnClickListener {
             }
 
         }
-      //  dialog.setCancelable(true)
+        //  dialog.setCancelable(true)
         dialog.show()
     }
 

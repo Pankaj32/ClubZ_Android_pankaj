@@ -27,7 +27,7 @@
             <include
                 android:id="@+id/nodataLay"
                 layout="@layout/no_ad_layout"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
         </RelativeLayout>
 

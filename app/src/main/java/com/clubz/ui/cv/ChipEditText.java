@@ -22,14 +22,16 @@ public abstract class ChipEditText extends RelativeLayout{
     Context context;
     EditText label;
     ImageView delete_button;
-   // String Id;
+    int layoutId;
     private boolean isDeletable = true;
+    private String hint;
 
     // ChipDeleteListner chipDeleteListner;
-    public ChipEditText(Context context/*, String Id*/) {
+    public ChipEditText(Context context, int layoutId,String hint) {
         super(context);
         this.context = context;
-        //this.Id = Id;
+        this.layoutId = layoutId;
+        this.hint = hint;
         initiateview();
     }
 
@@ -42,12 +44,13 @@ public abstract class ChipEditText extends RelativeLayout{
     }*/
 
     void initiateview() {
-        /*int layoutId = getLayout();
-        if (layoutId == 0) */ int layoutId = R.layout.chip_edit_text;
-        // View view = inflate(context, R.layout.z_cus_chip_view, this);
+
+        // int layoutId = R.layout.chip_edit_text;
+
         View view = inflate(context, layoutId, this);
 
         label = view.findViewById(R.id.label);
+        label.setHint(hint);
         label.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {

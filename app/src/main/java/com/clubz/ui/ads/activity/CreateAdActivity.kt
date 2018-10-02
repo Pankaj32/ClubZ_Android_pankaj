@@ -213,8 +213,10 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-                ImagePicker.pickImage(this@CreateAdActivity)
+              //  ImagePicker.pickImage(this@CreateAdActivity)
                 // com.clubz.utils.picker.ImagePicker.pickImage(this@CreateAdActivity)
+                val intentgallery = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(intentgallery, Constants.SELECT_FILE)
             }
             Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this@CreateAdActivity, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_CAMERA)

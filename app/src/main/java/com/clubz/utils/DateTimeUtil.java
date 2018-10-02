@@ -66,9 +66,9 @@ public class DateTimeUtil {
             timeAgo = ctx.getString(R.string.just_now);
         } else if (dim == 1) {
             if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
-                return   dim +" "+ ctx.getResources().getString(R.string.date_util_unit_minute);
+                return   dim +" "+ ctx.getResources().getString(R.string.date_util_unit_minute)+ " " + ctx.getString(R.string.ago);
             }else {
-                return   dim +" "+ ctx.getResources().getString(R.string.date_util_unit_minute);
+                return  "" + ctx.getString(R.string.ago) +" "+ dim +" "+ ctx.getResources().getString(R.string.date_util_unit_minute);
             }
         } else if (dim >= 2 && dim <= 59) {
             if (language.equals(Util.Companion.getENGLISH_LOCALE())) {

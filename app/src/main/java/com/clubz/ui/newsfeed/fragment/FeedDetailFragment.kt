@@ -31,7 +31,7 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
 
     private var feed: Feed? = null
     private var mContext: Context? = null
-    private var smlProgress: ProgressBar?=null
+    private var smlProgress: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +82,7 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
          else Picasso.with(ivBanner.context).load(feed?.news_feed_attachment).fit().into(ivBanner)*/
 
         if (!feed?.news_feed_attachment.isNullOrEmpty()) {
+            imgLay.visibility = View.VISIBLE
             Glide.with(ivBanner.context)
                     .load(feed?.news_feed_attachment)
                     /*.placeholder(R.drawable.new_img)
@@ -89,6 +90,7 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
                     .into(ivBanner)
         } else {
             smlProgress!!.visibility = View.GONE
+            imgLay.visibility = View.GONE
         }
 
         if (feed?.profile_image.isNullOrEmpty()) Glide.with(image_member.context).load(feed?.profile_image)/*.fitCenter()*/.into(image_member)
@@ -168,13 +170,12 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
-        when(p0!!.id){
-            R.id.tvUsername->{
-                if(!feed!!.user_id.equals(ClubZ.currentUser!!.id)) showProfile()
+        when (p0!!.id) {
+            R.id.tvUsername -> {
+                if (!feed!!.user_id.equals(ClubZ.currentUser!!.id)) showProfile()
             }
-            R.id.ivBanner->{
+            R.id.ivBanner -> {
                 val dialog = ZoomDialog(mContext!!, feed!!.news_feed_attachment!!)
-                dialog.setCancelable(false)
                 dialog.show()
             }
         }
@@ -194,9 +195,9 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
                 Toast.makeText(mContext, "OnFabClick", Toast.LENGTH_SHORT).show()
             }
 
-           /* override fun OnChatClick(user: UserInfo) {
-                Toast.makeText(mContext, "OnChatClick", Toast.LENGTH_SHORT).show()
-            }*/
+            /* override fun OnChatClick(user: UserInfo) {
+                 Toast.makeText(mContext, "OnChatClick", Toast.LENGTH_SHORT).show()
+             }*/
 
             /*override fun OnCallClick(user: UserInfo) {
                 Toast.makeText(mContext, "OnCallClick", Toast.LENGTH_SHORT).show()

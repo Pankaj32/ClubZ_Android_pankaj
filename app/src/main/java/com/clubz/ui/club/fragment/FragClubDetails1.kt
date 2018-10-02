@@ -26,20 +26,21 @@ import org.json.JSONObject
  * Created by mindiii on २१/३/१८.
  */
 class FragClubDetails1 : Fragment() {
-    lateinit var clubz :Clubs
+    lateinit var clubz: Clubs
 
     @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.frag_club_details1,null)
+        return inflater.inflate(R.layout.frag_club_details1, null)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setView()
         getClubDetails()
-        view.setOnClickListener{}
+        view.setOnClickListener {}
 
-        tv_terms.setOnClickListener { object : TermsConditionDialog(context!!, resources.getString(R.string.terms_conditions), clubz.terms_conditions) {
+        tv_terms.setOnClickListener {
+            object : TermsConditionDialog(context!!, resources.getString(R.string.terms_conditions), clubz.terms_conditions) {
                 override fun onCloseClicked() {
                     this.dismiss()
                 }
@@ -47,11 +48,11 @@ class FragClubDetails1 : Fragment() {
         }
     }
 
-    private fun setView(){
+    private fun setView() {
         titile_name.setText(clubz.club_name)
         club_category.text = clubz.club_category_name
-        img_privacy.setImageResource(if(clubz.club_type == "1") R.drawable.ic_lock_open else R.drawable.ic_lock_black_24dp)
-        tv_privacy.setText(if(clubz.club_type == "1") R.string.Public else R.string.Private)
+        img_privacy.setImageResource(if (clubz.club_type == "1") R.drawable.ic_lock_open else R.drawable.ic_lock_black_24dp)
+        tv_privacy.setText(if (clubz.club_type == "1") R.string.Public else R.string.Private)
         club_email.setText(clubz.club_email)
         club_phone.setText(String.format("%s %s", clubz.club_country_code, clubz.club_contact_no))
         club_city.setText(clubz.club_city)
@@ -61,11 +62,12 @@ class FragClubDetails1 : Fragment() {
         members.text = String.format("%d %s", 1, getString(R.string.members))
         try {
             foundation_date.setText(String.format("%s", Util.convertDate2(clubz.club_foundation_date)))
-        }catch (ex :Exception){}
+        } catch (ex: Exception) {
+        }
         etv_description.setText(clubz.club_description)
 
 
-        if(clubz.profile_image.isEmpty())
+        if (clubz.profile_image.isEmpty())
             Glide.with(image_member2.context).load(R.drawable.ic_user_white).into(image_member2)
         else
             Glide.with(image_member2.context).load(clubz.profile_image).into(image_member2)
@@ -82,9 +84,14 @@ class FragClubDetails1 : Fragment() {
                     })
         }
 */
-        try{
-            Glide.with(img_club.context).load(clubz.club_image).into(img_club)
-        }catch (ex:Exception){
+        try {
+            if (clubz.club_image.isNotEmpty()) {
+                img_club.visibility=View.VISIBLE
+                Glide.with(img_club.context).load(clubz.club_image).into(img_club)
+            }else{
+                img_club.visibility=View.GONE
+            }
+        } catch (ex: Exception) {
         }
     }
 
@@ -103,26 +110,26 @@ class FragClubDetails1 : Fragment() {
         ClubZ.instance.cancelPendingRequests(WebService.club_detail)
     }
 
-    private fun getClubDetails(){
-        val dialog = CusDialogProg(context )
+    private fun getClubDetails() {
+        val dialog = CusDialogProg(context)
         dialog.show()
-        object : VolleyGetPost(activity,activity,"${WebService.club_detail}?clubId=${clubz.clubId}",true){
+        object : VolleyGetPost(activity, activity, "${WebService.club_detail}?clubId=${clubz.clubId}", true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
-                       val clubz =  Gson().fromJson<Clubs>(obj.getString("clubDetail"), Clubs::class.java)
-                        members.text = String.format("%d %s",clubz.members+1, getString(R.string.members))
+                        val clubz = Gson().fromJson<Clubs>(obj.getString("clubDetail"), Clubs::class.java)
+                        members.text = String.format("%d %s", clubz.members + 1, getString(R.string.members))
                         club_city.setText(clubz.club_city)
-                       /* Picasso.with(image_member2.context).load(clubz.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape)
-                                .fit().into(image_member2, object : Callback {
-                            override fun onSuccess() {
-                                image_member2?.setPadding(0,0,0,0)
-                            }
+                        /* Picasso.with(image_member2.context).load(clubz.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape)
+                                 .fit().into(image_member2, object : Callback {
+                             override fun onSuccess() {
+                                 image_member2?.setPadding(0,0,0,0)
+                             }
 
-                            override fun onError() { }
-                        })*/
+                             override fun onError() { }
+                         })*/
 
                         if (!clubz.club_icon.endsWith("clubDefault.png")) {
                             Glide.with(image_icon.context).load(clubz.club_icon).into(image_icon)
@@ -140,8 +147,8 @@ class FragClubDetails1 : Fragment() {
                         }
                         tvLeadby.text = clubz.user_role
                     }
-                }catch (ex :Exception){
-                    Util.showToast(R.string.swr,context!!)
+                } catch (ex: Exception) {
+                    Util.showToast(R.string.swr, context!!)
                 }
             }
 

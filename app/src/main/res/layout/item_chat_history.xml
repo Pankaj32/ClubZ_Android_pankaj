@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_4sdp"
             android:paddingBottom="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_4sdp"
+            android:paddingEnd="@dimen/_6sdp"
             android:paddingStart="@dimen/_5sdp"
             android:paddingTop="@dimen/_2sdp">
 

@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import com.bumptech.glide.Glide
 import com.clubz.R
@@ -22,6 +23,7 @@ class ZoomDialog(internal val context: Context, imgUrl: String) : Dialog(context
         val view: View = LayoutInflater.from(context).inflate(R.layout.zoom_image, null)
        // this.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         this.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        this.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         this.setContentView(view)
 
         if (!imgUrl.isNullOrEmpty()) {

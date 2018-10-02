@@ -131,7 +131,7 @@ class Frag_My_Activity : Fragment(),
         recyclerViewMyActivities.layoutManager = lm
         recyclerViewMyActivities.setHasFixedSize(true)
 
-        nodataLay.visibility = if (activityList.isEmpty()) View.VISIBLE else View.GONE
+       /* nodataLay.visibility = if (activityList.isEmpty()) View.VISIBLE else View.GONE*/
         activitiesAdapter = ActivitiesAdapter(mContext, activityList, this)
         recyclerViewMyActivities.adapter = activitiesAdapter
 
@@ -354,13 +354,17 @@ class Frag_My_Activity : Fragment(),
         when (position) {
             0 -> {
 
-                if (activities.is_my_activity.equals("1")) {
+                if (activities.is_my_activity == "1") {
                     popUpAddEvents(activities)
                 } else {
                     if (hasAffliates == 1) {
                         getUserJoinAfiliatesList(activities.activityId!!)
                     } else {
-                        joinActivity(activities.activityId!!, "", userId)
+                        if (activities.is_like == "1") {
+                            joinActivity(activities.activityId!!, "", "")
+                        }else{
+                            joinActivity(activities.activityId!!, "", userId)
+                        }
                     }
                 }
             }

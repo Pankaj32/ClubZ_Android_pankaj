@@ -45,8 +45,22 @@ public class Constants {
     public static final String _auth_token      = "auth_token   " ;
     public static final String _device_type     = "device_type  " ;
     public static final String _device_token    = "device_token " ;
-    public static final String _userLanguage    = "device_token " ;
+    public static final String _userLanguage    = "_userLanguage " ;
     public static final String _userLastLocation    = "userLastLocation " ;
+
+    public static final String _about_me    = "about_me" ;
+    public static final String _about_me_visibility    = "about_me_visibility" ;
+    public static final String _dob    = "dob " ;
+    public static final String _dob_visibility    = "dob_visibility" ;
+    public static final String _contact_no_visibility    = "contact_no_visibility" ;
+    public static final String _email_visibility    = "contact_no_visibility" ;
+    public static final String _affiliates_visibility    = "affiliates_visibility" ;
+    public static final String _interest_visibility    = "interest_visibility" ;
+    public static final String _news_notifications    = "news_notifications" ;
+    public static final String _activities_notifications    = "activities_notifications" ;
+    public static final String _ads_notifications    = "ads_notifications" ;
+    public static final String _show_profile    = "show_profile" ;
+    public static final String _allow_anyone    = "allow_anyone" ;
 
 
     public static final String _google    = "google" ;

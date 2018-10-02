@@ -178,7 +178,7 @@
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:enabled="false"
                         android:fontFamily="@font/roboto_light"
-                        android:hint="@string/manager"
+                        android:hint="@string/advertiser"
                         android:inputType="textCapSentences"
                         android:maxLength="38"
                         android:singleLine="true"

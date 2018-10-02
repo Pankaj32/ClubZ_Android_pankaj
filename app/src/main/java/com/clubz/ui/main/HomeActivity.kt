@@ -85,8 +85,10 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     private var showMyNewsfeedOnly = false
     private var ifNeedTocallApi: Boolean = false
 
-    private var tab: TabLayout.Tab? = null
+    private var successfullyUpdate = 100
 
+    private var tab: TabLayout.Tab? = null
+    var nav: View? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sessionManager = SessionManager.getObj()
@@ -146,16 +148,21 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         setTab(tablayout.getTabAt(0)!!, R.drawable.ic_news_active, true)
         val navigationView = findViewById<NavigationView>(R.id.navigationView)
         navigationView.setNavigationItemSelectedListener(this)
-        val nav = navigationView.getHeaderView(0)
+        nav = navigationView.getHeaderView(0)
         //nav.rlMyProfile.setOnClickListener(this)
-        nav.nav_tvTitle.text = ClubZ.currentUser!!.full_name
-        nav.nav_tvStatus.text = getString(R.string.my_status)
-        nav.nav_optionMenu.setOnClickListener {
-            showLogoutPopup(nav.nav_optionMenu)
+        setprofiledata()
+        nav?.nav_optionMenu?.setOnClickListener {
+            showLogoutPopup(nav!!.nav_optionMenu)
         }
 
+
+    }
+
+    fun setprofiledata() {
+        nav?.nav_tvTitle!!.text = ClubZ.currentUser!!.full_name
+        nav?.nav_tvStatus!!.text = ClubZ.currentUser!!.about_me
         if (ClubZ.currentUser!!.profile_image.isNotEmpty()) {
-            Glide.with(this).load(ClubZ.currentUser!!.profile_image)/*.fitCenter()*/.into(nav.iv_profileImage)
+            Glide.with(this).load(ClubZ.currentUser!!.profile_image)/*.fitCenter()*/.into(nav!!.iv_profileImage)
         }
     }
 
@@ -172,7 +179,8 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 profile.userId = ClubZ.currentUser!!.id
                 profile.full_name = ClubZ.currentUser!!.full_name
                 profile.profile_image = ClubZ.currentUser!!.profile_image
-                startActivity(Intent(this@HomeActivity, ProfileActivity::class.java).putExtra("profile", profile))
+                var intent = Intent(this@HomeActivity, ProfileActivity::class.java).putExtra("profile", profile)
+                startActivityForResult(intent, successfullyUpdate)
             }
 
             R.id.navContact -> {
@@ -330,34 +338,34 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             }
             task.syncAppData()
         } else {*/
-            val tempClubList = AllClubRepo().getAllClubs()
-            val clubList = ArrayList<ClubName>()
-            for (club in tempClubList) {
-                if (club.notSilent.equals("1")) {
-                    val data = ClubName()
-                    data.clubId = club.clubId
-                    data.club_name = club.club_name
-                    clubList.add(data)
-                }
+        val tempClubList = AllClubRepo().getAllClubs()
+        val clubList = ArrayList<ClubName>()
+        for (club in tempClubList) {
+            if (club.notSilent.equals("1")) {
+                val data = ClubName()
+                data.clubId = club.clubId
+                data.club_name = club.club_name
+                clubList.add(data)
             }
+        }
 
-            when (clubList.size) {
-                0 -> {
-                    showToast("Please create your club first.")
-                }
-                1 -> {
-                    startActivity(Intent(this@HomeActivity, CreateAdActivity::class.java).putExtra("clubId", clubList[0].clubId.toString()).putExtra("clubName", clubList[0].club_name))
-                }
-                else -> {
-                    object : ClubSelectionDialog(this@HomeActivity, clubList) {
-                        override fun onClubSelect(clubName: ClubName) {
-                            startActivity(Intent(this@HomeActivity, CreateAdActivity::class.java)
-                                    .putExtra("clubId", clubName.clubId.toString()).putExtra("clubName", clubName.club_name))
-                            dismiss()
-                        }
-                    }.show()
-                }
+        when (clubList.size) {
+            0 -> {
+                showToast("Please create your club first.")
             }
+            1 -> {
+                startActivity(Intent(this@HomeActivity, CreateAdActivity::class.java).putExtra("clubId", clubList[0].clubId.toString()).putExtra("clubName", clubList[0].club_name))
+            }
+            else -> {
+                object : ClubSelectionDialog(this@HomeActivity, clubList) {
+                    override fun onClubSelect(clubName: ClubName) {
+                        startActivity(Intent(this@HomeActivity, CreateAdActivity::class.java)
+                                .putExtra("clubId", clubName.clubId.toString()).putExtra("clubName", clubName.club_name))
+                        dismiss()
+                    }
+                }.show()
+            }
+        }
         //}
     }
 /*
@@ -912,4 +920,13 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 .setValue(chatUserBean).addOnCompleteListener { }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            successfullyUpdate -> {
+                setprofiledata()
+            }
+        }
+
+    }
 }

@@ -93,7 +93,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         recyclerViewAds.layoutManager = lm
         recyclerViewAds.setHasFixedSize(true)
 
-        nodataLay.visibility = if (adList.isEmpty()) View.VISIBLE else View.GONE
+        /*nodataLay.visibility = if (adList.isEmpty()) View.VISIBLE else View.GONE*/
         adsAdapter = AdsAdapter(mContext, adList, this)
         recyclerViewAds.adapter = adsAdapter
 

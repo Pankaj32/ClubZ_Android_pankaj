@@ -114,6 +114,18 @@ class Util {
             }
 
         }
+
+        fun convertDobDate(date: String): String {
+            val format = SimpleDateFormat("yyyy/MM/dd")
+            try {
+                val date1 = format.parse(date)
+                return SimpleDateFormat("yyyy, MMMM dd").format(date1)
+            } catch (e: ParseException) {
+                Util.e("Error time ", e.toString())
+                return date
+            }
+
+        }
         private val INITIAL_POSITION = 0.0f
         private val ROTATED_POSITION = 180f
         public fun setRotation(imgView: ImageView, expanded: Boolean) {

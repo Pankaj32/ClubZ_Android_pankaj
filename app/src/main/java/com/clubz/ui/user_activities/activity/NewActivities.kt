@@ -293,6 +293,8 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             }
             Constants.INTENTGALLERY -> {
                 ImagePicker.pickImage(this@NewActivities)
+                val intentgallery = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(intentgallery, Constants.SELECT_FILE)
                 //   com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
             }
             Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this@NewActivities, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),

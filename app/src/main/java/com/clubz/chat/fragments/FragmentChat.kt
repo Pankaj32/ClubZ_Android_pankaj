@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
@@ -37,6 +38,7 @@ import com.clubz.utils.Constants
 import com.clubz.utils.KeyboardUtil
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
+import com.clubz.utils.picker.ImageRotator
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -47,12 +49,16 @@ import com.vanniktech.emoji.EmojiPopup
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.z_user_profile_dialog.*
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
-
-import java.util.ArrayList
+import java.io.OutputStream
+import java.util.*
 
 
 class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onClick {
+    override fun onItemClick() {
+        KeyboardUtil.hideKeyboard(activity)
+    }
 
     private var mContext: Context? = null
     private var chatFor = ""
@@ -87,6 +93,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     private var noDataTxt: TextView? = null
     private var silentTxt: TextView? = null
     private var progressbar: ProgressBar? = null
+    private var topLay: RelativeLayout? = null
     //    private var txtMsg: EmojiconEditText? = null
     //  private var chatRecycler: RecyclerView? = null
     private var memberList = ArrayList<MemberBean>()
@@ -105,7 +112,9 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
         progressbar = view.findViewById<ProgressBar>(R.id.progressbar)
           txtMsg = view.findViewById<EmojiEditText>(R.id.txtMsg)
         emoji = view.findViewById<ImageView>(R.id.emoji)
+        topLay = view.findViewById<RelativeLayout>(R.id.topLay)
         // chatRecycler = view.findViewById<RecyclerView>(R.id.chatRecycler)
+        topLay!!.setOnClickListener(this)
         return view
     }
 
@@ -204,6 +213,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                 }
             }
         })
+        KeyboardUtil.hideKeyboard(activity)
     }
 
 
@@ -229,7 +239,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
             /*R.id.sendPicBtn -> {
                 permissionPopUp()
             }*/
-            R.id.chatRecycler -> {
+            R.id.topLay -> {
                 KeyboardUtil.hideKeyboard(activity)
             }
         }
@@ -480,7 +490,9 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-                ImagePicker.pickImage(this)
+              //  ImagePicker.pickImage(this)
+                val intentgallery = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(intentgallery, Constants.SELECT_FILE)
                 // com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
             }
             Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -527,19 +539,73 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(mContext, requestCode, resultCode, data);
-                if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(mContext!!, this)
-                } else {
-                    Toast.makeText(activity, R.string.swr, Toast.LENGTH_SHORT).show()
+                /* if (imageUri != null) {
+                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this)
+                 } else {
+                     Toast.makeText(this@AllChatActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                 }*/
+                var bm: Bitmap? = null
+                bm = com.clubz.utils.picker.ImagePicker.getImageResized(mContext, imageUri)
+                val rotation = ImageRotator.getRotation(mContext, imageUri, true)
+                bm = ImageRotator.rotate(bm, rotation)
+
+                val file = File(mContext!!.getExternalCacheDir(), UUID.randomUUID().toString() + ".jpg")
+                val imageUri = FileProvider.getUriForFile(mContext!!, mContext!!.packageName + ".provider", file)
+
+
+                if (file != null) {
+                    try {
+                        var outStream: OutputStream? = null
+                        outStream = FileOutputStream(file)
+                        bm!!.compress(Bitmap.CompressFormat.PNG, 80, outStream)
+                        outStream!!.flush()
+                        outStream.close()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
                 }
+                sendFileFireBase(imageUri)
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
-                if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(mContext!!, this)
-                } else {
-                    Toast.makeText(mContext, R.string.swr, Toast.LENGTH_SHORT).show()
+                /*  if (imageUri != null) {
+                      CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this)
+                  } else {
+                      Toast.makeText(this@AllChatActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                  }*/
+
+                /*var bm: Bitmap? = null
+                val imageFile = getTemporalFile(this@AllChatActivity)
+                val photoURI = Uri.fromFile(imageFile)*/
+                var bm: Bitmap? = null
+                bm = com.clubz.utils.picker.ImagePicker.getImageResized(mContext, imageUri)
+                val rotation = ImageRotator.getRotation(mContext, imageUri, true)
+                bm = ImageRotator.rotate(bm, rotation)
+
+                val file = File(mContext!!.getExternalCacheDir(), UUID.randomUUID().toString() + ".jpg")
+                val imageUri = FileProvider.getUriForFile(mContext!!, mContext!!.packageName + ".provider", file)
+
+
+                if (file != null) {
+                    try {
+                        var outStream: OutputStream? = null
+                        outStream = FileOutputStream(file)
+                        bm!!.compress(Bitmap.CompressFormat.PNG, 80, outStream)
+                        outStream!!.flush()
+                        outStream.close()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
                 }
+                /*Intent i = new Intent(ChatActivity.this, CropActivity.class);
+                i.putExtra("Image", imageUri.toString());
+                i.putExtra("FROM", "gallery");
+                startActivityForResult(i, 111);*/
+
+                sendFileFireBase(imageUri)
+
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 var result: CropImage.ActivityResult = CropImage.getActivityResult(data)
@@ -551,7 +617,6 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                 }
             }
         }
-        isCameraSelected = false
     }
 
     private fun sendFileFireBase(selectedImageUri: Uri) {
@@ -697,7 +762,6 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     }
     override fun onImageClick(imgUrl: String?) {
         val dialog = ZoomDialog(mContext!!, imgUrl!!)
-        dialog.setCancelable(false)
         dialog.show()
     }
     companion object {

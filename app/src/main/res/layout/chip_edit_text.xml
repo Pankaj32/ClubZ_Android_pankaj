@@ -7,7 +7,7 @@
     android:layout_marginBottom="@dimen/_4sdp"
     android:layout_marginRight="@dimen/_4sdp">
 
-    <EditText
+    <!--<EditText
         android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,11 +17,25 @@
         android:imeOptions="actionDone"
         android:maxLines="1"
         android:minWidth="@dimen/_60sdp"
-        android:paddingLeft="@dimen/_6sdp"
-        android:paddingRight="@dimen/_2sdp"
         android:singleLine="true"
         android:textColor="@color/primaryColor"
-        android:textSize="@dimen/_12sdp" />
-
+        android:textSize="@dimen/_12sdp" />-->
+    <EditText
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_20sdp"
+        android:hint="@string/tap_to_add_new_tags"
+        android:minWidth="@dimen/_60sdp"
+        android:paddingRight="@dimen/_5sdp"
+        android:textColorHint="@color/text_color_gray"
+        android:textColor="@color/black"
+        android:singleLine="true"
+        android:inputType="textCapWords"
+        android:maxLength="25"
+        android:textSize="@dimen/_9sdp"
+        android:fontFamily="@font/roboto_italic"
+        android:imeOptions="actionDone"
+        android:imeActionLabel="Done"
+        style="@style/et_sign_up"/>
 
 </RelativeLayout>

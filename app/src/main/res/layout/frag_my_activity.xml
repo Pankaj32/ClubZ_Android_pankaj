@@ -26,7 +26,7 @@
             <include
                 android:id="@+id/nodataLay"
                 layout="@layout/no_activity_layout"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>

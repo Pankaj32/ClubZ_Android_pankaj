@@ -32,6 +32,6 @@
     <include
         android:id="@+id/nodataLay"
         layout="@layout/no_chat_layout"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </FrameLayout>

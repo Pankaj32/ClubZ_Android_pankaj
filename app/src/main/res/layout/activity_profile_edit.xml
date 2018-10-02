@@ -80,14 +80,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="9dp"
                 app:cardBackgroundColor="@color/white"
+                app:cardElevation="6dp"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp">
 
@@ -130,7 +132,8 @@
                         android:fontFamily="@font/roboto_italic"
                         android:hint="@string/write_something_interesting_about_you"
                         android:inputType="textCapSentences"
-                        android:maxLines="5"
+
+                        android:maxLength="500"
                         android:textColor="@color/black"
                         android:textColorHint="@color/nav_gray" />
                 </android.support.design.widget.TextInputLayout>
@@ -140,8 +143,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
                 app:cardBackgroundColor="@color/white"
+                app:cardElevation="6dp"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp">
 
@@ -201,8 +206,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
                 app:cardBackgroundColor="@color/white"
+                app:cardElevation="6dp"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp">
 
@@ -232,15 +239,36 @@
                         android:gravity="center_vertical"
                         android:text="@string/Public"
                         android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/tv_landLine"
+                        style="@style/TextView.SingleLine.Gray"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/tvLandLineVisibility"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/roboto_italic"
+                        android:gravity="center_vertical"
+                        />
 
-                    <android.support.design.widget.TextInputLayout
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/tv_landLine"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toLeftOf="@id/tvLandLineVisibility"
+                        android:background="@color/text_color_gray" />
+                    <!--<android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="40dp"
                         android:layout_toStartOf="@+id/tvLandLineVisibility"
                         android:theme="@style/tvStyle"
-                        app:counterEnabled="true"
                         app:counterMaxLength="10"
                         app:counterOverflowTextAppearance="@style/TextLimitError"
                         app:counterTextAppearance="@style/CounterText">
@@ -251,11 +279,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:clickable="false"
+                            android:focusable="false"
                             android:fontFamily="@font/roboto_italic"
                             android:hint="@string/landline_number"
                             android:textColorHint="@color/text_color_gray" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </android.support.design.widget.TextInputLayout>-->
 
                 </RelativeLayout>
 
@@ -265,8 +295,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
                 app:cardBackgroundColor="@color/white"
+                app:cardElevation="6dp"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp">
 
@@ -297,14 +329,37 @@
                         android:text="@string/only_for_club_member"
                         android:textSize="12sp" />
 
-                    <android.support.design.widget.TextInputLayout
+                    <TextView
+                        android:id="@+id/tv_mobileNo"
+                        style="@style/TextView.SingleLine.Gray"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/tvMobileVisibility"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/roboto_italic"
+                        android:gravity="center_vertical"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/tv_mobileNo"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toLeftOf="@id/tvMobileVisibility"
+                        android:background="@color/text_color_gray" />
+
+                    <!--<android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="40dp"
                         android:layout_toStartOf="@+id/tvMobileVisibility"
                         android:theme="@style/tvStyle"
-                        app:counterEnabled="true"
                         app:counterMaxLength="10"
                         app:counterOverflowTextAppearance="@style/TextLimitError"
                         app:counterTextAppearance="@style/CounterText">
@@ -315,11 +370,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:clickable="false"
+                            android:focusable="false"
                             android:fontFamily="@font/roboto_italic"
                             android:hint="@string/mobile_number"
                             android:textColorHint="@color/text_color_gray" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </android.support.design.widget.TextInputLayout>-->
 
                 </RelativeLayout>
 
@@ -329,8 +386,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
                 app:cardBackgroundColor="@color/white"
+                app:cardElevation="6dp"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp">
 
@@ -361,14 +420,37 @@
                         android:text="@string/hidden"
                         android:textSize="12sp" />
 
-                    <android.support.design.widget.TextInputLayout
+                    <TextView
+                        android:id="@+id/tv_email"
+                        style="@style/TextView.SingleLine.Gray"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/tvEmailVisibility"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/roboto_italic"
+                        android:gravity="center_vertical"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/tv_email"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toLeftOf="@id/tvEmailVisibility"
+                        android:background="@color/text_color_gray" />
+
+                   <!-- <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="40dp"
                         android:layout_toStartOf="@+id/tvEmailVisibility"
                         android:theme="@style/tvStyle"
-                        app:counterEnabled="true"
                         app:counterMaxLength="50"
                         app:counterOverflowTextAppearance="@style/TextLimitError"
                         app:counterTextAppearance="@style/CounterText">
@@ -379,11 +461,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:clickable="false"
+                            android:focusable="false"
                             android:fontFamily="@font/roboto_italic"
                             android:hint="@string/email_address"
                             android:textColorHint="@color/text_color_gray" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </android.support.design.widget.TextInputLayout>-->
 
                 </RelativeLayout>
 
@@ -393,8 +477,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
                 app:cardBackgroundColor="@color/white"
+                app:cardElevation="6dp"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp">
 
@@ -405,7 +491,7 @@
                     <TextView
                         style="@style/TextView.Header"
                         android:layout_width="match_parent"
-                        android:layout_height="107dp"
+                        android:layout_height="wrap_content"
                         android:text="@string/my_affilites"
                         android:textColor="@color/black" />
 
@@ -427,7 +513,8 @@
                         android:id="@+id/affilitesChip"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_35sdp"
+                        android:layout_below="@id/tvAffilitesVisibility"
+                        android:layout_marginTop="10dp"
                         android:visibility="visible" />
 
                     <View
@@ -445,8 +532,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
                 app:cardBackgroundColor="@color/white"
+                app:cardElevation="6dp"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp">
 
@@ -479,7 +568,8 @@
                         android:id="@+id/skillsChip"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="35dp"
+                        android:layout_below="@id/tvMySkillVisibility"
+                        android:layout_marginTop="10dp"
                         android:visibility="visible" />
 
                     <View
@@ -497,8 +587,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
                 app:cardBackgroundColor="@color/white"
+                app:cardElevation="6dp"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="10dp">
 
@@ -531,9 +623,16 @@
                         android:id="@+id/interestChip"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="35dp"
+                        android:layout_below="@id/tvMyInterestVisibility"
+                        android:layout_marginTop="10dp"
                         android:visibility="visible" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/interestChip"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/text_color_gray" />
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>

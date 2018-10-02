@@ -78,7 +78,11 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                     if (hasAffliates == 1) {
                         getUserJoinAfiliatesList(activityId)
                     } else {
-                        joinActivity(activityId, "", userId)
+                        if (activityDetails!!.getData()!!.is_like == "1") {
+                            joinActivity(activityId, "", "")
+                        }else{
+                            joinActivity(activityId, "", userId)
+                        }
                     }
                 }
             }
@@ -430,7 +434,6 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
             }
             R.id.imgActivity -> {
                 val dialog = ZoomDialog(mContext!!, activityDetails?.getData()?.image!!)
-                dialog.setCancelable(false)
                 dialog.show()
             }
         }

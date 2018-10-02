@@ -76,6 +76,7 @@ dependencies {
     //imoji
     implementation 'com.vanniktech:emoji-one:0.5.1'
     implementation 'com.google.android.gms:play-services-ads:11.8.0'
+    implementation 'com.loopeer.lib:shadow:0.0.4-beta3'
     /*implementation 'com.facebook.fresco:fresco:1.10.0'*/
 }
 

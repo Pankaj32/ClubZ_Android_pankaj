@@ -21,10 +21,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.ContextThemeWrapper
-import android.view.Gravity
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.clubz.BuildConfig
@@ -48,11 +45,9 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.mvc.imagepicker.ImagePicker
-import com.mvc.imagepicker.ImageUtils.getTemporalFile
-import com.vanniktech.emoji.EmojiEditText
-import com.vanniktech.emoji.EmojiManager
+
 import com.vanniktech.emoji.EmojiPopup
-import com.vanniktech.emoji.one.EmojiOneProvider
+
 import kotlinx.android.synthetic.main.activity_all_chat.*
 import java.io.File
 import java.io.FileOutputStream
@@ -61,6 +56,9 @@ import java.io.OutputStream
 import java.util.*
 
 class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerAdapter.onClick {
+    override fun onItemClick() {
+        KeyboardUtil.hideKeyboard(this)
+    }
 
     private val ARG_CHATFOR = "chatFor"
     private val ARG_CLUB_ID = "clubId"
@@ -114,6 +112,8 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
     private var noDataTxt: TextView? = null
     private var silentTxt: TextView? = null
     private var progressbar: ProgressBar? = null
+    private var topLay: RelativeLayout? = null
+
     //  oldemoji
     //   private var txtMsg: EmojiconEditText? = null
     //newemoji
@@ -133,6 +133,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         noDataTxt = findViewById<EditText>(R.id.noDataTxt)
         silentTxt = findViewById<TextView>(R.id.silentTxt)
         progressbar = findViewById<ProgressBar>(R.id.progressbar)
+        topLay = findViewById<RelativeLayout>(R.id.topLay)
         emoji = findViewById<ImageView>(R.id.emoji)
 
         mUserId = ClubZ.currentUser!!.id
@@ -199,6 +200,12 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         sentButton.setOnClickListener(this)
         //    sendPicBtn.setOnClickListener(this)
         backBtn.setOnClickListener(this)
+        topLay!!.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
+                KeyboardUtil.hideKeyboard(this@AllChatActivity)
+                return true
+            }
+        })
 
         //    oldEmoji
         /*emojIcon?.setUseSystemEmoji(false)
@@ -244,7 +251,6 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                 }
             }
         })
-        chatRecycler.setOnClickListener(this)
     }
 
     private fun getClubOwner() {
@@ -283,10 +289,6 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
             }*/
             R.id.backBtn -> {
                 finish()
-            }
-            R.id.chatRecycler -> {
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(txtMsg.getWindowToken(), 0)
             }
         }
     }
@@ -527,7 +529,9 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-                ImagePicker.pickImage(this)
+                //  ImagePicker.pickImage(this)
+                val intentgallery = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(intentgallery, Constants.SELECT_FILE)
                 // com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
             }
             Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this@AllChatActivity, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -574,11 +578,11 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         if (resultCode == -1) {
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@AllChatActivity, requestCode, resultCode, data);
-               /* if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this)
-                } else {
-                    Toast.makeText(this@AllChatActivity, R.string.swr, Toast.LENGTH_SHORT).show()
-                }*/
+                /* if (imageUri != null) {
+                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this)
+                 } else {
+                     Toast.makeText(this@AllChatActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                 }*/
                 var bm: Bitmap? = null
                 bm = getImageResized(this@AllChatActivity, imageUri)
                 val rotation = ImageRotator.getRotation(this@AllChatActivity, imageUri, true)
@@ -604,11 +608,11 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
-              /*  if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this)
-                } else {
-                    Toast.makeText(this@AllChatActivity, R.string.swr, Toast.LENGTH_SHORT).show()
-                }*/
+                /*  if (imageUri != null) {
+                      CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this)
+                  } else {
+                      Toast.makeText(this@AllChatActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                  }*/
 
                 /*var bm: Bitmap? = null
                 val imageFile = getTemporalFile(this@AllChatActivity)
@@ -783,7 +787,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
     }
 
     private fun sendToOtherIndividualChatHistory(chatBean: ChatBean,
-                                              databaseReference: DatabaseReference) {
+                                                 databaseReference: DatabaseReference) {
         val chatHistory = ChatHistoryBean()
         // chatHistory.deleteby = ""
         chatHistory.chatType = chatFor
@@ -800,9 +804,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         chatHistory.message = chatBean.message
         chatHistory.timestamp = chatBean.timestamp
 
-        databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref.
-                child(historyId).
-                child(chatHistoryRoom)
+        databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(historyId).child(chatHistoryRoom)
                 .setValue(chatHistory)
     }
 
@@ -835,7 +837,6 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
 
     override fun onImageClick(imgUrl: String?) {
         val dialog = ZoomDialog(this@AllChatActivity, imgUrl!!)
-        dialog.setCancelable(false)
         dialog.show()
     }
 }

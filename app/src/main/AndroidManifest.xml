@@ -218,10 +218,11 @@
             android:name=".ui.ads.activity.AdDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity android:name=".chat.AllChatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
     </application>
 
 </manifest>

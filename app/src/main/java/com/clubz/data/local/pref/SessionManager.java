@@ -55,12 +55,25 @@ public class SessionManager {
         editor.putString(Constants._auth_token  , user.getAuth_token().trim());
         editor.putString(Constants._device_type , user.getDevice_type().trim());
         editor.putString(Constants._device_token, user.getDevice_token().trim());
+
+        editor.putString(Constants._about_me, user.getAbout_me().trim());
+        editor.putString(Constants._about_me_visibility, user.getAbout_me_visibility().trim());
+        editor.putString(Constants._dob, user.getDob().trim());
+        editor.putString(Constants._dob_visibility, user.getDob_visibility().trim());
+        editor.putString(Constants._contact_no_visibility, user.getContact_no().trim());
+        editor.putString(Constants._email_visibility, user.getEmail_visibility().trim());
+        editor.putString(Constants._affiliates_visibility, user.getAffiliates_visibility().trim());
+        editor.putString(Constants._interest_visibility, user.getInterest_visibility().trim());
+        editor.putString(Constants._news_notifications, user.getNews_notifications().trim());
+        editor.putString(Constants._activities_notifications, user.getActivities_notifications().trim());
+        editor.putString(Constants._ads_notifications, user.getAds_notifications().trim());
+        editor.putString(Constants._show_profile, user.getShow_profile().trim());
+        editor.putString(Constants._allow_anyone, user.getAllow_anyone().trim());
         editor.putBoolean(IS_LOGED_IN, true);
         editor.apply();
         //ClubZ.instance.setCurrentUser(user);
         return true;
     }
-
 
     public User getUser(){
         if(mypref.getString(Constants._id, "").isEmpty()){
@@ -81,10 +94,22 @@ public class SessionManager {
             user.setAuth_token   (mypref.getString(Constants._auth_token  , ""));
             user.setDevice_type  (mypref.getString(Constants._device_type , ""));
             user.setDevice_token (mypref.getString(Constants._device_token, ""));
+            user.setAbout_me (mypref.getString(Constants._about_me, ""));
+            user.setAbout_me_visibility (mypref.getString(Constants._about_me_visibility, ""));
+            user.setDob (mypref.getString(Constants._dob, ""));
+            user.setDob_visibility (mypref.getString(Constants._dob_visibility, ""));
+            user.setContact_no_visibility (mypref.getString(Constants._contact_no_visibility, ""));
+            user.setEmail_visibility (mypref.getString(Constants._email_visibility, ""));
+            user.setAffiliates_visibility (mypref.getString(Constants._affiliates_visibility, ""));
+            user.setInterest_visibility (mypref.getString(Constants._interest_visibility, ""));
+            user.setNews_notifications (mypref.getString(Constants._news_notifications, ""));
+            user.setActivities_notifications (mypref.getString(Constants._activities_notifications, ""));
+            user.setAds_notifications (mypref.getString(Constants._ads_notifications, ""));
+            user.setShow_profile (mypref.getString(Constants._show_profile, ""));
+            user.setAllow_anyone (mypref.getString(Constants._allow_anyone, ""));
             return user;
         }
     }
-
 
     public void setUpdateAppData(UpdateAsync update){
         if(update!=null){

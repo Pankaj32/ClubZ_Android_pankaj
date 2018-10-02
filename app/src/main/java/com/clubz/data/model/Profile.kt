@@ -40,7 +40,7 @@ class Profile : Serializable{
     }
 
     fun getFormatedDOB() : String {  // 1989, November 13
-        val pattern = "yyyy, MMMM dd"
+        val pattern = "yyyy/MM/dd"
         val simpleDateFormat = SimpleDateFormat(pattern)
         val date = simpleDateFormat.format(stringToDate(dob))
         if (date.isNullOrEmpty()) return "----/--/--"

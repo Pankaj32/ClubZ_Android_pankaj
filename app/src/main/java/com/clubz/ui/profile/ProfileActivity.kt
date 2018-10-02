@@ -1,5 +1,6 @@
 package com.clubz.ui.profile
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.Typeface
@@ -31,15 +32,18 @@ import com.clubz.ui.cv.FlowLayout
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_profile.*
 import org.json.JSONObject
 
 class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
-
+    private var successfullyUpdate = 100
     private var collapsedMenu: Menu? = null
     private var appBarExpanded = true
     private var profile: Profile? = null
     private var isMyprofile = false
+    private var isUpdatedProfile = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,26 +100,73 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
 
         collapse_toolbar.title = profile!!.full_name
         if (!profile!!.profile_image.isBlank()) {
-            Glide.with(this).load(profile!!.profile_image)/*.fitCenter()*/.into(toolbar_image)
+            Picasso.with(this).load(profile!!.profile_image)
+                    .fit()
+                    .into(toolbar_image, object : Callback {
+                        override fun onSuccess() {
+                            setPlated()
+                        }
+
+                        override fun onError() {
+                            setPlated()
+                        }
+                    })
         }
 
     }
 
     private fun updateView() {
         collapse_toolbar.title = profile!!.full_name
-        tvDob.text = profile?.getFormatedDOB()
+        tvDob.text = Util.convertDobDate(profile!!.getFormatedDOB())
         tv_phoneNo.text = profile?.getContactNo()
         tv_landLine.text = profile?.getContactNo()
         tv_email.text = profile?.email
         tvAboutMe.text = profile?.about_me
 
-        addChip(affilitesChip, profile!!.affiliates)
-        addChip(skillsChip, profile!!.skills)
-        addChip(interestChip, profile!!.interests)
+        if (!profile!!.affiliates.isEmpty()){
+            noAffiliatesTxt.visibility=View.GONE
+            affilitesChip.visibility=View.VISIBLE
+            if (affilitesChip.childCount != 0) affilitesChip.removeAllViews()
+            addChip(affilitesChip, profile!!.affiliates)
+        }else{
+            noAffiliatesTxt.visibility=View.VISIBLE
+            affilitesChip.visibility=View.GONE
+        }
+        if (!profile!!.skills.isEmpty()){
+            noSkillTxt.visibility=View.GONE
+            skillsChip.visibility=View.VISIBLE
+            if (skillsChip.childCount != 0) skillsChip.removeAllViews()
+            addChip(skillsChip, profile!!.skills)
+        }else{
+            noSkillTxt.visibility=View.VISIBLE
+            skillsChip.visibility=View.GONE
+        }
+        if (!profile!!.interests.isEmpty()){
+            noInterestTxt.visibility=View.GONE
+            if (interestChip.childCount != 0) interestChip.removeAllViews()
+            addChip(interestChip, profile!!.interests)
+            interestChip.visibility=View.VISIBLE
+        }else{
+            noInterestTxt.visibility=View.VISIBLE
+            interestChip.visibility=View.GONE
+        }
+        if (!profile!!.profile_image.isBlank()) {
+            Picasso.with(this).load(profile!!.profile_image)
+                    .fit()
+                    .into(toolbar_image, object : Callback {
+                        override fun onSuccess() {
+                            setPlated()
+                        }
+
+                        override fun onError() {
+                            setPlated()
+                        }
+                    })
+        }
     }
 
     private fun addChip(chipHolder: FlowLayout, str: String) {
-        if (str.isNotBlank()) {
+
             val tagList = str.split(",").map { it.trim() }
             for (tag in tagList) {
                 val chip = object : ChipView(this@ProfileActivity, chipHolder.childCount.toString(), false) {
@@ -129,20 +180,19 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                 chip.text = tag
                 chipHolder.addView(chip)
             }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(if(isMyprofile) R.menu.my_profile_menu else R.menu.profile_menu, menu)
+        menuInflater.inflate(if (isMyprofile) R.menu.my_profile_menu else R.menu.profile_menu, menu)
         collapsedMenu = menu
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
 
-        if(isMyprofile){
+        if (isMyprofile) {
 
-        }else{
+        } else {
             if (collapsedMenu != null && (!appBarExpanded || collapsedMenu!!.size() != 1)) {
                 //collapsed
                 /*collapsedMenu!!.add("Chat")
@@ -170,13 +220,14 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                finish()
+                onback()
                 return true
             }
             R.id.action_chat -> return true
-            R.id.action_edit ->{
-                startActivity(Intent(this@ProfileActivity, ProfileEditActivity::class.java)
-                        .putExtra("profile", profile))
+            R.id.action_edit -> {
+                var intent = Intent(this@ProfileActivity, ProfileEditActivity::class.java)
+                        .putExtra("profile", profile)
+                startActivityForResult(intent, successfullyUpdate)
                 //Toast.makeText(this@ProfileActivity, R.string.under_development, Toast.LENGTH_SHORT).show()
             }
         }
@@ -189,7 +240,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
 
-        if(!isMyprofile){
+        if (!isMyprofile) {
             val maxScroll = appBarLayout.totalScrollRange
             val percentage = Math.abs(offset).toFloat() / maxScroll.toFloat()
             if (percentage > 0.95) {
@@ -243,5 +294,26 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                 return params
             }
         }.execute()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            successfullyUpdate -> {
+                isUpdatedProfile = true
+                getProfile()
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        onback()
+    }
+
+    private fun onback() {
+        if (isUpdatedProfile) {
+            setResult(successfullyUpdate, Intent())
+        }
+        finish()
     }
 }

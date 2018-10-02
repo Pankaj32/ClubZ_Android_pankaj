@@ -91,7 +91,7 @@ public class AdsAdapter extends RecyclerView.Adapter {
 
             // h.adTime.setText(dataBean.getDayDifference());
             h.username.setText(dataBean.getFull_name());
-            h.usrerole.setText(dataBean.getUser_role());
+            //h.usrerole.setText(dataBean.getUser_role());
             if (!TextUtils.isEmpty(dataBean.getImage())) {
                 Glide.with(h.adImg.getContext())
                         .load(dataBean.getImage())

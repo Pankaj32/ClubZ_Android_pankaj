@@ -14,6 +14,8 @@ import com.clubz.ClubZ;
 import com.clubz.R;
 import com.clubz.chat.model.ChatBean;
 import com.clubz.utils.DateTimeUtil;
+import com.clubz.utils.KeyboardUtil;
+import com.loopeer.shadow.ShadowView;
 import com.squareup.picasso.Picasso;
 import com.vanniktech.emoji.EmojiInformation;
 import com.vanniktech.emoji.EmojiTextView;
@@ -84,14 +86,14 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final ChatBean chatBean = mChatBeen.get(position);
 
         final String message = chatBean.getMessage();
-        myChatViewHolder.txtChatMessage.setVisibility(View.VISIBLE);
-        myChatViewHolder.chatImageview.setVisibility(View.VISIBLE);
+        myChatViewHolder.shadowTxt.setVisibility(View.VISIBLE);
+        myChatViewHolder.shadowImg.setVisibility(View.VISIBLE);
         myChatViewHolder.smlProgress.setVisibility(View.VISIBLE);
         if (chatBean.getImage() == 1) {
-            myChatViewHolder.txtChatMessage.setVisibility(View.GONE);
+            myChatViewHolder.shadowTxt.setVisibility(View.GONE);
             Picasso.with(myChatViewHolder.chatImageview.getContext()).load(chatBean.getImageUrl()).fit().into(myChatViewHolder.chatImageview);
         } else {
-            myChatViewHolder.chatImageview.setVisibility(View.GONE);
+            myChatViewHolder.shadowImg.setVisibility(View.GONE);
             myChatViewHolder.smlProgress.setVisibility(View.GONE);
            // myChatViewHolder.txtChatMessage.setText(message);
             setTextEmoji(myChatViewHolder.txtChatMessage, message);
@@ -116,8 +118,8 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final ChatBean chatBean = mChatBeen.get(position);
 
         final String message = chatBean.getMessage();
-        otherChatViewHolder.txtChatMessage.setVisibility(View.VISIBLE);
-        otherChatViewHolder.chatImageview.setVisibility(View.VISIBLE);
+        otherChatViewHolder.shadowTxt.setVisibility(View.VISIBLE);
+        otherChatViewHolder.shadowImg.setVisibility(View.VISIBLE);
         otherChatViewHolder.smlProgress.setVisibility(View.VISIBLE);
         if (position==0) {
             otherChatViewHolder.userTxt.setText(chatBean.getSenderName());
@@ -131,10 +133,10 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
         if (chatBean.getImage() == 1) {
-            otherChatViewHolder.txtChatMessage.setVisibility(View.GONE);
+            otherChatViewHolder.shadowTxt.setVisibility(View.GONE);
             Picasso.with(otherChatViewHolder.chatImageview.getContext()).load(chatBean.getImageUrl()).fit().into(otherChatViewHolder.chatImageview);
         } else {
-            otherChatViewHolder.chatImageview.setVisibility(View.GONE);
+            otherChatViewHolder.shadowImg.setVisibility(View.GONE);
             otherChatViewHolder.smlProgress.setVisibility(View.GONE);
             setTextEmoji(otherChatViewHolder.txtChatMessage, message);
            // otherChatViewHolder.txtChatMessage.setText(message);
@@ -169,6 +171,8 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private EmojiTextView txtChatMessage;
       //  private TextView txtChatMessage;
         private ProgressBar smlProgress;
+        private ShadowView shadowTxt;
+        private ShadowView shadowImg;
 
 
         MyChatViewHolder(View itemView) {
@@ -178,12 +182,20 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             dateTime = itemView.findViewById(R.id.dateTime);
             chatImageview = itemView.findViewById(R.id.chat_imageview);
             smlProgress = itemView.findViewById(R.id.smlProgress);
+            shadowTxt = itemView.findViewById(R.id.shadowTxt);
+            shadowImg = itemView.findViewById(R.id.shadowImg);
 
             chatImageview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ChatBean chatBean = mChatBeen.get(getAdapterPosition());
                     onClick.onImageClick(chatBean.getImageUrl());
+                }
+            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onClick.onItemClick();
                 }
             });
         }
@@ -195,6 +207,8 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
        private EmojiTextView txtChatMessage;
        // private TextView txtChatMessage;
         private ProgressBar smlProgress;
+        private ShadowView shadowTxt;
+        private ShadowView shadowImg;
 
         OtherChatViewHolder(View itemView) {
             super(itemView);
@@ -203,11 +217,19 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             dateTime = itemView.findViewById(R.id.dateTime);
             chatImageview = itemView.findViewById(R.id.chat_imageview);
             smlProgress = itemView.findViewById(R.id.smlProgress);
+            shadowTxt = itemView.findViewById(R.id.shadowTxt);
+            shadowImg = itemView.findViewById(R.id.shadowImg);
             chatImageview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ChatBean chatBean = mChatBeen.get(getAdapterPosition());
                     onClick.onImageClick(chatBean.getImageUrl());
+                }
+            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onClick.onItemClick();
                 }
             });
         }
@@ -230,5 +252,6 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
    public interface onClick{
          void onImageClick(String imgUrl);
+         void onItemClick();
     }
 }
