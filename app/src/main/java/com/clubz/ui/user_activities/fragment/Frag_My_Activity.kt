@@ -35,6 +35,7 @@ import com.clubz.ui.cv.ChipView
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.FlowLayout
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
+import com.clubz.ui.user_activities.activity.AddEventActivity
 import com.clubz.ui.user_activities.activity.ActivitiesDetails
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.adapter.*
@@ -49,7 +50,6 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.location.places.ui.PlaceAutocomplete
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.dialog_add_events.*
-import kotlinx.android.synthetic.main.frag_crate_feed.*
 import kotlinx.android.synthetic.main.frag_my_activity.*
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -355,7 +355,8 @@ class Frag_My_Activity : Fragment(),
             0 -> {
 
                 if (activities.is_my_activity == "1") {
-                    popUpAddEvents(activities)
+                    //popUpAddEvents(activities)
+                    startActivity(Intent(mContext, AddEventActivity::class.java).putExtra("activity",activities))
                 } else {
                     if (hasAffliates == 1) {
                         getUserJoinAfiliatesList(activities.activityId!!)

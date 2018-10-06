@@ -805,7 +805,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_USERS)
-                .child(chatUserBean.uid)
+                .child(chatUserBean.uid!!)
                 .setValue(chatUserBean).addOnCompleteListener {
                     setResult(successfullyUpdate, Intent())
                     finish()

@@ -3,10 +3,12 @@ package com.clubz.ui.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
+import android.widget.Toast
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import com.android.volley.Response
@@ -34,8 +36,14 @@ abstract class UserProfileDialog(internal val context: Context, val member: Club
     private val ARG_HISTORY_NAME = "historyName"
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.ic_call->{      onCallClicked()}
-            R.id.ic_chat->{
+            R.id.ic_call-> {
+                if (!user!!.userId.equals("")) {
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "${user?.country_code} ${user?.contact_no}"))
+                    context.startActivity(intent)
+                } else {
+                    Toast.makeText(context, "Under development", Toast.LENGTH_SHORT).show()
+                }
+            } R.id.ic_chat->{
                 context.startActivity(Intent(context, AllChatActivity::class.java)
                         .putExtra(ARG_CHATFOR, ChatUtil.ARG_IDIVIDUAL)
                         .putExtra(ARG_HISTORY_ID, user!!.userId)

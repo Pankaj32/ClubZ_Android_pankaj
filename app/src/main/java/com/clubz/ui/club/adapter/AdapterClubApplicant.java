@@ -6,10 +6,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.clubz.R;
 import com.clubz.data.model.ClubMember;
+import com.github.siyamed.shapeimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +56,9 @@ public class AdapterClubApplicant extends RecyclerView.Adapter<AdapterClubApplic
         ClubMember member = applicantList.get(position);
         h.tv_FullName.setText(member.getFull_name());
         h.tv_location.setText(String.format("%s km | Requested on %s", member.distance(), member.getDate()));
+        if(!TextUtils.isEmpty(member.getProfile_image())){
+            Picasso.with(h.iv_profileImage.getContext()).load(member.getProfile_image()).into(h.iv_profileImage);
+        }else Picasso.with(h.iv_profileImage.getContext()).load(R.drawable.ic_user_white).into(h.iv_profileImage);
     }
 
 
@@ -64,13 +70,15 @@ public class AdapterClubApplicant extends RecyclerView.Adapter<AdapterClubApplic
     class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView tv_FullName, tv_location, tv_discard, tv_accept;
-
+        private ImageView iv_profileImage;
         public ViewHolder(View itemView) {
             super(itemView);
             tv_FullName = itemView.findViewById(R.id.tv_FullName);
             tv_location = itemView.findViewById(R.id.tv_location);
             tv_discard = itemView.findViewById(R.id.tv_discard);
             tv_accept = itemView.findViewById(R.id.tv_accept);
+            iv_profileImage = itemView.findViewById(R.id.iv_profileImage);
+
         }
 
         public void setUpClick(){

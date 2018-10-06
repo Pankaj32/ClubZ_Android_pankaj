@@ -9,19 +9,6 @@
     android:orientation="vertical"
     tools:context=".ui.club.ClubCreationActivity">
 
-    <!--<android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            app:titleTextColor="@color/white"
-            app:contentInsetStart="0dp"
-            app:titleTextAppearance="@style/TextAppearanceExpand"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
@@ -390,7 +377,8 @@
                                 style="@style/EditText.ClubCreation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/club_city" />
+                                android:hint="@string/club_city"
+                                android:focusable="false"/>
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -420,7 +408,6 @@
                                 style="@style/EditText.ClubCreation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:focusable="false"
                                 android:hint="@string/club_address" />
 
                         </android.support.design.widget.TextInputLayout>

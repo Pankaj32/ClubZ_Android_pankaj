@@ -6,8 +6,10 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -124,7 +126,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         recycleView.itemAnimator = null
         recycleView.layoutManager = lm
         recycleView.setHasFixedSize(true)
-        recycleView.addItemDecoration(SimpleDividerItemDecoration(this))
+       // recycleView.addItemDecoration(SimpleDividerItemDecoration(this))
         recycleView.adapter = searchAdapter
 
         pageListner = object : RecyclerViewScrollListener(lm) {
@@ -180,7 +182,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 .reference
                 .child(ChatUtil.ARG_CLUB_MEMBER)
                 .child(club.clubId)
-                .child(memberBean.userId)
+                .child(memberBean.userId!!)
                 .setValue(memberBean).addOnCompleteListener {
                 }
     }
@@ -273,6 +275,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onPageSelected(position: Int) {
 
         when (position) {
@@ -280,6 +283,8 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 searchView.clearFocus()
                 searchView.visibility = View.GONE
                 search_layout.visibility = View.GONE
+
+                //shadowView.shadowMarginBottom=0
                 //floating_search_view.visibility = View.GONE
                 //addsymbol.visibility = View.VISIBLE
                 bubble_menu.visibility = View.VISIBLE
@@ -290,6 +295,8 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 searchView.clearFocus()
                 searchView.visibility = View.GONE
                 search_layout.visibility = View.GONE
+
+               // shadowView.shadowMarginBottom=0
                 //floating_search_view.visibility = View.GONE
                 //addsymbol.visibility = View.VISIBLE
                 bubble_menu.visibility = View.VISIBLE
@@ -300,8 +307,9 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 //addsymbol.visibility = View.GONE
                 bubble_menu.visibility = View.GONE
                 headerTxt.visibility = View.GONE
-                //
+                                //
                 search_layout.visibility = View.VISIBLE
+               // shadowView.shadowMarginBottom=5
                 recycleView.visibility = View.VISIBLE
                 //floating_search_view.visibility = View.VISIBLE
                 searchList.clear()

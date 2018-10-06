@@ -51,20 +51,21 @@ class FragClubDetails1 : Fragment() {
     private fun setView() {
         titile_name.setText(clubz.club_name)
         club_category.text = clubz.club_category_name
-        img_privacy.setImageResource(if (clubz.club_type == "1") R.drawable.ic_lock_open else R.drawable.ic_lock_black_24dp)
+        img_privacy.setImageResource(if (clubz.club_type == "1") R.drawable.ic_public else R.drawable.ic_lock_black_24dp)
         tv_privacy.setText(if (clubz.club_type == "1") R.string.Public else R.string.Private)
-        club_email.setText(clubz.club_email)
-        club_phone.setText(String.format("%s %s", clubz.club_country_code, clubz.club_contact_no))
-        club_city.setText(clubz.club_city)
-        club_address.setText(clubz.club_location)
-        club_web.setText(clubz.club_website)
+
+        if (clubz.club_email.trim().isNotEmpty())club_email.setText(clubz.club_email)
+        if (clubz.club_contact_no.trim().isNotEmpty())club_phone.setText(String.format("%s %s", clubz.club_country_code, clubz.club_contact_no))
+        if (clubz.club_city.trim().isNotEmpty())club_city.setText(clubz.club_city)
+        if (clubz.club_location.trim().isNotEmpty())club_address.setText(clubz.club_location)
+        if (clubz.club_website.trim().isNotEmpty())club_web.setText(clubz.club_website)
         tvLeadby.text = clubz.full_name
-        members.text = String.format("%d %s", 1, getString(R.string.members))
+        members.text = String.format("%d %s", clubz.members, getString(R.string.members))
         try {
             foundation_date.setText(String.format("%s", Util.convertDate2(clubz.club_foundation_date)))
         } catch (ex: Exception) {
         }
-        etv_description.setText(clubz.club_description)
+        if (clubz.club_description.trim().isNotEmpty())etv_description.setText(clubz.club_description)
 
 
         if (clubz.profile_image.isEmpty())
@@ -85,7 +86,7 @@ class FragClubDetails1 : Fragment() {
         }
 */
         try {
-            if (clubz.club_image.isNotEmpty()) {
+            if (!clubz.club_image.endsWith("clubDefaultImage.png")) {
                 img_club.visibility=View.VISIBLE
                 Glide.with(img_club.context).load(clubz.club_image).into(img_club)
             }else{
@@ -145,7 +146,7 @@ class FragClubDetails1 : Fragment() {
                             image_icon.background = ContextCompat.getDrawable(context, R.drawable.ic_shield_outline)
                             image_icon.setImageResource(R.drawable.ic_user_shape)*/
                         }
-                        tvLeadby.text = clubz.user_role
+                        tvLeadby.text = clubz.full_name
                     }
                 } catch (ex: Exception) {
                     Util.showToast(R.string.swr, context!!)

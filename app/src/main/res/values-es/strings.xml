@@ -16,8 +16,8 @@
     <string name="by_taping2">Al continuar aceptas nuestro</string>
     <string name="and">y el</string>
     <string name="and_only">y</string>
-    <string name="termsandcon"><u>Términos y condiciones</u><u>Terms and conditions</u></string>
-    <string name="privacypolic"><u>Política de privacidad</u><u>Privacy policy</u></string>
+    <string name="termsandcon"><u>Términos y condiciones</u><!--<u>Terms and conditions</u>--></string>
+    <string name="privacypolic"><u>Política de privacidad</u><!--<u>Privacy policy</u>--></string>
     <string name="orlogin">O inicia sesión con</string>
     <string name="orconnect">O conectate con</string>
     <string name="google">Google</string>
@@ -49,7 +49,7 @@
     <string name="club_description">Descripción del club</string>
     <string name="lead_by">Liderado por</string>
     <string name="user_role">Función del usuario</string>
-    <string name="Terms_and_1"><u>Términos y Condiciones</u><u>Terms And Conditions</u></string>
+    <string name="Terms_and_1"><u>Términos y Condiciones</u><!--<u>Terms And Conditions</u>--></string>
     <string name="Terms_and_2">Texto de los Términos y Condiciones</string>
     <string name="club">Club</string>
     <string name="club_info">Información del club</string>
@@ -291,6 +291,7 @@
     <string name="joinTitle">Selecciona quién se une a la actividad</string>
     <string name="confirmTitle">Selecciona quién confirma la fecha</string>
     <string name="joinBtnText">ÚNETE</string>
+    <string name="acceptBtnText">ACEPTAS</string>
     <string name="addDateBtnText">AÑADIR FECHA</string>
     <string name="h_activity_desc">Descripción</string>
     <string name="h_eventTitle">Título</string>

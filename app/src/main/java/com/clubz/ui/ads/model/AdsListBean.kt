@@ -26,6 +26,7 @@ class AdsListBean {
          * description : This is testing ads
          * club_id : 4
          * user_id : 5
+         * creator_phone : 8959547514
          * user_role : Manager
          * crd : 2018-08-19 09:36:29
          * image :
@@ -44,6 +45,7 @@ class AdsListBean {
         var description: String? = null
         var club_id: String? = null
         var user_id: String? = null
+        var creator_phone: String? = null
         var user_role: String? = null
         var crd: String? = null
         var image: String? = null
@@ -66,6 +68,7 @@ class AdsListBean {
             description = parcel.readString()
             club_id = parcel.readString()
             user_id = parcel.readString()
+            creator_phone = parcel.readString()
             user_role = parcel.readString()
             crd = parcel.readString()
             image = parcel.readString()
@@ -146,6 +149,7 @@ class AdsListBean {
             parcel.writeString(description)
             parcel.writeString(club_id)
             parcel.writeString(user_id)
+            parcel.writeString(creator_phone)
             parcel.writeString(user_role)
             parcel.writeString(crd)
             parcel.writeString(image)

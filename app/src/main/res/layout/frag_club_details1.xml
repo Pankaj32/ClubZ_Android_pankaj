@@ -270,7 +270,7 @@
                         android:enabled="false"
                         android:focusable="false"
                         android:hint="@string/foundation_date"
-                        android:text="@string/dharmraj_acharya_bhurtel"/>
+                        android:text="@string/a_notAvailable"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -301,7 +301,7 @@
                         android:layout_height="wrap_content"
                         style="@style/EditText.ClubDetail"
                         android:hint="@string/club_email"
-                        android:text="Dharmrajacharya@gmail.com"/>
+                        android:text="@string/a_notAvailable"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -332,7 +332,7 @@
                         android:layout_height="wrap_content"
                         style="@style/EditText.ClubDetail"
                         android:hint="@string/club_phone_no"
-                        android:text="+91 9977141811"/>
+                        android:text="@string/a_notAvailable"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -394,7 +394,7 @@
                         android:layout_height="wrap_content"
                         style="@style/EditText.ClubDetail"
                         android:hint="@string/club_address"
-                        android:text="Mindiii System Pvt. Ltd."/>
+                        android:text="@string/a_notAvailable"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -425,7 +425,7 @@
                         android:layout_height="wrap_content"
                         style="@style/EditText.ClubDetail"
                         android:hint="@string/club_web_site"
-                        android:text="www.mindiii.com"/>
+                        android:text="@string/a_notAvailable"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -460,6 +460,7 @@
                         android:layout_height="wrap_content"
                         style="@style/EditText.ClubDetail"
                         android:hint="@string/hint_club_des"
+                        android:text="@string/a_notAvailable"
                         android:inputType="textCapSentences|textMultiLine" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -524,7 +525,7 @@
                         android:id="@+id/tvLeadby"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
+                        android:textColor="@color/primaryColor"
                         android:textSize="@dimen/_14sdp"
                         android:fontFamily="@font/teko_semibold"
                         android:text="@string/dharmraj_acharya_bhurtel"/>

@@ -195,8 +195,8 @@ class FragAdsDetails : Fragment(), View.OnClickListener {
         user.isLiked = 0
         user.full_name = adDetails?.data?.creator_name!!
         user.profile_image = adDetails?.data?.creator_profile_image!!
-        user.country_code = "+91"
-        user.contact_no = "8116174365"
+        user.country_code = ""
+        user.contact_no = adDetails!!.data!!.creator_phone!!
 
         val dialog = object : ProfileDialog(mContext!!, user) {
             override fun OnFabClick(user: UserInfo) {

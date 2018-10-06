@@ -10,6 +10,7 @@ import android.support.v7.widget.ListPopupWindow
 import android.view.Gravity
 import android.view.View
 import android.view.Window
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
@@ -140,6 +141,7 @@ abstract class BaseHomeActivity : BaseActivity(),
             menuDialog = Dialog(this)
             menuDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val dialogWindow = menuDialog?.window
+            dialogWindow?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             menuDialog?.setContentView(R.layout.club_more_menu)
 

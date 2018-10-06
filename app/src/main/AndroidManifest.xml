@@ -22,11 +22,10 @@
         android:fullBackupContent="false"
         android:icon="@drawable/new_app_icon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@drawable/new_app_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.Splash"
-        android:largeHeap="true"
-        >
+        android:theme="@style/AppTheme.Splash">
         <activity
             android:name=".ui.splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -142,7 +141,7 @@
             android:value="AIzaSyBbpgox7d2eiD1fxpNu9-VaYCM_WSkhQqE" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="REPLACE_WITH_YOUR_ADMOB_APP_ID"/>
+            android:value="@string/admob_app_id" />
         <meta-data
             android:name="font"
             android:resource="@array/clubz_font" />
@@ -177,8 +176,8 @@
             android:theme="@style/AppThmeLight" />
         <activity
             android:name=".ui.profile.ProfileActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight" />
         <activity
             android:name=".ui.setting.SettingActivity"
@@ -195,8 +194,8 @@
 
         <activity
             android:name=".ui.profile.ContactListActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -218,11 +217,15 @@
             android:name=".ui.ads.activity.AdDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
-        <activity android:name=".chat.AllChatActivity"
+        <activity
+            android:name=".chat.AllChatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".ui.user_activities.activity.AddEventActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThmeLight"
+            android:windowSoftInputMode="stateHidden" ></activity>
     </application>
 
 </manifest>

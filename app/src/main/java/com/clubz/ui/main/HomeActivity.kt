@@ -3,6 +3,7 @@ package com.clubz.ui.main
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -10,6 +11,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
 import android.support.v4.app.*
@@ -17,6 +19,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
+import android.util.Log
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -50,10 +54,13 @@ import com.clubz.utils.DrawerMarginFixer
 import com.clubz.utils.Util
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_home_test.*
@@ -77,7 +84,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mGoogleApiClient: GoogleApiClient
     private lateinit var sessionManager: SessionManager // user session
-
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
     // filter variables for news feed page
     private var like = false
     private var comment = false
@@ -95,6 +102,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         if (ClubZ.currentUser == null) ClubZ.currentUser = sessionManager.user
 
         setContentView(R.layout.activity_home_test)
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this@HomeActivity)
         setSupportActionBar(toolbar)
 
         val userLocation = sessionManager.lastKnownLocation
@@ -840,7 +848,28 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         return isEnable
     }
 
-    private fun showSettingsAlert() {}
+    private fun showSettingsAlert() {
+        val alertDialog = AlertDialog.Builder(this@HomeActivity)
+
+        // Setting Dialog Title
+        alertDialog.setTitle("GPS is settings")
+
+        // Setting Dialog Message
+        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?")
+
+        // On pressing Settings button
+        alertDialog.setPositiveButton("Settings") { dialog, which ->
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
+            dialog.cancel()
+        }
+
+        // on pressing cancel button
+        alertDialog.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
+
+        // Showing Alert Message
+        alertDialog.show()
+    }
 
     override fun onConnected(bundle: Bundle?) {
         try {
@@ -859,7 +888,8 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 return
             if (!mGoogleApiClient.isConnected)
                 return
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
+          LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
+
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -869,12 +899,12 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     override fun onConnectionSuspended(i: Int) {}
     override fun onConnectionFailed(connectionResult: ConnectionResult) {}
+
     override fun onLocationChanged(location: Location) {
         if (mGoogleApiClient.isConnected) {
             startLocationUpdates(location.latitude, location.longitude)
             //LocationServices.getFusedLocationProviderClient(this).removeLocationUpdates(LocationCallback());
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this)
-
         }
     }
 
@@ -916,7 +946,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_USERS)
-                .child(chatUserBean.uid)
+                .child(chatUserBean.uid!!)
                 .setValue(chatUserBean).addOnCompleteListener { }
     }
 

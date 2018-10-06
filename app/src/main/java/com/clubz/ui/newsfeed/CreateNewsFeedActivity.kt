@@ -278,8 +278,8 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_NEWS_FEED)
-                .child(feeDetails?.getFeedDetail()?.clubId)
-                .child(feeDetails?.getFeedDetail()?.newsFeedId)
+                .child(feeDetails?.getFeedDetail()?.clubId!!)
+                .child(feeDetails?.getFeedDetail()?.newsFeedId!!)
                 .setValue(feedBean).addOnCompleteListener {
                     if (status == "update") {
                         setResult(Activity.RESULT_OK, intent)

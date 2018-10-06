@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
 
@@ -12,12 +12,13 @@
         android:gravity="center"
         android:padding="@dimen/_5sdp">
 
-        <com.github.siyamed.shapeimageview.CircularImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_profileImage"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:src="@drawable/ic_user_white"
             android:layout_margin="@dimen/_3sdp"
+            app:civ_border_width="0dp"
             android:background="@drawable/bg_circle_blue"/>
 
         <LinearLayout
@@ -37,10 +38,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/eighty_black"
                     android:fontFamily="@font/teko_semibold"
                     android:textSize="@dimen/_14sdp"
-                    android:text="@string/dharmraj_acharya_bhurtel"/>
+                    android:text="@string/dharmraj_acharya_bhurtel"
+                    android:singleLine="true"/>
 
                 <Switch
                     android:id="@+id/switch1"
@@ -48,7 +50,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:theme="@style/SCBSwitch" />
+                    android:theme="@style/SCBSwitch"
+                    android:layout_marginEnd="@dimen/_2sdp"/>
 
             </LinearLayout>
 
@@ -95,7 +98,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:background="@color/pager_line"/>
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:background="@color/pager_line"
+                />
 
         </LinearLayout>
 

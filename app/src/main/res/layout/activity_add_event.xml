@@ -5,16 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_white_internet_bottom"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
 
-    <View
+    <LinearLayout
         android:id="@+id/top_primary"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_45sdp"
-        android:background="@drawable/bg_white_internet_top" >
-    </View>
+        android:background="@color/primaryColor" >
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/back_f"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:padding="@dimen/_12sdp"
+            app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+    </LinearLayout>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/topIcon"
@@ -29,15 +34,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/topIcon">
+        android:layout_height="match_parent"
+        android:layout_below="@id/topIcon"
+        android:padding="15dp">
 
         <LinearLayout
             android:id="@+id/rl_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/top_primary"
-            android:layout_margin="15dp"
             android:orientation="vertical">
 
             <TextView
@@ -410,7 +415,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/nav_gray"
                     android:textSize="14sp"
-                    android:background="@android:drawable/list_selector_background"/>
+                    android:background="?android:attr/selectableItemBackground"/>
 
                 <TextView
                     android:id="@+id/mAdd"
@@ -426,7 +431,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/primaryColor"
                     android:textSize="14sp"
-                    android:background="@android:drawable/list_selector_background"/>
+                    android:background="?android:attr/selectableItemBackground"/>
             </LinearLayout>
             <!--<View
                 android:layout_width="match_parent"

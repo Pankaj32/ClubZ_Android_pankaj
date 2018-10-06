@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -121,7 +122,7 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
 
     class ViewHolder extends ClubMemberHolder {
 
-        private CircularImageView iv_profileImage;
+        private ImageView iv_profileImage;
         private TextView tv_FullName;
         private Switch switch1;
         private EditText edAffiliates;

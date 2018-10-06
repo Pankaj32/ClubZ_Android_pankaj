@@ -37,13 +37,15 @@ import com.google.firebase.database.FirebaseDatabase
  */
 class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubApplicant.Listner {
 
-    lateinit var clubz :Clubs
-    var adapterOwnClubMember : AdapterOwnClubMember? = null
-    var adapterApplicant : AdapterClubApplicant? = null
-    var adapterClubMember : AdapterClubMember? = null
+    lateinit var clubz: Clubs
+    var adapterOwnClubMember: AdapterOwnClubMember? = null
+    var adapterApplicant: AdapterClubApplicant? = null
+    var adapterClubMember: AdapterClubMember? = null
+    var isCurrentCollapsed = true
+    var isApplicantsCollapsed = true
 
-    var memberList : List<ClubMember> = emptyList()
-    var applicantList : List<ClubMember> = emptyList()
+    var memberList: List<ClubMember> = emptyList()
+    var applicantList: List<ClubMember> = emptyList()
 
     fun setData(clubz: Clubs): Fragment {
         this.clubz = clubz
@@ -52,77 +54,84 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
 
     @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.frag_club_details2,null)
+        return inflater.inflate(R.layout.frag_club_details2, null)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setView()
         //text_top.visibility = View.GONE
-        view!!.setOnClickListener{}
+        view!!.setOnClickListener {}
 
         ll_expand1.setOnClickListener {
 
-            if(tv_expand1.text == getString(R.string.collapsed)){
-                tv_expand1.text = getString(R.string.expand)
+            if (isCurrentCollapsed) {
+                isCurrentCollapsed = false
+                //tv_expand1.text = getString(R.string.expand)
                 setUpExpandAndCollapse(false, iv_expand1, cardViewMember)
                 rv_members.visibility = View.GONE
-
-            }else{
-                tv_expand1.setText(R.string.collapsed)
+                currentView.visibility = View.GONE
+            } else {
+                isCurrentCollapsed = true
+                // tv_expand1.setText(R.string.collapsed)
                 setUpExpandAndCollapse(true, iv_expand1, cardViewMember)
                 rv_members.visibility = View.VISIBLE
+                currentView.visibility = View.VISIBLE
             }
         }
     }
 
-    private fun setUpExpandAndCollapse(flag: Boolean, imageView: ImageView, cardView: CardView){
+    private fun setUpExpandAndCollapse(flag: Boolean, imageView: ImageView, cardView: CardView) {
         Util.setRotation(imageView, flag)
-        if(flag){
-            imageView.setImageResource(R.drawable.ic_drop_up_arrow)
+        if (flag) {
+            imageView.setImageResource(R.drawable.ic_event_up_arrow)
             val param = cardView.layoutParams as LinearLayout.LayoutParams
             param.height = 0
             param.weight = 1f
-        }else{
+        } else {
 
-            imageView.setImageResource(R.drawable.ic_down_arrow)
+            imageView.setImageResource(R.drawable.ic_event_down_arrow)
             val param = cardView.layoutParams as LinearLayout.LayoutParams
             param.weight = 0f
             param.height = WRAP_CONTENT
-            param.apply {  }
+            param.apply { }
         }
     }
 
 
-    private fun setView(){
+    private fun setView() {
 
         rv_members.layoutManager = LinearLayoutManager(context)
-        if(clubz.user_id == ClubZ.currentUser?.id){
+        if (clubz.user_id == ClubZ.currentUser?.id) {
 
             adapterOwnClubMember = object : AdapterOwnClubMember(context, memberList, this,
-                    clubz.club_type != "1"){
+                    clubz.club_type != "1") {
             }
             rv_members.adapter = adapterOwnClubMember
 
-            if(clubz.club_type=="1") {
+            if (clubz.club_type == "1") {
                 cardViewApplicant.visibility = View.GONE
 
-            }else if(clubz.club_type=="2"){
+            } else if (clubz.club_type == "2") {
                 cardViewApplicant.visibility = View.VISIBLE
                 rv_appcalints.layoutManager = LinearLayoutManager(context)
-                adapterApplicant = object : AdapterClubApplicant(context, this){ }
+                adapterApplicant = object : AdapterClubApplicant(context, this) {}
                 rv_appcalints.adapter = adapterApplicant
 
                 ll_expand2.setOnClickListener {
 
-                    if(tv_expand2.text == getString(R.string.collapsed)){
-                        tv_expand2.text = getString(R.string.expand)
+                    if (isApplicantsCollapsed) {
+                        isApplicantsCollapsed = false
+                        //   tv_expand2.text = getString(R.string.expand)
                         rv_appcalints.visibility = View.GONE
                         setUpExpandAndCollapse(false, iv_expand2, cardViewApplicant)
-                    }else{
-                        tv_expand2.setText(R.string.collapsed)
+                        applicantView.visibility = View.VISIBLE
+                    } else {
+                        isApplicantsCollapsed = true
+                        // tv_expand2.setText(R.string.collapsed)
                         rv_appcalints.visibility = View.VISIBLE
                         setUpExpandAndCollapse(true, iv_expand2, cardViewApplicant)
+                        applicantView.visibility = View.GONE
                     }
                 }
 
@@ -131,10 +140,10 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
 
             getOwnClubMembers()
 
-        }else{
+        } else {
 
             cardViewApplicant.visibility = View.GONE
-            adapterClubMember = object : AdapterClubMember(context, memberList){
+            adapterClubMember = object : AdapterClubMember(context, memberList) {
             }
             rv_members.adapter = adapterClubMember
             getClubMembers()
@@ -142,17 +151,18 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
     }
 
     override fun onFocus() {
-        if(tv_expand2.text == getString(R.string.collapsed)){
-            tv_expand2.text = getString(R.string.expand)
+        if (isApplicantsCollapsed) {
+            isApplicantsCollapsed = false
+            //  tv_expand2.text = getString(R.string.expand)
             rv_appcalints.visibility = View.GONE
             setUpExpandAndCollapse(false, iv_expand2, cardViewApplicant)
         }
     }
 
-    private fun getOwnClubMembers(){
-        val dialog = CusDialogProg(context )
+    private fun getOwnClubMembers() {
+        val dialog = CusDialogProg(context)
         dialog.show()   // ?clubId=66&offset=0&limit=10
-        object : VolleyGetPost(activity,"${WebService.club_member_list}?clubId=${clubz.clubId}",true){
+        object : VolleyGetPost(activity, "${WebService.club_member_list}?clubId=${clubz.clubId}", true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
@@ -162,8 +172,8 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                         adapterOwnClubMember?.setMemberList(memberList)
 
                     }
-                }catch (ex :Exception){
-                    Util.showToast(R.string.swr,context!!)
+                } catch (ex: Exception) {
+                    Util.showToast(R.string.swr, context!!)
                 }
             }
 
@@ -197,7 +207,8 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                         memberList = Gson().fromJson<List<ClubMember>>(obj.getString("data"), Type_Token.club_member_list)
                         adapterClubMember?.setMemberList(memberList)
                     }
-                } catch (ex: Exception) { }
+                } catch (ex: Exception) {
+                }
             }
 
             override fun onVolleyError(error: VolleyError?) {
@@ -230,7 +241,8 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                         applicantList = Gson().fromJson<List<ClubMember>>(obj.getString("data"), Type_Token.club_member_list)
                         adapterApplicant?.setApplicantList(applicantList)
                     }
-                } catch (ex: Exception) { }
+                } catch (ex: Exception) {
+                }
             }
 
             override fun onVolleyError(error: VolleyError?) {
@@ -266,9 +278,10 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                         updateClubMemberInFireBase(member)
                         adapterOwnClubMember?.updateMember(member, pos)
                     } else {
-                        Util.showToast(obj.getString("message") , context)
+                        Util.showToast(obj.getString("message"), context)
                     }
-                } catch (ex: Exception) { }
+                } catch (ex: Exception) {
+                }
             }
 
             override fun onVolleyError(error: VolleyError?) {
@@ -302,13 +315,13 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
                         adapterApplicant?.removeApplicent(pos)
-                        if(clubz.user_id == ClubZ.currentUser?.id){
+                        if (clubz.user_id == ClubZ.currentUser?.id) {
                             getOwnClubMembers()
-                        }else getClubMembers()
+                        } else getClubMembers()
 
                     }
                 } catch (ex: Exception) {
-                     Util.showToast(R.string.swr, context!!)
+                    Util.showToast(R.string.swr, context!!)
                 }
             }
 
@@ -341,7 +354,7 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                 .reference
                 .child(ChatUtil.ARG_CLUB_MEMBER)
                 .child(clubz.clubId)
-                .child(member?.userId)
+                .child(member?.userId!!)
                 .child("silent").setValue(member?.member_status)
     }
 
@@ -360,7 +373,7 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                         Util.showToast(obj.getString("message"), context)
                     }
                 } catch (ex: Exception) {
-                     Util.showToast(R.string.swr, context!!)
+                    Util.showToast(R.string.swr, context!!)
                 }
             }
 

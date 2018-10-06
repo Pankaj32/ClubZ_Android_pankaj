@@ -258,11 +258,11 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                 .reference
                 .child(ChatUtil.ARG_CLUB)
                 .child(clubId).addValueEventListener(object : ValueEventListener {
-                    override fun onCancelled(p0: DatabaseError?) {
+                    override fun onCancelled(p0: DatabaseError) {
                         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                     }
 
-                    override fun onDataChange(p0: DataSnapshot?) {
+                    override fun onDataChange(p0: DataSnapshot) {
                         val club = p0?.getValue(ClubBean::class.java)
                         clubOwnerId = club?.ownerId!!
                     }
@@ -382,8 +382,8 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                 .reference
                 .child(ChatUtil.ARG_CLUB_MEMBER)
                 .child(clubId)
-                .child(ClubZ.currentUser?.id).addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                .child(ClubZ.currentUser!!.id).addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
                         val memberBean = dataSnapshot?.getValue(MemberBean::class.java)
                         if (memberBean != null) {
                             if (memberBean.silent == "1") {
@@ -402,7 +402,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                         }
                     }
 
-                    override fun onCancelled(p0: DatabaseError?) {
+                    override fun onCancelled(p0: DatabaseError) {
 
                     }
 
@@ -418,7 +418,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                                 .reference
                                 .child(ChatUtil.ARG_CHAT_ROOMS)
                                 .child(chatRoom).addChildEventListener(object : ChildEventListener {
-                                    override fun onChildAdded(dataSnapshot: DataSnapshot?, p1: String?) {
+                                    override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
                                         val chatBean = dataSnapshot?.getValue(ChatBean::class.java)
                                         if (mChatRecyclerAdapter == null) {
                                             val chatbeans = ArrayList<ChatBean>()
@@ -441,24 +441,24 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                                         progressbar?.visibility = View.GONE
                                     }
 
-                                    override fun onChildChanged(dataSnapshot: DataSnapshot?, s: String?) {
+                                    override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
                                     }
 
-                                    override fun onChildRemoved(dataSnapshot: DataSnapshot?) {
-
-                                    }
-
-                                    override fun onChildMoved(dataSnapshot: DataSnapshot?, s: String?) {
+                                    override fun onChildRemoved(dataSnapshot: DataSnapshot) {
 
                                     }
 
-                                    override fun onCancelled(databaseError: DatabaseError?) {
+                                    override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
+
+                                    }
+
+                                    override fun onCancelled(databaseError: DatabaseError) {
                                         progressbar?.visibility = View.GONE
                                     }
                                 })
                     }
 
-                    override fun onCancelled(databaseError: DatabaseError?) {
+                    override fun onCancelled(databaseError: DatabaseError) {
                         //  mOnGetMessagesListener.onGetMessagesFailure("Unable to get message: " + databaseError.getMessage());
                     }
                 })
@@ -466,13 +466,13 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
     }
 
     private fun upadteReadWriteMessage() {
-        FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser?.id).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError?) {
+        FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser!!.id).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
             }
 
-            override fun onDataChange(p0: DataSnapshot?) {
+            override fun onDataChange(p0: DataSnapshot) {
                 if (p0!!.hasChild(chatHistoryRoom)) {
-                    FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser?.id).child(chatHistoryRoom).child("read").setValue(1)
+                    FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser!!.id).child(chatHistoryRoom).child("read").setValue(1)
                 }
             }
         })
@@ -664,7 +664,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         storageRef = mstorage?.getReference("chat_photos_" + getString(R.string.app_name))
         val photoRef = storageRef?.child(selectedImageUri.lastPathSegment)
         photoRef?.putFile(selectedImageUri)?.addOnSuccessListener { taskSnapshot ->
-            val fireBaseUri = taskSnapshot.downloadUrl
+            val fireBaseUri = taskSnapshot.uploadSessionUri
             Log.e("TAG", "onSuccess: ")
             progressbar?.visibility = View.GONE
             sendMessage(fireBaseUri!!.toString(), "image", chatFor)
@@ -685,16 +685,16 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                 .reference
                 .child(ChatUtil.ARG_CLUB_MEMBER)
                 .child(clubId).addChildEventListener(object : ChildEventListener {
-                    override fun onCancelled(p0: DatabaseError?) {
+                    override fun onCancelled(p0: DatabaseError) {
                         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                     }
 
-                    override fun onChildMoved(p0: DataSnapshot?, p1: String?) {
+                    override fun onChildMoved(p0: DataSnapshot, p1: String?) {
                         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                     }
 
                     @SuppressLint("LongLogTag")
-                    override fun onChildChanged(dataSnapShot: DataSnapshot?, p1: String?) {
+                    override fun onChildChanged(dataSnapShot: DataSnapshot, p1: String?) {
                         val memberBean = dataSnapShot?.getValue(MemberBean::class.java)
                         /*for (data in memberList){
                             if(memberBean!!.userId.equals(memberBean.userId)){
@@ -704,12 +704,12 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                         Log.e("clubMember Status Changed : ", memberBean?.clubId)
                     }
 
-                    override fun onChildAdded(dataSnapShot: DataSnapshot?, p1: String?) {
+                    override fun onChildAdded(dataSnapShot: DataSnapshot, p1: String?) {
                         val memberBean = dataSnapShot?.getValue(MemberBean::class.java)
                         if (memberBean?.joind == 1) memberList.add(memberBean)
                     }
 
-                    override fun onChildRemoved(p0: DataSnapshot?) {
+                    override fun onChildRemoved(p0: DataSnapshot) {
                         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                     }
 
@@ -735,7 +735,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         chatHistory.message = chatBean.message
         chatHistory.timestamp = chatBean.timestamp
         databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref
-                .child(member.userId)
+                .child(member.userId!!)
                 .child(chatHistoryRoom)
                 .setValue(chatHistory)
     }

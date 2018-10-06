@@ -61,11 +61,21 @@ class MyClubListAdapter(internal var list: ArrayList<Clubs>, internal var contex
             holder.tvName.text = obj.club_name
             holder.leadby.text = if (obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name
             holder.status.setText(if (obj.club_type == "2") R.string.Private else R.string.Public)
+            holder.bodyDes.text = obj.club_description
+            holder.members.text = String.format(context.getString(R.string.members_count), obj.members + 1)
+            holder.llBodyContent.visibility = if (obj.isVisiableBody) View.VISIBLE else View.GONE
+            holder.imgStatus.setImageResource(if (obj.club_type == "2") R.drawable.ic_lock_outline else R.drawable.ic_public)
             Glide.with(holder.imageClub.context)
                     .load(obj.club_icon)
                     /*.fitCenter()*/
                     .into(holder.imageClub)
 
+            if(!obj.user_image.endsWith("defaultUser.png")) {
+                Glide.with(holder.ivClubManager.context)
+                        .load(obj.profile_image)
+                        .into(holder.ivClubManager)
+
+            }
             /*Picasso.with(holder.imageClub.context)
                     .load(obj.club_icon)
                     .fit()
@@ -79,7 +89,6 @@ class MyClubListAdapter(internal var list: ArrayList<Clubs>, internal var contex
             holder.bodyDes.text = obj.club_description
             holder.members.text = String.format(context.getString(R.string.members_count), obj.members + 1)
             holder.llBodyContent.visibility = if (obj.isVisiableBody) View.VISIBLE else View.GONE
-
             if (ClubZ.latitude == 0.0 && ClubZ.longitude == 0.0) {
                 holder.distance.text = "-- Km"
             } else {
@@ -90,36 +99,23 @@ class MyClubListAdapter(internal var list: ArrayList<Clubs>, internal var contex
                 } catch (ex: Exception) {
                 }
             }
+            Glide.with(holder.imageClub.context)
+                    .load(obj.club_icon)
+                    /*.fitCenter()*/
+                    .into(holder.imageClub)
+if(!obj.user_image.endsWith("defaultUser.png")) {
+    Glide.with(holder.ivClubManager.context)
+            .load(obj.profile_image)
+            .into(holder.ivClubManager)
 
-
+}
             if (obj.user_id == ClubZ.currentUser?.id) {
-                // holder.switch1.visibility = View.GONE
+
                 holder.btnJoinClub.visibility = View.GONE
-                if (!ClubZ.currentUser!!.profile_image.isEmpty()) {
 
-                    Glide.with(holder.ivClubManager.context)
-                            .load(ClubZ.currentUser!!.profile_image)
-                            .into(holder.ivClubManager)
-
-                    /* Picasso.with(holder.ivClubManager.context)
-                             .load(ClubZ.currentUser!!.profile_image)
-                             .into(holder.ivClubManager)*/
-                } else
-                    Glide.with(holder.ivClubManager.context)
-                            .load(R.drawable.ic_user_white)
-                            .into(holder.ivClubManager)
-
-                /*Picasso.with(holder.ivClubManager.context)
-                        .load(R.drawable.ic_user_white)
-                        .into(holder.ivClubManager)*/
             } else {
                 holder.btnJoinClub.visibility = View.VISIBLE
-                //holder.switch1.isActivated = obj.is_allow_feeds == "1"
-                // holder.switch1.isEnabled = obj.club_user_status.equals("1")
-                //holder.switch1.isChecked = obj.is_allow_feeds == "1"
-                //holder.switch1.visibility = if(obj.club_user_status == "1") View.VISIBLE else View.GONE
-                // emtpty means no action performed yet, 0 = pending for approvial by Club admin , 1 = Joined club
-                // obj.club_type 1 = public club and 2 = private club
+
                 if (obj.club_type == "1" && obj.club_user_status.isBlank()) {
                     // holder.btnJoinClub.setText(if(obj.club_type.equals("1"))R.string.join else R.string.req_join)
                     holder.btnJoinClub.text = context.getString(R.string.join)
@@ -141,26 +137,8 @@ class MyClubListAdapter(internal var list: ArrayList<Clubs>, internal var contex
                 }
             }
 
-            holder.imgStatus.setImageResource(if (obj.club_type == "1") R.drawable.ic_lock_open else R.drawable.ic_lock_outline)
-            //holder.status.setText(if(obj.club_type.equals("1")) R.string.Public else R.string.Private)
+            holder.imgStatus.setImageResource(if (obj.club_type == "1") R.drawable.ic_public else R.drawable.ic_lock_outline)
             holder.status.setText(if (obj.club_type == "2") R.string.Private else R.string.Public)
-            try {
-
-                if (obj.profile_image.isEmpty()) {
-                    Glide.with(holder.ivClubManager.context)
-                            .load(R.drawable.ic_user_white)
-                            .into(holder.ivClubManager)
-                } else
-                    Glide.with(holder.ivClubManager.context)
-                            .load(ClubZ.currentUser!!.profile_image)
-                            .into(holder.ivClubManager)
-                    Glide.with(holder.ivClubManager.context)
-                        .load(obj.profile_image)
-                        .into(holder.ivClubManager)
-
-
-            } catch (ex: Exception) {
-            }
         }
 
     }
@@ -174,7 +152,14 @@ class MyClubListAdapter(internal var list: ArrayList<Clubs>, internal var contex
         var tvName = itemView.findViewById<TextView>(R.id.tvname)!!
         var leadby = itemView.findViewById<TextView>(R.id.leadby)!!
         var status = itemView.findViewById<TextView>(R.id.status)!!
+        var members = itemView.findViewById<TextView>(R.id.members)!!
         var imageClub = itemView.findViewById<ImageView>(R.id.image_club)!!
+        var llBodyContent = itemView.findViewById<LinearLayout>(R.id.ll_bodyContent)!!
+        var bodyDes = itemView.findViewById<TextView>(R.id.body_des)!!
+        var ivExpandBtn = itemView.findViewById<ImageView>(R.id.ivExpandBtn)!!
+        var ivClubManager = itemView.findViewById<ImageView>(R.id.ivClubManager)!!
+        var imgStatus = itemView.findViewById<ImageView>(R.id.img_status)!!
+
     }
 
     inner class Holder(itemView: View) : ClubMemberHolder(itemView, context) {
@@ -260,6 +245,13 @@ class MyClubListAdapter(internal var list: ArrayList<Clubs>, internal var contex
             val pos = holder.adapterPosition
             val club = list[pos]
             context.startActivity(context.ClubDetailIntent(club))
+        }
+        holder.ivExpandBtn.setOnClickListener {
+            val pos = holder.adapterPosition
+            holder.llBodyContent.visibility = if (list[pos].isVisiableBody) View.GONE else View.VISIBLE
+            Util.setRotation(holder.ivExpandBtn, list[pos].isVisiableBody)
+            holder.ivExpandBtn.setImageResource(if (list[pos].isVisiableBody) R.drawable.ic_keyboard_arrow_down else R.drawable.ic_keyboard_arrow_up)
+            list[pos].isVisiableBody = !list[pos].isVisiableBody
         }
     }
 

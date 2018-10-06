@@ -23,6 +23,7 @@ class AddDetailsBean {
          * is_renew : 1
          * description :
          * user_id : 5
+         * creator_phone : 8959547514
          * user_role : Advertiser
          * image : http://clubz.co/dev/uploads/ad_image/7a0f994853f94caaed4ebe1e47eb0145.jpg
          * creator_name : Chiru Ganguly
@@ -39,6 +40,7 @@ class AddDetailsBean {
         var is_renew: String? = null
         var description: String? = null
         var user_id: String? = null
+        var creator_phone: String? = null
         var user_role: String? = null
         var image: String? = null
         var creator_name: String? = null

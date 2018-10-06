@@ -131,7 +131,7 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
             override fun onNetError() { dialog.dismiss() }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params["city"] = ClubZ.city
+                params["city"] = /*ClubZ.city*/""
                 params["latitude"] = if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString()
                 params["longitude"] = if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString()
                 params["clubCategoryId"] =""

@@ -133,10 +133,10 @@ class FragSignUp2 : SignupBaseFragment()  , View.OnClickListener {
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-            Util.e("email" ,account.email.toString())
-            Util.e("dpname" ,account.displayName.toString())
-            Util.e("id" ,account.id.toString())
-            Util.e("photo" ,account.photoUrl.toString())
+            Util.e("email" ,account?.email.toString())
+            Util.e("dpname" ,account?.displayName.toString())
+            Util.e("id" ,account?.id.toString())
+            Util.e("photo" ,account?.photoUrl.toString())
             signupActivity.hideDialog()
             registration(account)
         } catch (e: ApiException) {

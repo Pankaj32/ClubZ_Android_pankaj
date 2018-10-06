@@ -30,7 +30,7 @@
                 android:id="@+id/tv_FullName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/eighty_black"
                 android:fontFamily="@font/teko_semibold"
                 android:maxLines="1"
                 android:textSize="@dimen/_14sdp"

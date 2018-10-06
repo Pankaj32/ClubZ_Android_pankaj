@@ -84,8 +84,8 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
     fun getChatHistory() {
         chatHistoryBeanList.clear()
 
-        FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).child(ClubZ.currentUser?.id).addChildEventListener(object : ChildEventListener {
-            override fun onChildAdded(dataSnapshot: DataSnapshot?, s: String?) {
+        FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).child(ClubZ.currentUser?.id!!).addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                 progressBar?.setVisibility(View.GONE)
                 val dataSnapshots = dataSnapshot?.children?.iterator()
                 val historyBean = dataSnapshot?.getValue<ChatHistoryBean>(ChatHistoryBean::class.java)
@@ -120,7 +120,7 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                     }
             }
 
-            override fun onChildChanged(dataSnapshot: DataSnapshot?, s: String?) {
+            override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
                 progressBar?.setVisibility(View.GONE)
                 val historyBean = dataSnapshot?.getValue<ChatHistoryBean>(ChatHistoryBean::class.java)
                 // chatHistoryBeanList.add(historyBean!!)
@@ -158,15 +158,15 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 }
             }
 
-            override fun onChildRemoved(dataSnapshot: DataSnapshot?) {
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
                 ///     progressBar.setVisibility(View.GONE)
             }
 
-            override fun onChildMoved(dataSnapshot: DataSnapshot?, s: String?) {
+            override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
                 //     progressBar.setVisibility(View.GONE)
             }
 
-            override fun onCancelled(databaseError: DatabaseError?) {
+            override fun onCancelled(databaseError: DatabaseError) {
                 //     progressBar.setVisibility(View.GONE)
             }
         })
@@ -180,9 +180,9 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_ADS)
-                .child(historyBean.clubId)
-                .child(historyBean.historyId).addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                .child(historyBean.clubId!!)
+                .child(historyBean.historyId!!).addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
                         try {
                             val adBean = dataSnapshot?.getValue(AdBean::class.java)
                             for (data in chatHistoryBeanList) {
@@ -199,7 +199,7 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                         chatHistoryAdapter?.notifyDataSetChanged()
                     }
 
-                    override fun onCancelled(p0: DatabaseError?) {
+                    override fun onCancelled(p0: DatabaseError) {
 
                     }
 
@@ -210,9 +210,9 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_ACTIVITIES)
-                .child(historyBean.clubId)
-                .child(historyBean.historyId).addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                .child(historyBean.clubId!!)
+                .child(historyBean.historyId!!).addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
                         try {
                             val activityBean = dataSnapshot?.getValue(ActivityBean::class.java)
                             for (data in chatHistoryBeanList) {
@@ -229,7 +229,7 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                         chatHistoryAdapter?.notifyDataSetChanged()
                     }
 
-                    override fun onCancelled(p0: DatabaseError?) {
+                    override fun onCancelled(p0: DatabaseError) {
 
                     }
 
@@ -240,9 +240,9 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_NEWS_FEED)
-                .child(historyBean.clubId)
-                .child(historyBean.historyId).addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                .child(historyBean.clubId!!)
+                .child(historyBean.historyId!!).addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
                         try {
                             val feedBean = dataSnapshot?.getValue(FeedBean::class.java)
                             for (data in chatHistoryBeanList) {
@@ -260,7 +260,7 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                         chatHistoryAdapter?.notifyDataSetChanged()
                     }
 
-                    override fun onCancelled(p0: DatabaseError?) {
+                    override fun onCancelled(p0: DatabaseError) {
 
                     }
 

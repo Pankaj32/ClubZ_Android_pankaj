@@ -19,7 +19,7 @@ import java.util.ArrayList
 /**
  * Created by Dharmraj Acharya on 12/07/18.
  */
-class ClubFilterAdapter(internal var list : ArrayList<Clubs>, internal var context :Context, var listner : MyClub)
+class ClubFilterAdapter(internal var list: ArrayList<Clubs>, internal var context: Context, var listner: MyClub)
     : RecyclerView.Adapter<ClubFilterAdapter.Holder>() {
 
     @SuppressLint("InflateParams")
@@ -39,18 +39,19 @@ class ClubFilterAdapter(internal var list : ArrayList<Clubs>, internal var conte
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder : Holder, position : Int) {
+    override fun onBindViewHolder(holder: Holder, position: Int) {
         val obj = list[position]
 
         holder.tvName.text = obj.club_name
-        holder.status.setText(if(obj.club_type=="2") R.string.Private else R.string.Public)
-        holder.leadby.text = if(obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name
+        holder.status.setText(if (obj.club_type == "2") R.string.Private else R.string.Public)
+        holder.imgStatus.setImageResource(if (obj.club_type == "2") R.drawable.ic_lock_outline else R.drawable.ic_public)
+        holder.leadby.text = if (obj.full_name.isBlank()) ClubZ.currentUser?.full_name else obj.full_name
 
-        if(obj.user_id == ClubZ.currentUser?.id){
-            holder.switch1.visibility = View.GONE
-        } else{
+        if (obj.user_id == ClubZ.currentUser?.id) {
+
+        } else {
             holder.switch1.isChecked = obj.is_allow_feeds == "1"
-            holder.switch1.visibility = if(obj.club_user_status == "1") View.VISIBLE else View.GONE
+            holder.switch1.visibility = if (obj.club_user_status == "1") View.VISIBLE else View.GONE
         }
 
         try {
@@ -64,7 +65,8 @@ class ClubFilterAdapter(internal var list : ArrayList<Clubs>, internal var conte
                     /*.fitCenter()
                     .placeholder(R.drawable.img_gallery)*/.into(holder.imageClub)
 
-        }catch (ex :Exception){}
+        } catch (ex: Exception) {
+        }
     }
 
     override fun getItemCount(): Int {
@@ -84,17 +86,20 @@ class ClubFilterAdapter(internal var list : ArrayList<Clubs>, internal var conte
 
         override fun showProfileDetail(member: ClubMember?) {}
         override fun notyfyData(pos: Int) {}
-        override fun canEditNickName(): Boolean { return false }
+        override fun canEditNickName(): Boolean {
+            return false
+        }
 
-        var tvName      = itemView.findViewById<TextView>(R.id.tvname)!!
-        var leadby      = itemView.findViewById<TextView>(R.id.leadby)!!
-        var status      = itemView.findViewById<TextView>(R.id.status)!!
-        var imageClub   = itemView.findViewById<ImageView>(R.id.image_club)!!
-        var switch1     = itemView.findViewById<Switch>(R.id.switch1)!!
+        var tvName = itemView.findViewById<TextView>(R.id.tvname)!!
+        var leadby = itemView.findViewById<TextView>(R.id.leadby)!!
+        var status = itemView.findViewById<TextView>(R.id.status)!!
+        var imageClub = itemView.findViewById<ImageView>(R.id.image_club)!!
+        var switch1 = itemView.findViewById<Switch>(R.id.switch1)!!
+        var imgStatus = itemView.findViewById<ImageView>(R.id.img_status)!!
     }
 
 
-    private fun setUpClick(holder: Holder){
+    private fun setUpClick(holder: Holder) {
         holder.itemView.setOnClickListener {
             val pos = holder.adapterPosition
             val club = list[pos]

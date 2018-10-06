@@ -34,6 +34,10 @@ import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.dialogs.ProfileDialog
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.VolleyGetPost
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_ads.*
 import org.json.JSONObject
@@ -53,12 +57,22 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
     private var userId: String = ""
     private var userName: String = ""
     private var userImage: String = ""
-    private var adList = ArrayList<AdsListBean.DataBean>()
+  //  private var adList = ArrayList<AdsListBean.DataBean>()
+    private var adList = ArrayList<Any>()
+    // List of native ads that have been successfully loaded.
+    private val mNativeAds = java.util.ArrayList<UnifiedNativeAd>()
+
     private var tempAdList = ArrayList<AdsListBean.DataBean>()
     private var adsAdapter: AdsAdapter? = null
     private var isResume = false
     var isMyAds: Boolean = false
     private var actionPosition = 0
+
+    // The number of native ads to load.
+    val NUMBER_OF_ADS = 5
+
+    // The AdLoader used to load ads.
+    private var adLoader: AdLoader? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -130,6 +144,8 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
                 // to the app after tapping on an ad.
             }
         }*/
+        loadNativeAds()
+
     }
 
     override fun onResume() {
@@ -204,20 +220,21 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
             adList.addAll(tempAdList)
         }
 
-        val data=AdsListBean.DataBean()
+        /*val data=AdsListBean.DataBean()
         data.isgoogleAdd=true
         if(adList.size<3){
             adList.add(data)
         }else{
             adList.add(3,data)
-        }
+        }*/
+        insertAdsInMenuItems()
         // adList.addAll(adsBean.data!!)
         adsAdapter?.notifyDataSetChanged()
         nodataLay.visibility = if (adList.isEmpty()) View.VISIBLE else View.GONE
     }
 
     override fun onItemClick(position: Int) {
-        val adaBean = adList[position]
+        val adaBean = adList[position]as AdsListBean.DataBean
         startActivity(Intent(mContext, AdDetailsActivity::class.java)
                 .putExtra("adId", adaBean.adId)
                 .putExtra("adTitle", adaBean.title)
@@ -234,7 +251,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
 
     override fun onLongPress(position: Int) {
         actionPosition = position
-        val adBean = adList[position]
+        val adBean = adList[position]as AdsListBean.DataBean
         val list: ArrayList<DialogMenu> = arrayListOf()
         if (adBean.is_my_ads.equals("1")) {
             list.add(DialogMenu(getString(R.string.edit_ad), R.drawable.ic_edit))
@@ -294,7 +311,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
 
     //bottom sheet click
     override fun onItemClicked(position: Int) {
-        val adBean = adList[actionPosition]
+        val adBean = adList[actionPosition]as AdsListBean.DataBean
         when (position) {
             0 -> {
                 if (adBean.is_my_ads.equals("1")) {
@@ -529,5 +546,43 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
 
     fun onSwitchClub() {
         getAdsList(isPull = true)
+    }
+
+    private fun loadNativeAds() {
+        val builder = AdLoader.Builder(mContext, getString(R.string.ad_unit_id))
+        adLoader = builder.forUnifiedNativeAd(
+                UnifiedNativeAd.OnUnifiedNativeAdLoadedListener { unifiedNativeAd ->
+                    // A native ad loaded successfully, check if the ad loader has finished loading
+                    // and if so, insert the ads into the list.
+                    mNativeAds.add(unifiedNativeAd)
+                    if (!adLoader!!.isLoading()) {
+                        insertAdsInMenuItems()
+                    }
+                }).withAdListener(
+                object : AdListener() {
+                    override fun onAdFailedToLoad(errorCode: Int) {
+                        // A native ad failed to load, check if the ad loader has finished loading
+                        // and if so, insert the ads into the list.
+                        Log.e("MainActivity", "The previous native ad failed to load. Attempting to" + " load another.")
+                        if (!adLoader!!.isLoading()) {
+                            insertAdsInMenuItems()
+                        }
+                    }
+                }).build()
+
+        // Load the Native ads.
+        adLoader!!.loadAds(AdRequest.Builder().build(), NUMBER_OF_ADS)
+    }
+
+    private fun insertAdsInMenuItems() {
+        if (mNativeAds.size <= 0) {
+            return
+        }
+        val offset = adList.size / mNativeAds.size + 1
+        var index = 0
+        for (ad in mNativeAds) {
+            adList.add(index, ad)
+            index = index + offset
+        }
     }
 }

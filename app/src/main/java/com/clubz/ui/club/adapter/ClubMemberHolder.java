@@ -48,7 +48,11 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder {
 
                 @Override
                 public void onCallClicked() {
-                    showToast("call clicked!");
+                   /* if (!user!!.userId.equals("")) {
+                        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "${user?.country_code} ${user?.contact_no}"))
+                        context.startActivity(intent)
+                    } else {
+                        Toast.makeText(context, "Under development", Toast.LENGTH_SHORT).show()*/
                 }
 
             /*@Override

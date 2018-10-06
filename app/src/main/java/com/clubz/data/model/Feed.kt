@@ -20,6 +20,7 @@ class Feed : Serializable{
 
     @SerializedName("full_name")
     var user_name  = ""
+    var creator_phone  = ""
 
     var profile_image  = ""
 

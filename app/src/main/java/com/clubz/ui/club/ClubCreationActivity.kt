@@ -49,6 +49,7 @@ import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.mvc.imagepicker.ImagePicker
+import com.squareup.picasso.Picasso
 import io.michaelrocks.libphonenumber.android.NumberParseException
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
 import kotlinx.android.synthetic.main.activity_club_creation.*
@@ -86,7 +87,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_club_creation)
 
-        for (views in arrayOf(img_club, ed_foundation_date, done, back_f, image_icon, club_address)) views.setOnClickListener(this)
+        for (views in arrayOf(img_club, ed_foundation_date, done, back_f, image_icon, club_city)) views.setOnClickListener(this)
         /*try{
             autocompleteFragment1 = fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
             // var autocompleteFragment  =( activity as HomeActivity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment;
@@ -113,10 +114,10 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         try {
 
             if (ClubZ.currentUser!!.profile_image.isNotBlank()) {
-                Glide.with(image_member2.context)
+                Picasso.with(image_member2.context)
                         .load(SessionManager.getObj().user.profile_image)
-                        /*.placeholder(R.drawable.ic_user_shape)
-                        .fitCenter()*/
+                        .placeholder(R.drawable.user_place_holder)
+                        .fit()
                         .into(image_member2)
                 /*Picasso.with(this).load(SessionManager.getObj().user.profile_image).transform(CircleTransform()).placeholder(R.drawable.ic_user_shape).fit().into(image_member2, object : Callback {
                     override fun onSuccess() {
@@ -167,7 +168,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             }
             R.id.image_icon -> {
                 isClubIcon = true; permissionPopUp(); }
-            R.id.club_address -> {
+            R.id.club_city -> {
                 showPlacePicker()
             }
         }
@@ -215,8 +216,8 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 val place = PlacePicker.getPlace(this, data)
-                club_address.setText(place!!.name)
-                club_address.isSelected = true
+                club_city.setText(place!!.name)
+                club_city.isSelected = true
                 lat = place.latLng.latitude
                 lng = place.latLng.longitude
                 Toast.makeText(this, String.format("Place: %s", place.name), Toast.LENGTH_LONG).show()
@@ -450,7 +451,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             dialog.dismiss()
         }, Response.ErrorListener {
             dialog.dismiss()
-            Toast.makeText(this@ClubCreationActivity, "Something went wrong", Toast.LENGTH_LONG).show()
+            Toast.makeText(this@ClubCreationActivity, R.string.swr, Toast.LENGTH_LONG).show()
         }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
@@ -505,7 +506,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_CLUB)
-                .child(clubDetails?.getClubDetail()?.clubId)
+                .child(clubDetails?.getClubDetail()?.clubId!!)
                 .setValue(clubBean).addOnCompleteListener {}
     }
 
@@ -553,12 +554,12 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
 
     private fun validator(): Boolean {
         //hideKeyBoard()
-        checkPhoneNumber(SessionManager.getObj().user.country_code.replace("+", ""))
+     //   checkPhoneNumber(SessionManager.getObj().user.country_code.replace("+", ""))
         if (titile_name.text.toString().isBlank()) {
             Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_clubnme)
             return false
         }
-        if (clubImage == null) {
+        /*if (clubImage == null) {
             Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_image)
             return false
         }
@@ -578,10 +579,10 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
             Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_phone_club)
             return false
         }
-        /*if(!isvalidate){
+        *//*if(!isvalidate){
             Util.showSnake(context, view!!,R.string.a_phone_no_valid);
             return false
-        }*/
+        }*//*
         if (club_address.text.toString().isBlank()) {
             Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_address)
             return false
@@ -589,12 +590,12 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         if (club_address.text.toString().isBlank()) {
             Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_location)
             return false
-        }
-        if (club_address.text.toString().isBlank() || (lat == 0.0 && lng == 0.0)) {
+        }*/
+        if (club_city.text.toString().isBlank() || (lat == 0.0 && lng == 0.0)) {
             Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_location)
             return false
         }
-        if (club_web.text.toString().isBlank()) {
+        /*if (club_web.text.toString().isBlank()) {
             Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_web)
             return false
         }
@@ -613,7 +614,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         if (usrerole.text.toString().isBlank()) {
             Util.showSnake(this@ClubCreationActivity, clRootView!!, R.string.a_userRole)
             return false
-        }
+        }*/
         return true
     }
 
@@ -649,6 +650,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
     override fun onBackPressed() {
         showBackConfirmationDialog()
     }
+
     fun showBackConfirmationDialog() {
         val builder1 = android.app.AlertDialog.Builder(this@ClubCreationActivity)
         builder1.setTitle("Alert !!")

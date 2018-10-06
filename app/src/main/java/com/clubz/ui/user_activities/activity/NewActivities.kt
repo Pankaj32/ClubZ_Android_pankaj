@@ -688,8 +688,8 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         FirebaseDatabase.getInstance()
                 .reference
                 .child(ChatUtil.ARG_ACTIVITIES)
-                .child(activityDetails.getDetails()?.clubId)
-                .child(activityDetails.getDetails()?.activityId)
+                .child(activityDetails.getDetails()?.clubId!!)
+                .child(activityDetails.getDetails()?.activityId!!)
                 .setValue(activityBean).addOnCompleteListener {
                     finish()
                 }

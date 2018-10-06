@@ -19,8 +19,8 @@
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
             android:paddingBottom="@dimen/_8sdp"
-            android:paddingLeft="@dimen/_8sdp"
-            android:paddingRight="@dimen/_12sdp"
+            android:paddingEnd="@dimen/_12sdp"
+            android:paddingStart="@dimen/_8sdp"
             android:paddingTop="@dimen/_8sdp"
             app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
@@ -89,7 +89,7 @@
                 android:padding="@dimen/_2sdp"
                 android:tint="@color/nav_gray"
                 app:srcCompat="@drawable/ic_attach_file_black_24dp" />-->
-<!--oldEmoji-->
+            <!--oldEmoji-->
             <!--<hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
                 android:id="@+id/txtMsg"
                 android:layout_width="match_parent"
@@ -112,22 +112,21 @@
                 android:layout_height="match_parent"
                 android:layout_toEndOf="@id/emoji"
                 android:layout_toStartOf="@+id/sentButton"
+                android:hint="@string/type_a_message"
                 android:imeOptions="actionSend|flagNoExtractUi"
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLines="3"
-                android:hint="@string/type_a_message"
                 android:padding="@dimen/_5sdp"
                 android:textColor="@color/nav_gray"
                 android:textColorHint="@color/hint_color"
-                android:textCursorDrawable="@drawable/curser"
-                />
+                android:textCursorDrawable="@drawable/curser" />
 
             <ImageView
                 android:id="@+id/sentButton"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:tint="@color/nav_gray"
                 app:srcCompat="@drawable/ic_attach_file_black_24dp">
                 <!--ic_attach_file_black_24dp-->
@@ -140,8 +139,8 @@
             android:layout_height="@dimen/_50sdp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:layout_marginStart="@dimen/_6sdp"
             android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_6sdp"
             android:layout_marginTop="@dimen/_2sdp"
             android:background="@drawable/curser"
             android:fontFamily="@font/roboto_regular"
@@ -162,10 +161,11 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/chatRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:clickable="true"
                 android:focusable="true"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                app:stackFromEnd="true" />
 
             <TextView
                 android:id="@+id/noDataTxt"

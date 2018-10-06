@@ -5,6 +5,7 @@
     <string name="server_client_id">303882214487-pkujqbkqgmq3m22muu8kbkj17n6hvvdc.apps.googleusercontent.com</string>
     <string name="admob_app_id">ca-app-pub-2270528014536403~6190929441</string>
     <string name="banner_home_footer">ca-app-pub-2270528014536403/7831739205</string>
+    <string name="ad_unit_id">ca-app-pub-3940256099942544/2247696110</string>
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
     <string name="explore1">Explore the</string>
@@ -336,6 +337,7 @@
     <string name="joinTitle">Select who joins the activity</string>
     <string name="confirmTitle">Select who confirms the date</string>
     <string name="joinBtnText">JOIN</string>
+    <string name="acceptBtnText">ACCEPT</string>
     <string name="addDateBtnText">ADD DATE</string>
     <string name="h_activity_desc">Description</string>
     <string name="h_eventTitle">Title</string>
@@ -544,4 +546,5 @@
     <string name="yesterday">Yesterday</string>
     <string name="read_more">Read more</string>
     <string name="read_less">Read less</string>
+    <string name="selectTime">Select Time</string>
 </resources>
