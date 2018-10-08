@@ -32,6 +32,7 @@
             android:fontFamily="@font/teko_semibold"
             android:gravity="center_vertical"
             android:text=""
+            android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="@dimen/_18sdp" />
 

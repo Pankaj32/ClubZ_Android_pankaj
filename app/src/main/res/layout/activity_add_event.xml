@@ -105,7 +105,7 @@
                         android:singleLine="true"
                         android:maxLines="1"
                         android:imeOptions="actionNext"
-                        android:inputType="textCapSentences|textMultiLine"
+                        android:inputType="textCapSentences"
                         android:maxLength="50"
                         android:textColor="@color/sixty_black"
                         android:textColorHint="@color/sixty_black"

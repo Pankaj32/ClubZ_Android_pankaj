@@ -124,6 +124,25 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
             }
 
         })*/
+
+        appbar_layout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
+            var isShow = true
+            var scrollRange = -1
+            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+                if (scrollRange == -1) {
+                    scrollRange = appbar_layout.getTotalScrollRange()
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapse_toolbar.title = profile.full_name
+                    belloLay.visibility = View.GONE
+                    isShow = true
+                } else if (isShow) {
+                    collapse_toolbar.setTitle(" ");//carefull there should a space between double quote otherwise it wont work
+                    belloLay.visibility = View.VISIBLE
+                    isShow = false
+                }
+            }
+        })
     }
 
     private fun initView() {
@@ -147,7 +166,9 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         tv_landLine.setText(profile.contact_no)
         tv_mobileNo.setText(profile.contact_no)
         tv_email.setText(profile.email)
-        collapse_toolbar.title = profile.full_name
+        edNameTxt.setText(profile.full_name)
+        /*collapse_toolbar.title = profile.full_name*/
+
 
         if (profile.profile_image.isNotBlank()) {
             Log.e("Profile Image: ", profile.profile_image)
@@ -175,105 +196,105 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
     }
 
     fun setVisibility() {
-        when(ClubZ.currentUser!!.about_me_visibility){
-            "0"->{
+        when (ClubZ.currentUser!!.about_me_visibility) {
+            "0" -> {
                 tvAboutMeVisibility.text = getString(R.string.hidden)
             }
-            "1"->{
+            "1" -> {
                 tvAboutMeVisibility.text = getString(R.string.Public)
             }
-            "2"->{
+            "2" -> {
                 tvAboutMeVisibility.text = getString(R.string.only_for_my_contact)
             }
-            "3"->{
+            "3" -> {
                 tvAboutMeVisibility.text = getString(R.string.only_for_club_member)
             }
         }
-        when(ClubZ.currentUser!!.dob_visibility){
-            "0"->{
+        when (ClubZ.currentUser!!.dob_visibility) {
+            "0" -> {
                 tvDobVisibility.text = getString(R.string.hidden)
             }
-            "1"->{
+            "1" -> {
                 tvDobVisibility.text = getString(R.string.Public)
             }
-            "2"->{
+            "2" -> {
                 tvDobVisibility.text = getString(R.string.only_for_my_contact)
             }
-            "3"->{
+            "3" -> {
                 tvDobVisibility.text = getString(R.string.only_for_club_member)
             }
         }
-        when(ClubZ.currentUser!!.contact_no_visibility){
-            "0"->{
+        when (ClubZ.currentUser!!.contact_no_visibility) {
+            "0" -> {
                 tvLandLineVisibility.text = getString(R.string.hidden)
                 tvMobileVisibility.text = getString(R.string.hidden)
             }
-            "1"->{
+            "1" -> {
                 tvLandLineVisibility.text = getString(R.string.Public)
                 tvMobileVisibility.text = getString(R.string.Public)
             }
-            "2"->{
+            "2" -> {
                 tvLandLineVisibility.text = getString(R.string.only_for_my_contact)
                 tvMobileVisibility.text = getString(R.string.only_for_my_contact)
             }
-            "3"->{
+            "3" -> {
                 tvLandLineVisibility.text = getString(R.string.only_for_club_member)
                 tvMobileVisibility.text = getString(R.string.only_for_club_member)
             }
         }
-        when(ClubZ.currentUser!!.email_visibility){
-            "0"->{
+        when (ClubZ.currentUser!!.email_visibility) {
+            "0" -> {
                 tvEmailVisibility.text = getString(R.string.hidden)
             }
-            "1"->{
+            "1" -> {
                 tvEmailVisibility.text = getString(R.string.Public)
             }
-            "2"->{
+            "2" -> {
                 tvEmailVisibility.text = getString(R.string.only_for_my_contact)
             }
-            "3"->{
+            "3" -> {
                 tvEmailVisibility.text = getString(R.string.only_for_club_member)
             }
         }
-        when(ClubZ.currentUser!!.affiliates_visibility){
-            "0"->{
+        when (ClubZ.currentUser!!.affiliates_visibility) {
+            "0" -> {
                 tvAffilitesVisibility.text = getString(R.string.hidden)
             }
-            "1"->{
+            "1" -> {
                 tvAffilitesVisibility.text = getString(R.string.Public)
             }
-            "2"->{
+            "2" -> {
                 tvAffilitesVisibility.text = getString(R.string.only_for_my_contact)
             }
-            "3"->{
+            "3" -> {
                 tvAffilitesVisibility.text = getString(R.string.only_for_club_member)
             }
         }
-       /* when(ClubZ.currentUser!!.s){
-            "0"->{
-                tvAffilitesVisibility.text = getString(R.string.hidden)
-            }
-            "1"->{
-                tvAffilitesVisibility.text = getString(R.string.Public)
-            }
-            "2"->{
-                tvAffilitesVisibility.text = getString(R.string.only_for_my_contact)
-            }
-            "3"->{
-                tvAffilitesVisibility.text = getString(R.string.only_for_club_member)
-            }
-        }*/
-        when(ClubZ.currentUser!!.interest_visibility){
-            "0"->{
+        /* when(ClubZ.currentUser!!.s){
+             "0"->{
+                 tvAffilitesVisibility.text = getString(R.string.hidden)
+             }
+             "1"->{
+                 tvAffilitesVisibility.text = getString(R.string.Public)
+             }
+             "2"->{
+                 tvAffilitesVisibility.text = getString(R.string.only_for_my_contact)
+             }
+             "3"->{
+                 tvAffilitesVisibility.text = getString(R.string.only_for_club_member)
+             }
+         }*/
+        when (ClubZ.currentUser!!.interest_visibility) {
+            "0" -> {
                 tvMyInterestVisibility.text = getString(R.string.hidden)
             }
-            "1"->{
+            "1" -> {
                 tvMyInterestVisibility.text = getString(R.string.Public)
             }
-            "2"->{
+            "2" -> {
                 tvMyInterestVisibility.text = getString(R.string.only_for_my_contact)
             }
-            "3"->{
+            "3" -> {
                 tvMyInterestVisibility.text = getString(R.string.only_for_club_member)
             }
         }
@@ -483,7 +504,12 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                         updatedInterest = text.value
                     } else updatedInterest = updatedInterest + "," + text.value
                 }
-                updateProfile()
+                val name = edNameTxt.text.toString().trim()
+                if (name.isNotEmpty()) {
+                    updateProfile()
+                } else {
+                    Util.showSnake(this, cordinator_layout, 0, getString(R.string.name_should_not_be_empty))
+                }
             }
         }
         /*if (item.title === "Add") {
@@ -581,7 +607,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
-                params["fullName"] = profile.full_name
+                params["fullName"] = edNameTxt.text.toString()
                 params["aboutMe"] = tvAboutMe.text.toString()
                 params["contactNo"] = profile.contact_no
                 params["countryCode"] = profile.country_code
@@ -669,7 +695,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-               // ImagePicker.pickImage(this@ProfileEditActivity)
+                // ImagePicker.pickImage(this@ProfileEditActivity)
                 //   com.clubz.utils.picker.ImagePicker.pickImage(this@ProfileEditActivity)
                 val intentgallery = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(intentgallery, Constants.SELECT_FILE)
@@ -838,7 +864,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         }, year, month, day)
         datepickerdialog.datePicker.maxDate = System.currentTimeMillis() - 1000
         datepickerdialog.window!!.setBackgroundDrawableResource(R.color.white)
-datepickerdialog.setTitle("Dob")
+        datepickerdialog.setTitle("Dob")
         datepickerdialog.show()
     }
 }

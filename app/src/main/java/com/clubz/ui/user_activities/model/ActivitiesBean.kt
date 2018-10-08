@@ -129,7 +129,9 @@ class ActivitiesBean {
         }
 
 
-        class EventsBean {
+        class EventsBean():Parcelable {
+
+
             /**
              * activityEventId : 23
              * event_title : Kinder
@@ -170,6 +172,29 @@ class ActivitiesBean {
             var hasAffiliatesJoined: String? = null
             var is_cancel: String? = null
 
+            constructor(parcel: Parcel) : this() {
+                activityEventId = parcel.readString()
+                event_title = parcel.readString()
+                event_date = parcel.readString()
+                event_time = parcel.readString()
+                description = parcel.readString()
+                location = parcel.readString()
+                latitude = parcel.readString()
+                longitude = parcel.readString()
+                fee = parcel.readString()
+                fee_type = parcel.readString()
+                min_users = parcel.readString()
+                max_users = parcel.readString()
+                total_users = parcel.readString()
+                joined_users = parcel.readString()
+                confirm_users = parcel.readString()
+                confirm_userlist = parcel.readString()
+                is_confirm = parcel.readString()
+                hasJoined = parcel.readString()
+                hasAffiliatesJoined = parcel.readString()
+                is_cancel = parcel.readString()
+            }
+
             fun getDate(): String {
                 // String input = "2014-04-25 17:03:13";
                 val inputFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -204,6 +229,43 @@ class ActivitiesBean {
                 }
                 formatedTime = "$hour:$minute $format"
                 return formatedTime
+            }
+
+            override fun writeToParcel(parcel: Parcel, flags: Int) {
+                parcel.writeString(activityEventId)
+                parcel.writeString(event_title)
+                parcel.writeString(event_date)
+                parcel.writeString(event_time)
+                parcel.writeString(description)
+                parcel.writeString(location)
+                parcel.writeString(latitude)
+                parcel.writeString(longitude)
+                parcel.writeString(fee)
+                parcel.writeString(fee_type)
+                parcel.writeString(min_users)
+                parcel.writeString(max_users)
+                parcel.writeString(total_users)
+                parcel.writeString(joined_users)
+                parcel.writeString(confirm_users)
+                parcel.writeString(confirm_userlist)
+                parcel.writeString(is_confirm)
+                parcel.writeString(hasJoined)
+                parcel.writeString(hasAffiliatesJoined)
+                parcel.writeString(is_cancel)
+            }
+
+            override fun describeContents(): Int {
+                return 0
+            }
+
+            companion object CREATOR : Parcelable.Creator<EventsBean> {
+                override fun createFromParcel(parcel: Parcel): EventsBean {
+                    return EventsBean(parcel)
+                }
+
+                override fun newArray(size: Int): Array<EventsBean?> {
+                    return arrayOfNulls(size)
+                }
             }
         }
 

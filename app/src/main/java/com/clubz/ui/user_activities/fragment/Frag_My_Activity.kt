@@ -37,6 +37,7 @@ import com.clubz.ui.cv.FlowLayout
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.user_activities.activity.AddEventActivity
 import com.clubz.ui.user_activities.activity.ActivitiesDetails
+import com.clubz.ui.user_activities.activity.EventDetailsActivity
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.adapter.*
 import com.clubz.ui.user_activities.listioner.ActivityItemClickListioner
@@ -344,7 +345,12 @@ class Frag_My_Activity : Fragment(),
         val activitiesBean = activityList.get(activityPosition)
         val eventBean = activitiesBean.events?.get(eventPosition)
         if (activitiesBean.is_my_activity.equals("1")) {
-            popUpDateDetails(activitiesBean, eventBean)
+
+            startActivity(Intent(mContext, EventDetailsActivity::class.java)
+                    .putExtra("activity",activitiesBean)
+                    .putExtra("event",eventBean)
+                    .putExtra("now",now))
+           // popUpDateDetails(activitiesBean, eventBean)
         }
     }
 

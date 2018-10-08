@@ -36,7 +36,8 @@
                 android:paddingRight="20dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:background="@color/color_pop_up_bg">
+                android:background="@color/color_pop_up_bg"
+                android:alpha=".7">
 
                 <LinearLayout
                     android:layout_width="match_parent"

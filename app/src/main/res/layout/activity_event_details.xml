@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerLay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/top_primary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:background="@color/primaryColor" >
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/back_f"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:padding="@dimen/_12sdp"
+            app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+    </LinearLayout>
+
+
+
+    <ScrollView
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_primary"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/activityTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/teko_bold"
+                android:textColor="@color/eighty_black"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:id="@+id/titlelay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/titleIcon"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_baseline_title" />
+
+                <TextView
+                    android:id="@+id/tv_titleHint"
+                    style="@style/TextView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/titleIcon"
+                    android:text="@string/title"
+                    android:textColor="@color/hint_color"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/titleTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_titleHint"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/titleIcon"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/a_notAvailable"
+                    android:textColor="@color/sixty_black"
+                    android:textColorHint="@color/sixty_black"
+                    android:textSize="14sp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".9dp"
+                    android:layout_below="@id/titleTxt"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toEndOf="@+id/titleIcon"
+                    android:background="@color/hint_color" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/datLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/dateIcon"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_calendar_blank" />
+
+                <TextView
+                    android:id="@+id/tv_dateHint"
+                    style="@style/TextView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/dateIcon"
+                    android:text="@string/h_select_date"
+                    android:textColor="@color/hint_color"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dateTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_dateHint"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/dateIcon"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/a_notAvailable"
+                    android:textColor="@color/sixty_black"
+                    android:textColorHint="@color/sixty_black"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".9dp"
+                    android:layout_below="@id/dateTxt"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toEndOf="@+id/dateIcon"
+                    android:background="@color/hint_color" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/timeLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/timeIcon"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_clock" />
+
+                <TextView
+                    android:id="@+id/tv_timeHint"
+                    style="@style/TextView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/timeIcon"
+                    android:text="@string/h_select_time"
+                    android:textColor="@color/hint_color"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/timeTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_timeHint"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/timeIcon"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/a_notAvailable"
+                    android:textColor="@color/sixty_black"
+                    android:textColorHint="@color/sixty_black"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".9dp"
+                    android:layout_below="@id/timeTxt"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toEndOf="@+id/timeIcon"
+                    android:background="@color/hint_color" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/locationLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/locatonIcon"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_map_placeholder" />
+
+                <TextView
+                    android:id="@+id/tv_locatonHint"
+                    style="@style/TextView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/locatonIcon"
+                    android:text="@string/location_pop_up"
+                    android:textColor="@color/hint_color"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/locatonTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_locatonHint"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/locatonIcon"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/a_notAvailable"
+                    android:textColor="@color/sixty_black"
+                    android:textColorHint="@color/sixty_black"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".9dp"
+                    android:layout_below="@id/locatonTxt"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toEndOf="@+id/locatonIcon"
+                    android:background="@color/hint_color" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/descLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/descIcon"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_file_document" />
+
+                <TextView
+                    android:id="@+id/tv_descHint"
+                    style="@style/TextView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/descIcon"
+                    android:text="@string/description"
+                    android:textColor="@color/hint_color"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/descTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_descHint"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/descIcon"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/a_notAvailable"
+                    android:textColor="@color/sixty_black"
+                    android:textColorHint="@color/sixty_black"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".9dp"
+                    android:layout_below="@id/descTxt"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toEndOf="@+id/descIcon"
+                    android:background="@color/hint_color" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/confirmUserLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/confirmUserIcon"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/max_min_user_icon" />
+
+                <TextView
+                    android:id="@+id/tv_confirmUserHint"
+                    style="@style/TextView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/confirmUserIcon"
+                    android:text="@string/confirmed_user"
+                    android:textColor="@color/hint_color"
+                    android:textSize="12sp" />
+
+
+                <com.clubz.ui.cv.FlowLayout
+                    android:id="@+id/affilitesChip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_confirmUserHint"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/confirmUserIcon"
+                    android:visibility="visible" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".9dp"
+                    android:layout_below="@id/affilitesChip"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toEndOf="@+id/confirmUserIcon"
+                    android:background="@color/hint_color" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/statusLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/statusIcon"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_status" />
+
+                <TextView
+                    android:id="@+id/tv_statusHint"
+                    style="@style/TextView.Gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_toEndOf="@+id/statusIcon"
+                    android:text="@string/status"
+                    android:textColor="@color/hint_color"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/statusTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_statusHint"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/statusIcon"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/a_notAvailable"
+                    android:textColor="@color/sixty_black"
+                    android:textColorHint="@color/sixty_black"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".9dp"
+                    android:layout_below="@id/statusTxt"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toEndOf="@+id/statusIcon"
+                    android:background="@color/hint_color" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="RtlHardcoded"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <TextView
+                    android:id="@+id/mCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/button_size"
+
+                    android:background="?android:attr/selectableItemBackground"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:text="@string/cancel_date"
+                    android:textAllCaps="true"
+                    android:textColor="@color/red_favroit"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    >
+
+                    <TextView
+                        android:id="@+id/mClose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_size"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="8dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="@string/close"
+                        android:textAllCaps="true"
+                        android:textColor="@color/nav_gray"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/mConfirm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_size"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:text="@string/confirm"
+                        android:textAllCaps="true"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/topIcon"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/bg_circle_white"
+        android:padding="12dp"
+        android:tint="@color/primaryColor"
+        app:srcCompat="@drawable/ic_nav_event" />
+</RelativeLayout>

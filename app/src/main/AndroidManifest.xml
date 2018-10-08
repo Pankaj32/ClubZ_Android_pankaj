@@ -85,11 +85,11 @@
         <activity
             android:name=".ui.club.ClubsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppThmeLight" />
         <activity
             android:name=".ui.club.ClubDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppThmeLight"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.club.ClubCreationActivity"
@@ -160,7 +160,7 @@
         <activity
             android:name=".ui.user_activities.activity.ActivitiesDetails"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppThmeLight" />
         <activity
             android:name=".ui.newsfeed.CreateNewsFeedActivity"
             android:screenOrientation="portrait"
@@ -169,7 +169,7 @@
         <activity
             android:name=".ui.newsfeed.NewsFeedDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppThmeLight" />
         <activity
             android:name=".ui.newsfeed.MyNewsFeedActivity"
             android:screenOrientation="portrait"
@@ -216,16 +216,21 @@
         <activity
             android:name=".ui.ads.activity.AdDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppThmeLight" />
         <activity
             android:name=".chat.AllChatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".ui.user_activities.activity.AddEventActivity"
+        <activity
+            android:name=".ui.user_activities.activity.AddEventActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight"
-            android:windowSoftInputMode="stateHidden" ></activity>
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".ui.user_activities.activity.EventDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThmeLight"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>
