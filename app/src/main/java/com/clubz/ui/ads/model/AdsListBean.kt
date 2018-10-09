@@ -46,6 +46,7 @@ class AdsListBean {
         var club_id: String? = null
         var user_id: String? = null
         var creator_phone: String? = null
+        var contact_no_visibility: String? = null
         var user_role: String? = null
         var crd: String? = null
         var image: String? = null
@@ -69,6 +70,7 @@ class AdsListBean {
             club_id = parcel.readString()
             user_id = parcel.readString()
             creator_phone = parcel.readString()
+            contact_no_visibility = parcel.readString()
             user_role = parcel.readString()
             crd = parcel.readString()
             image = parcel.readString()
@@ -150,6 +152,7 @@ class AdsListBean {
             parcel.writeString(club_id)
             parcel.writeString(user_id)
             parcel.writeString(creator_phone)
+            parcel.writeString(contact_no_visibility)
             parcel.writeString(user_role)
             parcel.writeString(crd)
             parcel.writeString(image)

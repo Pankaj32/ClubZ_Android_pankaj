@@ -64,6 +64,7 @@ public class SessionManager {
         editor.putString(Constants._email_visibility, user.getEmail_visibility().trim());
         editor.putString(Constants._affiliates_visibility, user.getAffiliates_visibility().trim());
         editor.putString(Constants._interest_visibility, user.getInterest_visibility().trim());
+        editor.putString(Constants._skills_visibility, user.getSkills_visibility().trim());
         editor.putString(Constants._news_notifications, user.getNews_notifications().trim());
         editor.putString(Constants._activities_notifications, user.getActivities_notifications().trim());
         editor.putString(Constants._ads_notifications, user.getAds_notifications().trim());
@@ -102,6 +103,7 @@ public class SessionManager {
             user.setEmail_visibility (mypref.getString(Constants._email_visibility, ""));
             user.setAffiliates_visibility (mypref.getString(Constants._affiliates_visibility, ""));
             user.setInterest_visibility (mypref.getString(Constants._interest_visibility, ""));
+            user.setSkills_visibility (mypref.getString(Constants._skills_visibility, ""));
             user.setNews_notifications (mypref.getString(Constants._news_notifications, ""));
             user.setActivities_notifications (mypref.getString(Constants._activities_notifications, ""));
             user.setAds_notifications (mypref.getString(Constants._ads_notifications, ""));

@@ -41,6 +41,7 @@ class AddDetailsBean {
         var description: String? = null
         var user_id: String? = null
         var creator_phone: String? = null
+        var contact_no_visibility: String? = null
         var user_role: String? = null
         var image: String? = null
         var creator_name: String? = null

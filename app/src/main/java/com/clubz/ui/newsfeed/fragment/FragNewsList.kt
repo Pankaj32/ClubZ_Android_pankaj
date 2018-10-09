@@ -208,12 +208,13 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
 
     private fun showProfile(feed: Feed) {
         val user = UserInfo()
-        user.profile_image = feed!!.profile_image
-        user.userId = feed!!.user_id
-        user.full_name = feed!!.user_name
-        user.isLiked = feed!!.isLiked
+        user.profile_image = feed.profile_image
+        user.userId = feed.user_id
+        user.full_name = feed.user_name
+        user.isLiked = feed.isLiked
         user.country_code = ""
         user.contact_no = feed.creator_phone
+        user.contact_no_visibility = feed.contact_no_visibility
 
         val dialog = object : ProfileDialog(context!!, user) {
             override fun OnFabClick(user: UserInfo) {

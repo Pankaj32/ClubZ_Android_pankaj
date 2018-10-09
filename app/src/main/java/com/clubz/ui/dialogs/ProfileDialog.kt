@@ -31,19 +31,21 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val view: View = LayoutInflater.from(context).inflate(R.layout.z_profile_dialog, null)
         this.setContentView(view)
-        tv_FullName.text=user!!.full_name
+        tv_FullName.text = user!!.full_name
         if (user!!.profile_image.isNotEmpty()) {
-            if(!user!!.profile_image.contains("defaultUser")){
+            if (!user!!.profile_image.contains("defaultUser")) {
                 iv_profileImage.clearColorFilter()
                 Glide.with(context).load(user!!.profile_image)/*.placeholder(R.drawable.ic_person_512)*/.into(iv_profileImage)
             }
 
         } else iv_profileImage.setColorFilter(R.color.white)
+        if (!userInfo.contact_no_visibility.equals("1")) ic_call.visibility = View.GONE
         ic_favorite.setOnClickListener(this)
         ic_chat.setOnClickListener(this)
         ic_call.setOnClickListener(this)
         ic_flag.setOnClickListener(this)
     }
+
     //http://clubz.co/dev/backend_asset/custom/images/defaultUser.png
     override fun onClick(p0: View?) {
         when (p0!!.id) {

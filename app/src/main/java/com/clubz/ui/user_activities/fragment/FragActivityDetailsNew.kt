@@ -420,6 +420,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                 user.profile_image = activityDetails?.getData()!!.creator_profile_image!!
                 user.country_code = ""
                 user.contact_no = activityDetails?.getData()!!.creator_phone!!
+                user.contact_no_visibility = activityDetails?.getData()!!.contact_no_visibility!!
                 if(!activityDetails?.getData()?.creator_id!!.equals(ClubZ.currentUser!!.id))showProfile(user)
             }
             R.id.activityLeader -> {

@@ -161,8 +161,11 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         appbar_layout!!.addOnOffsetChangedListener(this)
 
         tvAboutMe.setText(profile.about_me)
-        tvDob.text = Util.convertDobDate(profile.getFormatedDOB())//"13/08/1989"
-        dob = profile.getFormatedDOB()
+
+        if (!profile.dob.equals("0000-00-00")) {
+            tvDob.text = Util.convertDobDate(profile.getFormatedDOB())//"13/08/1989"
+            dob = profile.getFormatedDOB()
+        }
         tv_landLine.setText(profile.contact_no)
         tv_mobileNo.setText(profile.contact_no)
         tv_email.setText(profile.email)
@@ -198,107 +201,135 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
     fun setVisibility() {
         when (ClubZ.currentUser!!.about_me_visibility) {
             "0" -> {
+                aboutMeVisibility = 0
                 tvAboutMeVisibility.text = getString(R.string.hidden)
             }
             "1" -> {
+                aboutMeVisibility = 1
                 tvAboutMeVisibility.text = getString(R.string.Public)
             }
             "2" -> {
+                aboutMeVisibility = 2
                 tvAboutMeVisibility.text = getString(R.string.only_for_my_contact)
             }
             "3" -> {
+                aboutMeVisibility = 3
                 tvAboutMeVisibility.text = getString(R.string.only_for_club_member)
             }
         }
         when (ClubZ.currentUser!!.dob_visibility) {
             "0" -> {
+                dobVisibility = 0
                 tvDobVisibility.text = getString(R.string.hidden)
             }
             "1" -> {
+                dobVisibility = 1
                 tvDobVisibility.text = getString(R.string.Public)
             }
             "2" -> {
+                dobVisibility = 2
                 tvDobVisibility.text = getString(R.string.only_for_my_contact)
             }
             "3" -> {
+                dobVisibility = 3
                 tvDobVisibility.text = getString(R.string.only_for_club_member)
             }
         }
         when (ClubZ.currentUser!!.contact_no_visibility) {
             "0" -> {
+                contactNoVisibility = 0
                 tvLandLineVisibility.text = getString(R.string.hidden)
                 tvMobileVisibility.text = getString(R.string.hidden)
             }
             "1" -> {
+                contactNoVisibility = 1
                 tvLandLineVisibility.text = getString(R.string.Public)
                 tvMobileVisibility.text = getString(R.string.Public)
             }
             "2" -> {
+                contactNoVisibility = 2
                 tvLandLineVisibility.text = getString(R.string.only_for_my_contact)
                 tvMobileVisibility.text = getString(R.string.only_for_my_contact)
             }
             "3" -> {
+                contactNoVisibility = 3
                 tvLandLineVisibility.text = getString(R.string.only_for_club_member)
                 tvMobileVisibility.text = getString(R.string.only_for_club_member)
             }
         }
         when (ClubZ.currentUser!!.email_visibility) {
             "0" -> {
+                emailVisibility = 0
                 tvEmailVisibility.text = getString(R.string.hidden)
             }
             "1" -> {
+                emailVisibility = 1
                 tvEmailVisibility.text = getString(R.string.Public)
             }
             "2" -> {
+                emailVisibility = 2
                 tvEmailVisibility.text = getString(R.string.only_for_my_contact)
             }
             "3" -> {
+                emailVisibility = 3
                 tvEmailVisibility.text = getString(R.string.only_for_club_member)
             }
         }
         when (ClubZ.currentUser!!.affiliates_visibility) {
             "0" -> {
+                affiliatesVisibility = 0
                 tvAffilitesVisibility.text = getString(R.string.hidden)
             }
             "1" -> {
+                affiliatesVisibility = 1
                 tvAffilitesVisibility.text = getString(R.string.Public)
             }
             "2" -> {
+                affiliatesVisibility = 2
                 tvAffilitesVisibility.text = getString(R.string.only_for_my_contact)
             }
             "3" -> {
+                affiliatesVisibility = 3
                 tvAffilitesVisibility.text = getString(R.string.only_for_club_member)
             }
         }
-        /* when(ClubZ.currentUser!!.s){
-             "0"->{
-                 tvAffilitesVisibility.text = getString(R.string.hidden)
-             }
-             "1"->{
-                 tvAffilitesVisibility.text = getString(R.string.Public)
-             }
-             "2"->{
-                 tvAffilitesVisibility.text = getString(R.string.only_for_my_contact)
-             }
-             "3"->{
-                 tvAffilitesVisibility.text = getString(R.string.only_for_club_member)
-             }
-         }*/
+        when (ClubZ.currentUser!!.skills_visibility) {
+            "0" -> {
+                skillsVisibility = 0
+                tvMySkillVisibility.text = getString(R.string.hidden)
+            }
+            "1" -> {
+                skillsVisibility = 1
+                tvMySkillVisibility.text = getString(R.string.Public)
+            }
+            "2" -> {
+                skillsVisibility = 2
+                tvMySkillVisibility.text = getString(R.string.only_for_my_contact)
+            }
+            "3" -> {
+                skillsVisibility = 3
+                tvMySkillVisibility.text = getString(R.string.only_for_club_member)
+            }
+        }
         when (ClubZ.currentUser!!.interest_visibility) {
             "0" -> {
+                interestVisibility = 0
                 tvMyInterestVisibility.text = getString(R.string.hidden)
             }
             "1" -> {
+                interestVisibility = 1
                 tvMyInterestVisibility.text = getString(R.string.Public)
             }
             "2" -> {
+                interestVisibility = 2
                 tvMyInterestVisibility.text = getString(R.string.only_for_my_contact)
             }
             "3" -> {
+                interestVisibility = 3
                 tvMyInterestVisibility.text = getString(R.string.only_for_club_member)
             }
         }
-        tvMySkillVisibility.text = getString(R.string.Public)
+        // tvMySkillVisibility.text = getString(R.string.Public)
     }
 
     override fun onClick(v: View?) {
@@ -366,6 +397,17 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
     }
 */
     private fun addChip(chipHolder: FlowLayout, str: String, hint: String) {
+
+        val chipEditText = object : ChipEditText(this@ProfileEditActivity, R.layout.chip_edit_text, hint) {
+            override fun setDone(text: String?) {
+                if (!TextUtils.isEmpty(text)) {
+                    addChip(chipHolder, text!!, hint)
+                    hideSoftKeyboard()
+                }
+            }
+
+        }
+
         if (str.isNotBlank()) {
             val tagList = str.split(",").map { it.trim() }
             Log.e("ChildCount: ", "" + chipHolder.childCount)
@@ -379,18 +421,22 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                     }
 
                     override fun setDeleteListner(chipView: ChipView?) {
+                        chipEditText.textView.setText("")
                         when (chipHolder.id) {
                             R.id.affilitesChip -> {
                                 affiliatesParams.remove(tag)
                                 if (removedAffiliates.equals("")) {
                                     removedAffiliates = tag
                                 } else removedAffiliates = removedAffiliates + "," + tag
+                                if (affiliatesParams.size == 9) chipHolder.addView(chipEditText)
                             }
                             R.id.skillsChip -> {
                                 skillParams.remove(tag)
+                                if (skillParams.size == 9) chipHolder.addView(chipEditText)
                             }
                             R.id.interestChip -> {
                                 interestParams.remove(tag)
+                                if (interestParams.size ==9) chipHolder.addView(chipEditText)
                             }
                         }
                     }
@@ -418,16 +464,19 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                 }
             }
         }
-        val chipEditText = object : ChipEditText(this@ProfileEditActivity, R.layout.chip_edit_text, hint) {
-            override fun setDone(text: String?) {
-                if (!TextUtils.isEmpty(text)) {
-                    addChip(chipHolder, text!!, hint)
-                    hideSoftKeyboard()
-                }
-            }
 
+        when (chipHolder.id) {
+            R.id.affilitesChip -> {
+                if (affiliatesParams.size < 10)chipHolder.addView(chipEditText)
+            }
+            R.id.skillsChip -> {
+                if (skillParams.size < 10)chipHolder.addView(chipEditText)
+            }
+            R.id.interestChip -> {
+                if (interestParams.size < 10)chipHolder.addView(chipEditText)
+            }
         }
-        chipHolder.addView(chipEditText)
+        /*chipHolder.addView(chipEditText)*/
     }
 
     private fun setPlated() {
@@ -547,7 +596,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                 }
 
                 R.id.tvMobileVisibility -> {
-                    aboutMeVisibility = position
+                    contactNoVisibility = position
                     tvMobileVisibility.text = getVisibilityOption(position)
                 }
 
@@ -562,7 +611,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                 }
 
                 R.id.tvMySkillVisibility -> {
-                    affiliatesVisibility = position
+                    skillsVisibility = position
                     tvMySkillVisibility.text = getVisibilityOption(position)
                 }
 

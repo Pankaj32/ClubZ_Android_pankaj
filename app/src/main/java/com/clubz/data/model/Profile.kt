@@ -19,13 +19,22 @@ class Profile : Serializable{
     var interests = ""
     var affiliates = ""
 
-    var aboutMeVisibility = 0
-    var dobVisibility = 0
-    var contactNoVisibility = 0
-    var emailVisibility = 0
-    var affiliatesVisibility = 0
-    var skillsVisibility = 0
-    var interestVisibility = 0
+    /*var aboutMeVisibility = ""
+    var dobVisibility = ""
+    var contactNoVisibility = ""
+    var emailVisibility = ""
+    var affiliatesVisibility = ""
+    var skillsVisibility = ""
+    var interestVisibility = ""*/
+
+
+    var about_me_visibility = ""
+    var dob_visibility = ""
+    var contact_no_visibility = ""
+    var email_visibility = ""
+    var affiliates_visibility = ""
+    var skills_visibility = ""
+    var interest_visibility = ""
 
     public fun getStringToList():List<String>?{
         return affiliates.split(",").map { it.trim() }

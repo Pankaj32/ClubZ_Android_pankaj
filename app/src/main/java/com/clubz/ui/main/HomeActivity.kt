@@ -168,7 +168,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     fun setprofiledata() {
         nav?.nav_tvTitle!!.text = ClubZ.currentUser!!.full_name
-        nav?.nav_tvStatus!!.text = ClubZ.currentUser!!.about_me
+      //  nav?.nav_tvStatus!!.text = ClubZ.currentUser!!.about_me
         if (ClubZ.currentUser!!.profile_image.isNotEmpty()) {
             Glide.with(this).load(ClubZ.currentUser!!.profile_image)/*.fitCenter()*/.into(nav!!.iv_profileImage)
         }

@@ -26,7 +26,7 @@
             app:expandedTitleMarginEnd="60dp"
             app:expandedTitleMarginStart="16dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:statusBarScrim="@color/primaryColor">
+            app:statusBarScrim="@color/app_blue">
 
             <ImageView
                 android:id="@+id/toolbar_image"

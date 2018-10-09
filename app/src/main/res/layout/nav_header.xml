@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="192dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:gravity="bottom"
     android:orientation="vertical"
-    android:gravity="bottom">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="matrix"
-        android:src="@drawable/nev_bg"/>
+        android:src="@drawable/nev_bg" />
 
     <RelativeLayout
         android:id="@+id/rlMyProfile"
@@ -26,19 +26,19 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:background="@drawable/bg_circle_blue"
-            android:src="@drawable/ic_user_white"/>
+            android:src="@drawable/ic_user_white" />
 
         <TextView
             android:id="@+id/nav_membership"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
             android:layout_alignParentRight="true"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:singleLine="true"
+            android:fontFamily="@font/roboto_medium"
             android:maxLines="1"
-            android:text="@string/enterprise"/>
+            android:singleLine="true"
+            android:text="@string/enterprise"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -59,13 +60,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:singleLine="true"
                 android:maxLines="1"
-                android:text="@string/dharmraj_acharya_bhurtel"/>
+                android:singleLine="true"
+                android:text="@string/dharmraj_acharya_bhurtel"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/nav_tvStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,7 +75,7 @@
                 android:maxLines="2"
                 android:textColor="@color/white"
                 android:text="@string/my_status"
-                />
+                />-->
         </LinearLayout>
 
         <ImageView
@@ -83,7 +84,7 @@
             android:layout_height="48dp"
             android:padding="15dp"
             android:tint="@color/white"
-            app:srcCompat="@drawable/ic_down_arrow"/>
+            app:srcCompat="@drawable/ic_down_arrow" />
 
     </LinearLayout>
 

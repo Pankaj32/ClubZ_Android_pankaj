@@ -33,6 +33,7 @@ class User : Serializable{
    var email_visibility = ""
    var affiliates_visibility = ""
    var interest_visibility = ""
+   var skills_visibility = ""
    var news_notifications = ""
    var activities_notifications = ""
    var ads_notifications = ""

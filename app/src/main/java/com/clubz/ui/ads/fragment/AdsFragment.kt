@@ -144,7 +144,8 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
                 // to the app after tapping on an ad.
             }
         }*/
-        loadNativeAds()
+
+      loadNativeAds()
 
     }
 
@@ -575,6 +576,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
     }
 
     private fun insertAdsInMenuItems() {
+        //commentedAdd
         if (mNativeAds.size <= 0) {
             return
         }

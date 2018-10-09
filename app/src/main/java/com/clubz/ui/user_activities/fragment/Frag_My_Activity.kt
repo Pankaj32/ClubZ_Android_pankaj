@@ -389,10 +389,10 @@ class Frag_My_Activity : Fragment(),
         }
     }
 
-    private fun hideDialogKeyBoard() {
+   /* private fun hideDialogKeyBoard() {
         val inputManager = dialog!!.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(dialog!!.currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
-    }
+    }*/
 
     private fun showConfirmationDialog(action: String = "", activityId: String = "", activityEventId: String = "") {
         try {
@@ -517,7 +517,7 @@ class Frag_My_Activity : Fragment(),
         }.execute(Frag_My_Activity::class.java.name)
     }
 
-    private fun datePicker(i1: Int, i2: Int, i3: Int, addDateTxt: TextView) {
+    /*private fun datePicker(i1: Int, i2: Int, i3: Int, addDateTxt: TextView) {
         val calendar = GregorianCalendar.getInstance()
         var year = calendar.get(Calendar.YEAR)
         var month = calendar.get(Calendar.MONTH)
@@ -563,7 +563,7 @@ class Frag_My_Activity : Fragment(),
         mTimePicker.setTitle("Select Time")
         mTimePicker.show()
     }
-
+*/
     private fun openAutocompleteActivity() {
         try {
             // The autocomplete activity requires Google Play Services to be available. The intent
@@ -595,9 +595,9 @@ class Frag_My_Activity : Fragment(),
                 latitude = place.latLng.latitude.toString()
                 longitute = place.latLng.longitude.toString()
 
-                dialog?.locationTxt?.setText(place.address)
+               /* dialog?.locationTxt?.setText(place.address)
                 dialog?.show()
-                Log.e("TAG", "Place Selected: " + place.name + " " + latitude + " " + longitute)
+                Log.e("TAG", "Place Selected: " + place.name + " " + latitude + " " + longitute)*/
             }
         }
     }
@@ -620,7 +620,7 @@ class Frag_My_Activity : Fragment(),
         return true
     }
 
-    private fun addEvent(eventTitle: String,
+    /*private fun addEvent(eventTitle: String,
                          eventDate: String,
                          eventTime: String,
                          location: String,
@@ -676,7 +676,7 @@ class Frag_My_Activity : Fragment(),
                 return params
             }
         }.execute(Frag_My_Activity::class.java.name)
-    }
+    }*/
 
 
     fun getUserConfirmAfiliatesList(activityId: String, activityEventId: String) {
@@ -779,7 +779,7 @@ class Frag_My_Activity : Fragment(),
         }.execute(Frag_My_Activity::class.java.name)
     }
 
-    var dialog: Dialog? = null
+    /*var dialog: Dialog? = null
     private fun popUpAddEvents(activities: ActivitiesBean.DataBean) {
         if (dialog == null) {
             dialog = Dialog(mContext)
@@ -822,17 +822,17 @@ class Frag_My_Activity : Fragment(),
                 hideDialogKeyBoard()
                 timePicker(addTimeTxt)
             }
-            /* loctionLay.setOnClickListener {
+            *//* loctionLay.setOnClickListener {
                  hideDialogKeyBoard()
                  openAutocompleteActivity()
-             }*/
+             }*//*
 
             dialog!!.setOnDismissListener { dialogInterface ->
                 dialog = null
             }
         }
         dialog?.show()
-    }
+    }*/
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     internal fun popUpConfirm(activityId: String, activityEventId: String, confirmAffiliates: GetConfirmAffiliates) {
@@ -987,7 +987,7 @@ class Frag_My_Activity : Fragment(),
     }
 
 
-    internal fun popUpDateDetails(activitiesBean: ActivitiesBean.DataBean, eventBean: ActivitiesBean.DataBean.EventsBean?) {
+    /*internal fun popUpDateDetails(activitiesBean: ActivitiesBean.DataBean, eventBean: ActivitiesBean.DataBean.EventsBean?) {
         //    var isLike: Boolean = false;
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1043,7 +1043,7 @@ class Frag_My_Activity : Fragment(),
         mClose.setOnClickListener(View.OnClickListener { dialog.dismiss() })
         dialog.setCancelable(true)
         dialog.show()
-    }
+    }*/
 
     private fun confirmActivity(activityId: String,
                                 affiliateId: String,
@@ -1212,7 +1212,7 @@ class Frag_My_Activity : Fragment(),
         }.execute(Frag_My_Activity::class.java.name)
     }
 
-    private fun showConfirmationCancelDialog(action: String = "",
+   /* private fun showConfirmationCancelDialog(action: String = "",
                                              activityId: String = "",
                                              activityEventId: String = "",
                                              dialog1: Dialog) {
@@ -1250,21 +1250,21 @@ class Frag_My_Activity : Fragment(),
                         dialog1.dismiss()
                         dialog.cancel()
                     })
-            /*       builder1.setOnShowListener( new OnShowListener() {
+            *//*       builder1.setOnShowListener( new OnShowListener() {
            @Override
            public void onShow(DialogInterface arg0) {
                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(COLOR_I_WANT);
            }
-       });*/
+       });*//*
             val alert11 = builder1.create()
             alert11.show()
             alert11.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(mContext!!, R.color.nav_gray))
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
+    }*/
 
-    private fun cancelDate(activityId: String = "", activityEventId: String = "",
+    /*private fun cancelDate(activityId: String = "", activityEventId: String = "",
                            dialog1: DialogInterface) {
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
@@ -1328,7 +1328,7 @@ class Frag_My_Activity : Fragment(),
                 chipHolder.addView(chip)
             }
         }
-    }
+    }*/
 
     fun doFilter() {
         activityList.clear()
@@ -1357,13 +1357,13 @@ class Frag_My_Activity : Fragment(),
                 }
     }
 
-    private fun stringToDate(string: String): Date {
+    /*private fun stringToDate(string: String): Date {
         // yyyy-mm-dd hh:mm:ss
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
         val myDate = simpleDateFormat.parse(string)
         return myDate
-    }
+    }*/
 
     fun onSwitchClub() {
         getAllActivitiesList(isPull = true)

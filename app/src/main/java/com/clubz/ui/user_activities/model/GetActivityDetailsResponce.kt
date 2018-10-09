@@ -74,6 +74,7 @@ class GetActivityDetailsResponce {
         var user_role: String? = null
         var description: String? = null
         var creator_phone: String? = null
+        var contact_no_visibility: String? = null
         var leader_id: String? = null
         var terms_conditions: String? = null
         var image: String? = null

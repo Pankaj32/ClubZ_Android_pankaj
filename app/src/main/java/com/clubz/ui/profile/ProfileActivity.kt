@@ -89,6 +89,22 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
 
 
     private fun initView() {
+        collapse_toolbar.title = profile!!.full_name
+        if (!profile!!.profile_image.isBlank()) {
+            if (!profile!!.profile_image.endsWith("defaultUser.png")) {
+                Picasso.with(this).load(profile!!.profile_image)
+                        .fit()
+                        .into(toolbar_image, object : Callback {
+                            override fun onSuccess() {
+                                setPlated()
+                            }
+
+                            override fun onError() {
+                                setPlated()
+                            }
+                        })
+            }
+        }
         if (isMyprofile) {
             ll_silenceUser.visibility = View.GONE
             ivChat.visibility = View.GONE
@@ -97,89 +113,150 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
             ivChat.visibility = View.VISIBLE
             appbar_layout!!.addOnOffsetChangedListener(this)
         }
-
-        collapse_toolbar.title = profile!!.full_name
-        if (!profile!!.profile_image.isBlank()) {
-            Picasso.with(this).load(profile!!.profile_image)
-                    .fit()
-                    .into(toolbar_image, object : Callback {
-                        override fun onSuccess() {
-                            setPlated()
-                        }
-
-                        override fun onError() {
-                            setPlated()
-                        }
-                    })
-        }
-
     }
 
     private fun updateView() {
+        if (!profile!!.profile_image.isBlank()) {
+            if (!profile!!.profile_image.endsWith("defaultUser.png")) {
+                Picasso.with(this).load(profile!!.profile_image)
+                        .fit()
+                        .into(toolbar_image, object : Callback {
+                            override fun onSuccess() {
+                                setPlated()
+                            }
+
+                            override fun onError() {
+                                setPlated()
+                            }
+                        })
+            }
+        }
+
         collapse_toolbar.title = profile!!.full_name
-        tvDob.text = Util.convertDobDate(profile!!.getFormatedDOB())
+        if (isMyprofile) {
+            updateMyProfile()
+        } else {
+            updateOthersProfile()
+        }
+    }
+
+    private fun updateOthersProfile() {
+        if (profile!!.dob.equals("0000-00-00")) {
+            dobCard.visibility = View.GONE
+        } else {
+            dobCard.visibility = View.VISIBLE
+            if (profile!!.dob_visibility.equals("1")) {
+                tvDob.text = Util.convertDobDate(profile!!.getFormatedDOB())
+            } else dobCard.visibility = View.GONE
+        }
+        if (profile!!.about_me_visibility .equals("1")) {
+            aboutCard.visibility = View.VISIBLE
+            if (!profile!!.about_me.trim().equals("")) tvAboutMe.text = profile?.about_me
+        } else aboutCard.visibility = View.GONE
+        if (profile!!.contact_no_visibility.equals("1")) {
+            phCard.visibility = View.VISIBLE
+            landCrd.visibility = View.VISIBLE
+            tv_phoneNo.text = profile?.getContactNo()
+            tv_landLine.text = profile?.getContactNo()
+        } else {
+            phCard.visibility = View.GONE
+            landCrd.visibility = View.GONE
+        }
+        if (profile!!.contact_no_visibility.equals("1")) {
+            emaiCard.visibility = View.VISIBLE
+            tv_email.text = profile?.email
+        } else emaiCard.visibility = View.GONE
+
+        if (profile!!.affiliates_visibility.equals("1")) {
+            affliatesCard.visibility = View.VISIBLE
+            if (!profile!!.affiliates.isEmpty()) {
+                noAffiliatesTxt.visibility = View.GONE
+                affilitesChip.visibility = View.VISIBLE
+                if (affilitesChip.childCount != 0) affilitesChip.removeAllViews()
+                addChip(affilitesChip, profile!!.affiliates)
+            } else {
+                noAffiliatesTxt.visibility = View.VISIBLE
+                affilitesChip.visibility = View.GONE
+            }
+        } else affliatesCard.visibility = View.GONE
+        if (profile!!.skills_visibility.equals("1")) {
+            if (!profile!!.skills.isEmpty()) {
+                noSkillTxt.visibility = View.GONE
+                skillsChip.visibility = View.VISIBLE
+                if (skillsChip.childCount != 0) skillsChip.removeAllViews()
+                addChip(skillsChip, profile!!.skills)
+            } else {
+                noSkillTxt.visibility = View.VISIBLE
+                skillsChip.visibility = View.GONE
+            }
+        } else skillCard.visibility = View.GONE
+        if (profile!!.interest_visibility.equals("1")) {
+            if (!profile!!.interests.isEmpty()) {
+                noInterestTxt.visibility = View.GONE
+                if (interestChip.childCount != 0) interestChip.removeAllViews()
+                addChip(interestChip, profile!!.interests)
+                interestChip.visibility = View.VISIBLE
+            } else {
+                noInterestTxt.visibility = View.VISIBLE
+                interestChip.visibility = View.GONE
+            }
+        }else interestCard.visibility=View.GONE
+    }
+
+    fun updateMyProfile() {
+        if (!profile!!.dob.equals("0000-00-00")) {
+            tvDob.text = Util.convertDobDate(profile!!.getFormatedDOB())
+        }
+        if (!profile!!.about_me.trim().equals("")) tvAboutMe.text = profile?.about_me
         tv_phoneNo.text = profile?.getContactNo()
         tv_landLine.text = profile?.getContactNo()
         tv_email.text = profile?.email
-        tvAboutMe.text = profile?.about_me
 
-        if (!profile!!.affiliates.isEmpty()){
-            noAffiliatesTxt.visibility=View.GONE
-            affilitesChip.visibility=View.VISIBLE
+
+        if (!profile!!.affiliates.isEmpty()) {
+            noAffiliatesTxt.visibility = View.GONE
+            affilitesChip.visibility = View.VISIBLE
             if (affilitesChip.childCount != 0) affilitesChip.removeAllViews()
             addChip(affilitesChip, profile!!.affiliates)
-        }else{
-            noAffiliatesTxt.visibility=View.VISIBLE
-            affilitesChip.visibility=View.GONE
+        } else {
+            noAffiliatesTxt.visibility = View.VISIBLE
+            affilitesChip.visibility = View.GONE
         }
-        if (!profile!!.skills.isEmpty()){
-            noSkillTxt.visibility=View.GONE
-            skillsChip.visibility=View.VISIBLE
+        if (!profile!!.skills.isEmpty()) {
+            noSkillTxt.visibility = View.GONE
+            skillsChip.visibility = View.VISIBLE
             if (skillsChip.childCount != 0) skillsChip.removeAllViews()
             addChip(skillsChip, profile!!.skills)
-        }else{
-            noSkillTxt.visibility=View.VISIBLE
-            skillsChip.visibility=View.GONE
+        } else {
+            noSkillTxt.visibility = View.VISIBLE
+            skillsChip.visibility = View.GONE
         }
-        if (!profile!!.interests.isEmpty()){
-            noInterestTxt.visibility=View.GONE
+        if (!profile!!.interests.isEmpty()) {
+            noInterestTxt.visibility = View.GONE
             if (interestChip.childCount != 0) interestChip.removeAllViews()
             addChip(interestChip, profile!!.interests)
-            interestChip.visibility=View.VISIBLE
-        }else{
-            noInterestTxt.visibility=View.VISIBLE
-            interestChip.visibility=View.GONE
-        }
-        if (!profile!!.profile_image.isBlank()) {
-            Picasso.with(this).load(profile!!.profile_image)
-                    .fit()
-                    .into(toolbar_image, object : Callback {
-                        override fun onSuccess() {
-                            setPlated()
-                        }
-
-                        override fun onError() {
-                            setPlated()
-                        }
-                    })
+            interestChip.visibility = View.VISIBLE
+        } else {
+            noInterestTxt.visibility = View.VISIBLE
+            interestChip.visibility = View.GONE
         }
     }
 
     private fun addChip(chipHolder: FlowLayout, str: String) {
 
-            val tagList = str.split(",").map { it.trim() }
-            for (tag in tagList) {
-                val chip = object : ChipView(this@ProfileActivity, chipHolder.childCount.toString(), false) {
-                    override fun getLayout(): Int {
-                        return R.layout.z_cus_chip_view_profile
-                    }
-
-                    override fun setDeleteListner(chipView: ChipView?) {
-                    }
+        val tagList = str.split(",").map { it.trim() }
+        for (tag in tagList) {
+            val chip = object : ChipView(this@ProfileActivity, chipHolder.childCount.toString(), false) {
+                override fun getLayout(): Int {
+                    return R.layout.z_cus_chip_view_profile
                 }
-                chip.text = tag
-                chipHolder.addView(chip)
+
+                override fun setDeleteListner(chipView: ChipView?) {
+                }
             }
+            chip.text = tag
+            chipHolder.addView(chip)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -148,6 +148,8 @@
                             android:gravity="center"
                             android:textSize="12sp"
                             android:textColor="@color/white"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
                             android:background="@drawable/bg_btn_green"/>
                     </LinearLayout>
                 </LinearLayout>

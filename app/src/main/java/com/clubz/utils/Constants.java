@@ -56,6 +56,7 @@ public class Constants {
     public static final String _email_visibility    = "contact_no_visibility" ;
     public static final String _affiliates_visibility    = "affiliates_visibility" ;
     public static final String _interest_visibility    = "interest_visibility" ;
+    public static final String _skills_visibility    = "skills_visibility" ;
     public static final String _news_notifications    = "news_notifications" ;
     public static final String _activities_notifications    = "activities_notifications" ;
     public static final String _ads_notifications    = "ads_notifications" ;
