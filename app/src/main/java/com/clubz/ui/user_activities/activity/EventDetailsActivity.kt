@@ -104,12 +104,12 @@ class EventDetailsActivity : AppCompatActivity() {
                                              activityEventId: String = "") {
         try {
             val builder1 = AlertDialog.Builder(this)
-            builder1.setTitle(this.getString(R.string.alert))
+            builder1.setTitle(getString(R.string.alert))
             when (action) {
                 getString(R.string.cancel) -> {
                     builder1.setMessage(getString(R.string.activity_date_cancel))
                 }
-                getString(R.string.confirm) -> {
+                getString(R.string.confirm_date) -> {
                     if (confirmStatus.equals("1")) {
                         builder1.setMessage(getString(R.string.activity_date_confirm))
                     } else {
@@ -118,19 +118,19 @@ class EventDetailsActivity : AppCompatActivity() {
                 }
             }
             builder1.setCancelable(false)
-            builder1.setPositiveButton(this.getString(R.string.ok), { dialog, id ->
+            builder1.setPositiveButton(getString(R.string.ok), { dialog, id ->
                 when (action) {
                     getString(R.string.cancel) -> {
                         cancelDate(activityId, activityEventId, dialog)
                     }
-                    getString(R.string.confirm) -> {
+                    getString(R.string.confirm_date) -> {
                         confirmMyActivity(activityId, activityEventId, ClubZ.currentUser!!.id, confirmStatus, dialog, containerLay)
                     }
                 }
 
             })
 
-            builder1.setNegativeButton(this.getString(R.string.cancel),
+            builder1.setNegativeButton(getString(R.string.cancel),
                     DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                     })
@@ -142,7 +142,7 @@ class EventDetailsActivity : AppCompatActivity() {
        });*/
             val alert11 = builder1.create()
             alert11.show()
-            alert11.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.nav_gray))
+            alert11.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this@EventDetailsActivity, R.color.nav_gray))
         } catch (e: Exception) {
             e.printStackTrace()
         }

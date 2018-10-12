@@ -1,11 +1,13 @@
 package com.clubz.ui.club.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.android.volley.VolleyError
 import com.bumptech.glide.Glide
 import com.clubz.ClubZ
@@ -13,8 +15,14 @@ import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.TermsConditionDialog
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.ClubMember
 import com.clubz.data.remote.WebService
 import com.clubz.data.model.Clubs
+import com.clubz.data.model.Profile
+import com.clubz.data.model.UserInfo
+import com.clubz.ui.dialogs.ProfileDialog
+import com.clubz.ui.dialogs.UserProfileDialog
+import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.CircleTransform
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
@@ -45,6 +53,36 @@ class FragClubDetails1 : Fragment() {
                     this.dismiss()
                 }
             }.show()
+        }
+        tvLeadby.setOnClickListener {
+            if (clubz.user_id != ClubZ.currentUser!!.id) {
+            val member = UserInfo()
+            member.full_name = clubz.full_name
+            member.userId = clubz.user_id
+            member.profile_image = clubz.user_image
+            member.contact_no = clubz.contact_no
+            member.contact_no_visibility = clubz.contact_no_visibility
+
+            val userProfileDialog = object : ProfileDialog(context!!, member) {
+                override fun OnFabClick(user: UserInfo) {
+
+                }
+
+                override fun OnProfileClick(user: UserInfo) {
+                    if (user.userId.isNotEmpty()) {
+                        val profile = Profile()
+                        profile.userId = user.userId
+                        profile.full_name = user.full_name
+                        profile.profile_image = user.profile_image
+                        context.startActivity(Intent(context, ProfileActivity::class.java).putExtra("profile", profile))
+                    } else {
+                        Toast.makeText(context, getString(R.string.under_development), Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            }
+            userProfileDialog.show()
+        }
         }
     }
 

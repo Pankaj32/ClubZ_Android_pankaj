@@ -28,6 +28,7 @@ import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import org.json.JSONObject
 import android.widget.ImageView
+import android.widget.Toast
 import com.clubz.chat.model.MemberBean
 import com.clubz.chat.util.ChatUtil
 import com.google.firebase.database.FirebaseDatabase
@@ -356,6 +357,7 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                 .child(clubz.clubId)
                 .child(member?.userId!!)
                 .child("silent").setValue(member?.member_status)
+        Toast.makeText(context,member.full_name+" "+if (member.member_status.equals("1"))getString(R.string.has_been_activated) else getString(R.string.has_been_inactivated),Toast.LENGTH_SHORT).show()
     }
 
     override fun onTagAdd(tag: String?, member: ClubMember?, pos: Int) {

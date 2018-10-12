@@ -221,10 +221,10 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         maxUser.text = activityDetails?.getData()?.max_users
         minUser.text = activityDetails?.getData()?.min_users
         if (type.equals("my")) {
-            imgLike.setImageResource(R.drawable.active_heart_ico)
+            imgLike.setImageResource(R.drawable.ic_cards_heart_active)
         } else {
             if (activityDetails?.getData()?.is_like.equals("1")) {
-                imgLike.setImageResource(R.drawable.active_heart_ico)
+                imgLike.setImageResource(R.drawable.ic_cards_heart_active)
             } else {
                 imgLike.setImageResource(R.drawable.inactive_heart_ico)
             }
@@ -431,6 +431,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                 user.profile_image = activityDetails?.getData()!!.leader_prflimage!!
                 user.country_code = ""
                 user.contact_no = activityDetails?.getData()!!.leader_phno!!
+                user.contact_no_visibility = activityDetails?.getData()!!.leader_contact_no_visibility!!
                 if(!activityDetails?.getData()?.leader_id!!.equals(ClubZ.currentUser!!.id))showProfile(user)
             }
             R.id.imgActivity -> {

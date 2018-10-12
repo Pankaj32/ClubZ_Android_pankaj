@@ -142,7 +142,7 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
                         list_recycler.adapter = Club_List_Adapter(ArrayList<Clubs>(), context!!, activity)
                         Util.showToast(obj.getString("message"),context)
                     }
-                }catch (ex: Exception){
+                }catch (ex:Exception){
                     Util.showToast(R.string.swr,context!!)
                 }
             }
@@ -157,7 +157,7 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
-                params.put("city", ClubZ.city)
+                /*params.put("city", ClubZ.city)
                 params.put("latitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString() )+"")
                 params.put("longitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString() )+"")
                 params.put("clubCategoryId","")
@@ -165,6 +165,15 @@ class Frag_Search_Club : Fragment() , FilterListner, Textwatcher_Statusbar,
                 params.put("offset",offset)
                 params.put("limit","20")
                 params.put("clubType",ClubZ.isPrivate.toString())
+                Util.e("parms search", params.toString())*/
+                params.put("city", "")
+                params.put("latitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.latitude.toString() )+"")
+                params.put("longitude",(if(ClubZ.latitude==0.0 && ClubZ.longitude==0.0)"" else ClubZ.longitude.toString() )+"")
+                params.put("clubCategoryId","")
+                params.put("searchText",text)
+                params.put("offset",offset)
+                params.put("limit","")
+                params.put("clubType","")
                 Util.e("parms search", params.toString())
                 return params
             }

@@ -98,7 +98,7 @@ class ItemListDialogFragment : BottomSheetDialogFragment() {
             val data = menuList[position]
             holder.text.text = data.title
             holder.imageView.setImageResource(data.id)
-            holder.imageView.visibility = if (data.title.equals(getString(R.string.leave_activity))) View.GONE else View.VISIBLE
+            /*holder.imageView.visibility = if (data.title.equals(getString(R.string.leave_activity))) View.GONE else View.VISIBLE*/
 
             /*holder.text.setOnClickListener(object: View.OnClickListener{
                 override fun onClick(p0: View?) {

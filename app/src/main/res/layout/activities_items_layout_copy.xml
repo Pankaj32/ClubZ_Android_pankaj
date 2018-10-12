@@ -51,7 +51,7 @@
                             android:layout_width="@dimen/_12sdp"
                             android:layout_height="@dimen/_12sdp"
                             android:layout_gravity="center"
-                            android:src="@drawable/active_heart_ico" />
+                            android:src="@drawable/ic_cards_heart_active" />
 
                     </FrameLayout>
 
@@ -91,7 +91,7 @@
                             android:singleLine="true"
                             android:text="FootBall Class"
                             android:textColor="@color/eighty_black"
-                            android:textSize="@dimen/_16sdp" />
+                            android:textSize="18sp" />
 
 
                     </RelativeLayout>

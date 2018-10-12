@@ -5,8 +5,9 @@
     <item
         android:id="@+id/action_edit"
         android:title="@string/edit"
+        android:icon="@drawable/check"
+        android:iconTint="@color/white"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_more_vert_black_24dp"
         app:showAsAction="ifRoom"
         />
 

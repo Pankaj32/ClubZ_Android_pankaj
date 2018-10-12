@@ -50,6 +50,7 @@ public class SessionManager {
         editor.putString(Constants._email       , user.getEmail().trim());
         editor.putString(Constants._country_code, user.getCountry_code().trim());
         editor.putString(Constants._contact_no  , user.getContact_no().trim());
+        editor.putString(Constants._landline_no  , user.getLandline_no().trim());
         editor.putString(Constants._profile_image, user.getProfile_image().trim());
         editor.putString(Constants._is_verified , user.is_verified().trim());
         editor.putString(Constants._auth_token  , user.getAuth_token().trim());
@@ -61,6 +62,7 @@ public class SessionManager {
         editor.putString(Constants._dob, user.getDob().trim());
         editor.putString(Constants._dob_visibility, user.getDob_visibility().trim());
         editor.putString(Constants._contact_no_visibility, user.getContact_no().trim());
+        editor.putString(Constants._landline_no_visibility, user.getLandline_no_visibility().trim());
         editor.putString(Constants._email_visibility, user.getEmail_visibility().trim());
         editor.putString(Constants._affiliates_visibility, user.getAffiliates_visibility().trim());
         editor.putString(Constants._interest_visibility, user.getInterest_visibility().trim());
@@ -90,6 +92,7 @@ public class SessionManager {
             user.setEmail        (mypref.getString(Constants._email       , ""));
             user.setCountry_code (mypref.getString(Constants._country_code, ""));
             user.setContact_no   (mypref.getString(Constants._contact_no  , ""));
+            user.setLandline_no   (mypref.getString(Constants._landline_no  , ""));
             user.setProfile_image(mypref.getString(Constants._profile_image,""));
             user.set_verified  (mypref.getString(Constants._is_verified , ""));
             user.setAuth_token   (mypref.getString(Constants._auth_token  , ""));
@@ -100,6 +103,7 @@ public class SessionManager {
             user.setDob (mypref.getString(Constants._dob, ""));
             user.setDob_visibility (mypref.getString(Constants._dob_visibility, ""));
             user.setContact_no_visibility (mypref.getString(Constants._contact_no_visibility, ""));
+            user.setLandline_no_visibility (mypref.getString(Constants._landline_no_visibility, ""));
             user.setEmail_visibility (mypref.getString(Constants._email_visibility, ""));
             user.setAffiliates_visibility (mypref.getString(Constants._affiliates_visibility, ""));
             user.setInterest_visibility (mypref.getString(Constants._interest_visibility, ""));

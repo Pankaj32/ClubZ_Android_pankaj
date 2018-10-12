@@ -37,7 +37,8 @@
                 android:scaleType="fitXY"
                 android:visibility="visible"
                 app:layout_collapseMode="parallax"
-                app:srcCompat="@drawable/ic_person_512" />
+                app:srcCompat="@drawable/ic_person_512"
+                android:background="@color/app_blue"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -46,20 +47,20 @@
                 app:buttonGravity="bottom"
                 app:elevation="10dp"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+                app:popupTheme="@style/AppThmeLight"
+                app:theme="@style/AppThmeLight" />
 
             <RelativeLayout
                 android:id="@+id/belloLay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
-                app:layout_anchor="@+id/appbar_layout"
-                app:layout_anchorGravity="bottom|right|end"
-                android:background="@color/app_blue"
                 android:alpha=".7"
+                android:background="@color/color_pop_up_bg"
+                android:paddingBottom="@dimen/_5sdp"
                 android:paddingTop="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_5sdp">
+                app:layout_anchor="@+id/appbar_layout"
+                app:layout_anchorGravity="bottom|right|end">
 
                 <ImageView
                     android:id="@+id/ivProfileImage"
@@ -71,19 +72,19 @@
                     app:srcCompat="@drawable/ic_camera" />
 
 
-                <EditText
-                        android:id="@+id/edNameTxt"
-                        style="@style/EditText.ClubCreation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_italic"
-                        android:hint="@string/name_should_not_be_empty"
-                        android:inputType="textCapSentences"
-                        android:maxLength="20"
-                        android:textColor="@color/eighty_black"
-                        android:textColorHint="@color/eighty_black"
-                        android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_toLeftOf="@id/ivProfileImage"/>
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/edNameTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_toLeftOf="@id/ivProfileImage"
+                    android:fontFamily="@font/teko_semibold"
+                    android:hint="@string/name_should_not_be_empty"
+                    android:inputType="textCapSentences"
+                    android:maxLength="20"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:backgroundTint="@color/gray_transprent" />
 
 
             </RelativeLayout>
@@ -122,7 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/about_me"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/eighty_black" />
 
                 <TextView
                     android:id="@+id/tvAboutMeVisibility"
@@ -136,31 +137,23 @@
                     android:drawableTint="@color/primaryColor"
                     android:gravity="center_vertical"
                     android:text="@string/Public"
+                    android:textColor="@color/nav_gray"
                     android:textSize="12sp" />
 
-                <android.support.design.widget.TextInputLayout
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/tvAboutMe"
+                    style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="35dp"
-                    android:theme="@style/tvStyle"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="500"
-                    app:counterOverflowTextAppearance="@style/TextLimitError"
-                    app:counterTextAppearance="@style/CounterText">
-
-                    <EditText
-                        android:id="@+id/tvAboutMe"
-                        style="@style/EditText.ClubCreation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_italic"
-                        android:hint="@string/write_something_interesting_about_you"
-                        android:inputType="textCapSentences"
-
-                        android:maxLength="500"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/nav_gray" />
-                </android.support.design.widget.TextInputLayout>
+                    app:backgroundTint="@color/gray_transprent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/write_something_interesting_about_you"
+                    android:inputType="textCapSentences"
+                    android:maxLength="500"
+                    android:textColor="@color/nav_gray"
+                    android:textColorHint="@color/nav_gray" />
 
             </android.support.v7.widget.CardView>
 
@@ -195,9 +188,10 @@
                         android:layout_toLeftOf="@+id/tvDobVisibility"
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/ic_arrow_drop_down_24"
-                        android:fontFamily="@font/roboto_italic"
+                        android:fontFamily="@font/roboto_regular"
                         android:gravity="center_vertical"
-                        android:text="Birth Date" />
+                        android:text="Birth Date"
+                        android:textColor="@color/nav_gray" />
 
                     <TextView
                         android:id="@+id/tvDobVisibility"
@@ -212,6 +206,7 @@
                         android:drawableTint="@color/primaryColor"
                         android:gravity="center_vertical"
                         android:text="@string/only_for_my_contact"
+                        android:textColor="@color/nav_gray"
                         android:textSize="12sp" />
 
                     <View
@@ -222,7 +217,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="5dp"
                         android:layout_toLeftOf="@id/tvDobVisibility"
-                        android:background="@color/text_color_gray" />
+                        android:background="@color/gray_transprent" />
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
@@ -262,9 +257,10 @@
                         android:drawableTint="@color/primaryColor"
                         android:gravity="center_vertical"
                         android:text="@string/Public"
+                        android:textColor="@color/nav_gray"
                         android:textSize="12sp" />
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/tv_landLine"
                         style="@style/TextView.SingleLine.Gray"
                         android:layout_width="match_parent"
@@ -275,41 +271,46 @@
                         android:layout_toLeftOf="@+id/tvLandLineVisibility"
                         android:drawablePadding="5dp"
                         android:fontFamily="@font/roboto_italic"
-                        android:gravity="center_vertical" />
+                        android:gravity="center_vertical" />-->
+                    <!-- <android.support.design.widget.TextInputLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_marginTop="35dp"
+                         android:theme="@style/tvStyle"
+                         app:counterEnabled="true"
+                         app:counterMaxLength="500"
+                         app:counterOverflowTextAppearance="@style/TextLimitError"
+                         app:counterTextAppearance="@style/CounterText">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/tv_landLine"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toLeftOf="@id/tvLandLineVisibility"
-                        android:background="@color/text_color_gray" />
-                    <!--<android.support.design.widget.TextInputLayout
+                         <EditText
+                             android:id="@+id/tv_landLine"
+                             style="@style/EditText.ClubCreation"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:fontFamily="@font/roboto_italic"
+                             android:hint="@string/write_something_interesting_about_you"
+                             android:inputType="textCapSentences"
+                             android:maxLength="500"
+                             android:textColor="@color/nav_gray"
+                             android:textColorHint="@color/nav_gray" />
+                     </android.support.design.widget.TextInputLayout>-->
+
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/tv_landLine"
+                        style="@style/tvStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="40dp"
-                        android:layout_toStartOf="@+id/tvLandLineVisibility"
-                        android:theme="@style/tvStyle"
-                        app:counterMaxLength="10"
-                        app:counterOverflowTextAppearance="@style/TextLimitError"
-                        app:counterTextAppearance="@style/CounterText">
-
-                        <EditText
-                            android:id="@+id/tv_landLine"
-                            style="@style/TextView.SingleLine.Gray"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:clickable="false"
-                            android:focusable="false"
-                            android:fontFamily="@font/roboto_italic"
-                            android:hint="@string/landline_number"
-                            android:textColorHint="@color/text_color_gray" />
-
-                    </android.support.design.widget.TextInputLayout>-->
+                        android:layout_toLeftOf="@id/tvLandLineVisibility"
+                        app:backgroundTint="@color/gray_transprent"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/landline_number"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:textColorHint="@color/nav_gray" />
 
                 </RelativeLayout>
 
@@ -363,8 +364,9 @@
                         android:layout_marginRight="8dp"
                         android:layout_toLeftOf="@+id/tvMobileVisibility"
                         android:drawablePadding="5dp"
-                        android:fontFamily="@font/roboto_italic"
-                        android:gravity="center_vertical" />
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/nav_gray" />
 
                     <View
                         android:layout_width="match_parent"
@@ -374,7 +376,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="5dp"
                         android:layout_toLeftOf="@id/tvMobileVisibility"
-                        android:background="@color/text_color_gray" />
+                        android:background="@color/gray_transprent" />
 
                     <!--<android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -441,6 +443,7 @@
                         android:drawableTint="@color/primaryColor"
                         android:gravity="center_vertical"
                         android:text="@string/hidden"
+                        android:textColor="@color/nav_gray"
                         android:textSize="12sp" />
 
                     <TextView
@@ -464,7 +467,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="5dp"
                         android:layout_toLeftOf="@id/tvEmailVisibility"
-                        android:background="@color/text_color_gray" />
+                        android:background="@color/gray_transprent" />
 
                     <!-- <android.support.design.widget.TextInputLayout
                          android:layout_width="match_parent"
@@ -515,7 +518,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/my_affilites"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/eighty_black" />
 
                     <TextView
                         android:id="@+id/tvAffilitesVisibility"
@@ -529,6 +532,7 @@
                         android:drawableTint="@color/primaryColor"
                         android:gravity="center_vertical"
                         android:text="@string/Public"
+                        android:textColor="@color/nav_gray"
                         android:textSize="12sp" />
 
                     <com.clubz.ui.cv.FlowLayout
@@ -545,7 +549,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/affilitesChip"
                         android:layout_marginTop="5dp"
-                        android:background="@color/text_color_gray" />
+                        android:background="@color/gray_transprent" />
 
                 </RelativeLayout>
 
@@ -584,6 +588,7 @@
                         android:drawableTint="@color/primaryColor"
                         android:gravity="center_vertical"
                         android:text="@string/Public"
+                        android:textColor="@color/nav_gray"
                         android:textSize="12sp" />
 
                     <com.clubz.ui.cv.FlowLayout
@@ -599,7 +604,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/skillsChip"
                         android:layout_marginTop="5dp"
-                        android:background="@color/text_color_gray" />
+                        android:background="@color/gray_transprent" />
 
                 </RelativeLayout>
 
@@ -654,7 +659,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/interestChip"
                         android:layout_marginTop="5dp"
-                        android:background="@color/text_color_gray" />
+                        android:background="@color/gray_transprent" />
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>

@@ -58,6 +58,7 @@
     <color name="icon_tint_gray">#80333333</color>
     <color name="gray_transprent">#80A2A2A2</color>
     <color name="gray_transprent_nnty">#ececec</color>
+    <color name="gray_chip_bg">#eaeaea</color>
     <color name="transprent_text">#80000000</color>
     <color name="black_trans80">#33000000</color>
     <color name="activity_details_icon">#626262</color>

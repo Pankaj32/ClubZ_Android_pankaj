@@ -378,6 +378,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 } else {
                     Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_SHORT).show()
                 }*/
+
                 try {
                     if (imageUri != null)
                         activityImage = MediaStore.Images.Media.getBitmap(this@NewActivities.contentResolver, imageUri)

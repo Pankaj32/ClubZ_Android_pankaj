@@ -63,7 +63,9 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 
-class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
+class ProfileEditActivity : AppCompatActivity(),
+        View.OnClickListener,
+        AppBarLayout.OnOffsetChangedListener {
 
     lateinit var profile: Profile
     private var successfullyUpdate = 100;
@@ -77,6 +79,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
     var aboutMeVisibility = 0
     var dobVisibility = 0
     var contactNoVisibility = 0
+    var landNoVisibility = 0
     var emailVisibility = 0
     var affiliatesVisibility = 0
     var skillsVisibility = 0
@@ -166,7 +169,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
             tvDob.text = Util.convertDobDate(profile.getFormatedDOB())//"13/08/1989"
             dob = profile.getFormatedDOB()
         }
-        tv_landLine.setText(profile.contact_no)
+        tv_landLine.setText(profile.landline_no)
         tv_mobileNo.setText(profile.contact_no)
         tv_email.setText(profile.email)
         edNameTxt.setText(profile.full_name)
@@ -255,6 +258,24 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                 contactNoVisibility = 3
                 tvLandLineVisibility.text = getString(R.string.only_for_club_member)
                 tvMobileVisibility.text = getString(R.string.only_for_club_member)
+            }
+        }
+        when (ClubZ.currentUser!!.landline_no_visibility) {
+            "0" -> {
+                landNoVisibility = 0
+                tvLandLineVisibility.text = getString(R.string.hidden)
+            }
+            "1" -> {
+                landNoVisibility = 1
+                tvLandLineVisibility.text = getString(R.string.Public)
+            }
+            "2" -> {
+                landNoVisibility = 2
+                tvLandLineVisibility.text = getString(R.string.only_for_my_contact)
+            }
+            "3" -> {
+                landNoVisibility = 3
+                tvLandLineVisibility.text = getString(R.string.only_for_club_member)
             }
         }
         when (ClubZ.currentUser!!.email_visibility) {
@@ -362,9 +383,11 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                 permissionPopUp()
             }
             R.id.tvDob -> {
-                var day = -1
-                var month = -1
-                var year = -1
+                val splitarray=profile.getFormatedDOB().split("/")
+
+                var day = splitarray[2].toInt()
+                var month = splitarray[1].toInt()
+                var year = splitarray[0].toInt()
                 KeyboardUtil.hideKeyboard(this)
                 datePicker(day, month, year, tvDob)
 
@@ -436,7 +459,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                             }
                             R.id.interestChip -> {
                                 interestParams.remove(tag)
-                                if (interestParams.size ==9) chipHolder.addView(chipEditText)
+                                if (interestParams.size == 9) chipHolder.addView(chipEditText)
                             }
                         }
                     }
@@ -467,13 +490,13 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
 
         when (chipHolder.id) {
             R.id.affilitesChip -> {
-                if (affiliatesParams.size < 10)chipHolder.addView(chipEditText)
+                if (affiliatesParams.size < 10) chipHolder.addView(chipEditText)
             }
             R.id.skillsChip -> {
-                if (skillParams.size < 10)chipHolder.addView(chipEditText)
+                if (skillParams.size < 10) chipHolder.addView(chipEditText)
             }
             R.id.interestChip -> {
-                if (interestParams.size < 10)chipHolder.addView(chipEditText)
+                if (interestParams.size < 10) chipHolder.addView(chipEditText)
             }
         }
         /*chipHolder.addView(chipEditText)*/
@@ -505,7 +528,8 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.my_profile_menu, menu)
+        menuInflater.inflate(R.menu.my_profile_check, menu)
+        /*menu.getItem(0).icon=getDrawable(R.drawable.ic_check_white_24dp)*/
         return true
     }
 
@@ -591,7 +615,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                 }
 
                 R.id.tvLandLineVisibility -> {
-                    contactNoVisibility = position
+                    landNoVisibility = position
                     tvLandLineVisibility.text = getVisibilityOption(position)
                 }
 
@@ -659,6 +683,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                 params["fullName"] = edNameTxt.text.toString()
                 params["aboutMe"] = tvAboutMe.text.toString()
                 params["contactNo"] = profile.contact_no
+                params["landlineNo"] = tv_landLine.text.toString()
                 params["countryCode"] = profile.country_code
                 params["dob"] = dob
                 params["email"] = profile.email
@@ -669,6 +694,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
                 params["aboutMeVisibility"] = aboutMeVisibility.toString()
                 params["dobVisibility"] = dobVisibility.toString()
                 params["contactNoVisibility"] = contactNoVisibility.toString()
+                params["landlineNoVisibility"] = landNoVisibility.toString()
                 params["emailVisibility"] = emailVisibility.toString()
                 params["affiliatesVisibility"] = affiliatesVisibility.toString()
                 params["skillsVisibility"] = skillsVisibility.toString()
@@ -913,7 +939,7 @@ class ProfileEditActivity : AppCompatActivity(), View.OnClickListener, AppBarLay
         }, year, month, day)
         datepickerdialog.datePicker.maxDate = System.currentTimeMillis() - 1000
         datepickerdialog.window!!.setBackgroundDrawableResource(R.color.white)
-        datepickerdialog.setTitle("Dob")
+        datepickerdialog.setTitle(getString(R.string.dob))
         datepickerdialog.show()
     }
 }

@@ -40,6 +40,7 @@ public class Constants {
     public static final String _email           = "email        " ;
     public static final String _country_code    = "country_code " ;
     public static final String _contact_no      = "contact_no   " ;
+    public static final String _landline_no      = "landline_no " ;
     public static final String _profile_image   = "profile_image" ;
     public static final String _is_verified     = "is_verified  " ;
     public static final String _auth_token      = "auth_token   " ;
@@ -54,6 +55,7 @@ public class Constants {
     public static final String _dob_visibility    = "dob_visibility" ;
     public static final String _contact_no_visibility    = "contact_no_visibility" ;
     public static final String _email_visibility    = "contact_no_visibility" ;
+    public static final String _landline_no_visibility    = "landline_no_visibility" ;
     public static final String _affiliates_visibility    = "affiliates_visibility" ;
     public static final String _interest_visibility    = "interest_visibility" ;
     public static final String _skills_visibility    = "skills_visibility" ;

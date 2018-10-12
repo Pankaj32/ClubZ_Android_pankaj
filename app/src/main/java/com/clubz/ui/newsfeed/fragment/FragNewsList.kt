@@ -319,7 +319,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         actionPos=pos
         val list: ArrayList<DialogMenu> = arrayListOf()
 
-            list.add(DialogMenu(getString(R.string.edit), R.drawable.ic_add_24))
+            list.add(DialogMenu(getString(R.string.edit), R.drawable.ic_edit))
             list.add(DialogMenu(getString(R.string.delete), R.drawable.ic_delete_icon))
         val a = ItemListDialogFragment()
         a.setInstanceMyFeed(this, list)

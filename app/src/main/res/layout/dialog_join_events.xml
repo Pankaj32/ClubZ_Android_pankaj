@@ -22,7 +22,7 @@
         android:layout_marginTop="25dp"
         android:background="@drawable/bg_circle_white"
         android:padding="12dp"
-        app:srcCompat="@drawable/active_heart_ico" />
+        app:srcCompat="@drawable/ic_cards_heart_active" />
 
     <LinearLayout
         android:id="@+id/rl_content"

@@ -1,22 +1,23 @@
 package com.clubz.ui.profile
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.graphics.Palette
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
 import com.android.volley.VolleyError
@@ -24,17 +25,20 @@ import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.DialogMenu
 import com.clubz.data.model.Profile
 import com.clubz.data.remote.WebService
 import com.clubz.ui.cv.ChipView
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.FlowLayout
+import com.clubz.ui.newsfeed.fragment.FragNewsList
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.club_more_menu.*
 import org.json.JSONObject
 
 class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
@@ -44,6 +48,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
     private var profile: Profile? = null
     private var isMyprofile = false
     private var isUpdatedProfile = false
+    protected var menuDialog: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +75,22 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         }
         toolbarImage.layoutParams.height = diametric.widthPixels
         initView()
+        appbar_layout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
+            var isShow = true
+            var scrollRange = -1
+            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+                if (scrollRange == -1) {
+                    scrollRange = appbar_layout.getTotalScrollRange()
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    belloLay.visibility = View.GONE
+                    isShow = true
+                } else if (isShow) {
+                    belloLay.visibility = View.VISIBLE
+                    isShow = false
+                }
+            }
+        })
         getProfile()
     }
 
@@ -149,20 +170,27 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                 tvDob.text = Util.convertDobDate(profile!!.getFormatedDOB())
             } else dobCard.visibility = View.GONE
         }
-        if (profile!!.about_me_visibility .equals("1")) {
+        if (profile!!.about_me_visibility.equals("1")) {
             aboutCard.visibility = View.VISIBLE
             if (!profile!!.about_me.trim().equals("")) tvAboutMe.text = profile?.about_me
         } else aboutCard.visibility = View.GONE
         if (profile!!.contact_no_visibility.equals("1")) {
             phCard.visibility = View.VISIBLE
-            landCrd.visibility = View.VISIBLE
             tv_phoneNo.text = profile?.getContactNo()
-            tv_landLine.text = profile?.getContactNo()
         } else {
             phCard.visibility = View.GONE
+
+        }
+        if (profile!!.landline_no_visibility.equals("1")) {
+            if (profile!!.landline_no.isNotEmpty()) {
+                landCrd.visibility = View.VISIBLE
+                tv_landLine.text = profile?.landline_no
+            } else landCrd.visibility = View.GONE
+
+        } else {
             landCrd.visibility = View.GONE
         }
-        if (profile!!.contact_no_visibility.equals("1")) {
+        if (profile!!.email_visibility.equals("1")) {
             emaiCard.visibility = View.VISIBLE
             tv_email.text = profile?.email
         } else emaiCard.visibility = View.GONE
@@ -200,7 +228,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                 noInterestTxt.visibility = View.VISIBLE
                 interestChip.visibility = View.GONE
             }
-        }else interestCard.visibility=View.GONE
+        } else interestCard.visibility = View.GONE
     }
 
     fun updateMyProfile() {
@@ -209,10 +237,10 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         }
         if (!profile!!.about_me.trim().equals("")) tvAboutMe.text = profile?.about_me
         tv_phoneNo.text = profile?.getContactNo()
-        tv_landLine.text = profile?.getContactNo()
+
         tv_email.text = profile?.email
 
-
+        if (!profile!!.landline_no.isEmpty()) tv_landLine.text = profile?.landline_no
         if (!profile!!.affiliates.isEmpty()) {
             noAffiliatesTxt.visibility = View.GONE
             affilitesChip.visibility = View.VISIBLE
@@ -263,6 +291,15 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         menuInflater.inflate(if (isMyprofile) R.menu.my_profile_menu else R.menu.profile_menu, menu)
         collapsedMenu = menu
         return true
+        /*if (isMyprofile) {
+            menuInflater.inflate(R.menu. profile_menu, menu)
+            collapsedMenu = menu
+        }else{
+            val list: ArrayList<DialogMenu> = arrayListOf()
+            list.add(DialogMenu(getString(R.string.edit), R.drawable.ic_edit))
+            showMenu(list)
+        }
+        return true*/
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
@@ -286,6 +323,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
             } else {
                 //expanded
                 menu.getItem(0).isVisible = false
+
             }
             return super.onPrepareOptionsMenu(collapsedMenu)
         }
@@ -302,9 +340,12 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
             }
             R.id.action_chat -> return true
             R.id.action_edit -> {
-                var intent = Intent(this@ProfileActivity, ProfileEditActivity::class.java)
+                val list: ArrayList<DialogMenu> = arrayListOf()
+                list.add(DialogMenu(getString(R.string.edit), R.drawable.ic_edit))
+                showMenu(list)
+                /*var intent = Intent(this@ProfileActivity, ProfileEditActivity::class.java)
                         .putExtra("profile", profile)
-                startActivityForResult(intent, successfullyUpdate)
+                startActivityForResult(intent, successfullyUpdate)*/
                 //Toast.makeText(this@ProfileActivity, R.string.under_development, Toast.LENGTH_SHORT).show()
             }
         }
@@ -392,5 +433,41 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
             setResult(successfullyUpdate, Intent())
         }
         finish()
+    }
+
+    protected fun showMenu(list: ArrayList<DialogMenu>?) {
+
+
+        if (menuDialog == null) {
+            menuDialog = Dialog(this)
+            menuDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val dialogWindow = menuDialog?.window
+            dialogWindow?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            menuDialog?.setContentView(R.layout.club_more_menu)
+
+            if (list != null) {
+                menuDialog?.ll_menu0?.visibility = View.VISIBLE
+                menuDialog?.ll_menu1?.visibility = View.GONE
+                menuDialog?.view?.visibility = View.GONE
+                menuDialog?.menu_iv0?.setImageResource(list[0].id)
+                menuDialog?.menu_tv0?.text = list[0].title
+            }
+
+            menuDialog?.ll_menu0?.setOnClickListener {
+                menuDialog!!.dismiss()
+                var intent = Intent(this@ProfileActivity, ProfileEditActivity::class.java)
+                        .putExtra("profile", profile)
+                startActivityForResult(intent, successfullyUpdate)
+            }
+
+            // for (views in arrayOf(menuDialog?.ll_menu1, menuDialog?.ll_menu2)) views?.setOnClickListener(this)
+            val lp = dialogWindow?.attributes
+            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+            lp?.y = -100
+            dialogWindow?.attributes = lp
+            menuDialog?.setCancelable(true)
+        }
+        menuDialog?.show()
     }
 }

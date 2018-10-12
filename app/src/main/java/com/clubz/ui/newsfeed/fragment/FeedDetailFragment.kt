@@ -93,8 +93,8 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
             imgLay.visibility = View.GONE
         }
 
-        if (feed?.profile_image.isNullOrEmpty()) Glide.with(image_member.context).load(feed?.profile_image)/*.fitCenter()*/.into(image_member)
-        if (feed?.profile_image.isNullOrEmpty()) {
+       // if (feed?.profile_image.isNullOrEmpty()) Glide.with(image_member.context).load(feed?.profile_image)/*.fitCenter()*/.into(image_member)
+        if (!feed?.profile_image.isNullOrEmpty()) {
             Glide.with(image_member.context).load(feed?.profile_image)/*.fitCenter()*/.into(image_member)
         } else {
             image_member.setImageResource(R.drawable.user_place_holder)

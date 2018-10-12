@@ -82,6 +82,7 @@ class GetActivityDetailsResponce {
         var leader_name: String? = null
         var leader_prflimage: String? = null
         var leader_phno: String? = null
+        var leader_contact_no_visibility: String? = null
         var creator_name: String? = null
         var creator_profile_image: String? = null
         var club_name: String? = null

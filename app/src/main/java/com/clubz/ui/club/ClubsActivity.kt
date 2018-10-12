@@ -17,6 +17,7 @@ import android.support.v7.widget.SearchView
 import android.view.Gravity
 import android.view.View
 import android.view.Window
+import android.widget.EditText
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.R
@@ -85,6 +86,9 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             searchClubsName(newQuery)
             searchAdapter?.setCurrentText(newQuery)
         }*/
+        val txtSearch = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText
+
+        txtSearch.setTextColor(Color.WHITE)
 
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -283,10 +287,6 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
                 searchView.clearFocus()
                 searchView.visibility = View.GONE
                 search_layout.visibility = View.GONE
-
-                //shadowView.shadowMarginBottom=0
-                //floating_search_view.visibility = View.GONE
-                //addsymbol.visibility = View.VISIBLE
                 bubble_menu.visibility = View.VISIBLE
                 headerTxt.visibility = View.VISIBLE
                 headerTxt.text = resources.getString(R.string.t_manage_your_clubs)

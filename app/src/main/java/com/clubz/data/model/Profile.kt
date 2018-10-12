@@ -11,6 +11,7 @@ class Profile : Serializable{
     var email = ""
     var country_code  = ""
     var contact_no  = ""
+    var landline_no  = ""
     var profile_image = ""
     var about_me = ""
 
@@ -31,6 +32,7 @@ class Profile : Serializable{
     var about_me_visibility = ""
     var dob_visibility = ""
     var contact_no_visibility = ""
+    var landline_no_visibility = ""
     var email_visibility = ""
     var affiliates_visibility = ""
     var skills_visibility = ""

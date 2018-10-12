@@ -334,8 +334,8 @@
     <string name="h_coming_soon">Coming Soon</string>
     <string name="h_others">Others</string>
     <string name="Collapse">collapse</string>
-    <string name="joinTitle">Select who joins the activity</string>
-    <string name="confirmTitle">Select who confirms the date</string>
+    <string name="joinTitle">The selected users will join the activity</string>
+    <string name="confirmTitle">The selected users will confirm the date</string>
     <string name="joinBtnText">JOIN</string>
     <string name="acceptBtnText">ACCEPT</string>
     <string name="addDateBtnText">ADD DATE</string>
@@ -349,8 +349,6 @@
     <string name="a_activity_first_tab">Detail</string>
     <string name="a_activity_snd_tab">Chat</string>
     <string name="a_activity_rd_tab">Users</string>
-
-    <string name="likes"> Likes </string>
     <string name="comments"> Comments </string>
     <string name="error_nickname">Enter nickname first.</string>
     <string name="by">By</string>
@@ -447,15 +445,15 @@
     <string name="title_activity_profile">ProfileActivity</string>
 
     <!--Profile Activity-->
-    <string name="my_affilites">My Affiliates</string>
-    <string name="my_skills">My Skills</string>
-    <string name="my_interests">My Interests</string>
+    <string name="my_affilites">My affiliates</string>
+    <string name="my_skills">My skills</string>
+    <string name="my_interests">My interests</string>
 
-    <string name="silece_this_user">Silece this user</string>
-    <string name="only_for_my_contact">Only for my contact</string>
+    <string name="silence_this_user">Silence this user</string>
+    <string name="only_for_my_contact">Only for my contacts</string>
     <string name="write_something_interesting_about_you">Write something interesting about you</string>
     <string name="email_address">Email address</string>
-    <string name="only_for_club_member">Only for club member</string>
+    <string name="only_for_club_member">Only for club members</string>
     <string name="hidden">Hidden</string>
     <string name="landline_number">Landline number</string>
     <string name="mobile_number">Mobile number</string>
@@ -544,8 +542,16 @@
     <string name="just_now">Just now</string>
     <string name="leader">Leader</string>
     <string name="yesterday">Yesterday</string>
+    <string name="likes">likes</string>
+    <string name="like">like</string>
+    <string name="activity_date_confirm">Are you sure you want to confirm this date?</string>
+    <string name="activity_date_unconfirm">Are you sure you want to unconfirm this date?</string>
+    <string name="activity_date_cancel">Are you sure you want to cancel this date?</string>
     <string name="read_more">Read more</string>
     <string name="read_less">Read less</string>
     <string name="selectTime">Select Time</string>
     <string name="name_should_not_be_empty">Name should not be empty</string>
+    <string name="dob">DOB</string>
+    <string name="has_been_activated">has been activated</string>
+    <string name="has_been_inactivated">has been inactivated</string>
 </resources>

@@ -38,7 +38,7 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
                 Glide.with(context).load(user!!.profile_image)/*.placeholder(R.drawable.ic_person_512)*/.into(iv_profileImage)
             }
 
-        } else iv_profileImage.setColorFilter(R.color.white)
+        }
         if (!userInfo.contact_no_visibility.equals("1")) ic_call.visibility = View.GONE
         ic_favorite.setOnClickListener(this)
         ic_chat.setOnClickListener(this)

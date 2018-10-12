@@ -52,6 +52,7 @@
                     android:visibility="gone"
                     app:iconifiedByDefault="false"
                     android:iconifiedByDefault="false"
+                    style="@style/SearchCursor"
                     app:closeIcon="@null"
                     app:searchIcon="@drawable/ic_search_white" />
 

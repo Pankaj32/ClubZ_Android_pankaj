@@ -107,13 +107,14 @@ public class AdsAdapter extends RecyclerView.Adapter {
                     h.username.setText(dataBean.getFull_name());
                     //h.usrerole.setText(dataBean.getUser_role());
                     if (!TextUtils.isEmpty(dataBean.getImage())) {
-                /*Glide.with(h.adImg.getContext())
+                        h.imgLay.setVisibility(View.VISIBLE);
+                Glide.with(h.adImg.getContext())
                         .load(dataBean.getImage())
-                        .into(h.adImg);*/
-                        Picasso.with(h.adImg.getContext()).load(dataBean.getImage()).fit().placeholder(R.drawable.ic_new_img).into(h.adImg);
+                        .into(h.adImg);
+                       /// Picasso.with(h.adImg.getContext()).load(dataBean.getImage()).fit().placeholder(R.drawable.ic_new_img).into(h.adImg);
                     } else {
                         // h.adImg.setImageResource(R.drawable.ic_new_img);
-                        h.adImg.setVisibility(View.GONE);
+                        h.imgLay.setVisibility(View.GONE);
                     }
                     if (!TextUtils.isEmpty(dataBean.getImage())) {
                         //   Picasso.with(h.userImg.getContext()).load(dataBean.getProfile_image()).fit().placeholder(R.drawable.user_place_holder).into(h.userImg);
@@ -236,6 +237,7 @@ public class AdsAdapter extends RecyclerView.Adapter {
         private TextView usrerole;
         private ImageView iv_like;
         private ImageView adImg;
+        private RelativeLayout imgLay;
         private ImageView userImg;
         private ImageView iv_arrow_expand;
         private View lineView;
@@ -255,6 +257,7 @@ public class AdsAdapter extends RecyclerView.Adapter {
             iv_arrow_expand = itemView.findViewById(R.id.iv_arrow_expand);
             username = itemView.findViewById(R.id.username);
             usrerole = itemView.findViewById(R.id.usrerole);
+            imgLay = itemView.findViewById(R.id.imgLay);
 
             iv_arrow_expand.setOnClickListener(new View.OnClickListener() {
                 @Override

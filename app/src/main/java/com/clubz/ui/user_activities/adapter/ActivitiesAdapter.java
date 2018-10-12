@@ -72,7 +72,8 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (dataBean.getListType().equals("Others")) {
             h.likeLay.setVisibility(View.GONE);
-            h.activityType.setText(context.getString(R.string.not_sheduled));
+           // h.activityType.setText(context.getString(R.string.not_sheduled));
+            h.activityType.setText("");
         } else {
             switch (dataBean.getListType()) {
                 case "today":

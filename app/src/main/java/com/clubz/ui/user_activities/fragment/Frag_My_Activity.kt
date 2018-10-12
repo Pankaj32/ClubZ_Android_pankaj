@@ -262,7 +262,7 @@ class Frag_My_Activity : Fragment(),
             if (activity.is_like.equals("0")) {
                 list.add(DialogMenu(getString(R.string.join_activity), R.drawable.ic_cards_heart))
             } else {
-                list.add(DialogMenu(getString(R.string.leave_activity), R.drawable.ic_cards_heart))
+                list.add(DialogMenu(getString(R.string.leave_activity), R.drawable.ic_favorite_border))
             }
 
         }
@@ -945,7 +945,7 @@ class Frag_My_Activity : Fragment(),
             //  like.setImageResource(R.drawable.inactive_heart_ico)
             likeCkeck.isChecked = false
         }
-        topIcon.setImageResource(R.drawable.active_heart_ico)
+        topIcon.setImageResource(R.drawable.ic_cards_heart_active)
         mTitle.setText(R.string.joinTitle)
         activityUserName.text = userName
         if (!userImage.equals("")) {

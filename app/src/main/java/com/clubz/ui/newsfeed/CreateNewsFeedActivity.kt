@@ -447,15 +447,6 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
 
             if (requestCode == Constants.SELECT_FILE) {
                 imageUri = com.clubz.utils.picker.ImagePicker.getImageURIFromResult(this@CreateNewsFeedActivity, requestCode, resultCode, data)
-
-                /*if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
-                            .setMinCropResultSize(300, 200)
-                            .setMaxCropResultSize(4000, 4000)
-                            .setAspectRatio(300, 200).start(this@CreateNewsFeedActivity)
-                } else {
-                    Toast.makeText(this@CreateNewsFeedActivity, R.string.swr, Toast.LENGTH_SHORT).show()
-                }*/
                 try {
                     if (imageUri != null)
                         feedImage = MediaStore.Images.Media.getBitmap(this@CreateNewsFeedActivity.contentResolver, imageUri)
@@ -464,20 +455,12 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
                     if (feedImage != null) {
                         val padding = 0
                         img_newsFeed.setPadding(padding, padding, padding, padding)
-                        img_newsFeed.setImageURI(imageUri)
+                        img_newsFeed.setImageBitmap(feedImage)
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
             } else if (requestCode == Constants.REQUEST_CAMERA) {
-                /* if (imageUri != null) {
-                     CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
-                             .setMinCropResultSize(300, 200)
-                             .setMaxCropResultSize(4000, 4000)
-                             .setAspectRatio(300, 200).start(this@CreateNewsFeedActivity)
-                 } else {
-                     Toast.makeText(this@CreateNewsFeedActivity, R.string.swr, Toast.LENGTH_SHORT).show()
-                 }*/
                 try {
                     if (imageUri != null)
                         feedImage = MediaStore.Images.Media.getBitmap(this@CreateNewsFeedActivity.contentResolver, imageUri)
@@ -486,7 +469,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
                     if (feedImage != null) {
                         val padding = 0
                         img_newsFeed.setPadding(padding, padding, padding, padding)
-                        img_newsFeed.setImageURI(imageUri)
+                        img_newsFeed.setImageBitmap(feedImage)
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()

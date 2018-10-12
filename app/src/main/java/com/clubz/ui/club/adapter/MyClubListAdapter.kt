@@ -170,6 +170,8 @@ if(!obj.user_image.endsWith("defaultUser.png")) {
             member.full_name = club.full_name
             member.userId = club.user_id
             member.profile_image = club.profile_image
+            member.contact_no = club.club_contact_no
+            member.contact_no_visibility = club.contact_no_visibility
             return member
         }
 

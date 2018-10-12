@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.clubz.R;
 import com.clubz.chat.model.ChatHistoryBean;
 import com.clubz.utils.DateTimeUtil;
@@ -74,7 +75,10 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
      //   holder.dateTime.setText(DateTimeUtil.ConvertMilliSecondsToDateAndTime(String.valueOf(historyBean.getTimestamp())));
         if (!TextUtils.isEmpty(imgPath)) {
             holder.profileImage.setPadding(1,1,1,1);
-            try {
+            Glide.with(holder.profileImage.getContext())
+                    .load(imgPath)
+                    .into(holder.profileImage);
+            /*try {
                 Picasso.with(holder.profileImage.getContext())
                         .load(imgPath)
                         .placeholder(R.drawable.user_place_holder)
@@ -92,7 +96,7 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
                         });
             } catch (Exception e) {
 
-            }
+            }*/
         } else if (TextUtils.isEmpty(imgPath)) {
             holder.profileImage.setPadding(0,0,0,0);
             holder.profileImage.setImageResource(R.drawable.user_place_holder);

@@ -180,11 +180,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight" />
         <activity
-            android:name=".ui.setting.SettingActivity"
+            android:name=".ui.profile.ProfileEditActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight" />
         <activity
-            android:name=".ui.profile.ProfileEditActivity"
+            android:name=".ui.setting.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight" />
 

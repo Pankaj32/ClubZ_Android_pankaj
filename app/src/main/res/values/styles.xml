@@ -262,4 +262,8 @@
         <item name="android:textColor">@color/text_color_gray</item>
     </style>
 
+    <style name="SearchCursor" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlActivated">@android:color/white</item>
+    </style>
+
 </resources>

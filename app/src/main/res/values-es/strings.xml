@@ -388,7 +388,7 @@
     <string name="my_affilites">Mis Afiliados</string>
     <string name="my_skills">Mis habilidades</string>
     <string name="my_interests">Mis intereses</string>
-    <string name="silece_this_user">Silenciar a este usuario</string>
+    <string name="silence_this_user">Silenciar a este usuario</string>
     <string name="only_for_my_contact">Sólo para mis contactos</string>
     <string name="write_something_interesting_about_you">Escribe algo interesante sobre ti</string>
     <string name="email_address">Dirección de correo electrónico</string>
@@ -484,4 +484,6 @@
     <string name="activity_date_confirm">¿Confirmas que asistirás a esta fecha?</string>
     <string name="activity_date_unconfirm">¿Confirmas que en definitiva no podrás asistir a esta fecha?</string>
     <string name="activity_date_cancel">¿Confirmas que quieres cancelar esta fecha?</string>
+
+
 </resources>
