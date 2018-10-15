@@ -17,6 +17,9 @@ import com.clubz.utils.VolleyGetPost
 import kotlinx.android.synthetic.main.activity_add_event.*
 import org.json.JSONObject
 import java.util.*
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.inputmethod.InputMethodManager
+
 
 class AddEventActivity : AppCompatActivity() {
     var activities: ActivitiesBean.DataBean? = null

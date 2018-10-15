@@ -23,7 +23,7 @@
     <EditText
         android:id="@+id/label"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="22dp"
         android:hint="@string/tap_to_add_new_tags"
         android:minWidth="@dimen/_60sdp"
         android:paddingRight="@dimen/_5sdp"
@@ -32,7 +32,7 @@
         android:singleLine="true"
         android:inputType="textCapWords"
         android:maxLength="25"
-        android:textSize="9sp"
+        android:textSize="10sp"
         android:fontFamily="@font/roboto_italic"
         android:imeOptions="actionDone"
         android:imeActionLabel="Done"

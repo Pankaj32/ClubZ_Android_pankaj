@@ -226,7 +226,7 @@
             android:name=".ui.user_activities.activity.AddEventActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight"
-            android:windowSoftInputMode="stateHidden" />
+            />
         <activity android:name=".ui.user_activities.activity.EventDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight"

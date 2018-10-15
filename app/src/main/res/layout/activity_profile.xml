@@ -201,13 +201,13 @@
                 <TextView
                     android:id="@+id/tv_landLine"
                     style="@style/TextView.SingleLine.Gray"
-                    android:layout_width="match_parent"
+                    android:layout_width="289dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="40dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/primaryColor"
-                    android:text="@string/a_notAvailable" />
+                    android:text="@string/a_notAvailable"
+                    android:textColor="@color/primaryColor" />
 
             </android.support.v7.widget.CardView>
 

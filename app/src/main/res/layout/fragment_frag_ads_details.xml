@@ -48,6 +48,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="240dp"
                             android:src="@drawable/ic_new_img"
+                            android:scaleType="centerCrop"
                             />
 
 

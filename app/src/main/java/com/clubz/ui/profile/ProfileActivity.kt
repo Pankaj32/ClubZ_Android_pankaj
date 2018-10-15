@@ -8,6 +8,7 @@ import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
@@ -41,7 +42,8 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.club_more_menu.*
 import org.json.JSONObject
 
-class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
+class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
+
     private var successfullyUpdate = 100
     private var collapsedMenu: Menu? = null
     private var appBarExpanded = true
@@ -92,6 +94,12 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
             }
         })
         getProfile()
+        /*val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "${user?.country_code} ${user?.contact_no}"))
+        context.startActivity(intent)*/
+        tv_landLine.setOnClickListener(this)
+        tv_phoneNo.setOnClickListener(this)
+        tv_email.setOnClickListener(this)
+
     }
 
     private fun setPlated() {
@@ -108,6 +116,40 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         }
     }
 
+    override fun onClick(p0: View?) {
+        when (p0!!.id) {
+            R.id.tv_landLine -> {
+                if (profile!!.landline_no.isNotEmpty()) {
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "${profile?.landline_no}"))
+                    startActivity(intent)
+                }
+            }
+            R.id.tv_phoneNo -> {
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "${profile?.country_code} ${profile?.contact_no}"))
+                startActivity(intent)
+            }
+            R.id.tv_email -> {
+                val email = Intent(Intent.ACTION_SEND, Uri.parse("mailto:"))
+                // prompts email clients only
+
+                email.type = "message/rfc822"
+                /*email.putExtra(Intent.EXTRA_EMAIL, recipients)
+                email.putExtra(Intent.EXTRA_SUBJECT, subject.getText().toString())
+                email.putExtra(Intent.EXTRA_TEXT, body.getText().toString())*/
+                try {
+
+                    // the user can choose the email client
+                    startActivity(Intent.createChooser(email, "Choose an email client from..."))
+                } catch (ex: android.content.ActivityNotFoundException) {
+                    Toast.makeText(this@ProfileActivity, "No email client installed.",
+                            Toast.LENGTH_LONG).show()
+
+                }
+
+            }
+        }
+
+    }
 
     private fun initView() {
         collapse_toolbar.title = profile!!.full_name
@@ -436,8 +478,6 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
     }
 
     protected fun showMenu(list: ArrayList<DialogMenu>?) {
-
-
         if (menuDialog == null) {
             menuDialog = Dialog(this)
             menuDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)

@@ -653,19 +653,18 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
 
     fun showBackConfirmationDialog() {
         val builder1 = android.app.AlertDialog.Builder(this@ClubCreationActivity)
-        builder1.setTitle("Alert !!")
-        builder1.setMessage("Are you sure you want to discard this new Club?")
+        builder1.setTitle(getString(R.string.be_careful))
+        builder1.setMessage(getString(R.string.are_you_sure_you_want_to_discard_this_new_Club))
         builder1.setCancelable(true)
-        builder1.setPositiveButton("Ok"
+        builder1.setPositiveButton(getString(R.string.discard)
         ) { dialog, id ->
             super.onBackPressed()
         }
-        builder1.setNegativeButton("Cancel", object : DialogInterface.OnClickListener {
+        builder1.setNegativeButton(getString(R.string.cancel), object : DialogInterface.OnClickListener {
             override fun onClick(dialogInterface: DialogInterface, id: Int) {
                 dialogInterface.cancel()
             }
         })
-
         val alert11 = builder1.create()
         alert11.show()
     }

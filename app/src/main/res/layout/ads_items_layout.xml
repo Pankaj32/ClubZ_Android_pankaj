@@ -124,10 +124,12 @@
                     android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@color/app_blue">
+
                     <ImageView
                         android:id="@+id/adImg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/new_img" />
                 </RelativeLayout>
 

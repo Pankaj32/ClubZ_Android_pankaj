@@ -97,7 +97,9 @@
                             android:layout_height="@dimen/_200sdp"
                             android:background="#00A8D1"
                             android:visibility="visible"
-                            app:srcCompat="@drawable/ic_new_img" />
+                            app:srcCompat="@drawable/ic_new_img"
+                            android:scaleType="centerCrop"
+                            />
 
                         <ImageView
                             android:layout_width="wrap_content"

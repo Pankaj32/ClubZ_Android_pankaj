@@ -24,6 +24,7 @@
             android:layout_width="@dimen/_45sdp"
             android:layout_height="@dimen/_45sdp"
             android:layout_marginStart="@dimen/_5sdp"
+            android:scaleType="centerCrop"
             android:src="@drawable/user_place_holder" />
 
         <RelativeLayout
@@ -79,7 +80,7 @@
                 android:textColor="@color/nav_gray"
                 android:textSize="@dimen/_14sdp"
                 android:visibility="gone"
-                tools:text="loading....."/>
+                tools:text="loading....." />
 
             <ImageView
                 android:id="@+id/msgImg"

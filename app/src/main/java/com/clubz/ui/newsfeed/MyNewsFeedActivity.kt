@@ -59,7 +59,7 @@ class MyNewsFeedActivity : AppCompatActivity(), View.OnClickListener {
                 onBackPressed()
             }
 
-            R.id.ll_clearFilter->{
+            /*R.id.ll_clearFilter->{
                 if(!like && !comment && !club) ifNeedTocallApi = false
                 club =      false
                 like =      false
@@ -69,12 +69,12 @@ class MyNewsFeedActivity : AppCompatActivity(), View.OnClickListener {
                 dialog?.ch_byLikes?.isChecked = false
                 dialog?.ch_byComments?.isChecked = false
                 dialog?.dismiss()
-            }
+            }*/
 
-            R.id.ch_byClubs->{
+            /*R.id.ch_byClubs->{
                 ifNeedTocallApi = true
                 club = dialog?.ch_byClubs?.isChecked!!
-            }
+            }*/
 
             R.id.ch_byComments->{
                 ifNeedTocallApi = true
@@ -120,7 +120,7 @@ class MyNewsFeedActivity : AppCompatActivity(), View.OnClickListener {
             dialogWindow?.attributes = lp
             dialog?.setCancelable(true)
 
-            for (views in arrayOf(dialog?.ch_byClubs, dialog?.ch_byComments, dialog?.ch_byLikes, dialog?.ll_clearFilter))
+            for (views in arrayOf(/*dialog?.ch_byClubs,*/ dialog?.ch_byComments, dialog?.ch_byLikes/*, dialog?.ll_clearFilter*/))
                 views?.setOnClickListener(this)
         }
         dialog?.show()

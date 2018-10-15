@@ -61,18 +61,18 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         h.clubName.setText(dataBean.getClub_name());
 
         if (dataBean.getVisible()) {
-            h.eventRecycler.setVisibility(View.VISIBLE);
-            h.lineView.setVisibility(View.VISIBLE);
+            //h.eventRecycler.setVisibility(View.VISIBLE);
+            h.belloLay.setVisibility(View.VISIBLE);
             h.iv_arrow_expand.setImageResource(R.drawable.ic_event_up_arrow);
         } else {
-            h.eventRecycler.setVisibility(View.GONE);
-            h.lineView.setVisibility(View.GONE);
+            // h.eventRecycler.setVisibility(View.GONE);
+            h.belloLay.setVisibility(View.GONE);
             h.iv_arrow_expand.setImageResource(R.drawable.ic_event_down_arrow);
         }
 
         if (dataBean.getListType().equals("Others")) {
             h.likeLay.setVisibility(View.GONE);
-           // h.activityType.setText(context.getString(R.string.not_sheduled));
+            // h.activityType.setText(context.getString(R.string.not_sheduled));
             h.activityType.setText("");
         } else {
             switch (dataBean.getListType()) {
@@ -90,7 +90,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     break;
             }
 
-          //  h.activityType.setText(Util.Companion.toSentenceCase(dataBean.getListType()));
+            //  h.activityType.setText(Util.Companion.toSentenceCase(dataBean.getListType()));
         }
 
         if (dataBean.is_my_activity().equals("1")) {
@@ -104,7 +104,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 h.likeLay.setVisibility(View.GONE);
             }
         }
-        if (dataBean.getEvents() == null) {
+        /*if (dataBean.getEvents() == null) {
             h.iv_arrow_expand.setVisibility(View.GONE);
         } else {
             if (dataBean.getEvents().size() == 0) {
@@ -112,13 +112,20 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             } else {
                 h.iv_arrow_expand.setVisibility(View.VISIBLE);
             }
-        }
+        }*/
         if (dataBean.getListType().equals("Today")) {
             h.activityType.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
         } else {
             h.activityType.setTextColor(ContextCompat.getColor(context, R.color.sixty_black));
         }
         if (dataBean.getEvents() != null) {
+            if (dataBean.getEvents().size() == 0) {
+                h.eventRecycler.setVisibility(View.GONE);
+                h.noDataTxt.setVisibility(View.VISIBLE);
+            } else {
+                h.eventRecycler.setVisibility(View.VISIBLE);
+                h.noDataTxt.setVisibility(View.GONE);
+            }
             h.eventRecycler.setAdapter(new ActivitiesEventsAdapter(context, dataBean.getEvents(), new EventItemClickListioner() {
                 @Override
                 public void onDateClick(int eventPosition) {
@@ -130,6 +137,9 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     activityItemClickListioner.onConfirm("today", h.getAdapterPosition(), eventPosition);
                 }
             }));
+        } else{
+            h.noDataTxt.setVisibility(View.VISIBLE);
+            h.eventRecycler.setVisibility(View.GONE);
         }
     }
 
@@ -143,8 +153,8 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private ImageView iv_arrow_expand, itemLike, activityImge;
         private View lineView;
         private FrameLayout likeLay;
-        private RelativeLayout arrowLay;
-        private TextView activityName, clubName, activityType;
+        private RelativeLayout arrowLay, belloLay;
+        private TextView activityName, clubName, activityType, noDataTxt;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -158,6 +168,8 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             activityType = itemView.findViewById(R.id.activityType);
             likeLay = itemView.findViewById(R.id.likeLay);
             arrowLay = itemView.findViewById(R.id.arrowLay);
+            belloLay = itemView.findViewById(R.id.belloLay);
+            noDataTxt = itemView.findViewById(R.id.noDataTxt);
 
             arrowLay.setOnClickListener(new View.OnClickListener() {
                 @Override

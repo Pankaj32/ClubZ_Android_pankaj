@@ -400,7 +400,7 @@
     <string name="max_min_text">Máximo %s y Mínimo %s usuarios</string>
     <string name="no_tag_available">no hay etiquetas disponibles</string>
     <string name="create_new_club">Crear un nuevo club</string>
-    <string name="filter_clubs">Filtros por clubes</string>
+    <string name="filter_clubs">Filtros</string>
     <string name="renew_my_location">Renovar mi ubicación</string>
     <!--Setting page-->
     <string name="notifications">Notificaciones</string>

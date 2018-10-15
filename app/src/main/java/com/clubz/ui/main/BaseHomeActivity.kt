@@ -106,7 +106,7 @@ abstract class BaseHomeActivity : BaseActivity(),
             lp?.y = -100
             dialogWindow?.attributes = lp
             newsFilterDialog?.setCancelable(true)
-            for (views in arrayOf(newsFilterDialog?.ch_myClubOnly, newsFilterDialog?.ch_byClubs, newsFilterDialog?.ch_byComments, newsFilterDialog?.ch_byLikes, newsFilterDialog?.ll_clearFilter))
+            for (views in arrayOf(newsFilterDialog?.ch_myClubOnly/*, newsFilterDialog?.ch_byClubs*/, newsFilterDialog?.ch_byComments, newsFilterDialog?.ch_byLikes/*, newsFilterDialog?.ll_clearFilter*/))
                 views?.setOnClickListener(getActivity())
         }
         newsFilterDialog?.show()

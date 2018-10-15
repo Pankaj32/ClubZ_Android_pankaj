@@ -401,8 +401,8 @@
 
     <string name="menu_my_newsfeed">Show my feed</string>
     <string name="menu_filter_by_clubs">Filter by clubs</string>
-    <string name="menu_filter_by_comments">Filter by comments</string>
-    <string name="menu_filter_by_likes">Filter by likes</string>
+    <string name="menu_filter_by_comments">Order by comments</string>
+    <string name="menu_filter_by_likes">Order by likes</string>
     <string name="menu_clear_news">Clear news</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
@@ -461,7 +461,7 @@
     <string name="max_min_text">Maximum %s  and Minimum %s users</string>
     <string name="no_tag_available">no Tag available</string>
     <string name="create_new_club">Create new club</string>
-    <string name="filter_clubs">Filter clubs</string>
+    <string name="filter_clubs">Filter</string>
     <string name="renew_my_location">Renew my location</string>
 
     <!--Setting page-->
@@ -554,4 +554,9 @@
     <string name="dob">DOB</string>
     <string name="has_been_activated">has been activated</string>
     <string name="has_been_inactivated">has been inactivated</string>
+    <string name="you_want_to_discard_this_ad">Are you sure you want to discard this ad?</string>
+    <string name="be_careful">Be careful !!</string>
+    <string name="discard">DISCARD</string>
+    <string name="there_is_still_no_shedule_dates_for_this_activitiy">There is still no shedule dates for this activitiy</string>
+    <string name="are_you_sure_you_want_to_discard_this_new_Club">Are you sure you want to discard this new Club?</string>
 </resources>

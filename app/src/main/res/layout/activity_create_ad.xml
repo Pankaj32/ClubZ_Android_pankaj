@@ -88,7 +88,8 @@
                             android:layout_height="@dimen/_200sdp"
                             android:layout_below="@id/image_icon"
                             android:background="#00A8D1"
-                            app:srcCompat="@drawable/ic_new_img" />
+                            app:srcCompat="@drawable/ic_new_img"
+                            android:scaleType="centerCrop"/>
 
 
                         <ImageView

@@ -664,30 +664,30 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
             R.id.back -> onBackPressed()
 
-            R.id.ll_clearFilter -> {
+           /* R.id.ll_clearFilter -> {
                 club = false
                 like = false
                 comment = false
                 ifNeedTocallApi = true
                 showMyNewsfeedOnly = false
-                newsFilterDialog?.ch_byClubs?.isChecked = false
+                *//*newsFilterDialog?.ch_byClubs?.isChecked = false*//*
                 newsFilterDialog?.ch_byLikes?.isChecked = false
                 newsFilterDialog?.ch_byComments?.isChecked = false
                 newsFilterDialog?.ch_myClubOnly?.isChecked = false
                 newsFilterDialog?.dismiss()
                 updateNewsFeed()
-            }
+            }*/
 
             R.id.ch_myClubOnly -> {
                 showMyNewsfeedOnly = newsFilterDialog?.ch_myClubOnly?.isChecked!!
                 updateNewsFeed()
             }
 
-            R.id.ch_byClubs -> {
+           /* R.id.ch_byClubs -> {
                 ifNeedTocallApi = true
                 club = newsFilterDialog?.ch_byClubs?.isChecked!!
                 updateNewsFeed()
-            }
+            }*/
 
             R.id.ch_byComments -> {
                 ifNeedTocallApi = true

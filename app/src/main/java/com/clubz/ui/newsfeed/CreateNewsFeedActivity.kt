@@ -49,7 +49,9 @@ import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 
-class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*AdapterView.OnItemClickListener*/ {
+class CreateNewsFeedActivity : AppCompatActivity(),
+        View.OnClickListener
+/*AdapterView.OnItemClickListener*/ {
 
     private var userRole: String? = ""
     private var feedTitle: String? = null
@@ -470,6 +472,7 @@ class CreateNewsFeedActivity : AppCompatActivity(), View.OnClickListener /*Adapt
                         val padding = 0
                         img_newsFeed.setPadding(padding, padding, padding, padding)
                         img_newsFeed.setImageBitmap(feedImage)
+                       // img_newsFeed.setImageURI(imageUri)
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
