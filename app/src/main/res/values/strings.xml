@@ -82,7 +82,7 @@
     <string name="no_internet2">An internet connection is required to sign in, sign up and search clubs. Once you have registered this device, you can access your content offline.</string>
     <!--<string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>-->
 
-    <string name="t_find_activities"> Find activities </string>
+    <string name="t_find_activities"> Do what you love </string>
     <string name="t_new_activity"> New Activity </string>
     <string name="t_set_notification"> Set Notification </string>
     <string name="my_activity"> My activities </string>
@@ -224,8 +224,8 @@
 
     <string name="a_internet_title"> No internet connection</string>
     <string name="a_internet_body"> An internet connection is required to sign in, sign up and search clubs. Once you have registered this device, you can access your content offline. </string>
-    <string name="a_enterprise"> Upgrade to an enterprise plan</string>
-    <string name="a_enterprise_body"> Some features like this one requires a higher membership plan. \nRead our plans to see what features do you need.</string>
+    <string name="a_enterprise"> Upgrade to an enterprise account</string>
+    <string name="a_enterprise_body"> Some features like this one requires a higher account. Please, contact us to begin your upgrade process and become a club administrator.</string>
     <!--Create club validation-->
     <string name="a_clubnme">Please enter club name</string>
     <string name="a_image">Please select club image</string>
@@ -287,6 +287,7 @@
 
     <!--Nav menu-->
     <string name="about_me">About me</string>
+    <string name="about_us">About</string>
     <string name="clubs">Clubs</string>
     <string name="contacts">Contacts</string>
     <string name="nav_news">My news</string>
@@ -399,7 +400,7 @@
     <string name="leave_activity">Leave the activity group</string>
     <string name="edit_activity">Edit this activity</string>
 
-    <string name="menu_my_newsfeed">Show my feed</string>
+    <string name="menu_my_newsfeed">Just my news</string>
     <string name="menu_filter_by_clubs">Filter by clubs</string>
     <string name="menu_filter_by_comments">Order by comments</string>
     <string name="menu_filter_by_likes">Order by likes</string>
@@ -494,6 +495,7 @@
     <string name="category">Category</string>
     <string name="you_are_silent_by_the_club_manager">You are Silent by the club manager</string>
     <string name="activities_count_txt">  activities</string>
+    <string name="activities_txt">Activities</string>
     <string name="dates_scheduled_txt">  dates scheduled</string>
     <string name="date_confirmed_txt">  date confirmed</string>
     <string name="location">Main location</string>
@@ -559,4 +561,30 @@
     <string name="discard">DISCARD</string>
     <string name="there_is_still_no_shedule_dates_for_this_activitiy">There is still no shedule dates for this activitiy</string>
     <string name="are_you_sure_you_want_to_discard_this_new_Club">Are you sure you want to discard this new Club?</string>
+    <string name="are_you_sure_want_to_descard_this_new_activites">Are you sure you want to discard this new activity?</string>
+    <string name="are_you_sure_you_want_to_discard_this_new_news">Are you sure you want to discard this new news?</string>
+
+
+    <string name="about_use_content">Club Z was created in 2015 by Yulieth Betancur and her husband to allow local communities to achieve common goal, such as staying update and playing together  "\\"\^_^/.\n\nThis project began when they saw a sign that said  &quot;"Forbidden to play in this place" &quot;, since then, they work to change that way of thinking.\n\nThe Android version of the application was developed in 2018 by the great Mindiii Software team.\n\nIf you like this application, rate us in the Play Store.\n\n
+        To contact us, you can use the app chat or send us an email to support@clubz.co.
+</string>
+
+    <string name="language">Language</string>
+    <string name="main_location">Main location</string>
+    <string name="options">Options</string>
+    <string name="standar">Standar</string>
+    <string name="free">Free</string>
+    <string name="search_and_join_club_you_like">Search and join clubs you like *</string>
+    <string name="stay_update_with_the_clubs_you_belong">Stay update with the news of the clubs you belong</string>
+    <string name="join_those_activities_that_you_like_so_much">Join those activities that you like so much</string>
+    <string name="stay_in_contact_with_your_partners_neighbors_or_friends">Stay in contact with your partners, neighbors or friends</string>
+    <string name="promote_your_things_fast_and_easy">Promote your things fast and easy</string>
+    <string name="each_club_reserves_the_right_of_admission">*Each club reserves the right of admission</string>
+    <string name="contact_us">Contact Us!</string>
+    <string name="contact_us_btn">CONTACT US</string>
+    <string name="do_you_want_to_create_your_own_clubs">Do you want to create your own clubs?</string>
+    <string name="you_have_a_standard_account">You have a standard account.</string>
+    <string name="receipts">Receipts</string>
+    <string name="no_way">No way</string>
+
 </resources>

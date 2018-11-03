@@ -32,13 +32,14 @@ class Feed : Serializable{
     var comments : Int = 0
     var is_comment_allow : Int = 0
     var bookmarks  = ""
-    var isLiked : Int = 0
+    var isLiked  ="0"
     var isBookmarked = ""
     var news_feed_attachment  = ""
     var club_image  = ""
     var club_icon  = ""
     var currentDateTime  = ""
     var crd  = ""
+    var clubUserId  = ""
 
     fun getTimeAgo(ctx: Context) : String{
         return DateTimeUtil.getTimeAgo(stringToDate(datetime).time, ctx)

@@ -64,9 +64,9 @@ class FragClubDetails1 : Fragment() {
             member.contact_no_visibility = clubz.contact_no_visibility
 
             val userProfileDialog = object : ProfileDialog(context!!, member) {
-                override fun OnFabClick(user: UserInfo) {
+                /*override fun OnFabClick(user: UserInfo) {
 
-                }
+                }*/
 
                 override fun OnProfileClick(user: UserInfo) {
                     if (user.userId.isNotEmpty()) {

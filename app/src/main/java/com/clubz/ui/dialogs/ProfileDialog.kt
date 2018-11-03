@@ -3,20 +3,23 @@ package com.clubz.ui.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
-import android.view.WindowManager
 import android.widget.Toast
+import com.android.volley.VolleyError
 import com.bumptech.glide.Glide
+import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.chat.AllChatActivity
 import com.clubz.chat.util.ChatUtil
+import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.UserInfo
+import com.clubz.data.remote.WebService
+import com.clubz.utils.VolleyGetPost
 import kotlinx.android.synthetic.main.z_profile_dialog.*
+import org.json.JSONObject
 
 abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
     : Dialog(context),
@@ -32,6 +35,11 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
         val view: View = LayoutInflater.from(context).inflate(R.layout.z_profile_dialog, null)
         this.setContentView(view)
         tv_FullName.text = user!!.full_name
+        if (user!!.isLiked .equals("0")) {
+            ic_favorite.setImageResource(R.drawable.ic_favorite_border)
+        } else {
+            ic_favorite.setImageResource(R.drawable.ic_cards_heart_active)
+        }
         if (user!!.profile_image.isNotEmpty()) {
             if (!user!!.profile_image.contains("defaultUser")) {
                 iv_profileImage.clearColorFilter()
@@ -50,7 +58,8 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
     override fun onClick(p0: View?) {
         when (p0!!.id) {
             R.id.ic_favorite -> {
-                OnFabClick(user!!)
+                updateContactList()
+               // OnFabClick(user!!)
             }
             R.id.ic_chat -> {
                 if (!user!!.userId.equals("")) {
@@ -78,6 +87,47 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
         }
     }
 
-    abstract fun OnFabClick(user: UserInfo)
+  //  abstract fun OnFabClick(user: UserInfo)
     abstract fun OnProfileClick(user: UserInfo)
+
+    private fun updateContactList() {
+        /* val dialog = CusDialogProg(context)
+         dialog.show()*/
+
+        object : VolleyGetPost(context, WebService.updateContact, false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    // dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if (obj.getString("status") == "success") {
+                        if (user!!.isLiked .equals("0")) user!!.isLiked = "1" else user!!.isLiked = "0"
+                        if (user!!.isLiked.equals("0")) {
+                            ic_favorite.setImageResource(R.drawable.ic_favorite_border)
+                        } else {
+                            ic_favorite.setImageResource(R.drawable.ic_cards_heart_active)
+                        }
+                    }
+                } catch (ex: Exception) {
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) { /*dialog.dismiss()*/
+            }
+
+            override fun onNetError() { /*dialog.dismiss()*/
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["clubUserId"] = user!!.clubUserId
+                params["isFavorite"] = if (user!!.isLiked.equals("0")) "1" else "0"
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
+                return params
+            }
+        }.execute()
+    }
 }

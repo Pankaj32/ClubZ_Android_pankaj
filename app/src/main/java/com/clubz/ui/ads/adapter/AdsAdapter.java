@@ -291,7 +291,8 @@ public class AdsAdapter extends RecyclerView.Adapter {
                     AdsListBean.DataBean dataBean =(AdsListBean.DataBean) adBeans.get(getAdapterPosition());
                     UserInfo userInfo = new UserInfo();
                     userInfo.setUserId(dataBean.getUser_id());
-                    userInfo.setLiked(0);
+                 //   userInfo.setClubUserId(dataBean.cl());
+                    userInfo.setLiked("0");
                     userInfo.setFull_name(dataBean.getFull_name());
                     userInfo.setProfile_image(dataBean.getProfile_image());
                     userInfo.setCountry_code("");

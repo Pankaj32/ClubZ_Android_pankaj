@@ -215,7 +215,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         fee.text = activityDetails?.getData()?.fee
         feeType.text = activityDetails?.getData()?.fee_type
         if (activityDetails?.getData()?.fee_type.equals("Free")) {
-            fee.visibility = View.GONE
+            fee.visibility = View.INVISIBLE
         }
 
         maxUser.text = activityDetails?.getData()?.max_users
@@ -415,7 +415,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
             R.id.username -> {
                 val user = UserInfo()
                 user.userId = activityDetails!!.getData()!!.creator_id!!
-                user.isLiked = 0
+                user.isLiked = "0"
                 user.full_name = activityDetails?.getData()!!.creator_name!!
                 user.profile_image = activityDetails?.getData()!!.creator_profile_image!!
                 user.country_code = ""
@@ -426,7 +426,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
             R.id.activityLeader -> {
                 val user = UserInfo()
                 user.userId = activityDetails!!.getData()!!.leader_id!!
-                user.isLiked = 0
+                user.isLiked = "0"
                 user.full_name = activityDetails?.getData()!!.leader_name!!
                 user.profile_image = activityDetails?.getData()!!.leader_prflimage!!
                 user.country_code = ""
@@ -444,9 +444,9 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
     private fun showProfile(user: UserInfo) {
 
         val dialog = object : ProfileDialog(mContext!!, user) {
-            override fun OnFabClick(user: UserInfo) {
+            /*override fun OnFabClick(user: UserInfo) {
                 Toast.makeText(mContext, "OnFabClick", Toast.LENGTH_SHORT).show()
-            }
+            }*/
 
           /*  override fun OnChatClick(user: UserInfo) {
                 Toast.makeText(mContext, "OnChatClick", Toast.LENGTH_SHORT).show()

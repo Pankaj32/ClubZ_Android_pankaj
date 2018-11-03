@@ -11,7 +11,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         app:cardUseCompatPadding="true"
-        app:cardElevation="6dp"
+        app:cardElevation="1dp"
         app:cardBackgroundColor="@color/white">
 
         <RelativeLayout
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/eighty_black"
-                android:textSize="@dimen/_18sdp"
+                android:textSize="22sp"
                 android:fontFamily="@font/teko_semibold"
                 android:text="Phillipeldia Phillips"
                 android:layout_marginLeft="@dimen/_50sdp"
@@ -92,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:theme="@style/SCBSwitch"
+                android:checked="true"
                 android:visibility="visible"/>
 
         </RelativeLayout>

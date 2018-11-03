@@ -52,6 +52,7 @@ import kotlinx.android.synthetic.main.activity_create_ad.*
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
+import java.util.*
 
 class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -364,6 +365,22 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
         alert11.show()
     }
 
+
+    //Anil's work
+    fun showServerFailResponceDialog(msg:String) {
+        val builder1 = android.app.AlertDialog.Builder(this@CreateAdActivity)
+        builder1.setMessage(msg)
+        builder1.setCancelable(true)
+        builder1.setPositiveButton(getString(R.string.ok)
+        ) { dialog, id ->
+            super.onBackPressed()
+        }
+
+
+        val alert11 = builder1.create()
+        alert11.show()
+    }
+
     fun perfectDecimal(str1: String, MAX_BEFORE_POINT: Int, MAX_DECIMAL: Int): String {
         var str = str1
         if (str[0] == '.') str = "0$str"
@@ -404,11 +421,19 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                     try {
                         val obj = JSONObject(data)
                         val status = obj.getString("status")
+                        // Anil's work
+                        val message  =  obj.getString("message");
                         if (status == "success") {
                             val adDetails = Gson().fromJson(data, AdDetailsCreated::class.java)
                             createAdInFireBase(adDetails)
                         } else {
-                            Toast.makeText(this@CreateAdActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
+                            if(Locale.getDefault().language.equals("en")){
+                                showServerFailResponceDialog(message)
+                            }else{
+                                if(message.equals("You can publish only 3 ads per month")){
+                                    showServerFailResponceDialog("Puedes publicar solo 3 anuncios al mes.")
+                                }
+                            }
                         }
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()

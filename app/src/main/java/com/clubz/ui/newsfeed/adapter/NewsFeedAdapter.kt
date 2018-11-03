@@ -57,7 +57,7 @@ class NewsFeedAdapter(val items: ArrayList<Feed>, val context: Context, val list
         holder.tvClubname.text = feed.club_name
         holder.tvCreaterName.text = feed.user_name
         /*holder.bubbleMenu.visibility = if (feed.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE*/
-        holder.likeIcon.isChecked = feed.isLiked == 1
+        holder.likeIcon.isChecked = feed.isLiked == "1"
         holder.ivChat.setImageResource(if (feed.comments > 0) R.drawable.chat_icon else R.drawable.ic_chat_outline)
 
         if (feed.news_feed_attachment.isEmpty()) {
@@ -144,7 +144,7 @@ class NewsFeedAdapter(val items: ArrayList<Feed>, val context: Context, val list
             likeIcon.setOnClickListener({ v: View? ->
                 val feed = items.get(adapterPosition)
                 val isCheck = likeIcon.isChecked
-                feed.isLiked = if (isCheck) 1 else 0
+                feed.isLiked = if (isCheck) "1" else "0"
                 if (isCheck) feed.likes++ else feed.likes--
                 notifyItemChanged(adapterPosition)
                 likeNewsFeed(feed)

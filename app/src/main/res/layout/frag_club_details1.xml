@@ -69,6 +69,7 @@
                 android:layout_height="@dimen/_200sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 app:srcCompat="@drawable/ic_new_img"
+                android:scaleType="centerCrop"
                 android:background="#00A8D1"/>
 
             <LinearLayout

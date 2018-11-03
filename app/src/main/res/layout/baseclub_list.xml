@@ -11,7 +11,8 @@
         android:layout_marginLeft="9dp"
         android:layout_marginRight="9dp"
         app:cardUseCompatPadding="true"
-        app:cardElevation="6dp"
+        app:cardElevation="1dp"
+        android:layout_marginTop="4dp"
         app:cardBackgroundColor="@color/white">
 
         <LinearLayout
@@ -38,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/eighty_black"
-                    android:textSize="@dimen/_18sdp"
+                    android:textSize="22sp"
                     android:fontFamily="@font/teko_semibold"
                     android:text="Phillipeldia Phillips"
                     android:layout_marginStart="@dimen/_50sdp"

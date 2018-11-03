@@ -181,7 +181,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_regular"
                                 android:hint="@string/value"
-                                android:inputType="numberDecimal"
+                                android:inputType="text"
                                 android:maxLength="300"
                                 android:textColor="@color/nav_gray"
                                 android:textColorHint="@color/nav_gray" />

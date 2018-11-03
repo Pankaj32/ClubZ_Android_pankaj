@@ -215,11 +215,12 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         user.country_code = ""
         user.contact_no = feed.creator_phone
         user.contact_no_visibility = feed.contact_no_visibility
+        user.clubUserId=feed.clubUserId
 
         val dialog = object : ProfileDialog(context!!, user) {
-            override fun OnFabClick(user: UserInfo) {
+            /*override fun OnFabClick(user: UserInfo) {
                 Toast.makeText(context, "OnFabClick", Toast.LENGTH_SHORT).show()
-            }
+            }*/
 
             /* override fun OnChatClick(user: UserInfo) {
                  Toast.makeText(mContext, "OnChatClick", Toast.LENGTH_SHORT).show()

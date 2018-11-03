@@ -134,7 +134,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="3dp"
-                        android:layout_marginTop="-15dp"
                         android:orientation="horizontal">
 
                         <android.support.v7.widget.AppCompatImageView
@@ -150,7 +149,7 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingStart="3dp">
+                            android:paddingStart="1dp">
 
                             <TextView
                                 android:id="@+id/tv_leaderHint"
@@ -168,7 +167,7 @@
                                 android:layout_height="30dp"
                                 android:layout_below="@id/tv_leaderHint"
                                 android:layout_marginEnd="@dimen/_18sdp"
-                                android:layout_marginTop="-5dp"
+                                android:layout_marginTop="-3dp"
                                 android:background="@null"
                                 android:overlapAnchor="false"
                                 android:prompt="@string/prompt_spinner_active_leader" />
@@ -179,7 +178,7 @@
                                 android:layout_height="@dimen/_12sdp"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginEnd="@dimen/_5sdp"
-                                android:layout_marginTop="@dimen/_18sdp"
+                                android:layout_marginTop="@dimen/_13sdp"
                                 android:scaleType="fitCenter"
                                 android:tint="@color/nav_gray"
                                 app:srcCompat="@drawable/ic_down_arrow" />
@@ -241,11 +240,12 @@
                                     <Spinner
                                         android:id="@+id/spinnerFeesType"
                                         android:layout_width="match_parent"
-                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_height="@dimen/_29sdp"
                                         android:layout_below="@id/tv_feeTypeHint"
                                         android:layout_marginEnd="@dimen/_15sdp"
                                         android:background="@null"
                                         android:overlapAnchor="false"
+                                        android:padding="0dp"
                                         android:prompt="@string/fees_type"
                                         android:textColor="@color/nav_gray" />
 
@@ -273,6 +273,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight=".5"
                                 android:gravity="bottom"
+                                android:layout_marginBottom="5dp"
                                 android:orientation="vertical"
                                 android:paddingBottom="1dp">
 
@@ -325,7 +326,6 @@
                             android:layout_height="@dimen/_30sdp"
                             android:layout_below="@+id/tv_titleHint"
                             android:layout_marginEnd="@dimen/_7sdp"
-
                             android:padding="@dimen/_6sdp"
                             android:tint="@color/nav_gray"
                             app:srcCompat="@drawable/ic_map_placeholder" />

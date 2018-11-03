@@ -17,9 +17,9 @@
             android:title="@string/contacts" />
 
         <item
-            android:id="@+id/navMembership"
+            android:id="@+id/navReceipts"
             android:icon="@drawable/ic_card_membership"
-            android:title="@string/membership" />
+            android:title="@string/receipts" />
 
      <!--   <item
             android:id="@+id/navItemNews"
@@ -45,16 +45,24 @@
         android:layout_gravity="bottom">
 
         <menu>
+
             <item
-                android:id="@+id/navItemHistory"
-                android:icon="@drawable/ic_nav_history"
-                android:title="@string/history" />
+                android:id="@+id/navItemAccount"
+                android:icon="@drawable/ic_nav_aboutme"
+                android:title="@string/account" />
 
             <item
                 android:id="@+id/navItemSetting"
                 android:icon="@drawable/ic_settings_black"
                 android:title="@string/settings" />
+
+            <item
+                android:id="@+id/navItemAboutUs"
+                android:iconTint="@color/black"
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="@string/about_us" />
         </menu>
+
     </item>
 
 </menu>

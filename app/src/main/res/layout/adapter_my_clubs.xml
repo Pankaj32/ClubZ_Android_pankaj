@@ -11,7 +11,8 @@
         android:layout_marginLeft="9dp"
         android:layout_marginRight="9dp"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="6dp"
+        app:cardElevation="1dp"
+        android:layout_marginTop="4dp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -116,7 +117,7 @@
                     android:singleLine="true"
                     android:text="Phillipeldia Phillips"
                     android:textColor="@color/eighty_black"
-                    android:textSize="@dimen/_18sdp" />
+                    android:textSize="22sp" />
 
                 <LinearLayout
                     android:id="@+id/ll_header"

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_margin="4dp"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
@@ -11,7 +12,7 @@
         android:layout_marginRight="12dp"
         app:cardBackgroundColor="@color/white"
         app:cardUseCompatPadding="true"
-        app:cardElevation="6dp">
+        app:cardElevation="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,7 +93,7 @@
                             android:singleLine="true"
                             android:text="FootBall Class"
                             android:textColor="@color/eighty_black"
-                            android:textSize="18sp" />
+                            android:textSize="22sp" />
 
 
                     </RelativeLayout>
@@ -110,8 +111,8 @@
                             android:layout_centerVertical="true"
                             android:fontFamily="@font/roboto_regular"
                             android:text="Club's name"
-                            android:textColor="@color/nav_gray"
-                            android:textSize="@dimen/_14sdp" />
+                            style="@style/TextView.SingleLine.Gray"
+                            android:textColor="@color/nav_gray" />
 
                         <ImageView
                             android:id="@+id/iv_arrow_expand"

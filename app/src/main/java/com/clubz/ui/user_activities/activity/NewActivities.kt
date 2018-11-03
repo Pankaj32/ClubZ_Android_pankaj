@@ -702,14 +702,14 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
     fun showBackConfirmationDialog() {
         val builder1 = android.app.AlertDialog.Builder(this@NewActivities)
-        builder1.setTitle("Be careful !!")
-        builder1.setMessage("Are you sure you want to discard this new activity?")
+        builder1.setTitle(getString(R.string.be_careful))
+        builder1.setMessage(getString(R.string.are_you_sure_want_to_descard_this_new_activites))
         builder1.setCancelable(true)
-        builder1.setPositiveButton("DISCARD"
+        builder1.setPositiveButton(R.string.discard
         ) { dialog, id ->
             super.onBackPressed()
         }
-        builder1.setNegativeButton("CANCEL", object : DialogInterface.OnClickListener {
+        builder1.setNegativeButton(R.string.cancel, object : DialogInterface.OnClickListener {
             override fun onClick(dialogInterface: DialogInterface, id: Int) {
                 dialogInterface.cancel()
             }

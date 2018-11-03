@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/_40sdp"
+    android:layout_marginBottom="@dimen/_40sdp"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/top_primary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:background="@color/primaryColor" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/activityTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Club Z app"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_75sdp"
+            android:fontFamily="@font/teko_bold"
+            android:textColor="@color/eighty_black"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Version:"
+                android:textColor="@color/text_color_gray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:fontFamily="@font/roboto_regular"
+                android:text="  version number"
+                android:textColor="@color/text_color_gray"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/rl_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top_primary"
+            android:scrollbars="vertical"
+            android:overScrollMode="never"
+            android:scrollbarSize="4dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar"        android:layout_marginBottom="40dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginStart="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:lineSpacingExtra="3dp"
+                    android:textSize="16sp"
+                    android:text="@string/about_use_content"/>
+
+
+
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
+
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/topIcon"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/bg_circle_white"
+        android:padding="12dp"
+        android:tint="@color/black"
+        app:srcCompat="@drawable/cat_ico" />
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="RtlHardcoded"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/_5sdp">
+
+        <TextView
+            android:id="@+id/mClose"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_size"
+            android:background="?android:attr/selectableItemBackground"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:text="@string/close"
+            android:textAllCaps="true"
+            android:layout_marginRight="14dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/primaryColor"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

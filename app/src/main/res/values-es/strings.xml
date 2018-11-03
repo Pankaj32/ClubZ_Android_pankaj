@@ -74,7 +74,7 @@
     <string name="no_internet2">Se requiere una conexión a Internet para iniciar sesión, registrarte y buscar clubes. Una vez que hayas registrado este dispositivo, podrá acceder al contenido que haya sin conexión.</string><!--
 <string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>
 -->
-    <string name="t_find_activities">Buscar actividades </string>
+    <string name="t_find_activities">Haz lo que amas</string>
     <string name="t_new_activity">Nueva Actividad </string>
     <string name="t_set_notification">Establecer notificación </string>
     <string name="my_activity">Mis actividades </string>
@@ -343,7 +343,7 @@
     <string name="join_activity">Únete a la actividad</string>
     <string name="leave_activity">Salir del grupo de la actividad</string>
     <string name="edit_activity">Editar esta actividad</string>
-    <string name="menu_my_newsfeed">Mostrar mis actividades</string>
+    <string name="menu_my_newsfeed">Solo mis noticias</string>
     <string name="menu_filter_by_clubs">Filtro por clubes</string>
     <string name="menu_filter_by_comments">Filtrar por comentarios</string>
     <string name="menu_filter_by_likes">Filtrar por likes</string>
@@ -485,5 +485,12 @@
     <string name="activity_date_unconfirm">¿Confirmas que en definitiva no podrás asistir a esta fecha?</string>
     <string name="activity_date_cancel">¿Confirmas que quieres cancelar esta fecha?</string>
 
-
+    <!--Anil's changes-->
+    <string name="read_more">Lee mas</string>
+    <string name="read_less">Leer menos</string>
+    <string name="are_you_sure_want_to_descard_this_new_activites">¿Estás seguro de querer descartar esta nueva actividad?</string>
+    <string name="be_careful">Ten cuidado</string>
+    <string name="discard">DESCARTAR</string>
+    <string name="you_want_to_discard_this_ad">¿Estás seguro de que quieres descartar este anuncio?</string>
+    <string name="are_you_sure_you_want_to_discard_this_new_news">¿Seguro que quieres descartar esta nueva noticia?</string>
 </resources>

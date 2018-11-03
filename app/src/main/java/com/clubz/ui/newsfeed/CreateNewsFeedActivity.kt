@@ -495,14 +495,14 @@ class CreateNewsFeedActivity : AppCompatActivity(),
 
     fun showBackConfirmationDialog() {
         val builder1 = android.app.AlertDialog.Builder(this@CreateNewsFeedActivity)
-        builder1.setTitle("Be careful !!")
-        builder1.setMessage("Are you sure you want to discard this new news?")
+        builder1.setTitle(getString(R.string.be_careful))
+        builder1.setMessage(getString(R.string.are_you_sure_you_want_to_discard_this_new_news))
         builder1.setCancelable(true)
-        builder1.setPositiveButton("DISCARD"
+        builder1.setPositiveButton(getString(R.string.discard)
         ) { dialog, id ->
             super.onBackPressed()
         }
-        builder1.setNegativeButton("CANCEL", object : DialogInterface.OnClickListener {
+        builder1.setNegativeButton(getString(R.string.cancel), object : DialogInterface.OnClickListener {
             override fun onClick(dialogInterface: DialogInterface, id: Int) {
                 dialogInterface.cancel()
             }

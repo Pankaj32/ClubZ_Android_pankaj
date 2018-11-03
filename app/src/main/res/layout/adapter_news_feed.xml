@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="4dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
@@ -12,7 +13,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="6dp"
+        app:cardElevation="1dp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -39,11 +40,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/teko_medium"
+                        android:fontFamily="@font/teko_semibold"
                         android:singleLine="true"
                         android:text="@string/dharmraj_acharya_bhurtel"
                         android:textColor="@color/eighty_black"
-                        android:textSize="18sp" />
+                        android:textSize="22sp" />
 
                     <!--<android.support.v7.widget.AppCompatImageView
                         android:id="@+id/bubble_menu"

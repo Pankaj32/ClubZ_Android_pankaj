@@ -57,7 +57,7 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
         likeIcon.setOnClickListener {
             likeNewsFeed()
             val isCheck = likeIcon.isChecked
-            feed?.isLiked = if (isCheck) 1 else 0
+            feed?.isLiked = if (isCheck) "1" else "0"
             if (isCheck) feed!!.likes++ else feed!!.likes--
             tvLikeCount.text = String.format(getString(R.string.likes_count), feed!!.likes)
             val activity = context as NewsFeedDetailActivity
@@ -75,7 +75,7 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
         tvLikeCount.text = String.format(getString(R.string.likes_count), feed!!.likes)
         //tvCommentCount.text = String.format(getString(R.string.comments_count), feed!!.comments)
         tvCreateTime.text = feed?.getFormatedDate()
-        likeIcon.isChecked = feed?.isLiked == 1
+        likeIcon.isChecked = feed?.isLiked == "1"
 
         //ivChat.setImageResource(if(feed!!.comments>0) R.drawable.chat_icon else R.drawable.ic_chat_outline)
         /* if(feed?.news_feed_attachment.isNullOrEmpty()) ivBanner.visibility = View.GONE
@@ -192,9 +192,9 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
         user.contact_no_visibility = feed!!.contact_no_visibility
 
         val dialog = object : ProfileDialog(mContext!!, user) {
-            override fun OnFabClick(user: UserInfo) {
+            /*override fun OnFabClick(user: UserInfo) {
                 Toast.makeText(mContext, "OnFabClick", Toast.LENGTH_SHORT).show()
-            }
+            }*/
 
             /* override fun OnChatClick(user: UserInfo) {
                  Toast.makeText(mContext, "OnChatClick", Toast.LENGTH_SHORT).show()

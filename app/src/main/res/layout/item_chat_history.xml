@@ -13,7 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:paddingBottom="@dimen/_8sdp"
         android:paddingLeft="@dimen/_3sdp"
         android:paddingRight="@dimen/_3sdp"
@@ -55,7 +54,7 @@
                 android:singleLine="true"
                 android:text="NAME"
                 android:textColor="@color/eighty_black"
-                android:textSize="18sp" />
+                android:textSize="22sp" />
 
             <!--<TextView
                 android:id="@+id/lastMsg"
@@ -74,11 +73,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
-                android:layout_marginTop="@dimen/_2sdp"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/nav_gray"
-                android:textSize="@dimen/_14sdp"
+                style="@style/TextView.SingleLine.Gray"
                 android:visibility="gone"
                 tools:text="loading....." />
 

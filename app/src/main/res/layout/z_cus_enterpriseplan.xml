@@ -28,7 +28,7 @@
         android:layout_marginTop="@dimen/_75sdp"
         android:textSize="@dimen/_18sdp"
         android:layout_below="@+id/top_primary"
-        android:layout_margin="@dimen/_24sdp"
+        android:layout_margin="@dimen/_16sdp"
         android:fontFamily="@font/teko_semibold"/>
 
 
@@ -39,10 +39,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_t"
         android:textColor="@color/nav_gray"
-        android:layout_marginStart="@dimen/_24sdp"
-        android:layout_marginEnd="@dimen/_24sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_minus4sdp"
         android:textSize="@dimen/_12sdp"
+        android:gravity="left"
         android:fontFamily="@font/roboto_regular"
         android:lineSpacingExtra="@dimen/_5sdp"
         android:text="@string/a_enterprise_body"/>
@@ -52,14 +53,14 @@
         android:layout_width="@dimen/_8sdp"
         android:layout_height="@dimen/_8sdp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/_24sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_below="@+id/message"/>
 
     <TextView
         android:id="@+id/viewplans"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/button_size"
-        android:text="@string/viewplan"
+        android:text="@string/contact_us_btn"
         android:layout_toStartOf="@+id/blank"
         android:layout_marginBottom="@dimen/_8sdp"
         android:textSize="@dimen/_13sdp"
@@ -82,7 +83,7 @@
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/primaryColor"
+        android:textColor="@color/sixty_black"
         android:padding="@dimen/_8sdp"
         android:gravity="center"/>
 

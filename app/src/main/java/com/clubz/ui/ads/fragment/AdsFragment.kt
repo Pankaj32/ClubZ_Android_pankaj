@@ -282,10 +282,10 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
     fun showProfile(user: UserInfo) {
 
         val dialog = object : ProfileDialog(mContext!!, user) {
-            override fun OnFabClick(user: UserInfo) {
+            /*override fun OnFabClick(user: UserInfo) {
                 Toast.makeText(mContext,"OnFabClick",Toast.LENGTH_SHORT).show()
             }
-
+*/
             /*override fun OnChatClick(user: UserInfo) {
                 Toast.makeText(mContext,"OnChatClick",Toast.LENGTH_SHORT).show()
             }*/

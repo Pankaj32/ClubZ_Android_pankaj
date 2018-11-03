@@ -2,10 +2,13 @@ package com.clubz.ui.main
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
@@ -44,6 +47,7 @@ import com.clubz.ui.club.fragment.ClubFilterFragment
 import com.clubz.ui.club.fragment.FragMyClubs
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.dialogs.ClubSelectionDialog
+import com.clubz.ui.menuActivity.AccountActivity
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.profile.ContactListActivity
 import com.clubz.ui.profile.ProfileActivity
@@ -63,6 +67,7 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
+import kotlinx.android.synthetic.main.about_us_layout.*
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
@@ -168,7 +173,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     fun setprofiledata() {
         nav?.nav_tvTitle!!.text = ClubZ.currentUser!!.full_name
-      //  nav?.nav_tvStatus!!.text = ClubZ.currentUser!!.about_me
+        //  nav?.nav_tvStatus!!.text = ClubZ.currentUser!!.about_me
         if (ClubZ.currentUser!!.profile_image.isNotEmpty()) {
             Glide.with(this).load(ClubZ.currentUser!!.profile_image)/*.fitCenter()*/.into(nav!!.iv_profileImage)
         }
@@ -194,7 +199,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             R.id.navContact -> {
                 startActivity(Intent(this@HomeActivity, ContactListActivity::class.java))
             }
-            R.id.navMembership -> {
+            R.id.navReceipts -> {
             }
             R.id.navItemClubs -> {
                 startActivity(Intent(this@HomeActivity, ClubsActivity::class.java))
@@ -202,13 +207,34 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             R.id.navItemSetting -> {
                 startActivity(Intent(this@HomeActivity, SettingActivity::class.java))
             }
-            R.id.navItemHistory -> {
+            // Anil's work
+            R.id.navItemAboutUs -> {
+                // open popup for about me content
+                aboutUsDialog()
+            }
+            R.id.navItemAccount -> {
+                startActivity(Intent(this@HomeActivity, AccountActivity::class.java))
             }
         }
         mDrawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
+    private fun aboutUsDialog() {
+        val dialog = Dialog(getActivity())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.getWindow().setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.about_us_layout)
+        dialog.mClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+
+
+
+        dialog.show();
+    }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
@@ -664,13 +690,13 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
             R.id.back -> onBackPressed()
 
-           /* R.id.ll_clearFilter -> {
-                club = false
-                like = false
-                comment = false
-                ifNeedTocallApi = true
-                showMyNewsfeedOnly = false
-                *//*newsFilterDialog?.ch_byClubs?.isChecked = false*//*
+            /* R.id.ll_clearFilter -> {
+                 club = false
+                 like = false
+                 comment = false
+                 ifNeedTocallApi = true
+                 showMyNewsfeedOnly = false
+                 *//*newsFilterDialog?.ch_byClubs?.isChecked = false*//*
                 newsFilterDialog?.ch_byLikes?.isChecked = false
                 newsFilterDialog?.ch_byComments?.isChecked = false
                 newsFilterDialog?.ch_myClubOnly?.isChecked = false
@@ -683,11 +709,11 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 updateNewsFeed()
             }
 
-           /* R.id.ch_byClubs -> {
-                ifNeedTocallApi = true
-                club = newsFilterDialog?.ch_byClubs?.isChecked!!
-                updateNewsFeed()
-            }*/
+            /* R.id.ch_byClubs -> {
+                 ifNeedTocallApi = true
+                 club = newsFilterDialog?.ch_byClubs?.isChecked!!
+                 updateNewsFeed()
+             }*/
 
             R.id.ch_byComments -> {
                 ifNeedTocallApi = true
@@ -888,7 +914,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 return
             if (!mGoogleApiClient.isConnected)
                 return
-          LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
 
 
         } catch (e: Exception) {

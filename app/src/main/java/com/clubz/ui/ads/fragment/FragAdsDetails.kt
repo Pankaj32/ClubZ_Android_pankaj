@@ -192,7 +192,7 @@ class FragAdsDetails : Fragment(), View.OnClickListener {
     private fun showProfile() {
         val user = UserInfo()
         user.userId = adDetails?.data?.user_id!!
-        user.isLiked = 0
+        user.isLiked = "0"
         user.full_name = adDetails?.data?.creator_name!!
         user.profile_image = adDetails?.data?.creator_profile_image!!
         user.country_code = ""
@@ -200,9 +200,9 @@ class FragAdsDetails : Fragment(), View.OnClickListener {
         user.contact_no_visibility = adDetails!!.data!!.contact_no_visibility!!
 
         val dialog = object : ProfileDialog(mContext!!, user) {
-            override fun OnFabClick(user: UserInfo) {
+            /*override fun OnFabClick(user: UserInfo) {
                 Toast.makeText(mContext, "OnFabClick", Toast.LENGTH_SHORT).show()
-            }
+            }*/
 
             /*override fun OnChatClick(user: UserInfo) {
                 Toast.makeText(mContext,"OnChatClick",Toast.LENGTH_SHORT).show()

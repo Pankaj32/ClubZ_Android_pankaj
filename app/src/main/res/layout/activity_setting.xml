@@ -26,6 +26,7 @@
                 android:id="@+id/ivBack"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
                 android:padding="@dimen/_3sdp"
                 app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
@@ -53,7 +54,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,24 +63,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:paddingEnd="15dp"
-            android:paddingStart="15dp"
-            android:paddingTop="15dp">
+           android:layout_margin="10dp">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/card_notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardUseCompatPadding="true"
-                app:contentPadding="@dimen/_8sdp"
-                app:cardElevation="@dimen/_3sdp">
+                app:cardElevation="1dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:layout_marginStart="@dimen/_2sdp">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/txt_notifications"
@@ -88,6 +82,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/teko_semibold"
                         android:gravity="center"
+                       android:layout_margin="10dp"
                         android:text="@string/notifications"
                         android:textColor="@color/eighty_black"
                         android:textSize="@dimen/_16sdp" />
@@ -98,141 +93,140 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_below="@+id/txt_notifications"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:background="@color/text_color_gray" />
+                        android:background="@color/very_light_gray" />
 
-                    <RelativeLayout
-                        android:id="@+id/rl_allow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/view"
-                        android:layout_marginTop="@dimen/_10sdp">
+                   <LinearLayout
+                       android:layout_below="@+id/view"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                      android:layout_margin="10dp"
+                       android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/txt_allow_notifications"
-                            style="@style/TextView.SingleLine.Gray"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/allow_notifications"
-                            android:textSize="@dimen/_12sdp" />
+                       <RelativeLayout
+                           android:id="@+id/rl_allow"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="@dimen/_10sdp">
 
-                        <android.support.v7.widget.SwitchCompat
-                            android:id="@+id/switch_allow_notifications"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_toRightOf="@+id/txt_allow_notifications"
-                            app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD" />
+                           <TextView
+                               android:id="@+id/txt_allow_notifications"
+                               style="@style/TextView.SingleLine.Gray"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:text="@string/allow_notifications"
+                               android:textSize="@dimen/_12sdp" />
 
-                    </RelativeLayout>
+                           <android.support.v7.widget.SwitchCompat
+                               android:id="@+id/switch_allow_notifications"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentRight="true"
+                               android:layout_toRightOf="@+id/txt_allow_notifications"
+                              />
 
+                       </RelativeLayout>
 
-                    <RelativeLayout
-                        android:id="@+id/rl_news"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_allow"
-                        android:layout_marginTop="@dimen/_10sdp">
+                       <RelativeLayout
+                           android:id="@+id/rl_news"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_below="@+id/rl_allow"
+                           android:layout_marginTop="@dimen/_10sdp">
 
-                        <TextView
-                            android:id="@+id/txt_news_notification"
-                            style="@style/TextView.SingleLine.Gray"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/news_notifications"
-                            android:textSize="@dimen/_12sdp" />
+                           <TextView
+                               android:id="@+id/txt_news_notification"
+                               style="@style/TextView.SingleLine.Gray"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:text="@string/news_notifications"
+                               android:textSize="@dimen/_12sdp" />
 
-                        <android.support.v7.widget.SwitchCompat
-                            android:id="@+id/switch_news_notification"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_toRightOf="@+id/txt_news_notification"
-                            app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD" />
+                           <android.support.v7.widget.SwitchCompat
+                               android:id="@+id/switch_news_notification"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentEnd="true"
+                               android:layout_toRightOf="@+id/txt_news_notification"
+                              />
 
-                    </RelativeLayout>
+                       </RelativeLayout>
 
-                    <RelativeLayout
-                        android:id="@+id/rl_activities"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_news"
-                        android:layout_marginTop="@dimen/_10sdp">
+                       <RelativeLayout
+                           android:id="@+id/rl_activities"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_below="@+id/rl_news"
+                           android:layout_marginTop="@dimen/_10sdp">
 
-                        <TextView
-                            android:id="@+id/txt_activities"
-                            style="@style/TextView.SingleLine.Gray"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/activities_notifications"
-                            android:textSize="@dimen/_12sdp" />
+                           <TextView
+                               android:id="@+id/txt_activities"
+                               style="@style/TextView.SingleLine.Gray"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:text="@string/activities_notifications"
+                               android:textSize="@dimen/_12sdp" />
 
-                        <android.support.v7.widget.SwitchCompat
-                            android:id="@+id/switch_activities"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_toRightOf="@+id/txt_activities"
-                            app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD" />
+                           <android.support.v7.widget.SwitchCompat
+                               android:id="@+id/switch_activities"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentRight="true"
+                               android:layout_toRightOf="@+id/txt_activities" />
 
-                    </RelativeLayout>
+                       </RelativeLayout>
 
-                    <RelativeLayout
-                        android:id="@+id/rl_chat"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_activities"
-                        android:layout_marginTop="@dimen/_10sdp">
+                       <RelativeLayout
+                           android:id="@+id/rl_chat"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_below="@+id/rl_activities"
+                           android:layout_marginTop="@dimen/_10sdp">
 
-                        <TextView
-                            android:id="@+id/txt_chat"
-                            style="@style/TextView.SingleLine.Gray"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/chat_notifications"
-                            android:textSize="@dimen/_12sdp" />
+                           <TextView
+                               android:id="@+id/txt_chat"
+                               style="@style/TextView.SingleLine.Gray"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:text="@string/chat_notifications"
+                               android:textSize="@dimen/_12sdp" />
 
-                        <android.support.v7.widget.SwitchCompat
-                            android:id="@+id/switch_chat"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_toRightOf="@+id/txt_chat"
-                            app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD" />
+                           <android.support.v7.widget.SwitchCompat
+                               android:id="@+id/switch_chat"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentRight="true"
+                               android:layout_toRightOf="@+id/txt_chat" />
 
-                    </RelativeLayout>
+                       </RelativeLayout>
 
+                       <RelativeLayout
+                           android:id="@+id/rl_ads"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_below="@+id/rl_chat"
+                           android:layout_marginTop="@dimen/_10sdp">
 
-                    <RelativeLayout
-                        android:id="@+id/rl_ads"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_chat"
-                        android:layout_marginTop="@dimen/_10sdp">
+                           <TextView
+                               android:id="@+id/txt_ads"
+                               style="@style/TextView.SingleLine.Gray"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:text="@string/ads_notifications"
+                               android:textSize="@dimen/_12sdp" />
 
-                        <TextView
-                            android:id="@+id/txt_ads"
-                            style="@style/TextView.SingleLine.Gray"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ads_notifications"
-                            android:textSize="@dimen/_12sdp" />
-
-                        <android.support.v7.widget.SwitchCompat
-                            android:id="@+id/switch_ads"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_toRightOf="@+id/txt_ads"
-                            app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD" />
+                           <android.support.v7.widget.SwitchCompat
+                               android:id="@+id/switch_ads"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentRight="true"
+                               android:layout_toRightOf="@+id/txt_ads" />
 
 
-                    </RelativeLayout>
+                       </RelativeLayout>
+
+                   </LinearLayout>
+
+
 
 
                 </RelativeLayout>
@@ -244,14 +238,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 app:cardUseCompatPadding="true"
-                app:contentPadding="@dimen/_8sdp"
-                app:cardElevation="@dimen/_3sdp">
+                app:cardElevation="1dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:layout_marginStart="@dimen/_2sdp">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/txt_privacy"
@@ -259,6 +250,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/teko_semibold"
                         android:gravity="center"
+                        android:layout_margin="10dp"
                         android:text="@string/privacy"
                         android:textColor="@color/eighty_black"
                         android:textSize="@dimen/_16sdp" />
@@ -268,15 +260,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_below="@+id/txt_privacy"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:background="@color/text_color_gray" />
+                        android:background="@color/very_light_gray" />
+
+
+                    <LinearLayout
+                        android:layout_below="@+id/view_privacy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
 
                     <RelativeLayout
                         android:id="@+id/rl_show_profile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/view_privacy"
-                        android:layout_marginTop="@dimen/_10sdp">
+                        android:layout_below="@+id/view_privacy">
 
                         <TextView
                             android:id="@+id/txt_show_profile"
@@ -292,9 +290,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_toRightOf="@+id/txt_show_profile"
-                            android:switchTextAppearance="@style/SwitchTheme"
-                            app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD" />
+                            android:switchTextAppearance="@style/SwitchTheme" />
 
                     </RelativeLayout>
 
@@ -317,11 +313,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:switchTextAppearance="@style/SwitchTheme"
-                            app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD" />
+                            android:switchTextAppearance="@style/SwitchTheme" />
 
                     </RelativeLayout>
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 
@@ -331,16 +327,13 @@
                 android:id="@+id/card_data_use"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
                 app:cardUseCompatPadding="true"
-                app:contentPadding="@dimen/_8sdp"
-                app:cardElevation="@dimen/_3sdp">
+                android:layout_marginTop="@dimen/_5sdp"
+                app:cardElevation="1dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:layout_marginStart="@dimen/_2sdp">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/txt_sync"
@@ -349,6 +342,7 @@
                         android:fontFamily="@font/teko_semibold"
                         android:gravity="center"
                         android:text="@string/data_use"
+                        android:layout_margin="10dp"
                         android:textColor="@color/eighty_black"
                         android:textSize="@dimen/_16sdp" />
 
@@ -358,15 +352,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_below="@+id/txt_sync"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:background="@color/text_color_gray" />
+                        android:background="@color/very_light_gray" />
 
                     <RelativeLayout
                         android:id="@+id/rl_wifi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/view_sync"
-                        android:layout_marginTop="@dimen/_10sdp">
+                        android:layout_margin="10dp">
 
                         <TextView
                             android:id="@+id/txt_wifi"
@@ -381,9 +374,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:switchTextAppearance="@style/SwitchTheme"
-                            app:thumbTint="@color/primaryColor"
-                            app:trackTint="#69BCBD" />
+                            android:switchTextAppearance="@style/SwitchTheme" />
 
                     </RelativeLayout>
 
@@ -398,14 +389,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 app:cardUseCompatPadding="true"
-                app:contentPadding="@dimen/_8sdp"
-                app:cardElevation="@dimen/_3sdp">
+                app:cardElevation="1dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:layout_marginStart="@dimen/_2sdp">
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/txt_silenced"
@@ -413,6 +401,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/teko_semibold"
                         android:gravity="center"
+                        android:layout_margin="10dp"
                         android:text="@string/silenced_users"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_16sdp" />
@@ -423,8 +412,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_below="@+id/txt_silenced"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:background="@color/text_color_gray" />
+                        android:background="@color/very_light_gray" />
 
 
                     <RelativeLayout
@@ -447,16 +435,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
                 app:cardUseCompatPadding="true"
-                app:contentPadding="@dimen/_8sdp"
-                app:cardElevation="@dimen/_3sdp">
+                app:cardElevation="1dp">
 
                 <RelativeLayout
                     android:id="@+id/rl_header"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:layout_marginStart="@dimen/_2sdp">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/txt_account"
@@ -466,6 +452,7 @@
                         android:fontFamily="@font/teko_semibold"
                         android:gravity="center"
                         android:text="@string/account"
+                        android:layout_margin="10dp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_16sdp" />
 
@@ -475,8 +462,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_below="@+id/txt_account"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:background="@color/text_color_gray" />
+                        android:background="@color/very_light_gray" />
+
+
+                    <LinearLayout
+                        android:layout_below="@+id/view_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
 
                     <RelativeLayout
                         android:id="@+id/rl_change_location"
@@ -500,7 +494,6 @@
                             app:srcCompat="@drawable/ic_edit_location" />
 
                     </RelativeLayout>
-
 
                     <RelativeLayout
                         android:id="@+id/rl_change_language"
@@ -570,6 +563,8 @@
 
 
                     </RelativeLayout>
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 
