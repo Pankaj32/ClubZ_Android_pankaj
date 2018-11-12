@@ -231,10 +231,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight"
             android:windowSoftInputMode="stateHidden" />
-
-        <activity android:name=".ui.menuActivity.AccountActivity"
+        <activity
+            android:name=".ui.menuActivity.AccountActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThmeLight"/>
+            android:theme="@style/AppThmeLight" />
+
+        <activity android:name=".ui.receipt.ReceiptActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThmeLight"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
     </application>
 
 </manifest>

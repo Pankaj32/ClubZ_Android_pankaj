@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -23,7 +22,6 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
-import android.util.Log
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -48,6 +46,7 @@ import com.clubz.ui.club.fragment.FragMyClubs
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.dialogs.ClubSelectionDialog
 import com.clubz.ui.menuActivity.AccountActivity
+import com.clubz.ui.receipt.ReceiptActivity
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.profile.ContactListActivity
 import com.clubz.ui.profile.ProfileActivity
@@ -63,8 +62,6 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.about_us_layout.*
@@ -200,6 +197,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 startActivity(Intent(this@HomeActivity, ContactListActivity::class.java))
             }
             R.id.navReceipts -> {
+                startActivity(Intent(this@HomeActivity, ReceiptActivity::class.java))
             }
             R.id.navItemClubs -> {
                 startActivity(Intent(this@HomeActivity, ClubsActivity::class.java))

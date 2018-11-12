@@ -94,8 +94,6 @@
                     android:textSize="16sp"
                     android:text="@string/about_use_content"/>
 
-
-
             </LinearLayout>
         </ScrollView>
 
@@ -107,14 +105,13 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/topIcon"
-        android:layout_width="@dimen/_45sdp"
-        android:layout_height="@dimen/_45sdp"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:background="@drawable/bg_circle_white"
         android:padding="12dp"
-        android:tint="@color/black"
-        app:srcCompat="@drawable/cat_ico" />
+        app:srcCompat="@drawable/cat_ico2" />
 
 
 

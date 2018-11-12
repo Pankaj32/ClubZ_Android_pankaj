@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_50sdp"
+    android:background="?android:attr/selectableItemBackground"
+    android:paddingLeft="@dimen/_5sdp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/item_image"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/bg_circle_blue"
+        android:src="@drawable/ic_user_white" />
+
+    <TextView
+        android:id="@+id/itemUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_toRightOf="@id/item_image"
+        android:fontFamily="@font/teko_semibold"
+        android:text="Club username"
+        android:textColor="@color/eighty_black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/itemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="5dp"
+        android:fontFamily="@font/teko_semibold"
+        android:text="$ 5.000"
+        android:textColor="@color/eighty_black"
+        android:textSize="14sp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height=".9dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_transprent" />
+
+</RelativeLayout>

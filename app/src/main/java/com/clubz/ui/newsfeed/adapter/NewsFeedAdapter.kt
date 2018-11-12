@@ -78,7 +78,7 @@ class NewsFeedAdapter(val items: ArrayList<Feed>, val context: Context, val list
         }
         if (feed.is_comment_allow==0)holder.ivChat.visibility=View.GONE
 
-        holder.tvReadMore.setOnClickListener({v:View?->
+       /* holder.tvReadMore.setOnClickListener({v:View?->
             v as TextView
             if(v.text.equals(context.getString(R.string.read_more))){
                 holder.tvDescription.maxLines=5
@@ -97,7 +97,7 @@ class NewsFeedAdapter(val items: ArrayList<Feed>, val context: Context, val list
                 holder.tvDescTxt.maxLines=2
                 v.text=context.getString(R.string.read_more)
             }
-        })
+        })*/
         /* if(!feed.club_icon.isEmpty())
              Picasso.with(holder.ivUserProfile.context).load(feed.club_icon).fit().into(holder.ivUserProfile)*/
     }
@@ -120,8 +120,8 @@ class NewsFeedAdapter(val items: ArrayList<Feed>, val context: Context, val list
         val ivChat = view.ivChat!!
         val ll1 = view.ll1!!
         val smlProgress = view.smlProgress!!
-        val tvReadMoreDesc = view.tvReadMoreDesc!!
-        val tvReadMore = view.tvReadMore!!
+        /*val tvReadMoreDesc = view.tvReadMoreDesc!!
+        val tvReadMore = view.tvReadMore!!*/
         // val ivUserProfile = view.ivUserProfile
 
         init {

@@ -18,7 +18,7 @@
 
         <item
             android:id="@+id/navReceipts"
-            android:icon="@drawable/ic_card_membership"
+            android:icon="@drawable/ic_receipt"
             android:title="@string/receipts" />
 
      <!--   <item

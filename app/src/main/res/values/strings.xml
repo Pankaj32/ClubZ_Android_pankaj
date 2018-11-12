@@ -565,8 +565,10 @@
     <string name="are_you_sure_you_want_to_discard_this_new_news">Are you sure you want to discard this new news?</string>
 
 
-    <string name="about_use_content">Club Z was created in 2015 by Yulieth Betancur and her husband to allow local communities to achieve common goal, such as staying update and playing together  "\\"\^_^/.\n\nThis project began when they saw a sign that said  &quot;"Forbidden to play in this place" &quot;, since then, they work to change that way of thinking.\n\nThe Android version of the application was developed in 2018 by the great Mindiii Software team.\n\nIf you like this application, rate us in the Play Store.\n\n
-        To contact us, you can use the app chat or send us an email to support@clubz.co.
+    <string name="about_use_content">Club Z was created in 2015 by Yulieth Betancur and her husband to allow local communities to achieve common goal, such as staying update and playing together \^_^/.\n\nThis project began when they saw a sign that said  \"Forbidden to play in this place\", since then, they work to change that way of thinking.
+        \n\nThe Android version of the application was developed in 2018 by the great <font color='#009688'>Mindiii Software team</font>.
+        \n\nIf you like this application, rate us in the <font color='#009688'>Play Store</font>.\n\n
+        To contact us, you can use the <font color='#009688'>app chat</font> or send us an email to <font color='#009688'>support@clubz.co</font>.
 </string>
 
     <string name="language">Language</string>
@@ -586,5 +588,12 @@
     <string name="you_have_a_standard_account">You have a standard account.</string>
     <string name="receipts">Receipts</string>
     <string name="no_way">No way</string>
-
+    <!-- receipts -->
+    <string name="receipt_name">Receipt name</string>
+    <string name="concept">Concept</string>
+    <string name="pay_to">Pay to</string>
+    <string name="notify_payment">Notify Payment</string>
+    <string name="save_as_pdf">Save As PDF</string>
+    <string name="any_concerns">Any concerns?</string>
+    <string name="contact_us_receipt">Contact us!</string>
 </resources>
