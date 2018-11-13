@@ -1,36 +1,32 @@
 package com.clubz.ui.receipt
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
 import com.clubz.R
-import com.clubz.ui.receipt.adapter.ReceiptMemberAdapter
-import com.clubz.utils.KeyboardUtil
-import com.clubz.utils.Util
+import com.clubz.ui.receipt.adapter.ReceiptAdapter
 import kotlinx.android.synthetic.main.activity_receipt.*
 
-class ReceiptActivity : AppCompatActivity(), View.OnClickListener, ReceiptMemberAdapter.Listner {
+class ReceiptActivity : AppCompatActivity(), ReceiptAdapter.Listner, View.OnClickListener {
 
-    private var adapter: ReceiptMemberAdapter? = null
-    private var isRecyclerViewVisible = true
+    private var adapter: ReceiptAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_receipt)
         ivBack.setOnClickListener(this)
-        membersLay.setOnClickListener(this)
-
         val lm = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        recyclerViewReceiptMember.itemAnimator = null
-        recyclerViewReceiptMember.layoutManager = lm
-        recyclerViewReceiptMember.setHasFixedSize(true)
+        recyclerViewReceipt.itemAnimator = null
+        recyclerViewReceipt.layoutManager = lm
+        recyclerViewReceipt.setHasFixedSize(true)
 
         // feedRecycleView.setItemViewCacheSize(20);
-        recyclerViewReceiptMember.setDrawingCacheEnabled(true)
-        recyclerViewReceiptMember.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        adapter = ReceiptMemberAdapter(this, this)
-        recyclerViewReceiptMember.adapter = adapter
+        recyclerViewReceipt.setDrawingCacheEnabled(true)
+        recyclerViewReceipt.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        adapter = ReceiptAdapter(this, this)
+        recyclerViewReceipt.adapter = adapter
     }
 
     override fun onClick(p0: View?) {
@@ -38,22 +34,10 @@ class ReceiptActivity : AppCompatActivity(), View.OnClickListener, ReceiptMember
             R.id.ivBack -> {
                 finish()
             }
-            R.id.membersLay -> {
-                if (isRecyclerViewVisible) {
-                    recyclerViewReceiptMember.visibility = View.GONE
-                    isRecyclerViewVisible = false
-                    iv_arrow_expand.setImageResource(R.drawable.ic_keyboard_arrow_down)
-                } else {
-                    recyclerViewReceiptMember.visibility = View.VISIBLE
-                    isRecyclerViewVisible = true
-                    iv_arrow_expand.setImageResource(R.drawable.ic_keyboard_arrow_up)
-                }
-                Util.setRotation(iv_arrow_expand, false)
-            }
         }
     }
 
     override fun onMemberItemClick(pos: Int) {
-        Toast.makeText(this, "Position : " + pos, Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this@ReceiptActivity, ReceiptDetailsActivity::class.java))
     }
 }

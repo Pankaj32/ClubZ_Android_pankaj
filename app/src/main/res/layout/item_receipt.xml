@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_60sdp"
+    android:background="?android:attr/selectableItemBackground"
+    android:paddingLeft="@dimen/_5sdp"
+    android:paddingRight="@dimen/_5sdp">
+    <!--android:background="?android:attr/selectableItemBackground"-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/item_image"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/bg_circle_primary"
+        android:src="@drawable/ic_user_white" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_toEndOf="@id/item_image"
+        android:layout_toStartOf="@id/rightLay"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/itemClubName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/item_image"
+            android:fontFamily="@font/teko_semibold"
+            android:text="Foootball Class"
+            android:textColor="@color/eighty_black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/itemTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Club Name | User name"
+            android:textColor="@color/nav_gray"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rightLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/itemDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Nov 3,2018 | 5:00 p.m."
+            android:textColor="@color/nav_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/itemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="$ 5.000"
+            android:textColor="@color/red_favroit"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/bottomView"
+        android:layout_width="match_parent"
+        android:layout_height=".9dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_transprent" />
+
+</RelativeLayout>

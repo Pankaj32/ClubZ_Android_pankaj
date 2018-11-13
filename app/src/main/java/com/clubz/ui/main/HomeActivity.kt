@@ -46,10 +46,11 @@ import com.clubz.ui.club.fragment.FragMyClubs
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.dialogs.ClubSelectionDialog
 import com.clubz.ui.menuActivity.AccountActivity
-import com.clubz.ui.receipt.ReceiptActivity
+import com.clubz.ui.receipt.ReceiptDetailsActivity
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.profile.ContactListActivity
 import com.clubz.ui.profile.ProfileActivity
+import com.clubz.ui.receipt.ReceiptActivity
 import com.clubz.ui.setting.SettingActivity
 import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_My_Activity
@@ -224,6 +225,10 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         dialog.getWindow().setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.about_us_layout)
+        val contentTxt = dialog.findViewById(R.id.contentTxt) as TextView
+        /*val html = Html.fromHtml(getString(R.string.about_use_content))
+        contentTxt.setText(html)*/
+       // contentTxt.setMovementMethod(LinkMovementMethod.getInstance())
         dialog.mClose.setOnClickListener {
             dialog.dismiss()
         }

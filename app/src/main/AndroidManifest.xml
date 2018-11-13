@@ -235,11 +235,14 @@
             android:name=".ui.menuActivity.AccountActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight" />
-
-        <activity android:name=".ui.receipt.ReceiptActivity"
+        <activity
+            android:name=".ui.receipt.ReceiptDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".ui.receipt.ReceiptActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThmeLight"></activity>
     </application>
 
 </manifest>

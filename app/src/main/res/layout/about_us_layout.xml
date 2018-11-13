@@ -84,6 +84,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/contentTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_color_gray"
@@ -92,6 +93,8 @@
                     android:layout_marginBottom="20dp"
                     android:lineSpacingExtra="3dp"
                     android:textSize="16sp"
+                    android:autoLink="all"
+                    android:linksClickable="true"
                     android:text="@string/about_use_content"/>
 
             </LinearLayout>
@@ -99,9 +102,6 @@
 
 
     </LinearLayout>
-
-
-
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/topIcon"

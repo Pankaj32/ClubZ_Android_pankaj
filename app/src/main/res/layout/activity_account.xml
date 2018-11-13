@@ -652,8 +652,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="bottom"
                                     android:gravity="bottom"
-                                    android:text="@string/club"
-                                    android:textColor="@color/black" />
+                                    android:text="@string/clubs"
+                                    android:textColor="@color/eighty_black" />
 
                                 <TextView
                                     android:id="@+id/tvClubname"
@@ -746,7 +746,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/_10sdp"
                                 android:layout_marginStart="@dimen/_10sdp"
-                                android:layout_toRightOf="@+id/activitiesImage"
+                                android:layout_toEndOf="@+id/activitiesImage"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -759,7 +759,6 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_below="@+id/tvNickname"
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="@string/join_those_activities_that_you_like_so_much"
                                     android:textColor="@color/text_color_gray" />
@@ -796,7 +795,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/_10sdp"
                                 android:layout_marginStart="@dimen/_10sdp"
-                                android:layout_toRightOf="@+id/chatImage"
+                                android:layout_toEndOf="@+id/chatImage"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -809,7 +808,6 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_below="@+id/tvNickname"
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="@string/stay_in_contact_with_your_partners_neighbors_or_friends"
                                     android:textColor="@color/text_color_gray" />
@@ -846,20 +844,19 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/_10sdp"
                                 android:layout_marginStart="@dimen/_10sdp"
-                                android:layout_toRightOf="@+id/adsImage"
+                                android:layout_toEndOf="@+id/adsImage"
                                 android:orientation="vertical">
 
                                 <TextView
                                     style="@style/TextView.Header"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/t_ads"
+                                    android:text="@string/account_ads_titles"
                                     android:textColor="@color/black" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_below="@+id/tvNickname"
                                     android:fontFamily="@font/roboto_regular"
                                     android:text="@string/promote_your_things_fast_and_easy"
                                     android:textColor="@color/text_color_gray" />
@@ -879,9 +876,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tvNickname"
                             android:layout_gravity="right"
-                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
                             android:fontFamily="@font/roboto_light"
                             android:text="@string/each_club_reserves_the_right_of_admission"
                             android:textColor="@color/text_color_gray" />
@@ -895,7 +891,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNickname"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/roboto_regular"
@@ -907,7 +902,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNickname"
                 android:layout_gravity="center"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
@@ -918,7 +912,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNickname"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:fontFamily="@font/roboto_bold"

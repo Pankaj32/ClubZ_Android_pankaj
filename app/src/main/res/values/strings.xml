@@ -513,7 +513,7 @@
     <!--Create Add validation-->
     <string name="a_addTitle">Please enter ad title</string>
     <string name="left_to_confirm">user left to confirm</string>
-    <string name="new_txt">New</string>
+    <string name="new_txt">News</string>
     <string name="recent_txt">Recent</string>
     <string name="favorit_txt">Favorite</string>
     <string name="confirm_date">CONFIRM</string>
@@ -565,10 +565,11 @@
     <string name="are_you_sure_you_want_to_discard_this_new_news">Are you sure you want to discard this new news?</string>
 
 
-    <string name="about_use_content">Club Z was created in 2015 by Yulieth Betancur and her husband to allow local communities to achieve common goal, such as staying update and playing together \^_^/.\n\nThis project began when they saw a sign that said  \"Forbidden to play in this place\", since then, they work to change that way of thinking.
-        \n\nThe Android version of the application was developed in 2018 by the great <font color='#009688'>Mindiii Software team</font>.
-        \n\nIf you like this application, rate us in the <font color='#009688'>Play Store</font>.\n\n
-        To contact us, you can use the <font color='#009688'>app chat</font> or send us an email to <font color='#009688'>support@clubz.co</font>.
+    <string name="about_use_content">Club Z was created in 2015 by Yulieth Betancur and her husband to allow local communities to achieve common goal, such as staying update and playing together \^_^/.
+        \n\nThis project began when they saw a sign that said  \"Forbidden to play in this place\", since then, they work to change that way of thinking.
+        \n\nThe Android version of the application was developed in 2018 by the great<a href="http://mindiii.com/"> <font color='#009688'>Mindiii Software team</font></a>.
+        \n\nIf you like this application, rate us in the <font color='#009688'>Play Store</font>.
+        \n\nTo contact us, you can use the <font color='#009688'>app chat</font> or send us an email to <font color='#009688'>support@clubz.co</font>.
 </string>
 
     <string name="language">Language</string>
@@ -576,8 +577,8 @@
     <string name="options">Options</string>
     <string name="standar">Standar</string>
     <string name="free">Free</string>
-    <string name="search_and_join_club_you_like">Search and join clubs you like *</string>
-    <string name="stay_update_with_the_clubs_you_belong">Stay update with the news of the clubs you belong</string>
+    <string name="search_and_join_club_you_like">Search and join the clubs you like *</string>
+    <string name="stay_update_with_the_clubs_you_belong">Stay updated with the news of the clubs you belong</string>
     <string name="join_those_activities_that_you_like_so_much">Join those activities that you like so much</string>
     <string name="stay_in_contact_with_your_partners_neighbors_or_friends">Stay in contact with your partners, neighbors or friends</string>
     <string name="promote_your_things_fast_and_easy">Promote your things fast and easy</string>
@@ -596,4 +597,5 @@
     <string name="save_as_pdf">Save As PDF</string>
     <string name="any_concerns">Any concerns?</string>
     <string name="contact_us_receipt">Contact us!</string>
+    <string name="account_ads_titles">Ads</string>
 </resources>

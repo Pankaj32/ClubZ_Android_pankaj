@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".ui.receipt.ReceiptDetailsActivity">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="5dp">
+
+        <RelativeLayout
+            android:id="@+id/cus_status"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@color/primaryColor"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_3sdp"
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+            <LinearLayout
+                android:id="@+id/priceLay"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/price"
+                    style="@style/TextView.Header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$ 350.000"
+                    android:textSize="@dimen/_18sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_toEndOf="@id/ivBack"
+                android:layout_toLeftOf="@id/priceLay"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/headerTxt"
+                    style="@style/TextView.Header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/app_name"
+                    android:textSize="@dimen/_18sdp" />
+
+                <TextView
+                    android:id="@+id/clubNameTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-8dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:singleLine="true"
+                    android:text="@string/hint_club_name"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="1dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:gravity="center_vertical">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/receiptImage"
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:padding="@dimen/_3sdp"
+                                android:tint="@color/nav_gray"
+                                app:srcCompat="@drawable/ic_call" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/receiptImage"
+                                android:theme="@style/tvStyle"
+                                app:counterEnabled="true"
+                                app:counterMaxLength="50"
+                                app:counterOverflowTextAppearance="@style/TextLimitError"
+                                app:counterTextAppearance="@style/CounterText">
+
+                                <EditText
+                                    android:id="@+id/edReceiptName"
+                                    style="@style/EditText.ClubCreation"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:hint="@string/receipt_name"
+                                    android:inputType="textCapCharacters"
+                                    android:text="Enterprise membership"
+                                    android:textColor="@color/nav_gray"
+                                    android:textColorHint="@color/nav_gray" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="-10dp"
+                            android:gravity="center_vertical">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/valueImage"
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:tint="@color/nav_gray"
+                                app:srcCompat="@drawable/ic_dollar_symbol" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/valueImage"
+                                android:theme="@style/tvStyle"
+                                app:counterEnabled="true"
+                                app:counterMaxLength="50"
+                                app:counterOverflowTextAppearance="@style/TextLimitError"
+                                app:counterTextAppearance="@style/CounterText">
+
+                                <EditText
+                                    android:id="@+id/edValue"
+                                    style="@style/EditText.ClubCreation"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:hint="@string/value"
+                                    android:inputType="numberDecimal"
+                                    android:text="350.000"
+                                    android:textColor="@color/nav_gray"
+                                    android:textColorHint="@color/nav_gray" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="-10dp"
+                            android:gravity="center_vertical">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/conceptImage"
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:padding="@dimen/_3sdp"
+                                android:tint="@color/nav_gray"
+                                app:srcCompat="@drawable/ic_file_document" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/conceptImage"
+                                android:theme="@style/tvStyle"
+                                app:counterEnabled="true"
+                                app:counterMaxLength="50"
+                                app:counterOverflowTextAppearance="@style/TextLimitError"
+                                app:counterTextAppearance="@style/CounterText">
+
+                                <EditText
+                                    android:id="@+id/edConcept"
+                                    style="@style/EditText.ClubCreation"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:hint="@string/concept"
+                                    android:inputType="textCapCharacters"
+                                    android:text="Club Name | October 2018"
+                                    android:textColor="@color/nav_gray"
+                                    android:textColorHint="@color/nav_gray" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="-10dp"
+                            android:gravity="center_vertical">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/payToImage"
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:padding="@dimen/_3sdp"
+                                android:tint="@color/nav_gray"
+                                app:srcCompat="@drawable/ic_user_shape" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/payToImage"
+                                android:theme="@style/tvStyle"
+                                app:counterEnabled="true"
+                                app:counterMaxLength="50"
+                                app:counterOverflowTextAppearance="@style/TextLimitError"
+                                app:counterTextAppearance="@style/CounterText">
+
+
+                                <EditText
+                                    android:id="@+id/edPayTo"
+                                    style="@style/EditText.ClubCreation"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:hint="@string/pay_to"
+                                    android:inputType="textCapCharacters"
+                                    android:text="Club Z"
+                                    android:textColor="@color/nav_gray"
+                                    android:textColorHint="@color/nav_gray" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="-10dp"
+                            android:gravity="center_vertical">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/statusImage"
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:tint="@color/nav_gray"
+                                app:srcCompat="@drawable/ic_bell" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/statusImage"
+                                android:theme="@style/tvStyle"
+                                app:counterEnabled="true"
+                                app:counterMaxLength="50"
+                                app:counterOverflowTextAppearance="@style/TextLimitError"
+                                app:counterTextAppearance="@style/CounterText">
+
+                                <EditText
+                                    android:id="@+id/edStatus"
+                                    style="@style/EditText.ClubCreation"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:hint="@string/status"
+                                    android:inputType="textCapCharacters"
+                                    android:text="Pending to be paid"
+                                    android:textColor="@color/red_favroit"
+                                    android:textColorHint="@color/nav_gray" />
+                            </android.support.design.widget.TextInputLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:gravity="center_vertical">
+
+                            <Button
+                                android:id="@+id/notifyPaymentBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_38sdp"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:text="@string/notify_payment"
+                                android:textColor="@color/primaryColor" />
+
+                            <ImageView
+                                android:id="@+id/pdfIcon"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="5dp"
+                                android:tint="@color/nav_gray"
+                                app:srcCompat="@drawable/ic_file_pdf_box" />
+
+                            <Button
+                                android:id="@+id/saveAsPdfBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_33sdp"
+                                android:layout_toStartOf="@id/pdfIcon"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:text="@string/save_as_pdf"
+                                android:textColor="@color/nav_gray" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/membersLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <TextView
+                            android:id="@+id/txt_privacy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_13sdp"
+                            android:elevation="@dimen/_5sdp"
+                            android:fontFamily="@font/teko_semibold"
+                            android:gravity="center"
+                            android:text="### Members"
+                            android:textColor="@color/eighty_black"
+                            android:textSize="@dimen/_16sdp" />
+
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_arrow_expand"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:tint="@color/eighty_black"
+                            app:srcCompat="@drawable/ic_keyboard_arrow_up" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.9dp"
+                        android:background="@color/gray_transprent" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerViewReceiptMember"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        tools:listitem="@layout/item_receipt_member" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/contactLay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:text="@string/any_concerns"
+                    android:textColor="@color/eighty_black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:text="@string/contact_us_receipt"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
+
+
+
+
+
+
+

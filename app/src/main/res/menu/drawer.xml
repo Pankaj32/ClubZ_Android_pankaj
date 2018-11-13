@@ -48,7 +48,7 @@
 
             <item
                 android:id="@+id/navItemAccount"
-                android:icon="@drawable/ic_nav_aboutme"
+                android:icon="@drawable/ic_nav_account"
                 android:title="@string/account" />
 
             <item
