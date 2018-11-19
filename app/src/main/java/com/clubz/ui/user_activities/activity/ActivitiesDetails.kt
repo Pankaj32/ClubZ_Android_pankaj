@@ -12,11 +12,12 @@ import android.view.View
 import android.view.Window
 import com.clubz.R
 import com.clubz.chat.fragments.FragmentChat
+import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
 import com.clubz.ui.core.ViewPagerAdapter
-import com.clubz.ui.user_activities.fragment.FragActivitiesDetails
 import com.clubz.ui.user_activities.fragment.FragActivityDetailsNew
 import com.clubz.ui.user_activities.fragment.Frag_Activity_Member
+import com.clubz.ui.user_activities.model.ActivitiesBean
 import com.clubz.utils.KeyboardUtil
 import kotlinx.android.synthetic.main.activities_details.*
 import kotlinx.android.synthetic.main.club_more_menu.*
@@ -33,29 +34,32 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
     private var activityName = ""
     private var clubName = ""
     private var clubId = ""
-    private var hasAffliates = 0
+
+    private var activityBean: ActivitiesBean.DataBean? = null
     protected var menuDialog: Dialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activities_details)
         val bundle = intent.extras
         if (bundle != null) {
-            activityId = bundle.getString("activityId")
-            activityName = bundle.getString("activityName")
-            clubName = bundle.getString("clubName")
-            clubId = bundle.getString("clubId")
+            activityBean = bundle.getParcelable("activityBean")
             from = bundle.getString("From")
             type = bundle.getString("type")
-            hasAffliates = bundle.getInt("hasAffliates")
+
+            activityId = activityBean!!.activityId!!
+            activityName = activityBean!!.activityName!!
+            clubName = activityBean!!.club_name!!
+            clubId = activityBean!!.clubId!!
+
         }
 
         if (from.equals("OthersActivity")) {
-            userId = bundle.getString("userId")
-            userName = bundle.getString("userName")
+            userId = activityBean!!.userId!!
+            userName = activityBean!!.full_name!!
             /* activityId = bundle.getString("activityId")
              activityName = bundle.getString("activityName")
              clubName = bundle.getString("clubName")*/
-            userProfileImg = bundle.getString("userProfileImg")
+            userProfileImg = activityBean!!.profile_image!!
             bubble_menu.visibility = View.GONE
         }
         // headerTxt.text = resources.getString(R.string.hint_activity_name)
@@ -74,7 +78,7 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
              adapter.addFragment(FragActivityDetailsNew.newInstance(activityId, type,hasAffliates), resources.getString(R.string.a_activity_first_tab), " This is First")
              adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Second")
          } else {*/
-        adapter.addFragment(FragActivityDetailsNew.newInstance(activityId, type, hasAffliates), resources.getString(R.string.a_activity_first_tab), " This is First")
+        adapter.addFragment(FragActivityDetailsNew.newInstance(activityBean, type), resources.getString(R.string.a_activity_first_tab), " This is First")
         adapter.addFragment(FragmentChat.newInstanceActivityChat(activityId, clubId, activityName), resources.getString(R.string.a_activity_snd_tab), " This is second")
         adapter.addFragment(Frag_Activity_Member.newInstance(activityId), resources.getString(R.string.a_activity_rd_tab), " This is Third")
         //  }

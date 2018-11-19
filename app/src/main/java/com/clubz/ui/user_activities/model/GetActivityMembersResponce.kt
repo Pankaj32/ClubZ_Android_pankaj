@@ -60,6 +60,8 @@ class GetActivityMembersResponce {
         var userId: String? = null
         var profile_image: String? = null
         var tag_name: String? = null
+        var is_leader: String? = null
+        var is_owner: String? = null
         var affiliates: List<AffiliatesBean>? = null
 
         class AffiliatesBean {

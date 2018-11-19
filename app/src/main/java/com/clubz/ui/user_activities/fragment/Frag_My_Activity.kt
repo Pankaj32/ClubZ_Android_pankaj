@@ -16,24 +16,24 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.android.volley.VolleyError
 import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 
 import com.clubz.R
+import com.clubz.data.local.db.repo.AllActivitiesRepo
+import com.clubz.data.local.db.repo.AllEventsRepo
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.AllActivities
+import com.clubz.data.model.AllEvents
 import com.clubz.data.model.DialogMenu
 import com.clubz.data.remote.WebService
 import com.clubz.ui.activities.fragment.ItemListDialogFragment
-import com.clubz.ui.cv.ChipView
 import com.clubz.ui.cv.CusDialogProg
-import com.clubz.ui.cv.FlowLayout
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.user_activities.activity.AddEventActivity
 import com.clubz.ui.user_activities.activity.ActivitiesDetails
@@ -50,11 +50,8 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.location.places.ui.PlaceAutocomplete
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.dialog_add_events.*
 import kotlinx.android.synthetic.main.frag_my_activity.*
 import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -91,7 +88,7 @@ class Frag_My_Activity : Fragment(),
     var longitute = ""
     val REQUEST_CODE_AUTOCOMPLETE: Int = 1000
     var mContext: Context? = null
-    private var hasAffliates: Int = 0
+    private var hasAffliates = ""
 
     private var userId: String = ""
     private var userName: String = ""
@@ -125,6 +122,7 @@ class Frag_My_Activity : Fragment(),
         userId = ClubZ.currentUser!!.id
         userName = ClubZ.currentUser!!.full_name
         userImage = ClubZ.currentUser!!.profile_image
+        hasAffliates = SessionManager.getObj().user.auth_token
         swiperefresh.setOnRefreshListener(this)
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -132,7 +130,7 @@ class Frag_My_Activity : Fragment(),
         recyclerViewMyActivities.layoutManager = lm
         recyclerViewMyActivities.setHasFixedSize(true)
 
-       /* nodataLay.visibility = if (activityList.isEmpty()) View.VISIBLE else View.GONE*/
+        /* nodataLay.visibility = if (activityList.isEmpty()) View.VISIBLE else View.GONE*/
         activitiesAdapter = ActivitiesAdapter(mContext, activityList, this)
         recyclerViewMyActivities.adapter = activitiesAdapter
 
@@ -143,6 +141,91 @@ class Frag_My_Activity : Fragment(),
             }
         }
         recyclerViewMyActivities.addOnScrollListener(pageListner)
+
+        val tempActiviyList = AllActivitiesRepo().getAllActivities()
+        val tempEventList = AllEventsRepo().getAllEvents()
+        val activityListLocal = ArrayList<ActivitiesBean.DataBean>()
+        if (tempActiviyList.size > 0) {
+            for (activity in tempActiviyList) {
+                val activityBean = ActivitiesBean.DataBean()
+                val events = ArrayList<ActivitiesBean.DataBean.EventsBean>()
+
+                activityBean.activityId = activity.activityId
+                activityBean.activityEventId = activity.activityEventId
+                activityBean.event_date = activity.event_date
+                activityBean.is_my_activity = activity.is_my_activity
+                activityBean.image = activity.image
+                activityBean.activityName = activity.activityName
+                activityBean.is_hide = activity.is_hide
+                activityBean.name = activity.name
+                activityBean.leader_id = activity.leader_id
+                activityBean.club_id = activity.club_id
+                activityBean.creator_id = activity.creator_id
+                activityBean.location = activity.location
+                activityBean.latitude = activity.latitude
+                activityBean.longitude = activity.longitude
+                activityBean.fee_type = activity.fee_type
+                activityBean.fee = activity.fee
+                activityBean.min_users = activity.min_users
+                activityBean.max_users = activity.max_users
+                activityBean.user_role = activity.user_role
+                activityBean.description = activity.description
+                activityBean.terms_conditions = activity.terms_conditions
+                activityBean.is_cancel = activity.is_cancel
+                activityBean.status = activity.status
+                activityBean.crd = activity.crd
+                activityBean.upd = activity.upd
+                activityBean.club_name = activity.club_name
+                activityBean.clubId = activity.clubId
+                activityBean.is_like = activity.is_like
+                activityBean.userId = activity.userId
+                activityBean.full_name = activity.full_name
+                activityBean.device_token = activity.device_token
+                activityBean.profile_image = activity.profile_image
+                activityBean.listType = activity.listType
+
+                activityBean.creator_phone = activity.creator_phone
+                activityBean.contact_no_visibility = activity.contact_no_visibility
+                activityBean.leader_name = activity.leader_name
+                activityBean.leader_prflimage = activity.leader_prflimage
+                activityBean.leader_phno = activity.leader_phno
+                activityBean.leader_contact_no_visibility = activity.leader_contact_no_visibility
+                activityBean.totalUser = activity.totalUser
+
+                for (event in tempEventList) {
+                    if (activity.activityId.equals(event.activityId) && activity.listType.equals(event.list_type)) {
+                        val eventBean = ActivitiesBean.DataBean.EventsBean()
+                        eventBean.activityEventId = event.activityEventId
+                        eventBean.event_title = event.event_title
+                        eventBean.event_date = event.event_date
+                        eventBean.event_time = event.event_time
+                        eventBean.description = event.description
+                        eventBean.location = event.location
+                        eventBean.latitude = event.latitude
+                        eventBean.longitude = event.longitude
+                        eventBean.fee = event.fee
+                        eventBean.fee_type = event.fee_type
+                        eventBean.min_users = event.min_users
+                        eventBean.max_users = event.max_users
+                        eventBean.total_users = event.total_users
+                        eventBean.joined_users = event.joined_users
+                        eventBean.confirm_users = event.confirm_users
+                        eventBean.confirm_userlist = event.confirm_userlist
+                        eventBean.is_confirm = event.is_confirm
+                        eventBean.hasJoined = event.hasJoined
+                        eventBean.hasAffiliatesJoined = event.hasAffiliatesJoined
+                        eventBean.is_cancel = event.is_cancel
+                        eventBean.list_type = event.list_type
+                        events.add(eventBean)
+                    }
+                }
+                if (events.size > 0) activityBean.events = events
+
+                activityListLocal.add(activityBean)
+            }
+            updateAllUiOthers(activityListLocal, true)
+        }
+
     }
 
     override fun onResume() {
@@ -150,7 +233,7 @@ class Frag_My_Activity : Fragment(),
         if (isResume) {
             getAllActivitiesList(isPull = true)
         } else {
-            getAllActivitiesList()
+            getAllActivitiesList(isPull = true)
             isResume = true
         }
     }
@@ -166,8 +249,8 @@ class Frag_My_Activity : Fragment(),
 
 
     fun getAllActivitiesList(listType: String = "", limit: String = "10", offset: Int = 0, isPull: Boolean? = false) {
-        val dialog = CusDialogProg(mContext)
-        if (!swiperefresh.isRefreshing || !isResume) dialog.show()
+        /*val dialog = CusDialogProg(mContext)
+        if (!swiperefresh.isRefreshing || !isResume) dialog.show()*/
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(mContext,
                 "${WebService.get_all_activity_list}?listType=${listType}&offset=${offset}&limit=${limit}" +
@@ -177,14 +260,14 @@ class Frag_My_Activity : Fragment(),
             override fun onVolleyResponse(response: String?) {
                 try {
                     if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
-                    dialog.dismiss()
+                    // dialog.dismiss()
 
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
                         val activityBean: ActivitiesBean = Gson().fromJson(response, ActivitiesBean::class.java)
                         now = activityBean.dateTime!!
-                        hasAffliates = activityBean.hasAffiliates!!
-                        updateAllUiOthers(activityBean, isPull)
+                        updateAllUiOthers(activityBean.data, isPull)
+                        if (isPull!!) updateInDb(activityBean.data)
                     } else {
                         nodataLay.visibility = View.VISIBLE
                     }
@@ -195,7 +278,7 @@ class Frag_My_Activity : Fragment(),
             }
 
             override fun onVolleyError(error: VolleyError?) {
-                dialog.dismiss()
+                //  dialog.dismiss()
             }
 
             override fun onNetError() {
@@ -217,13 +300,94 @@ class Frag_My_Activity : Fragment(),
         }.execute(Frag_My_Activity::class.java.name)
     }
 
-    private fun updateAllUiOthers(activityBean: ActivitiesBean, pull: Boolean?) {
+    private fun updateInDb(data: List<ActivitiesBean.DataBean>?) {
+        AllActivitiesRepo().deleteTable()
+        AllEventsRepo().deleteTable()
+        for (activities in data!!) {
+            val activity = AllActivities()
+            activity.activityId = activities.activityId
+            activity.activityEventId = activities.activityEventId
+            activity.event_date = activities.event_date
+            activity.is_my_activity = activities.is_my_activity
+            activity.image = activities.image
+            activity.activityName = activities.activityName
+            activity.is_hide = activities.is_hide
+            activity.name = activities.name
+            activity.leader_id = activities.leader_id
+            activity.club_id = activities.club_id
+            activity.creator_id = activities.creator_id
+            activity.location = activities.location
+            activity.latitude = activities.latitude
+            activity.longitude = activities.longitude
+            activity.fee_type = activities.fee_type
+            activity.fee = activities.fee
+            activity.min_users = activities.min_users
+            activity.max_users = activities.max_users
+            activity.user_role = activities.user_role
+            activity.description = activities.description
+            activity.terms_conditions = activities.terms_conditions
+            activity.is_cancel = activities.is_cancel
+            activity.status = activities.status
+            activity.crd = activities.crd
+            activity.upd = activities.upd
+            activity.club_name = activities.club_name
+            activity.clubId = activities.clubId
+            activity.is_like = activities.is_like
+            activity.userId = activities.userId
+            activity.full_name = activities.full_name
+            activity.device_token = activities.device_token
+            activity.profile_image = activities.profile_image
+
+            activity.listType = activities.listType
+
+            activity.creator_phone = activities.creator_phone
+            activity.contact_no_visibility = activities.contact_no_visibility
+            activity.leader_name = activities.leader_name
+            activity.leader_prflimage = activities.leader_prflimage
+            activity.leader_phno = activities.leader_phno
+            activity.leader_contact_no_visibility = activities.leader_contact_no_visibility
+            activity.totalUser = activities.totalUser
+
+
+            AllActivitiesRepo().insert(activity)
+            if (activities.events != null) {
+                for (events in activities.events!!) {
+                    val event = AllEvents()
+                    event.activityId = activities.activityId
+                    event.activityEventId = events.activityEventId
+                    event.event_title = events.event_title
+                    event.event_date = events.event_date
+                    event.event_time = events.event_time
+                    event.description = events.description
+                    event.location = events.location
+                    event.latitude = events.latitude
+                    event.longitude = events.longitude
+                    event.fee = events.fee
+                    event.fee_type = events.fee_type
+                    event.min_users = events.min_users
+                    event.max_users = events.max_users
+                    event.total_users = events.total_users
+                    event.joined_users = events.joined_users
+                    event.confirm_users = events.confirm_users
+                    event.confirm_userlist = events.confirm_userlist
+                    event.is_confirm = events.is_confirm
+                    event.hasJoined = events.hasJoined
+                    event.hasAffiliatesJoined = events.hasAffiliatesJoined
+                    event.is_cancel = events.is_cancel
+                    event.list_type = events.list_type
+                    AllEventsRepo().insert(event)
+                }
+            }
+        }
+    }
+
+    private fun updateAllUiOthers(activityBean: List<ActivitiesBean.DataBean>?, pull: Boolean?) {
         activityList.clear()
         if (pull!!) {
             tempuraryActivityList.clear()
             activitiesAdapter?.notifyDataSetChanged()
         }
-        for (dataBean in activityBean.data!!) {
+        for (dataBean in activityBean!!) {
             if (dataBean.is_my_activity.equals("0")) {
                 if (dataBean.is_hide.equals("0")) tempuraryActivityList.add(dataBean)
             } else {
@@ -293,29 +457,29 @@ class Frag_My_Activity : Fragment(),
 
         if (activitiesBean.is_my_activity.equals("1")) {
             startActivity(Intent(mContext, ActivitiesDetails::class.java)
-                    .putExtra("activityId", activityId)
+                    /*.putExtra("activityId", activityId)
                     .putExtra("activityName", activityName)
                     .putExtra("clubId", clubId)
-                    .putExtra("clubName", clubName)
+                    .putExtra("clubName", clubName)*/
+                    .putExtra("activityBean", activitiesBean)
                     .putExtra("From", "MyActivities")
                     .putExtra("type", "my")
-                    .putExtra("hasAffliates", hasAffliates)
             )
         } else {
             userId = activitiesBean.userId!!
             userName = activitiesBean.full_name!!
             userProfileImg = activitiesBean.profile_image!!
             startActivity(Intent(mContext, ActivitiesDetails::class.java)
-                    .putExtra("activityId", activityId)
-                    .putExtra("From", "OthersActivity")
+                    /*.putExtra("activityId", activityId)
                     .putExtra("userId", userId)
                     .putExtra("userName", userName)
                     .putExtra("userProfileImg", userProfileImg)
                     .putExtra("activityName", activityName)
                     .putExtra("clubId", clubId)
-                    .putExtra("clubName", clubName)
+                    .putExtra("clubName", clubName)*/
+                    .putExtra("activityBean", activitiesBean)
+                    .putExtra("From", "OthersActivity")
                     .putExtra("type", "others")
-                    .putExtra("hasAffliates", hasAffliates)
             )
         }
     }
@@ -347,10 +511,10 @@ class Frag_My_Activity : Fragment(),
         if (activitiesBean.is_my_activity.equals("1")) {
 
             startActivity(Intent(mContext, EventDetailsActivity::class.java)
-                    .putExtra("activity",activitiesBean)
-                    .putExtra("event",eventBean)
-                    .putExtra("now",now))
-           // popUpDateDetails(activitiesBean, eventBean)
+                    .putExtra("activity", activitiesBean)
+                    .putExtra("event", eventBean)
+                    .putExtra("now", now))
+            // popUpDateDetails(activitiesBean, eventBean)
         }
     }
 
@@ -362,14 +526,14 @@ class Frag_My_Activity : Fragment(),
 
                 if (activities.is_my_activity == "1") {
                     //popUpAddEvents(activities)
-                    startActivity(Intent(mContext, AddEventActivity::class.java).putExtra("activity",activities))
+                    startActivity(Intent(mContext, AddEventActivity::class.java).putExtra("activity", activities))
                 } else {
-                    if (hasAffliates == 1) {
+                    if (hasAffliates.equals("1")) {
                         getUserJoinAfiliatesList(activities.activityId!!)
                     } else {
                         if (activities.is_like == "1") {
                             joinActivity(activities.activityId!!, "", "")
-                        }else{
+                        } else {
                             joinActivity(activities.activityId!!, "", userId)
                         }
                     }
@@ -388,11 +552,6 @@ class Frag_My_Activity : Fragment(),
             }
         }
     }
-
-   /* private fun hideDialogKeyBoard() {
-        val inputManager = dialog!!.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(dialog!!.currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
-    }*/
 
     private fun showConfirmationDialog(action: String = "", activityId: String = "", activityEventId: String = "") {
         try {
@@ -595,9 +754,9 @@ class Frag_My_Activity : Fragment(),
                 latitude = place.latLng.latitude.toString()
                 longitute = place.latLng.longitude.toString()
 
-               /* dialog?.locationTxt?.setText(place.address)
-                dialog?.show()
-                Log.e("TAG", "Place Selected: " + place.name + " " + latitude + " " + longitute)*/
+                /* dialog?.locationTxt?.setText(place.address)
+                 dialog?.show()
+                 Log.e("TAG", "Place Selected: " + place.name + " " + latitude + " " + longitute)*/
             }
         }
     }
@@ -1212,45 +1371,45 @@ class Frag_My_Activity : Fragment(),
         }.execute(Frag_My_Activity::class.java.name)
     }
 
-   /* private fun showConfirmationCancelDialog(action: String = "",
-                                             activityId: String = "",
-                                             activityEventId: String = "",
-                                             dialog1: Dialog) {
-        try {
-            val builder1 = AlertDialog.Builder(mContext)
-            builder1.setTitle(mContext!!.getString(R.string.alert))
-            when (action) {
-                getString(R.string.cancel) -> {
-                    builder1.setMessage(getString(R.string.activity_date_cancel))
-                }
-                getString(R.string.confirm) -> {
-                     if (confirmStatus.equals("1")) {
-                         builder1.setMessage(getString(R.string.activity_date_confirm))
-                     } else {
-                         builder1.setMessage(getString(R.string.activity_date_unconfirm))
+    /* private fun showConfirmationCancelDialog(action: String = "",
+                                              activityId: String = "",
+                                              activityEventId: String = "",
+                                              dialog1: Dialog) {
+         try {
+             val builder1 = AlertDialog.Builder(mContext)
+             builder1.setTitle(mContext!!.getString(R.string.alert))
+             when (action) {
+                 getString(R.string.cancel) -> {
+                     builder1.setMessage(getString(R.string.activity_date_cancel))
+                 }
+                 getString(R.string.confirm) -> {
+                      if (confirmStatus.equals("1")) {
+                          builder1.setMessage(getString(R.string.activity_date_confirm))
+                      } else {
+                          builder1.setMessage(getString(R.string.activity_date_unconfirm))
+                      }
+                 }
+             }
+             builder1.setCancelable(false)
+             builder1.setPositiveButton(mContext!!.getString(R.string.ok), { dialog, id ->
+                 dialog1.dismiss()
+                 when (action) {
+                     getString(R.string.cancel) -> {
+                         cancelDate(activityId, activityEventId, dialog)
                      }
-                }
-            }
-            builder1.setCancelable(false)
-            builder1.setPositiveButton(mContext!!.getString(R.string.ok), { dialog, id ->
-                dialog1.dismiss()
-                when (action) {
-                    getString(R.string.cancel) -> {
-                        cancelDate(activityId, activityEventId, dialog)
-                    }
-                    getString(R.string.confirm) -> {
-                        confirmMyActivity(activityId, activityEventId, userId, confirmStatus, dialog, snakLay)
-                    }
-                }
+                     getString(R.string.confirm) -> {
+                         confirmMyActivity(activityId, activityEventId, userId, confirmStatus, dialog, snakLay)
+                     }
+                 }
 
-            })
+             })
 
-            builder1.setNegativeButton(mContext!!.getString(R.string.cancel),
-                    DialogInterface.OnClickListener { dialog, id ->
-                        dialog1.dismiss()
-                        dialog.cancel()
-                    })
-            *//*       builder1.setOnShowListener( new OnShowListener() {
+             builder1.setNegativeButton(mContext!!.getString(R.string.cancel),
+                     DialogInterface.OnClickListener { dialog, id ->
+                         dialog1.dismiss()
+                         dialog.cancel()
+                     })
+             *//*       builder1.setOnShowListener( new OnShowListener() {
            @Override
            public void onShow(DialogInterface arg0) {
                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(COLOR_I_WANT);

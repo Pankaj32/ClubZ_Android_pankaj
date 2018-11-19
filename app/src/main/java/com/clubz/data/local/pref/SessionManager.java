@@ -72,6 +72,7 @@ public class SessionManager {
         editor.putString(Constants._ads_notifications, user.getAds_notifications().trim());
         editor.putString(Constants._show_profile, user.getShow_profile().trim());
         editor.putString(Constants._allow_anyone, user.getAllow_anyone().trim());
+        editor.putString(Constants._hasAffiliates, user.getHasAffiliates().trim());
         editor.putBoolean(IS_LOGED_IN, true);
         editor.apply();
         //ClubZ.instance.setCurrentUser(user);
@@ -79,6 +80,7 @@ public class SessionManager {
     }
 
     public User getUser(){
+
         if(mypref.getString(Constants._id, "").isEmpty()){
             return null;
         }else {
@@ -113,6 +115,7 @@ public class SessionManager {
             user.setAds_notifications (mypref.getString(Constants._ads_notifications, ""));
             user.setShow_profile (mypref.getString(Constants._show_profile, ""));
             user.setAllow_anyone (mypref.getString(Constants._allow_anyone, ""));
+            user.setAllow_anyone (mypref.getString(Constants._hasAffiliates, ""));
             return user;
         }
     }

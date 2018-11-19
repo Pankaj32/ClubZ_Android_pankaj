@@ -15,6 +15,7 @@ import com.clubz.ui.main.HomeActivity
 import com.clubz.utils.Constants
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_sign_up_one_2.*
 import org.json.JSONObject
@@ -85,6 +86,8 @@ class Otp_activity : BaseActivity(), View.OnClickListener {
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params.put("country_code" , _code)
                 params["contact_no"] = _contact
+                params.put("device_token" , FirebaseInstanceId.getInstance().getToken()!!);
+                params.put("device_type" , Constants.DEVICE_TYPE);
                 return params
             }
 

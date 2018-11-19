@@ -21,6 +21,7 @@ import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.chat.AllChatActivity
 import com.clubz.chat.util.ChatUtil
+import com.clubz.data.local.db.repo.AllFeedsRepo
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.*
 import com.clubz.data.remote.WebService
@@ -127,6 +128,39 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         swipeRefreshLayout.setOnRefreshListener(this)
         feedRecycleView.addOnScrollListener(pageListner)
         getFeeds()
+        val tempFeedList = AllFeedsRepo().getAllFeeds()
+        if (tempFeedList.size > 0) {
+            for (feed in tempFeedList) {
+                val feedBean = Feed()
+                feedBean.newsFeedId = feed.newsFeedId
+                feedBean.news_feed_title = feed.news_feed_title
+                feedBean.news_feed_description = feed.news_feed_description
+                feedBean.tagName = feed.tagName
+                feedBean.datetime = feed.datetime
+                feedBean.club_name = feed.club_name
+                feedBean.user_name = feed.user_name
+                feedBean.creator_phone = feed.creator_phone
+                feedBean.contact_no_visibility = feed.contact_no_visibility
+                feedBean.profile_image = feed.profile_image
+                feedBean.user_id = feed.user_id
+                feedBean.likes = feed.likes
+                feedBean.comments = feed.comments
+                feedBean.is_comment_allow = feed.is_comment_allow
+                feedBean.bookmarks = feed.bookmarks
+                feedBean.isLiked = feed.isLiked
+                feedBean.isBookmarked = feed.isBookmarked
+                feedBean.news_feed_attachment = feed.news_feed_attachment
+                feedBean.club_image = feed.club_image
+                feedBean.club_icon = feed.club_icon
+                feedBean.currentDateTime = feed.currentDateTime
+                feedBean.crd = feed.crd
+                feedBean.clubUserId = feed.clubUserId
+
+                newsFeeds.add(feedBean)
+            }
+            updateUI()
+        }
+
     }
 
     override fun onResume() {
@@ -140,7 +174,6 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
     }
 
     override fun onRefresh() {
-        newsFeeds.clear()
         getFeeds(0)
         swipeRefreshLayout.isRefreshing = false
     }
@@ -161,49 +194,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
     }
 
     override fun onProfileClick(feed: Feed) {
-        /*if (!feed.user_id.equals(ClubZ.currentUser!!.id)) {
-
-            val user = ClubMember()
-            user.profile_image = feed.profile_image
-            user.userId = feed.user_id
-            user.full_name = feed.user_name
-            user.isLiked = feed.isLiked
-
-            val dialog = object : UserProfileDialog(context!!, user, false) {
-                override fun onProfileUpdate(name: String) {}
-                override fun showError(msg: String) {
-                    showToast(msg)
-                }
-
-                override fun onCallClicked() {
-                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "${user.country_code} ${user.contact_no}"))
-                    startActivity(intent)
-                    //showToast("call clicked!")
-                }
-
-                *//*override fun onChatClicked() {
-                showToast("chat clicked!")
-            }*//*
-
-                override fun onLikeClicked(isLIked: Int) {
-                    feed.isLiked = isLIked
-                    // Already updated into server nothing you want to do
-                }
-
-                override fun onFlagClicked() {
-                    dismiss()
-                    val profile = Profile()
-                    profile.userId = feed.user_id
-                    profile.full_name = feed.user_name
-                    profile.profile_image = feed.profile_image
-                    startActivity(Intent(context, ProfileActivity::class.java).putExtra("profile", profile))
-                }
-            }
-            dialog.setCancelable(true)
-            dialog.show()
-        }*/
-
-        if(!feed!!.user_id.equals(ClubZ.currentUser!!.id)) showProfile(feed)
+        if(!feed.user_id.equals(ClubZ.currentUser!!.id)) showProfile(feed)
     }
 
     private fun showProfile(feed: Feed) {
@@ -216,20 +207,9 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         user.contact_no = feed.creator_phone
         user.contact_no_visibility = feed.contact_no_visibility
         user.clubUserId=feed.clubUserId
+        user.clubId=feed.clubId
 
         val dialog = object : ProfileDialog(context!!, user) {
-            /*override fun OnFabClick(user: UserInfo) {
-                Toast.makeText(context, "OnFabClick", Toast.LENGTH_SHORT).show()
-            }*/
-
-            /* override fun OnChatClick(user: UserInfo) {
-                 Toast.makeText(mContext, "OnChatClick", Toast.LENGTH_SHORT).show()
-             }*/
-
-            /*override fun OnCallClick(user: UserInfo) {
-                Toast.makeText(mContext, "OnCallClick", Toast.LENGTH_SHORT).show()
-            }*/
-
             override fun OnProfileClick(user: UserInfo) {
                 if (user.userId.isNotEmpty()) {
                     val profile = Profile()
@@ -246,6 +226,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         //  dialog.setCancelable(true)
         dialog.show()
     }
+
     @SuppressLint("RtlHardcoded")
     override fun onFeedEditClick(view: View, feed: Feed, pos: Int) {
         val products = arrayOf(getString(R.string.edit), getString(R.string.delete))
@@ -378,9 +359,11 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
                     dialog.dismiss()
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
+                        newsFeeds.clear()
                         newsFeeds.addAll(Gson().fromJson<ArrayList<Feed>>(obj.getJSONArray("data").toString(), Type_Token.feed_list))
+                        updateUI()
+                        updateDB()
                     }
-                    updateUI()
                 } catch (ex: Exception) {
                 }
             }
@@ -411,6 +394,38 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         }.execute()
     }
 
+    private fun updateDB() {
+        AllFeedsRepo().deleteTable()
+        for (i in 0..9) {
+            val feed=newsFeeds[i]
+            val allfeeds = AllFeeds()
+            allfeeds.newsFeedId = feed.newsFeedId
+            allfeeds.news_feed_title = feed.news_feed_title
+            allfeeds.news_feed_description = feed.news_feed_description
+            allfeeds.tagName = feed.tagName
+            allfeeds.datetime = feed.datetime
+            allfeeds.club_name = feed.club_name
+            allfeeds.clubId = feed.clubId
+            allfeeds.user_name = feed.user_name
+            allfeeds.creator_phone = feed.creator_phone
+            allfeeds.contact_no_visibility = feed.contact_no_visibility
+            allfeeds.profile_image = feed.profile_image
+            allfeeds.user_id = feed.user_id
+            allfeeds.likes = feed.likes
+            allfeeds.comments = feed.comments
+            allfeeds.is_comment_allow = feed.is_comment_allow
+            allfeeds.bookmarks = feed.bookmarks
+            allfeeds.isLiked = feed.isLiked
+            allfeeds.isBookmarked = feed.isBookmarked
+            allfeeds.news_feed_attachment = feed.news_feed_attachment
+            allfeeds.club_image = feed.club_image
+            allfeeds.club_icon = feed.club_icon
+            allfeeds.currentDateTime = feed.currentDateTime
+            allfeeds.crd = feed.crd
+            allfeeds.clubUserId = feed.clubUserId
+            AllFeedsRepo().insert(allfeeds)
+        }
+    }
     private fun deleteFeeds(feed: Feed, pos: Int) {
         val dialog = CusDialogProg(context)
         dialog.show()

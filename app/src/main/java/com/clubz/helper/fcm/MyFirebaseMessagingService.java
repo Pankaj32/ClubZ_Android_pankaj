@@ -1,5 +1,8 @@
 package com.clubz.helper.fcm;
 
+import android.util.Log;
+
+import com.clubz.utils.Util;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -14,7 +17,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
+      Log.e(TAG, "From : " + remoteMessage.getFrom() + remoteMessage.getNotification().getBody());
+        Log.e(TAG, "Data : " + remoteMessage.getFrom() + remoteMessage.getData().toString());
        /* Util.e(TAG, "From : " + remoteMessage.getFrom() + remoteMessage.getNotification().getBody());
         Util.e(TAG, "Data : " + remoteMessage.getFrom() + remoteMessage.getData().toString());
 

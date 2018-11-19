@@ -24,6 +24,8 @@ import com.clubz.helper.sms_reciver.OnSmsCatchListener
 import com.clubz.helper.sms_reciver.SmsVerifyCatcher
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.User
+import com.clubz.utils.Constants
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import org.json.JSONObject
 import java.lang.Exception
@@ -181,6 +183,8 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment(), View.OnClickListener, OnSmsCatc
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["country_code"] = "+$_code"
                 params["contact_no"] = _contact
+                params.put("device_token" , FirebaseInstanceId.getInstance().getToken()!!)
+                params.put("device_type" , Constants.DEVICE_TYPE)
                 return params
 
             }

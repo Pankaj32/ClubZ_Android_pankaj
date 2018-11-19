@@ -298,6 +298,7 @@ public class AdsAdapter extends RecyclerView.Adapter {
                     userInfo.setCountry_code("");
                     userInfo.setContact_no(dataBean.getCreator_phone());
                     userInfo.setContact_no_visibility(dataBean.getContact_no_visibility());
+                    userInfo.setClubId(dataBean.getClub_id());
                     adsClickListioner.onUserClick(userInfo);
                 }
             });

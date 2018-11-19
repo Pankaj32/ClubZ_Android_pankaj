@@ -58,8 +58,9 @@ class AdsListBean {
         var is_my_ads: String? = null
         var is_New: String? = null
         var expire_ads: String? = null
+        var total_likes: String? = null
         var visible = false
-        var isgoogleAdd=false
+        var isgoogleAdd = false
 
         constructor(parcel: Parcel) : this() {
             adId = parcel.readString()
@@ -82,9 +83,11 @@ class AdsListBean {
             is_my_ads = parcel.readString()
             is_New = parcel.readString()
             expire_ads = parcel.readString()
+            total_likes = parcel.readString()
             visible = parcel.readByte() != 0.toByte()
             isgoogleAdd = parcel.readByte() != 0.toByte()
         }
+
 
         fun getDayDifference(): String {
             val isgrater = false
@@ -164,7 +167,9 @@ class AdsListBean {
             parcel.writeString(is_my_ads)
             parcel.writeString(is_New)
             parcel.writeString(expire_ads)
+            parcel.writeString(total_likes)
             parcel.writeByte(if (visible) 1 else 0)
+            parcel.writeByte(if (isgoogleAdd) 1 else 0)
         }
 
         override fun describeContents(): Int {

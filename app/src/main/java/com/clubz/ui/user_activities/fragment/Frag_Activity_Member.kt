@@ -118,10 +118,12 @@ class Frag_Activity_Member : Fragment() {
     private fun updateUi(activityDetails: GetActivityMembersResponce) {
         for (i in 0..activityDetails.getData()!!.size - 1) {
             val memberData = activityDetails.getData()!![i]
-            for (j in 0..memberData.affiliates!!.size - 1) {
-                val afliate = memberData.affiliates!![j]
-                afliate.position = j
-                afliate.size = memberData.affiliates!!.size - 1
+            if (memberData.affiliates != null) {
+                for (j in 0..memberData.affiliates!!.size - 1) {
+                    val afliate = memberData.affiliates!![j]
+                    afliate.position = j
+                    afliate.size = memberData.affiliates!!.size - 1
+                }
             }
         }
         val activityMemberAdapter = ActivityMembersAdapter(mContext, activityDetails.getData())

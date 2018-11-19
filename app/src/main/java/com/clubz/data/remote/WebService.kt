@@ -73,7 +73,9 @@ class WebService {
         val adsDelete= base_Url +"service/ads/deleteAds"
         val renewAds= base_Url +"service/ads/renewAds"
         val updateContact= base_Url +"service/user/updateContact"
+        val addFavoriteUser= base_Url +"service/user/addFavoriteUser"
         val contactList= base_Url +"service/user/contactList"
+        val favoriteUserList= base_Url +"service/user/favoriteUserList"
     }
 
     //http://clubz.co/dev/service/login

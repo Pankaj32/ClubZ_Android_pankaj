@@ -190,6 +190,7 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
         user.country_code = ""
         user.contact_no = feed!!.creator_phone
         user.contact_no_visibility = feed!!.contact_no_visibility
+        user.clubId = feed!!.clubId
 
         val dialog = object : ProfileDialog(mContext!!, user) {
             /*override fun OnFabClick(user: UserInfo) {

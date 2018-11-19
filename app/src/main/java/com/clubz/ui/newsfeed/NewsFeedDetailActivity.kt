@@ -53,9 +53,7 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener, ViewPa
            tablayout_cd.setSelectedTabIndicatorHeight(0)
            tablayout_cd.visibility = View.GONE
        }
-
-        viewPager.adapter = adapter
-
+       viewPager.adapter = adapter
     }
 
 

@@ -88,6 +88,14 @@ class ActivitiesBean {
         var device_token: String? = null
         var profile_image: String? = null
         var listType: String? = null
+
+        var creator_phone: String? = null
+        var contact_no_visibility: String? = null
+        var leader_name: String? = null
+        var leader_prflimage: String? = null
+        var leader_phno: String? = null
+        var leader_contact_no_visibility: String? = null
+        var totalUser: String? = null
         var visible = false
         var events: List<EventsBean>? = null
 
@@ -125,9 +133,16 @@ class ActivitiesBean {
             device_token = parcel.readString()
             profile_image = parcel.readString()
             listType = parcel.readString()
+
+            creator_phone = parcel.readString()
+            contact_no_visibility = parcel.readString()
+            leader_name = parcel.readString()
+            leader_prflimage = parcel.readString()
+            leader_phno = parcel.readString()
+            leader_contact_no_visibility = parcel.readString()
+            totalUser = parcel.readString()
             visible = parcel.readByte() != 0.toByte()
         }
-
 
         class EventsBean():Parcelable {
 
@@ -171,6 +186,7 @@ class ActivitiesBean {
             var hasJoined: String? = null
             var hasAffiliatesJoined: String? = null
             var is_cancel: String? = null
+            var list_type: String? = null
 
             constructor(parcel: Parcel) : this() {
                 activityEventId = parcel.readString()
@@ -193,6 +209,7 @@ class ActivitiesBean {
                 hasJoined = parcel.readString()
                 hasAffiliatesJoined = parcel.readString()
                 is_cancel = parcel.readString()
+                list_type = parcel.readString()
             }
 
             fun getDate(): String {
@@ -252,6 +269,7 @@ class ActivitiesBean {
                 parcel.writeString(hasJoined)
                 parcel.writeString(hasAffiliatesJoined)
                 parcel.writeString(is_cancel)
+                parcel.writeString(list_type)
             }
 
             override fun describeContents(): Int {
@@ -303,9 +321,15 @@ class ActivitiesBean {
             parcel.writeString(device_token)
             parcel.writeString(profile_image)
             parcel.writeString(listType)
+            parcel.writeString(creator_phone)
+            parcel.writeString(contact_no_visibility)
+            parcel.writeString(leader_name)
+            parcel.writeString(leader_prflimage)
+            parcel.writeString(leader_phno)
+            parcel.writeString(leader_contact_no_visibility)
+            parcel.writeString(totalUser)
             parcel.writeByte(if (visible) 1 else 0)
         }
-
         override fun describeContents(): Int {
             return 0
         }

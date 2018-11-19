@@ -7,9 +7,11 @@ import android.view.View
 import com.clubz.R
 import com.clubz.chat.fragments.FragmentChat
 import com.clubz.ui.ads.fragment.FragAdsDetails
+import com.clubz.ui.ads.model.AdsListBean
 import com.clubz.ui.core.ViewPagerAdapter
 import com.clubz.utils.KeyboardUtil
 import kotlinx.android.synthetic.main.activity_add_details.*
+
 /*import okhttp3.internal.Util*/
 
 class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.OnPageChangeListener {
@@ -20,7 +22,7 @@ class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.O
     private var clubId: String = ""
     private var clubName: String = ""
     private var adType: String = ""
-
+    private var adBean: AdsListBean.DataBean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +30,11 @@ class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.O
 
         val bundle = intent.extras
         if (bundle != null) {
-            adId = bundle.getString("adId")
-            adTitle = bundle.getString("adTitle")
-            clubId = bundle.getString("clubId")
-            clubName = bundle.getString("clubName")
+            adBean = bundle.getParcelable("adBean")
+            adId = adBean!!.adId!!
+            adTitle = adBean!!.title!!
+            clubId = adBean!!.club_id!!
+            clubName = adBean!!.club_name!!
             adType = bundle.getString("adType")
         }
         headerTxt.text = adTitle
@@ -45,7 +48,7 @@ class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.O
 
     fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(FragAdsDetails.newInstance(adId, adType), resources.getString(R.string.a_activity_first_tab), " This is First")
+        adapter.addFragment(FragAdsDetails.newInstance(adBean, adType), resources.getString(R.string.a_activity_first_tab), " This is First")
         adapter.addFragment(FragmentChat.newInstanceAdChat(adId, clubId, adTitle), resources.getString(R.string.a_activity_snd_tab), " This is second")
         viewPager.adapter = adapter
         //Chiranjib

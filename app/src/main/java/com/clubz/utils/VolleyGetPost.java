@@ -149,13 +149,13 @@ public abstract class VolleyGetPost {
 
         } else {
 
-            new Internet_Connection_dialog(context) {
+            /*new Internet_Connection_dialog(context) {
                 @Override
                 public void tryaginlistner() {
                     this.dismiss();
                     execute();
                 }
-            }.show();
+            }.show();*/
             onNetError();
         }
     }

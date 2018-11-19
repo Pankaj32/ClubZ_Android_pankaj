@@ -9,7 +9,7 @@ import java.io.Serializable
 class User : Serializable{
 
    @SerializedName("userId")
-   public var id              = ""
+   var id              = ""
 
    var full_name       = ""
    var first_name      = ""
@@ -41,5 +41,6 @@ class User : Serializable{
    var ads_notifications = ""
    var show_profile = ""
    var allow_anyone = ""
+   var hasAffiliates = ""
 
 }

@@ -49,11 +49,13 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
         //  if (position == 0) viewTop.setVisibility(View.GONE);
         tv_FullName.setText(dataBean.getFull_name());
         if (!dataBean.getTag_name().isEmpty()) addChip(dataBean.getTag_name(), noTagTxt);
-        if (dataBean.getAffiliates().size() > 0) {
-            mArrowExpandImageView.setVisibility(View.VISIBLE);
-        } else {
-            mArrowExpandImageView.setVisibility(View.GONE);
-        }
+        if (dataBean.getAffiliates()!=null) {
+            if (dataBean.getAffiliates().size() > 0) {
+                mArrowExpandImageView.setVisibility(View.VISIBLE);
+            } else {
+                mArrowExpandImageView.setVisibility(View.GONE);
+            }
+        }else mArrowExpandImageView.setVisibility(View.GONE);
     }
 
     @Override

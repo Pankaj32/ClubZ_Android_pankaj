@@ -99,7 +99,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     private var memberList = ArrayList<MemberBean>()
 
 
-     private var txtMsg: EmojiEditText? = null
+    private var txtMsg: EmojiEditText? = null
     private var emoji: ImageView? = null
     internal var emojiPopup: EmojiPopup? = null
     private var isText = false
@@ -110,7 +110,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
         noDataTxt = view.findViewById<EditText>(R.id.noDataTxt)
         silentTxt = view.findViewById<TextView>(R.id.silentTxt)
         progressbar = view.findViewById<ProgressBar>(R.id.progressbar)
-          txtMsg = view.findViewById<EmojiEditText>(R.id.txtMsg)
+        txtMsg = view.findViewById<EmojiEditText>(R.id.txtMsg)
         emoji = view.findViewById<ImageView>(R.id.emoji)
         topLay = view.findViewById<RelativeLayout>(R.id.topLay)
         // chatRecycler = view.findViewById<RecyclerView>(R.id.chatRecycler)
@@ -207,7 +207,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                     sentButton.setColorFilter(ContextCompat.getColor(mContext!!, R.color.nav_gray))
                 } else {
                     isText = true
-                    if(popupMenu!=null)popupMenu!!.dismiss()
+                    if (popupMenu != null) popupMenu!!.dismiss()
                     sentButton.setImageResource(R.drawable.ic_send_chat_24dp)
                     sentButton.setColorFilter(ContextCompat.getColor(mContext!!, R.color.primaryColor))
                 }
@@ -380,7 +380,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                                         if (mChatRecyclerAdapter == null) {
                                             val chatbeans = ArrayList<ChatBean>()
                                             chatbeans.add(chatBean!!)
-                                            mChatRecyclerAdapter = ChatRecyclerAdapter(mContext, chatbeans,this@FragmentChat/*, object : ChatAdapterClickListner() {
+                                            mChatRecyclerAdapter = ChatRecyclerAdapter(mContext, chatbeans, this@FragmentChat/*, object : ChatAdapterClickListner() {
                                     fun clickedItemPosition(url: String) {
                                         showZoomImage(url)
                                     }
@@ -436,11 +436,10 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     }
 
 
-
-    var popupMenu:PopupMenu?=null
+    var popupMenu: PopupMenu? = null
     fun permissionPopUp() {
         val wrapper = ContextThemeWrapper(mContext, R.style.popstyle)
-        popupMenu=PopupMenu(wrapper, sentButton, Gravity.CENTER)
+        popupMenu = PopupMenu(wrapper, sentButton, Gravity.CENTER)
         popupMenu!!.getMenuInflater().inflate(R.menu.popupmenu, popupMenu!!.getMenu())
         popupMenu!!.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem): Boolean {
@@ -490,7 +489,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-              //  ImagePicker.pickImage(this)
+                //  ImagePicker.pickImage(this)
                 val intentgallery = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(intentgallery, Constants.SELECT_FILE)
                 // com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
@@ -728,7 +727,11 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
 
                     override fun onDataChange(p0: DataSnapshot) {
                         val club = p0?.getValue(ClubBean::class.java)
-                        clubOwnerId = club?.ownerId!!
+                        try {
+                            if (club?.ownerId.isNullOrEmpty()) clubOwnerId = club?.ownerId!!
+                        } catch (e: java.lang.Exception) {
+                            Log.e("FRAgCHAT", e.message)
+                        }
                     }
                 })
     }
@@ -760,10 +763,12 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
 
         super.onStop()
     }
+
     override fun onImageClick(imgUrl: String?) {
         val dialog = ZoomDialog(mContext!!, imgUrl!!)
         dialog.show()
     }
+
     companion object {
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

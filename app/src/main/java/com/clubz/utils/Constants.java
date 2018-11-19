@@ -64,6 +64,7 @@ public class Constants {
     public static final String _ads_notifications    = "ads_notifications" ;
     public static final String _show_profile    = "show_profile" ;
     public static final String _allow_anyone    = "allow_anyone" ;
+    public static final String _hasAffiliates    = "hasAffiliates" ;
 
 
     public static final String _google    = "google" ;

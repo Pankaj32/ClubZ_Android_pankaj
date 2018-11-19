@@ -62,6 +62,7 @@ class FragClubDetails1 : Fragment() {
             member.profile_image = clubz.user_image
             member.contact_no = clubz.contact_no
             member.contact_no_visibility = clubz.contact_no_visibility
+            member.clubId = clubz.clubId
 
             val userProfileDialog = object : ProfileDialog(context!!, member) {
                 /*override fun OnFabClick(user: UserInfo) {

@@ -24,6 +24,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.view.*
 import android.widget.*
+import com.android.volley.VolleyError
 import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 import com.clubz.R
@@ -31,6 +32,7 @@ import com.clubz.chat.fragments.FragmentChatHistory
 import com.clubz.chat.model.UserBean
 import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.db.repo.AllClubRepo
+import com.clubz.data.local.db.repo.AllFabContactRepo
 import com.clubz.data.local.db.repo.ClubNameRepo
 import com.clubz.ui.newsfeed.fragment.FragNewsList
 import com.clubz.helper.Permission
@@ -38,6 +40,7 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.*
 import com.clubz.data.remote.AppAsnycTask
 import com.clubz.data.remote.GioAddressTask
+import com.clubz.data.remote.WebService
 import com.clubz.ui.ads.activity.CreateAdActivity
 import com.clubz.ui.ads.fragment.AdsFragment
 import com.clubz.ui.club.ClubsActivity
@@ -46,9 +49,9 @@ import com.clubz.ui.club.fragment.FragMyClubs
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.dialogs.ClubSelectionDialog
 import com.clubz.ui.menuActivity.AccountActivity
-import com.clubz.ui.receipt.ReceiptDetailsActivity
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.profile.ContactListActivity
+import com.clubz.ui.profile.FabContactList
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.ui.receipt.ReceiptActivity
 import com.clubz.ui.setting.SettingActivity
@@ -56,6 +59,7 @@ import com.clubz.ui.user_activities.activity.NewActivities
 import com.clubz.ui.user_activities.fragment.Frag_My_Activity
 import com.clubz.utils.DrawerMarginFixer
 import com.clubz.utils.Util
+import com.clubz.utils.VolleyGetPost
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -65,10 +69,12 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.about_us_layout.*
 import kotlinx.android.synthetic.main.activity_home_test.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
+import org.json.JSONObject
 
 class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener,
@@ -146,6 +152,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         mDrawerLayout.addDrawerListener(mDrawerToggle)
         // mDrawerLayout.setScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
         DrawerMarginFixer.fixMinDrawerMargin(mDrawerLayout)
+        getfavContactList()
     }
 
 
@@ -228,7 +235,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         val contentTxt = dialog.findViewById(R.id.contentTxt) as TextView
         /*val html = Html.fromHtml(getString(R.string.about_use_content))
         contentTxt.setText(html)*/
-       // contentTxt.setMovementMethod(LinkMovementMethod.getInstance())
+        // contentTxt.setMovementMethod(LinkMovementMethod.getInstance())
         dialog.mClose.setOnClickListener {
             dialog.dismiss()
         }
@@ -987,5 +994,55 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             }
         }
 
+    }
+
+    fun getfavContactList() {
+
+        object : VolleyGetPost(this@HomeActivity,
+                "${WebService.favoriteUserList}", true) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+                        val favContactBen: FabContactList = Gson().fromJson(response, FabContactList::class.java)
+                        updateContactInDb(favContactBen.getUserList())
+                    } else {
+
+                    }
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                return params
+            }
+        }.execute(AdsFragment::class.java.name)
+    }
+
+    private fun updateContactInDb(userList: List<FabContactList.UserListBean>?) {
+        AllFabContactRepo().deleteTable()
+        for (user in userList!!) {
+            val allFavContact = AllFavContact()
+            allFavContact.userId = user.userId
+            allFavContact.device_token = user.device_token
+            allFavContact.clubId = user.clubId
+            allFavContact.club_name = user.club_name
+            allFavContact.name = user.name
+            allFavContact.profile_image = user.profile_image
+            AllFabContactRepo().insert(allFavContact)
+        }
     }
 }

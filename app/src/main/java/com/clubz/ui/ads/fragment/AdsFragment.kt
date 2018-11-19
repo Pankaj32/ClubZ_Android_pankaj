@@ -18,7 +18,9 @@ import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.data.local.db.repo.AllAdsRepo
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.AllAds
 import com.clubz.data.model.DialogMenu
 import com.clubz.data.model.Profile
 import com.clubz.data.model.UserInfo
@@ -57,7 +59,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
     private var userId: String = ""
     private var userName: String = ""
     private var userImage: String = ""
-  //  private var adList = ArrayList<AdsListBean.DataBean>()
+    //  private var adList = ArrayList<AdsListBean.DataBean>()
     private var adList = ArrayList<Any>()
     // List of native ads that have been successfully loaded.
     private val mNativeAds = java.util.ArrayList<UnifiedNativeAd>()
@@ -145,7 +147,39 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
             }
         }*/
 
-      loadNativeAds()
+
+        val tempAdsList = AllAdsRepo().getAllAds()
+        val adList = ArrayList<AdsListBean.DataBean>()
+        if (tempAdsList.size > 0) {
+            for (ads in tempAdsList) {
+                val adsBean = AdsListBean.DataBean()
+                adsBean.adId = ads.adId
+                adsBean.title = ads.title
+                adsBean.fee = ads.fee
+                adsBean.is_renew = ads.is_renew
+                adsBean.description = ads.description
+                adsBean.club_id = ads.club_id
+                adsBean.user_id = ads.user_id
+                adsBean.creator_phone = ads.creator_phone
+                adsBean.contact_no_visibility = ads.contact_no_visibility
+                adsBean.user_role = ads.user_role
+                adsBean.crd = ads.crd
+                adsBean.image = ads.image
+                adsBean.profile_image = ads.profile_image
+                adsBean.club_name = ads.club_name
+                adsBean.full_name = ads.full_name
+                adsBean.isFav = ads.isFav
+                adsBean.currentDatetime = ads.currentDatetime
+                adsBean.is_my_ads = ads.is_my_ads
+                adsBean.is_New = ads.is_New
+                adsBean.expire_ads = ads.expire_ads
+                adsBean.total_likes = ads.total_likes
+                adList.add(adsBean)
+            }
+
+        }
+        updateUi(adList, true)
+     //   loadNativeAds()
 
     }
 
@@ -160,19 +194,20 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
     }
 
     fun getAdsList(listType: String = "", limit: String = "10", offset: Int = 0, isPull: Boolean? = false) {
-        val dialog = CusDialogProg(mContext)
-        if (!swiperefresh.isRefreshing || !isResume) dialog.show()
+        /*val dialog = CusDialogProg(mContext)
+        if (!swiperefresh.isRefreshing || !isResume) dialog.show()*/
         object : VolleyGetPost(mContext,
                 "${WebService.getAdsList}?limit=${limit}&offset=${offset}&listType=${listType}", true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
-                    dialog.dismiss()
+                    //  dialog.dismiss()
 
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
                         val adsBean: AdsListBean = Gson().fromJson(response, AdsListBean::class.java)
-                        updateUi(adsBean, isPull)
+                        updateUi(adsBean.data, isPull)
+                        if (isPull!!) updateInDb(adsBean)
                     } else {
                         nodataLay.visibility = View.VISIBLE
                     }
@@ -182,7 +217,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
             }
 
             override fun onVolleyError(error: VolleyError?) {
-                dialog.dismiss()
+                //   dialog.dismiss()
             }
 
             override fun onNetError() {
@@ -204,13 +239,42 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         }.execute(AdsFragment::class.java.name)
     }
 
-    private fun updateUi(adsBean: AdsListBean, pull: Boolean?) {
+    private fun updateInDb(adsBean: AdsListBean) {
+        AllAdsRepo().deleteTable()
+        for (ads in adsBean.data!!) {
+            val allAds = AllAds()
+            allAds.adId = ads.adId
+            allAds.title = ads.title
+            allAds.fee = ads.fee
+            allAds.is_renew = ads.is_renew
+            allAds.description = ads.description
+            allAds.club_id = ads.club_id
+            allAds.user_id = ads.user_id
+            allAds.creator_phone = ads.creator_phone
+            allAds.contact_no_visibility = ads.contact_no_visibility
+            allAds.user_role = ads.user_role
+            allAds.crd = ads.crd
+            allAds.image = ads.image
+            allAds.profile_image = ads.profile_image
+            allAds.club_name = ads.club_name
+            allAds.full_name = ads.full_name
+            allAds.isFav = ads.isFav
+            allAds.currentDatetime = ads.currentDatetime
+            allAds.is_my_ads = ads.is_my_ads
+            allAds.is_New = ads.is_New
+            allAds.expire_ads = ads.expire_ads
+            allAds.total_likes = ads.total_likes
+            AllAdsRepo().insert(allAds)
+        }
+    }
+
+    private fun updateUi(adsBean: List<AdsListBean.DataBean>?, pull: Boolean?) {
         adList.clear()
         if (pull!!) {
             tempAdList.clear()
             adsAdapter?.notifyDataSetChanged()
         }
-        tempAdList.addAll(adsBean.data!!)
+        tempAdList.addAll(adsBean!!)
 
         if (pull) adList.clear()
         if (isMyAds) {
@@ -228,19 +292,20 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         }else{
             adList.add(3,data)
         }*/
-        insertAdsInMenuItems()
+       // insertAdsInMenuItems()
         // adList.addAll(adsBean.data!!)
         adsAdapter?.notifyDataSetChanged()
         nodataLay.visibility = if (adList.isEmpty()) View.VISIBLE else View.GONE
     }
 
     override fun onItemClick(position: Int) {
-        val adaBean = adList[position]as AdsListBean.DataBean
+        val adaBean = adList[position] as AdsListBean.DataBean
         startActivity(Intent(mContext, AdDetailsActivity::class.java)
-                .putExtra("adId", adaBean.adId)
+                /*.putExtra("adId", adaBean.adId)
                 .putExtra("adTitle", adaBean.title)
                 .putExtra("clubId", adaBean.club_id)
-                .putExtra("clubName", adaBean.club_name)
+                .putExtra("clubName", adaBean.club_name)*/
+                .putExtra("adBean",adaBean)
                 .putExtra("adType", "")
 
         )
@@ -252,7 +317,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
 
     override fun onLongPress(position: Int) {
         actionPosition = position
-        val adBean = adList[position]as AdsListBean.DataBean
+        val adBean = adList[position] as AdsListBean.DataBean
         val list: ArrayList<DialogMenu> = arrayListOf()
         if (adBean.is_my_ads.equals("1")) {
             list.add(DialogMenu(getString(R.string.edit_ad), R.drawable.ic_edit))
@@ -276,7 +341,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
     }
 
     override fun onUserClick(user: UserInfo) {
-        if(!user.userId.equals(ClubZ.currentUser!!.id))showProfile(user)
+        if (!user.userId.equals(ClubZ.currentUser!!.id)) showProfile(user)
     }
 
     fun showProfile(user: UserInfo) {
@@ -306,13 +371,13 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
                 }
             }
         }
-      //  dialog.setCancelable(true)
+        //  dialog.setCancelable(true)
         dialog.show()
     }
 
     //bottom sheet click
     override fun onItemClicked(position: Int) {
-        val adBean = adList[actionPosition]as AdsListBean.DataBean
+        val adBean = adList[actionPosition] as AdsListBean.DataBean
         when (position) {
             0 -> {
                 if (adBean.is_my_ads.equals("1")) {

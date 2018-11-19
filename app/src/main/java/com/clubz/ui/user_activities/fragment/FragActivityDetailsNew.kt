@@ -30,6 +30,7 @@ import com.clubz.ui.dialogs.ProfileDialog
 import com.clubz.ui.dialogs.ZoomDialog
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.ui.user_activities.adapter.JoinAffiliatesAdapter
+import com.clubz.ui.user_activities.model.ActivitiesBean
 import com.clubz.ui.user_activities.model.GetActivityDetailsResponce
 import com.clubz.ui.user_activities.model.GetJoinAffliates
 
@@ -43,15 +44,17 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
     private var mContext: Context? = null
     private var activityId = ""
     private var type = ""
-    private var hasAffliates = 0
-    var activityDetails: GetActivityDetailsResponce? = null
+    private var hasAffliates = ""
+    private var activityDetails: GetActivityDetailsResponce? = null
     private var height: Int = 0
     private var width: Int = 0
 
     private var userId: String = ""
+    private var leaderId: String = ""
     private var userName: String = ""
     private var userImage: String = ""
     private var progressBar: ProgressBar? = null
+    private var activityBean: ActivitiesBean.DataBean? = null
     /*  private progressBar=*/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +68,9 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         initializeView()
         progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
         termsNCondition.setOnClickListener {
-            object : TermsConditionDialog(mContext!!, resources.getString(R.string.terms_conditions), activityDetails?.getData()?.terms_conditions!!) {
+            var trmCon = ""
+            trmCon = if (activityDetails != null) activityDetails?.getData()?.terms_conditions!! else activityBean!!.terms_conditions!!
+            object : TermsConditionDialog(mContext!!, resources.getString(R.string.terms_conditions), trmCon) {
                 override fun onCloseClicked() {
                     this.dismiss()
                 }
@@ -75,13 +80,21 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
             override fun onClick(p0: View?) {
 //                if (type != "my" && type != "others") {
                 if (type.equals("others")) {
-                    if (hasAffliates == 1) {
+                    if (hasAffliates.equals("1")) {
                         getUserJoinAfiliatesList(activityId)
                     } else {
-                        if (activityDetails!!.getData()!!.is_like == "1") {
-                            joinActivity(activityId, "", "")
-                        }else{
-                            joinActivity(activityId, "", userId)
+                        if (activityDetails != null) {
+                            if (activityDetails!!.getData()!!.is_like == "1") {
+                                joinActivity(activityId, "", "")
+                            } else {
+                                joinActivity(activityId, "", userId)
+                            }
+                        } else {
+                            if (activityBean?.is_like == "1") {
+                                joinActivity(activityId, "", "")
+                            } else {
+                                joinActivity(activityId, "", userId)
+                            }
                         }
                     }
                 }
@@ -99,17 +112,51 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         userId = ClubZ.currentUser!!.id
         userName = ClubZ.currentUser!!.full_name
         userImage = ClubZ.currentUser!!.profile_image
-
+        hasAffliates = SessionManager.getObj().user.auth_token
         if (arguments != null) {
-            activityId = arguments!!.getString(IDKEY)
+            activityBean = arguments!!.getParcelable(KEYBEAN)
+            activityId = activityBean!!.activityId!!
             type = arguments!!.getString(TYPEKEY)
-            hasAffliates = arguments!!.getInt(HSAFFLKEY)
+
             Log.e("ActivityId:  ", activityId)
+            setData()
             getActivityDetails()
         }
         username.setOnClickListener(this)
         imgActivity.setOnClickListener(this)
         activityLeader.setOnClickListener(this)
+    }
+
+    private fun setData() {
+        val details = GetActivityDetailsResponce.DataBean()
+        details.activityId = activityBean!!.activityId
+        details.creator_id = activityBean!!.userId
+        details.name = activityBean!!.name
+        details.location = activityBean!!.location
+        details.latitude = activityBean!!.latitude
+        details.longitude = activityBean!!.longitude
+        details.fee_type = activityBean!!.fee_type
+        details.fee = activityBean!!.fee
+        details.min_users = activityBean!!.min_users
+        details.max_users = activityBean!!.max_users
+        details.user_role = activityBean!!.user_role
+        details.description = activityBean!!.description
+        details.creator_phone = activityBean!!.creator_phone
+        details.contact_no_visibility = activityBean!!.contact_no_visibility
+        details.leader_id = activityBean!!.leader_id
+        details.terms_conditions = activityBean!!.terms_conditions
+        details.image = activityBean!!.image
+        details.is_like = activityBean!!.is_like
+        details.leader_name = activityBean!!.leader_name
+        details.leader_prflimage = activityBean!!.leader_prflimage
+        details.leader_phno = activityBean!!.leader_phno
+        details.leader_contact_no_visibility = activityBean!!.leader_contact_no_visibility
+        details.creator_name = activityBean!!.full_name
+        details.creator_profile_image = activityBean!!.profile_image
+        details.club_name = activityBean!!.club_name
+        details.clubId = activityBean!!.clubId
+        details.totalUser = activityBean!!.totalUser
+        updateUi(details)
     }
 
     override fun onAttach(context: Context) {
@@ -124,15 +171,15 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
     }
 
     companion object {
-        val IDKEY = "activityId"
+        val KEYBEAN = "activityBean"
         val TYPEKEY = "type"
-        val HSAFFLKEY = "hasAffliates"
-        fun newInstance(activityId: String, type: String, hasAffliates: Int): FragActivityDetailsNew {
+
+        fun newInstance(activitiesBean: ActivitiesBean.DataBean?, type: String): FragActivityDetailsNew {
             val fragment = FragActivityDetailsNew()
             val args = Bundle()
-            args.putString(IDKEY, activityId)
+            args.putParcelable(KEYBEAN, activitiesBean)
             args.putString(TYPEKEY, type)
-            args.putInt(HSAFFLKEY, hasAffliates)
+
             fragment.arguments = args
             return fragment
         }
@@ -155,7 +202,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                         transView.visibility = View.GONE
                         progressBar?.visibility = View.GONE
                         activityDetails = Gson().fromJson(response, GetActivityDetailsResponce::class.java)
-                        updateUi()
+                        updateUi(activityDetails!!.getData())
                     } else {
                         //  nodataLay.visibility = View.VISIBLE
                     }
@@ -193,46 +240,48 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateUi() {
-        activityName.text = activityDetails?.getData()?.name
-        clubName.text = activityDetails?.getData()?.club_name
+    private fun updateUi(data: GetActivityDetailsResponce.DataBean?) {
+        leaderId = data?.leader_id!!
+        userId = data.creator_id!!
+        activityName.text = data.name
+        clubName.text = data.club_name
         /*if (activityDetails?.getData()?.is_like.equals("0")) {
             likeImg.setImageResource(R.drawable.inactive_heart_ico)
         } else {
             likeImg.setImageResource(R.drawable.active_heart_ico)
         }*/
-        if (activityDetails?.getData()?.image?.isNotEmpty()!!) {
-            Glide.with(imgActivity.context).load(activityDetails?.getData()?.image)/*.placeholder(R.drawable.new_img).fitCenter()*/.into(imgActivity)
+        if (!data.image.isNullOrEmpty()) {
+            Glide.with(imgActivity.context).load(data.image)/*.placeholder(R.drawable.new_img).fitCenter()*/.into(imgActivity)
         }
-        if (activityDetails?.getData()?.leader_name?.isNotEmpty()!!) {
-            activityLeader.text = activityDetails?.getData()?.leader_name
+        if (!data.leader_name.isNullOrEmpty()) {
+            activityLeader.text = data.leader_name
         }
-        if (activityDetails?.getData()?.location.isNullOrEmpty()) {
+        if (data.location.isNullOrEmpty()) {
             activityLocation.text = "Not Available"
         } else {
-            activityLocation.text = activityDetails?.getData()?.location
+            activityLocation.text = data.location
         }
-        fee.text = activityDetails?.getData()?.fee
-        feeType.text = activityDetails?.getData()?.fee_type
-        if (activityDetails?.getData()?.fee_type.equals("Free")) {
+        fee.text = data.fee
+        feeType.text = data.fee_type
+        if (data.fee_type.equals("Free")) {
             fee.visibility = View.INVISIBLE
         }
 
-        maxUser.text = activityDetails?.getData()?.max_users
-        minUser.text = activityDetails?.getData()?.min_users
+        maxUser.text = data.max_users
+        minUser.text = data.min_users
         if (type.equals("my")) {
             imgLike.setImageResource(R.drawable.ic_cards_heart_active)
         } else {
-            if (activityDetails?.getData()?.is_like.equals("1")) {
+            if (data.is_like.equals("1")) {
                 imgLike.setImageResource(R.drawable.ic_cards_heart_active)
             } else {
                 imgLike.setImageResource(R.drawable.inactive_heart_ico)
             }
         }
-        activityDesc.text = activityDetails?.getData()?.description
-        username.text = activityDetails?.getData()?.creator_name
-        if (activityDetails?.getData()?.creator_profile_image?.isNotEmpty()!!) {
-            Glide.with(image_member2.context).load(activityDetails?.getData()?.creator_profile_image).into(image_member2)
+        activityDesc.text = data.description
+        username.text = data.creator_name
+        if (data.creator_profile_image?.isNotEmpty()!!) {
+            Glide.with(image_member2.context).load(data.creator_profile_image).into(image_member2)
         } else {
             // val padding = resources.getDimension(R.dimen._8sdp).toInt()
             // image_member2.setPadding(padding, padding, padding, padding)
@@ -414,28 +463,57 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         when (p0!!.id) {
             R.id.username -> {
                 val user = UserInfo()
-                user.userId = activityDetails!!.getData()!!.creator_id!!
-                user.isLiked = "0"
-                user.full_name = activityDetails?.getData()!!.creator_name!!
-                user.profile_image = activityDetails?.getData()!!.creator_profile_image!!
-                user.country_code = ""
-                user.contact_no = activityDetails?.getData()!!.creator_phone!!
-                user.contact_no_visibility = activityDetails?.getData()!!.contact_no_visibility!!
-                if(!activityDetails?.getData()?.creator_id!!.equals(ClubZ.currentUser!!.id))showProfile(user)
+                if (activityDetails != null) {
+                    user.userId = activityDetails!!.getData()!!.creator_id!!
+                    user.isLiked = "0"
+                    user.full_name = activityDetails?.getData()!!.creator_name!!
+                    user.profile_image = activityDetails?.getData()!!.creator_profile_image!!
+                    user.country_code = ""
+                    user.contact_no = activityDetails?.getData()!!.creator_phone!!
+                    user.contact_no_visibility = activityDetails?.getData()!!.contact_no_visibility!!
+                    user.clubId = activityDetails?.getData()!!.clubId!!
+                } else {
+                    user.userId = activityBean?.creator_id!!
+                    user.isLiked = "0"
+                    user.full_name = activityBean!!.full_name!!
+                    user.profile_image = activityBean!!.profile_image!!
+                    user.country_code = ""
+                    user.contact_no = activityBean!!.creator_phone!!
+                    user.contact_no_visibility = activityBean!!.contact_no_visibility!!
+                    user.clubId = activityBean!!.clubId!!
+                }
+                if (!userId.equals(ClubZ.currentUser!!.id)) showProfile(user)
             }
             R.id.activityLeader -> {
                 val user = UserInfo()
-                user.userId = activityDetails!!.getData()!!.leader_id!!
-                user.isLiked = "0"
-                user.full_name = activityDetails?.getData()!!.leader_name!!
-                user.profile_image = activityDetails?.getData()!!.leader_prflimage!!
-                user.country_code = ""
-                user.contact_no = activityDetails?.getData()!!.leader_phno!!
-                user.contact_no_visibility = activityDetails?.getData()!!.leader_contact_no_visibility!!
-                if(!activityDetails?.getData()?.leader_id!!.equals(ClubZ.currentUser!!.id))showProfile(user)
+                if (activityDetails != null) {
+                    user.userId = activityDetails!!.getData()!!.leader_id!!
+                    user.isLiked = "0"
+                    user.full_name = activityDetails?.getData()!!.leader_name!!
+                    user.profile_image = activityDetails?.getData()!!.leader_prflimage!!
+                    user.country_code = ""
+                    user.contact_no = activityDetails?.getData()!!.leader_phno!!
+                    user.contact_no_visibility = activityDetails?.getData()!!.leader_contact_no_visibility!!
+                    user.clubId = activityDetails?.getData()!!.clubId!!
+                } else {
+                    user.userId = activityBean!!.leader_id!!
+                    user.isLiked = "0"
+                    user.full_name = activityBean!!.leader_name!!
+                    user.profile_image = activityBean!!.leader_prflimage!!
+                    user.country_code = ""
+                    user.contact_no = activityBean!!.leader_phno!!
+                    user.contact_no_visibility = activityBean!!.leader_contact_no_visibility!!
+                    user.clubId = activityBean!!.clubId!!
+                }
+                if (!leaderId.equals(ClubZ.currentUser!!.id)) showProfile(user)
             }
             R.id.imgActivity -> {
-                val dialog = ZoomDialog(mContext!!, activityDetails?.getData()?.image!!)
+                var image = ""
+                if (activityDetails != null) {
+                    image = activityDetails?.getData()?.image.toString()
+                } else image = activityBean!!.image!!
+                val dialog = ZoomDialog(mContext!!, image)
+
                 dialog.show()
             }
         }
@@ -448,9 +526,9 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                 Toast.makeText(mContext, "OnFabClick", Toast.LENGTH_SHORT).show()
             }*/
 
-          /*  override fun OnChatClick(user: UserInfo) {
-                Toast.makeText(mContext, "OnChatClick", Toast.LENGTH_SHORT).show()
-            }*/
+            /*  override fun OnChatClick(user: UserInfo) {
+                  Toast.makeText(mContext, "OnChatClick", Toast.LENGTH_SHORT).show()
+              }*/
 
             /*override fun OnCallClick(user: UserInfo) {
                 Toast.makeText(mContext, "OnCallClick", Toast.LENGTH_SHORT).show()
