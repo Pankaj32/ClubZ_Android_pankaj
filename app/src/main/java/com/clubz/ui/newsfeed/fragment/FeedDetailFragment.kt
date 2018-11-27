@@ -93,7 +93,7 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
             imgLay.visibility = View.GONE
         }
 
-       // if (feed?.profile_image.isNullOrEmpty()) Glide.with(image_member.context).load(feed?.profile_image)/*.fitCenter()*/.into(image_member)
+        // if (feed?.profile_image.isNullOrEmpty()) Glide.with(image_member.context).load(feed?.profile_image)/*.fitCenter()*/.into(image_member)
         if (!feed?.profile_image.isNullOrEmpty()) {
             Glide.with(image_member.context).load(feed?.profile_image)/*.fitCenter()*/.into(image_member)
         } else {
@@ -137,7 +137,8 @@ class FeedDetailFragment : Fragment(), View.OnClickListener {
 
 
     private fun likeNewsFeed() {
-        object : VolleyGetPost(activity, WebService.feed_like, false) {
+        object : VolleyGetPost(activity, WebService.feed_like, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 /*try {
                     Log.d("newsFeedsLike", response)

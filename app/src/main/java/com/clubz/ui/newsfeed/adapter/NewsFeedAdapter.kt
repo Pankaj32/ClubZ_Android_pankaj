@@ -34,7 +34,7 @@ class NewsFeedAdapter(val items: ArrayList<Feed>, val context: Context, val list
         fun onFeedEditClick(view: View, feed: Feed, pos: Int)
         fun onChatClick(feed: Feed)
         fun onProfileClick(feed: Feed)
-        fun onLongPress(feed: Feed,pos: Int)
+        fun onLongPress(feed: Feed, pos: Int)
     }
 
     // Gets the number of animals in the list
@@ -76,28 +76,28 @@ class NewsFeedAdapter(val items: ArrayList<Feed>, val context: Context, val list
                     /*.fitCenter()*/
                     .into(holder.ivBanner)
         }
-        if (feed.is_comment_allow==0)holder.ivChat.visibility=View.GONE
+        if (feed.is_comment_allow == 0) holder.ivChat.visibility = View.GONE
 
-       /* holder.tvReadMore.setOnClickListener({v:View?->
-            v as TextView
-            if(v.text.equals(context.getString(R.string.read_more))){
-                holder.tvDescription.maxLines=5
-                v.text=context.getString(R.string.read_less)
-            }else{
-                holder.tvDescription.maxLines=2
-                v.text=context.getString(R.string.read_more)
-            }
-        })
-        holder.tvReadMoreDesc.setOnClickListener({v:View?->
-            v as TextView
-            if(v.text.equals(context.getString(R.string.read_more))){
-                holder.tvDescTxt.maxLines=5
-                v.text=context.getString(R.string.read_less)
-            }else{
-                holder.tvDescTxt.maxLines=2
-                v.text=context.getString(R.string.read_more)
-            }
-        })*/
+        /* holder.tvReadMore.setOnClickListener({v:View?->
+             v as TextView
+             if(v.text.equals(context.getString(R.string.read_more))){
+                 holder.tvDescription.maxLines=5
+                 v.text=context.getString(R.string.read_less)
+             }else{
+                 holder.tvDescription.maxLines=2
+                 v.text=context.getString(R.string.read_more)
+             }
+         })
+         holder.tvReadMoreDesc.setOnClickListener({v:View?->
+             v as TextView
+             if(v.text.equals(context.getString(R.string.read_more))){
+                 holder.tvDescTxt.maxLines=5
+                 v.text=context.getString(R.string.read_less)
+             }else{
+                 holder.tvDescTxt.maxLines=2
+                 v.text=context.getString(R.string.read_more)
+             }
+         })*/
         /* if(!feed.club_icon.isEmpty())
              Picasso.with(holder.ivUserProfile.context).load(feed.club_icon).fit().into(holder.ivUserProfile)*/
     }
@@ -137,7 +137,7 @@ class NewsFeedAdapter(val items: ArrayList<Feed>, val context: Context, val list
             view.setOnLongClickListener(object : View.OnLongClickListener {
                 override fun onLongClick(p0: View?): Boolean {
                     val feed = items.get(adapterPosition)
-                    if (feed.user_id == ClubZ.currentUser?.id) listner.onLongPress(feed,adapterPosition)
+                    if (feed.user_id == ClubZ.currentUser?.id) listner.onLongPress(feed, adapterPosition)
                     return false
                 }
             })
@@ -167,7 +167,7 @@ class NewsFeedAdapter(val items: ArrayList<Feed>, val context: Context, val list
         //getNewsFeedLsit
         // val dialog = CusDialogProg(context);
         // dialog.show();   // ?clubId=66&offset=0&limit=10
-        object : VolleyGetPost(context, WebService.feed_like, false) {
+        object : VolleyGetPost(context, WebService.feed_like, false, true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     // dialog.dismiss();

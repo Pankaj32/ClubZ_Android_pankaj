@@ -156,7 +156,7 @@ class EventDetailsActivity : AppCompatActivity() {
         object : VolleyGetPost(this@EventDetailsActivity, this,
                 "${WebService.cancelActivityDate}",
                 //WebService.get_activity_list + listType + "&limit=&offset=",
-                false) {
+                false, true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {
@@ -207,7 +207,7 @@ class EventDetailsActivity : AppCompatActivity() {
         object : VolleyGetPost(this@EventDetailsActivity, this,
                 "${WebService.confirmMyActivity}",
                 //WebService.get_activity_list + listType + "&limit=&offset=",
-                false) {
+                false, true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {

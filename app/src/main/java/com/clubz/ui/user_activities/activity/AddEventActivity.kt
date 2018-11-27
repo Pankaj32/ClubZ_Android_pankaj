@@ -133,7 +133,7 @@ class AddEventActivity : AppCompatActivity() {
         object : VolleyGetPost(this,
                 WebService.addEvents,
                 //WebService.get_activity_list + listType + "&limit=&offset=",
-                false) {
+                false,true) {
             override fun onVolleyResponse(response: String?) {
                 dialogProgress.dismiss()
                 try {

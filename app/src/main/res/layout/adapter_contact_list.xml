@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextView.Header"
-                android:textColor="@color/black"
+                android:textColor="@color/eighty_black"
                 android:text="@string/dharmraj_acharya_bhurtel"/>
 
             <TextView
@@ -69,7 +69,8 @@
                 android:tint="@color/icon_tint"
                 android:background="?selectableItemBackgroundBorderless"
                 android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/_3sdp"/>
 
         </RelativeLayout>
 

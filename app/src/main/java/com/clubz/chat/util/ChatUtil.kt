@@ -17,6 +17,9 @@ class ChatUtil {
         val ARG_ACTIVITIES = "activities"
         val ARG_ADS= "adds"
         val ARG_IDIVIDUAL= "individual"
+        val ARG_ACTIVITY_JOIND_USER= "activityJoinedUsers"
+        val ARG_ACTIVITY_JOIND= "join"
+        val ARG_ACTIVITY_REMOVE= "remove"
 
         fun ConvertMilliSecondsToFormattedDateToTime(dateTime: String): String {
             try {

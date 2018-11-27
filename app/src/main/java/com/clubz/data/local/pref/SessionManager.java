@@ -115,7 +115,7 @@ public class SessionManager {
             user.setAds_notifications (mypref.getString(Constants._ads_notifications, ""));
             user.setShow_profile (mypref.getString(Constants._show_profile, ""));
             user.setAllow_anyone (mypref.getString(Constants._allow_anyone, ""));
-            user.setAllow_anyone (mypref.getString(Constants._hasAffiliates, ""));
+            user.setHasAffiliates (mypref.getString(Constants._hasAffiliates, ""));
             return user;
         }
     }

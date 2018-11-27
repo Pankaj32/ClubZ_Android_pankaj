@@ -18,7 +18,9 @@ import com.clubz.data.model.DialogMenu
 import com.clubz.ui.ads.fragment.AdsFragment
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.core.BaseFragment
+import com.clubz.ui.cv.Internet_Connection_dialog
 import com.clubz.ui.newsfeed.fragment.FragNewsList
+import com.clubz.utils.Util
 import kotlinx.android.synthetic.main.club_more_menu.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 
@@ -174,7 +176,6 @@ abstract class BaseHomeActivity : BaseActivity(),
                 handleMenuClick(list!![2])
             }
 
-
             // for (views in arrayOf(menuDialog?.ll_menu1, menuDialog?.ll_menu2)) views?.setOnClickListener(this)
             val lp = dialogWindow?.attributes
             dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
@@ -189,7 +190,16 @@ abstract class BaseHomeActivity : BaseActivity(),
         menuDialog?.dismiss()
         when (menu.title) {
             getString(R.string.create_new_nwes) -> {
-                navigateCreateNewsFeed()
+                if (Util.isConnectingToInternet(this)) {
+                    navigateCreateNewsFeed()
+                } else {
+                    object : Internet_Connection_dialog(this) {
+                        override fun tryaginlistner() {
+                            this.dismiss()
+                            navigateCreateNewsFeed()
+                        }
+                    }.show()
+                }
             }
             getString(R.string.filter_clubs) -> {
                 showFilterDialog()
@@ -198,7 +208,16 @@ abstract class BaseHomeActivity : BaseActivity(),
                 checkLocationUpdate()
             }
             getString(R.string.t_new_activity) -> {
-                navigateCreateActivity()
+                if (Util.isConnectingToInternet(this)) {
+                    navigateCreateActivity()
+                } else {
+                    object : Internet_Connection_dialog(this) {
+                        override fun tryaginlistner() {
+                            this.dismiss()
+                            navigateCreateActivity()
+                        }
+                    }.show()
+                }
             }
             getString(R.string.my_activity) -> {
                 navigateMyActivity()
@@ -207,7 +226,16 @@ abstract class BaseHomeActivity : BaseActivity(),
                 navigateMyAds()
             }
             getString(R.string.create_new_ad) -> {
-                navigateCreateAAd()
+                if (Util.isConnectingToInternet(this)) {
+                    navigateCreateAAd()
+                } else {
+                    object : Internet_Connection_dialog(this) {
+                        override fun tryaginlistner() {
+                            this.dismiss()
+                            navigateCreateAAd()
+                        }
+                    }.show()
+                }
             }
             /*getString(R.string.others_activity) -> {
                 navigateOthersActivity()

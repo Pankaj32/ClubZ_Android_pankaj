@@ -153,7 +153,8 @@ class FragClubDetails1 : Fragment() {
     private fun getClubDetails() {
         val dialog = CusDialogProg(context)
         dialog.show()
-        object : VolleyGetPost(activity, activity, "${WebService.club_detail}?clubId=${clubz.clubId}", true) {
+        object : VolleyGetPost(activity, activity, "${WebService.club_detail}?clubId=${clubz.clubId}", true,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()

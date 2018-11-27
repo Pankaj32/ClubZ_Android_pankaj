@@ -145,7 +145,8 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
     private fun login(){
         val dialog = CusDialogProg(this);
         dialog.show()
-        object  : VolleyGetPost(this,this, WebService.login_Otp,false) {
+        object  : VolleyGetPost(this,this, WebService.login_Otp,false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 //{"status":"fail","message":"The number +919770495603 is unverified. Trial accounts cannot send messages to unverified numbers; verify +919770495603 at twilio.com\/user\/account\/phone-numbers\/verified, or purchase a Twilio number to send messages to unverified numbers."}
                 //{"status":"fail","message":"This mobile number is already registered."}
@@ -243,8 +244,9 @@ class Sign_In_Activity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun registrion(account: GoogleSignInAccount?, arrayOf: Array<String> = arrayOf("")) {
-        dialog.show();
-        object : VolleyGetPost(this,this, WebService.Chek_Social, false){
+        dialog.show()
+        object : VolleyGetPost(this,this, WebService.Chek_Social, false,
+                true){
             override fun onVolleyResponse(response: String?) {
                //{"status":"success","message":"User registration successfully done","userDetail":{"id":"3","first_name":"Dharmraj","last_name":"Acharya","social_id":"111490020457098783487","social_type":"google","email":"dharmraj.mindiii@gmail.com","country_code":"+","contact_no":"","profile_image":"","is_verified":"","auth_token":"bbd015a020622ba7023ee0071bbef2dc0a49b2da","device_type":"1","device_token":"1234"},"step":1}
             try {

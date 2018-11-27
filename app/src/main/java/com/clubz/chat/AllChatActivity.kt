@@ -2,7 +2,6 @@ package com.clubz.chat
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -17,34 +16,28 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.PopupMenu
-import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.chat.adapter.ChatRecyclerAdapter
-import com.clubz.chat.model.ChatBean
-import com.clubz.chat.model.ChatHistoryBean
-import com.clubz.chat.model.ClubBean
-import com.clubz.chat.model.MemberBean
+import com.clubz.chat.model.*
 import com.clubz.chat.util.ChatUtil
+import com.clubz.helper.fcm.FcmNotificationBuilder
 import com.clubz.ui.dialogs.ZoomDialog
 import com.clubz.utils.Constants
 import com.clubz.utils.KeyboardUtil
 import com.clubz.utils.cropper.CropImage
-import com.clubz.utils.cropper.CropImageView
 import com.clubz.utils.picker.ImagePicker.getImageResized
 import com.clubz.utils.picker.ImageRotator
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.mvc.imagepicker.ImagePicker
 
 import com.vanniktech.emoji.EmojiPopup
 
@@ -114,14 +107,11 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
     private var progressbar: ProgressBar? = null
     private var topLay: RelativeLayout? = null
 
-    //  oldemoji
-    //   private var txtMsg: EmojiconEditText? = null
     //newemoji
-    // private var txtMsg: EmojiEditText? = null
     private var emoji: ImageView? = null
     internal var emojiPopup: EmojiPopup? = null
-    // private var chatRecycler: RecyclerView? = null
     private var memberList = ArrayList<MemberBean>()
+    private var membersTokenList = ArrayList<MembersFBTokenBean>()
 
     private var isText = false
     val wrapper = ContextThemeWrapper(this@AllChatActivity, R.style.popstyle)
@@ -167,6 +157,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                     getUserStatus()
                     getClubMembers()
                     getClubOwner()
+                    getActivitiesJoined()
                     /*silentTxt?.visibility = View.VISIBLE
                     silentTxt?.isClickable = true
                     silentTxt?.text="Activity Chat is On Development Mode"*/
@@ -190,6 +181,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                     chatRoom = if (mUserId.toInt() > historyId.toInt()) historyId + "_" + mUserId + "_" + chatFor else mUserId + "_" + historyId + "_" + chatFor
                     chatHistoryRoom = chatRoom
                     if (mChatRecyclerAdapter == null) getMessageFromFirebaseUser()
+                    getMemberDeviceToken(historyId)
                     /*silentTxt?.visibility = View.VISIBLE
                     silentTxt?.isClickable = true
                     silentTxt?.text="Ads Chat is On Development Mode"*/
@@ -207,23 +199,6 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
             }
         })
 
-        //    oldEmoji
-        /*emojIcon?.setUseSystemEmoji(false)
-        emojIcon?.setUseSystemEmoji(true)
-        txtMsg?.setUseSystemDefault(true)
-        emojIcon = EmojIconActions(this, rootView, txtMsg, emoji)
-        emojIcon?.ShowEmojIcon()
-        emojIcon?.setIconsIds(R.drawable.keyboard_ico, R.drawable.ic_smilely_ico)
-        txtMsg?.setEmojiconSize(100)
-        emojIcon?.setKeyboardListener(object : EmojIconActions.KeyboardListener {
-            override fun onKeyboardOpen() {
-
-            }
-
-            override fun onKeyboardClose() {
-
-            }
-        })*/
         // newEmoji
         emoji?.setColorFilter(ContextCompat.getColor(this, R.color.emoji_icons), PorterDuff.Mode.SRC_IN)
         emoji?.setOnClickListener({ ignore -> emojiPopup?.toggle() })
@@ -264,7 +239,11 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
 
                     override fun onDataChange(p0: DataSnapshot) {
                         val club = p0?.getValue(ClubBean::class.java)
-                        clubOwnerId = club?.ownerId!!
+                        try {
+                            clubOwnerId = club?.ownerId!!
+                        } catch (e: Exception) {
+
+                        }
                     }
                 })
     }
@@ -297,7 +276,6 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         if (message != "") {
             var msg = ""
             txtMsg?.setText("")
-            //   Constant.hideSoftKeyboard(ChatActivity.this);
             val chatBean = ChatBean()
             chatBean.deleteby = ""
             chatBean.chatType = chatType
@@ -316,11 +294,6 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
             chatBean.senderName = ClubZ.currentUser?.full_name
             chatBean.timestamp = ServerValue.TIMESTAMP
 
-            /*if (Integer.parseInt(mUid) < Integer.parseInt(rcvUId)) {
-                chatRoom = mUid + "_" + rcvUId
-            } else {
-                chatRoom = rcvUId + "_" + mUid
-            }*/
             val finalMsg = msg
             databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -343,6 +316,18 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                         }
                         sendToOwnerChatHistory(chatBean, databaseReference)
                     }
+                    for (member in membersTokenList) {
+                        if (chatFor.equals(ChatUtil.ARG_IDIVIDUAL)) {
+                            sendPushNotificationToReceiver(mUserName,
+                                    msg, "chat",
+                                    chatFor, clubId, mUserId, mUserName, member.deviceToken!!)
+                        } else {
+                            if (!member.userId!!.equals(mUserId)) sendPushNotificationToReceiver(historyName,
+                                    mUserName + ": " + msg, "chat",
+                                    chatFor, clubId, historyId, historyName, member.deviceToken!!)
+                        }
+
+                    }
 
                 }
 
@@ -353,7 +338,24 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         }
     }
 
-
+    private fun sendPushNotificationToReceiver(title: String,
+                                               message: String,
+                                               notficationType: String,
+                                               chatFor: String,
+                                               clubId: String,
+                                               historyId: String,
+                                               historyName: String,
+                                               firebaseToken: String) {
+        FcmNotificationBuilder.initialize()
+                .title(title)
+                .message(message)
+                .notificationType(notficationType)
+                .chatFor(chatFor)
+                .clubId(clubId)
+                .historyId(historyId)
+                .historyName(historyName)
+                .firebaseToken(firebaseToken).send()
+    }
     /*fun getFeedStatus() {
         FirebaseDatabase.getInstance()
                 .reference
@@ -706,7 +708,11 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
 
                     override fun onChildAdded(dataSnapShot: DataSnapshot, p1: String?) {
                         val memberBean = dataSnapShot?.getValue(MemberBean::class.java)
-                        if (memberBean?.joind == 1) memberList.add(memberBean)
+
+                        if (memberBean?.joind == 1) {
+                            memberList.add(memberBean)
+                            getMemberDeviceToken(memberBean.userId)
+                        }
                     }
 
                     override fun onChildRemoved(p0: DataSnapshot) {
@@ -714,6 +720,25 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                     }
 
                 })
+    }
+
+    private fun getMemberDeviceToken(userId: String?) {
+        databaseReference
+                .child(ChatUtil.ARG_USERS)
+                .child(userId!!).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val user = p0?.getValue(UserBean::class.java)
+                        val memberTokenBean = MembersFBTokenBean()
+                        memberTokenBean.userId = user?.uid
+                        memberTokenBean.userName = user?.name
+                        memberTokenBean.deviceToken = user?.firebaseToken
+                        membersTokenList.add(memberTokenBean)
+                    }
+                })
+
     }
 
     private fun sendToChatHistory(member: MemberBean,
@@ -838,5 +863,39 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
     override fun onImageClick(imgUrl: String?) {
         val dialog = ZoomDialog(this@AllChatActivity, imgUrl!!)
         dialog.show()
+    }
+
+    private fun getActivitiesJoined() {
+        FirebaseDatabase.getInstance()
+                .reference
+                .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                .child(historyId).addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        var isActivityJoind = false
+                        for (values in p0.children) {
+                            if (values.getValue(String::class.java).equals(ClubZ.currentUser!!.id)) {
+                                isActivityJoind = true
+                                break
+                            }
+                        }
+                        if (isActivityJoind) {
+                            silentTxt?.visibility = View.GONE
+                            silentTxt?.isClickable = true
+                            chatRecycler?.visibility = View.VISIBLE
+                            noDataTxt?.visibility = View.GONE
+                        } else {
+                            silentTxt?.visibility = View.VISIBLE
+                            silentTxt?.text = getString(R.string.first_join_this_activity)
+                            chatRecycler?.visibility = View.GONE
+                            noDataTxt?.visibility = View.VISIBLE
+                        }
+
+                    }
+                })
+
     }
 }

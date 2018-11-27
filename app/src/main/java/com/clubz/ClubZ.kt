@@ -1,6 +1,9 @@
 package com.clubz
 
+import android.app.Activity
 import android.app.Application
+import android.content.pm.ActivityInfo
+import android.os.Bundle
 import android.text.TextUtils
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -19,7 +22,7 @@ import com.vanniktech.emoji.one.EmojiOneProvider
 /**
  * Created by mindiii on 2/12/18.
  */
-class ClubZ  : Application() {
+class ClubZ : Application() {
 
     /* lateinit var context: Context*/
     val TAG = ClubZ::class.java.simpleName
@@ -30,15 +33,15 @@ class ClubZ  : Application() {
      */
     companion object {
         lateinit var instance: ClubZ
-        var latitude: Double    = 0.toDouble()
-        var longitude: Double   = 0.toDouble()
+        var latitude: Double = 0.toDouble()
+        var longitude: Double = 0.toDouble()
         var city: String = ""
         var currentUser: User? = null
         var isNeedToUpdateNewsFeed = false
         var isPrivate: Int = 0
         private var dbHelper: DBHelper? = null
 
-        fun clearVirtualSession(){
+        fun clearVirtualSession() {
             latitude = 0.toDouble()
             longitude = 0.toDouble()
             city = ""
@@ -48,7 +51,7 @@ class ClubZ  : Application() {
         }
     }
 
-    fun getClubType() : Int{
+    fun getClubType(): Int {
         return isPrivate
     }
 
@@ -61,7 +64,7 @@ class ClubZ  : Application() {
     }*/
 
     var mRequestQueue: RequestQueue? = null
-
+    private var activeActivity: Activity? = null
     override fun onCreate() {
         super.onCreate()
         instance = this@ClubZ
@@ -77,13 +80,13 @@ class ClubZ  : Application() {
         dbHelper = DBHelper()
         DatabaseManager.initializeInstance(dbHelper)
 
-        if(userLocation!=null){
+        if (userLocation != null) {
             ClubZ.latitude = userLocation.latitude;
             ClubZ.longitude = userLocation.longitude
         }
-
-        if(currentUser!=null && currentUser?.auth_token!!.isNotBlank())
-             AppAsnycTask().syncAppData()
+       // setupActivityListener()
+        if (currentUser != null && currentUser?.auth_token!!.isNotBlank())
+            AppAsnycTask().syncAppData()
         else ClubNameRepo().deleteTable()
     }
 
@@ -116,5 +119,33 @@ class ClubZ  : Application() {
         if (mRequestQueue != null) {
             mRequestQueue!!.cancelAll(TAG)
         }
+    }
+
+    private fun setupActivityListener() {
+        registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle) {
+                activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            }
+
+            override fun onActivityStarted(activity: Activity) {}
+
+            override fun onActivityResumed(activity: Activity) {
+                activeActivity = activity
+            }
+
+            override fun onActivityPaused(activity: Activity) {
+                activeActivity = null
+            }
+
+            override fun onActivityStopped(activity: Activity) {}
+
+            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+
+            override fun onActivityDestroyed(activity: Activity) {}
+        })
+    }
+
+    fun getActiveActivity(): Activity? {
+        return activeActivity
     }
 }

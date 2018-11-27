@@ -174,7 +174,8 @@ abstract class UserProfileDialog(internal val context: Context, val member: Club
        /* val dialog = CusDialogProg(context)
         dialog.show()*/
 
-        object : VolleyGetPost(context, WebService.updateContact, false) {
+        object : VolleyGetPost(context, WebService.updateContact, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                    // dialog.dismiss()

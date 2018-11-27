@@ -124,7 +124,8 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
     private fun getNearByClubs(text : String = "", showProgres : Boolean = false, offset : Int = 0){
         val dialog = CusDialogProg(activity )
         if(text.isBlank() || showProgres)dialog.show()
-        object  : VolleyGetPost(activity , activity , WebService.club_search,false){
+        object  : VolleyGetPost(activity , activity , WebService.club_search,false,
+                true){
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 //{"status":"success","message":"found","data":[{"clubId":"20","user_id":"52","club_name":"Mindiii","club_description":"this is a mindiii company","club_image":"http:\/\/clubz.co\/dev\/uploads\/club_image\/32e494d9cb36f6a0d73d792bebee8e6e.jpg","club_foundation_date":"2018-03-15","club_email":"pankaj.mindiii@gmail.com","club_contact_no":"9630612281","club_country_code":"+91","club_website":"www.google.com","club_location":"Indore Jn.","club_address":"140 square","club_latitude":"22.7170909","club_longitude":"75.8684423","club_type":"1","club_category_id":"2","terms_conditions":"indore company","comment_count":"0","status":"1","crd":"2018-03-16 11:32:09","upd":"2018-03-16 11:32:09","club_category_name":"Sports","full_name":"Pankaj","club_user_status":"","distance":""}]}

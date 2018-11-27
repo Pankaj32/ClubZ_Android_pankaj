@@ -187,7 +187,11 @@ class ProfileEditActivity : AppCompatActivity(),
                             }
 
                             override fun onError() {
-                                setPlated()
+                                try {
+                                    setPlated()
+                                } catch (e: Exception) {
+
+                                }
                             }
                         })
             }
@@ -383,7 +387,7 @@ class ProfileEditActivity : AppCompatActivity(),
                 permissionPopUp()
             }
             R.id.tvDob -> {
-                val splitarray=profile.getFormatedDOB().split("/")
+                val splitarray = profile.getFormatedDOB().split("/")
 
                 var day = splitarray[2].toInt()
                 var month = splitarray[1].toInt()

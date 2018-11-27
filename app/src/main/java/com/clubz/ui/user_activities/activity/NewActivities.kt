@@ -37,6 +37,7 @@ import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.user_activities.model.GetLeaderResponce
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.cv.Internet_Connection_dialog
 import com.clubz.ui.user_activities.model.ActivitiesBean
 import com.clubz.ui.user_activities.model.ActivityDetailsResponce
 import com.clubz.ui.user_activities.model.GetMyClubResponce
@@ -60,10 +61,8 @@ import java.io.IOException
 class NewActivities : BaseActivity(), View.OnClickListener {
 
     private var spinnActivityLeaderAdapter: ArrayAdapter<GetLeaderResponce.DataBean>? = null
-    //private var spinnActivityClubAdapter: ArrayAdapter<GetMyClubResponce.DataBean>? = null
     private var spinnFeeTypeAdapter: ArrayAdapter<String>? = null
     private var activityLeaderList: ArrayList<GetLeaderResponce.DataBean>? = null
-    /*private var activityMyClubList: ArrayList<GetMyClubResponce.DataBean>? = null*/
     private var feestypeList = ArrayList<String>()
     private var isCameraSelected: Boolean = false
     var activityLeader: String = ""
@@ -235,9 +234,27 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             R.id.done -> {
                 if (validator()) {
                     if (activityBean != null) {
-                        updateActivities()
+                        if (Util.isConnectingToInternet(this@NewActivities)) {
+                            updateActivities()
+                        } else {
+                            object : Internet_Connection_dialog(this@NewActivities) {
+                                override fun tryaginlistner() {
+                                    this.dismiss()
+                                    updateActivities()
+                                }
+                            }.show()
+                        }
                     } else {
-                        createActivities()
+                        if (Util.isConnectingToInternet(this@NewActivities)) {
+                            createActivities()
+                        } else {
+                            object : Internet_Connection_dialog(this@NewActivities) {
+                                override fun tryaginlistner() {
+                                    this.dismiss()
+                                    createActivities()
+                                }
+                            }.show()
+                        }
                     }
                 }
             }
@@ -368,8 +385,8 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             }
             if (requestCode == Constants.REQUEST_CAMERA) {
                 // val imageUri :Uri= com.tulia.Picker.ImagePicker.getImageURIFromResult(this, requestCode, resultCode, data);
-               /* if (imageUri != null) {
-                    *//*CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@NewActivities)*//*
+                /* if (imageUri != null) {
+                     *//*CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE).setMinCropResultSize(300, 200).setMaxCropResultSize(4000, 4000).setAspectRatio(300, 200).start(this@NewActivities)*//*
                     CropImage.activity(imageUri)
                             .setCropShape(CropImageView.CropShape.OVAL)
                             .setMinCropResultSize(200, 200)
@@ -692,8 +709,19 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 .child(activityDetails.getDetails()?.clubId!!)
                 .child(activityDetails.getDetails()?.activityId!!)
                 .setValue(activityBean).addOnCompleteListener {
-                    finish()
+                    joinActivityInFireBase(activityDetails.getDetails()?.activityId!!)
                 }
+    }
+
+    private fun joinActivityInFireBase(activityId: String) {
+
+            FirebaseDatabase.getInstance()
+                    .reference
+                    .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                    .child(activityId)
+                    .child(userId).setValue(userId).addOnCompleteListener {
+                        finish()
+                    }
     }
 
     override fun onBackPressed() {

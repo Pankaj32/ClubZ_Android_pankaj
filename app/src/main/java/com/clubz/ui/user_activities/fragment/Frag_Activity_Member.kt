@@ -76,7 +76,7 @@ class Frag_Activity_Member : Fragment() {
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(activity!!, mContext,
                 "${WebService.getActivitymembers}?activityId=${activityId}&offset=${""}&limit=${""}",
-                true) {
+                true,true) {
             override fun onVolleyResponse(response: String?) {
                 dialogProgress.dismiss()
                 try {

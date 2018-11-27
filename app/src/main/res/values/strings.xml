@@ -598,4 +598,7 @@
     <string name="any_concerns">Any concerns?</string>
     <string name="contact_us_receipt">Contact us!</string>
     <string name="account_ads_titles">Ads</string>
+    <string name="favorite_contacts">Favorite contacts</string>
+    <string name="search_contact">Search contact</string>
+    <string name="first_join_this_activity">You din\'t join this activity \n first join please...</string>
 </resources>

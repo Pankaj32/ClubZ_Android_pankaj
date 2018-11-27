@@ -79,7 +79,51 @@ class ClubFilterFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, MyC
 
         list_recycler.addOnScrollListener(pageListner)
         clubList.clear()
-        getMyClubs()
+
+        val tempClubList = AllClubRepo().getAllClubs()
+        if (tempClubList.size > 0) {
+            for (clubs in tempClubList) {
+                val club = Clubs()
+                club.clubId = clubs.clubId.toString()
+                club.club_name = clubs.club_name!!
+                club.club_description = clubs.club_description
+                club.club_icon = clubs.club_icon
+                club.club_image = clubs.club_image
+                club.club_foundation_date = clubs.club_foundation_date
+                club.club_email = clubs.club_email
+                club.club_website = clubs.club_website
+                club.club_contact_no = clubs.club_contact_no
+                club.club_country_code = clubs.club_country_code
+                club.club_city = clubs.club_city
+                club.club_location = clubs.club_location
+                club.club_address = clubs.club_address
+                club.club_latitude = clubs.club_latitude
+                club.club_longitude = clubs.club_longitude
+                club.club_category_id = clubs.club_category_id
+                club.terms_conditions = clubs.terms_conditions
+                club.club_category_name = clubs.club_category_name
+                club.user_id = clubs.user_id
+                club.full_name = clubs.full_name
+                club.user_image = clubs.user_image
+                club.club_user_status = clubs.club_user_status
+                club.user_role = clubs.user_role
+                club.contact_no = clubs.contact_no
+                club.contact_no_visibility = clubs.contact_no_visibility
+                club.profile_image = clubs.profile_image
+                club.clubUserId = clubs.clubUserId
+                club.is_allow_feeds = clubs.is_allow_feeds
+                club.club_type = clubs.club_type
+                club.comment_count = clubs.comment_count
+                club.status = clubs.status
+                club.crd = clubs.crd
+                club.upd = clubs.upd
+                club.distance = clubs.distance
+                club.members = clubs.members
+                clubList.add(club)
+            }
+            adapter?.notifyDataSetChanged()
+        }
+        getMyClubs(ispull = true)
     }
 
     override fun onDestroy() {
@@ -96,8 +140,7 @@ class ClubFilterFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, MyC
     }
 
     override fun onRefresh() {
-        clubList.clear()
-        getMyClubs("", 0, true)
+        getMyClubs("", 0, true, ispull = true)
         swipeRefreshLayout.isRefreshing = false
     }
 
@@ -124,7 +167,8 @@ class ClubFilterFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, MyC
     override fun onSilenceClub(club: Clubs, position: Int) {
         val dialog = CusDialogProg(context)
         dialog.show()
-        object : VolleyGetPost(activity, WebService.club_silence, false) {
+        object : VolleyGetPost(activity, WebService.club_silence, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
@@ -158,31 +202,22 @@ class ClubFilterFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, MyC
     }
 
 
-    private fun getMyClubs(text: String = "", offset: Int = 0, showProgress: Boolean = false) {  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
+    private fun getMyClubs(text: String = "", offset: Int = 0, showProgress: Boolean = false,
+                           ispull: Boolean = false) {  /*${WebService.club_my_clubs} ?limit=$lati&offset=$longi" */
         val dialog = CusDialogProg(activity)
         if (showProgress) dialog.show()
 
-        object : VolleyGetPost(activity, activity, WebService.club_my_clubs, false) {
+        object : VolleyGetPost(activity, activity, WebService.club_my_clubs, false,
+                false) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
+                        if (ispull) clubList.clear()
                         clubList.addAll(Gson().fromJson<ArrayList<Clubs>>(obj.getString("data"), Type_Token.club_list))
-                        AllClubRepo().deleteTable()
-                        for (club in clubList) {
-                            if (!club.clubId.equals("1")) {
-                                val allClub = AllClub()
-                                allClub.clubId = club.clubId.toInt()
-                                allClub.club_name = club.club_name
-                                if (club.user_id.equals(ClubZ.currentUser?.id)) {
-                                    allClub.notSilent = "1"
-                                } else {
-                                    allClub.notSilent = club.is_allow_feeds
-                                }
-                                AllClubRepo().insert(allClub)
-                            }
-                        }
+                        updateClubInDb()
+                        adapter?.notifyDataSetChanged()
                     }
 
                     if (clubList.size > 0) {
@@ -192,7 +227,6 @@ class ClubFilterFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, MyC
                         noFeedMsgUI.visibility = View.VISIBLE
                         swipeRefreshLayout.visibility = View.GONE
                     }
-                    adapter?.notifyDataSetChanged()
                 } catch (ex: Exception) {
                     ex.printStackTrace()
                 }
@@ -221,6 +255,57 @@ class ClubFilterFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, MyC
                 return params
             }
         }.execute()
+    }
+
+    private fun updateClubInDb() {
+        AllClubRepo().deleteTable()
+        for (club in clubList) {
+           // if (!club.clubId.equals("1")) {
+                val allClub = AllClub()
+                allClub.clubId = club.clubId.toInt()
+                allClub.club_name = club.club_name
+                if (club.user_id.equals(ClubZ.currentUser?.id)) {
+                    allClub.notSilent = "1"
+                } else {
+                    allClub.notSilent = club.is_allow_feeds
+                }
+                    allClub.club_description = club.club_description
+                    allClub.club_icon = club.club_icon
+                    allClub.club_image = club.club_image
+                    allClub.club_foundation_date = club.club_foundation_date
+                    allClub.club_email = club.club_email
+                    allClub.club_website = club.club_website
+                    allClub.club_contact_no = club.club_contact_no
+                    allClub.club_country_code = club.club_country_code
+                    allClub.club_city = club.club_city
+                    allClub.club_location = club.club_location
+                    allClub.club_address = club.club_address
+                    allClub.club_latitude = club.club_latitude
+                    allClub.club_longitude = club.club_location
+                    allClub.club_category_id = club.club_category_id
+                    allClub.terms_conditions = club.terms_conditions
+                    allClub.club_category_name = club.club_category_name
+                    allClub.user_id = club.user_id
+                    allClub.full_name = club.full_name
+                    allClub.user_image = club.user_image
+                    allClub.club_user_status = club.club_user_status
+                    allClub.user_role = club.user_role
+                    allClub.contact_no = club.contact_no
+                    allClub.contact_no_visibility = club.contact_no_visibility
+                    allClub.profile_image = club.profile_image
+                    allClub.clubUserId = club.clubUserId
+                    allClub.is_allow_feeds = club.is_allow_feeds
+                    allClub.club_type = club.club_type
+                    allClub.comment_count = club.comment_count
+                    allClub.status = club.status
+                    allClub.crd = club.crd
+                    allClub.upd = club.upd
+                    allClub.distance = club.distance
+                    allClub.members = club.members
+
+                AllClubRepo().insert(allClub)
+            // }
+        }
     }
 
 }

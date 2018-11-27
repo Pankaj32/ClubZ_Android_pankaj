@@ -1,15 +1,20 @@
 package com.clubz.chat.fragments
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.DisplayMetrics
+import android.view.*
+import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 
 import com.clubz.R
@@ -20,11 +25,17 @@ import com.clubz.chat.model.AdBean
 import com.clubz.chat.model.ChatHistoryBean
 import com.clubz.chat.model.FeedBean
 import com.clubz.chat.util.ChatUtil
+import com.clubz.data.model.Profile
+import com.clubz.helper.fcm.NotificatioKeyUtil
+import com.clubz.ui.ads.activity.AdDetailsActivity
+import com.clubz.ui.cv.Internet_Connection_dialog
+import com.clubz.ui.newsfeed.NewsFeedDetailActivity
+import com.clubz.ui.profile.ProfileActivity
+import com.clubz.ui.user_activities.activity.ActivitiesDetails
+import com.clubz.utils.Util
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_fragment_chat_history.*
 /*import okhttp3.internal.Util*/
 import java.util.*
-import kotlin.Comparator
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -45,6 +56,8 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
     private var nodataLay: CardView? = null
     private var chatHistoryBeanList = ArrayList<ChatHistoryBean>()
     private var chatHistoryAdapter: ChatHistoryAdapter? = null
+    private var height: Int = 0
+    private var width: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +75,10 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val diametric = DisplayMetrics()
+        activity?.windowManager?.defaultDisplay?.getMetrics(diametric)
+        width = diametric.widthPixels
+        height = diametric.heightPixels
 
         progressBar = view.findViewById<ProgressBar>(R.id.progressbar)
         nodataLay = view.findViewById<CardView>(R.id.nodataLay)
@@ -107,17 +123,17 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 // chatHistoryAdapter?.notifyDataSetChanged()
                 chatHistoryRecycler?.visibility = View.VISIBLE
 
-                    when (historyBean?.chatType) {
-                        ChatUtil.ARG_NEWS_FEED -> {
-                            getFeedsImage(historyBean)
-                        }
-                        ChatUtil.ARG_ACTIVITIES -> {
-                            getActivityImage(historyBean)
-                        }
-                        ChatUtil.ARG_ADS -> {
-                            getAdsImage(historyBean)
-                        }
+                when (historyBean?.chatType) {
+                    ChatUtil.ARG_NEWS_FEED -> {
+                        getFeedsImage(historyBean)
                     }
+                    ChatUtil.ARG_ACTIVITIES -> {
+                        getActivityImage(historyBean)
+                    }
+                    ChatUtil.ARG_ADS -> {
+                        getAdsImage(historyBean)
+                    }
+                }
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
@@ -290,6 +306,10 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
 
     }
 
+    override fun onItemProfileImageClick(historyBean: ChatHistoryBean?) {
+        popUpJoin(historyBean)
+    }
+
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
@@ -301,4 +321,86 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 }
     }
 
+    internal fun popUpJoin(historyBean: ChatHistoryBean?) {
+
+        val dialog = Dialog(mContext)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        //dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.chat_history_profile_dialog)
+        // dialog.window!!.setLayout(width * 10 / 11, WindowManager.LayoutParams.WRAP_CONTENT)
+
+        // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        val iv_profileImage = dialog.findViewById<View>(R.id.iv_profileImage) as ImageView
+        val tv_FullName = dialog.findViewById<View>(R.id.tv_FullName) as TextView
+        val onlineTxt = dialog.findViewById<View>(R.id.onlineTxt) as TextView
+
+        val imagePath = historyBean?.profilePic
+        if (!imagePath.isNullOrEmpty()) {
+            Glide.with(iv_profileImage.context).load(imagePath).into(iv_profileImage)
+        }
+        tv_FullName.setText(historyBean?.historyName)
+        if (historyBean?.chatType.equals(ChatUtil.ARG_IDIVIDUAL)) onlineTxt.visibility = View.VISIBLE
+        //}
+        dialog.setCancelable(true)
+        dialog.show()
+        iv_profileImage.setOnClickListener(View.OnClickListener {
+            if (Util.isConnectingToInternet(mContext!!)) {
+                when (historyBean?.chatType) {
+                    ChatUtil.ARG_NEWS_FEED -> {
+                        startActivity(Intent(mContext, NewsFeedDetailActivity::class.java)
+                                .putExtra(NotificatioKeyUtil.Key_From, NotificatioKeyUtil.Value_From_Notification)
+                                .putExtra(NotificatioKeyUtil.Key_News_Feed_Id, historyBean.historyId))
+                    }
+                    ChatUtil.ARG_ACTIVITIES -> {
+                        startActivity(Intent(mContext, ActivitiesDetails::class.java)
+                                .putExtra(NotificatioKeyUtil.Key_From, NotificatioKeyUtil.Value_From_Notification)
+                                .putExtra(NotificatioKeyUtil.Key_Activity_Id, historyBean.historyId))
+                    }
+                    ChatUtil.ARG_ADS -> {
+                        startActivity(Intent(mContext, AdDetailsActivity::class.java)
+                                .putExtra(NotificatioKeyUtil.Key_From, NotificatioKeyUtil.Value_From_Notification)
+                                .putExtra(NotificatioKeyUtil.Key_Ads_Id, historyBean.historyId))
+                    }
+                    ChatUtil.ARG_IDIVIDUAL -> {
+                        val profile = Profile()
+                        profile.userId = historyBean.historyId!!
+                        profile.full_name = historyBean.historyName!!
+                        profile.profile_image = historyBean.profilePic!!
+                        context?.startActivity(Intent(context, ProfileActivity::class.java).putExtra("profile", profile))
+                    }
+                }
+            } else {
+                object : Internet_Connection_dialog(mContext!!) {
+                    override fun tryaginlistner() {
+                        this.dismiss()
+                        when (historyBean?.chatType) {
+                            ChatUtil.ARG_NEWS_FEED -> {
+                                startActivity(Intent(mContext, AdDetailsActivity::class.java)
+                                        .putExtra(NotificatioKeyUtil.Key_From, "")
+                                        .putExtra(NotificatioKeyUtil.Key_News_Feed_Id, historyBean.historyId))
+                            }
+                            ChatUtil.ARG_ACTIVITIES -> {
+                                startActivity(Intent(mContext, ActivitiesDetails::class.java)
+                                        .putExtra(NotificatioKeyUtil.Key_From, "")
+                                        .putExtra(NotificatioKeyUtil.Key_Activity_Id, historyBean.historyId))
+                            }
+                            ChatUtil.ARG_ADS -> {
+                                startActivity(Intent(mContext, ActivitiesDetails::class.java)
+                                        .putExtra(NotificatioKeyUtil.Key_From, "")
+                                        .putExtra(NotificatioKeyUtil.Key_Ads_Id, historyBean.historyId))
+                            }
+                            ChatUtil.ARG_IDIVIDUAL -> {
+                                val profile = Profile()
+                                profile.userId = historyBean.historyId!!
+                                profile.full_name = historyBean.historyName!!
+                                profile.profile_image = historyBean.profilePic!!
+                                context?.startActivity(Intent(context, ProfileActivity::class.java).putExtra("profile", profile))
+                            }
+                        }
+                    }
+                }.show()
+            }
+        })
+
+    }
 }

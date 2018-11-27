@@ -12,19 +12,30 @@ import android.support.v4.view.ViewPager
 import android.view.Gravity
 import android.view.View
 import android.view.Window
+import com.android.volley.VolleyError
+import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Clubs
+import com.clubz.data.remote.WebService
+import com.clubz.helper.fcm.NotificatioKeyUtil
 import com.clubz.ui.club.fragment.FragClubDetails1
 import com.clubz.ui.club.fragment.FragClubDetails2
 import com.clubz.ui.core.ViewPagerAdapter
+import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
+import com.clubz.utils.Util
+import com.clubz.utils.VolleyGetPost
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_club_detail.*
 import kotlinx.android.synthetic.main.dialog_clubdetail_menu.*
+import org.json.JSONObject
 
 fun Context.ClubDetailIntent( clubz : Clubs): Intent {
     return Intent(this, ClubDetailActivity::class.java).apply {
-        putExtra(INTENT_CLUBZ, clubz)
+      putExtra(NotificatioKeyUtil.Key_From, "")
+              .putExtra(INTENT_CLUBZ, clubz)
     }
 }
 
@@ -35,6 +46,7 @@ class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var clubz : Clubs
     lateinit var adapter : ViewPagerAdapter
     var dialog : Dialog? = null
+    private var from=""
 
    /* fun newIntent(context: Context, clubz : Clubs): Intent {
         val intent = Intent(context, ClubDetailActivity::class.java)
@@ -46,13 +58,26 @@ class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_club_detail)
 
-        clubz = intent!!.extras.getSerializable("clubz") as Clubs
-        requireNotNull(clubz) { "no user_id provided in Intent extras" }
+        try {
+            from = intent!!.extras.getString(NotificatioKeyUtil.Key_From)
+        }catch (e:Exception){
+            from= NotificatioKeyUtil.Value_From_Notification
+        }
 
-        title_tv.text = clubz.club_name
-        for (views in arrayOf(backBtn, bubble_menu)) views.setOnClickListener(this)
-        setViewPager(view_pager_cd)
-        bubble_menu.visibility = if(clubz.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE
+        if(from.equals(NotificatioKeyUtil.Value_From_Notification)){
+            val clubId=intent!!.extras.getString(NotificatioKeyUtil.Key_Club_Id)
+            getClubDetails(clubId)
+        }else {
+            clubz = intent!!.extras.getSerializable("clubz") as Clubs
+
+            requireNotNull(clubz) { "no user_id provided in Intent extras" }
+
+            for (views in arrayOf(backBtn, bubble_menu)) views.setOnClickListener(this)
+            setViewPager(view_pager_cd)
+            bubble_menu.visibility = if (clubz.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE
+            title_tv.text = clubz.club_name
+        }
+        backBtn.setOnClickListener(this)
     }
 
     private fun setViewPager(viewPager: ViewPager) {
@@ -115,5 +140,47 @@ class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
                 views?.setOnClickListener(this)
         }
         dialog?.show()
+    }
+
+    private fun getClubDetails(clubId:String) {
+        val dialog = CusDialogProg(this@ClubDetailActivity)
+        dialog.show()
+        object : VolleyGetPost(this, this, "${WebService.club_detail}?clubId=${clubId}", true,
+                true) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if (obj.getString("status") == "success") {
+                        clubz = Gson().fromJson<Clubs>(obj.getString("clubDetail"), Clubs::class.java)
+
+                        setViewPager(view_pager_cd)
+                        bubble_menu.visibility = if(clubz.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE
+                        title_tv.text = clubz.club_name
+                    }
+                } catch (ex: Exception) {
+                    Util.showToast(R.string.swr,this@ClubDetailActivity)
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+                dialog.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+//                params.put("clubId",clubz.clubId);
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                params["language"] = SessionManager.getObj().language
+                return params
+            }
+        }.execute(WebService.club_detail)
     }
 }

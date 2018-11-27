@@ -104,7 +104,8 @@ class FragSearchClubs : Fragment() , SearchListner, SwipeRefreshLayout.OnRefresh
 
         val dialog = CusDialogProg(activity )
         if(text.isBlank() || showProgres)dialog.show()
-        object  : VolleyGetPost(activity , activity , WebService.club_search_clubs,false){
+        object  : VolleyGetPost(activity , activity , WebService.club_search_clubs,false,
+                true){
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try{

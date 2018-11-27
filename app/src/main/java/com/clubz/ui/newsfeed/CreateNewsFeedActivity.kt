@@ -35,6 +35,7 @@ import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.cv.Internet_Connection_dialog
 import com.clubz.ui.newsfeed.model.NewsFeedDetails
 import com.clubz.utils.Constants
 import com.clubz.utils.Util
@@ -163,7 +164,29 @@ class CreateNewsFeedActivity : AppCompatActivity(),
 
             R.id.ivDone -> {
                 if (isValidData()) {
-                    if (feed == null) publishNewsFeed() else updateNewsFeed()
+                    if (feed == null) {
+                        if (Util.isConnectingToInternet(this@CreateNewsFeedActivity)) {
+                            publishNewsFeed()
+                        } else {
+                            object : Internet_Connection_dialog(this@CreateNewsFeedActivity) {
+                                override fun tryaginlistner() {
+                                    this.dismiss()
+                                    publishNewsFeed()
+                                }
+                            }.show()
+                        }
+                    } else {
+                        if (Util.isConnectingToInternet(this@CreateNewsFeedActivity)) {
+                            updateNewsFeed()
+                        } else {
+                            object : Internet_Connection_dialog(this@CreateNewsFeedActivity) {
+                                override fun tryaginlistner() {
+                                    this.dismiss()
+                                    updateNewsFeed()
+                                }
+                            }.show()
+                        }
+                    }
                 }
             }
 
@@ -400,7 +423,7 @@ class CreateNewsFeedActivity : AppCompatActivity(),
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-               // ImagePicker.pickImage(this)
+                // ImagePicker.pickImage(this)
                 val intentgallery = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(intentgallery, Constants.SELECT_FILE)
             }
@@ -472,7 +495,7 @@ class CreateNewsFeedActivity : AppCompatActivity(),
                         val padding = 0
                         img_newsFeed.setPadding(padding, padding, padding, padding)
                         img_newsFeed.setImageBitmap(feedImage)
-                       // img_newsFeed.setImageURI(imageUri)
+                        // img_newsFeed.setImageURI(imageUri)
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()

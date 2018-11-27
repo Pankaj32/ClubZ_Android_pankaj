@@ -20,6 +20,8 @@ import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 
 import com.clubz.R
+import com.clubz.chat.model.ChatBean
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Profile
 import com.clubz.data.model.UserInfo
@@ -35,6 +37,7 @@ import com.clubz.ui.user_activities.model.GetActivityDetailsResponce
 import com.clubz.ui.user_activities.model.GetJoinAffliates
 
 import com.clubz.utils.VolleyGetPost
+import com.google.firebase.database.*
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_activity_details_new.*
 import org.json.JSONObject
@@ -112,7 +115,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         userId = ClubZ.currentUser!!.id
         userName = ClubZ.currentUser!!.full_name
         userImage = ClubZ.currentUser!!.profile_image
-        hasAffliates = SessionManager.getObj().user.auth_token
+        hasAffliates = SessionManager.getObj().user.hasAffiliates
         if (arguments != null) {
             activityBean = arguments!!.getParcelable(KEYBEAN)
             activityId = activityBean!!.activityId!!
@@ -192,7 +195,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(activity!!, mContext,
                 "${WebService.getActivityDetails}?activityId=${activityId}",
-                true) {
+                true, false) {
             override fun onVolleyResponse(response: String?) {
                 progressBar?.visibility = View.VISIBLE
                 try {
@@ -236,13 +239,12 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                 params.put("authToken", SessionManager.getObj().user.auth_token)
                 return params
             }
-        }.execute(FragActivitiesDetails::class.java.name)
+        }.execute(FragActivityDetailsNew::class.java.name)
     }
 
     @SuppressLint("SetTextI18n")
     private fun updateUi(data: GetActivityDetailsResponce.DataBean?) {
         leaderId = data?.leader_id!!
-        userId = data.creator_id!!
         activityName.text = data.name
         clubName.text = data.club_name
         /*if (activityDetails?.getData()?.is_like.equals("0")) {
@@ -296,7 +298,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(mContext as Activity?, mContext,
                 "${WebService.getuserJoinAffiliates}?userId=${userId}&activityId=${activityId}",/*userId=74&activityId=7*/
-                true) {
+                true, false) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 // progressBar.visibility=View.GONE
@@ -419,7 +421,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         object : VolleyGetPost(mContext as Activity?, mContext,
                 "${WebService.joinActivity}",
                 //WebService.get_activity_list + listType + "&limit=&offset=",
-                false) {
+                false, true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {
@@ -427,6 +429,11 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
                         dialog1?.dismiss()
+                        if (affiliateId.equals("") && userId.equals("")) {
+                            joinActivityInFireBase(activityId, "remove")
+                        } else {
+                            joinActivityInFireBase(activityId, "join")
+                        }
                         getActivityDetails()
                     } else {
                         // nodataLay.visibility = View.VISIBLE
@@ -482,7 +489,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                     user.contact_no_visibility = activityBean!!.contact_no_visibility!!
                     user.clubId = activityBean!!.clubId!!
                 }
-                if (!userId.equals(ClubZ.currentUser!!.id)) showProfile(user)
+                if (!user.userId.equals(ClubZ.currentUser!!.id)) showProfile(user)
             }
             R.id.activityLeader -> {
                 val user = UserInfo()
@@ -522,17 +529,6 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
     private fun showProfile(user: UserInfo) {
 
         val dialog = object : ProfileDialog(mContext!!, user) {
-            /*override fun OnFabClick(user: UserInfo) {
-                Toast.makeText(mContext, "OnFabClick", Toast.LENGTH_SHORT).show()
-            }*/
-
-            /*  override fun OnChatClick(user: UserInfo) {
-                  Toast.makeText(mContext, "OnChatClick", Toast.LENGTH_SHORT).show()
-              }*/
-
-            /*override fun OnCallClick(user: UserInfo) {
-                Toast.makeText(mContext, "OnCallClick", Toast.LENGTH_SHORT).show()
-            }*/
 
             override fun OnProfileClick(user: UserInfo) {
                 if (user.userId.isNotEmpty()) {
@@ -547,7 +543,65 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
             }
 
         }
-        //  dialog.setCancelable(true)
         dialog.show()
     }
+
+    private fun joinActivityInFireBase(activityId: String, status: String) {
+        if (status.equals("join")) {
+            FirebaseDatabase.getInstance()
+                    .reference
+                    .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                    .child(activityId)
+                    .child(userId).setValue(userId).addOnCompleteListener {
+                        val msg = ClubZ.currentUser!!.full_name+" has joined"
+
+                        sendMessage(ChatUtil.ARG_ACTIVITY_JOIND,msg)
+                    }
+        } else {
+            FirebaseDatabase.getInstance()
+                    .reference
+                    .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                    .child(activityId)
+                    .child(userId).setValue(null).addOnCompleteListener {
+                        val msg = ClubZ.currentUser!!.full_name+" has removed"
+                        sendMessage(ChatUtil.ARG_ACTIVITY_REMOVE,msg)
+                    }
+        }
+    }
+
+    private fun sendMessage(chatType:String,msg:String) {
+       var chatRoom = activityDetails?.getData()?.clubId + "_" + activityId + "_" + ChatUtil.ARG_ACTIVITIES
+
+        //    var msg = ClubZ.currentUser!!.first_name+"has joined"
+
+            //   Constant.hideSoftKeyboard(ChatActivity.this);
+            val chatBean = ChatBean()
+            chatBean.deleteby = ""
+            chatBean.chatType = chatType
+            chatBean.message = msg
+
+            chatBean.senderId = ClubZ.currentUser?.id
+            chatBean.senderName = ClubZ.currentUser?.full_name
+            chatBean.timestamp = ServerValue.TIMESTAMP
+        val databaseReference = FirebaseDatabase.getInstance().reference
+        databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.hasChild(chatRoom)) {
+                        Log.e("TAG", "sendMessageToFirebaseUser: $chatRoom exists")
+                        val gen_key = databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).child(chatRoom).ref.push()
+                        gen_key.setValue(chatBean)
+                    } else {
+                        Log.e("TAG", "sendMessageToFirebaseUser: success")
+                        val gen_key = databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).child(chatRoom).ref.push()
+                        gen_key.setValue(chatBean)
+                        // getMessageFromFirebaseUser(mUid, rcvUId)
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    //   mOnSendMessageListener.onSendMessageFailure("Unable to send message: " + databaseError.getMessage());
+                }
+            })
+        }
 }
+//chatRoom = clubId + "_" + activityId + "_" + chatFor

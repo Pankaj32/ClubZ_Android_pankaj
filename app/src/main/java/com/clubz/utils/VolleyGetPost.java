@@ -23,6 +23,7 @@ import com.clubz.ui.cv.Internet_Connection_dialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,16 +38,18 @@ public abstract class VolleyGetPost {
     private boolean isMethodGet;
     private int retryTime = 20000;
     private AlertDialog.Builder builder;
+    private boolean isNetworkConnectionDialogShown = false;
 
     /**
      * @param context     prefferd getApplication Context
      * @param url         WebService URl
      * @param isMethodGet if false , Then Volley will call POST method you need to set the Body then, True Volley Get will executed.
      */
-    public VolleyGetPost(Context context, String url, boolean isMethodGet) {
+    public VolleyGetPost(Context context, String url, boolean isMethodGet, boolean isNetworkConnectionDialogShown) {
         this.context = context;
         this.Url = url;
         this.isMethodGet = isMethodGet;
+        this.isNetworkConnectionDialogShown = isNetworkConnectionDialogShown;
     }
 
     /**
@@ -55,13 +58,14 @@ public abstract class VolleyGetPost {
      * @param url         WebService URl
      * @param isMethodGet if false , Then Volley will call POST method you need to set the Body then, True Volley Get will executed.
      */
-    public VolleyGetPost(Activity activity, Context context, String url, boolean isMethodGet) {
+    public VolleyGetPost(Activity activity, Context context, String url, boolean isMethodGet, boolean isNetworkConnectionDialogShown) {
         this.context = context;
         this.Url = url;
         this.isMethodGet = isMethodGet;
+        this.isNetworkConnectionDialogShown = isNetworkConnectionDialogShown;
     }
 
-    public void execute(){
+    public void execute() {
         execute("");
     }
 
@@ -82,8 +86,8 @@ public abstract class VolleyGetPost {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Util.Companion.e("response" , Url+response);
-                         //if(activity instanceof HomeActivity && !sessionManager.isLoggedIn()) return;
+                            Util.Companion.e("response", Url + response);
+                            //if(activity instanceof HomeActivity && !sessionManager.isLoggedIn()) return;
                             onVolleyResponse(response);
 
                         }
@@ -93,14 +97,14 @@ public abstract class VolleyGetPost {
                         public void onErrorResponse(VolleyError error) {
                             onVolleyError(error);
                             NetworkResponse response = error.networkResponse;
-                            if(response != null && response.data != null){
-                                switch(response.statusCode){
+                            if (response != null && response.data != null) {
+                                switch (response.statusCode) {
                                     case 400:
                                         String json = new String(response.data);
                                         json = trimMessage(json, "message");
-                                        if(json != null) displayMessage(json);
+                                        if (json != null) displayMessage(json);
                                         //ClubZ.instance.cancelAllPendingRequests();
-                                        if(builder==null){
+                                        if (builder == null) {
                                             builder = new AlertDialog.Builder(context);
                                             builder.setTitle(context.getString(R.string.error_session_expired));
                                             builder.setMessage(context.getString(R.string.error_session_expired_msg));
@@ -123,14 +127,14 @@ public abstract class VolleyGetPost {
 
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
-                    HashMap<String ,String> params = new HashMap<String, String>();
+                    HashMap<String, String> params = new HashMap<String, String>();
                     return setParams(params);
                 }
 
 
                 @Override
                 public Map<String, String> getHeaders() {
-                    HashMap<String ,String> params = new HashMap<String, String>();
+                    HashMap<String, String> params = new HashMap<String, String>();
                     return setHeaders(params);
                 }
 
@@ -148,26 +152,27 @@ public abstract class VolleyGetPost {
 
 
         } else {
-
-            /*new Internet_Connection_dialog(context) {
-                @Override
-                public void tryaginlistner() {
-                    this.dismiss();
-                    execute();
-                }
-            }.show();*/
+            if (isNetworkConnectionDialogShown) {
+                new Internet_Connection_dialog(context) {
+                    @Override
+                    public void tryaginlistner() {
+                        this.dismiss();
+                        execute();
+                    }
+                }.show();
+            }
             onNetError();
         }
     }
 
 
-    public String trimMessage(String json, String key){
+    public String trimMessage(String json, String key) {
         String trimmedString = null;
 
-        try{
+        try {
             JSONObject obj = new JSONObject(json);
             trimmedString = obj.getString(key);
-        } catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
@@ -176,7 +181,7 @@ public abstract class VolleyGetPost {
     }
 
     //Somewhere that has access to a context
-    public void displayMessage(String toastString){
+    public void displayMessage(String toastString) {
         Toast.makeText(context, toastString, Toast.LENGTH_LONG).show();
     }
 
@@ -214,10 +219,11 @@ public abstract class VolleyGetPost {
     public abstract Map<String, String> setHeaders(Map<String, String> params);
 
 
-    public void toast(int str){
-        Toast.makeText(context,str,Toast.LENGTH_LONG).show();
+    public void toast(int str) {
+        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
     }
-    public void toast(String str){
-        Toast.makeText(context,str,Toast.LENGTH_LONG).show();
+
+    public void toast(String str) {
+        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
     }
 }

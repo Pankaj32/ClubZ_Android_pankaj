@@ -225,7 +225,8 @@ class Club_List_Adapter( internal var list : ArrayList<Clubs> , internal var con
             api = WebService.club_leave
         else api = WebService.club_join
 
-        object  : VolleyGetPost(activity , activity ,api,false){
+        object  : VolleyGetPost(activity , activity ,api,false,
+                true){
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try{

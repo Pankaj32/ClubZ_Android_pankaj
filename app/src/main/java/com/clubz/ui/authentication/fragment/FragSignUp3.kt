@@ -112,7 +112,8 @@ class FragSignUp3 : SignupBaseFragment(), View.OnClickListener {
     private fun updateUserdata(){
         val dialog = CusDialogProg(context)
         dialog.show()
-        object  : VolleyGetPost(signupActivity,context, WebService.update_user,false) {
+        object  : VolleyGetPost(signupActivity,context, WebService.update_user,false
+        ,true) {
             override fun onVolleyResponse(response: String?) {
                 try{
                     val obj = JSONObject(response)

@@ -28,11 +28,9 @@ import com.clubz.ClubZ
 
 import com.clubz.R
 import com.clubz.chat.adapter.ChatRecyclerAdapter
-import com.clubz.chat.model.ChatBean
-import com.clubz.chat.model.ChatHistoryBean
-import com.clubz.chat.model.ClubBean
-import com.clubz.chat.model.MemberBean
+import com.clubz.chat.model.*
 import com.clubz.chat.util.ChatUtil
+import com.clubz.helper.fcm.FcmNotificationBuilder
 import com.clubz.ui.dialogs.ZoomDialog
 import com.clubz.utils.Constants
 import com.clubz.utils.KeyboardUtil
@@ -68,16 +66,17 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     private var userId = ""
     private var userName = ""
     private var userProfileImg = ""
-
+    //for activity chat
     private var activityId = ""
     private var activityName = ""
 
+    //for feed chat
     private var feedId = ""
     private var feedName = ""
-
+    //for ads chat
     private var adId = ""
     private var adName = ""
-
+    //for all chat
     private var historyId = ""
     private var historyName = ""
 
@@ -86,7 +85,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     private var app: FirebaseApp? = null
     private var chatRoom = ""
     private var chatHistoryRoom = ""
-    private val databaseReference = FirebaseDatabase.getInstance().reference
+    private var databaseReference = FirebaseDatabase.getInstance().reference
     private var mChatRecyclerAdapter: ChatRecyclerAdapter? = null
     private var isCameraSelected: Boolean = false
     private var imageUri: Uri? = null
@@ -97,12 +96,17 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     //    private var txtMsg: EmojiconEditText? = null
     //  private var chatRecycler: RecyclerView? = null
     private var memberList = ArrayList<MemberBean>()
+    //private var joinedActivityUsers = ArrayList<String>()
+    var activityJoiendListner: ValueEventListener? = null
+    var statusEventListner: ValueEventListener? = null
 
 
     private var txtMsg: EmojiEditText? = null
     private var emoji: ImageView? = null
     internal var emojiPopup: EmojiPopup? = null
     private var isText = false
+    private var membersTokenList = ArrayList<MembersFBTokenBean>()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -110,7 +114,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
         noDataTxt = view.findViewById<EditText>(R.id.noDataTxt)
         silentTxt = view.findViewById<TextView>(R.id.silentTxt)
         progressbar = view.findViewById<ProgressBar>(R.id.progressbar)
-        txtMsg = view.findViewById<EmojiEditText>(R.id.txtMsg)
+        txtMsg = view.findViewById(R.id.txtMsg)
         emoji = view.findViewById<ImageView>(R.id.emoji)
         topLay = view.findViewById<RelativeLayout>(R.id.topLay)
         // chatRecycler = view.findViewById<RecyclerView>(R.id.chatRecycler)
@@ -150,6 +154,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                     getUserStatus()
                     getClubMembers()
                     getClubOwner()
+                    getActivitiesJoined()
                     /*silentTxt?.visibility = View.VISIBLE
                     silentTxt?.isClickable = true
                     silentTxt?.text="Activity Chat is On Development Mode"*/
@@ -290,6 +295,10 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                         sendToChatHistory(member, chatBean, databaseReference)
                     }
                     sendToOwnerChatHistory(chatBean, databaseReference)
+                    for (member in membersTokenList) {
+                        sendPushNotificationToReceiver(historyName,
+                                msg, "chat", chatFor, clubId, historyId, historyName, member.deviceToken!!)
+                    }
                     /*sendmyChatHistory(chatBean, databaseReference, msgType)
                     sendOppChatHistory(chatBean, databaseReference, msgType)
                     sendPushNotificationToReceiver(chatBean.name, chatBean.name,
@@ -309,7 +318,24 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
             })
         }
     }
-
+    private fun sendPushNotificationToReceiver(title: String,
+                                               message: String,
+                                               notficationType: String,
+                                               chatFor: String,
+                                               clubId: String,
+                                               historyId: String,
+                                               historyName: String,
+                                               firebaseToken: String) {
+        FcmNotificationBuilder.initialize()
+                .title(title)
+                .message(message)
+                .notificationType(notficationType)
+                .chatFor(chatFor)
+                .clubId(clubId)
+                .historyId(historyId)
+                .historyName(historyName)
+                .firebaseToken(firebaseToken).send()
+    }
 
     /*fun getFeedStatus() {
         FirebaseDatabase.getInstance()
@@ -335,11 +361,10 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
 }*/
 
     private fun getUserStatus() {
-        FirebaseDatabase.getInstance()
-                .reference
+        statusEventListner = databaseReference
                 .child(ChatUtil.ARG_CLUB_MEMBER)
                 .child(clubId)
-                .child(ClubZ.currentUser!!.id!!).addValueEventListener(object : ValueEventListener {
+                .child(ClubZ.currentUser!!.id).addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         val memberBean = dataSnapshot?.getValue(MemberBean::class.java)
                         if (memberBean != null) {
@@ -367,7 +392,6 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     }
 
     fun getMessageFromFirebaseUser() {
-        val databaseReference = FirebaseDatabase.getInstance().reference
         databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).ref.orderByKey()
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -423,13 +447,13 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     }
 
     private fun upadteReadWriteMessage() {
-        FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser?.id!!).addListenerForSingleValueEvent(object : ValueEventListener {
+        databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser?.id!!).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0!!.hasChild(chatHistoryRoom)) {
-                    FirebaseDatabase.getInstance().reference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser?.id!!).child(chatHistoryRoom).child("read").setValue(1)
+                    databaseReference.child(ChatUtil.ARG_CHAT_HISTORY).ref.child(ClubZ.currentUser?.id!!).child(chatHistoryRoom).child("read").setValue(1)
                 }
             }
         })
@@ -660,12 +684,15 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
 
                             }
                         }*/
-                        Log.e("clubMember Status Changed : ", memberBean?.clubId)
+                        //  Log.e("clubMember Status Changed : ", memberBean?.clubId)
                     }
 
                     override fun onChildAdded(dataSnapShot: DataSnapshot, p1: String?) {
                         val memberBean = dataSnapShot?.getValue(MemberBean::class.java)
-                        if (memberBean?.joind == 1) memberList.add(memberBean)
+                        if (memberBean?.joind == 1){
+                            memberList.add(memberBean)
+                            getMemberDeviceToken(memberBean.userId)
+                        }
                     }
 
                     override fun onChildRemoved(p0: DataSnapshot) {
@@ -674,7 +701,23 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
 
                 })
     }
+    private fun getMemberDeviceToken(userId: String?) {
+        databaseReference
+                .child(ChatUtil.ARG_USERS)
+                .child(userId!!).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
 
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val user = p0?.getValue(UserBean::class.java)
+                        val memberTokenBean = MembersFBTokenBean()
+                        memberTokenBean.userId = user?.uid
+                        memberTokenBean.deviceToken = user?.firebaseToken
+                        membersTokenList.add(memberTokenBean)
+                    }
+                })
+
+    }
     private fun sendToChatHistory(member: MemberBean,
                                   chatBean: ChatBean,
                                   databaseReference: DatabaseReference) {
@@ -730,10 +773,46 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                         try {
                             if (club?.ownerId.isNullOrEmpty()) clubOwnerId = club?.ownerId!!
                         } catch (e: java.lang.Exception) {
-                            Log.e("FRAgCHAT", e.message)
+
                         }
                     }
                 })
+    }
+
+    private fun getActivitiesJoined() {
+        activityJoiendListner = databaseReference
+                .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                .child(activityId).addValueEventListener(object : ValueEventListener {
+
+
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        if (mContext != null) {
+                            var isActivityJoind = false
+                            for (values in p0.children) {
+                                if (values.getValue(String::class.java).equals(ClubZ.currentUser!!.id)) {
+                                    isActivityJoind = true
+                                    break
+                                }
+                            }
+                            if (isActivityJoind) {
+                                silentTxt?.visibility = View.GONE
+                                silentTxt?.isClickable = true
+                                chatRecycler?.visibility = View.VISIBLE
+                                noDataTxt?.visibility = View.GONE
+                            } else {
+                                silentTxt?.visibility = View.VISIBLE
+                                silentTxt?.text = getString(R.string.first_join_this_activity)
+                                chatRecycler?.visibility = View.GONE
+                                noDataTxt?.visibility = View.VISIBLE
+                            }
+                        }
+                    }
+                })
+
     }
 
     //newEmoji
@@ -820,6 +899,19 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
             args.putString(ARG_FEED_NAME, feedName)
             fragment.arguments = args
             return fragment
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (databaseReference != null) {
+            if (activityJoiendListner != null) databaseReference
+                    .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                    .child(activityId).removeEventListener(activityJoiendListner!!)
+            if (statusEventListner != null) databaseReference
+                    .child(ChatUtil.ARG_CLUB_MEMBER)
+                    .child(clubId)
+                    .child(ClubZ.currentUser!!.id).removeEventListener(statusEventListner!!)
         }
     }
 }// Required empty public constructor

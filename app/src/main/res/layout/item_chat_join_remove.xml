@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/_3sdp">
+
+        <com.loopeer.shadow.ShadowView
+            android:id="@+id/shadowTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cornerRadiusBL="3dp"
+            app:cornerRadiusBR="3dp"
+            app:cornerRadiusTL="3dp"
+            app:cornerRadiusTR="3dp"
+            app:shadowColor="@color/gray_transprent"
+            app:shadowMarginBottom="3dp"
+            app:shadowMarginTop="1dp"
+            app:shadowMarginLeft="1dp"
+            app:shadowMarginRight="3dp"
+            app:shadowRadius="@dimen/_5sdp"
+            android:layout_centerInParent="true"
+            >
+
+            <TextView
+                android:id="@+id/text_view_chat_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:background="@color/primaryLightColor"
+                android:padding="2dp"
+                android:text="fdcnvnvnvb"
+                android:textColor="@color/white"
+                android:visibility="visible"
+                android:textSize="8sp"/>
+        </com.loopeer.shadow.ShadowView>
+
+
+
+        <TextView
+            android:id="@+id/dateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/shadowTxt"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="@dimen/_7sdp"
+            android:paddingRight="@dimen/_7sdp"
+            android:layout_centerHorizontal="true"
+            android:text=""
+            android:textColor="@color/nav_gray"
+            android:textSize="8sp"
+            android:visibility="visible" />
+
+
+</RelativeLayout>

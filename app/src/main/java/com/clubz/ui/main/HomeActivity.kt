@@ -51,7 +51,7 @@ import com.clubz.ui.dialogs.ClubSelectionDialog
 import com.clubz.ui.menuActivity.AccountActivity
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.ui.profile.ContactListActivity
-import com.clubz.ui.profile.FabContactList
+import com.clubz.ui.profile.model.FabContactList
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.ui.receipt.ReceiptActivity
 import com.clubz.ui.setting.SettingActivity
@@ -150,7 +150,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         }
 
         mDrawerLayout.addDrawerListener(mDrawerToggle)
-        // mDrawerLayout.setScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
         DrawerMarginFixer.fixMinDrawerMargin(mDrawerLayout)
         getfavContactList()
     }
@@ -172,7 +171,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         nav?.nav_optionMenu?.setOnClickListener {
             showLogoutPopup(nav!!.nav_optionMenu)
         }
-
 
     }
 
@@ -934,6 +932,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     }
 
     override fun onConnectionSuspended(i: Int) {}
+
     override fun onConnectionFailed(connectionResult: ConnectionResult) {}
 
     override fun onLocationChanged(location: Location) {
@@ -999,7 +998,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     fun getfavContactList() {
 
         object : VolleyGetPost(this@HomeActivity,
-                "${WebService.favoriteUserList}", true) {
+                "${WebService.favoriteUserList}", true,false) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     val obj = JSONObject(response)

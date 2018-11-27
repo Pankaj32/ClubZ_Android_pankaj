@@ -38,6 +38,7 @@ import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.ads.model.AdDetailsCreated
 import com.clubz.ui.ads.model.AdsListBean
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.cv.Internet_Connection_dialog
 import com.clubz.utils.Constants
 
 import com.clubz.utils.Util
@@ -89,7 +90,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
             userId = adBean?.user_id
             userName = adBean?.full_name
             userImage = adBean?.profile_image
-            if (!TextUtils.isEmpty(adBean?.image))Glide.with(imgAd.context).load(adBean?.image)/*.fitCenter().placeholder(R.drawable.ic_new_img)*/.into(imgAd)
+            if (!TextUtils.isEmpty(adBean?.image)) Glide.with(imgAd.context).load(adBean?.image)/*.fitCenter().placeholder(R.drawable.ic_new_img)*/.into(imgAd)
             headTitle.text = adBean?.title
             adTitle.setText(adBean?.title)
             adValue.setText(adBean?.fee)
@@ -155,11 +156,28 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
             R.id.done -> {
                 if (validator()) {
                     if (adBean != null) {
-                        updateAd()
+                        if (Util.isConnectingToInternet(this@CreateAdActivity)) {
+                            updateAd()
+                        } else {
+                            object : Internet_Connection_dialog(this@CreateAdActivity) {
+                                override fun tryaginlistner() {
+                                    this.dismiss()
+                                    updateAd()
+                                }
+                            }.show()
+                        }
                     } else {
-                        createAd()
+                            if (Util.isConnectingToInternet(this@CreateAdActivity)) {
+                                createAd()
+                            } else {
+                                object : Internet_Connection_dialog(this@CreateAdActivity) {
+                                    override fun tryaginlistner() {
+                                        this.dismiss()
+                                        createAd()
+                                    }
+                                }.show()
+                            }
                     }
-
                 }
             }
         }
@@ -214,7 +232,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-              //  ImagePicker.pickImage(this@CreateAdActivity)
+                //  ImagePicker.pickImage(this@CreateAdActivity)
                 // com.clubz.utils.picker.ImagePicker.pickImage(this@CreateAdActivity)
                 val intentgallery = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(intentgallery, Constants.SELECT_FILE)
@@ -367,7 +385,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
 
 
     //Anil's work
-    fun showServerFailResponceDialog(msg:String) {
+    fun showServerFailResponceDialog(msg: String) {
         val builder1 = android.app.AlertDialog.Builder(this@CreateAdActivity)
         builder1.setMessage(msg)
         builder1.setCancelable(true)
@@ -422,15 +440,15 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                         val obj = JSONObject(data)
                         val status = obj.getString("status")
                         // Anil's work
-                        val message  =  obj.getString("message");
+                        val message = obj.getString("message");
                         if (status == "success") {
                             val adDetails = Gson().fromJson(data, AdDetailsCreated::class.java)
                             createAdInFireBase(adDetails)
                         } else {
-                            if(Locale.getDefault().language.equals("en")){
+                            if (Locale.getDefault().language.equals("en")) {
                                 showServerFailResponceDialog(message)
-                            }else{
-                                if(message.equals("You can publish only 3 ads per month")){
+                            } else {
+                                if (message.equals("You can publish only 3 ads per month")) {
                                     showServerFailResponceDialog("Puedes publicar solo 3 anuncios al mes.")
                                 }
                             }
@@ -482,6 +500,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateAd() {
+
         val dialog = CusDialogProg(this@CreateAdActivity)
         dialog.show()
         val request = object : VolleyMultipartRequest(Request.Method.POST, WebService.updateAd, Response.Listener<NetworkResponse> { response ->

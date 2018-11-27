@@ -70,7 +70,7 @@ class MyClubListAdapter(internal var list: ArrayList<Clubs>, internal var contex
                     /*.fitCenter()*/
                     .into(holder.imageClub)
 
-            if(!obj.user_image.endsWith("defaultUser.png")) {
+            if (!obj.user_image.endsWith("defaultUser.png")) {
                 Glide.with(holder.ivClubManager.context)
                         .load(obj.profile_image)
                         .into(holder.ivClubManager)
@@ -103,12 +103,12 @@ class MyClubListAdapter(internal var list: ArrayList<Clubs>, internal var contex
                     .load(obj.club_icon)
                     /*.fitCenter()*/
                     .into(holder.imageClub)
-if(!obj.user_image.endsWith("defaultUser.png")) {
-    Glide.with(holder.ivClubManager.context)
-            .load(obj.profile_image)
-            .into(holder.ivClubManager)
+            if (!obj.user_image.endsWith("defaultUser.png")) {
+                Glide.with(holder.ivClubManager.context)
+                        .load(obj.profile_image)
+                        .into(holder.ivClubManager)
 
-}
+            }
             if (obj.user_id == ClubZ.currentUser?.id) {
 
                 holder.btnJoinClub.visibility = View.GONE
@@ -295,7 +295,8 @@ if(!obj.user_image.endsWith("defaultUser.png")) {
         }
 
         val api = if (clubUserStatus.isEmpty()) WebService.club_leave else WebService.club_join
-        object : VolleyGetPost(context as Activity, context, api, false) {
+        object : VolleyGetPost(context as Activity, context, api, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {

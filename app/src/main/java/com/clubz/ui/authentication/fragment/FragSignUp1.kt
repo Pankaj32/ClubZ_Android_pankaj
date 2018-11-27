@@ -128,7 +128,8 @@ class FragSignUp1 : SignupBaseFragment(), View.OnClickListener, Permission.Liste
         val activity = activity as SignupActivity
         val dialog = CusDialogProg(context)
         dialog.show()
-        object  : VolleyGetPost(activity,context, WebService.Generate_Otp,false) {
+        object  : VolleyGetPost(activity,context, WebService.Generate_Otp,false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try{
                     val obj = JSONObject(response)

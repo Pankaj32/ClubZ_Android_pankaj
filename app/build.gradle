@@ -73,13 +73,12 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:4.34.0'
     // Facebook Share only
     implementation 'com.facebook.android:facebook-share:4.34.0'
-    // Facebook Android SDK (everything)
-    //implementation 'com.facebook.android:facebook-android-sdk:4.18.0'
     //imoji
     implementation 'com.vanniktech:emoji-one:0.5.1'
     implementation 'com.google.android.gms:play-services-ads:17.0.0'
     implementation 'com.loopeer.lib:shadow:0.0.4-beta3'
-    /*implementation 'com.facebook.fresco:fresco:1.10.0'*/
+
+    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

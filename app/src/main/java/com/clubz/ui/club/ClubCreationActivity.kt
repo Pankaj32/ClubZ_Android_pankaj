@@ -27,11 +27,13 @@ import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.chat.model.ClubBean
+import com.clubz.chat.model.MemberBean
 import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.db.repo.ClubNameRepo
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.ClubName
 import com.clubz.data.model.Club_Category
+import com.clubz.data.model.Clubs
 import com.clubz.data.remote.WebService
 import com.clubz.helper.Type_Token
 import com.clubz.helper.vollyemultipart.AppHelper
@@ -437,10 +439,9 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                     tmp.clubId = clubDetails?.getClubDetail()?.clubId?.toInt()
                     tmp.club_name = clubDetails?.getClubDetail()?.club_name
                     ClubNameRepo().insert(tmp)
-                    setResult(Activity.RESULT_OK)
                     createClubInFairBase(clubDetails)
                     //Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
-                    finish()
+
                 } else {
                     Toast.makeText(this@ClubCreationActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
                 }
@@ -507,14 +508,35 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 .reference
                 .child(ChatUtil.ARG_CLUB)
                 .child(clubDetails?.getClubDetail()?.clubId!!)
-                .setValue(clubBean).addOnCompleteListener {}
+                .setValue(clubBean).addOnCompleteListener {
+                    onUpdateFirebase(clubBean,1)
+                }
     }
+    fun onUpdateFirebase(club: ClubBean, status:Int) {
+        val memberBean = MemberBean()
+        memberBean.clubId = club.clubId
+        memberBean.userId = ClubZ.currentUser?.id
+        memberBean.joind = 1
+        memberBean.silent = "1"
 
+
+
+        FirebaseDatabase.getInstance()
+                .reference
+                .child(ChatUtil.ARG_CLUB_MEMBER)
+                .child(club.clubId!!)
+                .child(memberBean.userId!!)
+                .setValue(memberBean).addOnCompleteListener {
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+    }
     private fun getCategory() {
         val activity = this@ClubCreationActivity
         val dialog = CusDialogProg(this@ClubCreationActivity)
         dialog.show()
-        object : VolleyGetPost(activity, activity, WebService.club_category, true) {
+        object : VolleyGetPost(activity, activity, WebService.club_category, true,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {

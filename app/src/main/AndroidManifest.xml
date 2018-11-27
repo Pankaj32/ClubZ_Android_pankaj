@@ -90,7 +90,13 @@
             android:name=".ui.club.ClubDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThmeLight"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="ClubDetailActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.club.ClubCreationActivity"
             android:screenOrientation="portrait"
@@ -160,7 +166,13 @@
         <activity
             android:name=".ui.user_activities.activity.ActivitiesDetails"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThmeLight" />
+            android:theme="@style/AppThmeLight">
+            <intent-filter>
+                <action android:name="ActivitiesDetails" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.newsfeed.CreateNewsFeedActivity"
             android:screenOrientation="portrait"
@@ -169,11 +181,13 @@
         <activity
             android:name=".ui.newsfeed.NewsFeedDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThmeLight" />
-        <activity
-            android:name=".ui.newsfeed.MyNewsFeedActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppThmeLight" />
+            android:theme="@style/AppThmeLight" >
+            <intent-filter>
+                <action android:name="NewsFeedDetailActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:label="@string/title_activity_profile"
@@ -196,8 +210,9 @@
             android:name=".ui.profile.ContactListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThmeLight">
-            <intent-filter>
+            android:theme="@style/AppThmeLight"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            <!--<intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <intent-filter>
@@ -206,7 +221,7 @@
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                android:resource="@xml/searchable" />-->
         </activity>
         <activity
             android:name=".ui.ads.activity.CreateAdActivity"
@@ -216,12 +231,24 @@
         <activity
             android:name=".ui.ads.activity.AdDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThmeLight" />
+            android:theme="@style/AppThmeLight" >
+            <intent-filter>
+                <action android:name="AdDetailsActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".chat.AllChatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            <intent-filter>
+                <action android:name="AllChatActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.user_activities.activity.AddEventActivity"
             android:screenOrientation="portrait"
@@ -242,7 +269,11 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".ui.receipt.ReceiptActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThmeLight"></activity>
+            android:theme="@style/AppThmeLight"/>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notification_icon" />
     </application>
 
 </manifest>

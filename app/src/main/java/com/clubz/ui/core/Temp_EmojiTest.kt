@@ -26,7 +26,8 @@ class Temp_EmojiTest : Fragment() {
 
 
     fun sendEmoji(){
-        object : VolleyGetPost(activity , activity , "http://clubz.co/dev/service/send_emo" , false){
+        object : VolleyGetPost(activity , activity , "http://clubz.co/dev/service/send_emo" , false,
+                true){
             override fun onVolleyResponse(response: String?) {
                 Util.e("Response",response.toString())
                 try {

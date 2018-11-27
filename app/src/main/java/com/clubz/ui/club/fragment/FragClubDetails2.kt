@@ -163,7 +163,8 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
     private fun getOwnClubMembers() {
         val dialog = CusDialogProg(context)
         dialog.show()   // ?clubId=66&offset=0&limit=10
-        object : VolleyGetPost(activity, "${WebService.club_member_list}?clubId=${clubz.clubId}", true) {
+        object : VolleyGetPost(activity, "${WebService.club_member_list}?clubId=${clubz.clubId}", true,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
@@ -199,7 +200,8 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
     }
 
     private fun getClubMembers() {
-        object : VolleyGetPost(activity, "${WebService.club_member_list}?clubId=${clubz.clubId}", true) {
+        object : VolleyGetPost(activity, "${WebService.club_member_list}?clubId=${clubz.clubId}", true,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     //dialog.dismiss();
@@ -233,7 +235,8 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
     private fun getApplicants() {
         val dialog = CusDialogProg(context)
         dialog.show()   // ?clubId=66&offset=0&limit=10
-        object : VolleyGetPost(activity, "${WebService.club_applicant_list}?clubId=${clubz.clubId}", true) {
+        object : VolleyGetPost(activity, "${WebService.club_applicant_list}?clubId=${clubz.clubId}", true,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
@@ -269,7 +272,8 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
     override fun onUpdateClubMember(member: ClubMember?, pos: Int) {
         val dialog = CusDialogProg(context)
         dialog.show()   // ?clubId=66&offset=0&limit=10
-        object : VolleyGetPost(activity, WebService.club_updateMemberStatus, false) {
+        object : VolleyGetPost(activity, WebService.club_updateMemberStatus, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
@@ -309,7 +313,8 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
     override fun onClickAction(member: ClubMember?, status: String?, pos: Int) {
         val dialog = CusDialogProg(context)
         dialog.show()   // ?clubId=66&offset=0&limit=10
-        object : VolleyGetPost(activity, WebService.club_member_action, false) {
+        object : VolleyGetPost(activity, WebService.club_member_action, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
@@ -363,7 +368,8 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
     override fun onTagAdd(tag: String?, member: ClubMember?, pos: Int) {
         val dialog = CusDialogProg(context)
         dialog.show()
-        object : VolleyGetPost(activity, WebService.club_add_member_Tag, false) {
+        object : VolleyGetPost(activity, WebService.club_add_member_Tag, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()

@@ -450,7 +450,8 @@ class FragSignUp2 : SignupBaseFragment()  , View.OnClickListener {
     fun registration(account: GoogleSignInAccount?, arrayOf: Array<String> = arrayOf("")) {
         signupActivity.showDialog()
 
-        object : VolleyGetPost(activity,activity, WebService.Registraion, false){
+        object : VolleyGetPost(activity,activity, WebService.Registraion, false,
+                true){
             override fun onVolleyResponse(response: String?) {
                 try {
                     val obj = JSONObject(response)

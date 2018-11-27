@@ -1,4 +1,4 @@
-package com.clubz.ui.profile
+package com.clubz.ui.profile.model
 
 class FabContactList {
     /**

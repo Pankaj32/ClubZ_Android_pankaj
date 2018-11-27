@@ -11,16 +11,47 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:titleTextColor="@color/white"
-            app:titleTextAppearance="@style/TextAppearanceExpand"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        <LinearLayout
+            android:id="@+id/cus_status"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/primaryColor"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:padding="@dimen/_3sdp"
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
-        </android.support.v7.widget.Toolbar>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/teko_semibold"
+                    android:text="@string/contacts"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@color/primaryColor"
+                    android:theme="@style/SearchCursorNew" />
+            </RelativeLayout>
+
+        </LinearLayout>
 
 
     </android.support.design.widget.AppBarLayout>
@@ -28,26 +59,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
-        app:cardBackgroundColor="@color/white"
         android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:contentPadding="@dimen/_8sdp">
+        app:cardBackgroundColor="@color/white"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="@dimen/_8sdp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-           android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:paddingLeft="@dimen/_15sdp">
 
             <TextView
                 android:id="@+id/tvNickname"
+                style="@style/TextView.Header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextView.Header"
-                android:textColor="@color/black"
-                android:text="Favorite contacts"/>
+                android:text="@string/favorite_contacts"
+                android:textColor="@color/eighty_black" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/ivExpandBtn"
@@ -55,32 +86,29 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_alignEnd="@+id/ll_header"
                 android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/_5sdp"
                 app:srcCompat="@drawable/ic_event_down_arrow" />
-
-
 
 
         </RelativeLayout>
 
         <View
-            android:layout_below="@+id/tvNickname"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_below="@+id/tvNickname"
             android:layout_marginBottom="@dimen/_3sdp"
-            android:background="@color/gray_transprent"/>
-
+            android:layout_marginTop="@dimen/_3sdp"
+            android:background="@color/gray_transprent" />
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleViewContactList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/adapter_contact_list"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/adapter_contact_list" />
 
     </LinearLayout>
-
 
 
 </android.support.design.widget.CoordinatorLayout>

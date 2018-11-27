@@ -25,6 +25,8 @@ import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 
 import com.clubz.R
+import com.clubz.chat.model.ChatBean
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.db.repo.AllActivitiesRepo
 import com.clubz.data.local.db.repo.AllEventsRepo
 import com.clubz.data.local.pref.SessionManager
@@ -32,8 +34,10 @@ import com.clubz.data.model.AllActivities
 import com.clubz.data.model.AllEvents
 import com.clubz.data.model.DialogMenu
 import com.clubz.data.remote.WebService
+import com.clubz.helper.fcm.NotificatioKeyUtil
 import com.clubz.ui.activities.fragment.ItemListDialogFragment
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.cv.Internet_Connection_dialog
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.user_activities.activity.AddEventActivity
 import com.clubz.ui.user_activities.activity.ActivitiesDetails
@@ -49,6 +53,7 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.location.places.ui.PlaceAutocomplete
+import com.google.firebase.database.*
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_my_activity.*
 import org.json.JSONObject
@@ -122,7 +127,7 @@ class Frag_My_Activity : Fragment(),
         userId = ClubZ.currentUser!!.id
         userName = ClubZ.currentUser!!.full_name
         userImage = ClubZ.currentUser!!.profile_image
-        hasAffliates = SessionManager.getObj().user.auth_token
+        hasAffliates = SessionManager.getObj().user.hasAffiliates
         swiperefresh.setOnRefreshListener(this)
 
         val lm = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -254,7 +259,7 @@ class Frag_My_Activity : Fragment(),
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(mContext,
                 "${WebService.get_all_activity_list}?listType=${listType}&offset=${offset}&limit=${limit}" +
-                        "&date=${DateTimeUtil.getCurrentDate()}&time=${DateTimeUtil.getCurrentTime()}", true)
+                        "&date=${DateTimeUtil.getCurrentDate()}&time=${DateTimeUtil.getCurrentTime()}", true, false)
         //WebService.get_activity_list + listType + "&limit=&offset=",
         {
             override fun onVolleyResponse(response: String?) {
@@ -461,6 +466,7 @@ class Frag_My_Activity : Fragment(),
                     .putExtra("activityName", activityName)
                     .putExtra("clubId", clubId)
                     .putExtra("clubName", clubName)*/
+                    .putExtra(NotificatioKeyUtil.Key_From, "")
                     .putExtra("activityBean", activitiesBean)
                     .putExtra("From", "MyActivities")
                     .putExtra("type", "my")
@@ -477,6 +483,7 @@ class Frag_My_Activity : Fragment(),
                     .putExtra("activityName", activityName)
                     .putExtra("clubId", clubId)
                     .putExtra("clubName", clubName)*/
+                    .putExtra(NotificatioKeyUtil.Key_From, "")
                     .putExtra("activityBean", activitiesBean)
                     .putExtra("From", "OthersActivity")
                     .putExtra("type", "others")
@@ -525,16 +532,25 @@ class Frag_My_Activity : Fragment(),
             0 -> {
 
                 if (activities.is_my_activity == "1") {
-                    //popUpAddEvents(activities)
-                    startActivity(Intent(mContext, AddEventActivity::class.java).putExtra("activity", activities))
+                    if (Util.isConnectingToInternet(mContext!!)) {
+                        startActivity(Intent(mContext, AddEventActivity::class.java).putExtra("activity", activities))
+                    } else {
+                        object : Internet_Connection_dialog(mContext!!) {
+                            override fun tryaginlistner() {
+                                this.dismiss()
+                                startActivity(Intent(mContext, AddEventActivity::class.java).putExtra("activity", activities))
+                            }
+                        }.show()
+                    }
+
                 } else {
                     if (hasAffliates.equals("1")) {
-                        getUserJoinAfiliatesList(activities.activityId!!)
+                        getUserJoinAfiliatesList(activities.activityId!!,activities.clubId!!)
                     } else {
                         if (activities.is_like == "1") {
-                            joinActivity(activities.activityId!!, "", "")
+                            joinActivity(activities.activityId!!, "", "",activities?.clubId!!)
                         } else {
-                            joinActivity(activities.activityId!!, "", userId)
+                            joinActivity(activities.activityId!!, "", userId,activities?.clubId!!)
                         }
                     }
                 }
@@ -546,9 +562,19 @@ class Frag_My_Activity : Fragment(),
                 showConfirmationDialog(action = hideUnhide!!)
             }
             3 -> {
-                startActivity(Intent(mContext, NewActivities::class.java)
-                        .putExtra("activityBean", activities)
-                )
+                if (Util.isConnectingToInternet(mContext!!)) {
+                    startActivity(Intent(mContext, NewActivities::class.java)
+                            .putExtra("activityBean", activities))
+                } else {
+                    object : Internet_Connection_dialog(mContext!!) {
+                        override fun tryaginlistner() {
+                            this.dismiss()
+                            startActivity(Intent(mContext, NewActivities::class.java)
+                                    .putExtra("activityBean", activities))
+                        }
+                    }.show()
+                }
+
             }
         }
     }
@@ -597,7 +623,7 @@ class Frag_My_Activity : Fragment(),
         object : VolleyGetPost(mContext,
                 WebService.deleteMyActivity,
                 //WebService.get_activity_list + listType + "&limit=&offset=",
-                false) {
+                false, true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {
@@ -618,7 +644,7 @@ class Frag_My_Activity : Fragment(),
             }
 
             override fun onNetError() {
-
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -640,7 +666,7 @@ class Frag_My_Activity : Fragment(),
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(mContext, WebService.hideMyActivity,
                 //WebService.get_activity_list + listType + "&limit=&offset=",
-                false) {
+                false, true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {
@@ -661,7 +687,7 @@ class Frag_My_Activity : Fragment(),
             }
 
             override fun onNetError() {
-
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -846,7 +872,7 @@ class Frag_My_Activity : Fragment(),
                 "${WebService.getuserConfirmAffiliates}?userId=${userId}&activityEventId=${activityEventId}&activityId=${activityId}",
 
 
-                true) {
+                true, true) {
             @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
@@ -868,7 +894,7 @@ class Frag_My_Activity : Fragment(),
             }
 
             override fun onNetError() {
-
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -889,13 +915,13 @@ class Frag_My_Activity : Fragment(),
         }.execute(Frag_My_Activity::class.java.name)
     }
 
-    private fun getUserJoinAfiliatesList(activityId: String) {
+    private fun getUserJoinAfiliatesList(activityId: String,clubId: String) {
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(mContext as Activity?, mContext,
                 "${WebService.getuserJoinAffiliates}?userId=${userId}&activityId=${activityId}",/*userId=74&activityId=7*/
-                true) {
+                true, true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {
@@ -903,9 +929,8 @@ class Frag_My_Activity : Fragment(),
                     if (obj.getString("status").equals("success")) {
                         //  popUpJoin(type)
                         var getJoinAffliates: GetJoinAffliates = Gson().fromJson(response, GetJoinAffliates::class.java)
-                        popUpJoin(activityId, getJoinAffliates)
+                        popUpJoin(activityId, getJoinAffliates,clubId)
                     }
-
 
                 } catch (ex: Exception) {
                     ex.printStackTrace()
@@ -917,7 +942,7 @@ class Frag_My_Activity : Fragment(),
             }
 
             override fun onNetError() {
-
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -1074,7 +1099,7 @@ class Frag_My_Activity : Fragment(),
         })
     }
 
-    internal fun popUpJoin(activityId: String, getJoinAffliates: GetJoinAffliates) {
+    internal fun popUpJoin(activityId: String, getJoinAffliates: GetJoinAffliates,clubId: String) {
         //    var isLike: Boolean = false;
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1141,7 +1166,7 @@ class Frag_My_Activity : Fragment(),
                             affiliateId + "," + it.userAffiliateId
                         }
                     }
-            joinActivity(activityId, affiliateId, mUserId, dialog)
+            joinActivity(activityId, affiliateId, mUserId,clubId, dialog)
         })
     }
 
@@ -1216,7 +1241,7 @@ class Frag_My_Activity : Fragment(),
         object : VolleyGetPost(mContext as Activity?, mContext,
                 "${WebService.confirmActivity}",
                 //WebService.get_activity_list + listType + "&limit=&offset=",
-                false) {
+                false, true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {
@@ -1244,7 +1269,7 @@ class Frag_My_Activity : Fragment(),
             }
 
             override fun onNetError() {
-
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -1274,7 +1299,7 @@ class Frag_My_Activity : Fragment(),
         object : VolleyGetPost(mContext as Activity?, mContext,
                 "${WebService.confirmMyActivity}",
                 //WebService.get_activity_list + listType + "&limit=&offset=",
-                false) {
+                false, true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {
@@ -1302,7 +1327,7 @@ class Frag_My_Activity : Fragment(),
             }
 
             override fun onNetError() {
-
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -1323,6 +1348,7 @@ class Frag_My_Activity : Fragment(),
     private fun joinActivity(activityId: String,
                              affiliateId: String,
                              userId: String,
+                             clubId: String,
                              dialog1: Dialog? = null) {
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
@@ -1330,7 +1356,7 @@ class Frag_My_Activity : Fragment(),
         object : VolleyGetPost(mContext as Activity?, mContext,
                 "${WebService.joinActivity}",
                 //WebService.get_activity_list + listType + "&limit=&offset=",
-                false) {
+                false, true) {
             override fun onVolleyResponse(response: String?) {
                 dialog.dismiss()
                 try {
@@ -1339,6 +1365,11 @@ class Frag_My_Activity : Fragment(),
                     if (obj.getString("status").equals("success")) {
                         dialog1?.dismiss()
                         pageListner?.resetState()
+                        if (affiliateId.equals("") && userId.equals("")) {
+                            joinActivityInFireBase(activityId,clubId, "remove")
+                        } else {
+                            joinActivityInFireBase(activityId,clubId, "join")
+                        }
                         getAllActivitiesList(isPull = true)
                     } else {
                         // nodataLay.visibility = View.VISIBLE
@@ -1354,7 +1385,7 @@ class Frag_My_Activity : Fragment(),
             }
 
             override fun onNetError() {
-
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -1526,5 +1557,62 @@ class Frag_My_Activity : Fragment(),
 
     fun onSwitchClub() {
         getAllActivitiesList(isPull = true)
+    }
+
+    private fun joinActivityInFireBase(activityId: String,clubId: String, status: String) {
+        if (status.equals("join")) {
+            FirebaseDatabase.getInstance()
+                    .reference
+                    .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                    .child(activityId)
+                    .child(userId).setValue(userId).addOnCompleteListener {
+                        val msg = ClubZ.currentUser!!.full_name+" has joined"
+                        sendMessage(ChatUtil.ARG_ACTIVITY_JOIND,msg,clubId,activityId)
+                    }
+        } else {
+            FirebaseDatabase.getInstance()
+                    .reference
+                    .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                    .child(activityId)
+                    .child(userId).setValue(null).addOnCompleteListener {
+                        val msg = ClubZ.currentUser!!.full_name+" has removed"
+                        sendMessage(ChatUtil.ARG_ACTIVITY_REMOVE,msg,clubId,activityId)
+                    }
+        }
+    }
+
+    private fun sendMessage(chatType:String,msg:String,clubId:String,activityId:String) {
+        var chatRoom = clubId + "_" + activityId + "_" + ChatUtil.ARG_ACTIVITIES
+
+        //    var msg = ClubZ.currentUser!!.first_name+"has joined"
+
+        //   Constant.hideSoftKeyboard(ChatActivity.this);
+        val chatBean = ChatBean()
+        chatBean.deleteby = ""
+        chatBean.chatType = chatType
+        chatBean.message = msg
+
+        chatBean.senderId = ClubZ.currentUser?.id
+        chatBean.senderName = ClubZ.currentUser?.full_name
+        chatBean.timestamp = ServerValue.TIMESTAMP
+        val databaseReference = FirebaseDatabase.getInstance().reference
+        databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.hasChild(chatRoom)) {
+                    Log.e("TAG", "sendMessageToFirebaseUser: $chatRoom exists")
+                    val gen_key = databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).child(chatRoom).ref.push()
+                    gen_key.setValue(chatBean)
+                } else {
+                    Log.e("TAG", "sendMessageToFirebaseUser: success")
+                    val gen_key = databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).child(chatRoom).ref.push()
+                    gen_key.setValue(chatBean)
+                    // getMessageFromFirebaseUser(mUid, rcvUId)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                //   mOnSendMessageListener.onSendMessageFailure("Unable to send message: " + databaseError.getMessage());
+            }
+        })
     }
 }

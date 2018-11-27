@@ -25,6 +25,7 @@ import com.clubz.data.model.DialogMenu
 import com.clubz.data.model.Profile
 import com.clubz.data.model.UserInfo
 import com.clubz.data.remote.WebService
+import com.clubz.helper.fcm.NotificatioKeyUtil
 import com.clubz.ui.activities.fragment.ItemListDialogFragment
 import com.clubz.ui.ads.activity.AdDetailsActivity
 import com.clubz.ui.ads.activity.CreateAdActivity
@@ -45,7 +46,8 @@ import kotlinx.android.synthetic.main.fragment_ads.*
 import org.json.JSONObject
 
 
-class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickListioner, ItemListDialogFragment.Listener {
+class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
+        AdsClickListioner, ItemListDialogFragment.Listener {
 
     override fun onRefresh() {
         pageListner?.resetState()
@@ -179,7 +181,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
 
         }
         updateUi(adList, true)
-     //   loadNativeAds()
+        //   loadNativeAds()
 
     }
 
@@ -197,7 +199,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         /*val dialog = CusDialogProg(mContext)
         if (!swiperefresh.isRefreshing || !isResume) dialog.show()*/
         object : VolleyGetPost(mContext,
-                "${WebService.getAdsList}?limit=${limit}&offset=${offset}&listType=${listType}", true) {
+                "${WebService.getAdsList}?limit=${limit}&offset=${offset}&listType=${listType}", true, false) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
@@ -292,7 +294,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         }else{
             adList.add(3,data)
         }*/
-       // insertAdsInMenuItems()
+        // insertAdsInMenuItems()
         // adList.addAll(adsBean.data!!)
         adsAdapter?.notifyDataSetChanged()
         nodataLay.visibility = if (adList.isEmpty()) View.VISIBLE else View.GONE
@@ -305,7 +307,8 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
                 .putExtra("adTitle", adaBean.title)
                 .putExtra("clubId", adaBean.club_id)
                 .putExtra("clubName", adaBean.club_name)*/
-                .putExtra("adBean",adaBean)
+                .putExtra(NotificatioKeyUtil.Key_From, "")
+                .putExtra("adBean", adaBean)
                 .putExtra("adType", "")
 
         )
@@ -411,7 +414,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         val dialog = CusDialogProg(mContext)
         if (!swiperefresh.isRefreshing || !isResume) dialog.show()
         object : VolleyGetPost(mContext,
-                WebService.adsDelete, false) {
+                WebService.adsDelete, false, true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
@@ -434,7 +437,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
             }
 
             override fun onNetError() {
-
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -455,7 +458,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         val dialog = CusDialogProg(mContext)
         if (!swiperefresh.isRefreshing || !isResume) dialog.show()
         object : VolleyGetPost(mContext,
-                WebService.renewAds, false) {
+                WebService.renewAds, false, true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
@@ -478,7 +481,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
             }
 
             override fun onNetError() {
-
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
@@ -499,7 +502,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
         val dialog = CusDialogProg(mContext)
         if (!swiperefresh.isRefreshing || !isResume) dialog.show()
         object : VolleyGetPost(mContext,
-                WebService.adsFab, false) {
+                WebService.adsFab, false, true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     if (swiperefresh.isRefreshing) swiperefresh.setRefreshing(false)
@@ -523,7 +526,7 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, AdsClickLi
             }
 
             override fun onNetError() {
-
+                dialog.dismiss()
             }
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {

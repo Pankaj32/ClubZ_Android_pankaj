@@ -384,7 +384,8 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(this@ClubsActivity, this@ClubsActivity,
                 WebService.nearclub_names,
-                false) {
+                false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
 

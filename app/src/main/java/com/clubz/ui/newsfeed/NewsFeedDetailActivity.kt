@@ -5,14 +5,22 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.view.View
+import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.chat.fragments.FragmentChat
+import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.Feed
+import com.clubz.data.remote.WebService
+import com.clubz.helper.fcm.NotificatioKeyUtil
 import com.clubz.ui.core.ViewPagerAdapter
+import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.newsfeed.fragment.FeedDetailFragment
 import com.clubz.utils.KeyboardUtil
+import com.clubz.utils.VolleyGetPost
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_news_feed_detail.*
+import org.json.JSONObject
 
 
 class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener, ViewPager.OnPageChangeListener {
@@ -20,26 +28,33 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener, ViewPa
     var pos = 0
     lateinit var feed: Feed
     lateinit var adapter : ViewPagerAdapter
+    private var from=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_feed_detail)
         intent?.let {
-            feed = it.extras.getSerializable("feed") as Feed
-            pos = it.extras.getInt("pos")
+            try {
+                from = it.extras.getString(NotificatioKeyUtil.Key_From)
+            }catch (e:Exception){
+                from= NotificatioKeyUtil.Value_From_Notification
+            }
+
+            if(from.equals(NotificatioKeyUtil.Value_From_Notification)){
+                val newsFeedId=it.extras.getString(NotificatioKeyUtil.Key_News_Feed_Id)
+                getFeedDetails(newsFeedId)
+            }else {
+                feed = it.extras.getSerializable("feed") as Feed
+                pos = it.extras.getInt("pos")
+                title_tv.text = feed.news_feed_title
+                clubNameTxt.text = feed.club_name
+                setViewPager(view_pager_cd)
+            }
         }
 
-       /* val intent = getIntent()
-        feed = intent!!.extras.getSerializable("feed") as Feed
-        requireNotNull(feed) { "no user_id provided in Intent extras" }*/
 
-        title_tv.text = feed.news_feed_title
-        clubNameTxt.text = feed.club_name
         for (views in arrayOf(backBtn, bubble_menu)) views.setOnClickListener(this)
-        setViewPager(view_pager_cd)
         view_pager_cd.addOnPageChangeListener(this)
-        //tablayout_cd.setupWithViewPager(view_pager_cd)
-      //  bubble_menu.visibility = if(feed.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE
     }
 
    private fun setViewPager(viewPager: ViewPager) {
@@ -82,5 +97,66 @@ class NewsFeedDetailActivity : AppCompatActivity(), View.OnClickListener, ViewPa
 
     override fun onPageSelected(position: Int) {
         KeyboardUtil.hideKeyboard(this)
+    }
+
+
+
+    private fun getFeedDetails(newsFeedId:String) {
+        val dialogProgress = CusDialogProg(this)
+        dialogProgress.show()
+
+
+        object : VolleyGetPost(this, this,
+                "${WebService.feed_details}?newsFeedId=${newsFeedId}",
+                true, true) {
+            override fun onVolleyResponse(response: String?) {
+                dialogProgress.dismiss()
+                try {
+
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+
+                        feed = Gson().fromJson<Feed>(obj.getString("data"), Feed::class.java)
+                        setData(feed)
+                    } else {
+                        //  nodataLay.visibility = View.VISIBLE
+                    }
+                    // searchAdapter?.notifyDataSetChanged()
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialogProgress.dismiss()
+            }
+
+            override fun onNetError() {
+                dialogProgress.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                /* params["eventTitle"] = eventTitle
+                 params["eventDate"] = eventDate
+                 params["eventTime"] = eventTime
+                 params["location"] = location
+                 params["latitude"] = latitude
+                 params["longitude"] = longitute
+                 params["activityId"] = activityId
+                 params["description"] = description*/
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("authToken", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }.execute(NewsFeedDetailActivity::class.java.name)
+    }
+
+    private fun setData(feed: Feed?) {
+        title_tv.text = feed!!.news_feed_title
+        clubNameTxt.text = feed.club_name
+        setViewPager(view_pager_cd)
     }
 }

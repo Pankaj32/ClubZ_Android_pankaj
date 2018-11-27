@@ -5,15 +5,18 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import com.bumptech.glide.Glide
 import com.clubz.R
 import com.clubz.data.model.AllFavContact
 import com.clubz.ui.profile.ContactListActivity
 import kotlinx.android.synthetic.main.adapter_contact_list.view.*
 
-class AdapterContactList(val favContactList: ArrayList<AllFavContact>, val context: Context, val listner: Listner) :
-        RecyclerView.Adapter<AdapterContactList.ViewHolder>() {
-
+class AdapterContactList(var favContactList: ArrayList<AllFavContact>, val context: Context, val listner: Listner) :
+        RecyclerView.Adapter<AdapterContactList.ViewHolder>(), Filterable {
+var filterdFavContactList=favContactList
+    internal var valueFilter: ValueFilter? = null
 
     // OR using options to customize
 
@@ -71,5 +74,41 @@ class AdapterContactList(val favContactList: ArrayList<AllFavContact>, val conte
             })
 
         }
+    }
+
+    override fun getFilter(): Filter {
+        if (valueFilter == null) {
+            valueFilter = ValueFilter()
+        }
+        return valueFilter as ValueFilter
+    }
+
+    inner class ValueFilter : Filter() {
+        override fun performFiltering(constraint: CharSequence?): Filter.FilterResults {
+            val results = Filter.FilterResults()
+
+            if (constraint != null && constraint.length > 0) {
+                val filterList = java.util.ArrayList<AllFavContact>()
+                for (fav in filterdFavContactList) {
+                    if (fav.name!!.toUpperCase().contains(constraint.toString().toUpperCase())) {
+                        filterList.add(fav)
+                    }
+                }
+                results.count = filterList.size
+                results.values = filterList
+            } else {
+                results.count = filterdFavContactList.size
+                results.values = filterdFavContactList
+            }
+            return results
+
+        }
+
+        override fun publishResults(constraint: CharSequence,
+                                    results: Filter.FilterResults) {
+            favContactList = results.values as ArrayList<AllFavContact>
+            notifyDataSetChanged()
+        }
+
     }
 }

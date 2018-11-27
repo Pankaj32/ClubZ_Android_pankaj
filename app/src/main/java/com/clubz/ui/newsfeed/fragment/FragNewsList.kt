@@ -26,8 +26,10 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.*
 import com.clubz.data.remote.WebService
 import com.clubz.helper.Type_Token
+import com.clubz.helper.fcm.NotificatioKeyUtil
 import com.clubz.ui.activities.fragment.ItemListDialogFragment
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.cv.Internet_Connection_dialog
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
 import com.clubz.ui.dialogs.DeleteNewsFeedDialog
 import com.clubz.ui.dialogs.ProfileDialog
@@ -58,7 +60,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
     private var isFilterByComment = false
     private var isFilterByClub = false
 
-    private var actionPos=0
+    private var actionPos = 0
 
     companion object {
         /**
@@ -111,7 +113,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         feedRecycleView.layoutManager = lm
         feedRecycleView.setHasFixedSize(true)
 
-       // feedRecycleView.setItemViewCacheSize(20);
+        // feedRecycleView.setItemViewCacheSize(20);
         feedRecycleView.setDrawingCacheEnabled(true);
         feedRecycleView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         adapter = NewsFeedAdapter(newsFeeds, context!!, this)
@@ -127,7 +129,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
 
         swipeRefreshLayout.setOnRefreshListener(this)
         feedRecycleView.addOnScrollListener(pageListner)
-        getFeeds()
+        getFeeds(isPull = true)
         val tempFeedList = AllFeedsRepo().getAllFeeds()
         if (tempFeedList.size > 0) {
             for (feed in tempFeedList) {
@@ -169,12 +171,12 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
             ClubZ.isNeedToUpdateNewsFeed = false
             newsFeeds.clear()
             pageListner?.resetState()
-            getFeeds(0)
+            getFeeds(0, isPull = true)
         }
     }
 
     override fun onRefresh() {
-        getFeeds(0)
+        getFeeds(0, isPull = true)
         swipeRefreshLayout.isRefreshing = false
     }
 
@@ -188,13 +190,14 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
 
         startActivityForResult(Intent(context,
                 NewsFeedDetailActivity::class.java)
+                .putExtra(NotificatioKeyUtil.Key_From, "")
                 .putExtra("feed", feed)
                 .putExtra("pos", pos),
                 1001)
     }
 
     override fun onProfileClick(feed: Feed) {
-        if(!feed.user_id.equals(ClubZ.currentUser!!.id)) showProfile(feed)
+        if (!feed.user_id.equals(ClubZ.currentUser!!.id)) showProfile(feed)
     }
 
     private fun showProfile(feed: Feed) {
@@ -206,8 +209,8 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         user.country_code = ""
         user.contact_no = feed.creator_phone
         user.contact_no_visibility = feed.contact_no_visibility
-        user.clubUserId=feed.clubUserId
-        user.clubId=feed.clubId
+        user.clubUserId = feed.clubUserId
+        user.clubId = feed.clubId
 
         val dialog = object : ProfileDialog(context!!, user) {
             override fun OnProfileClick(user: UserInfo) {
@@ -259,14 +262,15 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         }
         lpw.show()
     }
+
     private val ARG_CHATFOR = "chatFor"
     private val ARG_CLUB_ID = "clubId"
     private val ARG_HISTORY_ID = "historyId"
     private val ARG_HISTORY_NAME = "historyName"
     override fun onChatClick(feed: Feed) {
         if (feed.is_comment_allow == 0) {
-            Util.showToast("comment disable",context)
-        } else{
+            Util.showToast("comment disable", context)
+        } else {
             startActivity(Intent(context, AllChatActivity::class.java)
                     .putExtra(ARG_CHATFOR, ChatUtil.ARG_NEWS_FEED)
                     .putExtra(ARG_CLUB_ID, feed.clubId)
@@ -297,12 +301,12 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         }
     }
 
-    override fun onLongPress(feed: Feed,pos:Int) {
-        actionPos=pos
+    override fun onLongPress(feed: Feed, pos: Int) {
+        actionPos = pos
         val list: ArrayList<DialogMenu> = arrayListOf()
 
-            list.add(DialogMenu(getString(R.string.edit), R.drawable.ic_edit))
-            list.add(DialogMenu(getString(R.string.delete), R.drawable.ic_delete_icon))
+        list.add(DialogMenu(getString(R.string.edit), R.drawable.ic_edit))
+        list.add(DialogMenu(getString(R.string.delete), R.drawable.ic_delete_icon))
         val a = ItemListDialogFragment()
         a.setInstanceMyFeed(this, list)
         a.show(fragmentManager, "draj")
@@ -310,14 +314,28 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
 
     //bottom sheet
     override fun onItemClicked(position: Int) {
-        var feed=newsFeeds[actionPos]
+        val feed = newsFeeds[actionPos]
         when (position) {
             0 -> {
-                startActivityForResult(Intent(context,
-                        CreateNewsFeedActivity::class.java)
-                        .putExtra("feed", feed)
-                        .putExtra("pos", actionPos),
-                        1002)
+                if (Util.isConnectingToInternet(context!!)) {
+                    startActivityForResult(Intent(context,
+                            CreateNewsFeedActivity::class.java)
+                            .putExtra("feed", feed)
+                            .putExtra("pos", actionPos),
+                            1002)
+                } else {
+                    object : Internet_Connection_dialog(context!!) {
+                        override fun tryaginlistner() {
+                            this.dismiss()
+                            startActivityForResult(Intent(context,
+                                    CreateNewsFeedActivity::class.java)
+                                    .putExtra("feed", feed)
+                                    .putExtra("pos", actionPos),
+                                    1002)
+                        }
+                    }.show()
+                }
+
 
             }
             1 -> {
@@ -335,6 +353,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
 
         }
     }
+
     private fun showToast(text: String) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
@@ -350,19 +369,20 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         adapter?.notifyDataSetChanged()
     }
 
-    private fun getFeeds(pageNo: Int = 0) {
+    private fun getFeeds(pageNo: Int = 0, isPull: Boolean = false) {
         val dialog = CusDialogProg(context)
         if (pageNo != 10) dialog.show()
-        object : VolleyGetPost(activity, WebService.feed_getNewsFeedLsit, false) {
+        object : VolleyGetPost(activity, WebService.feed_getNewsFeedLsit, false,
+                false) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
-                        newsFeeds.clear()
+                        if (isPull) newsFeeds.clear()
                         newsFeeds.addAll(Gson().fromJson<ArrayList<Feed>>(obj.getJSONArray("data").toString(), Type_Token.feed_list))
                         updateUI()
-                        updateDB()
+                        if (isPull) updateDB()
                     }
                 } catch (ex: Exception) {
                 }
@@ -397,7 +417,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
     private fun updateDB() {
         AllFeedsRepo().deleteTable()
         for (i in 0..9) {
-            val feed=newsFeeds[i]
+            val feed = newsFeeds[i]
             val allfeeds = AllFeeds()
             allfeeds.newsFeedId = feed.newsFeedId
             allfeeds.news_feed_title = feed.news_feed_title
@@ -426,10 +446,12 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
             AllFeedsRepo().insert(allfeeds)
         }
     }
+
     private fun deleteFeeds(feed: Feed, pos: Int) {
         val dialog = CusDialogProg(context)
         dialog.show()
-        object : VolleyGetPost(activity, WebService.delete_newsFeed, false) {
+        object : VolleyGetPost(activity, WebService.delete_newsFeed, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()

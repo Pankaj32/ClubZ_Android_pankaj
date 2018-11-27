@@ -424,7 +424,8 @@ class Frag_Create_club : BaseFragment(), View.OnClickListener, DatePickerDialog.
         val activity = activity as HomeActivity
         val dialog = CusDialogProg(context)
         dialog.show()
-         object : VolleyGetPost(activity , activity, WebService.club_category,true){
+         object : VolleyGetPost(activity , activity, WebService.club_category,true,
+                 true){
              override fun onVolleyResponse(response: String?) {
                  dialog.dismiss()
                  try {

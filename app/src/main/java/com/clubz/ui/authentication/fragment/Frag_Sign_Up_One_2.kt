@@ -152,7 +152,8 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment(), View.OnClickListener, OnSmsCatc
     private fun verify_otp() {
         val dialog = CusDialogProg(context)
         dialog.show()
-        object : VolleyGetPost(activity, activity, WebService.Login, false) {
+        object : VolleyGetPost(activity, activity, WebService.Login, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     val obj = JSONObject(response)
@@ -217,7 +218,8 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment(), View.OnClickListener, OnSmsCatc
         val activity = activity as SignupActivity
         val dialog = CusDialogProg(context)
         dialog.show()
-        object : VolleyGetPost(activity, context, WebService.Generate_Otp, false) {
+        object : VolleyGetPost(activity, context, WebService.Generate_Otp, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     val obj = JSONObject(response)

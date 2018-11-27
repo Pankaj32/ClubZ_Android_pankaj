@@ -107,7 +107,8 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
         /* val dialog = CusDialogProg(context)
          dialog.show()*/
 
-        object : VolleyGetPost(context, WebService.updateContact, false) {
+        object : VolleyGetPost(context, WebService.updateContact, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     // dialog.dismiss()
@@ -148,7 +149,8 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
         /* val dialog = CusDialogProg(context)
          dialog.show()*/
 
-        object : VolleyGetPost(context, WebService.addFavoriteUser, false) {
+        object : VolleyGetPost(context, WebService.addFavoriteUser, false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     // dialog.dismiss()
@@ -183,7 +185,7 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["authToken"] = ClubZ.currentUser!!.auth_token
-                params["language"] = SessionManager.getObj().language
+             //   params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()

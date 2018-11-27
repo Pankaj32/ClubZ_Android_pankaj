@@ -10,17 +10,25 @@ import android.support.v4.view.ViewPager
 import android.view.Gravity
 import android.view.View
 import android.view.Window
+import com.android.volley.VolleyError
 import com.clubz.R
 import com.clubz.chat.fragments.FragmentChat
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
+import com.clubz.data.remote.WebService
+import com.clubz.helper.fcm.NotificatioKeyUtil
 import com.clubz.ui.core.ViewPagerAdapter
+import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.user_activities.fragment.FragActivityDetailsNew
 import com.clubz.ui.user_activities.fragment.Frag_Activity_Member
 import com.clubz.ui.user_activities.model.ActivitiesBean
+import com.clubz.ui.user_activities.model.GetActivityDetailsResponce
 import com.clubz.utils.KeyboardUtil
+import com.clubz.utils.VolleyGetPost
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activities_details.*
 import kotlinx.android.synthetic.main.club_more_menu.*
+import org.json.JSONObject
 
 class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.OnPageChangeListener {
 
@@ -42,32 +50,48 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
         setContentView(R.layout.activities_details)
         val bundle = intent.extras
         if (bundle != null) {
-            activityBean = bundle.getParcelable("activityBean")
-            from = bundle.getString("From")
-            type = bundle.getString("type")
+                try {
+                    from = bundle.getString(NotificatioKeyUtil.Key_From)
+                }catch (e:Exception){
+                    from= NotificatioKeyUtil.Value_From_Notification
+                }
 
-            activityId = activityBean!!.activityId!!
-            activityName = activityBean!!.activityName!!
-            clubName = activityBean!!.club_name!!
-            clubId = activityBean!!.clubId!!
+                if(from.equals(NotificatioKeyUtil.Value_From_Notification)){
+                    val activityId=bundle.getString(NotificatioKeyUtil.Key_Activity_Id)
+                    getActivityDetails(activityId)
+                }else {
+                    activityBean = bundle.getParcelable("activityBean")
+                   // from = bundle.getString("From")
+                    type = bundle.getString("type")
 
+                    activityId = activityBean!!.activityId!!
+                    activityName = activityBean!!.activityName!!
+                    clubName = activityBean!!.club_name!!
+                    clubId = activityBean!!.clubId!!
+
+                    headerTxt.text = activityName
+                    clubNameTxt.text = clubName
+                    setViewPager(viewPager)
+                }
         }
 
         if (from.equals("OthersActivity")) {
-            userId = activityBean!!.userId!!
-            userName = activityBean!!.full_name!!
+            /*userId = activityBean!!.userId!!
+            userName = activityBean!!.full_name!!*/
             /* activityId = bundle.getString("activityId")
              activityName = bundle.getString("activityName")
              clubName = bundle.getString("clubName")*/
-            userProfileImg = activityBean!!.profile_image!!
+            /* userProfileImg = activityBean!!.profile_image!!*/
             bubble_menu.visibility = View.GONE
         }
         // headerTxt.text = resources.getString(R.string.hint_activity_name)
         headerTxt.text = activityName
         clubNameTxt.text = clubName
+
+
         ivBack.setOnClickListener(this)
         bubble_menu.setOnClickListener(this)
-        setViewPager(viewPager)
+
         tablayout.setupWithViewPager(viewPager)
         viewPager.addOnPageChangeListener(this)
     }
@@ -143,5 +167,99 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
             menuDialog?.setCancelable(true)
         }
         menuDialog?.show()
+    }
+
+
+    private fun getActivityDetails(activityId:String) {
+        val dialogProgress = CusDialogProg(this@ActivitiesDetails)
+        dialogProgress.show()
+
+
+        object : VolleyGetPost(this, this,
+                "${WebService.getActivityDetails}?activityId=${activityId}",
+                true, true) {
+            override fun onVolleyResponse(response: String?) {
+                dialogProgress.dismiss()
+                try {
+
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+
+                        val activityDetails = Gson().fromJson(response, GetActivityDetailsResponce::class.java)
+                        setData(activityDetails!!.getData())
+                    } else {
+                        //  nodataLay.visibility = View.VISIBLE
+                    }
+                    // searchAdapter?.notifyDataSetChanged()
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialogProgress.dismiss()
+            }
+
+            override fun onNetError() {
+                dialogProgress.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                /* params["eventTitle"] = eventTitle
+                 params["eventDate"] = eventDate
+                 params["eventTime"] = eventTime
+                 params["location"] = location
+                 params["latitude"] = latitude
+                 params["longitude"] = longitute
+                 params["activityId"] = activityId
+                 params["description"] = description*/
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params.put("authToken", SessionManager.getObj().user.auth_token)
+                return params
+            }
+        }.execute(FragActivityDetailsNew::class.java.name)
+    }
+
+    private fun setData(data: GetActivityDetailsResponce.DataBean?) {
+        activityBean = ActivitiesBean.DataBean()
+        activityBean?.activityId = data?.activityId
+        activityBean?.userId = data?.creator_id
+        activityBean?.name = data?.name
+        activityBean?.location = data?.location
+        activityBean?.latitude = data?.latitude
+        activityBean?.fee_type = data?.fee_type
+        activityBean?.fee = data?.fee
+        activityBean?.min_users = data?.min_users
+        activityBean?.max_users = data?.max_users
+        activityBean?.user_role = data?.user_role
+        activityBean?.description = data?.description
+        activityBean?.creator_phone = data?.creator_phone
+        activityBean?.contact_no_visibility = data?.contact_no_visibility
+        activityBean?.leader_id = data?.leader_id
+        activityBean?.terms_conditions = data?.terms_conditions
+        activityBean?.image = data?.image
+        activityBean?.is_like = data?.is_like
+        activityBean?.leader_name = data?.leader_name
+        activityBean?.leader_prflimage = data?.leader_prflimage
+        activityBean?.leader_phno = data?.leader_phno
+        activityBean?.leader_contact_no_visibility = data?.leader_contact_no_visibility
+        activityBean?.full_name = data?.creator_name
+        activityBean?.profile_image = data?.creator_profile_image
+        activityBean?.club_name = data?.club_name
+        activityBean?.clubId = data?.clubId
+        activityBean?.totalUser = data?.totalUser
+
+        activityId = activityBean!!.activityId!!
+        activityName = activityBean!!.name!!
+        clubName = activityBean!!.club_name!!
+        clubId = activityBean!!.clubId!!
+
+        headerTxt.text = activityName
+        clubNameTxt.text = clubName
+        setViewPager(viewPager)
+
     }
 }

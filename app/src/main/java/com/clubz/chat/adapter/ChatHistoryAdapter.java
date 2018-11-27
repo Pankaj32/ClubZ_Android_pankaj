@@ -141,10 +141,17 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
                     onItemClick.onItemClick(mChatHistorylist.get(getAdapterPosition()));
                 }
             });
+            profileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClick.onItemProfileImageClick(mChatHistorylist.get(getAdapterPosition()));
+                }
+            });
         }
     }
 
     public interface OnItemClick {
         void onItemClick(ChatHistoryBean historyBean);
+        void onItemProfileImageClick(ChatHistoryBean historyBean);
     }
 }

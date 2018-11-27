@@ -113,7 +113,7 @@ class FragAdsDetails : Fragment(), View.OnClickListener {
 
         object : VolleyGetPost(activity!!, mContext,
                 "${WebService.getAdsDetails}?adId=${adId}",
-                true) {
+                true,false) {
             override fun onVolleyResponse(response: String?) {
                 dialogProgress.dismiss()
                 try {

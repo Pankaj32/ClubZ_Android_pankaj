@@ -65,7 +65,8 @@ class Otp_activity : BaseActivity(), View.OnClickListener {
     private fun verify_otp(){
         val dialog = CusDialogProg(this)
         dialog.show()
-        object  : VolleyGetPost(this,this, WebService.Login,false) {
+        object  : VolleyGetPost(this,this, WebService.Login,false,
+                true) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     val obj = JSONObject(response)

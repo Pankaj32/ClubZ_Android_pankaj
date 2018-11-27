@@ -163,7 +163,11 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                             }
 
                             override fun onError() {
-                                setPlated()
+                                try {
+                                    setPlated()
+                                }catch (e:Exception){
+
+                                }
                             }
                         })
             }
@@ -189,7 +193,11 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                             }
 
                             override fun onError() {
-                                setPlated()
+                                try {
+                                    setPlated()
+                                }catch (e:Exception){
+
+                                }
                             }
                         })
             }
@@ -421,7 +429,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         dialog.show()   // ?clubId=66&offset=0&limit=10
         object : VolleyGetPost(this@ProfileActivity,
                 WebService.get_profile + "?userId=" + profile!!.userId
-                , true) {
+                , true, true) {
 
             override fun onVolleyResponse(response: String?) {
                 try {

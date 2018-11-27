@@ -2,80 +2,78 @@ package com.clubz.ui.profile
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import com.clubz.R
 import com.clubz.data.model.ClubMember
 import com.clubz.ui.profile.adapter.AdapterContactList
-import android.app.SearchManager
-import android.content.Context
 import android.support.v7.widget.SearchView
 import android.content.Intent
+import android.view.View
 import android.widget.Toast
 import com.clubz.chat.AllChatActivity
 import com.clubz.chat.util.ChatUtil
-import com.clubz.data.local.db.DatabaseTable
+
 import com.clubz.data.local.db.repo.AllFabContactRepo
 import com.clubz.data.model.AllFavContact
 import com.clubz.data.model.Profile
 import kotlinx.android.synthetic.main.activity_contact_list.*
+import com.clubz.R.id.searchView
+import android.widget.EditText
+import android.graphics.Typeface
 
-class ContactListActivity : AppCompatActivity(), AdapterContactList.Listner {
 
 
-    private lateinit var db: DatabaseTable
-    private lateinit var searchView: SearchView
+
+
+
+class ContactListActivity : AppCompatActivity(), AdapterContactList.Listner, View.OnClickListener {
+
     private lateinit var adapter: AdapterContactList
     private var contactList: ArrayList<ClubMember> = arrayListOf()
 
     private val ARG_CHATFOR = "chatFor"
     private val ARG_HISTORY_ID = "historyId"
     private val ARG_HISTORY_NAME = "historyName"
-
+    private var searchView: SearchView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_list)
-        db = DatabaseTable(this)
 
-        handleIntent(intent)
-
-        toolbar.title = getString(R.string.contacts)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val favContactList = AllFabContactRepo().getAllFavContats()
         adapter = AdapterContactList(favContactList, this@ContactListActivity, this@ContactListActivity)
         recycleViewContactList.adapter = adapter
-    }
+        ivBack.setOnClickListener(this)
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        handleIntent(intent)
-    }
+       /* searchEditTxt!!.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
+            }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val menuInflater = menuInflater
-        menuInflater.inflate(R.menu.search_menu, menu)
-        val searchItem = menu?.findItem(R.id.action_search)
-        val searchManager = this@ContactListActivity.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        searchView = searchItem?.actionView as SearchView
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(this@ContactListActivity.componentName))
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-        return super.onCreateOptionsMenu(menu)
-    }
+            }
 
-    private fun handleIntent(intent: Intent?) {
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                adapter.getFilter().filter(p0!!.trim())
+            }
+        })
+        searchIcon.setOnClickListener(this)*/
+        searchView = findViewById(R.id.searchView)
+        val searchEditText = searchView!!.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText
+        searchEditText.setTextColor(resources.getColor(R.color.white))
+        searchEditText.setHint(R.string.contacts)
+        searchEditText.setHintTextColor(resources.getColor(R.color.white))
+        val myCustomFont = Typeface.createFromAsset(assets, "teko_semibold.ttf")
+        searchEditText.setTypeface(myCustomFont)
+        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
 
-        if (Intent.ACTION_SEARCH == intent?.action) {
-            val query = intent.getStringExtra(SearchManager.QUERY)
-            //use the query to search your data somehow
-            val c = db.getWordMatches(query, null)
-            //process Cursor and display results
-        }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.getFilter().filter(newText)
+                return false
+            }
+        })
     }
 
     override fun onItemClick(contact: AllFavContact, pos: Int) {
@@ -103,6 +101,18 @@ class ContactListActivity : AppCompatActivity(), AdapterContactList.Listner {
             startActivity(Intent(this@ContactListActivity, ProfileActivity::class.java).putExtra("profile", profile))
         } else {
             Toast.makeText(this@ContactListActivity, getString(R.string.under_development), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onClick(p0: View?) {
+        when (p0!!.id) {
+            R.id.ivBack -> {
+                finish()
+            }
+           /* R.id.searchIcon -> {
+                searchEditTxt.focusable=View.FOCUSABLE
+                searchEditTxt.requestFocus()
+            }*/
         }
     }
 }
