@@ -74,7 +74,7 @@
     <string name="no_internet2">Se requiere una conexión a Internet para iniciar sesión, registrarte y buscar clubes. Una vez que hayas registrado este dispositivo, podrá acceder al contenido que haya sin conexión.</string><!--
 <string name="no_internet2"> No internet connection found. \n please check your internet connection \n and try again </string>
 -->
-    <string name="t_find_activities">Haz lo que amas</string>
+    <string name="t_find_activities">Mantente activo</string>
     <string name="t_new_activity">Nueva Actividad </string>
     <string name="t_set_notification">Establecer notificación </string>
     <string name="my_activity">Mis actividades </string>
