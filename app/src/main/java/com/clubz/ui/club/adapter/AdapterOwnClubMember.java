@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.clubz.ClubZ;
 import com.clubz.ui.cv.chipview.TagView;
 import com.clubz.R;
 import com.clubz.data.model.ClubMember;
@@ -22,16 +23,18 @@ import com.squareup.picasso.Picasso;
 import java.util.Arrays;
 import java.util.List;
 
-public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMember.ViewHolder>{
+public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMember.ViewHolder> {
 
     private Context mContext;
     private List<ClubMember> memberList;
     private Listner listner;
     private boolean isPrivateClub;
 
-    public interface Listner{
+    public interface Listner {
         void onUpdateClubMember(ClubMember member, int pos);
+
         void onTagAdd(String tag, ClubMember member, int pos);
+
         void onFocus();
     }
 
@@ -42,13 +45,13 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
         this.isPrivateClub = isPrivateClub;
     }
 
-    public void updateMember(ClubMember member, int pos){
+    public void updateMember(ClubMember member, int pos) {
         ClubMember clubMember = memberList.get(pos);
         clubMember = member;
         notifyItemChanged(pos);
     }
 
-    public void addTag(String tag, int pos){
+    public void addTag(String tag, int pos) {
         memberList.get(pos).addTag(tag);
         notifyItemChanged(pos);
     }
@@ -71,33 +74,43 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
         final ClubMember member = memberList.get(position);
 
         h.tv_FullName.setText(member.getNickname());
-        h.switch1.setChecked(member.getMember_status().equals("1"));
-        if(!TextUtils.isEmpty(member.getProfile_image())){
-            Picasso.with(h.iv_profileImage.getContext()).load(member.getProfile_image()).fit().into(h.iv_profileImage);
-        }else Picasso.with(h.iv_profileImage.getContext()).load(R.drawable.ic_user_white).fit().into(h.iv_profileImage);
-
-        if(TextUtils.isEmpty(member.getTag_name())){
-            h.tagView.distroy();
-            h.tagView.setVisibility(View.GONE);
+        if (member.getUserId().equals(ClubZ.Companion.getCurrentUser().getId())) {
+            h.edAffiliates.setVisibility(View.GONE);
+            h.switch1.setVisibility(View.GONE);
             h.divider.setVisibility(View.GONE);
+        } else {
             h.edAffiliates.setVisibility(View.VISIBLE);
-        }else {
+            h.switch1.setVisibility(View.VISIBLE);
             h.divider.setVisibility(View.VISIBLE);
-            List<String> items = Arrays.asList(member.getTag_name().split(","));
-            if(items.size()>0) addView(h, items);
+            h.switch1.setChecked(member.getMember_status().equals("1"));
+            if (!TextUtils.isEmpty(member.getProfile_image())) {
+                Picasso.with(h.iv_profileImage.getContext()).load(member.getProfile_image()).fit().into(h.iv_profileImage);
+            } else
+                Picasso.with(h.iv_profileImage.getContext()).load(R.drawable.ic_user_white).fit().into(h.iv_profileImage);
 
-            if(isPrivateClub && items.size()>=1){
-                h.edAffiliates.setVisibility(View.GONE);
+            if (TextUtils.isEmpty(member.getTag_name())) {
+                h.tagView.distroy();
+                h.tagView.setVisibility(View.GONE);
                 h.divider.setVisibility(View.GONE);
-            }else if(items.size()>=3){
-                h.edAffiliates.setVisibility(View.GONE);
-                h.divider.setVisibility(View.GONE);
+                h.edAffiliates.setVisibility(View.VISIBLE);
+            } else {
+                h.divider.setVisibility(View.VISIBLE);
+                List<String> items = Arrays.asList(member.getTag_name().split(","));
+                if (items.size() > 0) addView(h, items);
+
+                if (isPrivateClub && items.size() >= 1) {
+                    h.edAffiliates.setVisibility(View.GONE);
+                    h.divider.setVisibility(View.GONE);
+                } else if (items.size() >= 3) {
+                    h.edAffiliates.setVisibility(View.GONE);
+                    h.divider.setVisibility(View.GONE);
+                }
             }
         }
     }
 
 
-    private void addView(ViewHolder holder, List<String> items){
+    private void addView(ViewHolder holder, List<String> items) {
         holder.tagView.setVisibility(View.VISIBLE);
         holder.tagView.addTag(items);
         holder.edAffiliates.setText("");
@@ -166,14 +179,14 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
-                    if(listner!=null) listner.onUpdateClubMember(memberList.get(pos), pos);
+                    if (listner != null) listner.onUpdateClubMember(memberList.get(pos), pos);
                 }
             });
 
             edAffiliates.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    if(listner!=null) listner.onFocus();
+                    if (listner != null) listner.onFocus();
                 }
             });
 
@@ -182,7 +195,8 @@ public class AdapterOwnClubMember extends RecyclerView.Adapter<AdapterOwnClubMem
                     if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                         int pos = getAdapterPosition();
                         String tag = edAffiliates.getText().toString().trim();
-                        if(!TextUtils.isEmpty(tag) && listner!=null) listner.onTagAdd(tag, memberList.get(pos), pos);
+                        if (!TextUtils.isEmpty(tag) && listner != null)
+                            listner.onTagAdd(tag, memberList.get(pos), pos);
                     }
                     return false;
                 }

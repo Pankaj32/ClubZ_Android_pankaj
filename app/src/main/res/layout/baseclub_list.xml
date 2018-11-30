@@ -30,7 +30,8 @@
                     android:id="@+id/image_club"
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
-                    android:background="@drawable/bg_circle_blue"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/new_img"
                     android:visibility="visible"/>
 
 

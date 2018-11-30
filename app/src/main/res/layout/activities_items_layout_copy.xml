@@ -29,15 +29,25 @@
                     android:layout_width="@dimen/_65sdp"
                     android:layout_height="@dimen/_65sdp">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <!--<de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/activityImge"
                         android:layout_width="@dimen/_45sdp"
                         android:layout_height="@dimen/_45sdp"
                         android:layout_centerVertical="true"
                         android:src="@drawable/new_app_icon"
                         android:layout_marginStart="@dimen/_10sdp"
-                        app:siRadius="@dimen/_3sdp" />
-
+                        android:scaleType="centerCrop"
+                        app:siRadius="@dimen/_3sdp" />-->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/activityImge"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="@dimen/_45sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:scaleType="centerCrop"
+                        app:siBorderColor="@color/text_gray"
+                        app:siBorderWidth="@dimen/_3sdp"
+                        android:src="@drawable/new_app_icon" />
                     <FrameLayout
                         android:id="@+id/likeLay"
                         android:layout_width="@dimen/_24sdp"

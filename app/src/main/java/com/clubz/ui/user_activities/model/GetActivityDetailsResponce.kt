@@ -88,6 +88,7 @@ class GetActivityDetailsResponce {
         var club_name: String? = null
         var clubId: String? = null
         var totalUser: String? = null
+        var is_my_activity: String? = null
         var next_event: NextEventBean? = null
 
         class NextEventBean {

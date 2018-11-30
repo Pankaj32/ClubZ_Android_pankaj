@@ -10,9 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="9dp"
         android:layout_marginRight="9dp"
+        android:layout_marginTop="4dp"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="1dp"
-        android:layout_marginTop="4dp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -102,7 +102,8 @@
                     android:id="@+id/image_club"
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
-                    android:background="@drawable/bg_circle_blue"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/new_img"
                     android:visibility="visible" />
 
 
@@ -133,8 +134,8 @@
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="@dimen/_10sdp"
                         android:scaleType="fitCenter"
-                        app:tint="@color/eighty_black"
-                        app:srcCompat="@drawable/ic_lock_open" />
+                        app:srcCompat="@drawable/ic_lock_open"
+                        app:tint="@color/eighty_black" />
 
                     <TextView
                         android:id="@+id/status"
@@ -149,9 +150,9 @@
                     <android.support.v7.widget.AppCompatImageView
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
                         app:srcCompat="@drawable/new_user_ico"
-                        app:tint="@color/eighty_black"
-                        android:layout_marginStart="@dimen/_10sdp"/>
+                        app:tint="@color/eighty_black" />
 
                     <TextView
                         android:id="@+id/members"
@@ -162,7 +163,6 @@
                         android:text="@string/members_count"
                         android:textColor="@color/inactive_tab"
                         android:textSize="@dimen/_10sdp" />
-
 
 
                     <!--<android.support.v7.widget.AppCompatImageView

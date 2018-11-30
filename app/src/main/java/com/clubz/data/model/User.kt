@@ -29,6 +29,10 @@ class User : Serializable{
    var about_me= ""
    var about_me_visibility= ""
    var dob= ""
+   var skills = ""
+   var interests = ""
+   var affiliates = ""
+
    var dob_visibility= ""
    var contact_no_visibility = ""
    var landline_no_visibility = ""

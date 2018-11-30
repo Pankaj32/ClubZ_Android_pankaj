@@ -52,6 +52,10 @@ public class Constants {
     public static final String _about_me    = "about_me" ;
     public static final String _about_me_visibility    = "about_me_visibility" ;
     public static final String _dob    = "dob " ;
+    public static final String _skills    = "skills " ;
+    public static final String _interests    = "interests " ;
+    public static final String _affiliates    = "affiliates " ;
+
     public static final String _dob_visibility    = "dob_visibility" ;
     public static final String _contact_no_visibility    = "contact_no_visibility" ;
     public static final String _email_visibility    = "contact_no_visibility" ;

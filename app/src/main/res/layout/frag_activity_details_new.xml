@@ -37,10 +37,10 @@
                         android:layout_height="@dimen/_50sdp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:tint="@color/white"
+                        android:scaleType="centerCrop"
                         app:siBorderColor="@color/text_gray"
                         app:siBorderWidth="@dimen/_1sdp"
-                        app:srcCompat="@drawable/image_place_holder" />
+                        android:src="@drawable/new_img" />
 
 
                     <RelativeLayout

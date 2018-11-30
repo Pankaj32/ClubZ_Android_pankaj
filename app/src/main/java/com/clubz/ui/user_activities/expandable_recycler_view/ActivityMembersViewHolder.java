@@ -24,9 +24,9 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
     private static final float ROTATED_POSITION = 180f;
 
     private final ImageView mArrowExpandImageView;
-    private TextView tv_FullName, noTagTxt;
+    private TextView tv_FullName/*, noTagTxt*/;
     private ImageView iv_profileImage;
-    private TagView tagView;
+    //private TagView tagView;
     // private View viewTop;
     private Context mContext;
 
@@ -36,8 +36,8 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
         mArrowExpandImageView = itemView.findViewById(R.id.iv_arrow_expand);
         iv_profileImage = itemView.findViewById(R.id.iv_profileImage);
         tv_FullName = itemView.findViewById(R.id.tv_FullName);
-        tagView = itemView.findViewById(R.id.tagView);
-        noTagTxt = itemView.findViewById(R.id.noTagTxt);
+        /*tagView = itemView.findViewById(R.id.tagView);
+        noTagTxt = itemView.findViewById(R.id.noTagTxt);*/
         //  viewTop = itemView.findViewById(R.id.viewTop);
     }
 
@@ -48,7 +48,7 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
         }
         //  if (position == 0) viewTop.setVisibility(View.GONE);
         tv_FullName.setText(dataBean.getFull_name());
-        if (!dataBean.getTag_name().isEmpty()) addChip(dataBean.getTag_name(), noTagTxt);
+      //  if (!dataBean.getTag_name().isEmpty()) addChip(dataBean.getTag_name(), noTagTxt);
         if (dataBean.getAffiliates()!=null) {
             if (dataBean.getAffiliates().size() > 0) {
                 mArrowExpandImageView.setVisibility(View.VISIBLE);
@@ -99,7 +99,7 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
             stringList.add(tags);
         }
         if (tag_names.length == 0) noTagTxt.setVisibility(View.VISIBLE);
-        tagView.addTag(stringList);
+       // tagView.addTag(stringList);
         /*for (String s : stringList) {
             ChipView chipView = new ChipView(mContext,
                     String.valueOf(chipHolder.getChildCount()), false) {

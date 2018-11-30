@@ -559,7 +559,7 @@
     <string name="you_want_to_discard_this_ad">Are you sure you want to discard this ad?</string>
     <string name="be_careful">Be careful !!</string>
     <string name="discard">DISCARD</string>
-    <string name="there_is_still_no_shedule_dates_for_this_activitiy">There is still no shedule dates for this activitiy</string>
+    <string name="there_is_still_no_shedule_dates_for_this_activitiy">There is still no scheduled dates for this activity</string>
     <string name="are_you_sure_you_want_to_discard_this_new_Club">Are you sure you want to discard this new Club?</string>
     <string name="are_you_sure_want_to_descard_this_new_activites">Are you sure you want to discard this new activity?</string>
     <string name="are_you_sure_you_want_to_discard_this_new_news">Are you sure you want to discard this new news?</string>
@@ -600,5 +600,5 @@
     <string name="account_ads_titles">Ads</string>
     <string name="favorite_contacts">Favorite contacts</string>
     <string name="search_contact">Search contact</string>
-    <string name="first_join_this_activity">You din\'t join this activity \n first join please...</string>
+    <string name="first_join_this_activity">You didn\'t join this activity \n first join please...</string>
 </resources>

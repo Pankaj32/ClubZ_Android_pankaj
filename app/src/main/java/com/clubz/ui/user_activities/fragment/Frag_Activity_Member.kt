@@ -9,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.volley.VolleyError
+import com.clubz.ClubZ
 
 import com.clubz.R
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.remote.WebService
 import com.clubz.ui.cv.CusDialogProg
@@ -18,6 +20,10 @@ import com.clubz.ui.user_activities.expandable_recycler_view.ActivityMembersAdap
 import com.clubz.ui.user_activities.expandable_recycler_view.ExpandableRecyclerAdapter
 import com.clubz.ui.user_activities.model.GetActivityMembersResponce
 import com.clubz.utils.VolleyGetPost
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_activity_member.*
 import org.json.JSONObject
@@ -26,7 +32,8 @@ class Frag_Activity_Member : Fragment() {
 
     private var mContext: Context? = null
     private var activityId = ""
-
+    var activityJoiendListner: ValueEventListener? = null
+    private var databaseReference = FirebaseDatabase.getInstance().reference
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -38,7 +45,7 @@ class Frag_Activity_Member : Fragment() {
         recyclerActivityMember.layoutManager = LinearLayoutManager(mContext)
         if (arguments != null) {
             activityId = arguments!!.getString(IDKEY)
-            getActivityMembers()
+            getActivitiesJoined()
         }
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -76,7 +83,7 @@ class Frag_Activity_Member : Fragment() {
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
         object : VolleyGetPost(activity!!, mContext,
                 "${WebService.getActivitymembers}?activityId=${activityId}&offset=${""}&limit=${""}",
-                true,true) {
+                true, true) {
             override fun onVolleyResponse(response: String?) {
                 dialogProgress.dismiss()
                 try {
@@ -115,6 +122,41 @@ class Frag_Activity_Member : Fragment() {
         }.execute(Frag_Activity_Member::class.java.name)
     }
 
+    private fun getActivitiesJoined() {
+        activityJoiendListner = databaseReference
+                .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                .child(activityId).addValueEventListener(object : ValueEventListener {
+
+
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        if (mContext != null) {
+                            var isActivityJoind = false
+                            for (values in p0.children) {
+                                if (values.getValue(String::class.java).equals(ClubZ.currentUser!!.id)) {
+                                    isActivityJoind = true
+                                    break
+                                }
+                            }
+                            if (isActivityJoind) {
+                                silentTxt?.visibility = View.GONE
+                                silentTxt?.isClickable = true
+                                recyclerActivityMember?.visibility = View.VISIBLE
+                                getActivityMembers()
+                            } else {
+                                silentTxt?.visibility = View.VISIBLE
+                                silentTxt?.text = getString(R.string.first_join_this_activity)
+                                recyclerActivityMember?.visibility = View.GONE
+                            }
+                        }
+                    }
+                })
+
+    }
+
     private fun updateUi(activityDetails: GetActivityMembersResponce) {
         for (i in 0..activityDetails.getData()!!.size - 1) {
             val memberData = activityDetails.getData()!![i]
@@ -138,5 +180,14 @@ class Frag_Activity_Member : Fragment() {
 
         })
         recyclerActivityMember.adapter = activityMemberAdapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (databaseReference != null) {
+            if (activityJoiendListner != null) databaseReference
+                    .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                    .child(activityId).removeEventListener(activityJoiendListner!!)
+        }
     }
 }// Required empty public constructor

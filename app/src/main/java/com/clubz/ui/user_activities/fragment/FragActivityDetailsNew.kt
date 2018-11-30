@@ -168,11 +168,6 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
     }
 
 
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
-    }
-
     companion object {
         val KEYBEAN = "activityBean"
         val TYPEKEY = "type"

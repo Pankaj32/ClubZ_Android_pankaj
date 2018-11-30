@@ -41,10 +41,7 @@ import com.clubz.data.model.User
 import com.clubz.data.remote.WebService
 import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
-import com.clubz.ui.cv.ChipEditText
-import com.clubz.ui.cv.ChipView
-import com.clubz.ui.cv.CusDialogProg
-import com.clubz.ui.cv.FlowLayout
+import com.clubz.ui.cv.*
 import com.clubz.utils.Constants
 import com.clubz.utils.KeyboardUtil
 import com.clubz.utils.Util
@@ -583,7 +580,16 @@ class ProfileEditActivity : AppCompatActivity(),
                 }
                 val name = edNameTxt.text.toString().trim()
                 if (name.isNotEmpty()) {
-                    updateProfile()
+                    if (Util.isConnectingToInternet(this)) {
+                        updateProfile()
+                    } else {
+                        object : Internet_Connection_dialog(this) {
+                            override fun tryaginlistner() {
+                                this.dismiss()
+                                updateProfile()
+                            }
+                        }.show()
+                    }
                 } else {
                     Util.showSnake(this, cordinator_layout, 0, getString(R.string.name_should_not_be_empty))
                 }
@@ -724,6 +730,7 @@ class ProfileEditActivity : AppCompatActivity(),
         }
         request.retryPolicy = DefaultRetryPolicy(70000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         ClubZ.instance.addToRequestQueue(request)
+
     }
 
     private fun permissionPopUp() {

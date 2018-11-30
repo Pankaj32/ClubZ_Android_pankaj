@@ -153,6 +153,7 @@
     <string name="try_again">Inténtalo de nuevo </string>
     <string name="viewplan">Ver Planes </string>
     <string name="cancel">Cancelar </string>
+    <string name="contact_us_btn">CONTÁCTANOS</string>
     <string name="logout">Cerrar sesión </string>
     <string name="resend">Reenviar código </string>
     <string name="search">Buscar </string>
@@ -192,8 +193,8 @@
     <string name="a_permission_read">Permiso de lectura no concedido.</string>
     <string name="a_internet_title">Sin conexión a Internet</string>
     <string name="a_internet_body">Se requiere una conexión a Internet para iniciar sesión, registrarte y buscar clubes. Una vez que hayas registrado este dispositivo, podrá acceder al contenido que haya sin conexión.</string>
-    <string name="a_enterprise">Asciende a un plan empresarial</string>
-    <string name="a_enterprise_body">Algunas características como ésta requieren una membresía mayor. Lee nuestros planes para ver qué características necesitas.</string><!--Create club validation-->
+    <string name="a_enterprise">Asciende a una cuenta empresarial</string>
+    <string name="a_enterprise_body">Algunas características como esta requieren una cuenta mayor. Por favor, contáctanos para empezar el proceso de ascenso y convertirte en un administrador de clubes.</string><!--Create club validation-->
     <string name="a_clubnme">Por favor ingresa el nombre del club</string>
     <string name="a_image">Selecciona la imagen del club</string>
     <string name="a_foundation">Por favor selecciona la fecha de fundación</string>

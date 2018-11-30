@@ -7,6 +7,12 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.clubz.ClubZ;
+import com.clubz.data.local.db.repo.AllActivitiesRepo;
+import com.clubz.data.local.db.repo.AllAdsRepo;
+import com.clubz.data.local.db.repo.AllClubRepo;
+import com.clubz.data.local.db.repo.AllEventsRepo;
+import com.clubz.data.local.db.repo.AllFabContactRepo;
+import com.clubz.data.local.db.repo.AllFeedsRepo;
 import com.clubz.data.local.db.repo.ClubNameRepo;
 import com.clubz.data.model.ClubName;
 import com.clubz.data.model.UpdateAsync;
@@ -22,46 +28,51 @@ import com.google.gson.Gson;
 
 public class SessionManager {
 
-    private SharedPreferences           mypref;
-    private SharedPreferences.Editor    editor;
+    private SharedPreferences mypref;
+    private SharedPreferences.Editor editor;
     private String Pref_Name = "ClubZ_app";
     private String IS_LOGED_IN = "is_logged_in ";
     private static SessionManager obj;
 
-    private SessionManager(Context context){
+    private SessionManager(Context context) {
         mypref = context.getSharedPreferences(Pref_Name, Context.MODE_PRIVATE);
         editor = mypref.edit();
         editor.apply();
         obj = this;
     }
 
-    public static SessionManager getObj(){
-        if(obj==null) new SessionManager(ClubZ.instance.getApplicationContext());
+    public static SessionManager getObj() {
+        if (obj == null) new SessionManager(ClubZ.instance.getApplicationContext());
         return obj;
     }
 
-    public boolean createSession(User user ){
+    public boolean createSession(User user) {
         editor.putString(Constants._id, user.getId().trim());
-        editor.putString(Constants._full_name  , user.getFull_name().trim());
-        editor.putString(Constants._first_name  , user.getFirst_name().trim());
-        editor.putString(Constants._last_name   , user.getLast_name().trim());
-        editor.putString(Constants._social_id   , user.getSocial_id().trim());
-        editor.putString(Constants._social_type , user.getSocial_type().trim());
-        editor.putString(Constants._email       , user.getEmail().trim());
+        editor.putString(Constants._full_name, user.getFull_name().trim());
+        editor.putString(Constants._first_name, user.getFirst_name().trim());
+        editor.putString(Constants._last_name, user.getLast_name().trim());
+        editor.putString(Constants._social_id, user.getSocial_id().trim());
+        editor.putString(Constants._social_type, user.getSocial_type().trim());
+        editor.putString(Constants._email, user.getEmail().trim());
         editor.putString(Constants._country_code, user.getCountry_code().trim());
-        editor.putString(Constants._contact_no  , user.getContact_no().trim());
-        editor.putString(Constants._landline_no  , user.getLandline_no().trim());
+        editor.putString(Constants._contact_no, user.getContact_no().trim());
+        editor.putString(Constants._landline_no, user.getLandline_no().trim());
         editor.putString(Constants._profile_image, user.getProfile_image().trim());
-        editor.putString(Constants._is_verified , user.is_verified().trim());
-        editor.putString(Constants._auth_token  , user.getAuth_token().trim());
-        editor.putString(Constants._device_type , user.getDevice_type().trim());
+        editor.putString(Constants._is_verified, user.is_verified().trim());
+        editor.putString(Constants._auth_token, user.getAuth_token().trim());
+        editor.putString(Constants._device_type, user.getDevice_type().trim());
         editor.putString(Constants._device_token, user.getDevice_token().trim());
 
         editor.putString(Constants._about_me, user.getAbout_me().trim());
         editor.putString(Constants._about_me_visibility, user.getAbout_me_visibility().trim());
         editor.putString(Constants._dob, user.getDob().trim());
+
+        editor.putString(Constants._skills, user.getSkills().trim());
+        editor.putString(Constants._interests, user.getInterests().trim());
+        editor.putString(Constants._affiliates, user.getAffiliates().trim());
+
         editor.putString(Constants._dob_visibility, user.getDob_visibility().trim());
-        editor.putString(Constants._contact_no_visibility, user.getContact_no().trim());
+        editor.putString(Constants._contact_no_visibility, user.getContact_no_visibility().trim());
         editor.putString(Constants._landline_no_visibility, user.getLandline_no_visibility().trim());
         editor.putString(Constants._email_visibility, user.getEmail_visibility().trim());
         editor.putString(Constants._affiliates_visibility, user.getAffiliates_visibility().trim());
@@ -79,84 +90,89 @@ public class SessionManager {
         return true;
     }
 
-    public User getUser(){
+    public User getUser() {
 
-        if(mypref.getString(Constants._id, "").isEmpty()){
+        if (mypref.getString(Constants._id, "").isEmpty()) {
             return null;
-        }else {
-            User user  = new User();
+        } else {
+            User user = new User();
             user.setId(mypref.getString(Constants._id, ""));
-            user.setFull_name   (mypref.getString(Constants._full_name  , ""));
-            user.setFirst_name   (mypref.getString(Constants._first_name  , ""));
-            user.setLast_name  (mypref.getString(Constants._last_name   , ""));
-            user.setSocial_id    (mypref.getString(Constants._social_id   , ""));
-            user.setSocial_type  (mypref.getString(Constants._social_type , ""));
-            user.setEmail        (mypref.getString(Constants._email       , ""));
-            user.setCountry_code (mypref.getString(Constants._country_code, ""));
-            user.setContact_no   (mypref.getString(Constants._contact_no  , ""));
-            user.setLandline_no   (mypref.getString(Constants._landline_no  , ""));
-            user.setProfile_image(mypref.getString(Constants._profile_image,""));
-            user.set_verified  (mypref.getString(Constants._is_verified , ""));
-            user.setAuth_token   (mypref.getString(Constants._auth_token  , ""));
-            user.setDevice_type  (mypref.getString(Constants._device_type , ""));
-            user.setDevice_token (mypref.getString(Constants._device_token, ""));
-            user.setAbout_me (mypref.getString(Constants._about_me, ""));
-            user.setAbout_me_visibility (mypref.getString(Constants._about_me_visibility, ""));
-            user.setDob (mypref.getString(Constants._dob, ""));
-            user.setDob_visibility (mypref.getString(Constants._dob_visibility, ""));
-            user.setContact_no_visibility (mypref.getString(Constants._contact_no_visibility, ""));
-            user.setLandline_no_visibility (mypref.getString(Constants._landline_no_visibility, ""));
-            user.setEmail_visibility (mypref.getString(Constants._email_visibility, ""));
-            user.setAffiliates_visibility (mypref.getString(Constants._affiliates_visibility, ""));
-            user.setInterest_visibility (mypref.getString(Constants._interest_visibility, ""));
-            user.setSkills_visibility (mypref.getString(Constants._skills_visibility, ""));
-            user.setNews_notifications (mypref.getString(Constants._news_notifications, ""));
-            user.setActivities_notifications (mypref.getString(Constants._activities_notifications, ""));
-            user.setAds_notifications (mypref.getString(Constants._ads_notifications, ""));
-            user.setShow_profile (mypref.getString(Constants._show_profile, ""));
-            user.setAllow_anyone (mypref.getString(Constants._allow_anyone, ""));
-            user.setHasAffiliates (mypref.getString(Constants._hasAffiliates, ""));
+            user.setFull_name(mypref.getString(Constants._full_name, ""));
+            user.setFirst_name(mypref.getString(Constants._first_name, ""));
+            user.setLast_name(mypref.getString(Constants._last_name, ""));
+            user.setSocial_id(mypref.getString(Constants._social_id, ""));
+            user.setSocial_type(mypref.getString(Constants._social_type, ""));
+            user.setEmail(mypref.getString(Constants._email, ""));
+            user.setCountry_code(mypref.getString(Constants._country_code, ""));
+            user.setContact_no(mypref.getString(Constants._contact_no, ""));
+            user.setLandline_no(mypref.getString(Constants._landline_no, ""));
+            user.setProfile_image(mypref.getString(Constants._profile_image, ""));
+            user.set_verified(mypref.getString(Constants._is_verified, ""));
+            user.setAuth_token(mypref.getString(Constants._auth_token, ""));
+            user.setDevice_type(mypref.getString(Constants._device_type, ""));
+            user.setDevice_token(mypref.getString(Constants._device_token, ""));
+            user.setAbout_me(mypref.getString(Constants._about_me, ""));
+            user.setAbout_me_visibility(mypref.getString(Constants._about_me_visibility, ""));
+            user.setDob(mypref.getString(Constants._dob, ""));
+
+            user.setSkills(mypref.getString(Constants._skills, ""));
+            user.setInterests(mypref.getString(Constants._interests, ""));
+            user.setAffiliates(mypref.getString(Constants._affiliates, ""));
+
+            user.setDob_visibility(mypref.getString(Constants._dob_visibility, ""));
+            user.setContact_no_visibility(mypref.getString(Constants._contact_no_visibility, ""));
+            user.setLandline_no_visibility(mypref.getString(Constants._landline_no_visibility, ""));
+            user.setEmail_visibility(mypref.getString(Constants._email_visibility, ""));
+            user.setAffiliates_visibility(mypref.getString(Constants._affiliates_visibility, ""));
+            user.setInterest_visibility(mypref.getString(Constants._interest_visibility, ""));
+            user.setSkills_visibility(mypref.getString(Constants._skills_visibility, ""));
+            user.setNews_notifications(mypref.getString(Constants._news_notifications, ""));
+            user.setActivities_notifications(mypref.getString(Constants._activities_notifications, ""));
+            user.setAds_notifications(mypref.getString(Constants._ads_notifications, ""));
+            user.setShow_profile(mypref.getString(Constants._show_profile, ""));
+            user.setAllow_anyone(mypref.getString(Constants._allow_anyone, ""));
+            user.setHasAffiliates(mypref.getString(Constants._hasAffiliates, ""));
             return user;
         }
     }
 
-    public void setUpdateAppData(UpdateAsync update){
-        if(update!=null){
+    public void setUpdateAppData(UpdateAsync update) {
+        if (update != null) {
             String str = new Gson().toJson(update);
-            if(!TextUtils.isEmpty(str)){
+            if (!TextUtils.isEmpty(str)) {
                 editor.putString("updatePref", str);
                 editor.apply();
             }
         }
     }
 
-    public UpdateAsync getUpdate(){
+    public UpdateAsync getUpdate() {
         String str = mypref.getString("updatePref", null);
-        if(str==null)
+        if (str == null)
             return new UpdateAsync();
         else return new Gson().fromJson(str, UpdateAsync.class);
     }
 
-    public String getLanguage(){
+    public String getLanguage() {
         return mypref.getString(Constants._userLanguage, "en");
     }
 
-    public void setLanguage(String language){
+    public void setLanguage(String language) {
         editor.putString(Constants._userLanguage, language);
         editor.apply();
     }
 
-    public UserLocation getLastKnownLocation(){
-      String text = mypref.getString(Constants._userLastLocation,"");
-      if(!text.isEmpty()){
-          Gson gson = new Gson();
-          return gson.fromJson(text, UserLocation.class);
-      }
-      return null;
+    public UserLocation getLastKnownLocation() {
+        String text = mypref.getString(Constants._userLastLocation, "");
+        if (!text.isEmpty()) {
+            Gson gson = new Gson();
+            return gson.fromJson(text, UserLocation.class);
+        }
+        return null;
     }
 
-    public void setLocation(UserLocation location){
-        if(location!=null){
+    public void setLocation(UserLocation location) {
+        if (location != null) {
             /*ClubZ.Companion.setLatitude(location.getLatitude());
             ClubZ.Companion.setLongitude(location.getLongitude());*/
             Gson gson = new Gson();
@@ -165,27 +181,34 @@ public class SessionManager {
         }
     }
 
-    public boolean isloggedin(){
+    public boolean isloggedin() {
         return mypref.getBoolean(IS_LOGED_IN, false);
     }
 
-    public void logout(Activity activity){
+    public void logout(Activity activity) {
         editor.clear();
         editor.apply();
         new ClubNameRepo().deleteTable();
         ClubZ.Companion.clearVirtualSession();
-        Intent i = new Intent(activity , SignupActivity.class);
+        Intent i = new Intent(activity, SignupActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         activity.startActivity(i);
         activity.finish();
     }
 
-    public void logout(Context context){
+    public void logout(Context context) {
         editor.clear();
         editor.apply();
         new ClubNameRepo().deleteTable();
+        new ClubNameRepo().deleteTable();
+        new AllClubRepo().deleteTable();
+        new AllAdsRepo().deleteTable();
+        new AllFeedsRepo().deleteTable();
+        new AllActivitiesRepo().deleteTable();
+        new AllEventsRepo().deleteTable();
+        new AllFabContactRepo().deleteTable();
         ClubZ.Companion.clearVirtualSession();
-        Intent i = new Intent(context , SignupActivity.class);
+        Intent i = new Intent(context, SignupActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(i);
     }

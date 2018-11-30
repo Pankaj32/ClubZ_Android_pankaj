@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible"/>-->
 
-            <com.clubz.ui.cv.chipview.TagView
+            <!--<com.clubz.ui.cv.chipview.TagView
                 android:id="@+id/tagView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                 android:text="@string/no_tag_available"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                android:visibility="gone" />
+                android:visibility="gone" />-->
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

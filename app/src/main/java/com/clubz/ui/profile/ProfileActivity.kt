@@ -1,6 +1,5 @@
 package com.clubz.ui.profile
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -12,7 +11,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.graphics.Palette
@@ -22,7 +20,6 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
 import com.android.volley.VolleyError
-import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
@@ -32,7 +29,7 @@ import com.clubz.data.remote.WebService
 import com.clubz.ui.cv.ChipView
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.FlowLayout
-import com.clubz.ui.newsfeed.fragment.FragNewsList
+import com.clubz.ui.cv.Internet_Connection_dialog
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
@@ -93,7 +90,43 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                 }
             }
         })
-        getProfile()
+
+        if (Util.isConnectingToInternet(this)) {
+            getProfile()
+        } else {
+            if (isMyprofile) {
+                profile = Profile()
+                profile!!.userId = ClubZ.currentUser!!.id
+                profile!!.full_name = ClubZ.currentUser!!.full_name
+                profile!!.email = ClubZ.currentUser!!.email
+                profile!!.country_code = ClubZ.currentUser!!.country_code
+                profile!!.contact_no = ClubZ.currentUser!!.contact_no
+                profile!!.landline_no = ClubZ.currentUser!!.landline_no
+                profile!!.profile_image = ClubZ.currentUser!!.profile_image
+                profile!!.about_me = ClubZ.currentUser!!.about_me
+                profile!!.dob = ClubZ.currentUser!!.dob
+                profile!!.skills = ClubZ.currentUser!!.skills
+                profile!!.interests = ClubZ.currentUser!!.interests
+                profile!!.affiliates = ClubZ.currentUser!!.affiliates
+                profile!!.about_me_visibility = ClubZ.currentUser!!.about_me_visibility
+                profile!!.dob_visibility = ClubZ.currentUser!!.dob_visibility
+                profile!!.contact_no_visibility = ClubZ.currentUser!!.contact_no_visibility
+                profile!!.email_visibility = ClubZ.currentUser!!.email_visibility
+                profile!!.affiliates_visibility = ClubZ.currentUser!!.affiliates_visibility
+                profile!!.skills_visibility = ClubZ.currentUser!!.skills_visibility
+                profile!!.interest_visibility = ClubZ.currentUser!!.interest_visibility
+                profile!!.landline_no_visibility = ClubZ.currentUser!!.landline_no_visibility
+                updateMyProfile(profile!!)
+            } else {
+                object : Internet_Connection_dialog(this) {
+                    override fun tryaginlistner() {
+                        this.dismiss()
+                        getProfile()
+                    }
+                }.show()
+            }
+        }
+
         /*val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "${user?.country_code} ${user?.contact_no}"))
         context.startActivity(intent)*/
         tv_landLine.setOnClickListener(this)
@@ -165,7 +198,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                             override fun onError() {
                                 try {
                                     setPlated()
-                                }catch (e:Exception){
+                                } catch (e: Exception) {
 
                                 }
                             }
@@ -182,10 +215,10 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         }
     }
 
-    private fun updateView() {
-        if (!profile!!.profile_image.isBlank()) {
-            if (!profile!!.profile_image.endsWith("defaultUser.png")) {
-                Picasso.with(this).load(profile!!.profile_image)
+    private fun updateView(profile: Profile) {
+        if (profile.profile_image.isBlank()) {
+            if (profile.profile_image.endsWith("defaultUser.png")) {
+                Picasso.with(this).load(profile.profile_image)
                         .fit()
                         .into(toolbar_image, object : Callback {
                             override fun onSuccess() {
@@ -195,7 +228,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                             override fun onError() {
                                 try {
                                     setPlated()
-                                }catch (e:Exception){
+                                } catch (e: Exception) {
 
                                 }
                             }
@@ -203,76 +236,76 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
             }
         }
 
-        collapse_toolbar.title = profile!!.full_name
+        collapse_toolbar.title = this.profile!!.full_name
         if (isMyprofile) {
-            updateMyProfile()
+            updateMyProfile(profile)
         } else {
-            updateOthersProfile()
+            updateOthersProfile(profile)
         }
     }
 
-    private fun updateOthersProfile() {
-        if (profile!!.dob.equals("0000-00-00")) {
+    private fun updateOthersProfile(profile: Profile) {
+        if (profile.dob.equals("0000-00-00")) {
             dobCard.visibility = View.GONE
         } else {
             dobCard.visibility = View.VISIBLE
-            if (profile!!.dob_visibility.equals("1")) {
-                tvDob.text = Util.convertDobDate(profile!!.getFormatedDOB())
+            if (profile.dob_visibility.equals("1")) {
+                tvDob.text = Util.convertDobDate(this.profile!!.getFormatedDOB())
             } else dobCard.visibility = View.GONE
         }
-        if (profile!!.about_me_visibility.equals("1")) {
+        if (profile.about_me_visibility.equals("1")) {
             aboutCard.visibility = View.VISIBLE
-            if (!profile!!.about_me.trim().equals("")) tvAboutMe.text = profile?.about_me
+            if (!profile.about_me.trim().equals("")) tvAboutMe.text = profile.about_me
         } else aboutCard.visibility = View.GONE
-        if (profile!!.contact_no_visibility.equals("1")) {
+        if (profile.contact_no_visibility.equals("1")) {
             phCard.visibility = View.VISIBLE
-            tv_phoneNo.text = profile?.getContactNo()
+            tv_phoneNo.text = profile.getContactNo()
         } else {
             phCard.visibility = View.GONE
 
         }
-        if (profile!!.landline_no_visibility.equals("1")) {
-            if (profile!!.landline_no.isNotEmpty()) {
+        if (profile.landline_no_visibility.equals("1")) {
+            if (profile.landline_no.isNotEmpty()) {
                 landCrd.visibility = View.VISIBLE
-                tv_landLine.text = profile?.landline_no
+                tv_landLine.text = profile.landline_no
             } else landCrd.visibility = View.GONE
 
         } else {
             landCrd.visibility = View.GONE
         }
-        if (profile!!.email_visibility.equals("1")) {
+        if (profile.email_visibility.equals("1")) {
             emaiCard.visibility = View.VISIBLE
-            tv_email.text = profile?.email
+            tv_email.text = profile.email
         } else emaiCard.visibility = View.GONE
 
-        if (profile!!.affiliates_visibility.equals("1")) {
+        if (profile.affiliates_visibility.equals("1")) {
             affliatesCard.visibility = View.VISIBLE
-            if (!profile!!.affiliates.isEmpty()) {
+            if (!profile.affiliates.isEmpty()) {
                 noAffiliatesTxt.visibility = View.GONE
                 affilitesChip.visibility = View.VISIBLE
                 if (affilitesChip.childCount != 0) affilitesChip.removeAllViews()
-                addChip(affilitesChip, profile!!.affiliates)
+                addChip(affilitesChip, profile.affiliates)
             } else {
                 noAffiliatesTxt.visibility = View.VISIBLE
                 affilitesChip.visibility = View.GONE
             }
         } else affliatesCard.visibility = View.GONE
-        if (profile!!.skills_visibility.equals("1")) {
-            if (!profile!!.skills.isEmpty()) {
+        if (profile.skills_visibility.equals("1")) {
+            if (!profile.skills.isEmpty()) {
                 noSkillTxt.visibility = View.GONE
                 skillsChip.visibility = View.VISIBLE
                 if (skillsChip.childCount != 0) skillsChip.removeAllViews()
-                addChip(skillsChip, profile!!.skills)
+                addChip(skillsChip, this.profile!!.skills)
             } else {
                 noSkillTxt.visibility = View.VISIBLE
                 skillsChip.visibility = View.GONE
             }
         } else skillCard.visibility = View.GONE
-        if (profile!!.interest_visibility.equals("1")) {
-            if (!profile!!.interests.isEmpty()) {
+        if (profile.interest_visibility.equals("1")) {
+            if (!profile.interests.isEmpty()) {
                 noInterestTxt.visibility = View.GONE
                 if (interestChip.childCount != 0) interestChip.removeAllViews()
-                addChip(interestChip, profile!!.interests)
+                addChip(interestChip, this.profile!!.interests)
                 interestChip.visibility = View.VISIBLE
             } else {
                 noInterestTxt.visibility = View.VISIBLE
@@ -281,38 +314,38 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         } else interestCard.visibility = View.GONE
     }
 
-    fun updateMyProfile() {
-        if (!profile!!.dob.equals("0000-00-00")) {
-            tvDob.text = Util.convertDobDate(profile!!.getFormatedDOB())
+    fun updateMyProfile(profile: Profile) {
+        if (profile.dob.equals("0000-00-00")) {
+            tvDob.text = Util.convertDobDate(profile.getFormatedDOB())
         }
-        if (!profile!!.about_me.trim().equals("")) tvAboutMe.text = profile?.about_me
-        tv_phoneNo.text = profile?.getContactNo()
+        if (!profile.about_me.trim().equals("")) tvAboutMe.text = profile.about_me
+        tv_phoneNo.text = this.profile?.getContactNo()
 
-        tv_email.text = profile?.email
+        tv_email.text = this.profile?.email
 
-        if (!profile!!.landline_no.isEmpty()) tv_landLine.text = profile?.landline_no
-        if (!profile!!.affiliates.isEmpty()) {
+        if (!profile.landline_no.isEmpty()) tv_landLine.text = profile.landline_no
+        if (!profile.affiliates.isEmpty()) {
             noAffiliatesTxt.visibility = View.GONE
             affilitesChip.visibility = View.VISIBLE
             if (affilitesChip.childCount != 0) affilitesChip.removeAllViews()
-            addChip(affilitesChip, profile!!.affiliates)
+            addChip(affilitesChip, profile.affiliates)
         } else {
             noAffiliatesTxt.visibility = View.VISIBLE
             affilitesChip.visibility = View.GONE
         }
-        if (!profile!!.skills.isEmpty()) {
+        if (!profile.skills.isEmpty()) {
             noSkillTxt.visibility = View.GONE
             skillsChip.visibility = View.VISIBLE
             if (skillsChip.childCount != 0) skillsChip.removeAllViews()
-            addChip(skillsChip, profile!!.skills)
+            addChip(skillsChip, profile.skills)
         } else {
             noSkillTxt.visibility = View.VISIBLE
             skillsChip.visibility = View.GONE
         }
-        if (!profile!!.interests.isEmpty()) {
+        if (!profile.interests.isEmpty()) {
             noInterestTxt.visibility = View.GONE
             if (interestChip.childCount != 0) interestChip.removeAllViews()
-            addChip(interestChip, profile!!.interests)
+            addChip(interestChip, this.profile!!.interests)
             interestChip.visibility = View.VISIBLE
         } else {
             noInterestTxt.visibility = View.VISIBLE
@@ -381,7 +414,6 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         return super.onPrepareOptionsMenu(menu)
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -405,7 +437,6 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         return super.onOptionsItemSelected(item)
     }
 
-
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
 
         if (!isMyprofile) {
@@ -423,7 +454,6 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         }
     }
 
-
     private fun getProfile() {
         val dialog = CusDialogProg(this@ProfileActivity)
         dialog.show()   // ?clubId=66&offset=0&limit=10
@@ -438,7 +468,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
                         profile = Gson().fromJson(obj.getString("data"), Profile::class.java)
-                        updateView()
+                        updateView(profile!!)
                     }
                 } catch (ex: Exception) {
                     Util.showToast(R.string.swr, this@ProfileActivity)

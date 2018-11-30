@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.clubz.R;
 import com.clubz.ui.user_activities.listioner.ActivityItemClickListioner;
 import com.clubz.ui.user_activities.listioner.EventItemClickListioner;
@@ -53,7 +54,8 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ActivitiesBean.DataBean dataBean = activityBeans.get(position);
 
         if (!TextUtils.isEmpty(dataBean.getImage())) {
-            Picasso.with(h.activityImge.getContext()).load(dataBean.getImage()).fit().placeholder(R.drawable.new_app_icon).into(h.activityImge);
+            Glide.with(h.activityImge.getContext()).load(dataBean.getImage()).into(h.activityImge);
+          //  Picasso.with(h.activityImge.getContext()).load(dataBean.getImage()).placeholder(R.drawable.new_app_icon).into(h.activityImge);
         } else {
             h.activityImge.setImageResource(R.drawable.new_app_icon);
         }

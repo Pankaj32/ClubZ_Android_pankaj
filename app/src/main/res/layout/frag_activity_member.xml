@@ -6,14 +6,18 @@
     android:background="@color/background"
     tools:context="com.clubz.ui.user_activities.fragment.Frag_Activity_Member">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <android.support.v7.widget.CardView
         android:id="@+id/dataLay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:cardBackgroundColor="@color/white"
-        app:cardUseCompatPadding="true"
-        app:cardElevation="@dimen/_3sdp">
+        app:cardElevation="@dimen/_3sdp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,12 +29,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="true"
-                android:visibility="visible" />
+                android:visibility="visible"
+                tools:listitem="@layout/activities_items_layout_copy" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
-
+    </RelativeLayout>
     <include
         android:id="@+id/nodataLay"
         layout="@layout/no_member_layout"
         android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/silentTxt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:background="@drawable/curser"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:text="@string/you_are_silent_by_the_club_manager"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+
 </FrameLayout>

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.clubz.chat.model.MemberBean;
 import com.clubz.ui.cv.chipview.TagView;
 import com.clubz.R;
@@ -45,7 +46,7 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
         h.tv_FullName.setText(member.getNickname());
 
         if(!TextUtils.isEmpty(member.getProfile_image())){
-            Picasso.with(h.iv_profileImage.getContext()).load(member.getProfile_image()).into(h.iv_profileImage);
+            Glide.with(h.iv_profileImage.getContext()).load(member.getProfile_image()).into(h.iv_profileImage);
         }else Picasso.with(h.iv_profileImage.getContext()).load(R.drawable.ic_user_white).into(h.iv_profileImage);
 
         if(TextUtils.isEmpty(member.getTag_name())){

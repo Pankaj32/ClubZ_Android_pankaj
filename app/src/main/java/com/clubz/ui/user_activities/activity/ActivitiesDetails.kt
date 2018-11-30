@@ -251,12 +251,15 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
         activityBean?.club_name = data?.club_name
         activityBean?.clubId = data?.clubId
         activityBean?.totalUser = data?.totalUser
+        activityBean?.is_my_activity = data?.is_my_activity
 
         activityId = activityBean!!.activityId!!
         activityName = activityBean!!.name!!
         clubName = activityBean!!.club_name!!
         clubId = activityBean!!.clubId!!
-
+        if (activityBean?.is_my_activity.equals("1")) {
+            type="my"
+        }else type="others"
         headerTxt.text = activityName
         clubNameTxt.text = clubName
         setViewPager(viewPager)

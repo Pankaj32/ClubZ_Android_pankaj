@@ -18,7 +18,6 @@ abstract class Internet_Connection_dialog(context: Context) : Dialog(context) {
     }
 
 
-
     abstract fun tryaginlistner()
 
 }

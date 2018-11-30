@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -17,10 +18,13 @@ import com.clubz.chat.AllChatActivity
 import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.db.repo.AllFabContactRepo
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.AllFavContact
 import com.clubz.data.model.UserInfo
 import com.clubz.data.remote.WebService
 import com.clubz.ui.main.HomeActivity
+import com.clubz.ui.profile.model.FabContactList
 import com.clubz.utils.VolleyGetPost
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.z_profile_dialog.*
 import org.json.JSONObject
 
@@ -34,15 +38,15 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
 
     init {
         this.user = userInfo
-        user!!.isLiked="0"
+        user!!.isLiked = "0"
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val view: View = LayoutInflater.from(context).inflate(R.layout.z_profile_dialog, null)
         this.setContentView(view)
         tv_FullName.text = user!!.full_name
         val favContactList = AllFabContactRepo().getAllFavContats()
         for (contact in favContactList) {
-            if (contact.userId.equals(user!!.userId) && contact.clubId.equals(user!!.clubId)){
-                user!!.isLiked= "1"
+            if (contact.userId.equals(user!!.userId) && contact.clubId.equals(user!!.clubId)) {
+                user!!.isLiked = "1"
                 break
             }
         }
@@ -164,8 +168,12 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
                             ic_favorite.setImageResource(R.drawable.ic_cards_heart_active)
                             ic_favorite.setColorFilter(ContextCompat.getColor(context, R.color.red_favroit), android.graphics.PorterDuff.Mode.MULTIPLY);
                         }
-                        val homeActivity = context as HomeActivity
-                        homeActivity.getfavContactList()
+                        if (context is HomeActivity) {
+                            val homeActivity = context as HomeActivity
+                            homeActivity.getfavContactList()
+                        } else {
+                            getfavContactList()
+                        }
                     }
                 } catch (ex: Exception) {
                 }
@@ -185,9 +193,59 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
 
             override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["authToken"] = ClubZ.currentUser!!.auth_token
-             //   params["language"] = SessionManager.getObj().language
+                //   params["language"] = SessionManager.getObj().language
                 return params
             }
         }.execute()
+    }
+
+    fun getfavContactList() {
+
+        object : VolleyGetPost(context,
+                "${WebService.favoriteUserList}", true, false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    val obj = JSONObject(response)
+                    if (obj.getString("status").equals("success")) {
+                        val favContactBen: FabContactList = Gson().fromJson(response, FabContactList::class.java)
+                        updateContactInDb(favContactBen.getUserList())
+                    } else {
+
+                    }
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+            }
+
+            override fun onNetError() {
+
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                return params
+            }
+        }.execute(context::class.java.name)
+    }
+
+    private fun updateContactInDb(userList: List<FabContactList.UserListBean>?) {
+        AllFabContactRepo().deleteTable()
+        for (user in userList!!) {
+            val allFavContact = AllFavContact()
+            allFavContact.userId = user.userId
+            allFavContact.device_token = user.device_token
+            allFavContact.clubId = user.clubId
+            allFavContact.club_name = user.club_name
+            allFavContact.name = user.name
+            allFavContact.profile_image = user.profile_image
+            AllFabContactRepo().insert(allFavContact)
+        }
     }
 }
