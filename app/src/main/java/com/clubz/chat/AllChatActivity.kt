@@ -329,11 +329,11 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                         if (chatFor.equals(ChatUtil.ARG_IDIVIDUAL)) {
                             sendPushNotificationToReceiver(mUserName,
                                     msg, "chat",
-                                    chatFor, clubId, mUserId, mUserName, member.deviceToken!!)
+                                    chatFor, clubId,ClubZ.currentUser?.id!!, mUserId, mUserName, member.deviceToken!!)
                         } else {
                             if (!member.userId!!.equals(mUserId)) sendPushNotificationToReceiver(historyName,
                                     mUserName + ": " + msg, "chat",
-                                    chatFor, clubId, historyId, historyName, member.deviceToken!!)
+                                    chatFor, clubId,ClubZ.currentUser?.id!!, historyId, historyName, member.deviceToken!!)
                         }
 
                     }
@@ -352,6 +352,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                                                notficationType: String,
                                                chatFor: String,
                                                clubId: String,
+                                               userId: String,
                                                historyId: String,
                                                historyName: String,
                                                firebaseToken: String) {
@@ -361,6 +362,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                 .notificationType(notficationType)
                 .chatFor(chatFor)
                 .clubId(clubId)
+                .userId(userId)
                 .historyId(historyId)
                 .historyName(historyName)
                 .firebaseToken(firebaseToken).send()

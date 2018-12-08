@@ -11,8 +11,10 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.clubz.ClubZ;
 import com.clubz.R;
 import com.clubz.chat.AllChatActivity;
+import com.clubz.data.local.pref.SessionManager;
 import com.clubz.ui.ads.activity.AdDetailsActivity;
 import com.clubz.ui.club.ClubDetailActivity;
 import com.clubz.ui.newsfeed.NewsFeedDetailActivity;
@@ -99,7 +101,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 String clubIdFrChat = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_Club_Id());
                 String historyId = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_HistoryId());
                 String historyName = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_HistoryName());
-                sendNotificationChat(title, body,chatFor,clubIdFrChat,historyId,historyName);
+                String userID = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_UserID());
+
+                if(!userID.equals(SessionManager.getObj().getUser().getId())){
+                    sendNotificationChat(title, body,chatFor,clubIdFrChat,historyId,historyName);
+                }
                 break;
         }
     }
@@ -274,7 +280,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mChannel.enableLights(true);
             notificationManager.createNotificationChannel(mChannel);
         }
-        notificationManager.notify(0, notificationBuilder.build());
+        notificationManager.notify(iUniqueId, notificationBuilder.build());
     }
 
 }

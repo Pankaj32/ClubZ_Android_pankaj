@@ -24,5 +24,6 @@ class NotificatioKeyUtil {
         val Key_ClubId="clubId"
         val Key_HistoryId="historyId"
         val Key_HistoryName="historyName"
+        val Key_UserID="userId"
     }
 }

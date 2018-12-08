@@ -303,8 +303,9 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                     }
                     sendToOwnerChatHistory(chatBean, databaseReference)
                     for (member in membersTokenList) {
+                        var userid = ClubZ.currentUser?.id
                         sendPushNotificationToReceiver(historyName,
-                                msg, "chat", chatFor, clubId, historyId, historyName, member.deviceToken!!)
+                                msg, "chat", chatFor, clubId, ClubZ.currentUser?.id!!, historyId, historyName, member.deviceToken!!)
                     }
                     /*sendmyChatHistory(chatBean, databaseReference, msgType)
                     sendOppChatHistory(chatBean, databaseReference, msgType)
@@ -330,6 +331,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                                                notficationType: String,
                                                chatFor: String,
                                                clubId: String,
+                                               usrerId: String,
                                                historyId: String,
                                                historyName: String,
                                                firebaseToken: String) {
@@ -339,6 +341,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                 .notificationType(notficationType)
                 .chatFor(chatFor)
                 .clubId(clubId)
+                .userId(usrerId)
                 .historyId(historyId)
                 .historyName(historyName)
                 .firebaseToken(firebaseToken).send()

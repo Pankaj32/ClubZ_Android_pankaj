@@ -50,6 +50,7 @@ public class FcmNotificationBuilder {
     private String mHistoryId;
     private String mHistoryName;
     private String mFirebaseToken;
+    private String mUserID;
 
 
     private FcmNotificationBuilder() {
@@ -70,6 +71,10 @@ public class FcmNotificationBuilder {
         return this;
     }
 
+    public String getmUserID() {
+        return mUserID;
+    }
+
     public FcmNotificationBuilder notificationType(String notficationType) {
         mNotficationType = notficationType;
         return this;
@@ -82,6 +87,10 @@ public class FcmNotificationBuilder {
 
     public FcmNotificationBuilder clubId(String clubId) {
         mClubId = clubId;
+        return this;
+    }
+    public FcmNotificationBuilder userId(String userId) {
+        mUserID = userId;
         return this;
     }
 
@@ -141,6 +150,7 @@ public class FcmNotificationBuilder {
         jsonObjectData.put(NotificatioKeyUtil.Companion.getKey_Club_Id(), mClubId);
         jsonObjectData.put(NotificatioKeyUtil.Companion.getKey_HistoryId(), mHistoryId);
         jsonObjectData.put(NotificatioKeyUtil.Companion.getKey_HistoryName(), mHistoryName);
+        jsonObjectData.put(NotificatioKeyUtil.Companion.getKey_UserID(), mUserID);
         /*jsonObjectData.put(NotificatioKeyUtil.Companion.notifactionType, "chat");
         jsonObjectData.put(NotificatioKeyUtil.Companion.requestId, mRequestId);
         jsonObjectData.put(NotificatioKeyUtil.Companion.requestType, mRequestType);*/
@@ -154,6 +164,8 @@ public class FcmNotificationBuilder {
         jsonObjectNotification.put(NotificatioKeyUtil.Companion.getKey_Club_Id(), mClubId);
         jsonObjectNotification.put(NotificatioKeyUtil.Companion.getKey_HistoryId(), mHistoryId);
         jsonObjectNotification.put(NotificatioKeyUtil.Companion.getKey_HistoryName(), mHistoryName);
+        jsonObjectData.put(NotificatioKeyUtil.Companion.getKey_UserID(), mUserID);
+
         /*jsonObjectNotification.put(NotificatioKeyUtil.Companion.notifactionType, "chat");
         jsonObjectNotification.put(NotificatioKeyUtil.Companion.requestId, mRequestId);
         jsonObjectNotification.put(NotificatioKeyUtil.Companion.requestType, mRequestType);
