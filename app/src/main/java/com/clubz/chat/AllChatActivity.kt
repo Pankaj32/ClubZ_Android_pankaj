@@ -171,6 +171,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                     clubId = arguments.getString(ARG_CLUB_ID)
                     historyId = arguments.getString(ARG_HISTORY_ID)
                     historyName = arguments.getString(ARG_HISTORY_NAME)
+                    if(arguments.getString(ARG_HISTORY_PIC)!=null)
                     historyPic = arguments.getString(ARG_HISTORY_PIC)
                     chatRoom = clubId + "_" + historyId + "_" + chatFor
                     chatHistoryRoom = clubId + "_" + historyId + "_" + chatFor
@@ -184,6 +185,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                 ChatUtil.ARG_IDIVIDUAL -> {
                     historyId = arguments.getString(ARG_HISTORY_ID)
                     historyName = arguments.getString(ARG_HISTORY_NAME)
+                    if(arguments.getString(ARG_HISTORY_PIC)!=null)
                     historyPic = arguments.getString(ARG_HISTORY_PIC)
                     chatRoom = if (mUserId.toInt() > historyId.toInt()) historyId + "_" + mUserId + "_" + chatFor else mUserId + "_" + historyId + "_" + chatFor
                     chatHistoryRoom = chatRoom
