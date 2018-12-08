@@ -84,12 +84,16 @@
 
                     <TextView
                         android:id="@+id/distance"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/_30sdp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/primaryColor"
                         android:fontFamily="@font/roboto_light"
                         android:textSize="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_3sdp"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="@dimen/_8sdp"
+                        android:autoSizeMaxTextSize="@dimen/_10sdp"
+                        android:autoSizeStepGranularity="@dimen/_2sdp"
                         android:text="3 Km"/>
 
                     <android.support.v7.widget.AppCompatImageView

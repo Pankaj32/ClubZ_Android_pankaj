@@ -17,6 +17,7 @@ class ClubMember : Serializable {
     var country_code = ""
     var contact_no = ""
     var contact_no_visibility = ""
+    var clubId = ""
 
     val requestDateTime = ""
     val distance : String = ""

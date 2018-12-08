@@ -235,9 +235,11 @@ class Frag_My_Activity : Fragment(),
 
     override fun onResume() {
         super.onResume()
+        pageListner?.resetState()
         if (isResume) {
             getAllActivitiesList(isPull = true)
         } else {
+
             getAllActivitiesList(isPull = true)
             isResume = true
         }

@@ -25,7 +25,10 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showProfile();
+                final ClubMember member = getProfile();
+                if (!member.getUserId().equals(ClubZ.Companion.getCurrentUser().getId())) {
+                    showProfile();
+                }
             }
         });
     }
@@ -33,7 +36,7 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder {
     protected void showProfile(){
 
         final ClubMember member = getProfile();
-        if(!member.getClubUserId().equals(ClubZ.Companion.getCurrentUser().getId())){
+        if(!member.getUserId().equals(ClubZ.Companion.getCurrentUser().getId())){
             final UserProfileDialog userProfileDialog = new UserProfileDialog(mContext, member, canEditNickName()) {
                 @Override
                 public void onProfileUpdate(String name) {
@@ -68,6 +71,8 @@ public abstract class ClubMemberHolder extends RecyclerView.ViewHolder {
                 @Override
                 public void onFlagClicked() {
                     dismiss();
+
+
                     showProfileDetail(member);
                     Profile profile = new Profile();
                     profile.setUserId(member.getUserId());

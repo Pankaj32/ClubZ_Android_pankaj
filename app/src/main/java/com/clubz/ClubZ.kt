@@ -14,9 +14,12 @@ import com.clubz.data.local.db.DBHelper
 import com.clubz.data.local.db.DatabaseManager
 import com.clubz.data.local.db.repo.ClubNameRepo
 import com.clubz.data.remote.AppAsnycTask
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.core.CrashlyticsCore
 import com.google.android.gms.ads.MobileAds
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.one.EmojiOneProvider
+import io.fabric.sdk.android.Fabric
 
 
 /**
@@ -67,6 +70,17 @@ class ClubZ : Application() {
     private var activeActivity: Activity? = null
     override fun onCreate() {
         super.onCreate()
+
+
+
+        //Set up Crashlytics, disabled for debug builds
+        //val crashlyticsKit =
+        Crashlytics.Builder()
+                .core(CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
+                .build()
+
+        //Initialize Fabric with the debug-disabled crashlytics.
+        Fabric.with(this, Crashlytics())
         instance = this@ClubZ
         EmojiManager.install(EmojiOneProvider())
         // initialize the AdMob app

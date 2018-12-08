@@ -170,8 +170,10 @@ class MyClubListAdapter(internal var list: ArrayList<Clubs>, internal var contex
             member.full_name = club.full_name
             member.userId = club.user_id
             member.profile_image = club.profile_image
-            member.contact_no = club.club_contact_no
+            member.contact_no = club.contact_no
             member.contact_no_visibility = club.contact_no_visibility
+            member.clubId =club.clubId
+           // member.isLiked = club.
             return member
         }
 

@@ -35,6 +35,7 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
     private val ARG_CHATFOR = "chatFor"
     private val ARG_HISTORY_ID = "historyId"
     private val ARG_HISTORY_NAME = "historyName"
+    private val ARG_HISTORY_PIC = "historyPic"
 
     init {
         this.user = userInfo
@@ -84,6 +85,7 @@ abstract class ProfileDialog(internal val context: Context, userInfo: UserInfo)
                             .putExtra(ARG_CHATFOR, ChatUtil.ARG_IDIVIDUAL)
                             .putExtra(ARG_HISTORY_ID, user!!.userId)
                             .putExtra(ARG_HISTORY_NAME, user!!.full_name)
+                            .putExtra(ARG_HISTORY_PIC, user!!.profile_image)
                     )
                 } else {
                     Toast.makeText(context, "Under development", Toast.LENGTH_SHORT).show()

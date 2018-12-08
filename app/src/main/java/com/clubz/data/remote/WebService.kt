@@ -77,6 +77,7 @@ class WebService {
         val addFavoriteUser= base_Url +"service/user/addFavoriteUser"
         val contactList= base_Url +"service/user/contactList"
         val favoriteUserList= base_Url +"service/user/favoriteUserList"
+        val getMembershipPlanList= base_Url +"service/user/getCurrentPlanDetails"
     }
 
     //http://clubz.co/dev/service/login

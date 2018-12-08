@@ -79,5 +79,6 @@ class ActivityDetailsResponce {
         var creator_profile_image: String? = null
         var club_name: String? = null
         var clubId: String? = null
+        var clubLeaderId: String? = null
     }
 }

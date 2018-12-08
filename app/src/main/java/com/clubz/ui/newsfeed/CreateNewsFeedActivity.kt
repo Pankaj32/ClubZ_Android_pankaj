@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
@@ -36,6 +37,7 @@ import com.clubz.helper.vollyemultipart.AppHelper
 import com.clubz.helper.vollyemultipart.VolleyMultipartRequest
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.Internet_Connection_dialog
+import com.clubz.ui.cv.Purchase_membership_dialog
 import com.clubz.ui.newsfeed.model.NewsFeedDetails
 import com.clubz.utils.Constants
 import com.clubz.utils.Util
@@ -70,6 +72,25 @@ class CreateNewsFeedActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_news_feed)
+
+        if(SessionManager.getObj().membershipPlan!=null) {
+            if (!SessionManager.getObj().membershipPlan.news_create.equals("") &&!SessionManager.getObj().membershipPlan.news_create.equals("1")) {
+
+                Handler().postDelayed({
+                    object : Purchase_membership_dialog(this) {
+                        override fun cancelplansListner() {
+                            finish()
+                        }
+
+                        override fun viewplansListner() {
+                            this.dismiss()
+                        }
+
+                    }.show()
+                }, 100)
+            }
+
+        }
 
         run {
             if (intent.hasExtra("clubId")) clubId = intent.extras.getString("clubId")

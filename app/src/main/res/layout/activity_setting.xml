@@ -238,7 +238,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 app:cardUseCompatPadding="true"
-                app:cardElevation="1dp">
+                app:cardElevation="1dp"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -329,7 +330,8 @@
                 android:layout_height="wrap_content"
                 app:cardUseCompatPadding="true"
                 android:layout_marginTop="@dimen/_5sdp"
-                app:cardElevation="1dp">
+                app:cardElevation="1dp"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -389,7 +391,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 app:cardUseCompatPadding="true"
-                app:cardElevation="1dp">
+                app:cardElevation="1dp"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -437,7 +440,8 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 app:cardUseCompatPadding="true"
-                app:cardElevation="1dp">
+                app:cardElevation="1dp"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:id="@+id/rl_header"

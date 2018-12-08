@@ -99,10 +99,10 @@
     <string name="slider_my_activities">Mis actividades</string>
     <string name="error_session_expired">La sesión ha expirado</string>
     <string name="error_session_expired_msg">Tu sesión ha caducado, por favor vuelve a iniciar sesión</string>
-    <string name="slider_b1">Encuentra partidos, \\n eventos, clases, \\n grupos interesantes y muchas \\n otras cosas geniales \\n a tu alrededor.   </string>
-    <string name="slider_b2">Mantente al día \\n con tu comunidad leyendo \\n las últimas noticias \\n y comunicados. </string>
-    <string name="slider_b3">Ponte en contacto con \\n tus vecinos y habla \\n sobre agujeros negros o \\n agujeros de gusano, \\n como prefieras.</string>
-    <string name="slider_b4">Promociona tus \\n productos o servicios y \\n dale a tus clientes locales \\n una forma de contactarte.  </string><!--Register Step-->
+    <string name="slider_b1">Encuentra partidos, \n eventos, clases, \n grupos interesantes \n y muchas otras \n cosas geniales \n a tu alrededor.   </string>
+    <string name="slider_b2">Mantente al día \n con tu comunidad \n leyendo las \n últimas noticias \n y comunicados. </string>
+    <string name="slider_b3">Ponte en contacto con \n tus vecinos y habla \n sobre agujeros negros o \n agujeros de gusano, \n como prefieras.</string>
+    <string name="slider_b4">Promociona tus \n productos o servicios \n y dale a tus clientes \n locales una forma \n de contactarte.  </string><!--Register Step-->
     <string name="step_r1">Inicia sesión y mira lo que está sucediendo</string>
     <string name="step_r2">Ayúdanos a validar tu número de teléfono </string>
     <string name="step_r3">Esto es sólo para romper el hielo ;)</string>
@@ -117,11 +117,11 @@
     <string name="fullname">Nombre completo</string>
     <string name="affilites_name">Nombre del afiliado</string>
     <string name="type_here">Escribe aquí</string>
-    <string name="hint_step1_1"><i>Este que estás usando</i><i>This one you are using</i></string>
-    <string name="hint_step2_1"><i>código de 4 dígitos enviado por SMS</i><i>4-digit code sent by SMS</i></string>
-    <string name="hint_step3_1"><i>Para saber quién eres</i><i>To know who are you</i></string>
-    <string name="hint_step3_2"><i>Para recuperar tu cuenta</i> <i>To recover your account</i></string>
-    <string name="hint_step4_1"><i> Familiares o amigos</i><i>Family members or friends</i></string>
+    <string name="hint_step1_1">Este que estás usando</string>
+    <string name="hint_step2_1">código de 4 dígitos enviado por SMS</string>
+    <string name="hint_step3_1">Para saber quién eres</string>
+    <string name="hint_step3_2">Para recuperar tu cuenta</string>
+    <string name="hint_step4_1">Familiares o amigos</string>
     <string name="hint_club_name">Nombre del club </string>
     <string name="hint_club_date">Fecha de fundación </string>
     <string name="hint_club_s">Buscar club </string>
@@ -216,7 +216,7 @@
     <string name="result_image_desc">resultado del recorte</string>
     <string name="menu1">Cámara</string>
     <string name="menu2">Galería </string>
-    <string name="drop_arrow">\\u0020 \\u0020\\u</string>
+    <string name="drop_arrow"> \u0020 &#9698; \u0020\u0020</string>
     <array name="privacy_type">
         <item>"Public"</item>
         <item>"Private"</item>
@@ -312,6 +312,7 @@
     <string name="create_news_feed">Crear noticia</string>
     <string name="article_s_content">Contenido del artículo</string>
     <string name="create_new_nwes">Crear una nueva noticia</string>
+    <string name="create_chat_feed">Crear nuevo chat</string>
     <string name="new_article">Nueva noticia</string>
     <string name="update_article">Editar noticia</string>
     <string name="error_article_name">Por favor escribe el nombre de la noticia.</string>
@@ -494,4 +495,10 @@
     <string name="discard">DESCARTAR</string>
     <string name="you_want_to_discard_this_ad">¿Estás seguro de que quieres descartar este anuncio?</string>
     <string name="are_you_sure_you_want_to_discard_this_new_news">¿Seguro que quieres descartar esta nueva noticia?</string>
+    <string name="are_you_sure_you_want_to_discard_this_new_Club">¿Seguro que quieres descartar este nuevo Club?</string>
+
+
+
+
+
 </resources>

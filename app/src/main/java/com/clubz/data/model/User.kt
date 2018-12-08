@@ -46,5 +46,8 @@ class User : Serializable{
    var show_profile = ""
    var allow_anyone = ""
    var hasAffiliates = ""
+   var lastlocation = ""
+   var userCity = ""
+
 
 }

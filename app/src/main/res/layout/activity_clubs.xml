@@ -47,13 +47,15 @@
 
                 <android.support.v7.widget.SearchView
                     android:id="@+id/searchView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     app:iconifiedByDefault="false"
                     android:iconifiedByDefault="false"
                     style="@style/SearchCursor"
                     app:closeIcon="@null"
+                    android:paddingEnd="-16dp"
+                    android:paddingStart="-16dp"
                     app:searchIcon="@drawable/ic_search_white" />
 
                 <!-- <com.arlib.floatingsearchview.FloatingSearchView

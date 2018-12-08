@@ -48,6 +48,7 @@ public class Constants {
     public static final String _device_token    = "device_token " ;
     public static final String _userLanguage    = "_userLanguage " ;
     public static final String _userLastLocation    = "userLastLocation " ;
+    public static final String _userCity    = "userCity " ;
 
     public static final String _about_me    = "about_me" ;
     public static final String _about_me_visibility    = "about_me_visibility" ;
@@ -58,7 +59,7 @@ public class Constants {
 
     public static final String _dob_visibility    = "dob_visibility" ;
     public static final String _contact_no_visibility    = "contact_no_visibility" ;
-    public static final String _email_visibility    = "contact_no_visibility" ;
+    public static final String _email_visibility    = "email_visibility" ;
     public static final String _landline_no_visibility    = "landline_no_visibility" ;
     public static final String _affiliates_visibility    = "affiliates_visibility" ;
     public static final String _interest_visibility    = "interest_visibility" ;
@@ -87,5 +88,25 @@ public class Constants {
     public static  int NETWORK_CHECK =0;
     public static final String NETWORK_SWITCH_FILTER = "com.devglan.broadcastreceiver.NETWORK_SWITCH_FILTER";
 
+
+    /******MembershipPlan*********/
+
+    /***Session ***/
+    public static final String _membershipPlanId    = "membershipPlanId" ;
+    public static final String _plan_name       = "plan_name" ;
+    public static final String _plan_price      = "plan_price   " ;
+    public static final String _plan_type       = "Free";
+    public static final String _club_join       = "club_join";
+    public static final String _club_create     = "club_create";
+    public static final String _news_read           = "news_read" ;
+    public static final String _news_create    = "news_create" ;
+    public static final String _activity_join      = "activity_join" ;
+    public static final String _activity_create      = "activity_create" ;
+    public static final String _chat_read   = "chat_read" ;
+    public static final String _chat_create     = "chat_create" ;
+    public static final String _ads_read      = "ads_read" ;
+    public static final String _ads_create     = "ads_create" ;
+    public static final String _status    = "status" ;
+    public static final String _crd    = "crd" ;
 
 }

@@ -21,14 +21,7 @@ import com.crashlytics.android.Crashlytics
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //Set up Crashlytics, disabled for debug builds
-        //val crashlyticsKit =
-        Crashlytics.Builder()
-                .core(CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
-                .build()
 
-        //Initialize Fabric with the debug-disabled crashlytics.
-        Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_splash)
         Util.checklaunage(this)
     }

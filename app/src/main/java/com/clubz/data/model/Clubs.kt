@@ -46,6 +46,7 @@ class Clubs :Serializable {
     var user_role = ""
     var contact_no = ""
     var contact_no_visibility = ""
+    //var isUserLike = ""
 
     @SerializedName("profile_image")
     var profile_image = ""

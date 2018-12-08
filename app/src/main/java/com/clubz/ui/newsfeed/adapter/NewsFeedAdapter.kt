@@ -53,7 +53,9 @@ class NewsFeedAdapter(val items: ArrayList<Feed>, val context: Context, val list
         val feed: Feed = items.get(position)
         holder.tvDescription.text = feed.news_feed_description
         holder.tvTitle.text = feed.news_feed_title
-        holder.tvCreateTime.text = feed.getTimeAgo(context)
+
+        var timevaue = feed.getTimeAgo(context);
+        holder.tvCreateTime.text = timevaue;
         holder.tvClubname.text = feed.club_name
         holder.tvCreaterName.text = feed.user_name
         /*holder.bubbleMenu.visibility = if (feed.user_id == ClubZ.currentUser?.id) View.VISIBLE else View.GONE*/

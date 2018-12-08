@@ -37,6 +37,7 @@ import com.clubz.ui.club.fragment.FragSearchClubs
 import com.clubz.ui.core.ViewPagerAdapter
 import com.clubz.ui.cv.SimpleDividerItemDecoration
 import com.clubz.ui.cv.recycleview.RecyclerViewScrollListener
+import com.clubz.ui.main.HomeActivity
 import com.clubz.utils.VolleyGetPost
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
@@ -80,6 +81,8 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
         setViewPager(viewPager)
         tablayout.setupWithViewPager(viewPager)
         viewPager.addOnPageChangeListener(this)
+
+
 
         /*floating_search_view.setOnQueryChangeListener { oldQuery, newQuery ->
             searchList.clear()
@@ -366,6 +369,7 @@ class ClubsActivity : AppCompatActivity(), View.OnClickListener, MyClubInteracti
             dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
             menuDialog?.setContentView(R.layout.club_more_menu)
+            menuDialog?.ll_menu1?.visibility = View.VISIBLE
             for (views in arrayOf(menuDialog?.ll_menu1, menuDialog?.ll_menu2)) views?.setOnClickListener(this)
 
             val lp = dialogWindow?.attributes

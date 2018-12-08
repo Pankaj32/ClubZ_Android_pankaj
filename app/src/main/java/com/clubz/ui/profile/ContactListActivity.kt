@@ -19,10 +19,8 @@ import kotlinx.android.synthetic.main.activity_contact_list.*
 import com.clubz.R.id.searchView
 import android.widget.EditText
 import android.graphics.Typeface
-
-
-
-
+import android.view.View.GONE
+import com.clubz.utils.Util
 
 
 class ContactListActivity : AppCompatActivity(), AdapterContactList.Listner, View.OnClickListener {
@@ -73,6 +71,21 @@ class ContactListActivity : AppCompatActivity(), AdapterContactList.Listner, Vie
                 adapter.getFilter().filter(newText)
                 return false
             }
+        })
+
+        ivExpandBtn.setOnClickListener(View.OnClickListener {
+
+            if(recycleViewContactList.visibility == GONE){
+                ivExpandBtn.setImageResource(R.drawable.ic_event_up_arrow)
+                Util.setRotation(ivExpandBtn, true)
+                recycleViewContactList.setVisibility(View.VISIBLE)
+            }
+            else{
+                ivExpandBtn.setImageResource(R.drawable.ic_event_down_arrow)
+                Util.setRotation(ivExpandBtn, true)
+                recycleViewContactList.setVisibility(View.GONE)
+            }
+
         })
     }
 

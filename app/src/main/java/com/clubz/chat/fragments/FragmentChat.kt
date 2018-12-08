@@ -76,9 +76,11 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     //for ads chat
     private var adId = ""
     private var adName = ""
+    private var adPic = ""
     //for all chat
     private var historyId = ""
     private var historyName = ""
+    private var historyPic = ""
 
     private var mstorage: FirebaseStorage? = null
     private var storageRef: StorageReference? = null
@@ -163,10 +165,13 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                     clubId = arguments!!.getString(ARG_CLUB_ID)
                     adId = arguments!!.getString(ARG_AD_ID)
                     adName = arguments!!.getString(ARG_AD_NAME)
+                    adPic = arguments!!.getString(ARG_AD_PIC)
+
                     chatRoom = clubId + "_" + adId + "_" + chatFor
                     chatHistoryRoom = clubId + "_" + adId + "_" + chatFor
                     historyId = adId
                     historyName = adName
+                    historyPic = adPic
                     getUserStatus()
                     getClubMembers()
                     getClubOwner()
@@ -271,6 +276,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
             }
             chatBean.senderId = ClubZ.currentUser?.id
             chatBean.senderName = ClubZ.currentUser?.full_name
+
             chatBean.timestamp = ServerValue.TIMESTAMP
 
             /*if (Integer.parseInt(mUid) < Integer.parseInt(rcvUId)) {
@@ -292,6 +298,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                         // getMessageFromFirebaseUser(mUid, rcvUId)
                     }
                     for (member in memberList) {
+                        //chatBean.senderPic = member.
                         sendToChatHistory(member, chatBean, databaseReference)
                     }
                     sendToOwnerChatHistory(chatBean, databaseReference)
@@ -731,7 +738,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
         if (member.userId.equals(ClubZ.currentUser?.id)) chatHistory.read = 1
         chatHistory.image = chatBean.image
         chatHistory.imageUrl = chatBean.imageUrl
-        chatHistory.profilePic = ""
+        chatHistory.profilePic = chatBean.senderPic
         chatHistory.lastMessangerId = ClubZ.currentUser?.id
         chatHistory.lastMessanger = ClubZ.currentUser?.full_name
         chatHistory.message = chatBean.message
@@ -751,7 +758,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
         if (clubOwnerId.equals(ClubZ.currentUser?.id)) chatHistory.read = 1
         chatHistory.image = chatBean.image
         chatHistory.imageUrl = chatBean.imageUrl
-        chatHistory.profilePic = ""
+        chatHistory.profilePic = chatBean.senderPic
         chatHistory.lastMessangerId = ClubZ.currentUser?.id
         chatHistory.lastMessanger = ClubZ.currentUser?.full_name
         chatHistory.message = chatBean.message
@@ -797,6 +804,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                                     isActivityJoind = true
                                     break
                                 }
+
                             }
                             if (isActivityJoind) {
                                 silentTxt?.visibility = View.GONE
@@ -866,6 +874,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
         //ads
         private val ARG_AD_ID = "adId"
         private val ARG_AD_NAME = "adName"
+        private val ARG_AD_PIC = "adPic"
 
         fun newInstanceActivityChat(activityId: String, clubId: String, activityName: String): FragmentChat {
             val fragment = FragmentChat()
@@ -878,13 +887,14 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
             return fragment
         }
 
-        fun newInstanceAdChat(adId: String, clubId: String, adName: String): FragmentChat {
+        fun newInstanceAdChat(adId: String, clubId: String, adName: String,adPic: String): FragmentChat {
             val fragment = FragmentChat()
             val args = Bundle()
             args.putString(ARG_CHATFOR, ChatUtil.ARG_ADS)
             args.putString(ARG_CLUB_ID, clubId)
             args.putString(ARG_AD_ID, adId)
             args.putString(ARG_AD_NAME, adName)
+            args.putString(ARG_AD_PIC, adPic)
             fragment.arguments = args
             return fragment
         }

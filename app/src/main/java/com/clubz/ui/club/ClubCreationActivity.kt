@@ -1,12 +1,15 @@
 package com.clubz.ui.club
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -34,6 +37,7 @@ import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.ClubName
 import com.clubz.data.model.Club_Category
 import com.clubz.data.model.Clubs
+import com.clubz.data.remote.GioAddressTask
 import com.clubz.data.remote.WebService
 import com.clubz.helper.Type_Token
 import com.clubz.helper.vollyemultipart.AppHelper
@@ -145,13 +149,26 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         }
         for (spinner in arrayOf(spn_privacy, spn_club_category)) spinner.setOnTouchListener(this)
 
-        Handler().postDelayed({
-            object : Purchase_membership_dialog(this) {
-                override fun viewplansListner() {
-                    this.dismiss()
-                }
-            }.show()
-        }, 100)
+
+        if(SessionManager.getObj().membershipPlan!=null) {
+            if (!SessionManager.getObj().membershipPlan.club_create.equals("") &&!SessionManager.getObj().membershipPlan.club_create.equals("1")) {
+
+                Handler().postDelayed({
+                    object : Purchase_membership_dialog(this) {
+                        override fun cancelplansListner() {
+                            finish()
+                        }
+
+                        override fun viewplansListner() {
+                            this.dismiss()
+                        }
+
+                    }.show()
+                }, 100)
+            }
+
+        }
+
     }
 
 
@@ -172,6 +189,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                 isClubIcon = true; permissionPopUp(); }
             R.id.club_city -> {
                 showPlacePicker()
+
             }
         }
     }
@@ -218,11 +236,25 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 val place = PlacePicker.getPlace(this, data)
-                club_city.setText(place!!.name)
+
                 club_city.isSelected = true
                 lat = place.latLng.latitude
                 lng = place.latLng.longitude
-                Toast.makeText(this, String.format("Place: %s", place.name), Toast.LENGTH_LONG).show()
+                val task = @SuppressLint("StaticFieldLeak")
+                object : GioAddressTask(this@ClubCreationActivity) {
+                    override fun onFail() {
+                        club_city.setText("")
+                        Toast.makeText(this@ClubCreationActivity, R.string.swr, Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onSuccess(address: com.clubz.data.model.Address) {
+                        club_city.setText(address.city.toString())
+                    }
+                }
+                task.execute(lat, lng)
+
+
+
             }
         }
 
@@ -690,4 +722,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
         val alert11 = builder1.create()
         alert11.show()
     }
+
+
+
 }

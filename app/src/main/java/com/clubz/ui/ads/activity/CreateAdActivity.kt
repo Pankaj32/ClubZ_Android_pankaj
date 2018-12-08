@@ -10,6 +10,7 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.FileProvider
@@ -39,6 +40,7 @@ import com.clubz.ui.ads.model.AdDetailsCreated
 import com.clubz.ui.ads.model.AdsListBean
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.Internet_Connection_dialog
+import com.clubz.ui.cv.Purchase_membership_dialog
 import com.clubz.utils.Constants
 
 import com.clubz.utils.Util
@@ -143,6 +145,25 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                 countTxt.text = "" + p0?.length
             }
         })
+        if(SessionManager.getObj().membershipPlan!=null) {
+            if (!SessionManager.getObj().membershipPlan.ads_create.equals("")  &&!SessionManager.getObj().membershipPlan.ads_create.equals("1")) {
+
+                Handler().postDelayed({
+                    object : Purchase_membership_dialog(this) {
+                        override fun cancelplansListner() {
+                            finish()
+                        }
+
+                        override fun viewplansListner() {
+                            this.dismiss()
+                        }
+
+                    }.show()
+                }, 100)
+            }
+
+        }
+
     }
 
     override fun onClick(p0: View?) {
@@ -445,13 +466,13 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                             val adDetails = Gson().fromJson(data, AdDetailsCreated::class.java)
                             createAdInFireBase(adDetails)
                         } else {
-                            if (Locale.getDefault().language.equals("en")) {
+                           // if (Locale.getDefault().language.equals("en")) {
                                 showServerFailResponceDialog(message)
-                            } else {
-                                if (message.equals("You can publish only 3 ads per month")) {
+                           /* } else {
+                                //if (message.equals("You can publish only 3 ads per month")) {
                                     showServerFailResponceDialog("Puedes publicar solo 3 anuncios al mes.")
-                                }
-                            }
+                                //}
+                            }*/
                         }
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
@@ -490,7 +511,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun getHeaders(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
-                //  params.put("language", SessionManager.getObj().getLanguage())
+                params.put("language", SessionManager.getObj().getLanguage())
                 params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }

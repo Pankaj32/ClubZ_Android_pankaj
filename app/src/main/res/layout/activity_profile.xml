@@ -51,6 +51,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="10dp"
                     android:layout_gravity="end"
+                    android:visibility="gone"
                     android:gravity="center_vertical">
 
                     <TextView

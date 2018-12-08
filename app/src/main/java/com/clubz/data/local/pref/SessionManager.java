@@ -15,6 +15,7 @@ import com.clubz.data.local.db.repo.AllFabContactRepo;
 import com.clubz.data.local.db.repo.AllFeedsRepo;
 import com.clubz.data.local.db.repo.ClubNameRepo;
 import com.clubz.data.model.ClubName;
+import com.clubz.data.model.MembershipPlan;
 import com.clubz.data.model.UpdateAsync;
 import com.clubz.data.model.UserLocation;
 import com.clubz.ui.authentication.SignupActivity;
@@ -29,15 +30,21 @@ import com.google.gson.Gson;
 public class SessionManager {
 
     private SharedPreferences mypref;
+    private SharedPreferences mypreflan;
     private SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editorlan;
     private String Pref_Name = "ClubZ_app";
+    private String Pref_Name_lan = "ClubZ_app_lan";
     private String IS_LOGED_IN = "is_logged_in ";
     private static SessionManager obj;
 
     private SessionManager(Context context) {
         mypref = context.getSharedPreferences(Pref_Name, Context.MODE_PRIVATE);
+        mypreflan = context.getSharedPreferences(Pref_Name_lan, Context.MODE_PRIVATE);
         editor = mypref.edit();
+        editorlan = mypreflan.edit();
         editor.apply();
+        editorlan.apply();
         obj = this;
     }
 
@@ -90,6 +97,8 @@ public class SessionManager {
         return true;
     }
 
+
+
     public User getUser() {
 
         if (mypref.getString(Constants._id, "").isEmpty()) {
@@ -132,9 +141,60 @@ public class SessionManager {
             user.setShow_profile(mypref.getString(Constants._show_profile, ""));
             user.setAllow_anyone(mypref.getString(Constants._allow_anyone, ""));
             user.setHasAffiliates(mypref.getString(Constants._hasAffiliates, ""));
+            user.setUserCity(mypref.getString(Constants._userCity, ""));
             return user;
         }
     }
+
+    //********Membership plan*************
+
+    public boolean createMembershipSession(MembershipPlan plan) {
+        editor.putString(Constants._membershipPlanId, plan.getPlanDetails().getMembershipPlanId().trim());
+        editor.putString(Constants._plan_name, plan.getPlanDetails().getPlan_name().trim());
+        editor.putString(Constants._plan_price, plan.getPlanDetails().getPlan_price().trim());
+        editor.putString(Constants._plan_type, plan.getPlanDetails().getPlan_type().trim());
+        editor.putString(Constants._club_join, plan.getPlanDetails().getClub_join().trim());
+        editor.putString(Constants._club_create, plan.getPlanDetails().getClub_create());
+        editor.putString(Constants._news_read, plan.getPlanDetails().getNews_read());
+        editor.putString(Constants._news_create, plan.getPlanDetails().getNews_create());
+        editor.putString(Constants._activity_join, plan.getPlanDetails().getActivity_join());
+        editor.putString(Constants._activity_create,plan.getPlanDetails().getActivity_create());
+        editor.putString(Constants._chat_read, plan.getPlanDetails().getChat_read());
+        editor.putString(Constants._chat_create, plan.getPlanDetails().getClub_join());
+        editor.putString(Constants._ads_read, plan.getPlanDetails().getAds_read());
+        editor.putString(Constants._ads_create, plan.getPlanDetails().getAds_create());
+        editor.putString(Constants._status, plan.getPlanDetails().getStatus());
+        editor.putString(Constants._crd, plan.getPlanDetails().getCrd());
+        editor.apply();
+        return true;
+    }
+
+    public MembershipPlan.PlanDetailsBean getMembershipPlan() {
+
+        if (mypref.getString(Constants._membershipPlanId, "").isEmpty()) {
+            return null;
+        } else {
+            MembershipPlan.PlanDetailsBean plan = new MembershipPlan.PlanDetailsBean();
+            plan.setMembershipPlanId(mypref.getString(Constants._membershipPlanId,""));
+            plan.setPlan_name(mypref.getString(Constants._plan_name, ""));
+            plan.setPlan_price(mypref.getString(Constants._plan_price, ""));
+            plan.setPlan_type(mypref.getString(Constants._plan_type, ""));
+            plan.setClub_join(mypref.getString(Constants._club_join, ""));
+            plan.setClub_create(mypref.getString(Constants._club_create, ""));
+            plan.setNews_read(mypref.getString(Constants._news_read, ""));
+            plan.setNews_create(mypref.getString(Constants._news_create, ""));
+            plan.setActivity_join(mypref.getString(Constants._activity_join, ""));
+            plan.setActivity_create(mypref.getString(Constants._activity_create, ""));
+            plan.setChat_read(mypref.getString(Constants._chat_read, ""));
+            plan.setChat_create(mypref.getString(Constants._chat_create, ""));
+            plan.setAds_read(mypref.getString(Constants._ads_read, ""));
+            plan.setAds_create(mypref.getString(Constants._ads_create, ""));
+
+            return plan;
+        }
+    }
+
+
 
     public void setUpdateAppData(UpdateAsync update) {
         if (update != null) {
@@ -154,12 +214,12 @@ public class SessionManager {
     }
 
     public String getLanguage() {
-        return mypref.getString(Constants._userLanguage, "en");
+        return mypreflan.getString(Constants._userLanguage, "en");
     }
 
     public void setLanguage(String language) {
-        editor.putString(Constants._userLanguage, language);
-        editor.apply();
+        editorlan.putString(Constants._userLanguage, language);
+        editorlan.apply();
     }
 
     public UserLocation getLastKnownLocation() {
@@ -180,23 +240,18 @@ public class SessionManager {
             editor.apply();
         }
     }
+    public void setCity(String city) {
+        if (city != null) {
+            editor.putString(Constants._userCity,city);
+            editor.apply();
+        }
+    }
 
     public boolean isloggedin() {
         return mypref.getBoolean(IS_LOGED_IN, false);
     }
 
-    public void logout(Activity activity) {
-        editor.clear();
-        editor.apply();
-        new ClubNameRepo().deleteTable();
-        ClubZ.Companion.clearVirtualSession();
-        Intent i = new Intent(activity, SignupActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        activity.startActivity(i);
-        activity.finish();
-    }
-
-    public void logout(Context context) {
+    public void logout(Context activity) {
         editor.clear();
         editor.apply();
         new ClubNameRepo().deleteTable();
@@ -208,8 +263,26 @@ public class SessionManager {
         new AllEventsRepo().deleteTable();
         new AllFabContactRepo().deleteTable();
         ClubZ.Companion.clearVirtualSession();
-        Intent i = new Intent(context, SignupActivity.class);
+        Intent i = new Intent(activity, SignupActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        context.startActivity(i);
+        activity.startActivity(i);
+    }
+
+    public void logout(Activity activity) {
+        editor.clear();
+        editor.apply();
+        new ClubNameRepo().deleteTable();
+        new ClubNameRepo().deleteTable();
+        new AllClubRepo().deleteTable();
+        new AllAdsRepo().deleteTable();
+        new AllFeedsRepo().deleteTable();
+        new AllActivitiesRepo().deleteTable();
+        new AllEventsRepo().deleteTable();
+        new AllFabContactRepo().deleteTable();
+        ClubZ.Companion.clearVirtualSession();
+        Intent i = new Intent(activity, SignupActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activity.startActivity(i);
+        activity.finish();
     }
 }

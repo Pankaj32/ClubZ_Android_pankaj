@@ -36,7 +36,7 @@
             android:fontFamily="@font/roboto_medium"
             android:maxLines="1"
             android:singleLine="true"
-            android:text="@string/enterprise"
+            android:text="@string/plan"
             android:textColor="@color/white"
             android:textSize="16sp" />
     </RelativeLayout>

@@ -67,9 +67,11 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
     //ads
     private val ARG_AD_ID = "adId"
     private val ARG_AD_NAME = "adName"
+    private val ARG_AD_PIC = "adPic"
     //
     private val ARG_HISTORY_ID = "historyId"
     private val ARG_HISTORY_NAME = "historyName"
+    private val ARG_HISTORY_PIC = "historyPic"
 
     private var chatFor = ""
 
@@ -90,6 +92,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
 
     private var historyId = ""
     private var historyName = ""
+    private var historyPic = ""
 
     private var mstorage: FirebaseStorage? = null
     private var storageRef: StorageReference? = null
@@ -98,6 +101,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
     private var chatHistoryRoom = ""
     private var mUserId = ""
     private var mUserName = ""
+    private var mUserPic = ""
     private val databaseReference = FirebaseDatabase.getInstance().reference
     private var mChatRecyclerAdapter: ChatRecyclerAdapter? = null
     private var isCameraSelected: Boolean = false
@@ -128,6 +132,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
 
         mUserId = ClubZ.currentUser!!.id
         mUserName = ClubZ.currentUser!!.full_name
+        mUserPic= ClubZ.currentUser!!.profile_image
         app = FirebaseApp.getInstance()
         mstorage = FirebaseStorage.getInstance(app!!)
 
@@ -166,6 +171,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                     clubId = arguments.getString(ARG_CLUB_ID)
                     historyId = arguments.getString(ARG_HISTORY_ID)
                     historyName = arguments.getString(ARG_HISTORY_NAME)
+                    historyPic = arguments.getString(ARG_HISTORY_PIC)
                     chatRoom = clubId + "_" + historyId + "_" + chatFor
                     chatHistoryRoom = clubId + "_" + historyId + "_" + chatFor
                     getUserStatus()
@@ -178,6 +184,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                 ChatUtil.ARG_IDIVIDUAL -> {
                     historyId = arguments.getString(ARG_HISTORY_ID)
                     historyName = arguments.getString(ARG_HISTORY_NAME)
+                    historyPic = arguments.getString(ARG_HISTORY_PIC)
                     chatRoom = if (mUserId.toInt() > historyId.toInt()) historyId + "_" + mUserId + "_" + chatFor else mUserId + "_" + historyId + "_" + chatFor
                     chatHistoryRoom = chatRoom
                     if (mChatRecyclerAdapter == null) getMessageFromFirebaseUser()
@@ -735,6 +742,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                         memberTokenBean.userId = user?.uid
                         memberTokenBean.userName = user?.name
                         memberTokenBean.deviceToken = user?.firebaseToken
+                        memberTokenBean.userPic = user?.profilePic
                         membersTokenList.add(memberTokenBean)
                     }
                 })
@@ -751,10 +759,10 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         chatHistory.clubId = clubId
         chatHistory.historyId = historyId
         chatHistory.historyName = historyName
+        chatHistory.profilePic = historyPic
         if (member.userId.equals(ClubZ.currentUser?.id)) chatHistory.read = 1
         chatHistory.image = chatBean.image
         chatHistory.imageUrl = chatBean.imageUrl
-        chatHistory.profilePic = ""
         chatHistory.lastMessangerId = ClubZ.currentUser?.id
         chatHistory.lastMessanger = ClubZ.currentUser?.full_name
         chatHistory.message = chatBean.message
@@ -774,10 +782,10 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         chatHistory.clubId = clubId
         chatHistory.historyId = historyId
         chatHistory.historyName = historyName
+        chatHistory.profilePic = historyPic
         if (clubOwnerId.equals(ClubZ.currentUser?.id)) chatHistory.read = 1
         chatHistory.image = chatBean.image
         chatHistory.imageUrl = chatBean.imageUrl
-        chatHistory.profilePic = ""
         chatHistory.lastMessangerId = ClubZ.currentUser?.id
         chatHistory.lastMessanger = ClubZ.currentUser?.full_name
         chatHistory.message = chatBean.message
@@ -800,7 +808,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         chatHistory.read = 1
         chatHistory.image = chatBean.image
         chatHistory.imageUrl = chatBean.imageUrl
-        chatHistory.profilePic = ""
+        chatHistory.profilePic = historyPic
         chatHistory.lastMessangerId = ClubZ.currentUser?.id
         chatHistory.lastMessanger = ClubZ.currentUser?.full_name
         chatHistory.message = chatBean.message
@@ -823,7 +831,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         chatHistory.read = 0
         chatHistory.image = chatBean.image
         chatHistory.imageUrl = chatBean.imageUrl
-        chatHistory.profilePic = ""
+        chatHistory.profilePic = mUserPic
         chatHistory.lastMessangerId = ClubZ.currentUser?.id
         chatHistory.lastMessanger = ClubZ.currentUser?.full_name
         chatHistory.message = chatBean.message

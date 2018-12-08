@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             app:cardBackgroundColor="@color/white"
-            app:cardElevation="6dp"
+            app:cardElevation="1dp"
             app:cardUseCompatPadding="true"
             android:visibility="gone">
 

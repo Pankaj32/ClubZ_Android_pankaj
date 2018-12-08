@@ -359,6 +359,7 @@
 
     <string name="tab_to_add_filter_tags">tab to add filter tags</string>
     <string name="create_news_feed">Create news feed</string>
+    <string name="create_chat_feed">Create new chat</string>
     <string name="article_s_content">Article\'s content</string>
     <string name="create_new_nwes">New news</string>
     <string name="new_article">New Article</string>
@@ -575,13 +576,23 @@
     <string name="language">Language</string>
     <string name="main_location">Main location</string>
     <string name="options">Options</string>
-    <string name="standar">Standar</string>
+    <string name="plan">Basic</string>
     <string name="free">Free</string>
     <string name="search_and_join_club_you_like">Search and join the clubs you like *</string>
+    <string name="create_search_and_join_club_you_like">Create, Search and join the clubs you like *</string>
+
     <string name="stay_update_with_the_clubs_you_belong">Stay updated with the news of the clubs you belong</string>
+    <string name="create_stay_update_with_the_clubs_you_belong">Create and Stay updated with the news of the clubs you belong</string>
+
     <string name="join_those_activities_that_you_like_so_much">Join those activities that you like so much</string>
+    <string name="create_join_those_activities_that_you_like_so_much">Create and Join those activities that you like so much</string>
+
     <string name="stay_in_contact_with_your_partners_neighbors_or_friends">Stay in contact with your partners, neighbors or friends</string>
-    <string name="promote_your_things_fast_and_easy">Promote your things fast and easy</string>
+    <string name="cannot_stay_in_contact_with_your_partners_neighbors_or_friends">Can not contact with your partners, neighbors or friends</string>
+
+    <string name="promote_your_things_fast_and_easy">Add, Promote your things fast and easy</string>
+    <string name="cannot_promote_your_things_fast_and_easy">Can not Add and Promote your things</string>
+
     <string name="each_club_reserves_the_right_of_admission">*Each club reserves the right of admission</string>
     <string name="contact_us">Contact Us!</string>
     <string name="contact_us_btn">CONTACT US</string>

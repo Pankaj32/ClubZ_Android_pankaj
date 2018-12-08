@@ -7,4 +7,5 @@ class MembersFBTokenBean {
     var userId: String? = null
     var userName: String? = null
     var deviceToken: String? = null
+    var userPic: String? = null
 }

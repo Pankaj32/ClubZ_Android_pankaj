@@ -22,6 +22,8 @@ import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.AllChatActivity
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
 import com.clubz.data.model.Profile
@@ -48,6 +50,12 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
     private var isMyprofile = false
     private var isUpdatedProfile = false
     protected var menuDialog: Dialog? = null
+    private val ARG_CHATFOR = "chatFor"
+    private val ARG_HISTORY_ID = "historyId"
+    private val ARG_HISTORY_NAME = "historyName"
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +64,8 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         intent.let {
             if (intent.hasExtra("profile")) profile = it.extras.getSerializable("profile") as Profile
             isMyprofile = profile?.userId == ClubZ.currentUser!!.id
+
+
         }
 
         setSupportActionBar(toolbar)
@@ -206,13 +216,27 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
             }
         }
         if (isMyprofile) {
-            ll_silenceUser.visibility = View.GONE
+            //ll_silenceUser.visibility = View.GONE
             ivChat.visibility = View.GONE
         } else {
-            ll_silenceUser.visibility = View.VISIBLE
+           // ll_silenceUser.visibility = View.VISIBLE
             ivChat.visibility = View.VISIBLE
             appbar_layout!!.addOnOffsetChangedListener(this)
         }
+
+        ivChat.setOnClickListener(View.OnClickListener {
+
+            if (!profile!!.userId.equals("")) {
+                startActivity(Intent(this@ProfileActivity, AllChatActivity::class.java)
+                        .putExtra(ARG_CHATFOR, ChatUtil.ARG_IDIVIDUAL)
+                        .putExtra(ARG_HISTORY_ID, profile!!.userId)
+                        .putExtra(ARG_HISTORY_NAME, profile!!.full_name)
+                )
+            } else {
+                Toast.makeText(this@ProfileActivity, "Under development", Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
     private fun updateView(profile: Profile) {
@@ -239,6 +263,9 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
         collapse_toolbar.title = this.profile!!.full_name
         if (isMyprofile) {
             updateMyProfile(profile)
+
+
+
         } else {
             updateOthersProfile(profile)
         }
@@ -315,8 +342,11 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
     }
 
     fun updateMyProfile(profile: Profile) {
-        if (profile.dob.equals("0000-00-00")) {
+        if (!profile.dob.equals("0000-00-00")) {
             tvDob.text = Util.convertDobDate(profile.getFormatedDOB())
+        }
+        else{
+            tvDob.text = getString(R.string.a_notAvailable);
         }
         if (!profile.about_me.trim().equals("")) tvAboutMe.text = profile.about_me
         tv_phoneNo.text = this.profile?.getContactNo()
@@ -468,6 +498,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
                         profile = Gson().fromJson(obj.getString("data"), Profile::class.java)
+
                         updateView(profile!!)
                     }
                 } catch (ex: Exception) {

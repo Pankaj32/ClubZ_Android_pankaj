@@ -149,9 +149,15 @@ abstract class BaseHomeActivity : BaseActivity(),
 
             if (list != null) {
                 menuDialog?.ll_menu0?.visibility = View.VISIBLE
+                menuDialog?.view?.visibility = View.GONE
                 menuDialog?.menu_iv0?.setImageResource(list[0].id)
                 menuDialog?.menu_tv0?.text = list[0].title
+
+
+
                 if (list.size > 1) {
+                    menuDialog?.ll_menu1?.visibility = View.VISIBLE
+                    menuDialog?.view?.visibility = View.VISIBLE
                     menuDialog?.menu_iv1?.setImageResource(list[1].id)
                     menuDialog?.menu_tv1?.text = list[1].title
                 }
@@ -222,6 +228,10 @@ abstract class BaseHomeActivity : BaseActivity(),
             getString(R.string.my_activity) -> {
                 navigateMyActivity()
             }
+
+            getString(R.string.create_chat_feed) -> {
+               navigateContactActivity()
+            }
             getString(R.string.my_ads) -> {
                 navigateMyAds()
             }
@@ -248,6 +258,7 @@ abstract class BaseHomeActivity : BaseActivity(),
     abstract fun navigateMyAds()
     abstract fun navigateCreateNewsFeed()
     abstract fun navigateMyActivity()
+    abstract fun navigateContactActivity()
     //abstract fun navigateOthersActivity()
     abstract fun checkLocationUpdate()
 

@@ -105,6 +105,7 @@
             android:id="@+id/recycleViewContactList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:listitem="@layout/adapter_contact_list" />
 

@@ -168,7 +168,7 @@ class ClubFilterFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, MyC
         val dialog = CusDialogProg(context)
         dialog.show()
         object : VolleyGetPost(activity, WebService.club_silence, false,
-                true) {
+                false) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()

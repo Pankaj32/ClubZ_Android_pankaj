@@ -85,7 +85,19 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
 
         @Override
         protected ClubMember getProfile() {
-            return memberList.get(getAdapterPosition());
+
+            ClubMember club = memberList.get(getAdapterPosition());
+            ClubMember member = new ClubMember();
+            member.setFull_name(club.getFull_name());
+            member.setUserId(club.getUserId());
+            member.setProfile_image(club.getProfile_image());
+            member.setContact_no(club.getContact_no());
+            member.setContact_no_visibility(club.getContact_no_visibility());
+            member.setClubId(club.getClubId());
+            // member.isLiked = club.
+            return member;
+
+
         }
 
         @Override

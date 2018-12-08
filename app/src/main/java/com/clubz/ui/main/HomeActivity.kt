@@ -79,6 +79,8 @@ import org.json.JSONObject
 class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener,
         ClubFilterFragment.Listener {
+
+
     // private lateinit var mDrawerLayout: DrawerLayout
     private var isOpenMyClub: Boolean = false
     private var isRightNavDrawerOpen: Boolean = false
@@ -105,6 +107,10 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     private var tab: TabLayout.Tab? = null
     var nav: View? = null
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sessionManager = SessionManager.getObj()
@@ -120,6 +126,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             ClubZ.latitude = userLocation.latitude
             ClubZ.longitude = userLocation.longitude
             ClubZ.city = userLocation.city
+
         }
 
         Util.e("authtoken", ClubZ.currentUser!!.auth_token)
@@ -127,7 +134,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         initView()  // ui variables initialization and update
         updateFirebaseToken()
         replaceFragment(FragNewsList())
-
+       // getMembershipPlan()
         // setup navigation drawer
         val mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             override fun onDrawerClosed(view: View) {
@@ -167,11 +174,11 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         navigationView.setNavigationItemSelectedListener(this)
         nav = navigationView.getHeaderView(0)
         //nav.rlMyProfile.setOnClickListener(this)
-        setprofiledata()
+
         nav?.nav_optionMenu?.setOnClickListener {
             showLogoutPopup(nav!!.nav_optionMenu)
         }
-
+        setprofiledata()
     }
 
     fun setprofiledata() {
@@ -179,6 +186,14 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         //  nav?.nav_tvStatus!!.text = ClubZ.currentUser!!.about_me
         if (ClubZ.currentUser!!.profile_image.isNotEmpty()) {
             Glide.with(this).load(ClubZ.currentUser!!.profile_image)/*.fitCenter()*/.into(nav!!.iv_profileImage)
+        }
+        if(SessionManager.getObj().membershipPlan!=null){
+
+            if(!SessionManager.getObj().membershipPlan.plan_name.equals("")){
+                nav?.nav_membership!!.text = SessionManager.getObj().membershipPlan.plan_name
+            }
+
+
         }
     }
 
@@ -355,6 +370,9 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         fragment.doFilter()
     }
 
+    override fun navigateContactActivity() {
+        startActivity(Intent(this@HomeActivity, ContactListActivity::class.java))
+    }
     override fun navigateMyAds() {
         val fragment = getCurrentFragment()
         fragment as AdsFragment
@@ -362,7 +380,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     }
 
     override fun navigateCreateAAd() {
-        /*if (SessionManager.getObj().update.needToUpdateMyClubs) {
+        if (SessionManager.getObj().update.needToUpdateMyClubs) {
             val dialog = CusDialogProg(this@HomeActivity)
             dialog.show()
             val task = AppAsnycTask()
@@ -379,16 +397,20 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 }
             }
             task.syncAppData()
-        } else {*/
+        } else {
         val tempClubList = AllClubRepo().getAllClubs()
         val clubList = ArrayList<ClubName>()
         for (club in tempClubList) {
-            if (club.notSilent.equals("1")) {
-                val data = ClubName()
-                data.clubId = club.clubId
-                data.club_name = club.club_name
-                clubList.add(data)
+
+            if (club.clubId!=1) {
+                if (club.notSilent.equals("1")) {
+                    val data = ClubName()
+                    data.clubId = club.clubId
+                    data.club_name = club.club_name
+                    clubList.add(data)
+                }
             }
+
         }
 
         when (clubList.size) {
@@ -408,7 +430,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 }.show()
             }
         }
-        //}
+        }
     }
 /*
     override fun navigateOthersActivity() {
@@ -420,6 +442,18 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         *//*setTab(tab!!, R.drawable.ic_activity_active, true)
         replaceFragment(Frag_Find_Activities())*//*
     }*/
+
+    override fun onResume() {
+        super.onResume()
+        if(SessionManager.getObj().membershipPlan!=null){
+
+            if(!SessionManager.getObj().membershipPlan.plan_name.equals("")){
+                nav?.nav_membership!!.text = SessionManager.getObj().membershipPlan.plan_name
+            }
+
+
+        }
+    }
 
     override fun onRightNavigationItemChange() {
         /*val newsFeedFragment: FragNewsList? = supportFragmentManager.fragments
@@ -605,14 +639,13 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                         showMenu(list, frag)
                     }
 
-                    /*  Frag_Find_Activities::class.java.simpleName -> {
-                          //showMyActivityDialog()
+                    FragmentChatHistory::class.java.simpleName -> {
+                        frag as FragmentChatHistory
                           val list: ArrayList<DialogMenu> = arrayListOf()
-                          list.add(DialogMenu(getString(R.string.t_new_activity), R.drawable.ic_add_24))
-                          list.add(DialogMenu(getString(R.string.my_activity), R.drawable.ic_nav_event))
+                          list.add(DialogMenu(getString(R.string.create_chat_feed), R.drawable.ic_add_24))
                           //list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
                           showMenu(list, frag)
-                      }*/
+                      }
 
                     Frag_My_Activity::class.java.simpleName -> {
                         frag as Frag_My_Activity
@@ -853,6 +886,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         }
     }
 
+
     @Synchronized
     private fun buildGoogleApiClient() {
         mGoogleApiClient = GoogleApiClient.Builder(this)
@@ -962,10 +996,14 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
         val task = @SuppressLint("StaticFieldLeak")
         object : GioAddressTask(this@HomeActivity) {
+            override fun onFail() {
+            }
+
             override fun onSuccess(address: Address) {
                 ClubZ.city = address.city.toString()
                 userLocation.city = ClubZ.city
                 sessionManager.setLocation(userLocation)
+                sessionManager.setCity(address.city.toString())
             }
         }
         task.execute(latitude, longitude)
@@ -1044,4 +1082,10 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             AllFabContactRepo().insert(allFavContact)
         }
     }
+
+
+
+
+
+
 }

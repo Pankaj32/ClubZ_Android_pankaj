@@ -15,13 +15,16 @@ abstract class Purchase_membership_dialog(context: Context) : Dialog(context) {
     init {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
         this.setContentView(R.layout.z_cus_enterpriseplan)
+        this.setCancelable(false)
         viewplans.setOnClickListener { viewplansListner() }
         cancel.setOnClickListener(object : View.OnClickListener{
             override fun onClick(p0: View?) {
+                cancelplansListner();
                 this@Purchase_membership_dialog.dismiss()
             }
         })
     }
 
     abstract fun viewplansListner()
+    abstract fun cancelplansListner()
 }

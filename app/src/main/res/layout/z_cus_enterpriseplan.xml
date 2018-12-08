@@ -60,7 +60,7 @@
         android:id="@+id/viewplans"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/button_size"
-        android:text="@string/viewplan"
+        android:text="@string/contact_us"
         android:layout_toStartOf="@+id/blank"
         android:layout_marginBottom="@dimen/_8sdp"
         android:textSize="@dimen/_13sdp"

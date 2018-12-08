@@ -14,5 +14,6 @@ class ChatBean {
     var message: String? = null
     var senderId: String? = null
     var senderName: String? = null
+    var senderPic: String? = null
     var timestamp: Any? = null
 }

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ import kotlinx.android.synthetic.main.frag_my_clubs.*
 import kotlinx.android.synthetic.main.no_contant_layout.*
 import org.json.JSONObject
 import java.util.ArrayList
+import kotlin.math.log
 
 class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, MyClub {
     override fun onSilenceClub(club: Clubs, position: Int) {
@@ -125,11 +127,12 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
         val dialog = CusDialogProg(activity )
         if(text.isBlank() || showProgres)dialog.show()
         object  : VolleyGetPost(activity , activity , WebService.club_search,false,
-                true){
+                false){
             override fun onVolleyResponse(response: String?) {
-                dialog.dismiss()
+
                 //{"status":"success","message":"found","data":[{"clubId":"20","user_id":"52","club_name":"Mindiii","club_description":"this is a mindiii company","club_image":"http:\/\/clubz.co\/dev\/uploads\/club_image\/32e494d9cb36f6a0d73d792bebee8e6e.jpg","club_foundation_date":"2018-03-15","club_email":"pankaj.mindiii@gmail.com","club_contact_no":"9630612281","club_country_code":"+91","club_website":"www.google.com","club_location":"Indore Jn.","club_address":"140 square","club_latitude":"22.7170909","club_longitude":"75.8684423","club_type":"1","club_category_id":"2","terms_conditions":"indore company","comment_count":"0","status":"1","crd":"2018-03-16 11:32:09","upd":"2018-03-16 11:32:09","club_category_name":"Sports","full_name":"Pankaj","club_user_status":"","distance":""}]}
                 try{
+                    dialog.dismiss()
                      val obj = JSONObject(response)
                     if(obj.getString("status")=="success"){
                         //val list  = Gson().fromJson<ArrayList<Clubs>>(obj.getJSONArray("data").toString() , Type_Token.club_list)
@@ -146,7 +149,7 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
                     adapter?.notifyDataSetChanged()
 
                 }catch (ex: Exception){
-                    Util.showToast(R.string.swr,context!!)
+                    Util.showToast(R.string.swr,activity!!)
                 }
             }
 
@@ -163,6 +166,7 @@ class FragNearClubs : Fragment() , View.OnClickListener, SwipeRefreshLayout.OnRe
                 params["offset"] = offset.toString()
                 params["limit"] = "10"
                 params["clubType"] = ClubZ.isPrivate.toString()
+                Log.e("ParamNearMe",""+params);
                 return params
             }
 

@@ -27,6 +27,7 @@ class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.O
 
     lateinit var adapter: ViewPagerAdapter
     private var adId: String = ""
+    private var adPic: String = ""
     private var adTitle: String = ""
     private var clubId: String = ""
     private var clubName: String = ""
@@ -56,6 +57,7 @@ class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.O
                 adTitle = adBean!!.title!!
                 clubId = adBean!!.club_id!!
                 clubName = adBean!!.club_name!!
+                adPic = adBean!!.image!!
                 setViewPager(viewPager)
             }
 
@@ -71,7 +73,7 @@ class AdDetailsActivity : AppCompatActivity(), View.OnClickListener, ViewPager.O
     fun setViewPager(viewPager: ViewPager) {
         adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(FragAdsDetails.newInstance(adBean, adType), resources.getString(R.string.a_activity_first_tab), " This is First")
-        adapter.addFragment(FragmentChat.newInstanceAdChat(adId, clubId, adTitle), resources.getString(R.string.a_activity_snd_tab), " This is second")
+        adapter.addFragment(FragmentChat.newInstanceAdChat(adId, clubId, adTitle,adPic), resources.getString(R.string.a_activity_snd_tab), " This is second")
         viewPager.adapter = adapter
         //Chiranjib
     }

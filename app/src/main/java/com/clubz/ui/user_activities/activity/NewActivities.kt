@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -38,6 +39,7 @@ import com.clubz.ui.user_activities.model.GetLeaderResponce
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.Internet_Connection_dialog
+import com.clubz.ui.cv.Purchase_membership_dialog
 import com.clubz.ui.user_activities.model.ActivitiesBean
 import com.clubz.ui.user_activities.model.ActivityDetailsResponce
 import com.clubz.ui.user_activities.model.GetMyClubResponce
@@ -92,6 +94,26 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         initializeView()
         if (activityBean != null) {
             updateUiForEdit()
+        }
+        else{
+            if(SessionManager.getObj().membershipPlan!=null) {
+                if (!SessionManager.getObj().membershipPlan.activity_create.equals("") &&!SessionManager.getObj().membershipPlan.activity_create.equals("1")) {
+
+                    Handler().postDelayed({
+                        object : Purchase_membership_dialog(this) {
+                            override fun cancelplansListner() {
+                                finish()
+                            }
+
+                            override fun viewplansListner() {
+                                this.dismiss()
+                            }
+
+                        }.show()
+                    }, 100)
+                }
+
+            }
         }
         //getClub()
         clubNameTxt.text = clubName
@@ -195,6 +217,8 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         imgActivity.setOnClickListener(this@NewActivities)
         back_f.setOnClickListener(this@NewActivities)
         done.setOnClickListener(this@NewActivities)
+
+
     }
 
     fun updateUiForEdit() {
@@ -710,6 +734,13 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 .child(activityDetails.getDetails()?.activityId!!)
                 .setValue(activityBean).addOnCompleteListener {
                     joinActivityInFireBase(activityDetails.getDetails()?.activityId!!)
+
+                    if(!activityDetails.getDetails()?.clubLeaderId.equals("")){
+                        joinLeaderActivityInFireBase(activityDetails.getDetails()?.activityId!!,activityDetails.getDetails()?.clubLeaderId!!)
+                    }
+                    else{
+                        finish()
+                    }
                 }
     }
 
@@ -720,8 +751,18 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                     .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
                     .child(activityId)
                     .child(userId).setValue(userId).addOnCompleteListener {
-                        finish()
+                       // finish()
                     }
+    }
+    private fun joinLeaderActivityInFireBase(activityId: String,leaderID: String) {
+
+        FirebaseDatabase.getInstance()
+                .reference
+                .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                .child(activityId)
+                .child(leaderID).setValue(leaderID).addOnCompleteListener {
+                    finish()
+                }
     }
 
     override fun onBackPressed() {

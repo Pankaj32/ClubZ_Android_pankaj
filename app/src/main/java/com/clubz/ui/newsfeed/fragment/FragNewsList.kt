@@ -41,6 +41,7 @@ import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_news.*
+import kotlinx.android.synthetic.main.fragment_ads.*
 import org.json.JSONObject
 
 
@@ -95,7 +96,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         pageListner?.resetState()
         getFeeds(0)
     }
-*/
+*/   private var plan: MembershipPlan? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { isMyFeed = it.getBoolean("isMyFeed") }
@@ -383,8 +384,23 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
                         newsFeeds.addAll(Gson().fromJson<ArrayList<Feed>>(obj.getJSONArray("data").toString(), Type_Token.feed_list))
                         updateUI()
                         if (isPull) updateDB()
+                        getMembershipPlan();
                     }
+                    if(obj.getString("status") == "fail"&&isPull){
+                        newsFeeds.clear()
+                        AllFeedsRepo().deleteTable()
+                        updateUI()
+                        getMembershipPlan();
+                    }
+
+
+
+
+
+
                 } catch (ex: Exception) {
+                    ex.printStackTrace()
+
                 }
             }
 
@@ -416,7 +432,9 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
 
     private fun updateDB() {
         AllFeedsRepo().deleteTable()
-        for (i in 0..9) {
+        for (i in newsFeeds.indices) {
+
+
             val feed = newsFeeds[i]
             val allfeeds = AllFeeds()
             allfeeds.newsFeedId = feed.newsFeedId
@@ -444,6 +462,8 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
             allfeeds.crd = feed.crd
             allfeeds.clubUserId = feed.clubUserId
             AllFeedsRepo().insert(allfeeds)
+
+            if(i==9)break
         }
     }
 
@@ -462,6 +482,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
                     }
                 } catch (ex: Exception) {
                     Util.showToast(R.string.swr, context!!)
+
                 }
             }
 
@@ -485,4 +506,47 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
             }
         }.execute()
     }
+
+    private fun getMembershipPlan() {
+       // val dialog = CusDialogProg(activity)
+        object : VolleyGetPost(activity, WebService.getMembershipPlanList, true,
+                false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    //dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if (obj.getString("status") == "success") {
+
+                        plan = Gson().fromJson<MembershipPlan>(response, MembershipPlan::class.java)
+                        SessionManager.getObj().createMembershipSession(plan)
+                    }
+
+
+                } catch (ex: Exception) {
+
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+               // dialog.dismiss()
+            }
+
+            override fun onNetError() {
+               // dialog.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = SessionManager.getObj().user.auth_token
+                return params
+            }
+        }.execute()
+    }
+
+
+
 }

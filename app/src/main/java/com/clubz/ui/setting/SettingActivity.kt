@@ -25,6 +25,7 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Util.checklaunage(this)
         setContentView(R.layout.activity_setting)
         ivBack.setOnClickListener(this)
         rl_change_language.setOnClickListener(this)

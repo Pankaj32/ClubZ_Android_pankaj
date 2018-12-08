@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.RelativeLayout;
+
 import com.clubz.R;
 
 public class MainActivity extends AppCompatActivity implements
@@ -13,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final String DEBUG_TAG = "Gestures";
     private GestureDetectorCompat mDetector;
-
+    RelativeLayout main_swipe_view;
     // Called when the activity is first created.
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements
         // Set the gesture detector as the double tap
         // listener.
         //mDetector.setOnDoubleTapListener(this);
+
     }
 
     @Override
@@ -71,5 +75,6 @@ public class MainActivity extends AppCompatActivity implements
         Log.e(DEBUG_TAG, "onSingleTapUp: " + event.toString());
         return true;
     }
+
 
 }

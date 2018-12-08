@@ -22,6 +22,7 @@ abstract class GioAddressTask (val mContext: Context): AsyncTask<Double, Boolean
             val addresses = geocoder.getFromLocation(p0[0]!!, p0[1]!!, 1)
             if (addresses.size > 0) address = addresses[0]
         } catch (e: IOException) {
+            onFail();
             e.printStackTrace()
         }
 
@@ -41,10 +42,22 @@ abstract class GioAddressTask (val mContext: Context): AsyncTask<Double, Boolean
             adr.latitude = latLng?.latitude.toString()
             adr.longitude = latLng?.longitude.toString()
             adr.placeName = adr.city + ", " + adr.country
-            onSuccess(adr)
+
+            if(adr.city==null){
+                onFail();
+            }
+
+            else{
+                onSuccess(adr)
+            }
+
+        }
+        else{
+            onFail();
         }
 
     }
     
     abstract fun onSuccess(address: com.clubz.data.model.Address)
+    abstract fun onFail()
 }

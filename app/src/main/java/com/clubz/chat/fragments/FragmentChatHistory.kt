@@ -46,6 +46,7 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
     private val ARG_CLUB_ID = "clubId"
     private val ARG_HISTORY_ID = "historyId"
     private val ARG_HISTORY_NAME = "historyName"
+    private val ARG_HISTORY_PIC = "historyPic"
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -133,6 +134,11 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                     ChatUtil.ARG_ADS -> {
                         getAdsImage(historyBean)
                     }
+                    ChatUtil.ARG_IDIVIDUAL -> {
+                      //  getAdsImage(historyBean)
+                    }
+
+
                 }
             }
 
@@ -222,6 +228,7 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 })
     }
 
+
     private fun getActivityImage(historyBean: ChatHistoryBean) {
         FirebaseDatabase.getInstance()
                 .reference
@@ -302,6 +309,7 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 .putExtra(ARG_CLUB_ID, historyBean?.clubId)
                 .putExtra(ARG_HISTORY_ID, historyBean?.historyId)
                 .putExtra(ARG_HISTORY_NAME, historyBean?.historyName)
+                .putExtra(ARG_HISTORY_PIC, historyBean?.profilePic)
         )
 
     }

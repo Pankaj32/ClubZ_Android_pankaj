@@ -56,9 +56,9 @@ public class DateTimeUtil {
 
         Date curDate = currentDate();
         long now = curDate.getTime();
-        if (time > now || time <= 0) {
+       /* if (time > now || time <= 0) {
             return null;
-        }
+        }*/
 
         int dim = getTimeDistanceInMinutes(time);
         String timeAgo = null;

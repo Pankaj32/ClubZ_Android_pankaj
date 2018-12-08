@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -148,6 +149,7 @@ class FragMyClubs : Fragment(), View.OnClickListener, SwipeRefreshLayout.OnRefre
 
     override fun onRefresh() {
         getMyClubs(ispull = true)
+        pageListner?.resetState()
         swipeRefreshLayout.isRefreshing = false
     }
 
@@ -205,6 +207,7 @@ class FragMyClubs : Fragment(), View.OnClickListener, SwipeRefreshLayout.OnRefre
                 params["offset"] = offset.toString()
                 params["limit"] = "10"
                 params["clubType"] = ClubZ.isPrivate.toString()
+                Log.e("MyClubListParam",params.toString())
                 return params
             }
 
@@ -221,7 +224,7 @@ class FragMyClubs : Fragment(), View.OnClickListener, SwipeRefreshLayout.OnRefre
         val dialog = CusDialogProg(context)
         dialog.show()
         object : VolleyGetPost(activity, WebService.club_silence, false,
-                true) {
+                false) {
             override fun onVolleyResponse(response: String?) {
                 try {
                     dialog.dismiss()
