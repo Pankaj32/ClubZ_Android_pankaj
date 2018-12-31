@@ -25,12 +25,14 @@ class ZoomDialog(internal val context: Context, imgUrl: String) : Dialog(context
         this.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         this.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         this.setContentView(view)
-
+        this.setCancelable(true)
+        this.setCanceledOnTouchOutside(true)
         if (!imgUrl.isNullOrEmpty()) {
             Glide.with(zoomImageView.context).load(imgUrl)
                     .into(zoomImageView)
         }
         cancelBtn.setOnClickListener(this)
+
     }
 
     override fun onClick(p0: View?) {

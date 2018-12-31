@@ -22,6 +22,7 @@ import com.clubz.data.model.Profile
 import com.clubz.data.model.UserInfo
 import com.clubz.ui.dialogs.ProfileDialog
 import com.clubz.ui.dialogs.UserProfileDialog
+import com.clubz.ui.dialogs.ZoomDialog
 import com.clubz.ui.profile.ProfileActivity
 import com.clubz.utils.CircleTransform
 import com.clubz.utils.Util
@@ -96,7 +97,7 @@ class FragClubDetails1 : Fragment() {
         if (clubz.club_email.trim().isNotEmpty())club_email.setText(clubz.club_email)
         if (clubz.club_contact_no.trim().isNotEmpty())club_phone.setText(String.format("%s %s", clubz.club_country_code, clubz.club_contact_no))
         if (clubz.club_city.trim().isNotEmpty())club_city.setText(clubz.club_city)
-        if (clubz.club_location.trim().isNotEmpty())club_address.setText(clubz.club_location)
+        if (clubz.club_address.trim().isNotEmpty())club_address.setText(clubz.club_address)
         if (clubz.club_website.trim().isNotEmpty())club_web.setText(clubz.club_website)
         tvLeadby.text = clubz.full_name
         members.text = String.format("%d %s", clubz.members, getString(R.string.members))
@@ -123,7 +124,16 @@ class FragClubDetails1 : Fragment() {
                         override fun onError() { }
                     })
         }
+
+
 */
+        img_club.setOnClickListener(View.OnClickListener {
+
+            val dialog = ZoomDialog(context!!, clubz.club_image!!)
+            dialog.show()
+
+        })
+
         try {
             if (!clubz.club_image.endsWith("clubDefaultImage.png")) {
                 img_club.visibility=View.VISIBLE

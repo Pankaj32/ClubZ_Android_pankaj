@@ -34,6 +34,7 @@ import com.clubz.utils.KeyboardUtil
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.picker.ImagePicker.getImageResized
 import com.clubz.utils.picker.ImageRotator
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -598,7 +599,7 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                  }*/
                 var bm: Bitmap? = null
                 bm = getImageResized(this@AllChatActivity, imageUri)
-                val rotation = ImageRotator.getRotation(this@AllChatActivity, imageUri, true)
+                val rotation = ImageRotator.getRotation(this@AllChatActivity, imageUri, false)
                 bm = ImageRotator.rotate(bm, rotation)
 
                 val file = File(this@AllChatActivity.getExternalCacheDir(), UUID.randomUUID().toString() + ".jpg")
@@ -678,9 +679,18 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
         val photoRef = storageRef?.child(selectedImageUri.lastPathSegment)
         photoRef?.putFile(selectedImageUri)?.addOnSuccessListener { taskSnapshot ->
             val fireBaseUri = taskSnapshot.uploadSessionUri
-            Log.e("TAG", "onSuccess: ")
-            progressbar?.visibility = View.GONE
-            sendMessage(fireBaseUri!!.toString(), "image", chatFor)
+
+            taskSnapshot.storage.downloadUrl.addOnSuccessListener(object : OnSuccessListener<Uri> {
+                override fun onSuccess(p0: Uri?) {
+                    Log.e("TAG", "onSuccess: ")
+                    progressbar?.visibility = View.GONE
+                    sendMessage(p0!!.toString(), "image", chatFor)
+
+                }
+
+            })
+
+
         }
                 ?.addOnFailureListener { e ->
                     progressbar?.visibility = View.GONE
@@ -897,11 +907,15 @@ class AllChatActivity : AppCompatActivity(), View.OnClickListener, ChatRecyclerA
                         if (isActivityJoind) {
                             silentTxt?.visibility = View.GONE
                             silentTxt?.isClickable = true
+                            rootView.visibility = View.VISIBLE
+                            nodataLay.visibility = View.GONE
                             chatRecycler?.visibility = View.VISIBLE
                             noDataTxt?.visibility = View.GONE
                         } else {
-                            silentTxt?.visibility = View.VISIBLE
-                            silentTxt?.text = getString(R.string.first_join_this_activity)
+                            nodataLay.visibility = View.VISIBLE
+                            //silentTxt?.visibility = View.VISIBLE
+                            rootView.visibility = View.GONE
+                            //silentTxt?.text = getString(R.string.first_join_this_activity)
                             chatRecycler?.visibility = View.GONE
                             noDataTxt?.visibility = View.VISIBLE
                         }

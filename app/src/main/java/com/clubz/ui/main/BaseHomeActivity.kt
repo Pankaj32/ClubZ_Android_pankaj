@@ -22,6 +22,8 @@ import com.clubz.ui.cv.Internet_Connection_dialog
 import com.clubz.ui.newsfeed.fragment.FragNewsList
 import com.clubz.utils.Util
 import kotlinx.android.synthetic.main.club_more_menu.*
+import kotlinx.android.synthetic.main.menu_activity_notification_filter.*
+import kotlinx.android.synthetic.main.menu_chat_filter.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 
 abstract class BaseHomeActivity : BaseActivity(),
@@ -30,8 +32,11 @@ abstract class BaseHomeActivity : BaseActivity(),
     //protected var dialog : Dialog? = null
     protected var menuDialog: Dialog? = null
     protected var newsFilterDialog: Dialog? = null
+    protected var chatFilterDialog: Dialog? = null
+    protected var activityFilterDialog: Dialog? = null
     protected var invalidateThreeDotMenu: Boolean = false
     // protected var myActivityDailog: Dialog? = null
+
 
     override fun replaceFragment(fragment: Fragment) {
         super.replaceFragment(fragment)
@@ -97,21 +102,72 @@ abstract class BaseHomeActivity : BaseActivity(),
 
     @SuppressLint("RtlHardcoded")
     private fun showFilterDialog() {
-        if (newsFilterDialog == null) {
+
+        if(newsFilterDialog == null) {
             newsFilterDialog = Dialog(this)
             newsFilterDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val dialogWindow = newsFilterDialog?.window
             dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             newsFilterDialog?.setContentView(R.layout.menu_news_filter)
+            for (views in arrayOf(newsFilterDialog?.ch_myClubOnly/*, newsFilterDialog?.ch_byClubs*/, newsFilterDialog?.ch_byComments, newsFilterDialog?.ch_byLikes/*, newsFilterDialog?.ll_clearFilter*/))
+                views?.setOnClickListener(getActivity())
+
             val lp = dialogWindow?.attributes
             dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
             lp?.y = -100
             dialogWindow?.attributes = lp
             newsFilterDialog?.setCancelable(true)
-            for (views in arrayOf(newsFilterDialog?.ch_myClubOnly/*, newsFilterDialog?.ch_byClubs*/, newsFilterDialog?.ch_byComments, newsFilterDialog?.ch_byLikes/*, newsFilterDialog?.ll_clearFilter*/))
-                views?.setOnClickListener(getActivity())
+
         }
-        newsFilterDialog?.show()
+            newsFilterDialog?.show()
+        // newsFilterDialog?.setOnDismissListener { updateMyNewsFeed() }
+    }
+
+    @SuppressLint("RtlHardcoded")
+    private fun showChatFilterDialog() {
+
+        if(chatFilterDialog == null) {
+            chatFilterDialog = Dialog(this)
+            chatFilterDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val dialogWindow = chatFilterDialog?.window
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            chatFilterDialog?.setContentView(R.layout.menu_chat_filter)
+
+
+            for (views in arrayOf(chatFilterDialog?.ch_newschatOnly/*, newsFilterDialog?.ch_byClubs*/, chatFilterDialog?.ch_bypersonalchat, chatFilterDialog?.ch_byactivity, chatFilterDialog?.ch_byads))
+                views?.setOnClickListener(getActivity())
+            val lp = dialogWindow?.attributes
+            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+            lp?.y = -100
+            dialogWindow?.attributes = lp
+            chatFilterDialog?.setCancelable(true)
+
+        }
+        chatFilterDialog?.show()
+        // newsFilterDialog?.setOnDismissListener { updateMyNewsFeed() }
+    }
+
+    @SuppressLint("RtlHardcoded")
+    private fun showActivityNotificationFilterDialog() {
+
+        if(activityFilterDialog == null) {
+            activityFilterDialog = Dialog(this)
+            activityFilterDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val dialogWindow = activityFilterDialog?.window
+            dialogWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            activityFilterDialog?.setContentView(R.layout.menu_activity_notification_filter)
+
+
+            for (views in arrayOf(activityFilterDialog?.ch_date_confirm/*, newsFilterDialog?.ch_byClubs*/, activityFilterDialog?.activity_chat, chatFilterDialog?.ch_cancelled))
+                views?.setOnClickListener(getActivity())
+            val lp = dialogWindow?.attributes
+            dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
+            lp?.y = -100
+            dialogWindow?.attributes = lp
+            activityFilterDialog?.setCancelable(true)
+
+        }
+        activityFilterDialog?.show()
         // newsFilterDialog?.setOnDismissListener { updateMyNewsFeed() }
     }
 
@@ -171,15 +227,15 @@ abstract class BaseHomeActivity : BaseActivity(),
                 menuDialog?.ll_menu2?.visibility = View.GONE
             }
             menuDialog?.ll_menu0?.setOnClickListener {
-                handleMenuClick(list!![0])
+                handleMenuClick(list!![0],frag)
             }
 
             menuDialog?.ll_menu1?.setOnClickListener {
-                handleMenuClick(list!![1])
+                handleMenuClick(list!![1],frag)
             }
 
             menuDialog?.ll_menu2?.setOnClickListener {
-                handleMenuClick(list!![2])
+                handleMenuClick(list!![2],frag)
             }
 
             // for (views in arrayOf(menuDialog?.ll_menu1, menuDialog?.ll_menu2)) views?.setOnClickListener(this)
@@ -192,7 +248,7 @@ abstract class BaseHomeActivity : BaseActivity(),
         menuDialog?.show()
     }
 
-    private fun handleMenuClick(menu: DialogMenu) {
+    private fun handleMenuClick(menu: DialogMenu, frag: Fragment) {
         menuDialog?.dismiss()
         when (menu.title) {
             getString(R.string.create_new_nwes) -> {
@@ -208,7 +264,13 @@ abstract class BaseHomeActivity : BaseActivity(),
                 }
             }
             getString(R.string.filter_clubs) -> {
-                showFilterDialog()
+                if (frag::class.java.simpleName == FragNewsList::class.java.simpleName) {
+                    showFilterDialog()
+                }
+                else{
+                    showChatFilterDialog()
+                }
+
             }
             getString(R.string.renew_my_location) -> {
                 checkLocationUpdate()
@@ -247,9 +309,9 @@ abstract class BaseHomeActivity : BaseActivity(),
                     }.show()
                 }
             }
-            /*getString(R.string.others_activity) -> {
-                navigateOthersActivity()
-            }*/
+            getString(R.string.set_notification) -> {
+                showActivityNotificationFilterDialog()
+            }
         }
     }
 
@@ -316,4 +378,12 @@ abstract class BaseHomeActivity : BaseActivity(),
       }
   }
 */
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
 }

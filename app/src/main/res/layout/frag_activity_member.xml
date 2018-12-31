@@ -15,8 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardElevation="@dimen/_3sdp"
+        app:cardElevation="@dimen/_1sdp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -30,14 +29,17 @@
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="true"
                 android:visibility="visible"
+                android:layout_margin="@dimen/_3sdp"
                 tools:listitem="@layout/activities_items_layout_copy" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
     </RelativeLayout>
     <include
         android:id="@+id/nodataLay"
-        layout="@layout/no_member_layout"
+        layout="@layout/join_permission_layout"
         android:visibility="gone" />
+
+
 
         <TextView
             android:id="@+id/silentTxt"

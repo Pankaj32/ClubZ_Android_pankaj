@@ -48,6 +48,7 @@
 
     <RelativeLayout
         android:id="@+id/rootView"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -174,8 +175,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@string/no_chat_found_yet"
+                android:text="@string/looking_chat_found_yet"
                 android:textColor="@color/colorAccent"
+                android:gravity="center"
                 android:textSize="16sp"
                 android:visibility="visible" />
 
@@ -192,4 +194,8 @@
         </RelativeLayout>
 
     </RelativeLayout>
+    <include
+        android:id="@+id/nodataLay"
+        layout="@layout/no_member_layout"
+        android:visibility="gone" />
 </LinearLayout>

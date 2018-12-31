@@ -141,9 +141,11 @@ public class AdsAdapter extends RecyclerView.Adapter {
 
                     if (dataBean.is_New().equals("1")) {
                         h.adType.setText(context.getString(R.string.new_txt));
+                        h.adType.setVisibility(View.VISIBLE);
                         h.adType.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
                     } else {
                         h.adType.setText(R.string.recent_txt);
+                        h.adType.setVisibility(View.GONE);
                         h.adType.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
                     }
                     if (dataBean.getExpire_ads().equals("Yes")) {

@@ -17,11 +17,12 @@ public class ActivityMembersAdapter extends ExpandableRecyclerAdapter<ActivityMe
 
     private LayoutInflater mInflator;
 private Context mContext;
-
-    public ActivityMembersAdapter(Context context, List<? extends ParentListItem> parentItemList) {
+    ActivityMembersViewHolder.Listner listner;
+    public ActivityMembersAdapter(Context context, List<? extends ParentListItem> parentItemList,ActivityMembersViewHolder.Listner lis) {
         super(parentItemList);
         mInflator = LayoutInflater.from(context);
 this.mContext=context;
+this.listner = lis;
     }
 
     @Override
@@ -39,7 +40,7 @@ this.mContext=context;
     @Override
     public void onBindParentViewHolder(ActivityMembersViewHolder activityMembersViewHolder, int position, ParentListItem parentListItem) {
         GetActivityMembersResponce.DataBean dataBean = (GetActivityMembersResponce.DataBean) parentListItem;
-        activityMembersViewHolder.bind(mContext,dataBean, position);
+        activityMembersViewHolder.bind(mContext,dataBean, position,listner);
     }
 
     @Override

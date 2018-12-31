@@ -112,7 +112,10 @@ public abstract class VolleyGetPost {
                                             builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
+                                                    if(dialog!=null){
+                                                        dialog.dismiss();
+                                                    }
+
                                                     SessionManager.getObj().logout(context);
                                                 }
                                             });

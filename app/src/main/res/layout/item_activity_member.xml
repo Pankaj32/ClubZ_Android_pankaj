@@ -23,6 +23,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_55sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/pager_line" />
 
@@ -41,13 +42,35 @@
         android:gravity="center"
         android:padding="@dimen/_5sdp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_profileImage"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_margin="@dimen/_3sdp"
-            android:src="@drawable/user_place_holder" />
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_profileImage"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_circle_blue"
+                android:src="@drawable/user_place_holder" />
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_check"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_1sdp"
+                android:layout_gravity="right|bottom"
+                android:visibility="gone"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/bg_circle_blue"
+                android:src="@drawable/ic_check_memberlist" />
+
+
+        </FrameLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

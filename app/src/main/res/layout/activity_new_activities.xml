@@ -196,8 +196,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="1dp"
                         android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
                         android:gravity="center_vertical">
 
                         <android.support.v7.widget.AppCompatImageView
@@ -215,12 +215,11 @@
                             android:layout_height="match_parent"
                             android:layout_marginTop="@dimen/_6sdp"
                             android:layout_toEndOf="@id/dolrImg"
-                            android:weightSum="1">
+                            >
 
                             <RelativeLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_weight=".5"
                                 android:paddingLeft="@dimen/_2sdp">
 
                                 <RelativeLayout
@@ -268,47 +267,69 @@
                                 </RelativeLayout>
                             </RelativeLayout>
 
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight=".5"
-                                android:gravity="bottom"
-                                android:layout_marginBottom="5dp"
-                                android:orientation="vertical"
-                                android:paddingBottom="1dp">
 
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/_5sdp">
-
-                                    <android.support.design.widget.TextInputLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:theme="@style/tvStyle"
-                                        app:counterOverflowTextAppearance="@style/TextLimitError"
-                                        app:counterTextAppearance="@style/CounterText">
-
-                                        <EditText
-                                            android:id="@+id/fees"
-                                            style="@style/EditText.ClubCreation"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_regular"
-                                            android:hint="@string/hint_fees"
-                                            android:inputType="numberDecimal"
-                                            android:maxLines="1"
-                                            android:singleLine="true"
-                                            android:textColor="@color/nav_gray"
-                                            android:textColorHint="@color/nav_gray" />
-
-                                    </android.support.design.widget.TextInputLayout>
-
-                                </RelativeLayout>
-
-                            </LinearLayout>
 
                         </LinearLayout>
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:gravity="center_vertical">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/dolrImg2"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:tint="@color/nav_gray"
+                        app:srcCompat="@drawable/ic_dollar_symbol" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="bottom"
+                            android:layout_marginBottom="5dp"
+                            android:orientation="vertical"
+                            android:layout_toEndOf="@id/dolrImg2"
+                            android:paddingBottom="1dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                >
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:theme="@style/tvStyle"
+                                    app:counterOverflowTextAppearance="@style/TextLimitError"
+                                    app:counterTextAppearance="@style/CounterText">
+
+                                    <EditText
+                                        android:id="@+id/fees"
+                                        style="@style/EditText.ClubCreation"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_regular"
+                                        android:hint="@string/hint_fees"
+                                        android:inputType="numberDecimal"
+                                        android:maxLines="1"
+                                        android:singleLine="true"
+                                        android:textColor="@color/nav_gray"
+                                        android:textColorHint="@color/nav_gray" />
+
+                                </android.support.design.widget.TextInputLayout>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -324,10 +345,10 @@
                             android:id="@+id/locationImage"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:layout_below="@+id/tv_titleHint"
                             android:layout_marginEnd="@dimen/_7sdp"
-                            android:padding="@dimen/_6sdp"
+                            android:padding="@dimen/_5sdp"
                             android:tint="@color/nav_gray"
+                            android:layout_centerVertical="true"
                             app:srcCompat="@drawable/ic_map_placeholder" />
 
                         <TextView

@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/context_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -39,7 +40,7 @@
                     android:fontFamily="@font/teko_semibold"
                     android:text="@string/contacts"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    style="@style/TextView.Header" />
 
                 <android.support.v7.widget.SearchView
                     android:id="@+id/searchView"

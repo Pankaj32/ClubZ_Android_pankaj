@@ -78,6 +78,8 @@ class Otp_activity : BaseActivity(), View.OnClickListener {
                     }
                     else{ showToast(obj.getString("message")) }
                 }catch (ex: Exception){ showToast(getString(R.string.swr)) }
+
+                if(dialog!=null&&dialog.isShowing)
                 dialog.dismiss()
             }
 

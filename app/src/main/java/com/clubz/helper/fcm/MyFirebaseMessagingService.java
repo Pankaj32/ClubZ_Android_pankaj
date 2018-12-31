@@ -38,7 +38,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getData() != null) {
 
-            handleNotificationType(remoteMessage);
+               if(SessionManager.getObj().isloggedin())
+               handleNotificationType(remoteMessage);
 
         }
     }

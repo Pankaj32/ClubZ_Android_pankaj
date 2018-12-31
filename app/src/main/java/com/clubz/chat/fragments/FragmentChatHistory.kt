@@ -14,6 +14,7 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.clubz.ClubZ
 
@@ -59,6 +60,11 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
     private var chatHistoryAdapter: ChatHistoryAdapter? = null
     private var height: Int = 0
     private var width: Int = 0
+
+    private var newschat = false
+    private var personalchat = false
+    private var activitychat = false
+    private var adschat = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -219,6 +225,8 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
 
                         }
                         chatHistoryAdapter?.notifyDataSetChanged()
+                        setFilter(newschat,personalchat,activitychat,adschat)
+                        //chatHistoryAdapter?.notifyDataSetChanged()
                     }
 
                     override fun onCancelled(p0: DatabaseError) {
@@ -228,6 +236,86 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 })
     }
 
+
+    fun setFilter( news: Boolean = false, personal: Boolean = false, activity: Boolean = false, ads: Boolean = false) {
+
+        var isFilter = false
+        this.newschat = news
+        this.personalchat = personal
+        this.activitychat = activity
+        this.adschat = ads
+        var filterHistoryBeanList = ArrayList<ChatHistoryBean>()
+
+         if(news){
+             isFilter = true
+             for(i in chatHistoryBeanList)
+             {
+                 if(i.chatType.equals("newsFeed")){
+                     filterHistoryBeanList.add(i)
+                 }
+             }
+
+         }
+         if(personal){
+             isFilter = true
+             for(i in chatHistoryBeanList)
+             {
+                 if(i.chatType.equals("individual")){
+                     filterHistoryBeanList.add(i)
+                 }
+             }
+         }
+         if(activity){
+             isFilter = true
+             for(i in chatHistoryBeanList)
+             {
+                 if(i.chatType.equals("activities")){
+                     filterHistoryBeanList.add(i)
+                 }
+             }
+         }
+         if(ads){
+             isFilter = true
+             for(i in chatHistoryBeanList)
+             {
+                 if(i.chatType.equals("adds")){
+                     filterHistoryBeanList.add(i)
+                 }
+             }
+         }
+
+        if(isFilter){
+            if(filterHistoryBeanList.size>0){
+                chatHistoryRecycler?.visibility = View.VISIBLE
+                chatHistoryAdapter = ChatHistoryAdapter(mContext, filterHistoryBeanList, this)
+                chatHistoryRecycler?.adapter = chatHistoryAdapter
+            }
+            else{
+                chatHistoryRecycler?.visibility = View.GONE
+                Toast.makeText(mContext,getString(R.string.nochathistory_alert),Toast.LENGTH_LONG).show()
+            }
+        }
+
+
+        else{
+
+
+            if(chatHistoryBeanList.size>0){
+                chatHistoryRecycler?.visibility = View.VISIBLE
+                chatHistoryAdapter = ChatHistoryAdapter(mContext, chatHistoryBeanList
+                        , this)
+                chatHistoryRecycler?.adapter = chatHistoryAdapter
+            }
+            else{
+                Toast.makeText(mContext,getString(R.string.nochathistory_alert),Toast.LENGTH_LONG).show()
+            }
+
+        }
+
+
+
+
+    }
 
     private fun getActivityImage(historyBean: ChatHistoryBean) {
         FirebaseDatabase.getInstance()
@@ -249,7 +337,8 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                         } catch (e: Exception) {
 
                         }
-                        chatHistoryAdapter?.notifyDataSetChanged()
+                        setFilter(newschat,personalchat,activitychat,adschat)
+                       // chatHistoryAdapter?.notifyDataSetChanged()
                     }
 
                     override fun onCancelled(p0: DatabaseError) {
@@ -280,7 +369,8 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                         } catch (e: Exception) {
 
                         }
-                        chatHistoryAdapter?.notifyDataSetChanged()
+                        setFilter(newschat,personalchat,activitychat,adschat)
+                        //chatHistoryAdapter?.notifyDataSetChanged()
                     }
 
                     override fun onCancelled(p0: DatabaseError) {
@@ -300,7 +390,8 @@ class FragmentChatHistory : Fragment(), ChatHistoryAdapter.OnItemClick {
                 long2.compareTo(long1)
             }
         }
-        chatHistoryAdapter?.notifyDataSetChanged()
+        setFilter(newschat,personalchat,activitychat,adschat)
+       // chatHistoryAdapter?.notifyDataSetChanged()
     }
 
     override fun onItemClick(historyBean: ChatHistoryBean?) {

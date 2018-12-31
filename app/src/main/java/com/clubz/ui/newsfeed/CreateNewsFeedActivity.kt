@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.AllChatActivity
 import com.clubz.chat.model.FeedBean
 import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
@@ -68,6 +69,11 @@ class CreateNewsFeedActivity : AppCompatActivity(),
     //private var adapter: AdapterAutoTextView? = null
     private var feed: Feed? = null
     private var tagList: ArrayList<String> = ArrayList()
+    private val ARG_CHATFOR = "chatFor"
+    private val ARG_HISTORY_ID = "historyId"
+    private val ARG_HISTORY_NAME = "historyName"
+    private val ARG_HISTORY_PIC = "historyPic"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +90,19 @@ class CreateNewsFeedActivity : AppCompatActivity(),
 
                         override fun viewplansListner() {
                             this.dismiss()
+                            var Adminuserid = SessionManager.getObj().user.clubz_owner_id
+                            var userid = SessionManager.getObj().user.id
+
+                            if (!Adminuserid.equals(userid)) {
+                                startActivity(Intent(this@CreateNewsFeedActivity, AllChatActivity::class.java)
+                                        .putExtra(ARG_CHATFOR, ChatUtil.ARG_IDIVIDUAL)
+                                        .putExtra(ARG_HISTORY_ID, SessionManager.getObj().user.clubz_owner_id)
+                                        .putExtra(ARG_HISTORY_NAME, SessionManager.getObj().user.clubz_owner_name)
+                                        .putExtra(ARG_HISTORY_PIC, SessionManager.getObj().user.clubz_owner_profileImage)
+                                )
+                            } else {
+                                Toast.makeText(this@CreateNewsFeedActivity, resources.getString(R.string.owner_alert_message), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                     }.show()
@@ -221,7 +240,7 @@ class CreateNewsFeedActivity : AppCompatActivity(),
     private fun isValidData(): Boolean {
         feedTitle = titile_name.editableText.toString()
         userRole = usrerole.editableText.toString()
-        description = ed_description.editableText.toString()
+        description = ed_description.text.toString()
 
         when {
             feedTitle!!.isEmpty() -> {
@@ -496,7 +515,7 @@ class CreateNewsFeedActivity : AppCompatActivity(),
                 try {
                     if (imageUri != null)
                         feedImage = MediaStore.Images.Media.getBitmap(this@CreateNewsFeedActivity.contentResolver, imageUri)
-                    val rotation = ImageRotator.getRotation(this, imageUri, true)
+                    val rotation = ImageRotator.getRotation(this, imageUri, false)
                     feedImage = ImageRotator.rotate(feedImage, rotation)
                     if (feedImage != null) {
                         val padding = 0

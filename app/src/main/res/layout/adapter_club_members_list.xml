@@ -37,12 +37,20 @@
                 android:textSize="@dimen/_14sdp"
                 android:text="@string/dharmraj_acharya_bhurtel"/>
 
+            <com.clubz.ui.cv.FlowLayout
+                android:id="@+id/affilitesChip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_gravity="center_vertical"/>
+
+
             <com.clubz.ui.cv.chipview.TagView
                 android:id="@+id/tagView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_gravity="center_vertical"/>
 
             <View

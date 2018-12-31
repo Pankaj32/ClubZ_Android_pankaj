@@ -56,14 +56,15 @@
 
                     <TextView
                         android:id="@+id/tvTitle"
+                        style="@style/TextView.Header"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:fontFamily="@font/teko_medium"
                         android:maxLines="2"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:text="@string/a_notAvailable"
                         android:textColor="@color/eighty_black"
-                        android:textSize="25sp" />
+                        android:textSize="26sp"/>
 
 
                     <LinearLayout
@@ -205,9 +206,10 @@
                         android:id="@+id/tvDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:lineSpacingExtra="@dimen/_1sdp"
                         android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/text_color_gray"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/_12sdp" />
 
                     <LinearLayout
                         android:layout_width="@dimen/_150sdp"

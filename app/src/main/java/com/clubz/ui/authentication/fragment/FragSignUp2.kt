@@ -12,6 +12,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.FileProvider
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.PopupMenu
 import android.text.InputType
 import android.util.Log
@@ -65,7 +66,20 @@ class FragSignUp2 : SignupBaseFragment()  , View.OnClickListener {
 
     @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.frag_sign_up_two, null)
+        try{
+            return inflater.inflate(R.layout.frag_sign_up_two, null)
+
+        }
+        catch (e: Exception){
+              e.printStackTrace()
+        }
+        return null
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

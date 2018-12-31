@@ -27,7 +27,7 @@
                 app:civ_border_width="@dimen/_1sdp"
                 app:civ_border_overlay="true"/>
 
-            <ImageView
+           <!-- <ImageView
                 android:id="@+id/ivFavroit"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
@@ -35,7 +35,7 @@
                 android:background="@drawable/bg_circle_white_activity_feed"
                 android:padding="@dimen/_3sdp"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"/>
+                android:layout_alignParentBottom="true"/>-->
 
         </RelativeLayout>
 
@@ -71,6 +71,17 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="@dimen/_3sdp"/>
+
+            <ImageView
+                android:id="@+id/ivFavroit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_toLeftOf="@+id/chatImage"
+                android:visibility="visible"
+                android:background="?selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_favorite_fill" />
 
         </RelativeLayout>
 

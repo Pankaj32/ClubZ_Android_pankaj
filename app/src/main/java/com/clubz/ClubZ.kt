@@ -2,7 +2,9 @@ package com.clubz
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.TextUtils
 import com.android.volley.Request
@@ -14,12 +16,15 @@ import com.clubz.data.local.db.DBHelper
 import com.clubz.data.local.db.DatabaseManager
 import com.clubz.data.local.db.repo.ClubNameRepo
 import com.clubz.data.remote.AppAsnycTask
+import com.clubz.utils.Language
+import com.clubz.utils.Util
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import com.google.android.gms.ads.MobileAds
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.one.EmojiOneProvider
 import io.fabric.sdk.android.Fabric
+import java.util.*
 
 
 /**
@@ -100,8 +105,10 @@ class ClubZ : Application() {
         }
        // setupActivityListener()
         if (currentUser != null && currentUser?.auth_token!!.isNotBlank())
-            AppAsnycTask().syncAppData()
+          //  AppAsnycTask().syncAppData()
         else ClubNameRepo().deleteTable()
+
+
     }
 
 
@@ -162,4 +169,18 @@ class ClubZ : Application() {
     fun getActiveActivity(): Activity? {
         return activeActivity
     }
+
+    /*protected override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        Language.SetLanguage(this,SessionManager.getObj().language)
+
+
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        SessionManager.getObj()
+        Language.SetLanguage(this, SessionManager.getObj().language)
+    }*/
 }

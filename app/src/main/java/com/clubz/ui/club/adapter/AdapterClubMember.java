@@ -3,6 +3,7 @@ package com.clubz.ui.club.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.clubz.chat.model.MemberBean;
+import com.clubz.ui.cv.ChipView;
+import com.clubz.ui.cv.FlowLayout;
 import com.clubz.ui.cv.chipview.TagView;
 import com.clubz.R;
 import com.clubz.data.model.ClubMember;
@@ -52,10 +55,13 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
         if(TextUtils.isEmpty(member.getTag_name())){
             h.tagView.distroy();
             h.tagView.setVisibility(View.GONE);
+            h.affilitesChip.setVisibility(View.GONE);
         }else {
             List<String> items = Arrays.asList(member.getTag_name().split(","));
-            h.tagView.setVisibility(View.VISIBLE);
-            h.tagView.addTag(items);
+          //  h.tagView.setVisibility(View.VISIBLE);
+           //h.tagView.addTag(items);
+            h.affilitesChip.setVisibility(View.VISIBLE);
+            addChip(h.affilitesChip, items);
         }
     }
 
@@ -75,12 +81,14 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
         private CircularImageView iv_profileImage;
         private TextView tv_FullName;
         private TagView tagView;
+        private FlowLayout affilitesChip;
 
         public ViewHolder(View itemView, Context mContext) {
             super(itemView, mContext);
             iv_profileImage = itemView.findViewById(R.id.iv_profileImage);
             tv_FullName = itemView.findViewById(R.id.tv_FullName);
             tagView = itemView.findViewById(R.id.tagView);
+            affilitesChip = itemView.findViewById(R.id.affilitesChip);
         }
 
         @Override
@@ -115,5 +123,29 @@ public class AdapterClubMember extends RecyclerView.Adapter<AdapterClubMember.Vi
 
         }
 
+    }
+
+    private void addChip(FlowLayout chipHolder, List<String> tagname) {
+
+       // List<String> tagList = Arrays.asList(tagname.split("\\s*,\\s*"));
+        for (String tag : tagname)
+        {
+            ChipView chip = new ChipView(mContext, ""+chipHolder.getChildCount(), false)
+            {
+
+                @Override
+                public void setDeleteListner(ChipView chipView) {
+
+                    Log.e("Chipid",chipView.getIdChip());
+                }
+
+                @Override
+                public int getLayout() {
+                    return R.layout.z_cus_chip_view_profile;
+                }
+            };
+            chip.setText(tag);
+            chipHolder.addView(chip);
+        }
     }
 }

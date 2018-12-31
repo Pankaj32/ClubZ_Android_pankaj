@@ -56,6 +56,7 @@ class ContactListActivity : AppCompatActivity(), AdapterContactList.Listner, Vie
         })
         searchIcon.setOnClickListener(this)*/
         searchView = findViewById(R.id.searchView)
+        searchView!!.setMaxWidth(Integer.MAX_VALUE);
         val searchEditText = searchView!!.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText
         searchEditText.setTextColor(resources.getColor(R.color.white))
         searchEditText.setHint(R.string.contacts)
@@ -72,6 +73,7 @@ class ContactListActivity : AppCompatActivity(), AdapterContactList.Listner, Vie
                 return false
             }
         })
+
 
         ivExpandBtn.setOnClickListener(View.OnClickListener {
 

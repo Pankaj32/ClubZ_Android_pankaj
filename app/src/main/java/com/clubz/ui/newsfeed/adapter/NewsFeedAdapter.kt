@@ -19,6 +19,7 @@ import com.clubz.data.remote.WebService
 import com.clubz.utils.VolleyGetPost
 import kotlinx.android.synthetic.main.adapter_news_feed.view.*
 import com.bumptech.glide.Glide
+import com.facebook.internal.Utility
 import org.json.JSONObject
 
 
@@ -73,7 +74,7 @@ class NewsFeedAdapter(val items: ArrayList<Feed>, val context: Context, val list
             holder.ivBanner.visibility = View.VISIBLE
             holder.rlContent.visibility = View.VISIBLE
 
-            Glide.with(context)
+            Glide.with(ClubZ.instance)
                     .load(feed.news_feed_attachment)
                     /*.fitCenter()*/
                     .into(holder.ivBanner)

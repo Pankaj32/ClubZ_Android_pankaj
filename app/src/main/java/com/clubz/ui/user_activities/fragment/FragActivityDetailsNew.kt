@@ -46,6 +46,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
 
     private var mContext: Context? = null
     private var activityId = ""
+    private var activityOwnerId = ""
     private var type = ""
     private var hasAffliates = ""
     private var activityDetails: GetActivityDetailsResponce? = null
@@ -79,27 +80,33 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                 }
             }.show()
         }
+
+
         imgLike.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
 //                if (type != "my" && type != "others") {
                 if (type.equals("others")) {
                     if (hasAffliates.equals("1")) {
-                        getUserJoinAfiliatesList(activityId)
+                        getUserJoinAfiliatesList(activityId,activityOwnerId,activityDetails!!.getData()!!.clubId!!)
                     } else {
                         if (activityDetails != null) {
                             if (activityDetails!!.getData()!!.is_like == "1") {
-                                joinActivity(activityId, "", "")
+                                joinActivity(activityDetails!!.getData()!!.creator_id!!,activityId, "", "",activityDetails!!.getData()!!.clubId!!)
                             } else {
-                                joinActivity(activityId, "", userId)
+                                joinActivity(activityDetails!!.getData()!!.creator_id!!,activityId, "", userId,activityDetails!!.getData()!!.clubId!!)
                             }
                         } else {
                             if (activityBean?.is_like == "1") {
-                                joinActivity(activityId, "", "")
+                                joinActivity(activityDetails!!.getData()!!.creator_id!!,activityId, "", "",activityDetails!!.getData()!!.clubId!!)
                             } else {
-                                joinActivity(activityId, "", userId)
+                                joinActivity(activityDetails!!.getData()!!.creator_id!!,activityId, "", userId,activityDetails!!.getData()!!.clubId!!)
                             }
                         }
                     }
+                }
+                else{
+                    if(activityDetails!!.getData()!!.clubId!!!=null)
+                    getUserJoinAfiliatesList(activityId,activityOwnerId,activityDetails!!.getData()!!.clubId!!)
                 }
             }
 
@@ -119,8 +126,15 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         if (arguments != null) {
             activityBean = arguments!!.getParcelable(KEYBEAN)
             activityId = activityBean!!.activityId!!
+            activityOwnerId = activityBean!!.creator_id!!
+
             type = arguments!!.getString(TYPEKEY)
 
+            if(!type.equals("others")){
+                if(hasAffliates.equals("0")){
+                    imgLike.visibility = View.GONE
+                }
+            }
             Log.e("ActivityId:  ", activityId)
             setData()
             getActivityDetails()
@@ -287,7 +301,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun getUserJoinAfiliatesList(activityId: String) {
+    private fun getUserJoinAfiliatesList(activityId: String,activitycreatorId: String, clubId:String) {
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
         //    ClubZ.instance.cancelPendingRequests(ClubsActivity::class.java.name)
@@ -302,7 +316,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                     if (obj.getString("status").equals("success")) {
                         //  popUpJoin(type)
                         var getJoinAffliates: GetJoinAffliates = Gson().fromJson(response, GetJoinAffliates::class.java)
-                        popUpJoin(activityId, getJoinAffliates)
+                        popUpJoin(activityId, getJoinAffliates,activitycreatorId,clubId)
                     }
                 } catch (ex: Exception) {
                     ex.printStackTrace()
@@ -335,7 +349,7 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         }.execute(FragActivityDetailsNew::class.java.name)
     }
 
-    internal fun popUpJoin(activityId: String, getJoinAffliates: GetJoinAffliates) {
+    internal fun popUpJoin(activityId: String, getJoinAffliates: GetJoinAffliates,activityownerid:String,clubID:String) {
         //    var isLike: Boolean = false;
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -374,17 +388,24 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         //}
         dialog.setCancelable(true)
         dialog.show()
-        likeLay.setOnClickListener(View.OnClickListener {
-            if (getJoinAffliates.getData()!!.isJoined.equals("1")) {
-                getJoinAffliates.getData()!!.isJoined = "0"
-                // like.setImageResource(R.drawable.inactive_heart_ico)
-                likeCkeck.isChecked = false
-            } else {
-                getJoinAffliates.getData()!!.isJoined = "1"
-                //    like.setImageResource(R.drawable.active_heart_ico)
-                likeCkeck.isChecked = true
-            }
-        })
+        if(activityownerid.equals(userId)){
+            likeCkeck.isClickable = false
+            likeLay.setOnClickListener { null }
+        }
+        else{
+            likeLay.setOnClickListener(View.OnClickListener {
+                if (getJoinAffliates.getData()!!.isJoined.equals("1")) {
+                    getJoinAffliates.getData()!!.isJoined = "0"
+                    // like.setImageResource(R.drawable.inactive_heart_ico)
+                    likeCkeck.isChecked = false
+                } else {
+                    getJoinAffliates.getData()!!.isJoined = "1"
+                    //    like.setImageResource(R.drawable.active_heart_ico)
+                    likeCkeck.isChecked = true
+                }
+            })
+        }
+
         mCancel.setOnClickListener(View.OnClickListener { dialog.dismiss() })
         mJoin.setOnClickListener(View.OnClickListener {
             var mUserId: String = ""
@@ -402,13 +423,16 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                             affiliateId + "," + it.userAffiliateId
                         }
                     }
-            joinActivity(activityId, affiliateId, mUserId, dialog)
+            joinActivity(activityownerid,activityId, affiliateId, mUserId,clubID, dialog)
         })
     }
 
-    fun joinActivity(activityId: String,
+    fun joinActivity(
+                     activityownerID:String,
+                     activityId: String,
                      affiliateId: String,
                      userId: String,
+                     clubId: String,
                      dialog1: Dialog? = null) {
         val dialog = CusDialogProg(mContext!!)
         dialog.show()
@@ -423,12 +447,20 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
 
                     val obj = JSONObject(response)
                     if (obj.getString("status").equals("success")) {
+                        val objaffiliate = obj.getJSONObject("affiliate_name")
+                        var getAddedaffiliatename:String = objaffiliate.get("addAffiliates").toString()
+                        var getDeletedaffiliatename:String = objaffiliate.get("removeAffiliates").toString()
+                        var ownerremovestatus:String = objaffiliate.get("ownerJoinStatus").toString()
+
+
                         dialog1?.dismiss()
-                        if (affiliateId.equals("") && userId.equals("")) {
+                       /* if (affiliateId.equals("") && userId.equals("")) {
                             joinActivityInFireBase(activityId, "remove")
                         } else {
                             joinActivityInFireBase(activityId, "join")
-                        }
+                        }*/
+                        joinActivityInFireBase(ownerremovestatus,activityId,clubId, getAddedaffiliatename,getDeletedaffiliatename,activityownerID,userId)
+
                         getActivityDetails()
                     } else {
                         // nodataLay.visibility = View.VISIBLE
@@ -487,6 +519,10 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                 if (!user.userId.equals(ClubZ.currentUser!!.id)) showProfile(user)
             }
             R.id.activityLeader -> {
+
+
+                if(activityDetails!!.getData()!!.leader_id!=null&&!activityDetails!!.getData()!!.leader_id.equals("0")){
+
                 val user = UserInfo()
                 if (activityDetails != null) {
                     user.userId = activityDetails!!.getData()!!.leader_id!!
@@ -508,6 +544,8 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
                     user.clubId = activityBean!!.clubId!!
                 }
                 if (!leaderId.equals(ClubZ.currentUser!!.id)) showProfile(user)
+
+                }
             }
             R.id.imgActivity -> {
                 var image = ""
@@ -541,62 +579,158 @@ class FragActivityDetailsNew : Fragment(), View.OnClickListener {
         dialog.show()
     }
 
-    private fun joinActivityInFireBase(activityId: String, status: String) {
-        if (status.equals("join")) {
-            FirebaseDatabase.getInstance()
-                    .reference
-                    .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
-                    .child(activityId)
-                    .child(userId).setValue(userId).addOnCompleteListener {
-                        val msg = ClubZ.currentUser!!.full_name+" has joined"
+    private fun joinActivityInFireBase(ownerremovestatus:String,activityId: String,clubId: String,addaffilate: String,removeaffilate: String,activityownerID: String,userId: String) {
 
-                        sendMessage(ChatUtil.ARG_ACTIVITY_JOIND,msg)
-                    }
-        } else {
-            FirebaseDatabase.getInstance()
-                    .reference
-                    .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
-                    .child(activityId)
-                    .child(userId).setValue(null).addOnCompleteListener {
-                        val msg = ClubZ.currentUser!!.full_name+" has removed"
-                        sendMessage(ChatUtil.ARG_ACTIVITY_REMOVE,msg)
-                    }
+
+
+
+        if(activityownerID.equals(userId)){
+
+            if(addaffilate.isNotEmpty()){
+                FirebaseDatabase.getInstance()
+                        .reference
+                        .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                        .child(activityId)
+                        .child(SessionManager.getObj().user.id).setValue(SessionManager.getObj().user.id).addOnCompleteListener {
+                            val msg = ClubZ.currentUser!!.full_name+" has joined "+addaffilate
+                            sendMessage(ChatUtil.ARG_ACTIVITY_JOIND,msg,clubId,activityId)
+                        }
+            }
+            if(removeaffilate.isNotEmpty()){
+                FirebaseDatabase.getInstance()
+                        .reference
+                        .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                        .child(activityId)
+                        .child(SessionManager.getObj().user.id).setValue(SessionManager.getObj().user.id).addOnCompleteListener {
+                            val msg = ClubZ.currentUser!!.full_name+" has removed "+removeaffilate
+                            sendMessage(ChatUtil.ARG_ACTIVITY_JOIND,msg,clubId,activityId)
+                        }
+            }
+            if(addaffilate.isEmpty()&&removeaffilate.isEmpty()){
+                FirebaseDatabase.getInstance()
+                        .reference
+                        .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                        .child(activityId)
+                        .child(SessionManager.getObj().user.id).setValue(SessionManager.getObj().user.id).addOnCompleteListener {
+                            val msg = ClubZ.currentUser!!.full_name+" has joined"
+                            sendMessage(ChatUtil.ARG_ACTIVITY_JOIND,msg,clubId,activityId)
+                        }
+            }
+
+
         }
+        else {
+
+            if (ownerremovestatus.equals("1")) {
+
+                FirebaseDatabase.getInstance()
+                        .reference
+                        .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                        .child(activityId)
+                        .child(SessionManager.getObj().user.id).setValue(userId).addOnCompleteListener {
+                            val msg = ClubZ.currentUser!!.full_name + " has joined"
+                            sendMessage(ChatUtil.ARG_ACTIVITY_JOIND, msg, clubId, activityId)
+                        }
+
+                if (addaffilate.isNotEmpty()) {
+                    FirebaseDatabase.getInstance()
+                            .reference
+                            .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                            .child(activityId)
+                            .child(SessionManager.getObj().user.id).setValue(SessionManager.getObj().user.id).addOnCompleteListener {
+                                val msg = ClubZ.currentUser!!.full_name + " has joined " + addaffilate
+                                sendMessage(ChatUtil.ARG_ACTIVITY_JOIND, msg, clubId, activityId)
+                            }
+                }
+                if (removeaffilate.isNotEmpty()) {
+                    FirebaseDatabase.getInstance()
+                            .reference
+                            .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                            .child(activityId)
+                            .child(SessionManager.getObj().user.id).setValue(SessionManager.getObj().user.id).addOnCompleteListener {
+                                val msg = ClubZ.currentUser!!.full_name + " has removed " + removeaffilate
+                                sendMessage(ChatUtil.ARG_ACTIVITY_JOIND, msg, clubId, activityId)
+                            }
+                }
+
+
+            }
+            if (ownerremovestatus.equals("0")) {
+
+
+
+                if (addaffilate.isNotEmpty()) {
+                    FirebaseDatabase.getInstance()
+                            .reference
+                            .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                            .child(activityId)
+                            .child(SessionManager.getObj().user.id).setValue(SessionManager.getObj().user.id).addOnCompleteListener {
+                                val msg = ClubZ.currentUser!!.full_name + " has joined " + addaffilate
+                                sendMessage(ChatUtil.ARG_ACTIVITY_JOIND, msg, clubId, activityId)
+                            }
+                }
+                if (removeaffilate.isNotEmpty()) {
+                    FirebaseDatabase.getInstance()
+                            .reference
+                            .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                            .child(activityId)
+                            .child(SessionManager.getObj().user.id).setValue(SessionManager.getObj().user.id).addOnCompleteListener {
+                                val msg = ClubZ.currentUser!!.full_name + " has removed " + removeaffilate
+                                sendMessage(ChatUtil.ARG_ACTIVITY_JOIND, msg, clubId, activityId)
+                            }
+                }
+
+
+
+            }
+            if(ownerremovestatus.equals("")){
+                FirebaseDatabase.getInstance()
+                        .reference
+                        .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
+                        .child(activityId)
+                        .child(SessionManager.getObj().user.id).setValue(null).addOnCompleteListener {
+                            val msg = ClubZ.currentUser!!.full_name+" has removed "
+                            sendMessage(ChatUtil.ARG_ACTIVITY_JOIND,msg,clubId,activityId)
+                        }
+
+            }
+        }
+
     }
 
-    private fun sendMessage(chatType:String,msg:String) {
-       var chatRoom = activityDetails?.getData()?.clubId + "_" + activityId + "_" + ChatUtil.ARG_ACTIVITIES
+    private fun sendMessage(chatType:String,msg:String,clubId:String,activityId:String) {
+        var chatRoom = clubId + "_" + activityId + "_" + ChatUtil.ARG_ACTIVITIES
 
         //    var msg = ClubZ.currentUser!!.first_name+"has joined"
 
-            //   Constant.hideSoftKeyboard(ChatActivity.this);
-            val chatBean = ChatBean()
-            chatBean.deleteby = ""
-            chatBean.chatType = chatType
-            chatBean.message = msg
+        //   Constant.hideSoftKeyboard(ChatActivity.this);
+        val chatBean = ChatBean()
+        chatBean.deleteby = ""
+        chatBean.chatType = chatType
+        chatBean.message = msg
 
-            chatBean.senderId = ClubZ.currentUser?.id
-            chatBean.senderName = ClubZ.currentUser?.full_name
-            chatBean.timestamp = ServerValue.TIMESTAMP
+        chatBean.senderId = ClubZ.currentUser?.id
+        chatBean.senderName = ClubZ.currentUser?.full_name
+        chatBean.timestamp = ServerValue.TIMESTAMP
         val databaseReference = FirebaseDatabase.getInstance().reference
         databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).ref.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.hasChild(chatRoom)) {
-                        Log.e("TAG", "sendMessageToFirebaseUser: $chatRoom exists")
-                        val gen_key = databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).child(chatRoom).ref.push()
-                        gen_key.setValue(chatBean)
-                    } else {
-                        Log.e("TAG", "sendMessageToFirebaseUser: success")
-                        val gen_key = databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).child(chatRoom).ref.push()
-                        gen_key.setValue(chatBean)
-                        // getMessageFromFirebaseUser(mUid, rcvUId)
-                    }
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.hasChild(chatRoom)) {
+                    Log.e("TAG", "sendMessageToFirebaseUser: $chatRoom exists")
+                    val gen_key = databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).child(chatRoom).ref.push()
+                    gen_key.setValue(chatBean)
+                } else {
+                    Log.e("TAG", "sendMessageToFirebaseUser: success")
+                    val gen_key = databaseReference.child(ChatUtil.ARG_CHAT_ROOMS).child(chatRoom).ref.push()
+                    gen_key.setValue(chatBean)
+                    // getMessageFromFirebaseUser(mUid, rcvUId)
                 }
+            }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    //   mOnSendMessageListener.onSendMessageFailure("Unable to send message: " + databaseError.getMessage());
-                }
-            })
-        }
+            override fun onCancelled(databaseError: DatabaseError) {
+                //   mOnSendMessageListener.onSendMessageFailure("Unable to send message: " + databaseError.getMessage());
+            }
+        })
+    }
 }
 //chatRoom = clubId + "_" + activityId + "_" + chatFor

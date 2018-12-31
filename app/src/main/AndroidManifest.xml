@@ -25,7 +25,8 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/new_app_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.Splash">
+        android:theme="@style/AppTheme.Splash"
+        android:configChanges="keyboardHidden|orientation" >
         <activity
             android:name=".ui.splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -136,7 +137,7 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="39a3f4bfccefb2b1c6bbe01ed20cbb11782caffa" />
+            android:value="69670ce6f45ed395d4bd728a1dc224c47511e2fb" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

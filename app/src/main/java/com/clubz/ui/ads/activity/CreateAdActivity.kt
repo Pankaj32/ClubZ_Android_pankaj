@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.AllChatActivity
 import com.clubz.chat.model.AdBean
 import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
@@ -55,6 +56,9 @@ import kotlinx.android.synthetic.main.activity_create_ad.*
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
+import java.math.BigDecimal
+import java.math.BigInteger
+import java.text.DecimalFormat
 import java.util.*
 
 class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
@@ -69,6 +73,12 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
     private var clubId: String? = ""
     private var clubName: String? = ""
     private var adBean: AdsListBean.DataBean? = null
+
+    private val ARG_CHATFOR = "chatFor"
+    private val ARG_HISTORY_ID = "historyId"
+    private val ARG_HISTORY_NAME = "historyName"
+    private val ARG_HISTORY_PIC = "historyPic"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,7 +125,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
             override fun afterTextChanged(p0: Editable?) {
                 val str = adValue.text.toString()
                 if (str.isEmpty()) return
-                val str2 = perfectDecimal(str, 5, 2)
+                val str2 = perfectDecimal(str, 5, 30)
                 if (str2 != str) {
                     adValue.setText(str2)
                     val pos = adValue.text.length
@@ -145,8 +155,8 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                 countTxt.text = "" + p0?.length
             }
         })
-        if(SessionManager.getObj().membershipPlan!=null) {
-            if (!SessionManager.getObj().membershipPlan.ads_create.equals("")  &&!SessionManager.getObj().membershipPlan.ads_create.equals("1")) {
+        if (SessionManager.getObj().membershipPlan != null) {
+            if (!SessionManager.getObj().membershipPlan.ads_create.equals("") && !SessionManager.getObj().membershipPlan.ads_create.equals("1")) {
 
                 Handler().postDelayed({
                     object : Purchase_membership_dialog(this) {
@@ -156,6 +166,20 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
 
                         override fun viewplansListner() {
                             this.dismiss()
+
+                            var Adminuserid = SessionManager.getObj().user.clubz_owner_id
+                            var userid = SessionManager.getObj().user.id
+
+                            if (!Adminuserid.equals(userid)) {
+                                startActivity(Intent(this@CreateAdActivity, AllChatActivity::class.java)
+                                        .putExtra(ARG_CHATFOR, ChatUtil.ARG_IDIVIDUAL)
+                                        .putExtra(ARG_HISTORY_ID, SessionManager.getObj().user.clubz_owner_id)
+                                        .putExtra(ARG_HISTORY_NAME, SessionManager.getObj().user.clubz_owner_name)
+                                        .putExtra(ARG_HISTORY_PIC, SessionManager.getObj().user.clubz_owner_profileImage)
+                                )
+                            } else {
+                                Toast.makeText(this@CreateAdActivity, resources.getString(R.string.owner_alert_message), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                     }.show()
@@ -188,16 +212,16 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                             }.show()
                         }
                     } else {
-                            if (Util.isConnectingToInternet(this@CreateAdActivity)) {
-                                createAd()
-                            } else {
-                                object : Internet_Connection_dialog(this@CreateAdActivity) {
-                                    override fun tryaginlistner() {
-                                        this.dismiss()
-                                        createAd()
-                                    }
-                                }.show()
-                            }
+                        if (Util.isConnectingToInternet(this@CreateAdActivity)) {
+                            createAd()
+                        } else {
+                            object : Internet_Connection_dialog(this@CreateAdActivity) {
+                                override fun tryaginlistner() {
+                                    this.dismiss()
+                                    createAd()
+                                }
+                            }.show()
+                        }
                     }
                 }
             }
@@ -317,7 +341,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                 try {
                     if (imageUri != null)
                         adImage = MediaStore.Images.Media.getBitmap(this@CreateAdActivity.contentResolver, imageUri)
-                    val rotation = ImageRotator.getRotation(this, imageUri, true)
+                    val rotation = ImageRotator.getRotation(this, imageUri, false)
                     adImage = ImageRotator.rotate(adImage, rotation)
                     if (adImage != null) {
                         val padding = 0
@@ -466,9 +490,9 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                             val adDetails = Gson().fromJson(data, AdDetailsCreated::class.java)
                             createAdInFireBase(adDetails)
                         } else {
-                           // if (Locale.getDefault().language.equals("en")) {
-                                showServerFailResponceDialog(message)
-                           /* } else {
+                            // if (Locale.getDefault().language.equals("en")) {
+                            showServerFailResponceDialog(message)
+                            /* } else {
                                 //if (message.equals("You can publish only 3 ads per month")) {
                                     showServerFailResponceDialog("Puedes publicar solo 3 anuncios al mes.")
                                 //}
@@ -485,10 +509,32 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                     Toast.makeText(this@CreateAdActivity, "Something went wrong", Toast.LENGTH_LONG).show()
                 }) {
             override fun getParams(): MutableMap<String, String> {
-                val params = java.util.HashMap<String, String>()
+                val params = HashMap<String, String>()
                 params["title"] = adTitle.text.toString()
                 params["clubId"] = clubId!!
-                params["fee"] = adValue.text.toString()
+
+                if (!TextUtils.isEmpty(adValue.text.toString())) {
+                    var advalue = adValue.text.toString();
+                    if (advalue.matches(Regex("^[\\d.]+\$"))) {
+
+                        if (advalue.contains(".")) {
+                            var removedecimmal = advalue.replace(".", "");
+                            var dotvalue = getdotvalue(removedecimmal)
+                            val precision = DecimalFormat("0.000")
+                            advalue = precision.format(dotvalue.toDouble())
+                        } else {
+                            var dotvalue = getdotvalue(advalue)
+                            val precision = DecimalFormat("0.000")
+                            advalue = precision.format(dotvalue.toDouble())
+                        }
+                        params["fee"] = "" + advalue
+                    } else {
+                        params["fee"] = adValue.text.toString()
+                    }
+                } else {
+                    params["fee"] = adValue.text.toString()
+                }
+
                 params["isRenew"] = "1"
                 params["description"] = adDescription.text.toString()
 
@@ -550,7 +596,32 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                 val params = java.util.HashMap<String, String>()
                 params["adId"] = adBean?.adId.toString()
                 params["title"] = adTitle.text.toString()
-                params["fee"] = adValue.text.toString()
+                if (!TextUtils.isEmpty(adValue.text.toString())) {
+                    var advalue = adValue.text.toString();
+                    if (advalue.matches(Regex("^[\\d.]+\$"))) {
+
+                       // var finalfee = ""
+
+                        if (advalue.contains(".")) {
+                            var removedecimmal = advalue.replace(".", "");
+                            var dotvalue = getdotvalue(removedecimmal)
+                            val precision = DecimalFormat("0.000")
+                            advalue = precision.format(dotvalue.toDouble())
+                        } else {
+
+
+                            var dotvalue = getdotvalue(advalue)
+                            val precision = DecimalFormat("0.000")
+                            advalue = precision.format(dotvalue.toDouble())
+                        }
+
+                        params["fee"] = "" + advalue
+                    } else {
+                        params["fee"] = adValue.text.toString()
+                    }
+                } else {
+                    params["fee"] = adValue.text.toString()
+                }
                 params["description"] = adDescription.text.toString()
                 if (TextUtils.isEmpty(usrerole.text.toString())) {
                     params["userRole"] = "admin"
@@ -570,7 +641,7 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun getHeaders(): MutableMap<String, String> {
                 val params = java.util.HashMap<String, String>()
-                //  params.put("language", SessionManager.getObj().getLanguage())
+                params.put("language", SessionManager.getObj().getLanguage())
                 params["authToken"] = SessionManager.getObj().user.auth_token
                 return params
             }
@@ -596,5 +667,10 @@ class CreateAdActivity : AppCompatActivity(), View.OnClickListener {
                 }
     }
 
-
+    fun getdotvalue(value: String): String {
+        val str = StringBuffer()
+        str.append(value)
+        str.insert(2, ".")
+        return str.toString()
+    }
 }

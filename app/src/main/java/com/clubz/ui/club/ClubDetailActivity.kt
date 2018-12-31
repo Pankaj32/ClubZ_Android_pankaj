@@ -24,6 +24,7 @@ import com.clubz.ui.club.fragment.FragClubDetails1
 import com.clubz.ui.club.fragment.FragClubDetails2
 import com.clubz.ui.core.ViewPagerAdapter
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.dialogs.ZoomDialog
 import com.clubz.ui.newsfeed.CreateNewsFeedActivity
 import com.clubz.utils.Util
 import com.clubz.utils.VolleyGetPost
@@ -115,6 +116,8 @@ class ClubDetailActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.menuEditNewsFeed ->{ }
+
+
         }
     }
 

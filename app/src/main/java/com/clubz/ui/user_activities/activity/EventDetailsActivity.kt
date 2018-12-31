@@ -34,6 +34,7 @@ class EventDetailsActivity : AppCompatActivity() {
     private var eventBean: ActivitiesBean.DataBean.EventsBean? = null
     private var now = ""
     private var confirmStatus = ""
+    private var isMyactivty = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,7 @@ class EventDetailsActivity : AppCompatActivity() {
             activitiesBean = it.extras.getParcelable("activity") as ActivitiesBean.DataBean
             eventBean = it.extras.getParcelable("event") as ActivitiesBean.DataBean.EventsBean
             now = it.extras.getString("now")
+            isMyactivty = it.extras.getBoolean("ismyactivity")
         }
 
         activityTitle.text = activitiesBean?.activityName
@@ -58,8 +60,12 @@ class EventDetailsActivity : AppCompatActivity() {
         } else {
             addChip(affilitesChip, eventBean?.confirm_userlist!!)
         }
-        if (eventBean?.is_cancel.equals("1")) mCancel.visibility = View.GONE
-
+        if (eventBean?.is_cancel.equals("1")) {
+            mCancel.visibility = View.GONE
+            mConfirm.visibility = View.GONE
+            statusTxt.text = getString(R.string.date_cancelled)
+            statusTxt.setTextColor(resources.getColor(R.color.red_favroit))
+             }
         if (eventBean?.is_confirm.equals("1")) {
             mConfirm.setText(getString(R.string.un_confirm_date))
             mConfirm.setTextColor(ContextCompat.getColor(this, R.color.red_favroit))
@@ -79,6 +85,12 @@ class EventDetailsActivity : AppCompatActivity() {
         back_f.setOnClickListener({
             finish()
         })
+
+        if(!isMyactivty){
+            mCancel.visibility = View.GONE
+            mConfirm.visibility = View.GONE
+            confirmUserLay.visibility = View.GONE
+        }
     }
 
     private fun addChip(chipHolder: FlowLayout, str: String) {
@@ -255,7 +267,7 @@ class EventDetailsActivity : AppCompatActivity() {
     private fun stringToDate(string: String): Date {
         // yyyy-mm-dd hh:mm:ss
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
+      //  simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
         val myDate = simpleDateFormat.parse(string)
         return myDate
     }

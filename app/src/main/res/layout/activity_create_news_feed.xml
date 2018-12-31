@@ -306,6 +306,7 @@
                                         android:text="0"
                                         android:fontFamily="@font/roboto_light"
                                         android:gravity="top"
+                                        android:inputType="text"
                                         android:paddingBottom="3dp"/>
                                 </RelativeLayout>
 

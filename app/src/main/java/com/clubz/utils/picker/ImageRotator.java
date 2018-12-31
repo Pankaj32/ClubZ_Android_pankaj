@@ -66,6 +66,16 @@ public final class ImageRotator {
                 case ExifInterface.ORIENTATION_ROTATE_90:
                     rotate = 90;
                     break;
+                case ExifInterface.ORIENTATION_TRANSVERSE:
+                    rotate = -90;
+                    break;
+                case ExifInterface.ORIENTATION_TRANSPOSE:
+                    rotate = 90;
+                    break;
+                case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                    rotate = 180;
+                    break;
+
                 default:
                     rotate = 0;
                     break;

@@ -393,6 +393,7 @@ class ProfileActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListene
                 }
 
                 override fun setDeleteListner(chipView: ChipView?) {
+
                 }
             }
             chip.text = tag

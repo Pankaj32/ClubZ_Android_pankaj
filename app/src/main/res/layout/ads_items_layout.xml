@@ -75,6 +75,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_15sdp"
                             android:layout_marginTop="3dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_alignParentLeft="true"
+                            android:layout_toLeftOf="@+id/iv_like"
                             android:fontFamily="@font/roboto_regular"
                             android:textColor="@color/primaryColor"
                             android:textSize="@dimen/_14sdp" />

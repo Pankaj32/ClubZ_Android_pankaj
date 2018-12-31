@@ -22,12 +22,17 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
+import android.text.Html
+import android.text.Spannable
+import android.text.method.LinkMovementMethod
 import android.view.*
 import android.widget.*
 import com.android.volley.VolleyError
 import com.bumptech.glide.Glide
+import com.bumptech.glide.manager.SupportRequestManagerFragment
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.AllChatActivity
 import com.clubz.chat.fragments.FragmentChatHistory
 import com.clubz.chat.model.UserBean
 import com.clubz.chat.util.ChatUtil
@@ -38,6 +43,7 @@ import com.clubz.ui.newsfeed.fragment.FragNewsList
 import com.clubz.helper.Permission
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.*
+import com.clubz.data.remote.AdsAllowtask
 import com.clubz.data.remote.AppAsnycTask
 import com.clubz.data.remote.GioAddressTask
 import com.clubz.data.remote.WebService
@@ -72,6 +78,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.about_us_layout.*
 import kotlinx.android.synthetic.main.activity_home_test.*
+import kotlinx.android.synthetic.main.menu_chat_filter.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import org.json.JSONObject
@@ -103,10 +110,20 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     private var showMyNewsfeedOnly = false
     private var ifNeedTocallApi: Boolean = false
 
+    private var newschat = false
+    private var personalchat = false
+    private var activitychat = false
+    private var adschat = false
+
+
     private var successfullyUpdate = 100
 
     private var tab: TabLayout.Tab? = null
     var nav: View? = null
+    private val ARG_CHATFOR = "chatFor"
+    private val ARG_HISTORY_ID = "historyId"
+    private val ARG_HISTORY_NAME = "historyName"
+    private val ARG_HISTORY_PIC = "historyPic"
 
 
 
@@ -115,7 +132,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         super.onCreate(savedInstanceState)
         sessionManager = SessionManager.getObj()
         if (ClubZ.currentUser == null) ClubZ.currentUser = sessionManager.user
-
+        AppAsnycTask().syncAppData()
         setContentView(R.layout.activity_home_test)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this@HomeActivity)
         setSupportActionBar(toolbar)
@@ -159,6 +176,8 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         mDrawerLayout.addDrawerListener(mDrawerToggle)
         DrawerMarginFixer.fixMinDrawerMargin(mDrawerLayout)
         getfavContactList()
+
+
     }
 
 
@@ -245,10 +264,31 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         dialog.getWindow().setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.about_us_layout)
-        val contentTxt = dialog.findViewById(R.id.contentTxt) as TextView
-        /*val html = Html.fromHtml(getString(R.string.about_use_content))
-        contentTxt.setText(html)*/
-        // contentTxt.setMovementMethod(LinkMovementMethod.getInstance())
+        val contentTxt = dialog.findViewById(R.id.companyTxt) as TextView
+        val appchatTxt = dialog.findViewById(R.id.appchatTxt) as TextView
+
+
+        Util.stripUnderlines(contentTxt);
+        contentTxt.setMovementMethod(LinkMovementMethod.getInstance());
+
+        appchatTxt.setOnClickListener(View.OnClickListener {
+
+            var Adminuserid = SessionManager.getObj().user.clubz_owner_id
+            var userid = SessionManager.getObj().user.id
+
+            if (!Adminuserid.equals(userid)) {
+                dialog.dismiss()
+                startActivity(Intent(this, AllChatActivity::class.java)
+                        .putExtra(ARG_CHATFOR, ChatUtil.ARG_IDIVIDUAL)
+                        .putExtra(ARG_HISTORY_ID, SessionManager.getObj().user.clubz_owner_id)
+                        .putExtra(ARG_HISTORY_NAME, SessionManager.getObj().user.clubz_owner_name)
+                        .putExtra(ARG_HISTORY_PIC, SessionManager.getObj().user.clubz_owner_profileImage)
+                )
+            } else {
+                showToast(resources.getString(R.string.owner_alert_message))
+            }
+        })
+
         dialog.mClose.setOnClickListener {
             dialog.dismiss()
         }
@@ -258,6 +298,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
         dialog.show();
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
@@ -402,7 +443,21 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         val clubList = ArrayList<ClubName>()
         for (club in tempClubList) {
 
-            if (club.clubId!=1) {
+            var Ownerid = SessionManager.getObj().user.clubz_owner_id
+
+
+
+            if(!Ownerid.equals(SessionManager.getObj().user.id)){
+                if (club.clubId!=1) {
+                    if (club.notSilent.equals("1")) {
+                        val data = ClubName()
+                        data.clubId = club.clubId
+                        data.club_name = club.club_name
+                        clubList.add(data)
+                    }
+                }
+            }
+            else{
                 if (club.notSilent.equals("1")) {
                     val data = ClubName()
                     data.clubId = club.clubId
@@ -411,6 +466,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 }
             }
 
+
         }
 
         when (clubList.size) {
@@ -418,14 +474,47 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 showToast("Please create your club first.")
             }
             1 -> {
-                startActivity(Intent(this@HomeActivity, CreateAdActivity::class.java).putExtra("clubId", clubList[0].clubId.toString()).putExtra("clubName", clubList[0].club_name))
+
+                val task = AdsAllowtask()
+                task.listener = object : AdsAllowtask.Listener {
+                    override fun onProgressCancel(status: String?) {
+                        if (status != null) {
+                            showServerFailResponceDialog(status)
+                        }
+                    }
+
+                    override fun onProgressDone() {
+                        startActivity(Intent(this@HomeActivity, CreateAdActivity::class.java).putExtra("clubId", clubList[0].clubId.toString()).putExtra("clubName", clubList[0].club_name))
+
+                    }
+                }
+                task.syncAppData(clubList[0].clubId.toString())
+
+
+
             }
             else -> {
                 object : ClubSelectionDialog(this@HomeActivity, clubList) {
                     override fun onClubSelect(clubName: ClubName) {
-                        startActivity(Intent(this@HomeActivity, CreateAdActivity::class.java)
-                                .putExtra("clubId", clubName.clubId.toString()).putExtra("clubName", clubName.club_name))
+
                         dismiss()
+                        val task = AdsAllowtask()
+                        task.listener = object : AdsAllowtask.Listener {
+                            override fun onProgressCancel(status: String?) {
+                                if (status != null) {
+                                    showServerFailResponceDialog(status)
+                                }
+                            }
+
+                            override fun onProgressDone() {
+                                startActivity(Intent(this@HomeActivity, CreateAdActivity::class.java)
+                                        .putExtra("clubId", clubName.clubId.toString()).putExtra("clubName", clubName.club_name))
+
+                            }
+                        }
+                        task.syncAppData(clubName.clubId.toString())
+
+
                     }
                 }.show()
             }
@@ -443,6 +532,9 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         replaceFragment(Frag_Find_Activities())*//*
     }*/
 
+    override fun onPause() {
+        super.onPause()
+    }
     override fun onResume() {
         super.onResume()
         if(SessionManager.getObj().membershipPlan!=null){
@@ -643,6 +735,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                         frag as FragmentChatHistory
                           val list: ArrayList<DialogMenu> = arrayListOf()
                           list.add(DialogMenu(getString(R.string.create_chat_feed), R.drawable.ic_add_24))
+                          list.add(DialogMenu(getString(R.string.filter_clubs), R.drawable.ic_filter_list))
                           //list.add(DialogMenu(getString(R.string.renew_my_location), R.drawable.ic_refresh))
                           showMenu(list, frag)
                       }
@@ -774,6 +867,20 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             R.id.ll_menu2 -> {
                 menuDialog?.dismiss()
             }
+            R.id.ch_newschatOnly -> {
+                updateChatNewsHistory();
+
+            }
+            R.id.ch_bypersonalchat -> {
+                updateChatNewsHistory();
+            }
+            R.id.ch_byactivity -> {
+                updateChatNewsHistory();
+
+            }
+            R.id.ch_byads -> {
+                updateChatNewsHistory();
+            }
         }
     }
 
@@ -783,7 +890,16 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
                 ?.let { it as FragNewsList }
         newsFeedFragment?.setFilter(showMyNewsfeedOnly, club, like, comment)
     }
-
+    private fun updateChatNewsHistory() {
+        newschat  = chatFilterDialog?.ch_newschatOnly?.isChecked!!
+        personalchat =  chatFilterDialog?.ch_bypersonalchat?.isChecked!!
+        activitychat =  chatFilterDialog?.ch_byactivity?.isChecked!!
+        adschat =  chatFilterDialog?.ch_byads?.isChecked!!
+        val chathistoryFragment: FragmentChatHistory? = supportFragmentManager.fragments
+                .firstOrNull { it::class.java.simpleName == FragmentChatHistory::class.java.simpleName }
+                ?.let { it as FragmentChatHistory }
+        chathistoryFragment?.setFilter(newschat, personalchat, activitychat, adschat)
+    }
 
     /* private fun clubOptions(position: Int) {
          var canshow = false
@@ -801,6 +917,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         //dialog = null
         menuDialog = null
         newsFilterDialog = null
+        chatFilterDialog =null
         //myActivityDailog = null
     }
 
@@ -863,6 +980,10 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     private fun getCurrentFragment(): Fragment? {
         val fragments = supportFragmentManager.fragments
+       /* val fragmentslast = fragments[fragments.size-1]
+        if(fragmentslast==SupportRequestManagerFragment){
+
+        }*/
         return fragments[fragments.size - 1]
         //return supportFragmentManager.findFragmentById(R.id.frag_container)
     }
@@ -938,6 +1059,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         // Showing Alert Message
         alertDialog.show()
     }
+
 
     override fun onConnected(bundle: Bundle?) {
         try {
@@ -1085,7 +1207,19 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
 
 
+    fun showServerFailResponceDialog(msg: String) {
+        val builder1 = android.app.AlertDialog.Builder(this@HomeActivity)
+        builder1.setMessage(msg)
+        builder1.setCancelable(true)
+        builder1.setPositiveButton(getString(R.string.ok)
+        ) { dialog, id ->
 
+        }
+
+
+        val alert11 = builder1.create()
+        alert11.show()
+    }
 
 
 }

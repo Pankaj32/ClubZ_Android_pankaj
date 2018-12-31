@@ -31,7 +31,9 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.clubz.chat.model.MemberBean
 import com.clubz.chat.util.ChatUtil
+import com.clubz.ui.dialogs.ZoomDialog
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.frag_club_details1.*
 
 /**
  * Created by Dhrmraj Acharya on २१/३/१८.
@@ -149,6 +151,10 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
             rv_members.adapter = adapterClubMember
             getClubMembers()
         }
+
+
+
+
     }
 
     override fun onFocus() {
@@ -375,7 +381,8 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                     dialog.dismiss()
                     val obj = JSONObject(response)
                     if (obj.getString("status") == "success") {
-                        adapterOwnClubMember?.addTag(tag, pos)
+                        var tadIdvalue = obj.getString("userTagId")
+                        adapterOwnClubMember?.addTag(tag, pos,tadIdvalue)
 
                     } else {
                         Util.showToast(obj.getString("message"), context)
@@ -397,6 +404,47 @@ class FragClubDetails2 : Fragment(), AdapterOwnClubMember.Listner, AdapterClubAp
                 params["tagName"] = tag!!
                 params["clubUserId"] = member!!.clubUserId
                 params["userId"] = member.userId
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                params["language"] = SessionManager.getObj().language
+                return params
+            }
+        }.execute()
+    }
+
+    override fun onTagDelete(tagid: String?) {
+        val dialog = CusDialogProg(context)
+        dialog.show()
+        object : VolleyGetPost(activity, WebService.club_delete_member_Tag, false,
+                true) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if (obj.getString("status") == "success") {
+                        adapterOwnClubMember?.removeTag(tagid)
+
+                    } else {
+                        Util.showToast(obj.getString("message"), context)
+                    }
+                } catch (ex: Exception) {
+                    Util.showToast(R.string.swr, context!!)
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+                dialog.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["userTagId"] = tagid!!
                 return params
             }
 

@@ -14,6 +14,7 @@ class ClubName {
 
     var clubId: Int? = null
     var club_name: String? = null
+    var club_image =""
     var isSelected = false
 
     override fun toString(): String {

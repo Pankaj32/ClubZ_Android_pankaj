@@ -89,6 +89,10 @@ public class Constants {
     public static final String NETWORK_SWITCH_FILTER = "com.devglan.broadcastreceiver.NETWORK_SWITCH_FILTER";
 
 
+    public static final String _club_owner_id              = "club_owner_id           " ;
+    public static final String _club_owner_full_name      = "club_owner_full_name   " ;
+    public static final String _club_owner_profile_pic      = "club_owner_profile_pic" ;
+
     /******MembershipPlan*********/
 
     /***Session ***/
@@ -108,5 +112,18 @@ public class Constants {
     public static final String _ads_create     = "ads_create" ;
     public static final String _status    = "status" ;
     public static final String _crd    = "crd" ;
+
+
+    /******Notifination*********/
+
+    public static final String _allow_notification    = "allownotification" ;
+    public static final String _news_notification       = "newsnotification" ;
+    public static final String _activity_notification      = "activitynotification   " ;
+    public static final String _chat_notification       = "chatnotification";
+    public static final String _ads_notification      = "adsnotification";
+    public static final String _activity_confirmed_notification     = "activityconfirmednotification";
+    public static final String _activity_chat_notification           = "activitychatnotification" ;
+    public static final String _activity_cancel_notification       = "activitycancellednotification" ;
+
 
 }

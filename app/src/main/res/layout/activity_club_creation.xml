@@ -129,6 +129,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_180sdp"
                             android:background="#00A8D1"
+                            android:scaleType="centerCrop"
                             app:srcCompat="@drawable/ic_new_img" />
 
                         <ImageView

@@ -3,6 +3,7 @@ package com.clubz.ui.cv;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ public abstract class ChipView extends RelativeLayout implements View.OnClickLis
     ImageView delete_button;
     String Id;
     private boolean isDeletable = true;
+    private boolean isScroll = false;
 
     // ChipDeleteListner chipDeleteListner;
     public ChipView(Context context, String Id) {
@@ -35,6 +37,14 @@ public abstract class ChipView extends RelativeLayout implements View.OnClickLis
         this.context = context;
         this.Id = Id;
         this.isDeletable = isDeletable;
+        initiateview();
+    }
+    public ChipView(Context context, String Id, boolean isDeletable, boolean isscroll) {
+        super(context);
+        this.context = context;
+        this.Id = Id;
+        this.isDeletable = isDeletable;
+        this.isScroll = isscroll;
         initiateview();
     }
 
@@ -63,7 +73,13 @@ public abstract class ChipView extends RelativeLayout implements View.OnClickLis
             case R.id.delete_button:
                 setDeleteListner(this);
                 // if(chipDeleteListner != null) setOnDeleteListner(chipDeleteListner);
-                ((FlowLayout) this.getParent()).removeView(this);
+                if(isScroll){
+                    ((LinearLayout) this.getParent()).removeView(this);
+                }
+                else{
+                    ((FlowLayout) this.getParent()).removeView(this);
+                }
+
                 break;
 
         }

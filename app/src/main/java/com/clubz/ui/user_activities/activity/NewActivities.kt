@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.AllChatActivity
 import com.clubz.chat.model.ActivityBean
 import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
@@ -82,6 +83,12 @@ class NewActivities : BaseActivity(), View.OnClickListener {
     private var activityBean: ActivitiesBean.DataBean? = null
     private lateinit var autocompleteFragment: PlaceAutocompleteFragment
 
+    private val ARG_CHATFOR = "chatFor"
+    private val ARG_HISTORY_ID = "historyId"
+    private val ARG_HISTORY_NAME = "historyName"
+    private val ARG_HISTORY_PIC = "historyPic"
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_activities)
@@ -107,6 +114,19 @@ class NewActivities : BaseActivity(), View.OnClickListener {
 
                             override fun viewplansListner() {
                                 this.dismiss()
+                                var Adminuserid = SessionManager.getObj().user.clubz_owner_id
+                                var userid = SessionManager.getObj().user.id
+
+                                if (!Adminuserid.equals(userid)) {
+                                    startActivity(Intent(this@NewActivities, AllChatActivity::class.java)
+                                            .putExtra(ARG_CHATFOR, ChatUtil.ARG_IDIVIDUAL)
+                                            .putExtra(ARG_HISTORY_ID, SessionManager.getObj().user.clubz_owner_id)
+                                            .putExtra(ARG_HISTORY_NAME, SessionManager.getObj().user.clubz_owner_name)
+                                            .putExtra(ARG_HISTORY_PIC, SessionManager.getObj().user.clubz_owner_profileImage)
+                                    )
+                                } else {
+                                    Toast.makeText(this@NewActivities, resources.getString(R.string.owner_alert_message), Toast.LENGTH_SHORT).show();
+                                }
                             }
 
                         }.show()
@@ -145,7 +165,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
         feestypeList.add("Dynamic")
         spinnActivityLeaderAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, activityLeaderList)
         spinnFeeTypeAdapter = ArrayAdapter(this@NewActivities, R.layout.spinner_item, R.id.spinnText, feestypeList)
-        spinnerLeader.adapter = spinnActivityLeaderAdapter
+        spinnerLeader.adapter = spinnActivityLeaderAdapter!!
         spinnerFeesType.adapter = this.spinnFeeTypeAdapter
 
         autocompleteFragment = fragmentManager.findFragmentById(R.id.autocomplete_fragment) as PlaceAutocompleteFragment
@@ -192,7 +212,13 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                activityLeader = /*if (p2 == 0) "" else */activityLeaderList!![p2].userId!!
+
+                //activityLeader =""
+
+               // if(!activityLeaderList!![p2].userId!!.equals("0")){
+                    activityLeader = /*if (p2 == 0) "" else */activityLeaderList!![p2].userId!!
+
+               // }
             }
         }
 
@@ -333,10 +359,10 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 startActivityForResult(intent, Constants.REQUEST_CAMERA)
             }
             Constants.INTENTGALLERY -> {
-                ImagePicker.pickImage(this@NewActivities)
+
                 val intentgallery = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(intentgallery, Constants.SELECT_FILE)
-                //   com.clubz.utils.picker.ImagePicker.pickImage(this@NewActivities)
+
             }
             Constants.INTENTREQUESTCAMERA -> ActivityCompat.requestPermissions(this@NewActivities, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.MY_PERMISSIONS_REQUEST_CAMERA)
@@ -396,7 +422,7 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                 try {
                     if (imageUri != null)
                         activityImage = MediaStore.Images.Media.getBitmap(this@NewActivities.contentResolver, imageUri)
-                    val rotation = ImageRotator.getRotation(this, imageUri, true)
+                    val rotation = ImageRotator.getRotation(this, imageUri, false)
                     activityImage = ImageRotator.rotate(activityImage, rotation)
                     if (activityImage != null) {
                         val padding = 0
@@ -488,6 +514,13 @@ class NewActivities : BaseActivity(), View.OnClickListener {
             Util.showSnake(this, mainLayout!!, R.string.a_actnme)
             return false
         }
+        if(!minUser.text.toString().isBlank()&&!maxUser.text.toString().isBlank()){
+            if (minUser.text.toString().toInt() > maxUser.text.toString().toInt()) {
+                Util.showSnake(this, mainLayout!!, R.string.a_actamxMin)
+                return false
+            }
+        }
+
         /*if (activityImage == null) {
             Util.showSnake(this, mainLayout!!, R.string.a_actImg)
             return false
@@ -552,22 +585,30 @@ class NewActivities : BaseActivity(), View.OnClickListener {
                     for (dataBean in leaderResponce.getData()!!) {
                         activityLeaderList!!.add(dataBean)
                     }
+
                     spinnActivityLeaderAdapter!!.notifyDataSetChanged()
                     if (activityBean != null) {
+                        /*if(activityBean?.leader_id.equals("0")){
+                            val dataBean = GetLeaderResponce.DataBean()
+                            dataBean.name=getString(R.string.not_assign_leader);
+                            dataBean.userId = activityBean?.leader_id;
+                            activityLeaderList!!.add(0,dataBean)
+                        }*/
                         for (i in 0..activityLeaderList!!.size) {
                             val leader = activityLeaderList!![i]
-                            if (leader.userId.equals(activityBean?.leader_id)) {
-                                spinnerLeader.setSelection(i)
-                                break
-                            }
+                                if (leader.userId.equals(activityBean?.leader_id)) {
+                                    spinnerLeader.setSelection(i)
+                                    break
+                                }
                         }
                     }
+
                 } else {
                     /*Toast.makeText(this@NewActivities, obj.getString("message"), Toast.LENGTH_LONG).show()*/
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
-                Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()
+                //Toast.makeText(this@NewActivities, R.string.swr, Toast.LENGTH_LONG).show()
             }
             dialog.dismiss()
         }, Response.ErrorListener {

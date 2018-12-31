@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.clubz.R;
+import com.clubz.data.local.pref.SessionManager;
 import com.clubz.ui.cv.ChipView;
 import com.clubz.ui.cv.FlowLayout;
 import com.clubz.ui.cv.chipview.TagView;
@@ -26,22 +27,27 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
     private final ImageView mArrowExpandImageView;
     private TextView tv_FullName/*, noTagTxt*/;
     private ImageView iv_profileImage;
+    private ImageView iv_check;
     //private TagView tagView;
     // private View viewTop;
     private Context mContext;
 
+    public interface Listner {
+        public void onProfileClick(GetActivityMembersResponce.DataBean dataBean);
+    }
 
     public ActivityMembersViewHolder(View itemView) {
         super(itemView);
         mArrowExpandImageView = itemView.findViewById(R.id.iv_arrow_expand);
         iv_profileImage = itemView.findViewById(R.id.iv_profileImage);
         tv_FullName = itemView.findViewById(R.id.tv_FullName);
+        iv_check = itemView.findViewById(R.id.iv_check);
         /*tagView = itemView.findViewById(R.id.tagView);
         noTagTxt = itemView.findViewById(R.id.noTagTxt);*/
         //  viewTop = itemView.findViewById(R.id.viewTop);
     }
 
-    public void bind(Context context, GetActivityMembersResponce.DataBean dataBean, final int position) {
+    public void bind(Context context, final GetActivityMembersResponce.DataBean dataBean, final int position, final Listner listner) {
         this.mContext = context;
         if (!dataBean.getProfile_image().isEmpty()) {
             Picasso.with(iv_profileImage.getContext()).load(dataBean.getProfile_image()).fit().placeholder(R.drawable.user_place_holder).into(iv_profileImage);
@@ -49,6 +55,11 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
         //  if (position == 0) viewTop.setVisibility(View.GONE);
         tv_FullName.setText(dataBean.getFull_name());
       //  if (!dataBean.getTag_name().isEmpty()) addChip(dataBean.getTag_name(), noTagTxt);
+
+        if(dataBean.is_join()!=null&&!dataBean.is_join().equals("")){
+            iv_check.setVisibility(View.VISIBLE);
+
+        }
         if (dataBean.getAffiliates()!=null) {
             if (dataBean.getAffiliates().size() > 0) {
                 mArrowExpandImageView.setVisibility(View.VISIBLE);
@@ -56,6 +67,18 @@ public class ActivityMembersViewHolder extends ParentViewHolder {
                 mArrowExpandImageView.setVisibility(View.GONE);
             }
         }else mArrowExpandImageView.setVisibility(View.GONE);
+
+        iv_profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                GetActivityMembersResponce.DataBean dataBeanclick = dataBean;
+                if(!dataBeanclick.getUserId().equals(SessionManager.getObj().getUser().getId())){
+                    listner.onProfileClick(dataBeanclick);
+                }
+
+            }
+        });
     }
 
     @Override

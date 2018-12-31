@@ -29,7 +29,7 @@
             android:text="Club Z app"
             android:gravity="center"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_75sdp"
+            android:layout_marginTop="@dimen/_90sdp"
             android:fontFamily="@font/teko_bold"
             android:textColor="@color/eighty_black"
             android:textSize="18sp" />
@@ -68,17 +68,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/top_primary"
-            android:scrollbars="vertical"
             android:overScrollMode="never"
             android:scrollbarSize="4dp"
             android:layout_marginLeft="10dp"
+            android:scrollbars="none"
             android:layout_marginRight="10dp"
-            android:scrollbarThumbVertical="@drawable/scrollbar"        android:layout_marginBottom="40dp">
+            android:layout_marginBottom="40dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar"        >
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginEnd="14dp"
                 android:layout_marginStart="14dp"
                 android:orientation="vertical">
@@ -90,12 +92,53 @@
                     android:textColor="@color/text_color_gray"
                     android:fontFamily="@font/roboto_regular"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
                     android:lineSpacingExtra="3dp"
                     android:textSize="16sp"
-                    android:autoLink="all"
                     android:linksClickable="true"
                     android:text="@string/about_use_content"/>
+                <TextView
+                    android:id="@+id/companyTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="16sp"
+                    android:lineSpacingExtra="3dp"
+                    android:linksClickable="true"
+                    android:text="@string/company_use_content"/>
+                <TextView
+                    android:id="@+id/contactusTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="16sp"
+                    android:lineSpacingExtra="3dp"
+                    android:linksClickable="true"
+                    android:text="@string/contact_use_content"/>
+                <TextView
+                    android:id="@+id/appchatTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="16sp"
+                    android:lineSpacingExtra="3dp"
+                    android:linksClickable="true"
+                    android:text="@string/app_chat_use_content"/>
+                <TextView
+                    android:id="@+id/supportmailTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="16sp"
+                    android:lineSpacingExtra="3dp"
+                    android:autoLink="email"
+                    android:linksClickable="true"
+                    android:text="@string/support_use_content"/>
+
+
 
             </LinearLayout>
         </ScrollView>
@@ -105,8 +148,8 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/topIcon"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:background="@drawable/bg_circle_white"
@@ -121,7 +164,7 @@
         android:layout_height="wrap_content"
         tools:ignore="RtlHardcoded"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/_5sdp">
+        android:layout_marginBottom="@dimen/_10sdp">
 
         <TextView
             android:id="@+id/mClose"
@@ -130,10 +173,10 @@
             android:background="?android:attr/selectableItemBackground"
             android:fontFamily="@font/roboto_medium"
             android:gravity="center"
-            android:paddingLeft="8dp"
+            android:padding="@dimen/_8sdp"
             android:text="@string/close"
             android:textAllCaps="true"
-            android:layout_marginRight="14dp"
+            android:layout_marginRight="@dimen/_10sdp"
             android:layout_alignParentRight="true"
             android:textColor="@color/primaryColor"
             android:textSize="14sp" />

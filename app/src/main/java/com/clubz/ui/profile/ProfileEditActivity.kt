@@ -84,7 +84,7 @@ class ProfileEditActivity : AppCompatActivity(),
     private var isCameraSelected = false
     private var imageUri: Uri? = null
     var profilImgBitmap: Bitmap? = null
-    private var affiliatesParams = HashMap<String, String>()
+    private var affiliatesParams = LinkedHashMap<String, String>()
     private var skillParams = HashMap<String, String>()
     private var interestParams = HashMap<String, String>()
 
@@ -566,7 +566,8 @@ class ProfileEditActivity : AppCompatActivity(),
                 for (text in affiliatesParams.entries) {
                     if (addedAffiliates.equals("")) {
                         addedAffiliates = text.value
-                    } else addedAffiliates = addedAffiliates + "," + text.value
+                    }
+                    else addedAffiliates = addedAffiliates + "," + text.value
                 }
                 for (text in skillParams.entries) {
                     if (updatedSkills.equals("")) {
@@ -602,6 +603,9 @@ class ProfileEditActivity : AppCompatActivity(),
     }
 
     private fun showVisibilityMenu(v: View) {
+
+        KeyboardUtil.hideKeyboard(this)
+
         val products = arrayOf(getString(R.string.hidden), getString(R.string.club_public),
                 getString(R.string.only_for_my_contact), getString(R.string.only_for_club_member))
         val lpw = ListPopupWindow(this@ProfileEditActivity)

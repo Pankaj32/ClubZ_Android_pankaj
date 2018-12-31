@@ -363,7 +363,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/club_city"
-                        android:text="Indore" />
+                        android:text="" />
 
                 </android.support.design.widget.TextInputLayout>
 

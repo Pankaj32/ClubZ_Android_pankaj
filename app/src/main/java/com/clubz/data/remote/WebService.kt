@@ -29,6 +29,7 @@ class WebService {
         val club_silence = base_Url +"service/club/updateAllowFeedStatus"
         val club_member_action = base_Url +"service/club/answerClubRequest"
         val club_add_member_Tag = base_Url +"service/club/addUserTag"
+        val club_delete_member_Tag = base_Url +"service/club/deleteUserTags"
         val club_search_clubs = base_Url +"service/club/searchClub"
         val update_nickName = base_Url +"service/club/updateNickName"
         val feed_filter_tag = base_Url +"service/club/allNewsFilterTags"
@@ -40,6 +41,8 @@ class WebService {
         val create_feed          = base_Url +"service/club/createNewsFeed" // Potential search will GEt
         val feed_like            = base_Url +"service/club/newsFeedsLike"
         val feed_details            = base_Url +"service/club/newsFeedDetail"
+        val feed_comment_count            = base_Url +"service/club/commentCount"
+
 
         val get_leaders= base_Url+"service/activity/activityLeaderList?clubId="
         val get_my_club= base_Url+"service/club/myCreatedClubsName"
@@ -78,6 +81,10 @@ class WebService {
         val contactList= base_Url +"service/user/contactList"
         val favoriteUserList= base_Url +"service/user/favoriteUserList"
         val getMembershipPlanList= base_Url +"service/user/getCurrentPlanDetails"
+
+
+        val getUserAllowAds= base_Url +"service/ads/checkAdsLimit"
+
     }
 
     //http://clubz.co/dev/service/login

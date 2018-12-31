@@ -7,6 +7,7 @@ import java.util.*
 class ClubMember : Serializable {
 
     var tag_name = ""
+    var tag_id = ""
     var user_nickname = ""
     var userId = ""
     var clubUserId = ""
@@ -26,6 +27,11 @@ class ClubMember : Serializable {
         if(tag_name.isEmpty())
            tag_name = tag
         else tag_name = tag_name+","+tag;
+    }
+    fun addTagID(tagid : String){
+        if(tag_id.isEmpty())
+            tag_id = tagid
+        else tag_id = tag_id+","+tagid;
     }
 
     fun distance() : String{

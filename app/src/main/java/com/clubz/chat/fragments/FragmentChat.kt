@@ -23,6 +23,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.*
+import com.android.volley.VolleyError
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 
@@ -30,13 +31,18 @@ import com.clubz.R
 import com.clubz.chat.adapter.ChatRecyclerAdapter
 import com.clubz.chat.model.*
 import com.clubz.chat.util.ChatUtil
+import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.Feed
+import com.clubz.data.remote.WebService
 import com.clubz.helper.fcm.FcmNotificationBuilder
 import com.clubz.ui.dialogs.ZoomDialog
 import com.clubz.utils.Constants
 import com.clubz.utils.KeyboardUtil
+import com.clubz.utils.VolleyGetPost
 import com.clubz.utils.cropper.CropImage
 import com.clubz.utils.cropper.CropImageView
 import com.clubz.utils.picker.ImageRotator
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -46,6 +52,7 @@ import com.vanniktech.emoji.EmojiEditText
 import com.vanniktech.emoji.EmojiPopup
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.z_user_profile_dialog.*
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -109,6 +116,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
     private var isText = false
     private var membersTokenList = ArrayList<MembersFBTokenBean>()
 
+    var totalchatcount =0
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -132,6 +140,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
             chatFor = arguments!!.getString(ARG_CHATFOR)
             when (chatFor) {
                 ChatUtil.ARG_NEWS_FEED -> {
+                    totalchatcount =0
                     clubId = arguments!!.getString(ARG_CLUB_ID)
                     feedId = arguments!!.getString(ARG_FEED_ID)
                     feedName = arguments!!.getString(ARG_FEED_NAME)
@@ -382,12 +391,12 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                                 silentTxt?.visibility = View.GONE
                                 silentTxt?.isClickable = true
                                 chatRecycler?.visibility = View.VISIBLE
-                                noDataTxt?.visibility = View.GONE
+                              //  noDataTxt?.visibility = View.GONE
                                 if (mChatRecyclerAdapter == null) getMessageFromFirebaseUser()
                             } else {
                                 silentTxt?.visibility = View.VISIBLE
                                 chatRecycler?.visibility = View.GONE
-                                noDataTxt?.visibility = View.VISIBLE
+                              //  noDataTxt?.visibility = View.VISIBLE
                             }
                         } else {
                             getMessageFromFirebaseUser()
@@ -410,6 +419,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                                 .child(ChatUtil.ARG_CHAT_ROOMS)
                                 .child(chatRoom).addChildEventListener(object : ChildEventListener {
                                     override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
+                                        totalchatcount++
                                         val chatBean = dataSnapshot?.getValue(ChatBean::class.java)
                                         if (mChatRecyclerAdapter == null) {
                                             val chatbeans = ArrayList<ChatBean>()
@@ -579,7 +589,7 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                  }*/
                 var bm: Bitmap? = null
                 bm = com.clubz.utils.picker.ImagePicker.getImageResized(mContext, imageUri)
-                val rotation = ImageRotator.getRotation(mContext, imageUri, true)
+                val rotation = ImageRotator.getRotation(mContext, imageUri, false)
                 bm = ImageRotator.rotate(bm, rotation)
 
                 val file = File(mContext!!.getExternalCacheDir(), UUID.randomUUID().toString() + ".jpg")
@@ -658,9 +668,17 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
         val photoRef = storageRef?.child(selectedImageUri.lastPathSegment)
         photoRef?.putFile(selectedImageUri)?.addOnSuccessListener { taskSnapshot ->
             val fireBaseUri = taskSnapshot.uploadSessionUri
-            Log.e("TAG", "onSuccess: ")
-            progressbar?.visibility = View.GONE
-            sendMessage(fireBaseUri!!.toString(), "image", chatFor)
+
+            taskSnapshot.storage.downloadUrl.addOnSuccessListener(object : OnSuccessListener<Uri> {
+                override fun onSuccess(p0: Uri?) {
+                    Log.e("TAG", "onSuccess: ")
+                    progressbar?.visibility = View.GONE
+                    sendMessage(p0!!.toString(), "image", chatFor)
+
+                }
+
+            })
+
         }
                 ?.addOnFailureListener { e ->
                     progressbar?.visibility = View.GONE
@@ -706,7 +724,6 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                     }
 
                     override fun onChildRemoved(p0: DataSnapshot) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                     }
 
                 })
@@ -813,12 +830,14 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                                 silentTxt?.visibility = View.GONE
                                 silentTxt?.isClickable = true
                                 chatRecycler?.visibility = View.VISIBLE
-                                noDataTxt?.visibility = View.GONE
+                                nodataLay.visibility = View.GONE
+                                rootView.visibility = View.VISIBLE
+                               // noDataTxt?.visibility = View.GONE
                             } else {
-                                silentTxt?.visibility = View.VISIBLE
-                                silentTxt?.text = getString(R.string.first_join_this_activity)
+                                nodataLay.visibility = View.VISIBLE
+                                rootView.visibility = View.GONE
                                 chatRecycler?.visibility = View.GONE
-                                noDataTxt?.visibility = View.VISIBLE
+                              //  noDataTxt?.visibility = View.VISIBLE
                             }
                         }
                     }
@@ -850,7 +869,13 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
         if (emojiPopup != null) {
             emojiPopup!!.dismiss()
         }
+        if(chatFor.equals(ChatUtil.ARG_NEWS_FEED)){
+            if(totalchatcount>0&&!feedId.equals("")){
+                ChatCountSend(feedId,""+totalchatcount)
 
+            }
+
+        }
         super.onStop()
     }
 
@@ -926,5 +951,43 @@ class FragmentChat : Fragment(), View.OnClickListener, ChatRecyclerAdapter.onCli
                     .child(clubId)
                     .child(ClubZ.currentUser!!.id).removeEventListener(statusEventListner!!)
         }
+    }
+
+
+    fun ChatCountSend(feedid: String, chatcount:String) {
+
+        object : VolleyGetPost(context, WebService.feed_comment_count, false, false) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    // dialog.dismiss();
+                    Log.d("newsFeedsLike", response)
+                    val obj = JSONObject(response)
+                    if (obj.getString("status") == "success") {
+                        Log.e("Countofchat",""+totalchatcount)
+                    }
+                } catch (ex: Exception) {
+                    // Util.showToast(R.string.swr, context)
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                //dialog.dismiss();
+            }
+
+            override fun onNetError() {
+                // dialog.dismiss();
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["newsFeedId"] = feedid
+                params["commentCount"] = chatcount
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                return params
+            }
+        }.execute()
     }
 }// Required empty public constructor

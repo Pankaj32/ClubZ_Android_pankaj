@@ -14,9 +14,13 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import kotlinx.android.synthetic.main.activity_account.*
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.Toast
+import com.clubz.chat.AllChatActivity
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.ui.main.HomeActivity
 import com.clubz.utils.Util
+import com.clubz.utils.Util.Companion.showToast
 
 
 class AccountActivity : AppCompatActivity(), View.OnClickListener {
@@ -27,6 +31,10 @@ class AccountActivity : AppCompatActivity(), View.OnClickListener {
     var ENGLISH_LOCALE="en"
     var SPANISH_LOCALE="es"
     var mIsSpinnerFirstCall = true
+    private val ARG_CHATFOR = "chatFor"
+    private val ARG_HISTORY_ID = "historyId"
+    private val ARG_HISTORY_NAME = "historyName"
+    private val ARG_HISTORY_PIC = "historyPic"
     private lateinit var autocompleteFragment: PlaceAutocompleteFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +106,22 @@ class AccountActivity : AppCompatActivity(), View.OnClickListener {
 
         })
 
+      contact_us.setOnClickListener(View.OnClickListener {
 
+          var Adminuserid = SessionManager.getObj().user.clubz_owner_id
+          var userid = SessionManager.getObj().user.id
+
+          if (!Adminuserid.equals(userid)) {
+              startActivity(Intent(this, AllChatActivity::class.java)
+                      .putExtra(ARG_CHATFOR, ChatUtil.ARG_IDIVIDUAL)
+                      .putExtra(ARG_HISTORY_ID, SessionManager.getObj().user.clubz_owner_id)
+                      .putExtra(ARG_HISTORY_NAME, SessionManager.getObj().user.clubz_owner_name)
+                      .putExtra(ARG_HISTORY_PIC, SessionManager.getObj().user.clubz_owner_profileImage)
+              )
+          } else {
+              Toast.makeText(this, resources.getString(R.string.owner_alert_message), Toast.LENGTH_SHORT).show();
+          }
+      })
 
     }
 

@@ -18,6 +18,8 @@ import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.AllChatActivity
+import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.db.repo.AllAdsRepo
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.AllAds
@@ -53,6 +55,11 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         pageListner?.resetState()
         getAdsList(isPull = true)
     }
+
+    private val ARG_CHATFOR = "chatFor"
+    private val ARG_HISTORY_ID = "historyId"
+    private val ARG_HISTORY_NAME = "historyName"
+    private val ARG_HISTORY_PIC = "historyPic"
 
     private var pageListner: RecyclerViewScrollListener? = null
     private var param1: String? = null
@@ -123,31 +130,36 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
         recyclerViewAds.addOnScrollListener(pageListner)
         // getAdsList(isPull = true)
-        /*val adRequest = AdRequest.Builder().build()
+       val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
+                Log.e("Ads:", "onAdLoaded")
             }
 
             override fun onAdFailedToLoad(errorCode: Int) {
                 // Code to be executed when an ad request fails.
+                Log.e("Ads:", "onAdFailedToLoad")
             }
 
             override fun onAdOpened() {
                 // Code to be executed when an ad opens an overlay that
                 // covers the screen.
+                Log.e("Ads:", "onAdOpened")
             }
 
             override fun onAdLeftApplication() {
                 // Code to be executed when the user has left the app.
+                Log.e("Ads:", "onAdLeftApplication")
             }
 
             override fun onAdClosed() {
                 // Code to be executed when when the user is about to return
                 // to the app after tapping on an ad.
+                Log.e("Ads:", "onAdClosed")
             }
-        }*/
+        }
 
 
         val tempAdsList = AllAdsRepo().getAllAds()
@@ -397,7 +409,15 @@ class AdsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                 if (adBean.is_my_ads.equals("1")) {
                     showConfirmationDialog("deleteMy", adBean)
                 } else {
-                    Toast.makeText(mContext, adBean.title + " go for chat", Toast.LENGTH_SHORT).show()
+
+
+                    mContext?.startActivity(Intent(mContext, AllChatActivity::class.java)
+                            .putExtra(ARG_CHATFOR, ChatUtil.ARG_IDIVIDUAL)
+                            .putExtra(ARG_HISTORY_ID,adBean.user_id)
+                            .putExtra(ARG_HISTORY_NAME, adBean.full_name)
+                            .putExtra(ARG_HISTORY_PIC, adBean.profile_image))
+
+                    //Toast.makeText(mContext, adBean.title + " go for chat", Toast.LENGTH_SHORT).show()
                 }
             }
             2 -> {

@@ -1,6 +1,7 @@
 package com.clubz.data.local.pref;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,12 +17,15 @@ import com.clubz.data.local.db.repo.AllFeedsRepo;
 import com.clubz.data.local.db.repo.ClubNameRepo;
 import com.clubz.data.model.ClubName;
 import com.clubz.data.model.MembershipPlan;
+import com.clubz.data.model.NotificationSesssion;
 import com.clubz.data.model.UpdateAsync;
 import com.clubz.data.model.UserLocation;
 import com.clubz.ui.authentication.SignupActivity;
 import com.clubz.data.model.User;
 import com.clubz.utils.Constants;
 import com.google.gson.Gson;
+
+import java.util.Locale;
 
 /**
  * Created by mindiii on 2/26/18.
@@ -91,12 +95,31 @@ public class SessionManager {
         editor.putString(Constants._show_profile, user.getShow_profile().trim());
         editor.putString(Constants._allow_anyone, user.getAllow_anyone().trim());
         editor.putString(Constants._hasAffiliates, user.getHasAffiliates().trim());
+
+        editor.putString(Constants._club_owner_id, user.getClubz_owner_id().trim());
+        editor.putString(Constants._club_owner_full_name, user.getClubz_owner_name().trim());
+        editor.putString(Constants._club_owner_profile_pic, user.getClubz_owner_profileImage().trim());
+
+
         editor.putBoolean(IS_LOGED_IN, true);
         editor.apply();
         //ClubZ.instance.setCurrentUser(user);
         return true;
     }
 
+
+    public boolean createNotificationSession(NotificationSesssion notify) {
+        editor.putString(Constants._allow_notification, notify.getActivity_chat_notification().trim());
+        editor.putString(Constants._news_notification, notify.getNews_notifications().trim());
+        editor.putString(Constants._activity_notification, notify.getActivities_notifications().trim());
+        editor.putString(Constants._chat_notification, notify.getChat_notifications().trim());
+        editor.putString(Constants._ads_notification, notify.getAds_notifications().trim());
+        editor.putString(Constants._activity_confirmed_notification, notify.getDate_confirmed_notification().trim());
+        editor.putString(Constants._activity_chat_notification, notify.getActivity_chat_notification().trim());
+        editor.putString(Constants._activity_cancel_notification, notify.getDate_cancelled_notification().trim());
+        editor.apply();
+        return true;
+    }
 
 
     public User getUser() {
@@ -142,6 +165,10 @@ public class SessionManager {
             user.setAllow_anyone(mypref.getString(Constants._allow_anyone, ""));
             user.setHasAffiliates(mypref.getString(Constants._hasAffiliates, ""));
             user.setUserCity(mypref.getString(Constants._userCity, ""));
+
+            user.setClubz_owner_id(mypref.getString(Constants._club_owner_id, ""));
+            user.setClubz_owner_name(mypref.getString(Constants._club_owner_full_name, ""));
+            user.setClubz_owner_profileImage(mypref.getString(Constants._club_owner_profile_pic, ""));
             return user;
         }
     }
@@ -214,7 +241,7 @@ public class SessionManager {
     }
 
     public String getLanguage() {
-        return mypreflan.getString(Constants._userLanguage, "en");
+        return mypreflan.getString(Constants._userLanguage, Locale.getDefault().getLanguage());
     }
 
     public void setLanguage(String language) {
@@ -222,6 +249,14 @@ public class SessionManager {
         editorlan.apply();
     }
 
+
+    public void setAffiliates(String hasaffiliates) {
+        editor.putString(Constants._hasAffiliates, hasaffiliates);
+        editor.apply();
+    }
+    public String getAffiliates() {
+        return mypref.getString(Constants._hasAffiliates, "");
+    }
     public UserLocation getLastKnownLocation() {
         String text = mypref.getString(Constants._userLastLocation, "");
         if (!text.isEmpty()) {
@@ -252,6 +287,8 @@ public class SessionManager {
     }
 
     public void logout(Context activity) {
+        NotificationManager notificationManager = (NotificationManager)activity.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
         editor.clear();
         editor.apply();
         new ClubNameRepo().deleteTable();
@@ -269,6 +306,8 @@ public class SessionManager {
     }
 
     public void logout(Activity activity) {
+        NotificationManager notificationManager = (NotificationManager)activity.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
         editor.clear();
         editor.apply();
         new ClubNameRepo().deleteTable();

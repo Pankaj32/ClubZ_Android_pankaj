@@ -3,7 +3,7 @@
     <string name="facebook_app_id">1901949733451269</string>
     <string name="fb_login_protocol_scheme">fb1901949733451269</string>
     <string name="server_client_id">303882214487-pkujqbkqgmq3m22muu8kbkj17n6hvvdc.apps.googleusercontent.com</string>
-    <string name="admob_app_id">ca-app-pub-2270528014536403~6190929441</string>
+    <string name="ad_unit_id">ca-app-pub-2270528014536403~6190929441</string>
     <string name="banner_home_footer">ca-app-pub-2270528014536403/7831739205</string>
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
@@ -105,7 +105,7 @@
     <string name="slider_b4">Promociona tus \n productos o servicios \n y dale a tus clientes \n locales una forma \n de contactarte.  </string><!--Register Step-->
     <string name="step_r1">Inicia sesión y mira lo que está sucediendo</string>
     <string name="step_r2">Ayúdanos a validar tu número de teléfono </string>
-    <string name="step_r3">Esto es sólo para romper el hielo ;)</string>
+    <string name="step_r3">Esto es sólo para romper el hielo <node>&#x1F600;</node></string>
     <string name="step_r4">Casi listo, agrega tus afiliados</string>
     <!--hints-->
     <string name="phone_no">Número de teléfono</string>
@@ -154,6 +154,7 @@
     <string name="viewplan">Ver Planes </string>
     <string name="cancel">Cancelar </string>
     <string name="contact_us_btn">CONTÁCTANOS</string>
+    <string name="contact_us">CONTÁCTANOS</string>
     <string name="logout">Cerrar sesión </string>
     <string name="resend">Reenviar código </string>
     <string name="search">Buscar </string>
@@ -466,6 +467,7 @@
     <string name="my_ads">Mis anuncios </string>
     <string name="commonmark">CommonMark</string>
     <string name="type_a_message">Escribe un mensaje</string>
+    <string name="there_is_still_no_shedule_dates_for_this_activitiy">Todavía no hay fechas programadas para esta actividad</string>
     <string name="add_ad_fav_title">¿Estás seguro de que quieres que este anuncio aparezca en tus favoritos?</string>
     <string name="remove_ad_fav_title">¿Estás seguro de que quieres eliminar este anuncio de tus favoritos?</string>
     <string name="delete_my_ad_title">¿Estás seguro de que quieres borrar este anuncio? </string>
@@ -497,8 +499,13 @@
     <string name="are_you_sure_you_want_to_discard_this_new_news">¿Seguro que quieres descartar esta nueva noticia?</string>
     <string name="are_you_sure_you_want_to_discard_this_new_Club">¿Seguro que quieres descartar este nuevo Club?</string>
 
+    <string name="owner_alert_message">Can\'t chat, You are the owner</string>
+    <string name="looking_chat_found_yet">Looking for a messages \nPlease wait a little</string>
+    <string name="joinpermission_alert">Join first</string>
+    <string name="join_leave_activity">Join, leave affiliates to the activity</string>
 
 
-
-
+    <string name="activity_filter_date">When a date is confirmed</string>
+    <string name="activity_filter_chat">Chat notifications</string>
+    <string name="activity_filter_cancelled">When a date is cancelled</string>
 </resources>

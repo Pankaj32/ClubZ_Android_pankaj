@@ -130,7 +130,7 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
 
         swipeRefreshLayout.setOnRefreshListener(this)
         feedRecycleView.addOnScrollListener(pageListner)
-        getFeeds(isPull = true)
+        //getFeeds(isPull = true)
         val tempFeedList = AllFeedsRepo().getAllFeeds()
         if (tempFeedList.size > 0) {
             for (feed in tempFeedList) {
@@ -172,7 +172,11 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
             ClubZ.isNeedToUpdateNewsFeed = false
             newsFeeds.clear()
             pageListner?.resetState()
-            getFeeds(0, isPull = true)
+            getFeeds(0, isPull = true,isloading= false)
+        }else{
+           // newsFeeds.clear()
+            pageListner?.resetState()
+            getFeeds(0, isPull = true,isloading=false)
         }
     }
 
@@ -370,9 +374,15 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
         adapter?.notifyDataSetChanged()
     }
 
-    private fun getFeeds(pageNo: Int = 0, isPull: Boolean = false) {
+    private fun getFeeds(pageNo: Int = 0, isPull: Boolean = false,isloading: Boolean = true) {
         val dialog = CusDialogProg(context)
-        if (pageNo != 10) dialog.show()
+
+        if (pageNo != 10)
+        {
+            if(isloading){
+                dialog.show()
+            }
+        }
         object : VolleyGetPost(activity, WebService.feed_getNewsFeedLsit, false,
                 false) {
             override fun onVolleyResponse(response: String?) {

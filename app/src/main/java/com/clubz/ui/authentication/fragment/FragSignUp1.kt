@@ -2,6 +2,7 @@ package com.clubz.ui.authentication.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.app.AppCompatDelegate
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,7 @@ class FragSignUp1 : SignupBaseFragment(), View.OnClickListener, Permission.Liste
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         otpReadPermission = Permission(activity!!, this)
         otpReadPermission.setListener(this)
     }

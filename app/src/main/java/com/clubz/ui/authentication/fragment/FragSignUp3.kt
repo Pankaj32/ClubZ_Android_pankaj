@@ -118,6 +118,9 @@ class FragSignUp3 : SignupBaseFragment(), View.OnClickListener {
                 try{
                     val obj = JSONObject(response)
                     if(obj.getString("status") == "success"){
+                        if(list.size>0){
+                            SessionManager.getObj().setAffiliates("1")
+                        }
                         startActivity(Intent(signupActivity, HomeActivity::class.java))
                         signupActivity.finish()
                     }else{

@@ -1,22 +1,31 @@
 package com.clubz.ui.user_activities.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.android.volley.VolleyError
 import com.clubz.ClubZ
 
 import com.clubz.R
 import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.Feed
+import com.clubz.data.model.Profile
+import com.clubz.data.model.UserInfo
 import com.clubz.data.remote.WebService
 import com.clubz.ui.cv.CusDialogProg
+import com.clubz.ui.dialogs.ProfileDialog
+import com.clubz.ui.profile.ProfileActivity
 import com.clubz.ui.user_activities.expandable_recycler_view.ActivityMembersAdapter
+import com.clubz.ui.user_activities.expandable_recycler_view.ActivityMembersViewHolder
 import com.clubz.ui.user_activities.expandable_recycler_view.ExpandableRecyclerAdapter
 import com.clubz.ui.user_activities.model.GetActivityMembersResponce
 import com.clubz.utils.VolleyGetPost
@@ -28,7 +37,13 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.frag_activity_member.*
 import org.json.JSONObject
 
-class Frag_Activity_Member : Fragment() {
+class Frag_Activity_Member : Fragment() , ActivityMembersViewHolder.Listner {
+
+
+    override fun onProfileClick(dataBean: GetActivityMembersResponce.DataBean?) {
+
+        showProfile(dataBean)
+    }
 
     private var mContext: Context? = null
     private var activityId = ""
@@ -143,12 +158,14 @@ class Frag_Activity_Member : Fragment() {
                             }
                             if (isActivityJoind) {
                                 silentTxt?.visibility = View.GONE
+                                nodataLay.visibility = View.GONE
                                 silentTxt?.isClickable = true
                                 recyclerActivityMember?.visibility = View.VISIBLE
                                 getActivityMembers()
                             } else {
-                                silentTxt?.visibility = View.VISIBLE
-                                silentTxt?.text = getString(R.string.first_join_this_activity)
+                                //silentTxt?.visibility = View.VISIBLE
+                                nodataLay.visibility = View.VISIBLE
+                               // silentTxt?.text = getString(R.string.first_join_this_activity)
                                 recyclerActivityMember?.visibility = View.GONE
                             }
                         }
@@ -168,7 +185,7 @@ class Frag_Activity_Member : Fragment() {
                 }
             }
         }
-        val activityMemberAdapter = ActivityMembersAdapter(mContext, activityDetails.getData())
+        val activityMemberAdapter = ActivityMembersAdapter(mContext, activityDetails.getData(),this)
         activityMemberAdapter?.setExpandCollapseListener(object : ExpandableRecyclerAdapter.ExpandCollapseListener {
             override fun onListItemExpanded(position: Int) {
                 val expandedMovieCategory = activityDetails.getData()!![position]
@@ -189,5 +206,32 @@ class Frag_Activity_Member : Fragment() {
                     .child(ChatUtil.ARG_ACTIVITY_JOIND_USER)
                     .child(activityId).removeEventListener(activityJoiendListner!!)
         }
+    }
+
+    private fun showProfile(dataBean: GetActivityMembersResponce.DataBean?) {
+        val user = UserInfo()
+        user.profile_image = dataBean?.profile_image!!
+        user.userId = dataBean?.userId!!
+        user.full_name = dataBean?.full_name!!
+        user.contact_no =dataBean?.contact_no!!
+        user.contact_no_visibility = dataBean?.contact_no_visibility!!
+        user.clubId = dataBean?.club_id!!
+
+        val dialog = object : ProfileDialog(context!!, user) {
+            override fun OnProfileClick(user: UserInfo) {
+                if (user.userId.isNotEmpty()) {
+                    val profile = Profile()
+                    profile.userId = user.userId
+                    profile.full_name = user.full_name
+                    profile.profile_image = user.profile_image
+                    context?.startActivity(Intent(context, ProfileActivity::class.java).putExtra("profile", profile))
+                } else {
+                    Toast.makeText(context, getString(R.string.under_development), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
+        //  dialog.setCancelable(true)
+        dialog.show()
     }
 }// Required empty public constructor

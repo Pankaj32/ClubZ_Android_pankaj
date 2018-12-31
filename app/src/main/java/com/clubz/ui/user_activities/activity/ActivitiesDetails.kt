@@ -87,7 +87,7 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
         // headerTxt.text = resources.getString(R.string.hint_activity_name)
         headerTxt.text = activityName
         clubNameTxt.text = clubName
-
+        bubble_menu.visibility = View.GONE
 
         ivBack.setOnClickListener(this)
         bubble_menu.setOnClickListener(this)
@@ -122,7 +122,7 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
             "Activity Name"
         else "Activity Name"*/
         KeyboardUtil.hideKeyboard(this)
-        bubble_menu.visibility = if (position == 0) View.VISIBLE else View.GONE
+      //  bubble_menu.visibility = if (position == 0) View.VISIBLE else View.GONE
     }
 
     override fun onClick(p0: View?) {
@@ -227,6 +227,7 @@ class ActivitiesDetails : AppCompatActivity(), View.OnClickListener, ViewPager.O
         activityBean = ActivitiesBean.DataBean()
         activityBean?.activityId = data?.activityId
         activityBean?.userId = data?.creator_id
+        activityBean?.creator_id = data?.creator_id
         activityBean?.name = data?.name
         activityBean?.location = data?.location
         activityBean?.latitude = data?.latitude

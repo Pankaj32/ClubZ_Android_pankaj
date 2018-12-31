@@ -159,6 +159,7 @@ class MyClubListAdapter(internal var list: ArrayList<Clubs>, internal var contex
         var ivExpandBtn = itemView.findViewById<ImageView>(R.id.ivExpandBtn)!!
         var ivClubManager = itemView.findViewById<ImageView>(R.id.ivClubManager)!!
         var imgStatus = itemView.findViewById<ImageView>(R.id.img_status)!!
+        var llProfile = itemView.findViewById<LinearLayout>(R.id.ll_profile)!!
 
     }
 
@@ -257,6 +258,7 @@ class MyClubListAdapter(internal var list: ArrayList<Clubs>, internal var contex
             holder.ivExpandBtn.setImageResource(if (list[pos].isVisiableBody) R.drawable.ic_keyboard_arrow_down else R.drawable.ic_keyboard_arrow_up)
             list[pos].isVisiableBody = !list[pos].isVisiableBody
         }
+
     }
 
     private fun showLeaveConfirationDialog(club: Clubs, pos: Int) {

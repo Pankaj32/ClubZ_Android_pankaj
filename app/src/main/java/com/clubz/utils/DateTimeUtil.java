@@ -130,9 +130,9 @@ public class DateTimeUtil {
         String language= SessionManager.getObj().getLanguage();
         Date curDate = currentDate();
         long now = curDate.getTime();
-        /*if (endTime > startTime || endTime <= 0) {
-            return null;
-        }*/
+       if ( now >endTime ) {
+            return ctx.getString(R.string.event_start_title);
+        }
 
         int dim = getTimeDistanceInMinutes(endTime);
         String timeAgo = null;
@@ -146,47 +146,47 @@ public class DateTimeUtil {
             }
         } else if (dim >= 2 && dim <= 59) {
             if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
-                timeAgo = dim + " " + ctx.getString(R.string.date_util_unit_minutes) + " " + ctx.getString(R.string.ago);
+                timeAgo = dim + " " + ctx.getString(R.string.date_util_unit_minutes) ;
             }else{
-                timeAgo = "" + ctx.getString(R.string.ago) +" "+ dim + " " + ctx.getString(R.string.date_util_unit_minutes);
+                timeAgo =  dim + " " + ctx.getString(R.string.date_util_unit_minutes);
             }
         } else if (dim >= 61 && dim <= 119) {
             if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
-                timeAgo ="1  "+ctx.getString(R.string.date_util_unit_hour)+" "+ctx.getString(R.string.ago);
+                timeAgo ="1  "+ctx.getString(R.string.date_util_unit_hour);
             }else {
-                timeAgo =ctx.getString(R.string.ago)+ " 1 "+ctx.getString(R.string.date_util_unit_hour);
+                timeAgo =" 1 "+ctx.getString(R.string.date_util_unit_hour);
             }
         } else if (dim >= 120 && dim <= 1439) {
             if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
-                timeAgo = (Math.round(dim / 60)) + " "+ctx.getString(R.string.date_util_unit_hours)+" "+ctx.getString(R.string.ago);
+                timeAgo = (Math.round(dim / 60)) + " "+ctx.getString(R.string.date_util_unit_hours);
             }else {
-                timeAgo = ""+ctx.getString(R.string.ago)+" "+(Math.round(dim / 60)) +" "+ctx.getString(R.string.date_util_unit_hours);
+                timeAgo = (Math.round(dim / 60)) +" "+ctx.getString(R.string.date_util_unit_hours);
             }
         } else if (dim >= 1440 && dim <= 2519) {
             timeAgo = /*elapsedDays +*/ " "+ctx.getString(R.string.yesterday);
         } else if (dim >= 2520 && dim <= 43199) {
             if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
-                timeAgo = (Math.round(dim / 1440)) + " "+ctx.getString(R.string.date_util_unit_days)+" "+ctx.getString(R.string.ago);
+                timeAgo = (Math.round(dim / 1440)) + " "+ctx.getString(R.string.date_util_unit_days);
             }else {
-                timeAgo = ""+ctx.getString(R.string.ago)+" "+(Math.round(dim / 1440)) + " "+ctx.getString(R.string.date_util_unit_days);;
+                timeAgo = (Math.round(dim / 1440)) + " "+ctx.getString(R.string.date_util_unit_days);;
             }
         } else if (dim >= 43200 && dim <= 86399) {
             if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
-                timeAgo ="1  "+ctx.getString(R.string.date_util_unit_month)+" "+ctx.getString(R.string.ago);
+                timeAgo ="1 "+ctx.getString(R.string.date_util_unit_month);
             }else {
-                timeAgo =ctx.getString(R.string.ago)+ " 1 "+ctx.getString(R.string.date_util_unit_month);
+                timeAgo ="1 "+ctx.getString(R.string.date_util_unit_month);
             }
         } else if (dim >= 86400 && dim <= 525599) {
             if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
-                timeAgo =(Math.round(dim / 43200))+" "+ctx.getString(R.string.date_util_unit_month)+" "+ctx.getString(R.string.ago);
+                timeAgo =(Math.round(dim / 43200))+" "+ctx.getString(R.string.date_util_unit_month);
             }else {
-                timeAgo =ctx.getString(R.string.ago)+" "+(Math.round(dim / 43200))+" "+ctx.getString(R.string.date_util_unit_month);
+                timeAgo =(Math.round(dim / 43200))+" "+ctx.getString(R.string.date_util_unit_month);
             }
         } else if (dim >= 525600 && dim <= 655199) {
             if (language.equals(Util.Companion.getENGLISH_LOCALE())) {
-                timeAgo ="1  "+ctx.getString(R.string.date_util_unit_year)+" "+ctx.getString(R.string.ago);
+                timeAgo ="1 "+ctx.getString(R.string.date_util_unit_year);
             }else {
-                timeAgo =ctx.getString(R.string.ago)+ " 1 "+ctx.getString(R.string.date_util_unit_year);
+                timeAgo ="1 "+ctx.getString(R.string.date_util_unit_year);
             }
         } else if (dim >= 655200 && dim <= 914399) {
             timeAgo = ctx.getResources().getString(R.string.date_util_prefix_over) + " " + ctx.getResources().getString(R.string.date_util_term_a) + " " + ctx.getResources().getString(R.string.date_util_unit_year);
@@ -197,6 +197,35 @@ public class DateTimeUtil {
         }
 
         return timeAgo + " " + msg;
+    }
+
+    public void printDifference(Date startDate, Date endDate) {
+        //milliseconds
+        long different = endDate.getTime() - startDate.getTime();
+
+        System.out.println("startDate : " + startDate);
+        System.out.println("endDate : "+ endDate);
+        System.out.println("different : " + different);
+
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = different / daysInMilli;
+        different = different % daysInMilli;
+
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
+
+        long elapsedMinutes = different / minutesInMilli;
+        different = different % minutesInMilli;
+
+        long elapsedSeconds = different / secondsInMilli;
+
+        System.out.printf(
+                "%d days, %d hours, %d minutes, %d seconds%n",
+                elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds);
     }
 
     private static int getTimeDistanceInMinutes(long time) {

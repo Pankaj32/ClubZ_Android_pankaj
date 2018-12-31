@@ -62,6 +62,10 @@ class GetActivityMembersResponce {
         var tag_name: String? = null
         var is_leader: String? = null
         var is_owner: String? = null
+        var is_join =""
+        var club_id: String? = null
+        var contact_no: String? = null
+        var contact_no_visibility: String? = null
         var affiliates: List<AffiliatesBean>? = null
 
         class AffiliatesBean {

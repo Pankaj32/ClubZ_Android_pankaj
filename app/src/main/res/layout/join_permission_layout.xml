@@ -32,7 +32,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
             android:fontFamily="@font/teko_semibold"
-            android:text="@string/there_is_no_member_stil_here"
+            android:text="@string/joinpermission_alert"
             android:layout_marginStart="@dimen/_61sdp" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
             android:fontFamily="@font/roboto_regular"
-            android:text="@string/no_member_content_body"
+            android:text="@string/first_join_this_activity"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_61sdp"/>
 

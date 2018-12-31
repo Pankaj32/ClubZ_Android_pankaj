@@ -49,5 +49,10 @@ class User : Serializable{
    var lastlocation = ""
    var userCity = ""
 
+   var clubz_owner_id=""
+   var clubz_owner_name=""
+   var clubz_owner_profileImage=""
+
+
 
 }

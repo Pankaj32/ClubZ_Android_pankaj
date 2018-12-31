@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide
 import com.clubz.BuildConfig
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.chat.AllChatActivity
 import com.clubz.chat.model.ClubBean
 import com.clubz.chat.model.MemberBean
 import com.clubz.chat.util.ChatUtil
@@ -88,6 +89,10 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
     //lateinit var titile_name : EditText //Because emoji not supported
     //lateinit var etv_description: EditText //Because emoji not supported
 
+    private val ARG_CHATFOR = "chatFor"
+    private val ARG_HISTORY_ID = "historyId"
+    private val ARG_HISTORY_NAME = "historyName"
+    private val ARG_HISTORY_PIC = "historyPic"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,6 +166,20 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
 
                         override fun viewplansListner() {
                             this.dismiss()
+
+                            var Adminuserid = SessionManager.getObj().user.clubz_owner_id
+                            var userid = SessionManager.getObj().user.id
+
+                            if (!Adminuserid.equals(userid)) {
+                                startActivity(Intent(this@ClubCreationActivity, AllChatActivity::class.java)
+                                        .putExtra(ARG_CHATFOR, ChatUtil.ARG_IDIVIDUAL)
+                                        .putExtra(ARG_HISTORY_ID, SessionManager.getObj().user.clubz_owner_id)
+                                        .putExtra(ARG_HISTORY_NAME, SessionManager.getObj().user.clubz_owner_name)
+                                        .putExtra(ARG_HISTORY_PIC, SessionManager.getObj().user.clubz_owner_profileImage)
+                                )
+                            } else {
+                                Toast.makeText(this@ClubCreationActivity, resources.getString(R.string.owner_alert_message), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                     }.show()
@@ -265,7 +284,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                     if (!isClubIcon) {
 
                         clubImage = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, imageUri)
-                        val rotation = ImageRotator.getRotation(this, imageUri, true)
+                        val rotation = ImageRotator.getRotation(this, imageUri, false)
                         clubImage = ImageRotator.rotate(clubImage, rotation)
                         if (clubImage != null) {
                             val padding = 0
@@ -278,7 +297,7 @@ class ClubCreationActivity : BaseActivity(), View.OnClickListener,
                                 .setAspectRatio(300, 200).start(this@ClubCreationActivity)*/
                     }else {
                         clubIcon = MediaStore.Images.Media.getBitmap(this@ClubCreationActivity.contentResolver, imageUri)
-                        val rotation = ImageRotator.getRotation(this, imageUri, true)
+                        val rotation = ImageRotator.getRotation(this, imageUri, false)
                         clubIcon = ImageRotator.rotate(clubIcon, rotation)
                         if (clubIcon != null) {
                             val padding = 0

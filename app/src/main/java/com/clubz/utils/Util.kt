@@ -10,8 +10,12 @@ import android.view.View
 import java.io.IOException
 import java.nio.charset.Charset
 import android.support.design.widget.Snackbar;
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.URLSpan
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
@@ -53,14 +57,34 @@ class Util {
             return json
         }
 
+        fun stripUnderlines(textView: TextView) {
+            val s = SpannableString(textView.getText())
+            val spans = s.getSpans(0, s.length, URLSpan::class.java)
+            for (span in spans)
+            {
+                val start = s.getSpanStart(span)
+                val end = s.getSpanEnd(span)
+                s.removeSpan(span)
+                var span = URLSpanNoUnderline(span.getURL())
+                s.setSpan(span, start, end, 0)
+            }
+            textView.setText(s)
+        }
+
         fun checklaunage(activity :Activity) {
             val userselectedlanguage =SessionManager.getObj().language// AppSharedPreference.getStringPreference(this@Sign_In_Activity, Constants.Language, "")
 
             if (userselectedlanguage == ENGLISH_LOCALE) {
                 Language.SetLanguage(activity, ENGLISH_LOCALE)
-            } else {
+            }
+            if (userselectedlanguage == SPANISH_LOCALE) {
                 Language.SetLanguage(activity, SPANISH_LOCALE)
             }
+            if(userselectedlanguage != ENGLISH_LOCALE&&userselectedlanguage != SPANISH_LOCALE){
+                Language.SetLanguage(activity, userselectedlanguage)
+            }
+
+
         }
 
         fun showSnake(context: Context?,view : View ,  int :Int=0 , message :String = ""){
