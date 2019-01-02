@@ -474,7 +474,8 @@
     <string name="chat_notifications">Chat notifications</string>
     <string name="setting">Setting</string>
     <string name="ads_notifications">Ads notifications</string>
-    <string name="privacy">Privacy</string>
+    <string name="privacy">P
+        rivacy</string>
     <string name="show_my_profile">Show my profile</string>
     <string name="delete_my_account">Delete my account</string>
     <string name="change_my_phone_number">Change my phone number</string>
@@ -637,5 +638,6 @@
     <string name="activity_filter_date">When a date is confirmed</string>
     <string name="activity_filter_chat">Chat notifications</string>
     <string name="activity_filter_cancelled">When a date is cancelled</string>
+    <string name="allow_notifications_alers">Please allow notifications</string>
 
 </resources>
