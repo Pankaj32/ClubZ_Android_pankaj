@@ -163,6 +163,9 @@ class FragNewsList : Fragment(), View.OnClickListener, NewsFeedAdapter.Listner,
             }
             updateUI()
         }
+        else{
+            noFeedMsgUI.visibility = View.VISIBLE
+        }
 
     }
 

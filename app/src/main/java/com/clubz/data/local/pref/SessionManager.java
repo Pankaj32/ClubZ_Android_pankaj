@@ -108,19 +108,6 @@ public class SessionManager {
     }
 
 
-    public boolean createNotificationSession(NotificationSesssion notify) {
-        editor.putString(Constants._allow_notification, notify.getActivity_chat_notification().trim());
-        editor.putString(Constants._news_notification, notify.getNews_notifications().trim());
-        editor.putString(Constants._activity_notification, notify.getActivities_notifications().trim());
-        editor.putString(Constants._chat_notification, notify.getChat_notifications().trim());
-        editor.putString(Constants._ads_notification, notify.getAds_notifications().trim());
-        editor.putString(Constants._activity_confirmed_notification, notify.getDate_confirmed_notification().trim());
-        editor.putString(Constants._activity_chat_notification, notify.getActivity_chat_notification().trim());
-        editor.putString(Constants._activity_cancel_notification, notify.getDate_cancelled_notification().trim());
-        editor.apply();
-        return true;
-    }
-
 
     public User getUser() {
 
@@ -196,6 +183,8 @@ public class SessionManager {
         return true;
     }
 
+
+
     public MembershipPlan.PlanDetailsBean getMembershipPlan() {
 
         if (mypref.getString(Constants._membershipPlanId, "").isEmpty()) {
@@ -219,6 +208,37 @@ public class SessionManager {
 
             return plan;
         }
+    }
+
+    //********Notification plan*************
+
+
+    public boolean createNotificationSession(NotificationSesssion notify) {
+        editor.putString(Constants._allow_notification, notify.getNotification_status().trim());
+        editor.putString(Constants._news_notification, notify.getNews_notifications().trim());
+        editor.putString(Constants._activity_notification, notify.getActivities_notifications().trim());
+        editor.putString(Constants._chat_notification, notify.getChat_notifications().trim());
+        editor.putString(Constants._ads_notification, notify.getAds_notifications().trim());
+        editor.putString(Constants._activity_confirmed_notification, notify.getDate_confirmed_notification().trim());
+        editor.putString(Constants._activity_chat_notification, notify.getActivity_chat_notification().trim());
+        editor.putString(Constants._activity_cancel_notification, notify.getDate_cancelled_notification().trim());
+        editor.apply();
+        return true;
+    }
+
+    public NotificationSesssion getNotification(){
+
+        NotificationSesssion notifys = new NotificationSesssion();
+        notifys.setNotification_status(mypref.getString(Constants._allow_notification, ""));
+        notifys.setNews_notifications(mypref.getString(Constants._news_notification, ""));
+        notifys.setActivities_notifications(mypref.getString(Constants._activity_notification, ""));
+        notifys.setChat_notifications(mypref.getString(Constants._chat_notification, ""));
+        notifys.setAds_notifications(mypref.getString(Constants._ads_notification, ""));
+        notifys.setDate_confirmed_notification(mypref.getString(Constants._activity_confirmed_notification, ""));
+        notifys.setActivity_chat_notification(mypref.getString(Constants._activity_chat_notification, ""));
+        notifys.setDate_cancelled_notification(mypref.getString(Constants._activity_cancel_notification, ""));
+        return  notifys;
+
     }
 
 
@@ -280,6 +300,9 @@ public class SessionManager {
             editor.putString(Constants._userCity,city);
             editor.apply();
         }
+    }
+    public String getCity() {
+         return mypref.getString(Constants._userCity, "");
     }
 
     public boolean isloggedin() {

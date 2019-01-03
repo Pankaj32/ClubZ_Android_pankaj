@@ -84,6 +84,8 @@ class WebService {
 
 
         val getUserAllowAds= base_Url +"service/ads/checkAdsLimit"
+        val manageNotification= base_Url +"service/user/notificationManage"
+        val updateLocation= base_Url +"service/user/updateMyAddress"
 
     }
 

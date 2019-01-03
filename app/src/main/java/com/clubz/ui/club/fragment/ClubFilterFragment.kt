@@ -190,6 +190,7 @@ class ClubFilterFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, MyC
 
             override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
                 params["clubUserId"] = club.clubUserId
+                params["isMyClub"] = if (club.user_id.equals(ClubZ.currentUser!!.id)) "1" else "0";
                 return params
             }
 

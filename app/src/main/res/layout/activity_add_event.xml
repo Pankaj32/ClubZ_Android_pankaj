@@ -253,18 +253,77 @@
                     android:background="@color/hint_color" />
 
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/fee_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="3dp"
+                android:visibility="gone"
+                android:gravity="center_vertical">
 
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/dolrImg2"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:tint="@color/nav_gray"
+                    app:srcCompat="@drawable/ic_dollar_symbol" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical"
+                    android:layout_toEndOf="@id/dolrImg2"
+                    android:paddingBottom="1dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/tvStyle"
+                            app:counterOverflowTextAppearance="@style/TextLimitError"
+                            app:counterTextAppearance="@style/CounterText">
+
+                            <EditText
+                                android:id="@+id/fees"
+                                style="@style/EditText.ClubCreation"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="@string/hint_fees"
+                                android:inputType="numberDecimal"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:textColor="@color/nav_gray"
+                                android:textColorHint="@color/nav_gray" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/loctionLay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp">
+               >
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/locationIcon"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_3sdp"
                     android:tint="@color/nav_gray"
                     app:srcCompat="@drawable/ic_map_placeholder" />
 

@@ -12,19 +12,27 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import com.android.volley.VolleyError
+import com.clubz.ClubZ
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
 import com.clubz.data.model.DialogMenu
+import com.clubz.data.model.NotificationSesssion
+import com.clubz.data.remote.WebService
 import com.clubz.ui.ads.fragment.AdsFragment
 import com.clubz.ui.core.BaseActivity
 import com.clubz.ui.core.BaseFragment
+import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.cv.Internet_Connection_dialog
 import com.clubz.ui.newsfeed.fragment.FragNewsList
 import com.clubz.utils.Util
+import com.clubz.utils.VolleyGetPost
 import kotlinx.android.synthetic.main.club_more_menu.*
 import kotlinx.android.synthetic.main.menu_activity_notification_filter.*
 import kotlinx.android.synthetic.main.menu_chat_filter.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
+import org.json.JSONObject
 
 abstract class BaseHomeActivity : BaseActivity(),
         BaseFragment.FragmentListner, View.OnClickListener {
@@ -36,6 +44,7 @@ abstract class BaseHomeActivity : BaseActivity(),
     protected var activityFilterDialog: Dialog? = null
     protected var invalidateThreeDotMenu: Boolean = false
     // protected var myActivityDailog: Dialog? = null
+    var activityfilterfor =""
 
 
     override fun replaceFragment(fragment: Fragment) {
@@ -150,7 +159,6 @@ abstract class BaseHomeActivity : BaseActivity(),
     @SuppressLint("RtlHardcoded")
     private fun showActivityNotificationFilterDialog() {
 
-        if(activityFilterDialog == null) {
             activityFilterDialog = Dialog(this)
             activityFilterDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val dialogWindow = activityFilterDialog?.window
@@ -158,15 +166,46 @@ abstract class BaseHomeActivity : BaseActivity(),
             activityFilterDialog?.setContentView(R.layout.menu_activity_notification_filter)
 
 
-            for (views in arrayOf(activityFilterDialog?.ch_date_confirm/*, newsFilterDialog?.ch_byClubs*/, activityFilterDialog?.activity_chat, chatFilterDialog?.ch_cancelled))
-                views?.setOnClickListener(getActivity())
+            /*for (views in arrayOf(activityFilterDialog?.ch_date_confirm*//*, newsFilterDialog?.ch_byClubs*//*, activityFilterDialog?.activity_chat, chatFilterDialog?.ch_cancelled))
+                views?.setOnClickListener(getActivity())*/
             val lp = dialogWindow?.attributes
             dialogWindow?.setGravity(Gravity.TOP or Gravity.RIGHT)
             lp?.y = -100
             dialogWindow?.attributes = lp
+
+            val notificationsession = SessionManager.getObj().notification
+
+            if(notificationsession.date_confirmed_notification.equals("1")){
+                activityFilterDialog?.ch_date_confirm!!.isChecked = true
+            }
+            if(notificationsession.date_cancelled_notification.equals("1")){
+                activityFilterDialog?.ch_cancelled!!.isChecked = true
+            }
+            if(notificationsession.activity_chat_notification.equals("1")){
+                activityFilterDialog?.activity_chat!!.isChecked = true
+            }
+            activityFilterDialog?.ch_date_confirm?.setOnClickListener( View.OnClickListener {
+
+                activityfilterfor = "date_confirmed_notification"
+                updateactivitynotification(activityfilterfor)
+            })
+           activityFilterDialog?.ch_cancelled?.setOnClickListener( View.OnClickListener {
+
+            activityfilterfor = "date_cancelled_notification"
+            updateactivitynotification(activityfilterfor)
+            })
+           activityFilterDialog?.activity_chat?.setOnClickListener( View.OnClickListener {
+
+            activityfilterfor = "activity_chat_notification"
+            updateactivitynotification(activityfilterfor)
+          })
+
+
+
+
             activityFilterDialog?.setCancelable(true)
 
-        }
+
         activityFilterDialog?.show()
         // newsFilterDialog?.setOnDismissListener { updateMyNewsFeed() }
     }
@@ -379,11 +418,141 @@ abstract class BaseHomeActivity : BaseActivity(),
   }
 */
 
-    override fun onResume() {
-        super.onResume()
+
+    private fun updateactivitynotification(type:String){
+
+        val notificationsession = SessionManager.getObj().notification
+
+        if(type.equals("date_confirmed_notification")){
+            if(notificationsession.activities_notifications.equals("1")){
+
+                if(activityFilterDialog?.ch_date_confirm!!.isChecked){
+                    setNotification("1",type)
+                }
+                else{
+                    setNotification("0",type)
+                }
+
+            }
+            else{
+
+                if(notificationsession.date_confirmed_notification.equals("1")){
+                    activityFilterDialog?.ch_date_confirm!!.isChecked = true
+                }
+                else{
+                    activityFilterDialog?.ch_date_confirm!!.isChecked = false
+                }
+
+                showToast(resources.getString(R.string.allow_notifications_setting))
+            }
+
+        }
+        if(type.equals("date_cancelled_notification")){
+            if(notificationsession.activities_notifications.equals("1")){
+                if(activityFilterDialog?.ch_cancelled!!.isChecked){
+                    setNotification("1",type)
+                }
+                else{
+                    setNotification("0",type)
+                }
+
+
+            }
+            else{
+
+                if(notificationsession.date_cancelled_notification.equals("1")){
+                    activityFilterDialog?.ch_cancelled!!.isChecked = true
+                }
+                else{
+                    activityFilterDialog?.ch_cancelled!!.isChecked = false
+                }
+
+                showToast(resources.getString(R.string.allow_notifications_setting))
+            }
+        }
+        if(type.equals("activity_chat_notification")){
+            if(notificationsession.chat_notifications.equals("1")){
+                if(activityFilterDialog?.activity_chat!!.isChecked){
+                    setNotification("1",type)
+                }
+                else{
+                    setNotification("0",type)
+                }
+
+            }
+            else{
+
+                if(notificationsession.activity_chat_notification.equals("1")){
+                    activityFilterDialog?.activity_chat!!.isChecked = true
+                }
+                else{
+                    activityFilterDialog?.activity_chat!!.isChecked = false
+                }
+
+                showToast(resources.getString(R.string.allow_notifications_setting))
+            }
+        }
+
     }
 
-    override fun onPause() {
-        super.onPause()
+    private fun setNotification(value: String, actionname :String) {
+        val dialog = CusDialogProg(this@BaseHomeActivity)
+        dialog.show()
+        object : VolleyGetPost(this@BaseHomeActivity, WebService.manageNotification, false,
+                true) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if (obj.getString("status") == "success") {
+
+                        val objnotification = obj.getJSONObject("notification")
+
+                        val notificationsession : NotificationSesssion? =  NotificationSesssion();
+                        notificationsession!!.notification_status =objnotification.getString("notification_status")
+                        notificationsession!!.news_notifications =objnotification.getString("news_notifications")
+                        notificationsession!!.activities_notifications =objnotification.getString("activities_notifications")
+                        notificationsession!!.date_confirmed_notification =objnotification.getString("date_confirmed_notification")
+                        notificationsession!!.date_cancelled_notification =objnotification.getString("date_cancelled_notification")
+                        notificationsession!!.activity_chat_notification =objnotification.getString("activity_chat_notification")
+                        notificationsession!!.chat_notifications =objnotification.getString("chat_notifications")
+                        notificationsession!!.ads_notifications =objnotification.getString("ads_notifications")
+
+
+                        SessionManager.getObj().createNotificationSession(notificationsession)
+
+                    }
+                    else{
+                        Toast.makeText(this@BaseHomeActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
+
+                    }
+
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+                dialog.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["notification"] =actionname
+                params["notification_status_change"] =  value
+
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                // params["language"] = SessionManager.getObj().language
+                return params
+            }
+        }.execute()
     }
 }

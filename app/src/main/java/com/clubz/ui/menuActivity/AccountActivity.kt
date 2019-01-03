@@ -1,5 +1,6 @@
 package com.clubz.ui.menuActivity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -15,12 +16,22 @@ import kotlinx.android.synthetic.main.activity_account.*
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.Toast
+import com.android.volley.VolleyError
+import com.clubz.ClubZ
 import com.clubz.chat.AllChatActivity
 import com.clubz.chat.util.ChatUtil
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.Address
+import com.clubz.data.model.NotificationSesssion
+import com.clubz.data.model.UserLocation
+import com.clubz.data.remote.GioAddressTask
+import com.clubz.data.remote.WebService
+import com.clubz.ui.cv.CusDialogProg
 import com.clubz.ui.main.HomeActivity
 import com.clubz.utils.Util
 import com.clubz.utils.Util.Companion.showToast
+import com.clubz.utils.VolleyGetPost
+import org.json.JSONObject
 
 
 class AccountActivity : AppCompatActivity(), View.OnClickListener {
@@ -47,9 +58,33 @@ class AccountActivity : AppCompatActivity(), View.OnClickListener {
 
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(p0: Place?) {
-                mainLocation.setText(p0!!.address)
-                /*latitute = p0!!.latLng.latitude.toString()
-                longitute = p0!!.latLng.longitude.toString()*/
+                var  latitute = p0!!.latLng.latitude.toString()
+                var  longitute = p0!!.latLng.longitude.toString()
+                val userLocation = UserLocation()
+                userLocation.city = ""
+                userLocation.latitude = p0!!.latLng.latitude
+                userLocation.longitude = p0!!.latLng.longitude
+                userLocation.address = p0!!.address.toString()
+                userLocation.isLocationAvailable = true
+                val task = @SuppressLint("StaticFieldLeak")
+                object : GioAddressTask(this@AccountActivity) {
+                    override fun onFail() {
+                       // setLocation(latitute,longitute,"",p0!!.address.toString())
+                        Toast.makeText(this@AccountActivity, resources.getString(R.string.location_wrong_alert), Toast.LENGTH_SHORT).show();
+                    }
+
+                    override fun onSuccess(address: Address) {
+                        ClubZ.city = address.city.toString()
+                        ClubZ.latitude = p0!!.latLng.latitude
+                        ClubZ.longitude = p0!!.latLng.longitude
+                        userLocation.city = ClubZ.city
+                        mainLocation.setText(address.city.toString())
+                        SessionManager.getObj().setLocation(userLocation)
+                        SessionManager.getObj().setCity(address.city.toString())
+                        setLocation(latitute,longitute,address.city.toString(),p0!!.address.toString())
+                    }
+                }
+                task.execute(p0!!.latLng.latitude, p0!!.latLng.longitude)
             }
 
             override fun onError(p0: Status?) {
@@ -145,8 +180,8 @@ class AccountActivity : AppCompatActivity(), View.OnClickListener {
 
         if(SessionManager.getObj().user!=null){
              tvPhNo.setText(SessionManager.getObj().user.country_code+" "+SessionManager.getObj().user.contact_no)
-            if(!SessionManager.getObj().user.userCity.equals("")){
-                mainLocation.setText(SessionManager.getObj().user.userCity)
+            if(!SessionManager.getObj().getCity().equals("")){
+                mainLocation.setText(SessionManager.getObj().getCity())
             }
 
         }
@@ -188,5 +223,54 @@ class AccountActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
         }
+    }
+
+    private fun setLocation(lat: String, longv :String,cityname: String, addressname :String) {
+        val dialog = CusDialogProg(this@AccountActivity)
+        dialog.show()
+        object : VolleyGetPost(this@AccountActivity, WebService.updateLocation, false,
+                true) {
+            override fun onVolleyResponse(response: String?) {
+                try {
+                    dialog.dismiss()
+                    val obj = JSONObject(response)
+                    if (obj.getString("status") == "success") {
+
+
+                    }
+                    else{
+                        Toast.makeText(this@AccountActivity, obj.getString("message"), Toast.LENGTH_LONG).show()
+
+                    }
+
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+
+                }
+            }
+
+            override fun onVolleyError(error: VolleyError?) {
+                dialog.dismiss()
+            }
+
+            override fun onNetError() {
+                dialog.dismiss()
+            }
+
+            override fun setParams(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["city"] =cityname
+                params["latitude"] =  lat
+                params["longitude"] =  longv
+                params["address"] =  addressname
+
+                return params
+            }
+
+            override fun setHeaders(params: MutableMap<String, String>): MutableMap<String, String> {
+                params["authToken"] = ClubZ.currentUser!!.auth_token
+                //params["language"] = SessionManager.getObj().language
+                return params
+            }
+        }.execute()
     }
 }

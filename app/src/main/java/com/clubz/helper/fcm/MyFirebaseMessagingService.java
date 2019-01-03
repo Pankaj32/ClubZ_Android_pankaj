@@ -14,7 +14,9 @@ import android.util.Log;
 import com.clubz.ClubZ;
 import com.clubz.R;
 import com.clubz.chat.AllChatActivity;
+import com.clubz.chat.util.ChatUtil;
 import com.clubz.data.local.pref.SessionManager;
+import com.clubz.data.model.NotificationSesssion;
 import com.clubz.ui.ads.activity.AdDetailsActivity;
 import com.clubz.ui.club.ClubDetailActivity;
 import com.clubz.ui.newsfeed.NewsFeedDetailActivity;
@@ -98,15 +100,39 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 sendNotificationFeed(title, body, newsFeedId);
                 break;
             case "chat":
-                String chatFor = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_ChatFor());
-                String clubIdFrChat = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_Club_Id());
-                String historyId = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_HistoryId());
-                String historyName = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_HistoryName());
-                String userID = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_UserID());
 
-                if(!userID.equals(SessionManager.getObj().getUser().getId())){
-                    sendNotificationChat(title, body,chatFor,clubIdFrChat,historyId,historyName);
+                NotificationSesssion notifucation = SessionManager.getObj().getNotification();
+
+                if(notifucation.getChat_notifications().equals("1")){
+                    String chatFor = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_ChatFor());
+
+                    if(chatFor.equals("activities")){
+                        if(notifucation.getActivity_chat_notification().equals("1")){
+                            String clubIdFrChat = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_Club_Id());
+                            String historyId = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_HistoryId());
+                            String historyName = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_HistoryName());
+                            String userID = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_UserID());
+
+                            if(!userID.equals(SessionManager.getObj().getUser().getId())){
+                                sendNotificationChat(title, body,chatFor,clubIdFrChat,historyId,historyName);
+                            }
+                        }
+                    }
+                    else{
+                        String clubIdFrChat = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_Club_Id());
+                        String historyId = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_HistoryId());
+                        String historyName = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_HistoryName());
+                        String userID = remoteMessage.getData().get(NotificatioKeyUtil.Companion.getKey_UserID());
+
+                        if(!userID.equals(SessionManager.getObj().getUser().getId())){
+                            sendNotificationChat(title, body,chatFor,clubIdFrChat,historyId,historyName);
+                        }
+                    }
+
+
                 }
+
+
                 break;
         }
     }

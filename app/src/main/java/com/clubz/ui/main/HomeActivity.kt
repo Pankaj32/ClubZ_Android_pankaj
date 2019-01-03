@@ -32,6 +32,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.manager.SupportRequestManagerFragment
 import com.clubz.ClubZ
 import com.clubz.R
+import com.clubz.R.id.ch_date_confirm
 import com.clubz.chat.AllChatActivity
 import com.clubz.chat.fragments.FragmentChatHistory
 import com.clubz.chat.model.UserBean
@@ -78,6 +79,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.about_us_layout.*
 import kotlinx.android.synthetic.main.activity_home_test.*
+import kotlinx.android.synthetic.main.menu_activity_notification_filter.*
 import kotlinx.android.synthetic.main.menu_chat_filter.*
 import kotlinx.android.synthetic.main.menu_news_filter.*
 import kotlinx.android.synthetic.main.nav_header.view.*
@@ -124,7 +126,6 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
     private val ARG_HISTORY_ID = "historyId"
     private val ARG_HISTORY_NAME = "historyName"
     private val ARG_HISTORY_PIC = "historyPic"
-
 
 
 
@@ -881,8 +882,14 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
             R.id.ch_byads -> {
                 updateChatNewsHistory();
             }
+
+
         }
     }
+
+
+
+
 
     private fun updateNewsFeed() {
         val newsFeedFragment: FragNewsList? = supportFragmentManager.fragments
@@ -1093,6 +1100,7 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
 
     override fun onLocationChanged(location: Location) {
         if (mGoogleApiClient.isConnected) {
+
             startLocationUpdates(location.latitude, location.longitude)
             //LocationServices.getFusedLocationProviderClient(this).removeLocationUpdates(LocationCallback());
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this)
@@ -1107,28 +1115,32 @@ class HomeActivity : BaseHomeActivity(), TabLayout.OnTabSelectedListener, Google
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
 
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
-        ClubZ.latitude = latitude
-        ClubZ.longitude = longitude
-        val userLocation = UserLocation()
-        userLocation.city = ""
-        userLocation.latitude = latitude
-        userLocation.longitude = longitude
-        userLocation.isLocationAvailable = true
-        sessionManager.setLocation(userLocation)
 
-        val task = @SuppressLint("StaticFieldLeak")
-        object : GioAddressTask(this@HomeActivity) {
-            override fun onFail() {
-            }
 
-            override fun onSuccess(address: Address) {
-                ClubZ.city = address.city.toString()
-                userLocation.city = ClubZ.city
-                sessionManager.setLocation(userLocation)
-                sessionManager.setCity(address.city.toString())
+        if(sessionManager.lastKnownLocation==null) {
+            ClubZ.latitude = latitude
+            ClubZ.longitude = longitude
+            val userLocation = UserLocation()
+            userLocation.city = ""
+            userLocation.latitude = latitude
+            userLocation.longitude = longitude
+            userLocation.isLocationAvailable = true
+            sessionManager.setLocation(userLocation)
+
+            val task = @SuppressLint("StaticFieldLeak")
+            object : GioAddressTask(this@HomeActivity) {
+                override fun onFail() {
+                }
+
+                override fun onSuccess(address: Address) {
+                    ClubZ.city = address.city.toString()
+                    userLocation.city = ClubZ.city
+                    sessionManager.setLocation(userLocation)
+                    sessionManager.setCity(address.city.toString())
+                }
             }
+            task.execute(latitude, longitude)
         }
-        task.execute(latitude, longitude)
     }
 
     private fun updateFirebaseToken() {

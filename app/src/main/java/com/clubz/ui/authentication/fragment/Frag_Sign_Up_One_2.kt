@@ -162,8 +162,9 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment(), View.OnClickListener, OnSmsCatc
                         SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
                         val objnotification = obj.getJSONObject("userDetail")
 
-                        val notificationsession : NotificationSesssion? =null;
+                        val notificationsession : NotificationSesssion? =  NotificationSesssion();
                         notificationsession!!.notification_status =objnotification.getString("notification_status")
+                        notificationsession!!.news_notifications =objnotification.getString("news_notifications")
                         notificationsession!!.activities_notifications =objnotification.getString("activities_notifications")
                         notificationsession!!.date_confirmed_notification =objnotification.getString("date_confirmed_notification")
                         notificationsession!!.date_cancelled_notification =objnotification.getString("date_cancelled_notification")
@@ -171,6 +172,7 @@ class Frag_Sign_Up_One_2 : SignupBaseFragment(), View.OnClickListener, OnSmsCatc
                         notificationsession!!.chat_notifications =objnotification.getString("chat_notifications")
                         notificationsession!!.ads_notifications =objnotification.getString("ads_notifications")
 
+                        SessionManager.getObj().createNotificationSession(notificationsession)
 
                         ClubZ.currentUser = SessionManager.getObj().user
                         startActivity(Intent(activity, HomeActivity::class.java))

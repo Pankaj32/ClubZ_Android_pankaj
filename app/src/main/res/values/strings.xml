@@ -640,4 +640,8 @@
     <string name="activity_filter_cancelled">When a date is cancelled</string>
     <string name="allow_notifications_alers">Please allow notifications</string>
 
+    <string name="allow_notifications_setting">First allow notification from setting</string>
+    <string name="location_wrong_alert">Please select other location</string>
+
+
 </resources>

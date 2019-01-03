@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_add_event.*
 import org.json.JSONObject
 import java.util.*
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 
 
@@ -35,6 +36,7 @@ class AddEventActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_event)
         intent?.let {
             activities = it.extras.getParcelable("activity") as ActivitiesBean.DataBean
+                fees.setText(activities!!.fee)
         }
         mCancel.setOnClickListener({ finish() })
         mAdd.setOnClickListener({

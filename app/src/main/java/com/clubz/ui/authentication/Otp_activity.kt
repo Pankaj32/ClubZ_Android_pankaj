@@ -8,6 +8,7 @@ import com.clubz.ClubZ
 import com.clubz.ui.cv.CusDialogProg
 import com.clubz.R
 import com.clubz.data.local.pref.SessionManager
+import com.clubz.data.model.NotificationSesssion
 import com.clubz.data.remote.WebService
 import com.clubz.data.model.User
 import com.clubz.ui.core.BaseActivity
@@ -72,6 +73,20 @@ class Otp_activity : BaseActivity(), View.OnClickListener {
                     val obj = JSONObject(response)
                     if(obj.getString("status") == "success"){
                         SessionManager.getObj().createSession(Gson().fromJson<User>(obj.getString("userDetail"), User::class.java))
+                        val objnotification = obj.getJSONObject("userDetail")
+
+                        val notificationsession : NotificationSesssion? =  NotificationSesssion();
+                        notificationsession!!.notification_status =objnotification.getString("notification_status")
+                        notificationsession!!.news_notifications =objnotification.getString("news_notifications")
+                        notificationsession!!.activities_notifications =objnotification.getString("activities_notifications")
+                        notificationsession!!.date_confirmed_notification =objnotification.getString("date_confirmed_notification")
+                        notificationsession!!.date_cancelled_notification =objnotification.getString("date_cancelled_notification")
+                        notificationsession!!.activity_chat_notification =objnotification.getString("activity_chat_notification")
+                        notificationsession!!.chat_notifications =objnotification.getString("chat_notifications")
+                        notificationsession!!.ads_notifications =objnotification.getString("ads_notifications")
+
+                        SessionManager.getObj().createNotificationSession(notificationsession)
+
                         ClubZ.currentUser = SessionManager.getObj().user
                         startActivity(Intent(this@Otp_activity, HomeActivity::class.java))
                         finish()

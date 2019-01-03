@@ -119,6 +119,7 @@
                            <android.support.v7.widget.SwitchCompat
                                android:id="@+id/switch_allow_notifications"
                                android:layout_width="wrap_content"
+                               android:checked="false"
                                android:layout_height="wrap_content"
                                android:layout_alignParentRight="true"
                                android:layout_toRightOf="@+id/txt_allow_notifications"
@@ -145,6 +146,7 @@
                                android:id="@+id/switch_news_notification"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
+                               android:checked="false"
                                android:layout_alignParentEnd="true"
                                android:layout_toRightOf="@+id/txt_news_notification"
                               />
@@ -169,6 +171,7 @@
                            <android.support.v7.widget.SwitchCompat
                                android:id="@+id/switch_activities"
                                android:layout_width="wrap_content"
+                               android:checked="false"
                                android:layout_height="wrap_content"
                                android:layout_alignParentRight="true"
                                android:layout_toRightOf="@+id/txt_activities" />
@@ -193,6 +196,7 @@
                            <android.support.v7.widget.SwitchCompat
                                android:id="@+id/switch_chat"
                                android:layout_width="wrap_content"
+                               android:checked="false"
                                android:layout_height="wrap_content"
                                android:layout_alignParentRight="true"
                                android:layout_toRightOf="@+id/txt_chat" />
@@ -218,6 +222,7 @@
                                android:id="@+id/switch_ads"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
+                               android:checked="false"
                                android:layout_alignParentRight="true"
                                android:layout_toRightOf="@+id/txt_ads" />
 
